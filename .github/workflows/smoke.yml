@@ -45,7 +45,15 @@ jobs:
           (
             cd "$tmp"
             printf 'include Makefile.ai\n' > Makefile
-            "$GITHUB_WORKSPACE/install.sh" --stack generic
+            "$GITHUB_WORKSPACE/install.sh" --stack generic --with-examples
+            test -f examples/csharp/README.md
+            test -f examples/go/README.md
+            test -f examples/java/README.md
+            test -f examples/kotlin/README.md
+            test -f examples/php/README.md
+            test -f examples/python/README.md
+            test -f examples/ruby/README.md
+            test -f examples/swift/README.md
             python3 -m py_compile scripts/*.py
             make check-ai
             make quality

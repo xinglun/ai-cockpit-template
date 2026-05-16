@@ -96,8 +96,16 @@ The result naturally resembles an aviation control system: not because the struc
   rules/
     ai-cockpit.mdc
 examples/
+  csharp/
   flutter/
+  go/
+  java/
+  kotlin/
+  php/
+  python/
+  ruby/
   rust/
+  swift/
   typescript/
 scripts/
   ai_archive_work_item.py

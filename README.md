@@ -31,6 +31,24 @@ keywords:
 
 AI agents can move fast, but they can also drift outside the requested task, delete tests, rewrite unrelated files, skip verification, or leave reviewers guessing what changed. This template turns each AI task into an explicit Work Item with machine-checkable scope, required checks, and a final summary.
 
+## Design Philosophy
+
+Human civilization repeatedly builds systems, lets those systems evolve, and eventually reaches a point where the system's complexity exceeds direct human control. At that point, complexity must be compressed: the internal process becomes a black box, and the cockpit returns the state that humans need in order to act.
+
+This framework was designed for the AI development problem in front of it. The idea itself is not new, and it was not copied from aviation. When the same control problem is solved seriously, the same shape appears.
+
+Strong systems are always controlled through layers: plan, boundary, verification, record, and status display. AI development needs the same layers:
+
+| AI development problem | Required control layer | Aviation analogy |
+| --- | --- | --- |
+| The work plan is vague. | Work Item Contract | Flight plan |
+| The change boundary is unclear. | Scope Guard | Controlled airspace |
+| Verification is insufficient. | Required checks | Instrument check |
+| Records are not preserved. | Change Summary and archive | Black box |
+| Current state is invisible. | Cockpit Status | Cockpit |
+
+The result naturally resembles an aviation control system: not because the structure was imported, but because the underlying problem is the same.
+
 ## What It Provides
 
 - Work Item Contract: the task boundary before an AI agent changes files.
@@ -263,4 +281,3 @@ ci
 ## Template Policy
 
 Do not add business logic, personal paths, real API keys, GitHub secrets, or organization-specific runtime configuration to this repository. Keep examples generic and move real project policy into the adopting repository.
-

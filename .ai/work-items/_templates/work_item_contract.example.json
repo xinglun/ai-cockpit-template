@@ -1,0 +1,45 @@
+{
+  "contractVersion": 1,
+  "workItemId": "example-task",
+  "mode": "code",
+  "title": "Example task",
+  "scope": [
+    "src/example_module.ext",
+    "tests/example_module_test.ext"
+  ],
+  "outOfScope": [
+    "config/secrets.example"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/example.md",
+      "reason": "Defines the expected behavior for this task."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "The expected behavior is implemented and covered by tests."
+  ],
+  "verification": [
+    {
+      "command": "make project-format-check",
+      "required": true
+    },
+    {
+      "command": "make project-test",
+      "required": true
+    },
+    {
+      "command": "make project-lint",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "Revert the diff for this task and restore related tests and docs."
+}
+

@@ -1,0 +1,61 @@
+# AI Cockpit check catalog.
+# Customize commands and selection rules for each repository.
+
+version: 1
+
+checks:
+  projectFormat:
+    command: make project-format-check
+    purpose: Verify project formatting.
+
+  projectTest:
+    command: make project-test
+    purpose: Run the project's test suite.
+
+  projectLint:
+    command: make project-lint
+    purpose: Run the project's static checks.
+
+  diffCheck:
+    command: make diff-check
+    purpose: Detect whitespace and patch format problems.
+
+  aiWorkItem:
+    commandTemplate: make check-ai-contract CONTRACT={contractPath}
+    purpose: Validate the required Work Item Contract fields.
+
+  aiScope:
+    commandTemplate: make check-ai-scope CONTRACT={contractPath}
+    purpose: Verify the actual diff is covered by scope and not covered by outOfScope.
+
+  aiGuards:
+    command: make check-ai-guards
+    purpose: Validate file ownership and boundary guard manifests.
+
+  aiBacktrack:
+    command: make check-ai-backtrack
+    purpose: Report undeclared removal of tests, snapshots, work item evidence, or configured protected patterns.
+
+  aiCoverage:
+    command: make check-ai-coverage-guard
+    purpose: Report production changes that do not include test changes.
+
+  aiSummary:
+    commandTemplate: make check-ai-change-summary SUMMARY={summaryPath} CONTRACT={contractPath}
+    purpose: Validate the AI Change Summary against the Work Item Contract.
+
+  aiStatus:
+    commandTemplate: make generate-cockpit-status CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: Generate the current AI Cockpit status file.
+
+  aiStatusCheck:
+    commandTemplate: make check-ai-status CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: Verify current_status.md matches the Contract and Summary.
+
+selectionRules:
+  - Prefer the verification commands declared in the active Work Item Contract.
+  - Run Scope Guard before finishing any code-changing task.
+  - Run Backtrack Guard when tests, snapshots, generated outputs, or .ai/work-items/** are changed.
+  - Run Coverage Guard when production code changes.
+  - Customize projectFormat/projectTest/projectLint in the Makefile for Rust, Flutter, TypeScript, Python, or another stack.
+

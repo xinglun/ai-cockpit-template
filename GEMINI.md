@@ -1,0 +1,32 @@
+# Gemini Operating Rules
+
+Gemini uses the same AI Cockpit workflow as Codex and other coding agents.
+
+## Contract First
+
+Do not begin implementation until the active Work Item Contract describes:
+
+- the task boundary in `scope`;
+- files and behavior excluded by `outOfScope`;
+- source material used for the decision;
+- remaining unknowns;
+- acceptance criteria;
+- verification commands.
+
+If the Contract has `mode: code`, then `unknowns` must be empty and `notCodable` must be `false`.
+
+## Summary Required
+
+Before declaring the work complete, update the matching Summary with:
+
+- changed files and reasons;
+- sources used;
+- verification commands and results;
+- remaining unknowns;
+- risk level and detail;
+- generated files;
+- destructive changes;
+- observed issues.
+
+Run `make ai-finish TASK=<task>` when the Summary is ready.
+

@@ -1,0 +1,32 @@
+# Backtrack Guard policy.
+
+version: 1
+reportOnly: true
+
+watch:
+  deletedTests:
+    patterns:
+      - "tests/**"
+      - "test/**"
+      - "**/*test*"
+      - "**/*spec*"
+    severity: warning
+    reason: Test deletion can hide behavioral regressions.
+
+  deletedSnapshots:
+    patterns:
+      - "**/snapshots/**"
+      - "**/*.snap"
+      - "**/*.snapshot"
+    severity: warning
+    reason: Snapshot deletion can weaken output contracts.
+
+  workItemEvidenceRemoval:
+    patterns:
+      - ".ai/work-items/**"
+    severity: warning
+    reason: Removing Contract or Summary records weakens reviewability.
+
+output:
+  json: target/ai_backtrack_report.json
+

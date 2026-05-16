@@ -1,0 +1,26 @@
+# Coverage Guard policy.
+# This is report-only by default. Customize patterns for each repository.
+
+version: 1
+reportOnly: true
+
+production:
+  include:
+    - "src/**"
+    - "lib/**"
+  exclude:
+    - "tests/**"
+    - "test/**"
+    - "**/*test*"
+    - "**/*spec*"
+
+tests:
+  include:
+    - "tests/**"
+    - "test/**"
+    - "**/*test*"
+    - "**/*spec*"
+
+output:
+  json: target/ai_coverage_guard_report.json
+

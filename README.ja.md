@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "AI Cockpit"
 description: Codex、Gemini、Claude、Cursor、Antigravity などの AI コーディングエージェント向けの言語非依存 AI ガバナンステンプレート。
 keywords:
   - ai-agents
@@ -132,11 +133,11 @@ generic, rust, flutter, typescript, python, go, java, kotlin, swift, ruby, php, 
 
 ## 詳細ドキュメント
 
-- [Installation](docs/installation.md)
-- [Configuration](docs/configuration.md)
-- [Architecture](docs/architecture.md)
-- [Design Philosophy](docs/design-philosophy.md)
-- [Case Study: AI rollback corruption](docs/case-study-ai-rollback-corruption.md)
-- [Launch copy](docs/launch.md)
-- [Suggested GitHub Topics](docs/topics.md)
-- [Language examples](examples/)
+- [インストール](docs/installation.md)
+- [設定](docs/configuration.md)
+- [アーキテクチャ](docs/architecture.md)
+- [設計思想](docs/design-philosophy.md)
+- [ケーススタディ: AI rollback corruption](docs/case-study-ai-rollback-corruption.md)
+- [ローンチ用コピー](docs/launch.md)
+- [推奨される GitHub Topics](docs/topics.md)
+- [各言語のサンプル](examples/)

@@ -16,40 +16,89 @@ keywords:
   - ci
 ---
 
-# ai-cockpit-template
+# AI Cockpit
 
 [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
-`ai-cockpit-template` is a language-agnostic AI governance scaffold for engineering teams that use Codex, Gemini, Antigravity, or other coding agents. It adds a repeatable cockpit around AI-assisted code changes: define the task boundary first, keep the agent inside scope, require verification, summarize the change, and preserve an audit trail.
+AI coding agents can:
 
-## Who It Is For
+- rewrite unrelated files
+- silently remove tests
+- bypass verification
+- leave reviewers guessing
 
-- Teams adopting AI coding agents in production repositories.
-- Maintainers who want AI-generated diffs to be bounded, reviewable, and reversible.
-- Engineers who need the same AI workflow across Rust, Flutter, TypeScript, Python, or mixed-language codebases.
-- Organizations that want lightweight governance without adding a service, database, or proprietary runtime.
+AI Cockpit adds lightweight governance to AI-assisted development.
 
-## Problem It Solves
+![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
-AI agents can move fast, but they can also drift outside the requested task, delete tests, rewrite unrelated files, skip verification, or leave reviewers guessing what changed. This template turns each AI task into an explicit Work Item with machine-checkable scope, required checks, and a final summary.
+**AI is not just a coding tool. AI is a production participant.**
 
-## Design Philosophy
+AI Cockpit makes AI-generated changes bounded, reviewable, and auditable.
 
-Human civilization repeatedly builds systems, lets those systems evolve, and eventually reaches a point where the system's complexity exceeds direct human control. At that point, complexity must be compressed: the internal process becomes a black box, and the cockpit returns the state that humans need in order to act.
+Think of it as Git-style discipline for AI-generated changes: a small control layer around scope, checks, summaries, and status.
 
-I designed this framework for the AI development problem in front of me. The idea itself is not new, and it was not copied from aviation. When I solved the same control problem seriously, the same shape naturally appeared.
+## How It Feels
 
-Strong systems are always controlled through layers: plan, boundary, verification, record, and status display. AI development needs the same layers:
+Before:
 
-| AI development problem | Required control layer | Aviation analogy |
-| --- | --- | --- |
-| The work plan is vague. | Work Item Contract | Flight plan |
-| The change boundary is unclear. | Scope Guard | Controlled airspace |
-| Verification is insufficient. | Required checks | Instrument check |
-| Records are not preserved. | Change Summary and archive | Black box |
-| Current state is invisible. | Cockpit Status | Cockpit |
+```text
+AI changed 24 files.
+Nobody knows why.
+Tests may have disappeared.
+Review starts from confusion.
+```
 
-The result naturally resembles an aviation control system: not because the structure was imported, but because the underlying problem is the same.
+After:
+
+```text
+Task scope declared.
+Checks enforced.
+Summary generated.
+Cockpit updated.
+Review starts from context.
+```
+
+## What It Catches
+
+```text
+[BLOCKED]
+Scope violation detected.
+
+Unauthorized file modification:
+- src/auth/payment.rs
+
+Allowed scope:
+- src/auth/session.rs
+- tests/auth/session_test.rs
+```
+
+## Task Lifecycle
+
+```text
+Plan -> Scope -> Verify -> Summarize -> Status -> Archive
+```
+
+| Layer | What it does |
+| --- | --- |
+| Work Item Contract | Declares the task boundary before AI changes files. |
+| Scope Guard | Blocks changes outside the declared scope. |
+| Backtrack Guard | Reports undeclared removal of tests, snapshots, or Work Item records. |
+| Coverage Guard | Reports production changes without matching test changes. |
+| Change Summary | Records what changed, what was verified, and what risk remains. |
+| Cockpit Status | Shows the current AI task state in one generated view. |
+| Finish Flow | Archives the Work Item only after checks pass. |
+
+## Install
+
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust
+```
+
+Then start a governed AI task:
+
+```sh
+make ai-start TASK=example_change TITLE="Example change" MODE=code
+```
 
 ## Supported Agent Environments
 
@@ -59,16 +108,29 @@ The result naturally resembles an aviation control system: not because the struc
 - Cursor: `.cursor/rules/ai-cockpit.mdc`
 - Antigravity and other agents: use the same Contract, Summary, Makefile, and guard workflow.
 
-## What It Provides
+## Supported Stacks
 
-- Work Item Contract: the task boundary before an AI agent changes files.
-- Scope Guard: blocks changes outside the declared scope.
-- Backtrack Guard: reports undeclared removal of tests, snapshots, or Work Item records.
-- Coverage Guard: reports production changes without matching test changes.
-- Change Summary: records what changed, what was verified, and what risk remains.
-- Cockpit Status: a generated one-screen view of the current AI task state.
-- Finish Flow: validates checks and archives the Work Item only after the workflow passes.
-- Installer: a non-destructive installer for adding AI Cockpit to existing repositories.
+```text
+generic
+rust
+flutter
+typescript
+python
+go
+java
+kotlin
+swift
+ruby
+php
+csharp
+```
+
+## Who It Is For
+
+- Teams adopting AI coding agents in production repositories.
+- Maintainers who want AI-generated diffs to be bounded, reviewable, and reversible.
+- Engineers who need the same AI workflow across Rust, Flutter, TypeScript, Python, or mixed-language codebases.
+- Organizations that want lightweight governance without adding a service, database, or proprietary runtime.
 
 ## Repository Layout
 
@@ -107,6 +169,9 @@ examples/
   rust/
   swift/
   typescript/
+docs/
+  assets/
+    ai-cockpit-demo.gif
 scripts/
   ai_archive_work_item.py
   ai_check_backtrack.py
@@ -338,6 +403,24 @@ You can also update `.ai/cockpit/checks.yaml` so agents know which checks to cho
 - `.ai/guards/scope_policy.yaml` defines paths that are always allowed and optional dependency scope rules.
 
 The guard YAML parser intentionally supports a small subset of YAML so the scripts can run with Python's standard library only.
+
+## Design Philosophy
+
+Human civilization repeatedly builds systems, lets those systems evolve, and eventually reaches a point where the system's complexity exceeds direct human control. At that point, complexity must be compressed: the internal process becomes a black box, and the cockpit returns the state that humans need in order to act.
+
+I designed this framework for the AI development problem in front of me. The idea itself is not new, and it was not copied from aviation. When I solved the same control problem seriously, the same shape naturally appeared.
+
+Strong systems are always controlled through layers: plan, boundary, verification, record, and status display. AI development needs the same layers:
+
+| AI development problem | Required control layer | Aviation analogy |
+| --- | --- | --- |
+| The work plan is vague. | Work Item Contract | Flight plan |
+| The change boundary is unclear. | Scope Guard | Controlled airspace |
+| Verification is insufficient. | Required checks | Instrument check |
+| Records are not preserved. | Change Summary and archive | Black box |
+| Current state is invisible. | Cockpit Status | Cockpit |
+
+The result naturally resembles an aviation control system: not because the structure was imported, but because the underlying problem is the same.
 
 ## Versioned Install
 

@@ -33,15 +33,17 @@ AI coding agents can:
 - bypass verification
 - leave reviewers guessing
 
-AI Cockpit adds lightweight governance to AI-assisted development.
+Your AI agent should not have root access to your repository.
+
+AI Cockpit adds a lightweight AI review workflow to AI-assisted development.
 
 ![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
-**AI is not just a coding tool. AI is a production participant.**
+**AI changed 37 files. Cockpit stopped the merge.**
 
 AI Cockpit makes AI-generated changes bounded, reviewable, and auditable.
 
-Think of it as Git-style discipline for AI-generated changes: a small control layer around scope, checks, summaries, and status.
+I kept seeing AI rewrite unrelated files, roll back completed work, and bypass review expectations. So I built a small change-control workflow around scope, checks, summaries, and status.
 
 ## 30-Second Version
 

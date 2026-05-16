@@ -33,15 +33,17 @@ AI 编码代理可能会：
 - 绕过验证
 - 让 reviewer 猜不出发生了什么
 
-AI Cockpit 为 AI 辅助开发增加轻量治理。
+你的 AI agent 不应该拥有整个仓库的 root access。
+
+AI Cockpit 为 AI 辅助开发增加一套轻量 AI review workflow。
 
 ![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
-**AI 不只是编码工具。AI 是生产参与者。**
+**AI 改了 37 个文件。Cockpit 阻止了 merge。**
 
 AI Cockpit 让 AI 生成的变更有边界、可审查、可审计。
 
-你可以把它理解成：给 AI 生成变更加上一层 Git 式纪律，围绕 scope、checks、summary 和 status 建立控制。
+我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我做了一套围绕 scope、checks、summary 和 status 的轻量 change-control workflow。
 
 ## 30 秒理解
 

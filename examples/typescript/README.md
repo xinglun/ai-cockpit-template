@@ -1,5 +1,5 @@
 ---
-author: AI Cockpit Template contributors
+author: Ray
 description: TypeScript stack adaptation example for AI Cockpit.
 keywords:
   - typescript

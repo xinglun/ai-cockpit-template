@@ -1,5 +1,5 @@
 ---
-author: AI Cockpit Template contributors
+author: Ray
 description: Language-agnostic AI governance template for Codex, Gemini, Antigravity, and other agentic coding tools.
 keywords:
   - ai-agents

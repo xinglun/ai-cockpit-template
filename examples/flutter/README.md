@@ -1,5 +1,5 @@
 ---
-author: AI Cockpit Template contributors
+author: Ray
 description: Flutter stack adaptation example for AI Cockpit.
 keywords:
   - flutter

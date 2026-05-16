@@ -1,5 +1,5 @@
 ---
-author: AI Cockpit Template contributors
+author: Ray
 description: Codex、Gemini、Antigravity などの AI コーディングエージェント向けの言語非依存 AI ガバナンステンプレート。
 keywords:
   - ai-agents

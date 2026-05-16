@@ -1,5 +1,5 @@
 ---
-author: AI Cockpit Template contributors
+author: Ray
 description: Rust stack adaptation example for AI Cockpit.
 keywords:
   - rust

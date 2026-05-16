@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-REPO="${AI_COCKPIT_TEMPLATE_REPO:-OWNER/ai-cockpit-template}"
+REPO="${AI_COCKPIT_TEMPLATE_REPO:-xinglun/ai-cockpit-template}"
 REF="${AI_COCKPIT_TEMPLATE_REF:-main}"
 SOURCE="${AI_COCKPIT_TEMPLATE_SOURCE:-}"
 
@@ -14,7 +14,7 @@ Usage:
 
 Environment:
   AI_COCKPIT_TEMPLATE_SOURCE=/path/to/ai-cockpit-template
-  AI_COCKPIT_TEMPLATE_REPO=OWNER/ai-cockpit-template
+  AI_COCKPIT_TEMPLATE_REPO=xinglun/ai-cockpit-template
   AI_COCKPIT_TEMPLATE_REF=main
 
 Common options passed through to the Python installer:
@@ -49,10 +49,6 @@ cleanup() {
 trap cleanup EXIT
 
 if [ -z "$SOURCE" ]; then
-  if [ "$REPO" = "OWNER/ai-cockpit-template" ]; then
-    echo "ERROR: set AI_COCKPIT_TEMPLATE_REPO=OWNER/ai-cockpit-template before using curl-pipe install." >&2
-    exit 2
-  fi
   TMPDIR_AI_COCKPIT=$(mktemp -d)
   URL="https://github.com/$REPO/archive/refs/heads/$REF.tar.gz"
   echo "Downloading AI Cockpit template from $URL"
@@ -68,4 +64,3 @@ if [ -z "$SOURCE" ]; then
 fi
 
 exec python3 "$SOURCE/scripts/install_ai_cockpit.py" --source "$SOURCE" --target "." "$@"
-

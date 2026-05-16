@@ -67,15 +67,14 @@ From a local clone of this template:
 For a remote GitHub repository, set the template repo and pipe the installer:
 
 ```sh
-AI_COCKPIT_TEMPLATE_REPO=OWNER/ai-cockpit-template \
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/OWNER/ai-cockpit-template/main/install.sh)" -- --stack rust
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust
 ```
 
 Safer two-step remote install:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/OWNER/ai-cockpit-template/main/install.sh -o install-ai-cockpit.sh
-AI_COCKPIT_TEMPLATE_REPO=OWNER/ai-cockpit-template sh install-ai-cockpit.sh --stack rust
+curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh -o install-ai-cockpit.sh
+sh install-ai-cockpit.sh --stack rust
 ```
 
 Supported stack presets:

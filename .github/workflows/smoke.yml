@@ -1,0 +1,60 @@
+name: smoke
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  template-smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile scripts
+        run: python3 -m py_compile scripts/*.py
+
+      - name: Run template AI checks
+        run: make check-ai
+
+      - name: Installer dry run
+        run: |
+          tmp="$(mktemp -d)"
+          git init -b main "$tmp"
+          (
+            cd "$tmp"
+            printf 'include Makefile.ai\n' > Makefile
+            "$GITHUB_WORKSPACE/install.sh" --stack rust --dry-run
+          )
+
+      - name: Install into temporary repository
+        run: |
+          tmp="$(mktemp -d)"
+          git init -b main "$tmp"
+          (
+            cd "$tmp"
+            printf 'include Makefile.ai\n' > Makefile
+            "$GITHUB_WORKSPACE/install.sh" --stack generic
+            python3 -m py_compile scripts/*.py
+            make check-ai
+            make quality
+            make ai-start TASK=ci_smoke TITLE="CI smoke" MODE=investigate
+          )
+
+      - name: Reinstall is idempotent
+        run: |
+          tmp="$(mktemp -d)"
+          git init -b main "$tmp"
+          (
+            cd "$tmp"
+            printf '# Existing\n' > AGENTS.md
+            printf '# Gemini\n' > GEMINI.md
+            printf 'all:\n\t@true\n' > Makefile
+            "$GITHUB_WORKSPACE/install.sh" --stack typescript --update-makefile
+            "$GITHUB_WORKSPACE/install.sh" --stack typescript --dry-run --update-makefile
+          )
+

@@ -35,7 +35,7 @@ AI agents can move fast, but they can also drift outside the requested task, del
 
 Human civilization repeatedly builds systems, lets those systems evolve, and eventually reaches a point where the system's complexity exceeds direct human control. At that point, complexity must be compressed: the internal process becomes a black box, and the cockpit returns the state that humans need in order to act.
 
-This framework was designed for the AI development problem in front of it. The idea itself is not new, and it was not copied from aviation. When the same control problem is solved seriously, the same shape appears.
+I designed this framework for the AI development problem in front of me. The idea itself is not new, and it was not copied from aviation. When I solved the same control problem seriously, the same shape naturally appeared.
 
 Strong systems are always controlled through layers: plan, boundary, verification, record, and status display. AI development needs the same layers:
 

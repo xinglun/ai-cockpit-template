@@ -1,3 +1,14 @@
+---
+author: Ray
+description: AI Cockpit workspace overview and workflow guide.
+keywords:
+  - ai-cockpit
+  - work-item-contract
+  - scope-guard
+  - change-summary
+  - cockpit-status
+---
+
 # AI Cockpit
 
 AI Cockpit is a small governance layer for agentic coding. It gives Codex, Gemini, Antigravity, or another coding agent a shared operating contract before files are changed.
@@ -22,4 +33,3 @@ The cockpit is intentionally language-agnostic. The Python scripts validate the 
 6. Review the generated status and archived Contract/Summary.
 
 `current_status.md` is generated. Do not hand-edit it.
-

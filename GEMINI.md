@@ -1,3 +1,14 @@
+---
+author: Ray
+description: Gemini operating rules for AI Cockpit governed repositories.
+keywords:
+  - gemini
+  - ai-agents
+  - ai-cockpit
+  - governance
+  - agent-rules
+---
+
 # Gemini Operating Rules
 
 Gemini uses the same AI Cockpit workflow as Codex and other coding agents.
@@ -29,4 +40,3 @@ Before declaring the work complete, update the matching Summary with:
 - observed issues.
 
 Run `make ai-finish TASK=<task>` when the Summary is ready.
-

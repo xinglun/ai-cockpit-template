@@ -1,3 +1,14 @@
+---
+author: Ray
+description: Codex and generic agent operating rules for AI Cockpit governed repositories.
+keywords:
+  - codex
+  - ai-agents
+  - ai-cockpit
+  - governance
+  - agent-rules
+---
+
 # Agent Operating Rules
 
 This repository is an AI Governance Template. It is meant to be copied into other codebases and adapted.
@@ -31,4 +42,3 @@ A Work Item is ready for review only when:
 - `make generate-cockpit-status` has been run.
 - `make check-ai-status` passes.
 - Required project verification commands have passed or are explicitly documented as not run with a reason.
-

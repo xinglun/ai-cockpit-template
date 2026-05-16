@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Suggested GitHub Topics"
 description: Suggested GitHub topics for AI Cockpit.
 keywords:
   - ai-cockpit

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Go Adaptation Example"
 description: Go stack adaptation example for AI Cockpit.
 keywords:
   - go

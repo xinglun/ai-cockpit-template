@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Claude Operating Rules"
 description: Claude operating rules for AI Cockpit governed repositories.
 keywords:
   - claude

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Agent Operating Rules"
 description: Codex and generic agent operating rules for AI Cockpit governed repositories.
 keywords:
   - codex

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Launch Copy"
 description: Launch copy for sharing AI Cockpit on Reddit, Hacker News, X, and dev.to.
 keywords:
   - ai-cockpit

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Installation"
 description: Installation and quick start guide for AI Cockpit.
 keywords:
   - ai-cockpit

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Python Adaptation Example"
 description: Python stack adaptation example for AI Cockpit.
 keywords:
   - python

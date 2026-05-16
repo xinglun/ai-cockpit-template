@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Flutter Adaptation Example"
 description: Flutter stack adaptation example for AI Cockpit.
 keywords:
   - flutter

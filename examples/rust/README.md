@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Rust Adaptation Example"
 description: Rust stack adaptation example for AI Cockpit.
 keywords:
   - rust

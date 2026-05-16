@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "TypeScript Adaptation Example"
 description: TypeScript stack adaptation example for AI Cockpit.
 keywords:
   - typescript

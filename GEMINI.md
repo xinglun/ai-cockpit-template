@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Gemini Operating Rules"
 description: Gemini operating rules for AI Cockpit governed repositories.
 keywords:
   - gemini

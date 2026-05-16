@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Swift Adaptation Example"
 description: Swift stack adaptation example for AI Cockpit.
 keywords:
   - swift

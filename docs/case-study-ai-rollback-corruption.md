@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Case Study: Stopping AI Rollback Corruption"
 description: Case study showing how AI Cockpit prevents AI rollback corruption.
 keywords:
   - ai-cockpit

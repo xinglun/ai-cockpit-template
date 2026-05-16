@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "PHP Adaptation Example"
 description: PHP stack adaptation example for AI Cockpit.
 keywords:
   - php

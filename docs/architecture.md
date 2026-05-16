@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Architecture"
 description: AI Cockpit repository layout and component architecture.
 keywords:
   - ai-cockpit

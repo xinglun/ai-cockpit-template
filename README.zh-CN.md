@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "AI Cockpit"
 description: 面向 Codex、Gemini、Claude、Cursor、Antigravity 和其他 AI 编码代理的语言无关 AI 治理模板。
 keywords:
   - ai-agents

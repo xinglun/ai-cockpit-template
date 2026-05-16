@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Java Adaptation Example"
 description: Java stack adaptation example for AI Cockpit.
 keywords:
   - java

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Kotlin Adaptation Example"
 description: Kotlin stack adaptation example for AI Cockpit.
 keywords:
   - kotlin

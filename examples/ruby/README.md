@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Ruby Adaptation Example"
 description: Ruby stack adaptation example for AI Cockpit.
 keywords:
   - ruby

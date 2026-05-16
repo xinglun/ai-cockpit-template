@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Configuration"
 description: Stack and guard configuration reference for AI Cockpit.
 keywords:
   - ai-cockpit

@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "Design Philosophy"
 description: Design philosophy behind AI Cockpit.
 keywords:
   - ai-cockpit

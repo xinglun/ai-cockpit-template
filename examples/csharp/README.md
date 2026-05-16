@@ -1,5 +1,6 @@
 ---
 author: Ray
+title: "C# Adaptation Example"
 description: C# stack adaptation example for AI Cockpit.
 keywords:
   - csharp

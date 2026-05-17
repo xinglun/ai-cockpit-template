@@ -10,10 +10,11 @@ import time
 from pathlib import Path
 from typing import Any
 
-from ai_common import load_json, non_empty_string
+from ai_common import PROJECT_ROOT, changed_paths, included, load_json, non_empty_string, simple_yaml_lists
 from ai_observability import create_observability, elapsed_ms
 
 
+SCOPE_POLICY = PROJECT_ROOT / ".ai" / "guards" / "scope_policy.yaml"
 REQUIRED_FIELDS = (
     "workItemId",
     "contractPath",
@@ -28,6 +29,22 @@ REQUIRED_FIELDS = (
 )
 RESULTS = {"passed", "failed", "not_run"}
 RISK_LEVELS = {"low", "medium", "high"}
+
+
+def changed_file_paths(summary: dict[str, Any]) -> set[str]:
+    changed = summary.get("changedFiles")
+    if not isinstance(changed, list):
+        return set()
+    return {
+        item.get("path")
+        for item in changed
+        if isinstance(item, dict) and non_empty_string(item.get("path"))
+    }
+
+
+def summary_exempt_patterns() -> list[str]:
+    policy_lists = simple_yaml_lists(SCOPE_POLICY)
+    return policy_lists.get("allowAlways", [])
 
 
 def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
@@ -87,6 +104,24 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
     return issues
 
 
+def validate_changed_files_cover_diff(summary: dict[str, Any]) -> list[str]:
+    try:
+        paths = changed_paths()
+    except RuntimeError as exc:
+        return [f"failed to read changed paths: {exc}"]
+
+    reported = changed_file_paths(summary)
+    exempt = summary_exempt_patterns()
+    missing = [
+        path
+        for path in paths
+        if path not in reported and not included(path, exempt)
+    ]
+    if not missing:
+        return []
+    return [f"changedFiles is missing actual changed path: {path}" for path in missing]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate AI Change Summary.")
     parser.add_argument("summary", nargs="?")
@@ -109,6 +144,7 @@ def main() -> int:
 
     obs = create_observability(work_item_id=summary.get("workItemId", ""))
     issues = validate_summary(summary, contract)
+    issues.extend(validate_changed_files_cover_diff(summary))
     duration = elapsed_ms(start)
     if issues:
         for issue in issues:
@@ -122,4 +158,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

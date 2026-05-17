@@ -65,6 +65,16 @@ Makefile:
   aiWrite: forbidden
   reason: May contain local secrets.
 
+target/ai_*.json:
+  owner: ai-cockpit
+  aiWrite: allowed_with_contract
+  reason: AI Cockpit generated report.
+
+target/ai_*.jsonl:
+  owner: ai-cockpit
+  aiWrite: allowed_with_contract
+  reason: AI Cockpit generated event log.
+
 target/**:
   owner: generated-artifacts
   aiWrite: forbidden

@@ -12,6 +12,8 @@ ARGS ?=
 TASK ?=
 TITLE ?=
 MODE ?= investigate
+PYTHON ?= python3
+AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 PROJECT_FORMAT_CHECK ?= printf '%s\n' 'No project formatter configured. Set PROJECT_FORMAT_CHECK in Makefile.ai.stack.'
 PROJECT_TEST ?= printf '%s\n' 'No project test command configured. Set PROJECT_TEST in Makefile.ai.stack.'
 PROJECT_LINT ?= printf '%s\n' 'No project linter configured. Set PROJECT_LINT in Makefile.ai.stack.'
@@ -46,34 +48,34 @@ diff-check:
 quality: project-format-check project-test project-lint diff-check
 
 ai-start:
-	python3 scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"
+	$(AI_PYTHON) scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"
 
 check-ai-contract check-ai-work-item:
-	python3 scripts/ai_check_work_item.py $(CONTRACT)
+	$(AI_PYTHON) scripts/ai_check_work_item.py $(CONTRACT)
 
 check-ai-scope:
-	python3 scripts/ai_check_scope.py $(CONTRACT)
+	$(AI_PYTHON) scripts/ai_check_scope.py $(CONTRACT)
 
 check-ai-guards:
-	python3 scripts/ai_check_guards.py
+	$(AI_PYTHON) scripts/ai_check_guards.py
 
 check-ai-backtrack:
-	python3 scripts/ai_check_backtrack.py
+	$(AI_PYTHON) scripts/ai_check_backtrack.py
 
 check-ai-coverage-guard:
-	python3 scripts/ai_check_coverage_guard.py
+	$(AI_PYTHON) scripts/ai_check_coverage_guard.py
 
 check-ai-change-summary:
-	python3 scripts/ai_check_summary.py $(SUMMARY) $(SUMMARY_ARGS) $(ARGS)
+	$(AI_PYTHON) scripts/ai_check_summary.py $(SUMMARY) $(SUMMARY_ARGS) $(ARGS)
 
 generate-cockpit-status:
-	python3 scripts/ai_generate_status.py $(CONTRACT) $(STATUS_ARGS) $(ARGS)
+	$(AI_PYTHON) scripts/ai_generate_status.py $(CONTRACT) $(STATUS_ARGS) $(ARGS)
 
 check-ai-status:
-	python3 scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
+	$(AI_PYTHON) scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
 
 archive-work-item:
-	python3 scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
+	$(AI_PYTHON) scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
 
 check-ai:
 	@if [ -n "$(CONTRACT)" ]; then \
@@ -86,11 +88,11 @@ check-ai:
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)"; \
 	else \
-		python3 scripts/ai_generate_status.py --no-active && \
+		$(AI_PYTHON) scripts/ai_generate_status.py --no-active && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard; \
 	fi
 
 ai-finish:
-	python3 scripts/ai_finish.py --task "$(TASK)"
+	$(AI_PYTHON) scripts/ai_finish.py --task "$(TASK)"

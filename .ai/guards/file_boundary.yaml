@@ -51,6 +51,16 @@ Makefile:
   owner: command-entrypoint
   reason: Shared command entrypoint.
 
+target/ai_*.json:
+  boundary: generated_by_make
+  owner: ai-cockpit
+  reason: AI Cockpit generated report.
+
+target/ai_*.jsonl:
+  boundary: generated_by_make
+  owner: ai-cockpit
+  reason: AI Cockpit generated event log.
+
 target/**:
   boundary: generated_local
   owner: build

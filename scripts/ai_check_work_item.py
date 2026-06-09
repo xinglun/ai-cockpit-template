@@ -29,6 +29,7 @@ REQUIRED_FIELDS = (
 )
 ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "agentCapability",
+    "checkpointPolicy",
     "destructiveChangePolicy",
     "executionDecision",
     "preReviewWarnings",
@@ -128,6 +129,19 @@ def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
         if not isinstance(warnings, list) or any(not non_empty_string(item) for item in warnings):
             issues.append("preReviewWarnings must be a list of non-empty strings")
 
+    checkpoint = data.get("checkpointPolicy")
+    if checkpoint is not None:
+        if not isinstance(checkpoint, dict):
+            issues.append("checkpointPolicy must be an object")
+        else:
+            if "requiredBeforeFinish" in checkpoint and not isinstance(checkpoint.get("requiredBeforeFinish"), bool):
+                issues.append("checkpointPolicy.requiredBeforeFinish must be boolean")
+            stages = checkpoint.get("requiredStages")
+            if stages is not None and (not isinstance(stages, list) or any(not non_empty_string(item) for item in stages)):
+                issues.append("checkpointPolicy.requiredStages must be a list of non-empty strings")
+            if "reason" in checkpoint and not non_empty_string(checkpoint.get("reason")):
+                issues.append("checkpointPolicy.reason must be a non-empty string")
+
     return issues
 
 
@@ -162,6 +176,11 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
         issues.append("mode code cannot run with notCodable true")
     if data.get("mode") == "code" and data.get("unknowns"):
         issues.append("mode code cannot run while unknowns remain")
+    if data.get("notCodable") or data.get("unknowns"):
+        decision = data.get("executionDecision")
+        status = decision.get("status") if isinstance(decision, dict) else ""
+        if status == "continue":
+            issues.append("unknowns or notCodable require executionDecision.status other than continue")
     return issues
 
 

@@ -89,6 +89,11 @@ def main() -> int:
         "preReviewWarnings": [
             "Replace with task-specific review focus, or clear when no special review focus remains."
         ],
+        "checkpointPolicy": {
+            "requiredBeforeFinish": True,
+            "requiredStages": ["before_finish"],
+            "reason": "Record at least one checkpoint before finishing to reduce mid-task drift.",
+        },
         "acceptance": ["The Work Item Contract is updated for the actual task."],
         "verification": [
             {"command": f"make check-ai-contract CONTRACT={contract_rel}", "required": True},
@@ -140,6 +145,7 @@ def main() -> int:
         },
         "userCorrectionsCaptured": [],
         "userCorrectionSolidification": [],
+        "checkpointEvidence": [],
         "knownGaps": ["Replace this before finishing the Work Item."],
         "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
     }

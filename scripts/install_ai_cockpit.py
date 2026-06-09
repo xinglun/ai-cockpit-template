@@ -26,6 +26,8 @@ STACKS = {
 }
 SCRIPT_NAMES = {
     "ai_archive_work_item.py",
+    "ai_checkpoint.py",
+    "ai_check_agent_risk.py",
     "ai_check_backtrack.py",
     "ai_check_coverage_guard.py",
     "ai_check_guards.py",

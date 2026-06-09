@@ -93,6 +93,22 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
         if key in summary and not isinstance(summary.get(key), list):
             issues.append(f"{key} must be a list")
 
+    checkpoints = summary.get("checkpointEvidence")
+    if checkpoints is not None:
+        if not isinstance(checkpoints, list):
+            issues.append("checkpointEvidence must be a list")
+        else:
+            for index, item in enumerate(checkpoints):
+                if not isinstance(item, dict):
+                    issues.append(f"checkpointEvidence[{index}] must be an object")
+                    continue
+                if not non_empty_string(item.get("stage")):
+                    issues.append(f"checkpointEvidence[{index}].stage is required")
+                if "recorded" in item and not isinstance(item.get("recorded"), bool):
+                    issues.append(f"checkpointEvidence[{index}].recorded must be boolean")
+                if "detail" in item and not isinstance(item.get("detail"), str):
+                    issues.append(f"checkpointEvidence[{index}].detail must be a string")
+
     residual = summary.get("residualRisks")
     if residual is not None:
         if not isinstance(residual, list):

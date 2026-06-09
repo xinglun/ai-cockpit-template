@@ -14,8 +14,8 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 .PHONY: help \
 	project-format-check project-test project-lint diff-check quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
-	check-ai-backtrack check-ai-coverage-guard check-ai-review-policy check-ai-change-summary \
-	generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item
+	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-review-policy \
+	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item
 
 help:
 	@printf '%s\n' 'AI Cockpit template commands:'
@@ -23,6 +23,8 @@ help:
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-guards'
+	@printf '%s\n' '  make check-ai-agent-risk CONTRACT=<contract.json> SUMMARY=<summary.json>'
+	@printf '%s\n' '  make ai-checkpoint CONTRACT=<contract.json> SUMMARY=<summary.json> STAGE=before_finish'
 	@printf '%s\n' '  make check-ai-review-policy SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-backtrack'
 	@printf '%s\n' '  make check-ai-coverage-guard'
@@ -64,6 +66,12 @@ check-ai-scope:
 check-ai-guards:
 	$(AI_PYTHON) scripts/ai_check_guards.py
 
+check-ai-agent-risk:
+	$(AI_PYTHON) scripts/ai_check_agent_risk.py $(if $(CONTRACT),--contract $(CONTRACT)) $(if $(SUMMARY),--summary $(SUMMARY))
+
+ai-checkpoint:
+	$(AI_PYTHON) scripts/ai_checkpoint.py --contract $(CONTRACT) $(if $(SUMMARY),--summary $(SUMMARY)) --stage "$(or $(STAGE),manual)"
+
 check-ai-backtrack:
 	$(AI_PYTHON) scripts/ai_check_backtrack.py
 
@@ -96,6 +104,7 @@ check-ai:
 		"$${MAKE:-make}" check-ai-contract CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" check-ai-scope CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" check-ai-guards && \
+		"$${MAKE:-make}" check-ai-agent-risk CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-review-policy SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard && \
@@ -107,6 +116,7 @@ check-ai:
 		$(AI_PYTHON) scripts/ai_generate_status.py --no-active && \
 		"$${MAKE:-make}" check-ai-status-consistency && \
 		"$${MAKE:-make}" check-ai-guards && \
+		"$${MAKE:-make}" check-ai-agent-risk && \
 		"$${MAKE:-make}" check-ai-review-policy && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard; \

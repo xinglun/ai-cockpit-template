@@ -43,6 +43,18 @@ Run `make check-ai-status-consistency` after generating or checking `current_sta
 
 Run `make repair-ai-status` to regenerate `current_status.md` when there is no active Work Item or exactly one active Contract/Summary pair. It does not repair unpaired files or multiple active Work Items; those require manual cleanup.
 
+## Agent Risk Controls
+
+AI Cockpit treats prompt instructions as guidance, not enforcement. Repository safety comes from hard gates that inspect the actual Work Item and diff.
+
+The default template maps three common agent risks to controls:
+
+- Prompt is advice: `make check-ai-agent-risk` verifies required AI gates are present in the Contract verification list.
+- Mid-task drift: `make ai-checkpoint` prints scope, out-of-scope files, unknowns, acceptance, required check status, review focus, and the next action.
+- Unknown overclaim: Contract validation and Agent Risk Guard require unknowns or `notCodable` states to use a non-coding execution decision instead of continuing implementation.
+
+Record checkpoint usage in Summary `checkpointEvidence` before finishing when the Contract `checkpointPolicy.requiredBeforeFinish` is true.
+
 ## Review Readiness
 
 The Contract readiness fields record whether the agent can implement and verify the task before coding starts. The Summary readiness fields record residual risks, expected review focus, boundary checks, user corrections, known gaps, and claims that were not verified.

@@ -32,6 +32,14 @@ checks:
     command: make check-ai-guards
     purpose: Validate file ownership and boundary guard manifests.
 
+  aiAgentRisk:
+    commandTemplate: make check-ai-agent-risk CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: Hard fail missing AI gates, inconsistent unknown/notCodable execution state, or required checkpoint evidence.
+
+  aiCheckpoint:
+    commandTemplate: make ai-checkpoint CONTRACT={contractPath} SUMMARY={summaryPath} STAGE=before_finish
+    purpose: Print scope, acceptance, unknowns, required verification status, review focus, and next action.
+
   aiReviewPolicy:
     commandTemplate: make check-ai-review-policy SUMMARY={summaryPath}
     purpose: Report changes that should receive explicit Summary review focus.
@@ -66,6 +74,8 @@ checks:
 
 selectionRules:
   - Prefer the verification commands declared in the active Work Item Contract.
+  - Run Agent Risk Guard before finishing any active Work Item.
+  - Run an AI checkpoint before finishing long-running or governance-sensitive tasks.
   - Run Scope Guard before finishing any code-changing task.
   - Run Backtrack Guard when tests, snapshots, generated outputs, or .ai/work-items/** are changed.
   - Run Coverage Guard when production code changes.

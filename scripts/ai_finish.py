@@ -52,6 +52,8 @@ def main() -> int:
         ["make", "check-ai-contract", f"CONTRACT={contract}"],
         ["make", "check-ai-scope", f"CONTRACT={contract}"],
         ["make", "check-ai-guards"],
+        ["make", "ai-checkpoint", f"CONTRACT={contract}", f"SUMMARY={summary}", "STAGE=before_finish"],
+        ["make", "check-ai-agent-risk", f"CONTRACT={contract}", f"SUMMARY={summary}"],
         ["make", "check-ai-review-policy", f"SUMMARY={summary}"],
         ["make", "check-ai-backtrack"],
         ["make", "check-ai-coverage-guard"],

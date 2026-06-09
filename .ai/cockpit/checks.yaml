@@ -34,11 +34,11 @@ checks:
 
   aiAgentRisk:
     commandTemplate: make check-ai-agent-risk CONTRACT={contractPath} SUMMARY={summaryPath}
-    purpose: Hard fail missing AI gates, inconsistent unknown/notCodable execution state, or required checkpoint evidence.
+    purpose: Hard fail missing or unpassed AI gates, inconsistent unknown/notCodable execution state, or required checkpoint evidence.
 
   aiCheckpoint:
     commandTemplate: make ai-checkpoint CONTRACT={contractPath} SUMMARY={summaryPath} STAGE=before_finish
-    purpose: Print scope, acceptance, unknowns, required verification status, review focus, and next action.
+    purpose: Print scope, acceptance, unknowns, required verification status, review focus, next action, and checkpoint metadata.
 
   aiReviewPolicy:
     commandTemplate: make check-ai-review-policy SUMMARY={summaryPath}

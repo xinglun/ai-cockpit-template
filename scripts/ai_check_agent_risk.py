@@ -31,6 +31,20 @@ def has_required_gate(commands: list[str], required_prefix: str) -> bool:
     return any(command.startswith(required_prefix) for command in commands)
 
 
+def matching_required_commands(commands: list[str], required_prefix: str) -> list[str]:
+    return [command for command in commands if command.startswith(required_prefix)]
+
+
+def summary_status(summary: dict[str, Any] | None) -> dict[str, str]:
+    if not isinstance(summary, dict):
+        return {}
+    return {
+        item.get("command"): item.get("result")
+        for item in summary.get("verification", [])
+        if isinstance(item, dict) and isinstance(item.get("command"), str) and isinstance(item.get("result"), str)
+    }
+
+
 def checkpoint_evidence(summary: dict[str, Any] | None) -> list[dict[str, Any]]:
     if not isinstance(summary, dict):
         return []
@@ -45,9 +59,15 @@ def validate_agent_risks(contract: dict[str, Any], summary: dict[str, Any] | Non
     policy_lists = simple_yaml_lists(POLICY)
     required_gates = policy_lists.get("risks.promptIsAdvice.requiredVerification", [])
     commands = command_prefixes(contract)
+    statuses = summary_status(summary)
     for required in required_gates:
         if not has_required_gate(commands, required):
             issues.append(f"missing required AI hard gate verification: {required}")
+            continue
+        if isinstance(summary, dict) and required != "make check-ai-agent-risk":
+            passed = [command for command in matching_required_commands(commands, required) if statuses.get(command) == "passed"]
+            if not passed:
+                issues.append(f"required AI hard gate is not passed in Summary: {required}")
 
     decision = contract.get("executionDecision")
     decision_status = decision.get("status") if isinstance(decision, dict) else ""
@@ -81,6 +101,13 @@ def validate_agent_risks(contract: dict[str, Any], summary: dict[str, Any] | Non
         missing = [stage for stage in required_stages if stage not in evidence_stages]
         if missing:
             issues.append(f"missing checkpointEvidence for required stage(s): {', '.join(missing)}")
+        for item in checkpoint_evidence(summary):
+            if item.get("stage") in required_stages and item.get("recorded") is True:
+                if not non_empty_string(item.get("contractHash")):
+                    issues.append(f"checkpointEvidence[{item.get('stage')}].contractHash is required")
+                for key in ("acceptanceCount", "unknownCount", "requiredChecks", "requiredChecksPassed"):
+                    if not isinstance(item.get(key), int):
+                        issues.append(f"checkpointEvidence[{item.get('stage')}].{key} must be integer")
 
     return issues
 

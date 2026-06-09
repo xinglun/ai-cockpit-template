@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -18,6 +19,10 @@ def required_verification(contract: dict[str, Any]) -> list[str]:
         for item in contract.get("verification", [])
         if isinstance(item, dict) and item.get("required") is True and isinstance(item.get("command"), str)
     ]
+
+
+def contract_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
 
 
 def verification_status(summary: dict[str, Any] | None) -> dict[str, str]:
@@ -87,21 +92,29 @@ def main() -> int:
     print("# AI Work Item Checkpoint")
     print(f"- Stage: `{args.stage}`")
     print(f"- Work Item: `{contract.get('workItemId', '')}`")
+    print(f"- Contract Hash: `{contract_hash(Path(args.contract))}`")
     print(f"- Mode: `{contract.get('mode', '')}`")
     print(f"- notCodable: `{contract.get('notCodable')}`")
     print(f"- Execution Decision: `{contract.get('executionDecision', {}).get('status', '')}`")
+    acceptance = contract.get("acceptance", []) if isinstance(contract.get("acceptance"), list) else []
+    unknowns = contract.get("unknowns", []) if isinstance(contract.get("unknowns"), list) else []
+    required = required_verification(contract)
+    status = verification_status(summary)
+    passed_required = [command for command in required if status.get(command) == "passed"]
+    print(f"- Acceptance Count: `{len(acceptance)}`")
+    print(f"- Unknown Count: `{len(unknowns)}`")
+    print(f"- Required Checks: `{len(required)}`")
+    print(f"- Required Checks Passed: `{len(passed_required)}`")
 
     print_list("Scope", contract.get("scope", []) if isinstance(contract.get("scope"), list) else [])
     print_list("Out Of Scope", contract.get("outOfScope", []) if isinstance(contract.get("outOfScope"), list) else [])
-    print_list("Unknowns", contract.get("unknowns", []) if isinstance(contract.get("unknowns"), list) else [])
-    print_list("Acceptance", contract.get("acceptance", []) if isinstance(contract.get("acceptance"), list) else [])
+    print_list("Unknowns", unknowns)
+    print_list("Acceptance", acceptance)
 
     print("\n## Required Verification")
-    status = verification_status(summary)
-    commands = required_verification(contract)
-    if not commands:
+    if not required:
         print("- none")
-    for command in commands:
+    for command in required:
         print(f"- `{command}`: {status.get(command, 'not_recorded')}")
 
     print_list("Review Focus", review_focus(summary))

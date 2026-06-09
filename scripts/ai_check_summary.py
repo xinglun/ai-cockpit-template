@@ -108,6 +108,11 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
                     issues.append(f"checkpointEvidence[{index}].recorded must be boolean")
                 if "detail" in item and not isinstance(item.get("detail"), str):
                     issues.append(f"checkpointEvidence[{index}].detail must be a string")
+                if "contractHash" in item and not non_empty_string(item.get("contractHash")):
+                    issues.append(f"checkpointEvidence[{index}].contractHash must be a non-empty string")
+                for metric in ("acceptanceCount", "unknownCount", "requiredChecks", "requiredChecksPassed"):
+                    if metric in item and not isinstance(item.get(metric), int):
+                        issues.append(f"checkpointEvidence[{index}].{metric} must be integer")
 
     residual = summary.get("residualRisks")
     if residual is not None:

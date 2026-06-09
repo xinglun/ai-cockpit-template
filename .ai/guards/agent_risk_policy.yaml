@@ -14,12 +14,20 @@ risks:
       - "make check-ai-change-summary"
       - "make generate-cockpit-status"
       - "make check-ai-status"
+    effectiveVerification: required gates must be present in Contract verification and passed in Summary when Summary is provided.
 
   midTaskDrift:
     control: checkpoint
     reason: Long-running agent work needs a compact reminder of scope, acceptance, unknowns, and verification.
     requiredSummaryField: checkpointEvidence
+    integrityFields:
+      - contractHash
+      - acceptanceCount
+      - unknownCount
+      - requiredChecks
+      - requiredChecksPassed
     requiredStages:
+      - before_edit
       - before_finish
 
   unknownOverclaim:

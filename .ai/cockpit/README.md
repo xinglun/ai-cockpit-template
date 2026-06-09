@@ -49,8 +49,8 @@ AI Cockpit treats prompt instructions as guidance, not enforcement. Repository s
 
 The default template maps three common agent risks to controls:
 
-- Prompt is advice: `make check-ai-agent-risk` verifies required AI gates are present in the Contract verification list.
-- Mid-task drift: `make ai-checkpoint` prints scope, out-of-scope files, unknowns, acceptance, required check status, review focus, and the next action.
+- Prompt is advice: `make check-ai-agent-risk` verifies required AI gates are present in the Contract verification list and passed in the Summary when a Summary is provided.
+- Mid-task drift: `make ai-checkpoint` prints scope, out-of-scope files, unknowns, acceptance, required check status, review focus, next action, and checkpoint integrity metadata.
 - Unknown overclaim: Contract validation and Agent Risk Guard require unknowns or `notCodable` states to use a non-coding execution decision instead of continuing implementation.
 
 Record checkpoint usage in Summary `checkpointEvidence` before finishing when the Contract `checkpointPolicy.requiredBeforeFinish` is true.

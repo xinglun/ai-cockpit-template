@@ -29,6 +29,7 @@ REQUIRED_FIELDS = (
 )
 RESULTS = {"passed", "failed", "not_run"}
 RISK_LEVELS = {"low", "medium", "high"}
+REVIEW_READINESS_STATUSES = {"not_ready", "ready", "ready_with_risks", "blocked"}
 
 
 def changed_file_paths(summary: dict[str, Any]) -> set[str]:
@@ -87,6 +88,52 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
     for key in ("sourcesUsed", "unknownsRemaining", "generatedFiles", "destructiveChanges", "observedIssues"):
         if key in summary and not isinstance(summary.get(key), list):
             issues.append(f"{key} must be a list")
+
+    for key in ("userCorrectionsCaptured", "userCorrectionSolidification", "knownGaps"):
+        if key in summary and not isinstance(summary.get(key), list):
+            issues.append(f"{key} must be a list")
+
+    residual = summary.get("residualRisks")
+    if residual is not None:
+        if not isinstance(residual, list):
+            issues.append("residualRisks must be a list")
+        else:
+            for index, item in enumerate(residual):
+                if not isinstance(item, dict):
+                    issues.append(f"residualRisks[{index}] must be an object")
+                    continue
+                if item.get("level") not in RISK_LEVELS:
+                    issues.append(f"residualRisks[{index}].level must be one of {sorted(RISK_LEVELS)}")
+                if not non_empty_string(item.get("area")):
+                    issues.append(f"residualRisks[{index}].area is required")
+                if not non_empty_string(item.get("detail")):
+                    issues.append(f"residualRisks[{index}].detail is required")
+
+    readiness = summary.get("reviewReadiness")
+    if readiness is not None:
+        if not isinstance(readiness, dict):
+            issues.append("reviewReadiness must be an object")
+        else:
+            if readiness.get("status") not in REVIEW_READINESS_STATUSES:
+                issues.append(f"reviewReadiness.status must be one of {sorted(REVIEW_READINESS_STATUSES)}")
+            if not non_empty_string(readiness.get("reason")):
+                issues.append("reviewReadiness.reason is required")
+            focus = readiness.get("expectedReviewFocus")
+            if focus is not None and (not isinstance(focus, list) or any(not non_empty_string(item) for item in focus)):
+                issues.append("reviewReadiness.expectedReviewFocus must be a list of non-empty strings")
+
+    boundary = summary.get("boundaryChecks")
+    if boundary is not None:
+        if not isinstance(boundary, dict):
+            issues.append("boundaryChecks must be an object")
+        else:
+            for key, value in boundary.items():
+                if not non_empty_string(key) or not non_empty_string(value):
+                    issues.append("boundaryChecks must map non-empty names to non-empty status strings")
+                    break
+
+    if "overclaimPrevention" in summary and not non_empty_string(summary.get("overclaimPrevention")):
+        issues.append("overclaimPrevention must be a non-empty string")
 
     if contract is not None:
         required = [

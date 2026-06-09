@@ -52,10 +52,15 @@ checks:
     commandTemplate: make check-ai-status CONTRACT={contractPath} SUMMARY={summaryPath}
     purpose: Verify current_status.md matches the Contract and Summary.
 
+  aiStatusConsistency:
+    command: make check-ai-status-consistency
+    purpose: Verify active Work Item files and current_status.md agree, including no-active state.
+
 selectionRules:
   - Prefer the verification commands declared in the active Work Item Contract.
   - Run Scope Guard before finishing any code-changing task.
   - Run Backtrack Guard when tests, snapshots, generated outputs, or .ai/work-items/** are changed.
   - Run Coverage Guard when production code changes.
+  - Run Status Consistency after generating or checking current_status.md.
+  - Changes to .ai/**, agent rule files, Makefile, or CI should include review focus in the Summary reviewReadiness field.
   - Customize projectFormat/projectTest/projectLint in the Makefile for Rust, Flutter, TypeScript, Python, or another stack.
-

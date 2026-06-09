@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from ai_common import PROJECT_ROOT, save_json
+from ai_check_status_consistency import validate_status_consistency
 from ai_observability import create_observability
 
 
@@ -40,6 +41,13 @@ def main() -> int:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 
+    consistency_issues = validate_status_consistency()
+    if consistency_issues:
+        for issue in consistency_issues:
+            print(f"[ERROR] {issue}", file=sys.stderr)
+        print("ERROR: fix Work Item lifecycle/status consistency before creating a new Work Item", file=sys.stderr)
+        return 1
+
     contract_path = ACTIVE_DIR / f"{task}.contract.json"
     summary_path = ACTIVE_DIR / f"{task}.summary.json"
     if not args.force and (contract_path.exists() or summary_path.exists()):
@@ -59,6 +67,24 @@ def main() -> int:
         "sources": [{"path": contract_rel, "reason": "Initial Work Item skeleton."}],
         "unknowns": ["Replace this with concrete open questions, or clear it before mode code."],
         "notCodable": args.mode == "code",
+        "riskAssessment": {
+            "level": "medium",
+            "riskTypes": ["scope_unclear"],
+            "reason": "Initial skeleton; replace with task-specific implementation and review risks.",
+        },
+        "agentCapability": {
+            "canImplement": False,
+            "canVerify": False,
+            "needsHumanDecision": True,
+            "blockedReason": "Initial skeleton; clear unknowns and confirm verification before coding.",
+        },
+        "executionDecision": {
+            "status": "needs_human_decision",
+            "reason": "Initial skeleton must be completed before execution.",
+        },
+        "preReviewWarnings": [
+            "Replace with task-specific review focus, or clear when no special review focus remains."
+        ],
         "acceptance": ["The Work Item Contract is updated for the actual task."],
         "verification": [
             {"command": f"make check-ai-contract CONTRACT={contract_rel}", "required": True},
@@ -86,6 +112,32 @@ def main() -> int:
         "generatedFiles": [],
         "destructiveChanges": [],
         "observedIssues": [],
+        "residualRisks": [
+            {
+                "level": "medium",
+                "area": "scope",
+                "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+                "reviewRecommended": True,
+                "followUpCandidate": False,
+            }
+        ],
+        "reviewReadiness": {
+            "status": "not_ready",
+            "reason": "Initial skeleton; required checks have not run.",
+            "expectedReviewFocus": [],
+        },
+        "boundaryChecks": {
+            "runtimeEntrypoints": "not_applicable",
+            "userVisibleOutput": "not_applicable",
+            "persistence": "not_applicable",
+            "localization": "not_applicable",
+            "generatedArtifacts": "not_applicable",
+            "makeEntrypoints": "not_applicable",
+        },
+        "userCorrectionsCaptured": [],
+        "userCorrectionSolidification": [],
+        "knownGaps": ["Replace this before finishing the Work Item."],
+        "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
     }
     save_json(contract_path, contract)
     save_json(summary_path, summary)
@@ -99,4 +151,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

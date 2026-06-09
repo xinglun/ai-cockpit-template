@@ -15,7 +15,7 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	project-format-check project-test project-lint diff-check quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	check-ai-backtrack check-ai-coverage-guard check-ai-change-summary generate-cockpit-status check-ai-status \
-	archive-work-item
+	check-ai-status-consistency archive-work-item
 
 help:
 	@printf '%s\n' 'AI Cockpit template commands:'
@@ -28,6 +28,7 @@ help:
 	@printf '%s\n' '  make check-ai-change-summary SUMMARY=<summary.json> CONTRACT=<contract.json>'
 	@printf '%s\n' '  make generate-cockpit-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
+	@printf '%s\n' '  make check-ai-status-consistency'
 	@printf '%s\n' '  make ai-finish TASK=<task>'
 	@printf '%s\n' '  make check-ai'
 	@printf '%s\n' '  make quality'
@@ -76,6 +77,9 @@ generate-cockpit-status:
 check-ai-status:
 	$(AI_PYTHON) scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
 
+check-ai-status-consistency:
+	$(AI_PYTHON) scripts/ai_check_status_consistency.py
+
 archive-work-item:
 	$(AI_PYTHON) scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
 
@@ -88,9 +92,11 @@ check-ai:
 		"$${MAKE:-make}" check-ai-coverage-guard && \
 		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
-		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)"; \
+		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
+		"$${MAKE:-make}" check-ai-status-consistency; \
 	else \
 		$(AI_PYTHON) scripts/ai_generate_status.py --no-active && \
+		"$${MAKE:-make}" check-ai-status-consistency && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard; \

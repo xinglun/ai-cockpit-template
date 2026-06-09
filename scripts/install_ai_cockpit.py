@@ -31,6 +31,7 @@ SCRIPT_NAMES = {
     "ai_check_guards.py",
     "ai_check_scope.py",
     "ai_check_status.py",
+    "ai_check_status_consistency.py",
     "ai_check_summary.py",
     "ai_check_work_item.py",
     "ai_common.py",

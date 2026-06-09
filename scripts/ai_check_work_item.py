@@ -27,8 +27,16 @@ REQUIRED_FIELDS = (
     "verification",
     "rollbackNote",
 )
-ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {"destructiveChangePolicy"}
+ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
+    "agentCapability",
+    "destructiveChangePolicy",
+    "executionDecision",
+    "preReviewWarnings",
+    "riskAssessment",
+}
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
+RISK_LEVELS = {"low", "medium", "high"}
+EXECUTION_STATUSES = {"continue", "defer", "needs_human_decision", "block"}
 
 
 def validate_string_list(data: dict[str, Any], key: str, *, allow_empty: bool) -> list[str]:
@@ -78,6 +86,51 @@ def validate_verification(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
+    issues: list[str] = []
+
+    risk = data.get("riskAssessment")
+    if risk is not None:
+        if not isinstance(risk, dict):
+            issues.append("riskAssessment must be an object")
+        else:
+            if risk.get("level") not in RISK_LEVELS:
+                issues.append(f"riskAssessment.level must be one of {sorted(RISK_LEVELS)}")
+            risk_types = risk.get("riskTypes")
+            if not isinstance(risk_types, list) or any(not non_empty_string(item) for item in risk_types):
+                issues.append("riskAssessment.riskTypes must be a list of non-empty strings")
+            if not non_empty_string(risk.get("reason")):
+                issues.append("riskAssessment.reason is required")
+
+    capability = data.get("agentCapability")
+    if capability is not None:
+        if not isinstance(capability, dict):
+            issues.append("agentCapability must be an object")
+        else:
+            for key in ("canImplement", "canVerify", "needsHumanDecision"):
+                if not isinstance(capability.get(key), bool):
+                    issues.append(f"agentCapability.{key} must be boolean")
+            if "blockedReason" in capability and not isinstance(capability.get("blockedReason"), str):
+                issues.append("agentCapability.blockedReason must be a string")
+
+    decision = data.get("executionDecision")
+    if decision is not None:
+        if not isinstance(decision, dict):
+            issues.append("executionDecision must be an object")
+        else:
+            if decision.get("status") not in EXECUTION_STATUSES:
+                issues.append(f"executionDecision.status must be one of {sorted(EXECUTION_STATUSES)}")
+            if not non_empty_string(decision.get("reason")):
+                issues.append("executionDecision.reason is required")
+
+    warnings = data.get("preReviewWarnings")
+    if warnings is not None:
+        if not isinstance(warnings, list) or any(not non_empty_string(item) for item in warnings):
+            issues.append("preReviewWarnings must be a list of non-empty strings")
+
+    return issues
+
+
 def validate_contract(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -101,6 +154,7 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_string_list(data, "acceptance", allow_empty=False))
     issues.extend(validate_sources(data))
     issues.extend(validate_verification(data))
+    issues.extend(validate_optional_readiness(data))
 
     if not isinstance(data.get("notCodable"), bool):
         issues.append("notCodable must be boolean")
@@ -138,4 +192,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -57,6 +57,7 @@ def main() -> int:
         ["make", "check-ai-change-summary", f"SUMMARY={summary}", f"CONTRACT={contract}"],
         ["make", "generate-cockpit-status", f"CONTRACT={contract}", f"SUMMARY={summary}"],
         ["make", "check-ai-status", f"CONTRACT={contract}", f"SUMMARY={summary}"],
+        ["make", "check-ai-status-consistency"],
     ]
     if not args.skip_quality:
         commands.append(["make", "quality"])
@@ -89,4 +90,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -1,0 +1,23 @@
+# AI Review policy.
+# This default policy is report-only guidance for changes that usually need
+# explicit review focus in the AI Change Summary.
+
+version: 1
+
+requiredReviewChecklist:
+  stage: report_only
+  reason: Governance, automation, command entrypoint, and CI changes should state expected review focus before completion.
+  include:
+    - ".ai/**"
+    - ".cursor/**"
+    - "AGENTS.md"
+    - "GEMINI.md"
+    - "CLAUDE.md"
+    - "Makefile"
+    - "Makefile.ai"
+    - "templates/make/**"
+    - "scripts/ai_*.py"
+    - ".github/workflows/**"
+  exclude:
+    - ".ai/work-items/active/*.summary.json"
+    - ".ai/work-items/archive/**/*.summary.json"

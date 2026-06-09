@@ -18,8 +18,31 @@
   ],
   "unknowns": [],
   "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope",
+      "verification"
+    ],
+    "reason": "State the implementation and review risks before coding."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Record any area that should receive focused human review."
+  ],
   "acceptance": [
-    "The expected behavior is implemented and covered by tests."
+    "The expected behavior is implemented and covered by tests or documented verification.",
+    "Runtime entrypoints, user-visible output, persistence, generated artifacts, localization, and Makefile entrypoints are marked as changed, verified, or not applicable.",
+    "riskAssessment, agentCapability, and executionDecision explain implementation readiness and review risk."
   ],
   "verification": [
     {
@@ -42,4 +65,3 @@
   },
   "rollbackNote": "Revert the diff for this task and restore related tests and docs."
 }
-

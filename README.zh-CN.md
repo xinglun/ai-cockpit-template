@@ -99,6 +99,10 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Scope Guard | 阻止超出声明 scope 的变更。 |
 | Backtrack Guard | 报告未声明删除测试、snapshot 或 Work Item 记录。 |
 | Coverage Guard | 报告没有对应测试变更的生产代码修改。 |
+| Agent Risk Guard | 针对「prompt 仅是建议」、「mid-task 漂移」和「过度声明」风险的硬门控。 |
+| AI Review Policy | 标记需要在 Change Summary 中明确说明 review 重点的治理和 CI 变更（仅报告）。 |
+| Checkpoint | Mid-task 完整性快照，用于在完成前检测 scope 漂移。 |
+| Status Consistency Guard | 验证 Cockpit 状态与当前 active Work Item 集合是否一致。 |
 | Change Summary | 记录改了什么、验证了什么、还剩什么风险。 |
 | Cockpit Status | 用一个生成视图展示当前 AI 任务状态。 |
 | Finish Flow | 只有检查通过后才归档 Work Item。 |

@@ -99,6 +99,10 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Scope Guard | 宣言された scope 外の変更を防ぐ。 |
 | Backtrack Guard | テスト、snapshot、Work Item 記録の未宣言削除を報告する。 |
 | Coverage Guard | テスト変更を伴わない production code の変更を報告する。 |
+| Agent Risk Guard | prompt-is-advice、mid-task ドリフト、unknown-overclaim リスクに対するハードゲート。 |
+| AI Review Policy | ガバナンス・ CI 変更のレビューフォーカスを Change Summary に明記するよう促す（報告のみ）。 |
+| Checkpoint | mid-task 整合性スナップショット。完了前に scope ドリフトを検知する。 |
+| Status Consistency Guard | `current_status.md` が現在の active Work Item 集合と一致するか検証する。 |
 | Change Summary | 変更内容、検証結果、残るリスクを記録する。 |
 | Cockpit Status | 現在の AI タスク状態を生成ビューで表示する。 |
 | Finish Flow | チェック通過後にのみ Work Item を archive する。 |

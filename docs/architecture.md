@@ -18,6 +18,8 @@ keywords:
     checks.yaml
     current_status.md
   guards/
+    agent_risk_policy.yaml
+    ai_review_policy.yaml
     backtrack_policy.yaml
     cockpit_status_policy.yaml
     coverage_policy.yaml
@@ -51,19 +53,26 @@ docs/
     ai-cockpit-demo.gif
 scripts/
   ai_archive_work_item.py
+  ai_check_agent_risk.py
   ai_check_backtrack.py
   ai_check_coverage_guard.py
   ai_check_guards.py
+  ai_check_review_policy.py
   ai_check_scope.py
   ai_check_status.py
+  ai_check_status_consistency.py
   ai_check_summary.py
   ai_check_work_item.py
+  ai_checkpoint.py
   ai_common.py
   ai_finish.py
   ai_generate_status.py
   ai_observability.py
   ai_start.py
   install_ai_cockpit.py
+target/
+  ai_observability.jsonl
+  ai_*.json
 templates/
   make/
     Makefile.ai
@@ -84,7 +93,12 @@ GEMINI.md
 | Scope Guard | Checks actual git diff against `scope` and `outOfScope`. |
 | Backtrack Guard | Reports undeclared removal of tests, snapshots, or Work Item records. |
 | Coverage Guard | Reports production changes without matching test changes. |
+| Agent Risk Guard | Hard gate against prompt-is-advice, mid-task drift, and unknown-overclaim risks. |
+| AI Review Policy | Report-only check that flags governance and CI changes needing explicit review focus. |
+| Checkpoint | Mid-task integrity snapshot that compares scope, acceptance, and verification state. |
+| Status Consistency Guard | Verifies `current_status.md` matches the set of active Work Items. |
 | Change Summary | Records changed files, checks, risk, generated files, and destructive changes. |
 | Cockpit Status | Generates the one-screen status view for the active AI task. |
+| Observability | Appends structured JSONL events to `target/ai_observability.jsonl` for every check. |
 | Finish Flow | Runs checks and archives the Work Item when ready. |
 

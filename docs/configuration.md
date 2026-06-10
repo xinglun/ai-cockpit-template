@@ -66,6 +66,8 @@ PROJECT_LINT = go vet ./...
 - `.ai/guards/file_boundary.yaml` blocks generated and runtime artifacts from entering code diffs.
 - `.ai/guards/coverage_policy.yaml` defines production and test path patterns.
 - `.ai/guards/scope_policy.yaml` defines paths that are always allowed and optional dependency scope rules.
+- `.ai/guards/agent_risk_policy.yaml` defines hard gates for prompt-is-advice, mid-task drift, and unknown-overclaim risks.
+- `.ai/guards/ai_review_policy.yaml` defines path patterns that require explicit review focus in the Change Summary (report-only).
 
 The guard YAML parser intentionally supports a small subset of YAML so the scripts can run with Python's standard library only.
 

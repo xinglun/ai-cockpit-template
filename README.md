@@ -99,6 +99,10 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Scope Guard | Blocks changes outside the declared scope. |
 | Backtrack Guard | Reports undeclared removal of tests, snapshots, or Work Item records. |
 | Coverage Guard | Reports production changes without matching test changes. |
+| Agent Risk Guard | Hard gate against prompt-is-advice, mid-task drift, and unknown-overclaim risks. |
+| AI Review Policy | Flags governance and CI changes that need explicit review focus. |
+| Checkpoint | Mid-task snapshot to detect scope drift before finishing. |
+| Status Consistency Guard | Verifies Cockpit status matches the current set of active Work Items. |
 | Change Summary | Records what changed, what was verified, and what risk remains. |
 | Cockpit Status | Shows the current AI task state in one generated view. |
 | Finish Flow | Archives the Work Item only after checks pass. |

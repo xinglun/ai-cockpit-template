@@ -39,7 +39,14 @@ A Work Item is ready for review only when:
 
 - `make check-ai-contract` passes.
 - `make check-ai-scope` passes.
+- `make check-ai-guards` passes.
+- `make ai-checkpoint` passes (at `before_finish` stage).
+- `make check-ai-agent-risk` passes.
+- `make check-ai-review-policy` passes.
+- `make check-ai-backtrack` passes.
+- `make check-ai-coverage-guard` passes.
 - `make check-ai-change-summary` passes.
 - `make generate-cockpit-status` has been run.
 - `make check-ai-status` passes.
+- `make check-ai-status-consistency` passes.
 - Required project verification commands have passed or are explicitly documented as not run with a reason.

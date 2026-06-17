@@ -1,0 +1,131 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ci-temp-baseline-isolation",
+  "mode": "code",
+  "title": "Isolate temporary install baseline",
+  "baseCommit": "f3a4d1c8fea28564b40d798e7db58b5142e3e9c6",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/ci-temp-baseline-isolation.contract.json",
+    ".ai/work-items/active/ci-temp-baseline-isolation.summary.json",
+    ".ai/work-items/archive/2026/ci-temp-baseline-isolation.contract.json",
+    ".ai/work-items/archive/2026/ci-temp-baseline-isolation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/smoke.yml"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": "github-actions-smoke-2026-06-17",
+      "reason": "Shows the temporary install repository inheriting the source repository AI_BASE_COMMIT."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Defines the source baseline and temporary repository smoke commands."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "ci_environment",
+      "restricted_workflow"
+    ],
+    "reason": "Clearing the wrong environment variable scope could weaken the source repository PR check."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The variable can be cleared only inside the temporary-repository subshell while check-ai-pr retains an explicit local base."
+  },
+  "preReviewWarnings": [
+    "Confirm AI_BASE_COMMIT is cleared only after entering the temporary repository and check-ai-pr still receives its local base explicitly."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Temporary repository lifecycle checks do not inherit the source repository AI_BASE_COMMIT.",
+    "The temporary repository aggregate PR check still uses its explicitly captured local base.",
+    "Workflow shell syntax and the complete quality suite pass."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User",
+    "reason": "User supplied the failing GitHub Actions output for repair."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

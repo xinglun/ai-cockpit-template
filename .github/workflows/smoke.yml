@@ -69,6 +69,7 @@ jobs:
           git init -b main "$tmp"
           (
             cd "$tmp"
+            unset AI_BASE_COMMIT
             printf 'include Makefile.ai\n' > Makefile
             "$GITHUB_WORKSPACE/install.sh" --stack generic --with-examples
             test -f scripts/ai_check_pr.py
@@ -82,15 +83,15 @@ jobs:
             test -f examples/ruby/README.md
             test -f examples/swift/README.md
             python3 -m py_compile scripts/*.py
+            git config user.email test@example.invalid
+            git config user.name 'CI Smoke'
+            git add .
+            git commit -m 'initial template install'
             make check-ai
             if make quality; then
               echo 'generic quality must fail until project checks are configured' >&2
               exit 1
             fi
-            git config user.email test@example.invalid
-            git config user.name 'CI Smoke'
-            git add .
-            git commit -m 'initial template install'
             base="$(git rev-parse HEAD)"
             mkdir -p .ai/work-items/archive/2026
             cp "$GITHUB_WORKSPACE/.ai/work-items/archive/2026/trust_boundary_hardening.contract.json" .ai/work-items/archive/2026/install_smoke.contract.json

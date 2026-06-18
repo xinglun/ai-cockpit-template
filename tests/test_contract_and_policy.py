@@ -68,3 +68,24 @@ def test_stale_checkpoint_hash_is_rejected():
     }
     issues = ai_check_agent_risk.validate_agent_risks(contract, summary, expected_contract_hash="new")
     assert "checkpointEvidence[before_finish] contractHash is stale" in issues
+
+
+def test_parse_yaml_invalid_syntax(tmp_path):
+    import pytest
+    from ai_common import parse_yaml
+    policy = tmp_path / "invalid_yaml.yaml"
+
+    # 1. Invalid indentation (odd number of spaces)
+    policy.write_text('risks:\n   promptIsAdvice:\n     control: hard_gate', encoding="utf-8")
+    with pytest.raises(ValueError, match="Indentation must be a multiple of 2 spaces"):
+        parse_yaml(policy)
+
+    # 2. Key-value without colon
+    policy.write_text('risks:\n  promptIsAdvice\n    control: hard_gate', encoding="utf-8")
+    with pytest.raises(ValueError, match="Expected key-value pair or key ending in"):
+        parse_yaml(policy)
+
+    # 3. Invalid list item format
+    policy.write_text('risks:\n  -invalid_list_item', encoding="utf-8")
+    with pytest.raises(ValueError, match="Invalid list item format"):
+        parse_yaml(policy)

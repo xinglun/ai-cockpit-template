@@ -9,7 +9,37 @@ keywords:
   - work-item-contract
 ---
 
-# Architecture
+# アーキテクチャ (Architecture)
+
+## コンポーネントの依存関係とプロセスフロー
+
+AI Cockpitフレームワーク内における、タスクの開始からPRの検証にいたるまでのライフサイクルとデータ/コントロールのフローは以下の通りです。
+
+```mermaid
+graph TD
+    Start["ai-start (契約とサマリーの生成)"] --> Dev["開発/実装フェーズ"]
+    Dev --> Check["check-ai (各種ガードによる検証)"]
+    Check --> Finish["ai-finish (検証記録とステージ確認)"]
+    Finish --> Archive["アーカイブ保存 (変更不可の履歴記録)"]
+    Archive --> PR["check-ai-pr (PRレベルの統合監査)"]
+
+    subgraph 状態とガバナンス
+        Contract["Contract (契約書)"]
+        Summary["Summary (成果サマリー)"]
+        Guards["Guards (ポリシー監視)"]
+        Status["Status (コックピット状態)"]
+    end
+
+    Start -->|生成| Contract
+    Start -->|生成| Summary
+    Dev -->|更新| Summary
+    Check -->|ポリシーチェック| Guards
+    Check -->|状態更新| Status
+    Finish -->|検証完了| Summary
+    Archive -->|読み取り専用として退避| Contract
+    Archive -->|読み取り専用として退避| Summary
+```
+
 
 ```text
 .ai/
@@ -85,31 +115,31 @@ CLAUDE.md
 GEMINI.md
 ```
 
-## Core Components
+## コアコンポーネント (Core Components)
 
-| Component | Purpose |
+| コンポーネント | 目的・役割 |
 | --- | --- |
-| Work Item Contract | Declares task scope, sources, acceptance, verification, and rollback note. |
-| Scope Guard | Checks actual git diff against `scope` and `outOfScope`. |
-| Backtrack Guard | Blocks protected test, snapshot, or Work Item evidence deletion by default. |
-| Coverage Guard | Blocks configured production changes without matching test changes by default. |
-| Agent Risk Guard | Hard gate against prompt-is-advice, mid-task drift, and unknown-overclaim risks. |
-| AI Review Policy | Report-only check that flags governance and CI changes needing explicit review focus. |
-| Checkpoint | Mid-task integrity snapshot that compares scope, acceptance, and verification state. |
-| Status Consistency Guard | Verifies `current_status.md` matches the set of active Work Items. |
-| Change Summary | Records changed files, checks, risk, generated files, and destructive changes. |
-| Cockpit Status | Generates the one-screen status view for the active AI task. |
-| Observability | Appends structured JSONL events to `target/ai_observability.jsonl` for every check. |
-| Finish Flow | Runs checks and archives the Work Item when ready. |
+| Work Item Contract | タスクのスコープ、参照ソース、受け入れ基準、検証項目、およびロールバック手順を宣言します。 |
+| Scope Guard | 実際の Git 差分が `scope` 内に収まり、`outOfScope` に抵触していないかをチェックします。 |
+| Backtrack Guard | デフォルトで、保護されたテスト、スナップショット、またはワークアイテム証跡の削除をブロックします。 |
+| Coverage Guard | デフォルトで、対応するテストコードの変更を伴わないプロダクションコードの変更をブロックします。 |
+| Agent Risk Guard | プロンプトインジェクション対策、開発途中のタスクのブレ、および不明点の積み残しに対する厳格なチェックゲートです。 |
+| AI Review Policy | ガバナンスや CI 関連ファイルの変更など、レビュー時に特に注視すべき変更をフラグ立てするレポート機能です。 |
+| Checkpoint | 開発中の整合性スナップショットであり、スコープ、受け入れ、および検証状態のドリフトを検出します。 |
+| Status Consistency Guard | `current_status.md` が現在のアクティブなワークアイテムと一致しているかを検証します。 |
+| Change Summary | 変更されたファイル、合格した検証、リスク評価、生成ファイル、および破壊的変更の履歴を記録します。 |
+| Cockpit Status | アクティブな AI タスクの現在の状態を統合表示するステータス画面を生成します。 |
+| Observability | 各チェックの実行ごとに構造化された JSONL イベントを `target/ai_observability.jsonl` に追記します。 |
+| Finish Flow | 必須の検証チェックを実行し、合格した場合にワークアイテムをアーカイブします。 |
 
-## Diff and Evidence Semantics
+## 差分と検証証跡のセマンティクス (Diff and Evidence Semantics)
 
-The Work Item baseline is a Git commit captured at start. The effective change set is the union of `baseCommit...HEAD`, staged/unstaged changes against `HEAD`, and untracked files. A path that was dirty at start is excluded only while its content fingerprint remains unchanged. `AI_BASE_COMMIT` overrides the local baseline in CI so pull requests can use their merge-base.
+ワークアイテムの基準点（ベースライン）は、タスク開始時に取得される Git コミットです。有効な変更セットは、`baseCommit...HEAD` 間の差分、`HEAD` に対するステージング/未ステージングの変更、および未追跡ファイル（untracked files）の論理和として定義されます。開始時点で dirty であったパスは、そのファイルのハッシュ値（fingerprint）が変化しない限り、スコープチェック対象から除外されます。CI 環境においては、`AI_BASE_COMMIT` 環境変数を設定することで、プルリクエストのマージベース（merge-base）をベースラインとして上書きできます。
 
-Verification is registry-controlled execution, not a Summary-supplied command. A version 2 Contract names check IDs from `.ai/cockpit/checks.yaml`; each registered entry must resolve to an explicit Make target. The finish runner stores structured execution metadata bound to the check ID, execution commit, Contract hash, and normalized command hash. This record improves validation and traceability but is not a cryptographic attestation.
+検証の実行は、Contract に直接記述された自由なコマンド文字列ではなく、レジストリ（`.ai/cockpit/checks.yaml`）によって管理されます。v2 形式の Contract ではチェック ID を指定し、それぞれのチェック ID は対応する Makefile の明示的なターゲット名へと解決されます。Finish フローの実行時、チェック ID、実行コミット、Contract のハッシュ、および正規化されたコマンドハッシュが検証メタデータとして記録されます。これにより、検証後の契約の改ざんや偽造を検知できますが、暗号的な証明（Cryptographic Attestation）を構成するものではありません。
 
-PR validation discovers every archived Contract, Summary, or review record changed in the complete name-status diff. New evidence must add its Contract and Summary together. Existing archive evidence is immutable: modification, deletion, and rename are rejected instead of allowing a later Work Item to claim an older record. Each non-exempt path must then have at least one paired owner: the path is in that Contract's scope, outside its outOfScope, and present in that Contract's paired Summary `changedFiles`. Dirty-baseline exclusions are intentionally disabled for this aggregate check.
+PR 監査（`check-ai-pr`）では、プルリクエストに含まれるすべてのアーカイブされた Contract および Summary、あるいはレビュー記録が走査されます。新しい検証証跡は、Contract と Summary がペアで同時に追加される必要があります。既存のアーカイブされた証跡は不変（Immutable）であり、過去の変更履歴の修正、削除、名前変更は拒否されます。これにより、後発のタスクが過去の検証証跡を流用することを防ぎます。また、監査対象となるすべての変更パスは、いずれかのアクティブ/アーカイブ済みワークアイテムの `scope` 内に含まれ、且つ `changedFiles` に記録されている必要があります（この PR 監査の段階では、開始時の dirty ファイル除外ロジックは無効化されます）。
 
-PR archive evidence must use Contract version 2. Version 1 remains readable for local historical inspection but is rejected when newly added or modified in a PR, preventing downgrade around the check registry and execution-record requirements.
+PR のアーカイブ検証には必ず Contract v2 形式を使用する必要があります。v1 形式はローカルの歴史的調査のためにのみ読み込み可能として許容されますが、PR で新規追加または変更された場合は、検証レジストリや実行メタデータの迂回を防ぐために拒否されます。
 
-Repository approval fields record process intent; they do not establish human identity. AI Cockpit is a change-control workflow rather than a hostile-code sandbox. Trusted approval and independent project-test execution belong in the hosting platform's protected review and CI controls.
+リポジトリ内の承認フィールド（`approvedBy` 等）は、ワークフロー上の意思决定プロセスを記録するものであり、厳密な人間の個人認証を提供するものではありません。AI Cockpit は AI エージェントの自律的な安全ガードを目的とした変更管理ワークフローであり、悪意のあるエージェントを隔離するセキュリティサンドボックスではありません。信頼された人間による最終承認や独立したビルドテストの実行は、コードホスティングプラットフォームの保護されたブランチ設定や保護された CI 環境で実施される必要があります。

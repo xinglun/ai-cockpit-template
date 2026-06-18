@@ -22,6 +22,7 @@ STACKS = {
     "python",
     "go",
     "java",
+    "android",
     "kotlin",
     "swift",
     "ruby",
@@ -34,6 +35,7 @@ SCRIPT_NAMES = {
     "ai_check_agent_risk.py",
     "ai_check_backtrack.py",
     "ai_check_coverage_guard.py",
+    "ai_check_guidelines.py",
     "ai_check_guards.py",
     "ai_check_pr.py",
     "ai_check_review_policy.py",
@@ -116,6 +118,7 @@ class Installer:
             self.copy_scripts()
             self.copy_file("templates/make/Makefile.ai", "Makefile.ai")
             self.copy_file(f"templates/stacks/{self.stack}.mk", "Makefile.ai.stack")
+            self.copy_file("templates/glossary.md", ".ai/glossary.md")
             if self.with_examples:
                 self.copy_tree("examples")
             self.install_agent_doc("AGENTS.md")

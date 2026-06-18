@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import sys
 import time
+import argparse
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 
@@ -41,10 +42,21 @@ def detect_items(changes: list[tuple[str, str]]) -> list[BacktrackItem]:
     return items
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Report backtrack guard policy outcomes.")
+    parser.add_argument("--verbose", action="store_true", help="Print detailed evaluations.")
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
     start = time.time()
     try:
         changes = changed_name_status()
+        if args.verbose:
+            print(f"[DEBUG] backtrack guard: scanning {len(changes)} changed path(s)")
+            for status, path in changes:
+                print(f"[DEBUG]   evaluating: '{path}' (status: {status})")
         items = detect_items(changes)
     except RuntimeError as exc:
         print(f"backtrack guard failed: {exc}", file=sys.stderr)

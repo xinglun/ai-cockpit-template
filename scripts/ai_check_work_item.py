@@ -37,6 +37,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "baseCommit",
     "baselineDirtyPaths",
     "restrictedWriteApproval",
+    "guidelines",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 RISK_LEVELS = {"low", "medium", "high"}
@@ -235,6 +236,8 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_string_list(data, "outOfScope", allow_empty=True))
     issues.extend(validate_string_list(data, "unknowns", allow_empty=True))
     issues.extend(validate_string_list(data, "acceptance", allow_empty=False))
+    if "guidelines" in data:
+        issues.extend(validate_string_list(data, "guidelines", allow_empty=True))
     issues.extend(validate_sources(data))
     issues.extend(validate_verification(data))
     issues.extend(validate_optional_readiness(data))

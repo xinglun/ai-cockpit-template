@@ -42,3 +42,48 @@ tests:
     - "**/*Tests/**"
 ```
 
+---
+
+## 3. 実践的な C# 用 Contract 設計例 (`*.contract.json` 抜粋)
+
+以下は、典型的な C# (.NET) 機能追加時の Contract 設定例です。
+
+```json
+{
+  "contractVersion": 2,
+  "workItemId": "add_billing_service",
+  "mode": "code",
+  "scope": [
+    "src/BillingService/BillingService.csproj",
+    "src/BillingService/Services/PaymentProcessor.cs",
+    "tests/BillingService.Tests/PaymentProcessorTests.cs"
+  ],
+  "guidelines": [
+    "すべてのパブリックメソッドおよびインターフェースに XML ドキュメントコメントを記述すること"
+  ],
+  "verification": [
+    { "check": "aiWorkItem", "required": true },
+    { "check": "aiScope", "required": true },
+    { "check": "aiGuidelines", "required": true },
+    { "check": "quality", "required": true }
+  ]
+}
+```
+
+---
+
+## 4. guidelinesCompliance の記述例 (`*.summary.json` 抜粋)
+
+上記ガイドラインに適合したことを証明する要約（Summary）の記述例です。
+
+```json
+{
+  "guidelinesCompliance": [
+    {
+      "guideline": "すべてのパブリックメソッドおよびインターフェースに XML ドキュメントコメントを記述すること",
+      "compliant": true,
+      "evidence": "PaymentProcessor.cs 内の公開インターフェースおよびメソッドにトリプルスラッシュ (///) による XML ドキュメントを記述しました。"
+    }
+  ]
+}
+```

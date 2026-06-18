@@ -10,7 +10,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from ai_common import changed_paths, included, load_json, simple_yaml_lists
+from ai_common import changed_paths, included, load_json, simple_yaml_lists, matches
 from ai_observability import create_observability, elapsed_ms
 
 
@@ -25,6 +25,7 @@ def string_list(data: dict[str, Any], key: str) -> list[str]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate Work Item scope against the current diff.")
     parser.add_argument("contract", nargs="?")
+    parser.add_argument("--verbose", action="store_true", help="Print debug paths detail.")
     return parser.parse_args()
 
 
@@ -57,12 +58,22 @@ def main() -> int:
 
     issues: list[str] = []
     for path in paths:
-        if included(path, allow_patterns):
+        matched_allow = [pat for pat in allow_patterns if matches(pat, path)]
+        if matched_allow:
+            if args.verbose:
+                print(f"[DEBUG] {path} matches allowAlways pattern: '{matched_allow[0]}'")
             continue
-        if included(path, out_of_scope):
-            issues.append(f"path matches outOfScope: {path}")
-        if not included(path, scope):
-            issues.append(f"path is not covered by scope: {path}")
+        matched_out = [pat for pat in out_of_scope if matches(pat, path)]
+        if matched_out:
+            issues.append(f"path matches outOfScope pattern '{matched_out[0]}': {path}")
+            obs.guard_violation(check_id="aiScope", severity="error", path=path, detail=f"matches_out_of_scope: {matched_out[0]}")
+        matched_scope = [pat for pat in scope if matches(pat, path)]
+        if not matched_scope:
+            issues.append(f"path is not covered by any pattern in scope: {path}")
+            obs.guard_violation(check_id="aiScope", severity="error", path=path, detail="not_covered_by_scope")
+        else:
+            if args.verbose:
+                print(f"[DEBUG] {path} is covered by scope pattern: '{matched_scope[0]}'")
 
     dependency_rules = {
         key.removeprefix("dependencyScopeRules."): values
@@ -74,6 +85,7 @@ def main() -> int:
             for required_pattern in required_patterns:
                 if not any(included(path, [required_pattern]) for path in paths):
                     issues.append(f"dependency scope rule requires {required_pattern} when {trigger} changes")
+                    obs.guard_violation(check_id="aiScope", severity="error", path=trigger, detail=f"missing_dependency_pattern: {required_pattern}")
 
     duration = elapsed_ms(start)
     if issues:

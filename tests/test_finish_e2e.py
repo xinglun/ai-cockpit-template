@@ -55,15 +55,20 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
         changed.append({"path": collision_path.relative_to(tmp_path).as_posix(), "reason": "Archive collision fixture."})
 
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    guidelines_compliance = [
+        {"guideline": g, "compliant": True, "evidence": "Verified E2E."}
+        for g in contract.get("guidelines", [])
+    ]
     summary.update({
         "changedFiles": changed, "sourcesUsed": ["test fixture"], "unknownsRemaining": [],
         "risk": {"level": "low", "detail": "E2E fixture"}, "generatedFiles": [],
         "destructiveChanges": [], "observedIssues": [], "residualRisks": [],
         "reviewReadiness": {"status": "ready", "reason": "fixture", "expectedReviewFocus": []},
+        "guidelinesCompliance": guidelines_compliance,
         "knownGaps": [],
         "checkpointEvidence": [
             {"stage": stage, "recorded": True, "detail": "fixture", "contractHash": contract_hash,
-             "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": 13, "requiredChecksPassed": 0}
+             "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0}
             for stage in ("before_edit", "before_finish")
         ],
     })

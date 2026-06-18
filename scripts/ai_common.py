@@ -158,22 +158,13 @@ def included(path: str, patterns: list[str]) -> bool:
 
 
 def parse_simple_manifest(path: Path) -> dict[str, dict[str, str]]:
-    manifest: dict[str, dict[str, str]] = {}
-    current: str | None = None
     if not path.exists():
-        return manifest
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.rstrip()
-        stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
-            continue
-        if not line.startswith(" ") and stripped.endswith(":"):
-            current = stripped[:-1].strip('"')
-            manifest[current] = {}
-            continue
-        if current and line.startswith("  ") and ":" in stripped:
-            key, value = stripped.split(":", 1)
-            manifest[current][key.strip()] = value.strip().strip('"')
+        return {}
+    parsed = parse_yaml(path)
+    manifest: dict[str, dict[str, str]] = {}
+    for k, v in parsed.items():
+        if isinstance(v, dict):
+            manifest[k] = {str(sub_k): str(sub_v) for sub_k, sub_v in v.items()}
     return manifest
 
 
@@ -185,54 +176,108 @@ def first_match(path: str, manifest: dict[str, dict[str, str]]) -> tuple[str, di
     return found[0]
 
 
+def parse_yaml(path: Path) -> dict[str, Any]:
+    """Parse a subset of YAML used by guard policies, raising ValueError on syntax errors."""
+    if not path.exists():
+        return {}
+    content = path.read_text(encoding="utf-8")
+    lines = content.splitlines()
+    root: dict[str, Any] = {}
+    # stack holds tuples of (indent, key, container)
+    stack: list[tuple[int, str | None, Any]] = [(-2, None, root)]
+
+    for line_idx, raw_line in enumerate(lines, 1):
+        stripped = raw_line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+
+        indent = len(raw_line) - len(raw_line.lstrip(" "))
+        if indent % 2 != 0:
+            raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Indentation must be a multiple of 2 spaces.")
+
+        while len(stack) > 1 and stack[-1][0] >= indent:
+            stack.pop()
+
+        parent_indent, parent_key, parent_container = stack[-1]
+
+        if stripped.startswith("-"):
+            if stripped != "-" and not stripped.startswith("- "):
+                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Invalid list item format.")
+            val = stripped[1:].strip().strip('"')
+
+            if isinstance(parent_container, dict):
+                if len(stack) < 2:
+                    raise ValueError(f"Syntax Error in {path.name}:{line_idx}: List item without a parent key.")
+                gp_container = stack[-2][2]
+                new_list: list[Any] = []
+                gp_container[parent_key] = new_list
+                stack[-1] = (parent_indent, parent_key, new_list)
+                parent_container = new_list
+
+            if not isinstance(parent_container, list):
+                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: List item at invalid indentation level.")
+            parent_container.append(val)
+        else:
+            if ":" not in stripped:
+                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Expected key-value pair or key ending in ':'.")
+
+            key, val = stripped.split(":", 1)
+            key = key.strip().strip('"')
+            val = val.strip().strip('"')
+
+            if not isinstance(parent_container, dict):
+                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Cannot define key-value pair under a list.")
+
+            if val:
+                parent_container[key] = val
+            else:
+                new_container: dict[str, Any] = {}
+                parent_container[key] = new_container
+                stack.append((indent, key, new_container))
+
+    return root
+
+
+def _flatten_lists(obj: Any, prefix: str = "", result: dict[str, list[str]] = None) -> dict[str, list[str]]:
+    if result is None:
+        result = {}
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            new_prefix = f"{prefix}.{k}" if prefix else k
+            if isinstance(v, list):
+                result[new_prefix] = v
+            else:
+                _flatten_lists(v, new_prefix, result)
+    return result
+
+
+def _flatten_scalars(obj: Any, prefix: str = "", result: dict[str, str] = None) -> dict[str, str]:
+    if result is None:
+        result = {}
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            new_prefix = f"{prefix}.{k}" if prefix else k
+            if isinstance(v, str):
+                result[new_prefix] = v
+            elif not isinstance(v, list):
+                _flatten_scalars(v, new_prefix, result)
+    return result
+
+
 def simple_yaml_lists(path: Path) -> dict[str, list[str]]:
     """Read list values from a tiny YAML subset used by guard policies."""
-    result: dict[str, list[str]] = {}
     if not path.exists():
-        return result
-    stack: list[str] = []
-    current_key: str | None = None
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        if not raw.strip() or raw.strip().startswith("#"):
-            continue
-        indent = len(raw) - len(raw.lstrip(" "))
-        stripped = raw.strip()
-        if stripped.startswith("- ") and current_key:
-            result.setdefault(current_key, []).append(stripped[2:].strip().strip('"'))
-            continue
-        if stripped.endswith(":"):
-            key = stripped[:-1].strip('"')
-            level = indent // 2
-            stack = stack[:level]
-            stack.append(key)
-            current_key = ".".join(stack)
-            continue
-        current_key = None
-    return result
+        return {}
+    parsed = parse_yaml(path)
+    return _flatten_lists(parsed)
 
 
 def simple_yaml_scalars(path: Path) -> dict[str, str]:
     """Read scalar values from the same intentionally small YAML subset."""
-    result: dict[str, str] = {}
-    stack: list[str] = []
     if not path.exists():
-        return result
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        if not raw.strip() or raw.strip().startswith("#"):
-            continue
-        indent = len(raw) - len(raw.lstrip(" "))
-        stripped = raw.strip()
-        if stripped.startswith("- ") or ":" not in stripped:
-            continue
-        key, value = stripped.split(":", 1)
-        level = indent // 2
-        stack = stack[:level]
-        key = key.strip().strip('"')
-        if not value.strip():
-            stack.append(key)
-            continue
-        result[".".join([*stack, key])] = value.strip().strip('"')
-    return result
+        return {}
+    parsed = parse_yaml(path)
+    return _flatten_scalars(parsed)
 
 
 def non_empty_string(value: Any) -> bool:
@@ -242,26 +287,15 @@ def non_empty_string(value: Any) -> bool:
 def load_check_registry(path: Path = CHECKS_PATH) -> dict[str, dict[str, str]]:
     """Parse the checks section of the repository's small YAML check catalog."""
     registry: dict[str, dict[str, str]] = {}
-    in_checks = False
-    current: str | None = None
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        stripped = raw.strip()
-        if not stripped or stripped.startswith("#"):
-            continue
-        indent = len(raw) - len(raw.lstrip(" "))
-        if indent == 0:
-            in_checks = stripped == "checks:"
-            current = None
-            continue
-        if not in_checks:
-            continue
-        if indent == 2 and stripped.endswith(":"):
-            current = stripped[:-1]
-            registry[current] = {}
-            continue
-        if indent == 4 and current and ":" in stripped:
-            key, value = stripped.split(":", 1)
-            registry[current][key] = value.strip().strip('"')
+    try:
+        parsed = parse_yaml(path)
+    except ValueError:
+        return registry
+    checks = parsed.get("checks", {})
+    if isinstance(checks, dict):
+        for check_id, val in checks.items():
+            if isinstance(val, dict):
+                registry[check_id] = {k: str(v) for k, v in val.items()}
     return registry
 
 

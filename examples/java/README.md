@@ -25,17 +25,95 @@ PROJECT_TEST = ./gradlew test
 PROJECT_LINT = ./gradlew check
 ```
 
-Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
+Suggested guard patterns for Spring Boot (`.ai/guards/coverage_policy.yaml`):
 
 ```yaml
 production:
   include:
-    - "src/main/java/**"
+    - "src/main/**"
   exclude:
-    - "src/test/**"
+    - "**/*Test.java"     # JUnit テストクラス（Test で終わる）
+    - "**/*Tests.java"    # JUnit テストクラス（Tests で終わる）
+    - "**/*Spec.java"     # Spock など
+    - "**/*IT.java"       # 结合テスト（Integration Test）
 
 tests:
   include:
     - "src/test/**"
+    - "**/*Test.java"
+    - "**/*Tests.java"
+    - "**/*Spec.java"
+    - "**/*IT.java"
 ```
 
+Suggested guard patterns for Android (`.ai/guards/coverage_policy.yaml`):
+
+```yaml
+production:
+  include:
+    - "app/src/main/**"   # app モジュール
+    - "*/src/main/**"     # マルチモジュール構成対応
+  exclude:
+    - "**/*Test*.kt"
+    - "**/*Test*.java"
+    - "**/*Spec*.kt"
+
+tests:
+  include:
+    - "app/src/test/**"          # ローカル単体テスト
+    - "app/src/androidTest/**"   # 結合テスト（インストルメント）
+    - "**/*Test*.kt"
+    - "**/*Test*.java"
+```
+
+---
+
+## 3. 実践的な Java 用 Contract 設計例 (`*.contract.json` 抜粋)
+
+以下は、典型的な Java 機能追加時の Contract 設定例です。
+
+```json
+{
+  "contractVersion": 2,
+  "workItemId": "add_user_controller",
+  "mode": "code",
+  "scope": [
+    "build.gradle",
+    "src/main/java/com/example/controller/UserController.java",
+    "src/test/java/com/example/controller/UserControllerTest.java"
+  ],
+  "guidelines": [
+    "すべての新規コントローラークラスには Javadoc を記述すること",
+    "テストカバレッジの警告が発生しないよう、対応するテストクラスを必ず同行させること"
+  ],
+  "verification": [
+    { "check": "aiWorkItem", "required": true },
+    { "check": "aiScope", "required": true },
+    { "check": "aiGuidelines", "required": true },
+    { "check": "quality", "required": true }
+  ]
+}
+```
+
+---
+
+## 4. guidelinesCompliance の記述例 (`*.summary.json` 抜粋)
+
+上記ガイドラインに適合したことを証明する要約（Summary）の記述例です。
+
+```json
+{
+  "guidelinesCompliance": [
+    {
+      "guideline": "すべての新規コントローラークラスには Javadoc を記述すること",
+      "compliant": true,
+      "evidence": "UserController.java 内のクラスおよび公開メソッドに Javadoc を追記しました。"
+    },
+    {
+      "guideline": "テストカバレッジの警告が発生しないよう、対応するテストクラスを必ず同行させること",
+      "compliant": true,
+      "evidence": "UserControllerTest.java に新規エンドポイントの結合テストを追加し、カバレッジを確保しました。"
+    }
+  ]
+}
+```

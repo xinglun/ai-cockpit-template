@@ -56,6 +56,10 @@ checks:
     command: make check-ai-coverage-guard
     purpose: Report production changes that do not include test changes.
 
+  aiGuidelines:
+    commandTemplate: make check-ai-guidelines CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: Validate that guidelines defined in the Contract are complied with and verified in the Summary.
+
   aiSummary:
     commandTemplate: make check-ai-change-summary SUMMARY={summaryPath} CONTRACT={contractPath}
     purpose: Validate the AI Change Summary against the Work Item Contract.
@@ -76,6 +80,9 @@ checks:
     command: make repair-ai-status
     purpose: Regenerate current_status.md for no-active state or one paired active Work Item.
 
+# Note: The selectionRules section below is a human- and agent-readable guide
+# to assist AI coding agents when structuring contracts. It is not parsed
+# or executed programmatically by any automated script in this repository.
 selectionRules:
   - Prefer the verification commands declared in the active Work Item Contract.
   - Run Agent Risk Guard before finishing any active Work Item.

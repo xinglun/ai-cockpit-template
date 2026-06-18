@@ -157,7 +157,9 @@ class AiObservability:
 
     def guard_violation(self, *, check_id: str, severity: str, path: str, detail: str) -> None:
         level = AiEventLevel.WARNING if severity == "warning" else AiEventLevel.ERROR
-        self.record(AiEvent(AiEventType.GUARD_VIOLATION, level, f"guard violation: {path}", check_id=check_id, severity=severity, path=path, detail=detail))
+        from ai_common import redact_machine_paths
+        redacted_path = redact_machine_paths(path)
+        self.record(AiEvent(AiEventType.GUARD_VIOLATION, level, f"guard violation: {redacted_path}", check_id=check_id, severity=severity, path=redacted_path, detail=detail))
 
     def work_item_started(self, *, fields: dict[str, Any] | None = None) -> None:
         work_item_id = self._context.work_item_id if self._context else "unknown"

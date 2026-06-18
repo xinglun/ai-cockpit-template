@@ -22,7 +22,8 @@ Do not begin implementation until the active Work Item Contract describes:
 - source material used for the decision;
 - remaining unknowns;
 - acceptance criteria;
-- verification commands.
+- verification commands;
+- task-specific rules in `guidelines` (if any).
 
 If the Contract has `mode: code`, then `unknowns` must be empty and `notCodable` must be `false`.
 
@@ -40,11 +41,13 @@ Before declaring the work complete, update the matching Summary with:
 - changed files and reasons;
 - sources used;
 - verification commands and results;
+- compliance details for each of the task's guidelines in `guidelinesCompliance`;
 - remaining unknowns;
 - risk level and detail;
 - generated files;
 - destructive changes;
 - observed issues.
+
 
 Run `make ai-finish TASK=<task>` when the Summary is ready.
 

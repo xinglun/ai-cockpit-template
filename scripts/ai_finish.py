@@ -241,17 +241,35 @@ def main() -> int:
     # Summary/status are self-referential artifacts. Stabilize them after all
     # declared result evidence has been written, then attest without mutating.
     stabilization = [
-        ["make", "generate-cockpit-status", f"CONTRACT={contract}", f"SUMMARY={summary}"],
-        ["make", "check-ai-status", f"CONTRACT={contract}", f"SUMMARY={summary}"],
-        ["make", "check-ai-status-consistency"],
-        ["make", "check-ai-agent-risk", f"CONTRACT={contract}", f"SUMMARY={summary}"],
-        ["make", "check-ai-change-summary", f"SUMMARY={summary}", f"CONTRACT={contract}"],
+        ("aiStatus", ["make", "generate-cockpit-status", f"CONTRACT={contract}", f"SUMMARY={summary}"]),
+        ("aiStatusCheck", ["make", "check-ai-status", f"CONTRACT={contract}", f"SUMMARY={summary}"]),
+        ("aiStatusConsistency", ["make", "check-ai-status-consistency"]),
+        ("aiAgentRisk", ["make", "check-ai-agent-risk", f"CONTRACT={contract}", f"SUMMARY={summary}"]),
+        ("aiSummary", ["make", "check-ai-change-summary", f"SUMMARY={summary}", f"CONTRACT={contract}"]),
     ]
-    for command in stabilization:
-        code, _, _ = run(command)
+    for check_id, command in stabilization:
+        obs.check_started(check_id=check_id, command=" ".join(command))
+        code, duration, output = run(command)
+        # Record actual result of stabilization check to Summary for debugging.
+        record_result(
+            summary_path,
+            evidence(
+                check_id,
+                " ".join(command),
+                code,
+                duration,
+                output,
+                contract_hash=contract_hash,
+                commit_sha=commit_sha,
+                execution_contract_path=contract,
+                execution_summary_path=summary,
+            ),
+        )
         if code != 0:
+            obs.check_failed(check_id=check_id, command=" ".join(command), duration_ms=duration)
             obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
             return code
+        obs.check_passed(check_id=check_id, command=" ".join(command), duration_ms=duration)
 
     print("Work Item finish checks passed")
     if args.archive:

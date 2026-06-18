@@ -153,13 +153,22 @@ Stacks:
 generic, rust, flutter, typescript, python, go, java, kotlin, swift, ruby, php, csharp
 ```
 
+## Runtime Requirements
+
+- Python 3.10 or higher.
+- Git environment with support for merge-base and three-dot diffs (`...`).
+- POSIX-compliant shell and GNU Make execution environment.
+- Linux and macOS are officially supported for local execution and CI. Native Windows shells are not supported; please run inside WSL (Windows Subsystem for Linux) or another POSIX terminal.
+
 ## Advanced Docs
 
 - [Installation](docs/installation.md)
+- [Concept Guide (Japanese)](docs/overview.ja.md)
+- [Contract & Summary Fields Manual](docs/contract-fields.md)
 - [Configuration](docs/configuration.md)
 - [Architecture](docs/architecture.md)
 - [Design Philosophy](docs/design-philosophy.md)
-- [Case Study: AI rollback corruption](docs/case-study-ai-rollback-corruption.md)
-- [Launch copy](docs/launch.md)
-- [Suggested GitHub Topics](docs/topics.md)
-- [Language examples](examples/)
+- [Case Study: Stopping AI Rollback Corruption](docs/case-study-ai-rollback-corruption.md)
+- [Promotional Material](docs/launch.md)
+- [GitHub Topic Recommendations](docs/topics.md)
+- [Language Examples](examples/)

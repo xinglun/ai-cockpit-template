@@ -1,0 +1,393 @@
+{
+  "workItemId": "improve_yaml_parser_and_docs",
+  "contractPath": ".ai/work-items/archive/2026/improve_yaml_parser_and_docs.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/improve_yaml_parser_and_docs.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/improve_yaml_parser_and_docs.summary.json",
+      "reason": "Updated summary to reflect the final task execution details."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Created the Japanese glossary document."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Updated markdown author metadata to front matter."
+    },
+    {
+      "path": "GEMINI.md",
+      "reason": "Updated markdown author metadata to front matter."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added Makefile target for checking guidelines."
+    },
+    {
+      "path": "scripts/ai_check_guidelines.py",
+      "reason": "Implemented guidelines validation script."
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Added schemas for guidelines validation."
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Added schemas for guidelines validation."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Implemented journeys feature."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Added guidelines check script and glossary template registration."
+    },
+    {
+      "path": "templates/glossary.md",
+      "reason": "Created glossary template."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Registered check-ai-guidelines target."
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "reason": "Updated mock summary to pass guidelines compliance validation."
+    },
+    {
+      "path": "tests/test_guidelines.py",
+      "reason": "Implemented guidelines unit tests."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Updated unit tests for new parser syntax error handling, journeys, and validations."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Unified YAML parsing under parse_yaml."
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "Logged match reasons and added guard_violation observability logs."
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "Added debug logs listing evaluated files and their statuses."
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "reason": "Created framework Japanese overview."
+    },
+    {
+      "path": "docs/case-study-ai-rollback-corruption.md",
+      "reason": "Added warning note indicating that it is a hypothetical example case study."
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "reason": "Updated test_contract_and_policy.py to align with unified parser logic."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.142771+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "66a089bb96643bc3b3b49dc69600b1f5b71be022c12763a4e549d32b75dabd30",
+      "commandHash": "eb60a4454e7225a2ab1f0cd0cee4b71a09433f8d034ce3ab74eaed1b1aca969a",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/improve_yaml_parser_and_docs.contract.json work item contract check passed: .ai/work-items/active/improve_yaml_parser_and_docs.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.243844+00:00",
+      "exitCode": 0,
+      "durationMs": 100,
+      "outputDigest": "c83a668dad9ea86928492209bc3fe537275a8c9795db45cf4ee34abe7e5bdec1",
+      "commandHash": "6ff04943eeebc187914dc575ef3ea7c7a3eeaf929bc86ba4a6bae7bd57d62b05",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/improve_yaml_parser_and_docs.contract.json [DEBUG] docs/overview.ja.md is covered by scope pattern: 'docs/overview.ja.md' [DEBUG] docs/case-study-ai-rollback-corruption.md is covered by scope pattern: 'docs/case-study-ai-rollback-corruption.md' [DEBUG] scripts/ai_check_backtrack.py is covered by scope pattern: 'scripts/ai_check_backtrack.py' [DEBUG] scripts/ai_check_scope.py is covered by scope pattern: 's"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.357680+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "3cc214a4f9953b881c8f02478b49290fac871bcf1325cfe6ee75c294b8e1aca1",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/improve_yaml_parser_and_docs.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.407407+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "b6e63532f81a0fd4f80892c6229e2e9748aa95b89530366b2bfc8b060d6ee7c4",
+      "commandHash": "4aa209a1a95977c583b7753126bef7a25e284d5b7ba586ea289d9cfc7edcab8f",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/improve_yaml_parser_and_docs.contract.json --summary .ai/work-items/active/improve_yaml_parser_and_docs.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `improve_yaml_parser_and_docs` - Contract Hash: `1b06ad8f60035ccb` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required C"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.511298+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "1156bbbc2dd776a27d98cf3819b746bc41440045a832cb0c5738ba72ff734030",
+      "commandHash": "85b20569ba5984be4d2e61ac244d350603938157c3912f7dab064b0f4fa35459",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/improve_yaml_parser_and_docs.summary.json review policy matched 4 path(s) [review] scripts/ai_check_backtrack.py [review] scripts/ai_check_scope.py [review] scripts/ai_common.py [review] scripts/ai_start.py review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.609837+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "09f17a708cc7bee6b7ef33df1149739adbc7ee2b62047df6587cd2da31c2fe64",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py [DEBUG] backtrack guard: scanning 8 changed path(s) [DEBUG] evaluating: 'docs/overview.ja.md' (status: A) [DEBUG] evaluating: 'docs/case-study-ai-rollback-corruption.md' (status: M) [DEBUG] evaluating: 'scripts/ai_check_backtrack.py' (status: M) [DEBUG] evaluating: 'scripts/ai_check_scope.py' (status: M) [DEBUG] evaluating: 'scripts/ai_common.py' (status: M) [DEBUG] evaluating: 'scripts/ai_start.py' (status: M) [DEBUG] eval"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.703002+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:21.783608+00:00",
+      "exitCode": 0,
+      "durationMs": 79,
+      "outputDigest": "fd42c3291bee253b3220966fbbc335db318ca4cbd9e5c6fe5bd83c6758a18c9c",
+      "commandHash": "7d468380a04461764f310d06dc5246120be8940801e144a46a62d86de98ed57a",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/improve_yaml_parser_and_docs.contract.json --summary .ai/work-items/active/improve_yaml_parser_and_docs.summary.json Guidelines 準拠チェックを通過しました: 2 個の指針が検証済み"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:27.319641+00:00",
+      "exitCode": 0,
+      "durationMs": 5534,
+      "outputDigest": "ccd553692cfa54a992390e13a2566596b28485e88af629a4f4fb44923f3cacfc",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q .................................................. [100%] 50 passed in 5.26s PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m py_compile scripts/*.py tests/*.py git diff --check"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:27.370193+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "7d9e08bd2a744dcb44cfd82708e81b06978823a907f51776be39a36d1bdcecd5",
+      "commandHash": "7431853262f6f4140b86f17598a35710a1f9f2e3c3afadc9f1069094529c566e",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/improve_yaml_parser_and_docs.contract.json --summary .ai/work-items/active/improve_yaml_parser_and_docs.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:27.416736+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "e1500666318801f4c442bd7f60f7e750f89ef9bb38c71f221460378cdcf5bb45",
+      "commandHash": "1f1526a0785b5fa524cd1108f1cb1c16c4b4f0c793429f285964e10e8cb15ebe",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/improve_yaml_parser_and_docs.contract.json --summary .ai/work-items/active/improve_yaml_parser_and_docs.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:27.461459+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:27.509885+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "984772d5fd97cb153e079749beea28f06249043d84de0bba751ae7a310c8bb0a",
+      "commandHash": "c0952e0d587af4bf9b07b6c014445329fb2d7fc42689d20c9bc9b2b911840dfe",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/improve_yaml_parser_and_docs.contract.json --summary .ai/work-items/active/improve_yaml_parser_and_docs.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/improve_yaml_parser_and_docs.summary.json CONTRACT=.ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:06:27.621167+00:00",
+      "exitCode": 0,
+      "durationMs": 109,
+      "outputDigest": "4661c660622a41dfd3bc5d2ff3237e03f6f9a56d2709c273a4a418ad7520a335",
+      "commandHash": "7fe3a3be797444d0940b329b010f8766035488197125cab8cabf4dffd2d70a22",
+      "contractHash": "1b06ad8f60035ccb0ec609f16fbcd30bf06eb6673113e0eaed422f23581968b5",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/improve_yaml_parser_and_docs.summary.json --contract .ai/work-items/active/improve_yaml_parser_and_docs.contract.json ai summary check passed: .ai/work-items/active/improve_yaml_parser_and_docs.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public Python APIs were created; internal helper parse_yaml was updated with doc comments, and the Japanese overview docs/overview.ja.md was added."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "Only standard Python library modules are imported in all implemented scripts."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Implementation and tests successfully completed. All unit tests pass."
+  },
+  "generatedFiles": [
+    ".ai/glossary.md",
+    "docs/overview.ja.md",
+    "scripts/ai_check_guidelines.py",
+    "templates/glossary.md",
+    "tests/test_guidelines.py"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "All checks run successfully, and tests pass.",
+    "expectedReviewFocus": [
+      "YAML parser unification",
+      "Guidelines check validation integration",
+      "Journeys in ai_start"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Created before_edit checkpoint.",
+      "contractHash": "1b06ad8f60035ccb",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 14
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Created before_finish checkpoint.",
+      "contractHash": "1b06ad8f60035ccb",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 14
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

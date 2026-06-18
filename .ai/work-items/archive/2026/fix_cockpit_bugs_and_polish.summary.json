@@ -1,0 +1,340 @@
+{
+  "workItemId": "fix_cockpit_bugs_and_polish",
+  "contractPath": ".ai/work-items/archive/2026/fix_cockpit_bugs_and_polish.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/fix_cockpit_bugs_and_polish.contract.json",
+      "reason": "Updated contract scope and execution decision."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_cockpit_bugs_and_polish.summary.json",
+      "reason": "Updated summary detail with final task records."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Fixed B1: corrected notCodable logic inversion."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Fixed B2: captured and recorded stabilization commands outcomes in Summary."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Polished Q2: migrated load_check_registry to parse_yaml."
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "Polished Q1: added --verbose support and conditionally silenced [DEBUG] logging."
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "Polished Q1: added --verbose support and conditionally silenced [DEBUG] logging."
+    },
+    {
+      "path": "scripts/ai_check_guidelines.py",
+      "reason": "Polished Q3: translated all messages and user-facing logging to English."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Updated test assertion for notCodable default value."
+    },
+    {
+      "path": "tests/test_guidelines.py",
+      "reason": "Updated guidelines validation error message assertions."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.377062+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "6d93f2084b69b01a828a6594eb43eee1d6099fd02cfff066bdfdae5c333f012e",
+      "commandHash": "f8aac0946ddefe9cb8822a15571d0fca081d263781bb89cfa075ca98093f7fca",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json work item contract check passed: .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.481254+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "cb9f2ae30d5b49f3d1f11c57c3836061fe5c5da0c5256b3b7c678b4bf06def36",
+      "commandHash": "e3a7274ae80f53d75a42dba60d27d98a15b2ecf28cba70b2592a8f788f54aa9b",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.595687+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "51937e3634ee78c9d0003aa9629ecdd3bb875159f7dd60f01b0c5322589812b7",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.648438+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "06f5ef4531849919063d5456d36698d816cca12382405c51618aa299ce4bd0b9",
+      "commandHash": "6921a455ace70c4c73ca2c513e41d38d3aafb52fb197f1d841c69b609bf13306",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json --summary .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `fix_cockpit_bugs_and_polish` - Contract Hash: `c57e895f083e5ee3` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Chec"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.747820+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "e6c83609ad8073adbb7374b45f933b1f25dec35fecc8ad93f0d4756074f6efb8",
+      "commandHash": "ef782ebe35a466ccf41e89ef3278cbf1609fa1610d11345a9f2dd0b459c3c700",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json review policy matched 7 path(s) [review] scripts/ai_check_guidelines.py [review] .ai/cockpit/current_status.md [review] scripts/ai_check_backtrack.py [review] scripts/ai_check_scope.py [review] scripts/ai_common.py [review] scripts/ai_finish.py [review] scripts/ai_start.py review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.848804+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:29.963063+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:30.015051+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "f0353661cbe24603bd9c6e3f71f8d848787984c5096c292148d6add301014383",
+      "commandHash": "8493d6646b537a35cbc800cf4b6cb4838c02c25ed6810ee118922cf60898cdae",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json --summary .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:35.451822+00:00",
+      "exitCode": 0,
+      "durationMs": 5435,
+      "outputDigest": "62cc68c82e285998113b3615766ef06a22776ec6464633c38f6fea06ec2d4c19",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q .................................................. [100%] 50 passed in 5.20s PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m py_compile scripts/*.py tests/*.py git diff --check"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:35.796815+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "5c584eec640c6591661e7de7aa1836bd884f4429c7e609adec7c8ea97d6e6a44",
+      "commandHash": "3baf1d71c70aa1a77f841ae4a12475da99805646f2ebe41a34aefa5286fe54f1",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json --summary .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:35.847768+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "fb2f9a89583327dab999c3ae42e050c36d5fa522692fcac99b7c78a6bd400f64",
+      "commandHash": "1dc3daa8df831885f3b5539a12f7cd39fd2aa71cc190151e936ade18fd370747",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json --summary .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:35.896653+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:35.948260+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "2fb8f3b82838cc74c7c3c146939a170f97360400072cd33e3e4381874fffe62a",
+      "commandHash": "9257aa66af20829aa3e292cf953414f27bdccb34303c37564fde01be5bda012a",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json --summary .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json CONTRACT=.ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-18T01:21:36.053217+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "5ab0741fbfe74d073e9bc2594d616ade512a3577e8e848ce355c59bc308e2bad",
+      "commandHash": "9fab789ec104b258ce5781aa6bb9754ba7e461443642a046d204bdb15455cb8b",
+      "contractHash": "c57e895f083e5ee3ad5fd01a400d2905ce4aaf7b12ced823ecf23898e82d56d8",
+      "commitSha": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+      "executionContractPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json --contract .ai/work-items/active/fix_cockpit_bugs_and_polish.contract.json ai summary check passed: .ai/work-items/active/fix_cockpit_bugs_and_polish.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public Python APIs were created; all modified scripts use standard helper files."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "All scripts continue to import standard library modules only."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Fixes and polish applied correctly. Unit tests have verified all modified functionality."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "All functionality fixes completed and verified by tests.",
+    "expectedReviewFocus": [
+      "notCodable default values",
+      "unification of load_check_registry in ai_common.py",
+      "english translation alignment in ai_check_guidelines.py",
+      "stabilization validation logging in ai_finish.py"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Skeleton created and setup completed.",
+      "contractHash": "c57e895f083e5ee3",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 14
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Tested and validated fully.",
+      "contractHash": "c57e895f083e5ee3",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 14
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

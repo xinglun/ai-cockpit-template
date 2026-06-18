@@ -145,9 +145,18 @@ Codex, Gemini, Claude, Cursor, Antigravity, and other coding agents
 generic, rust, flutter, typescript, python, go, java, kotlin, swift, ruby, php, csharp
 ```
 
+## 動作環境要件
+
+- Python 3.10 以上。
+- merge-base および three-dot デイフ (`...`) をサポートする Git 環境。
+- POSIX 準拠のシェルおよび GNU Make 実行環境。
+- Linux および macOS は、ローカル実行および CI 用として公式にサポートされています。ネイティブの Windows シェルはサポートされていないため、WSL (Windows Subsystem for Linux) または他の POSIX ターミナルで実行してください。
+
 ## 詳細ドキュメント
 
 - [インストール](docs/installation.md)
+- [概要・コンセプト導読](docs/overview.ja.md)
+- [フィールド解説書](docs/contract-fields.md)
 - [設定](docs/configuration.md)
 - [アーキテクチャ](docs/architecture.md)
 - [設計思想](docs/design-philosophy.md)

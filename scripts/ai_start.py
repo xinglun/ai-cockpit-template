@@ -15,6 +15,7 @@ from ai_observability import create_observability
 
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
 MODES = ["investigate", "author_todo", "code", "review", "cleanup"]
+JOURNEYS = ["feature", "bugfix", "refactor", "cleanup"]
 
 
 def slug(value: str) -> str:
@@ -29,6 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--task", required=True, help="Task id, for example: add_health_check")
     parser.add_argument("--title", help="Human-readable title. Defaults to the task id.")
     parser.add_argument("--mode", default="investigate", choices=MODES)
+    parser.add_argument("--journey", default="feature", choices=JOURNEYS, help="Work journey preset.")
     parser.add_argument("--force", action="store_true", help="Overwrite an existing skeleton.")
     return parser.parse_args()
 
@@ -66,6 +68,65 @@ def main() -> int:
     baseline_dirty_paths = capture_dirty_baseline()
     contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
     summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
+
+    # Journey configurations
+    journey = args.journey
+    acceptance_criteria = ["The Work Item Contract is updated for the actual task."]
+    guidelines_list = []
+    out_of_scope_list = []
+    destructive_change_policy = {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []}
+
+    if journey == "feature":
+        acceptance_criteria.extend([
+            "The new feature is implemented according to requirements.",
+            "Unit tests are added to verify the new feature.",
+            "User documentation or comments are updated."
+        ])
+        guidelines_list.extend([
+            "New public APIs must be documented.",
+            "Do not import internal modules from other features."
+        ])
+    elif journey == "bugfix":
+        acceptance_criteria.extend([
+            "The bug is reproduced by a test case.",
+            "The fix resolves the bug and the test passes.",
+            "No regression is introduced in existing functionality."
+        ])
+        guidelines_list.extend([
+            "Fix must target the root cause, not just the symptom.",
+            "Avoid side effects on other components."
+        ])
+    elif journey == "refactor":
+        acceptance_criteria.extend([
+            "Code structural changes are completed without changing functional behavior.",
+            "All existing unit tests pass without modifications.",
+            "API backwards compatibility is maintained."
+        ])
+        guidelines_list.extend([
+            "Zero functional changes allowed.",
+            "Do not add new dependencies.",
+            "Ensure clippy/linter produces zero warnings on changed code."
+        ])
+        out_of_scope_list.extend([
+            "Adding new features",
+            "Modifying existing public API signatures"
+        ])
+    elif journey == "cleanup":
+        acceptance_criteria.extend([
+            "Unused code, assets, or dependencies are removed.",
+            "Documentation or formatting is cleaned up.",
+            "Existing tests still pass."
+        ])
+        guidelines_list.extend([
+            "Do not modify active production code logic.",
+            "Only delete dead code that is verified to have no callers."
+        ])
+        destructive_change_policy = {"allowed": True, "requiresHumanApproval": True, "allowPatterns": ["**"]}
+        out_of_scope_list.extend([
+            "Modifying business logic",
+            "Adding new features"
+        ])
+
     contract = {
         "contractVersion": 2,
         "workItemId": task,
@@ -74,10 +135,10 @@ def main() -> int:
         "baseCommit": base_commit,
         "baselineDirtyPaths": baseline_dirty_paths,
         "scope": [contract_rel, summary_rel, ".ai/work-items/archive/**"],
-        "outOfScope": [],
+        "outOfScope": out_of_scope_list,
         "sources": [{"path": contract_rel, "reason": "Initial Work Item skeleton."}],
         "unknowns": ["Replace this with concrete open questions, or clear it before mode code."],
-        "notCodable": args.mode == "code",
+        "notCodable": False,
         "riskAssessment": {
             "level": "medium",
             "riskTypes": ["scope_unclear"],
@@ -101,7 +162,8 @@ def main() -> int:
             "requiredStages": ["before_edit", "before_finish"],
             "reason": "Record at least one checkpoint before finishing to reduce mid-task drift.",
         },
-        "acceptance": ["The Work Item Contract is updated for the actual task."],
+        "acceptance": acceptance_criteria,
+        "guidelines": guidelines_list,
         "verification": [
             {"check": "aiWorkItem", "required": True},
             {"check": "aiScope", "required": True},
@@ -111,13 +173,14 @@ def main() -> int:
             {"check": "aiReviewPolicy", "required": True},
             {"check": "aiBacktrack", "required": True},
             {"check": "aiCoverage", "required": True},
+            {"check": "aiGuidelines", "required": True},
             {"check": "aiSummary", "required": True},
             {"check": "aiStatus", "required": True},
             {"check": "aiStatusCheck", "required": True},
             {"check": "aiStatusConsistency", "required": True},
             {"check": "quality", "required": True},
         ],
-        "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
+        "destructiveChangePolicy": destructive_change_policy,
         "restrictedWriteApproval": {
             "approved": False,
             "approvedBy": "",
@@ -134,6 +197,7 @@ def main() -> int:
         ],
         "sourcesUsed": [contract_rel],
         "verification": [{"check": item["check"], "result": "not_run"} for item in contract["verification"]],
+        "guidelinesCompliance": [{"guideline": item, "compliant": False, "evidence": "Not verified."} for item in guidelines_list],
         "unknownsRemaining": ["Replace this before finishing the Work Item."],
         "risk": {"level": "medium", "detail": "Initial skeleton; scope and acceptance still need task-specific review."},
         "generatedFiles": [],

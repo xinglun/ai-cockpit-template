@@ -9,21 +9,41 @@ keywords:
   - cockpit
 ---
 
-# Design Philosophy
+# 設計思想 (Design Philosophy)
 
-Human civilization repeatedly builds systems, lets those systems evolve, and eventually reaches a point where the system's complexity exceeds direct human control. At that point, complexity must be compressed: the internal process becomes a black box, and the cockpit returns the state that humans need in order to act.
+人間の知的生産や開発プロセスが複雑化し、AI 代理（AI Agent）によるコードの自動生成が一般化するにつれ、システム全体の複雑性は人間の直接的な認知限界を超えつつあります。AI Cockpit はこの複雑性を圧縮し、AI 代理のコード変更に「境界」と「検証可能性」を与えるために設計されました。
 
-I designed this framework for the AI development problem in front of me. The idea itself is not new, and it was not copied from aviation. When I solved the same control problem seriously, the same shape naturally appeared.
+本フレームワークの構造は、航空機のフライトプランおよびコックピット計器類と類似しています。これは航空のメタファを無理に当てはめたのではなく、制御問題（Control Problem）を本質から解決しようとした結果、自然と同じ形に収束したものです。
 
-Strong systems are always controlled through layers: plan, boundary, verification, record, and status display. AI development needs the same layers:
+## 1. 5つの制御レイヤー
 
-| AI development problem | Required control layer | Aviation analogy |
+強固な制御システムは、常に以下の独立したレイヤーによって多層防護されます。
+
+| AI 開発における制御課題 | 導入する制御レイヤー | 航空におけるアナロジー |
 | --- | --- | --- |
-| The work plan is vague. | Work Item Contract | Flight plan |
-| The change boundary is unclear. | Scope Guard | Controlled airspace |
-| Verification is insufficient. | Required checks | Instrument check |
-| Records are not preserved. | Change Summary and archive | Black box |
-| Current state is invisible. | Cockpit Status | Cockpit |
+| 開発計画と境界が曖昧 | **Work Item Contract** (契約) | 飛行計画 (Flight Plan) |
+| 変更するファイル領域が不明確 | **Scope Guard** (制限制空権) | 管制空域 (Controlled Airspace) |
+| 検証プロセスの省略や形骸化 | **Required Checks** (必須検証) | 計器検査 (Instrument Check) |
+| 意思決定プロセスの証跡が残らない | **Change Summary / Archive** (不変要約) | フライトレコーダー (Black Box) |
+| 現在の稼働状態が不透明 | **Cockpit Status** (コックピット) | 計器盤 (Cockpit display) |
 
-The result naturally resembles an aviation control system: not because the structure was imported, but because the underlying problem is the same.
+---
 
+## 2. 核心的なアーキテクチャ上の決定と背景
+
+AI Cockpit の設計において、なぜ他の手段ではなく現在の形を選択したのか、その技術的合理性を以下に記します。
+
+### Q: なぜ CI Action ではなく「Makefile 委譲」なのか？
+- **ローカルでの即時フィードバック**: CI サーバーにコードを Push する前に、開発者のローカル環境で AI 代理が自律的に全チェックを実行して自己修正できる必要があります。
+- **言語スタックの中立性**: Python, Rust, Flutter, TypeScript などの多種多様な言語スタックに対し、検証命令を Makefile のターゲット名（`projectFormat`, `projectTest` 等）で抽象化することで、共通の Python 制御スクリプトがスタック固有の挙動を知る必要がなくなります。
+
+### Q: なぜ Contract は YAML ではなく「JSON」なのか？
+- **厳密なスキーマ検証の容易さ**: Contract は機械が生成し、機械が厳格に読み取ります。YAML はインデントや型推断が曖昧になりがちですが、JSON は仕様が極めてシンプルであり、Python の標準ライブラリ（`json`）のみで安全かつ高速にパースできます。
+- **改ざん検知の容易性**: コマンドや内容全体の SHA-256 ハッシュ値を生成・比較する際、JSON の方が文字エンコーディングやインデント整形によるハッシュのブレが発生しにくく、堅牢に運用できます。
+
+### Q: なぜ「単一のアクティブ Work Item」に制限するのか？
+- **状態の混ざり合い（コンタミネーション）の防止**: 複数の AI 代理が並行して異なるタスクの Contract を同時にアクティブにすると、Git 差分（diff）がどのタスクの Scope に属しているのか判別不可能になり、監査の整合性が崩壊します。
+- **開発プロセスのシングルスレッド化**: 1つのタスクに集中させ、終了チェックを通過してアーカイブ（`archive-work-item`）した後にのみ次のタスクに着手させることで、開発ブランチの健全性とレビューの追跡性を最大化します。
+
+### Q: なぜ成功した検証結果のみをアーカイブするのか？
+- **結果整合性の保証**: 監査証跡となるアーカイブ（`.ai/work-items/archive/`）は、不変（Immutable）の事実でなければなりません。検証が失敗している（または検証結果をスキップした）Summary のアーカイブ化を許容してしまうと、CI での PR 検証時に差分と要約の整合が取れなくなり、ガバナンスが破綻します。

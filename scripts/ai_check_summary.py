@@ -147,7 +147,7 @@ def validate_summary(
         if not non_empty_string(risk.get("detail")):
             issues.append("risk.detail is required")
 
-    for key in ("sourcesUsed", "unknownsRemaining", "generatedFiles", "destructiveChanges", "observedIssues"):
+    for key in ("sourcesUsed", "unknownsRemaining", "generatedFiles", "destructiveChanges", "observedIssues", "guidelinesCompliance"):
         if key in summary and not isinstance(summary.get(key), list):
             issues.append(f"{key} must be a list")
 

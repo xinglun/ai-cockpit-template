@@ -14,7 +14,7 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 .PHONY: help \
 	project-format-check project-test project-lint diff-check quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
-	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-review-policy \
+	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy \
 	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item check-ai-pr
 
 help:
@@ -78,6 +78,9 @@ check-ai-backtrack:
 check-ai-coverage-guard:
 	$(AI_PYTHON) scripts/ai_check_coverage_guard.py
 
+check-ai-guidelines:
+	$(AI_PYTHON) scripts/ai_check_guidelines.py --contract $(CONTRACT) --summary $(SUMMARY)
+
 check-ai-review-policy:
 	$(AI_PYTHON) scripts/ai_check_review_policy.py $(if $(SUMMARY),--summary $(SUMMARY))
 
@@ -108,6 +111,7 @@ check-ai:
 		"$${MAKE:-make}" check-ai-review-policy SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard && \
+		"$${MAKE:-make}" check-ai-guidelines CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \

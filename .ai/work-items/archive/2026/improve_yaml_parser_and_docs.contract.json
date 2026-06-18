@@ -1,0 +1,209 @@
+{
+  "contractVersion": 2,
+  "workItemId": "improve_yaml_parser_and_docs",
+  "mode": "code",
+  "title": "Improve YAML parser and documentation",
+  "baseCommit": "6934a42cf1ebad6e515818ddaec7da5b3c29fb5e",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "status": "M",
+      "fingerprint": "6a22b04b5f38ff29b5a8c0cbb58f0969e7a31cee18d757589915e24a18f62d56"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "A",
+      "fingerprint": "cb1ab200ceee29fb605cdaad48ad373587661ec3e694ab2b2af3e6e635be7303"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "M",
+      "fingerprint": "703703357a5cf5dcb8c57db37efaebef3c4799b30ef0032604a9bdfc40b5fb67"
+    },
+    {
+      "path": "GEMINI.md",
+      "status": "M",
+      "fingerprint": "ec8a95a34abeb3856b6dc4f670110a82550dbcc7b3f448c77725537bf76e1063"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "a9613dba61c3581a5f070561fba4dbfd9cdd3b370f1937c0c418bccc21473dd8"
+    },
+    {
+      "path": "scripts/ai_check_guidelines.py",
+      "status": "A",
+      "fingerprint": "9b23f631db6dddac34153df8cab8cb7ad71835033faffa4857aedef2b73a019b"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "status": "M",
+      "fingerprint": "0f3ce47bea6a470d02ec800982dd6e0b05cd9241eedcd07116fbad5e95f96d75"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "96fc882634463947d8dafbe9dfc694c9c52330ca1bff972206579baa76d320d1"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "e60e28207d05fc21877f4d1d5c71b94c684f4e9eb8a9032b2d5645b156ce4363"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "cd805d735de3a1d755651988bd1324dc83b2ebe6cf7200647714ff968443092c"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "A",
+      "fingerprint": "f57f9f25a3b8ea8100791cd0dbf36a9a2b2e9692740894cd558a7dbc998d7dc5"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "M",
+      "fingerprint": "15c75bfa8968676550676bf0cb58669de55fe535ca7290e08b4b3634b84eacfb"
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "status": "M",
+      "fingerprint": "bceaea8071e495e628671908d2752330f2c213f3b49eb8a3a1cf2e27bc141234"
+    },
+    {
+      "path": "tests/test_guidelines.py",
+      "status": "A",
+      "fingerprint": "36c28b9699d77b3b1d419d39539922abf2c20712b7ebb9fe79e43ae3b4a395e6"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "81e244824334ab53777a4c3f6cae8a4dfbda4b8b2412c0f25b24032bcd880530"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+    ".ai/work-items/active/improve_yaml_parser_and_docs.summary.json",
+    ".ai/work-items/archive/**",
+    "scripts/ai_common.py",
+    "scripts/ai_check_scope.py",
+    "scripts/ai_check_backtrack.py",
+    "docs/overview.ja.md",
+    "docs/case-study-ai-rollback-corruption.md",
+    "scripts/ai_start.py",
+    "tests/test_contract_and_policy.py",
+    "tests/test_start_and_archive.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/improve_yaml_parser_and_docs.contract.json",
+      "reason": "Initial Work Item contract."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [],
+    "reason": "Refactoring parsers, adding detail logs, updating documentation. Low operational risk."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Approved and proceeding with refactoring tasks."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Work Item Contract is updated for the actual task.",
+    "The new feature is implemented according to requirements.",
+    "Unit tests are added to verify the new feature.",
+    "User documentation or comments are updated."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

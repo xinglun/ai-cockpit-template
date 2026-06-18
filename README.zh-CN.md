@@ -145,9 +145,23 @@ Codex, Gemini, Claude, Cursor, Antigravity, and other coding agents
 generic, rust, flutter, typescript, python, go, java, kotlin, swift, ruby, php, csharp
 ```
 
+## 运行环境要求
+
+- Python 3.10 或更高版本。
+- 具有 merge-base 和 three-dot 差分（`...`）支持的 Git 环境。
+- 兼容 POSIX shell 和 GNU Make 的命令执行环境。
+- 官方支持 Linux 和 macOS 运行和 CI。原生 Windows shell 暂不支持，请在 WSL (Windows Subsystem for Linux) 或其他 POSIX 终端中运行。
+
+## 版本与迁移策略
+
+- **Contract v2 升级**：本项目在 `contractVersion: 2` 起引入了严格的 Check ID 映射机制以防注入风险。
+- **历史归档兼容 (v1 Archive)**：在 `.ai/work-items/archive/` 中的历史 `v1` Contract 记录以只读方式被保留和兼容，但全新创建的任务必须强制使用 `v2` 格式，以确保管控契约和验证强度的升级。
+
 ## 进阶文档
 
 - [安装](docs/installation.md)
+- [概念导读（日文）](docs/overview.ja.md)
+- [字段说明手册](docs/contract-fields.md)
 - [配置](docs/configuration.md)
 - [架构](docs/architecture.md)
 - [设计思想](docs/design-philosophy.md)

@@ -12,6 +12,11 @@ keywords:
 
 # Case Study: Stopping AI Rollback Corruption
 
+> [!NOTE]
+> **日本語**: この文書は、AI Cockpit の機能と防御の仕組みを説明するための**仮説的なシナリオ（サンプルケース）**です。
+>
+> **English**: This document describes a **hypothetical scenario (illustrative example)** to demonstrate how AI Cockpit boundary controls work in practice.
+
 ## The Failure
 
 An AI coding agent was asked to update session validation.

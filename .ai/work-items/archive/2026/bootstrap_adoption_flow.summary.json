@@ -1,0 +1,434 @@
+{
+  "workItemId": "bootstrap_adoption_flow",
+  "contractPath": ".ai/work-items/archive/2026/bootstrap_adoption_flow.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated active Work Item status."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.contract.json",
+      "reason": "Declared adoption, transaction, and archive wording scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.summary.json",
+      "reason": "Recorded implementation and verification evidence."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Added clean-worktree adoption evidence generation and unified rollback transaction tracking."
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "Added a narrowly validated first-adoption companion-rule exemption while retaining scope ownership."
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Restricted adoptionBootstrapPaths to the installer adoption Work Item."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Described archive enforcement as append-only PR policy."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Verified installation adoption can finish, archive, and pass complete check-ai-pr ownership."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Verified initial and upgrade failure rollback removes new files and preserves pre-existing state."
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "reason": "Covered restricted adoption bootstrap companion-rule semantics."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Updated append-only PR policy assertions."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Exposed the --create-adoption bootstrap option."
+    },
+    {
+      "path": "docs/installation.md",
+      "reason": "Documented auditable first adoption and the public v0.4.4 capability boundary."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "Reframed archive evidence as PR-policy append-only rather than filesystem immutable."
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "reason": "Corrected archive, Check ID/Make target, Scope Guard, and raw-byte hash explanations."
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "reason": "Aligned the five-layer diagram and clarified after-write scope detection."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Documented the restricted adoptionBootstrapPaths field."
+    },
+    {
+      "path": "README.md",
+      "reason": "Clarified the public release adoption limitation."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Improved prompt-enforcement wording and adoption boundary."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Clarified the public release adoption limitation."
+    }
+  ],
+  "sourcesUsed": [
+    "User comprehensive engineering review",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_common.py",
+    "scripts/install_ai_cockpit.py",
+    "docs/installation.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.015024+00:00",
+      "exitCode": 0,
+      "durationMs": 65,
+      "outputDigest": "29f41111d793b07c9f2db8a58ec43735495ad57333c396b33736b30e30b30028",
+      "commandHash": "25417c6183e00c1124e245bd8ad2f567c171091d900ad6cb99a044b297892273",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/bootstrap_adoption_flow.contract.json work item contract check passed: .ai/work-items/active/bootstrap_adoption_flow.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.194319+00:00",
+      "exitCode": 0,
+      "durationMs": 177,
+      "outputDigest": "388855ee52ae84be55f9ffb3f4e4799d92e27cd641dda3e1d23c1c27bb4c4513",
+      "commandHash": "9c3ada544c6e3937104b2805d9d2a71c7a0350566ccbfa30e7254c513cef8b95",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/bootstrap_adoption_flow.contract.json scope guard passed: 18 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.393878+00:00",
+      "exitCode": 0,
+      "durationMs": 198,
+      "outputDigest": "ee0fa919bb5a47cfd7f853f73283e41fcb8c9c5ab8a446dca2320f2c7db5410e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/bootstrap_adoption_flow.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.463062+00:00",
+      "exitCode": 0,
+      "durationMs": 67,
+      "outputDigest": "d94c0d13b846096868ae57eaa0d5f67cbbb22fb0e336972a9b60f8a0e48ad831",
+      "commandHash": "c647c69232296bd44e8005594c0b154a3f8c1635ba7e74318240f4273a23d404",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/bootstrap_adoption_flow.contract.json --summary .ai/work-items/active/bootstrap_adoption_flow.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `bootstrap_adoption_flow` - Contract Hash: `d93e53310f55328c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `10` - Unknown Count: `0` - Required Checks: `14` - "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.629014+00:00",
+      "exitCode": 0,
+      "durationMs": 164,
+      "outputDigest": "246311d355e01d0cdee970c134d29ad2e5a9ea6099201a9a9ace6a1837e6a22f",
+      "commandHash": "104b5b2b68ebd88c338cb07e597c7cafb0b2e8492787ef0a5b31a22b0cc95e38",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/bootstrap_adoption_flow.summary.json review policy matched 4 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_check_pr.py [review] scripts/ai_check_scope.py [review] scripts/ai_check_work_item.py review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.795442+00:00",
+      "exitCode": 0,
+      "durationMs": 164,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:52.957094+00:00",
+      "exitCode": 0,
+      "durationMs": 160,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:56:53.033765+00:00",
+      "exitCode": 0,
+      "durationMs": 75,
+      "outputDigest": "a51c1d605686ab0a855b6ff8c49067a94cbdf3cede1c9ca39837cef8b781aea9",
+      "commandHash": "31f16c6c33ff5a0a13bd2814d8c5f9014b0baed08cb07de6e34966abebc084db",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/bootstrap_adoption_flow.contract.json --summary .ai/work-items/active/bootstrap_adoption_flow.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:57:04.552105+00:00",
+      "exitCode": 0,
+      "durationMs": 11515,
+      "outputDigest": "c6f7e1eda6f540bb8e1144282168ab316f26e603bc7a1e85a8729d267fbf4e88",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q ........................................................................ [ 81%] ................ [100%] 88 passed in 11.14s PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m py_compile scripts/*.py tests/*.py git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/check_docs_metadata.py documentation metadata check passed"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:57:05.033481+00:00",
+      "exitCode": 0,
+      "durationMs": 73,
+      "outputDigest": "a185738e38e2a1314b3e4f8bde27fb3e48b9d77507215812a5f8a39f1b1cc5a0",
+      "commandHash": "fa81473dc20a3ea7516d8971bb4c07eb9a1aeeef0acb676c70da83672f494179",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/bootstrap_adoption_flow.contract.json --summary .ai/work-items/active/bootstrap_adoption_flow.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:57:05.094998+00:00",
+      "exitCode": 0,
+      "durationMs": 60,
+      "outputDigest": "12636de1785fa7342a9bda52967978b34b7cc41cdd5b0bdeaad3f25b330822cb",
+      "commandHash": "c4b642dc99e09551967c9cbcd7a259e946e0d141d7a4da1594dafb684e10d409",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/bootstrap_adoption_flow.contract.json --summary .ai/work-items/active/bootstrap_adoption_flow.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:57:05.153571+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:57:05.214590+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "b48abcbc17a34ae0744b160915f87cef04c7c17c69de645ea9262db105e7a8d2",
+      "commandHash": "d5f9ccb8abb3f0900b2df8b01cbb4793f32af2b6ac2bf968bc8171c4d50b0bab",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/bootstrap_adoption_flow.contract.json --summary .ai/work-items/active/bootstrap_adoption_flow.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/bootstrap_adoption_flow.summary.json CONTRACT=.ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T04:57:05.379175+00:00",
+      "exitCode": 0,
+      "durationMs": 163,
+      "outputDigest": "96f1ff84bc35412904f8c40bda17d6b7fcd1d9e25c3f30313c6a6ac3739dba6f",
+      "commandHash": "4d2a7520514043e5ed2c91ec8f2039958288cf3acb10d086cede706796113d2c",
+      "contractHash": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/bootstrap_adoption_flow.summary.json --contract .ai/work-items/active/bootstrap_adoption_flow.contract.json ai summary check passed: .ai/work-items/active/bootstrap_adoption_flow.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Bootstrap evidence must satisfy the same complete-PR ownership check it introduces.",
+      "compliant": true,
+      "evidence": "The isolated adoption test finishes and passes check-ai-pr against the pre-adoption commit."
+    },
+    {
+      "guideline": "Do not bypass required governance gates by claiming project quality was configured during adoption.",
+      "compliant": true,
+      "evidence": "Adoption records only governance hard gates and lists project quality as a residual follow-up."
+    },
+    {
+      "guideline": "All installer mutations must participate in one rollback transaction.",
+      "compliant": true,
+      "evidence": "Existing paths are backed up, new paths tracked, and failure tests verify .gitignore and directory cleanup."
+    },
+    {
+      "guideline": "Archive claims must match PR policy enforcement and not imply filesystem immutability.",
+      "compliant": true,
+      "evidence": "Runtime message and documentation use append-only PR policy wording with explicit filesystem limits."
+    },
+    {
+      "guideline": "Do not hand-edit generated cockpit status.",
+      "compliant": true,
+      "evidence": "Status was generated by lifecycle commands."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Adoption ownership and rollback are covered by end-to-end and failure-path tests."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/ai_*.json",
+    "target/ai_observability.jsonl"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "release",
+      "detail": "Public v0.4.4 does not contain --create-adoption; a new tag and atomic release metadata update are still required.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "stack_validation",
+      "detail": "Real minimal project CI for Python, Go, TypeScript, and Rust remains unimplemented.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "archive_storage",
+      "detail": "Archive evidence is protected by PR policy, not filesystem permissions or external immutable storage.",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The bootstrap paradox, rollback leak, and archive wording are fixed in source; public release and multi-stack CI remain external follow-ups.",
+    "expectedReviewFocus": [
+      "Complete adoption PR ownership",
+      "adoptionBootstrapPaths restriction",
+      "Rollback transaction completeness",
+      "Public release boundary"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified",
+    "userVisibleOutput": "verified",
+    "persistence": "verified",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "The first installation PR must be able to satisfy the complete PR ownership policy it introduces."
+  ],
+  "userCorrectionSolidification": [
+    "scripts/install_ai_cockpit.py",
+    "tests/test_adoption_e2e.py",
+    "docs/installation.md"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Adoption ownership, transaction rollback, archive semantics, and documentation scope reviewed.",
+      "contractHash": "d93e53310f55328c",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Full tests, end-to-end adoption PR, rollback failures, documentation accuracy, and residual release risks reviewed.",
+      "contractHash": "d93e53310f55328c",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "A new public release has not been published.",
+    "Real multi-stack project CI has not been added."
+  ],
+  "overclaimPrevention": "Claims distinguish source-tree adoption capability, public release availability, and PR-policy archive enforcement."
+}

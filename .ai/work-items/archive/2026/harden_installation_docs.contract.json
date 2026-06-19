@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "harden_installation_docs",
+  "mode": "code",
+  "title": "Harden installation and documentation boundaries",
+  "baseCommit": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "2d4aec54d993b18032074b6b80b55b076e2149ee722f9987d5fd2f1aadff55f4"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/harden_installation_docs.contract.json",
+    ".ai/work-items/active/harden_installation_docs.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "install.sh",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/**",
+    "examples/**",
+    "scripts/install_ai_cockpit.py",
+    "scripts/check_docs_metadata.py",
+    "templates/agents/**",
+    "tests/test_install_script.py",
+    "tests/test_installer.py",
+    "tests/test_docs_metadata.py"
+  ],
+  "outOfScope": [
+    "Publishing a new Git tag or GitHub release asset",
+    "Providing cryptographic signatures or provenance attestations",
+    "Rewriting all Japanese documentation"
+  ],
+  "sources": [
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "User-reported malformed marker data-loss and installed document structure defects."
+    },
+    {
+      "path": "install.sh",
+      "reason": "User-reported mutable default ref and missing archive integrity verification."
+    },
+    {
+      "path": "README.md",
+      "reason": "User-reported mutable quick install and overstated guard semantics."
+    },
+    {
+      "path": "examples/python/README.md",
+      "reason": "User-reported incomplete example installation commands."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "user_content_preservation",
+      "supply_chain_integrity",
+      "documentation_accuracy"
+    ],
+    "reason": "Installer changes affect user-authored rules and remote code acquisition; documentation defines the trust boundary."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The reported defects are reproducible and can be verified without publishing external artifacts."
+  },
+  "preReviewWarnings": [
+    "Review malformed marker rejection for all marker count/order cases.",
+    "Review remote archive verification portability and failure behavior.",
+    "Review support and guard wording for permission-model accuracy."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Upgrade and force fail before writing when agent markers are missing, duplicated, or out of order.",
+    "Installed agent managed sections contain no YAML front matter or level-one heading.",
+    "Remote installation defaults to a fixed release tag and verifies SHA256 when supplied, failing closed on mismatch or missing hash tooling.",
+    "Pinned-version installation is the primary documented path and mutable main execution is not recommended.",
+    "Scope and coverage guard documentation says checks detect violations and block finish, archive, or merge rather than preventing writes.",
+    "Every language example installation command includes --update-makefile.",
+    "Framework support claims explicitly require build-tool and guard customization.",
+    "Reported Japanese terminology and example section numbering defects are corrected in scoped documents.",
+    "All required AI and project checks pass."
+  ],
+  "guidelines": [
+    "Never guess how to repair malformed managed markers in user-authored files.",
+    "Remote integrity checks must fail closed when explicitly requested.",
+    "Installed managed content must be structurally valid inside an existing Markdown document.",
+    "Security and guard documentation must describe enforcement timing precisely.",
+    "Do not hand-edit generated cockpit status."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -14,13 +14,17 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 .PHONY: help \
 	project-format-check project-test project-lint diff-check quality \
 	check-docs-metadata \
+	check-release-distribution \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
+	ai-doctor check-ai-adoption-ready \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy \
 	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item check-ai-pr
 
 help:
 	@printf '%s\n' 'AI Cockpit template commands:'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..." MODE=code'
+	@printf '%s\n' '  make ai-doctor'
+	@printf '%s\n' '  make check-ai-adoption-ready'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-guards'
@@ -38,6 +42,7 @@ help:
 	@printf '%s\n' '  make check-ai'
 	@printf '%s\n' '  make quality'
 	@printf '%s\n' '  make check-docs-metadata'
+	@printf '%s\n' '  make check-release-distribution  # networked public release contract'
 	@printf '%s\n' '  make archive-work-item CONTRACT=<contract.json> [ARGS="--dry-run"]'
 	@printf '%s\n' ''
 	@printf '%s\n' 'Customize project-format-check, project-test, and project-lint for your stack.'
@@ -46,9 +51,12 @@ project-format-check:
 	git diff --check
 
 project-test:
-	$(AI_PYTHON) -m pytest -q
+	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-fail-under=60
 
 project-lint:
+	$(AI_PYTHON) -m ruff check scripts tests
+	$(AI_PYTHON) -m mypy scripts/ai_check_adoption_ready.py scripts/ai_doctor.py scripts/check_docs_metadata.py scripts/check_release_distribution.py
+	$(AI_PYTHON) -m bandit -q -r scripts -ll
 	$(AI_PYTHON) -m py_compile scripts/*.py tests/*.py
 
 diff-check:
@@ -57,10 +65,19 @@ diff-check:
 check-docs-metadata:
 	$(AI_PYTHON) scripts/check_docs_metadata.py
 
+check-release-distribution:
+	$(AI_PYTHON) scripts/check_release_distribution.py
+
 quality: project-format-check project-test project-lint diff-check check-docs-metadata
 
 ai-start:
 	$(AI_PYTHON) scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"
+
+ai-doctor:
+	$(AI_PYTHON) scripts/ai_doctor.py --root .
+
+check-ai-adoption-ready:
+	$(AI_PYTHON) scripts/ai_check_adoption_ready.py --root .
 
 check-ai-contract check-ai-work-item:
 	$(AI_PYTHON) scripts/ai_check_work_item.py $(CONTRACT)

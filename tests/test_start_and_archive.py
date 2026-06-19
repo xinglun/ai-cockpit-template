@@ -1,7 +1,5 @@
 import json
 import sys
-from pathlib import Path
-
 import ai_archive_work_item
 import ai_start
 

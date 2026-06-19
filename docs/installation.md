@@ -11,17 +11,53 @@ keywords:
 
 # Installation
 
-Install AI Cockpit into an existing repository:
+Install a fixed release of AI Cockpit into an existing repository:
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust --update-makefile
+VERSION=v0.5.0
+INSTALLER="$(mktemp)"
+trap 'rm -f "$INSTALLER"' EXIT
+curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/$VERSION/install.sh" -o "$INSTALLER"
+AI_COCKPIT_TEMPLATE_REF="$VERSION" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
 ```
+
+Review release notes before changing `VERSION`. A branch such as `main` is mutable and is not recommended for reproducible installation. The temporary bootstrap is removed automatically when the shell exits.
+
+Public `v0.5.0` includes the auditable adoption bootstrap. The first installation PR can generate its own bounded Contract/Summary pair and pass complete `check-ai-pr` ownership after the documented finish and commit steps.
+
+## Auditable First Adoption
+
+From a clean Git repository with at least one commit, run the fixed release command above, then finish the generated adoption Work Item:
+
+```sh
+make ai-finish TASK=adopt_ai_cockpit
+git add .
+git commit -m "adopt AI Cockpit governance"
+make check-ai-pr AI_BASE_COMMIT='<pre-adoption-commit>'
+```
+
+The installer-generated Work Item owns every file actually written or appended by installation. It keeps project quality configuration as an explicit follow-up rather than recording generic placeholder commands as passed. `--create-adoption` fails before writing unless the repository has an initial commit, a clean worktree, and no active Work Item.
+
+Run `make ai-doctor` before adoption and after configuring the project. It reports Python/Git/Make/POSIX prerequisites, Git cleanliness, quality-command placeholders, Coverage Guard review needs, and missing CI configuration without modifying files.
+
+`ai-doctor` is advisory. Before enabling production-required gates, complete the installed `.ai/cockpit/adoption.md` checklist and run the static configuration completeness gate:
+
+```sh
+make quality
+make check-ai-adoption-ready
+```
+
+The readiness check fails closed until all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and a GitHub Actions or GitLab CI file actually invokes `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require `make quality` and `check-ai-pr` as independently successful CI checks before treating adoption as production-ready.
+
+This workflow is published in `v0.5.0`. Older tags do not gain adoption capability retroactively.
 
 Start a governed AI task:
 
 ```sh
 make ai-start TASK=example_change TITLE="Example change" MODE=code
 ```
+
+`ai-start` requires the target to be a Git repository with at least one commit so `baseCommit` can identify a trustworthy diff baseline. For a new repository, create and commit its initial files before running this command. The installer prints a warning when this prerequisite is not met.
 
 Edit the generated Contract:
 
@@ -59,21 +95,11 @@ From a local clone:
 /path/to/ai-cockpit-template/install.sh --stack rust --update-makefile
 ```
 
-## Safer Two-Step Install
+## Published Integrity Capabilities
 
-```sh
-curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh -o install-ai-cockpit.sh
-sh install-ai-cockpit.sh --stack rust --update-makefile
-```
+The documented release is defined in `release.json`. Public `v0.5.0` supports caller-provided `AI_COCKPIT_TEMPLATE_SHA256` verification and fails before extraction when the downloaded archive digest differs.
 
-## Versioned Install
-
-Use a tag or commit SHA for reproducible installs. The generic GitHub archive endpoint also accepts branch names:
-
-```sh
-AI_COCKPIT_TEMPLATE_REF=v0.2.0 \
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust --update-makefile
-```
+The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations. Obtain the expected SHA256 through a trusted independent channel before setting `AI_COCKPIT_TEMPLATE_SHA256`; support for comparing a caller-provided digest is not itself a published integrity root. Worktree capabilities are not public until `release.json` points to a tag whose real installer passes `make check-release-distribution`.
 
 ## Options
 
@@ -83,6 +109,8 @@ AI_COCKPIT_TEMPLATE_REF=v0.2.0 \
 --upgrade          Back up and replace managed runtime, policy, and agent marker files.
 --upgrade-with-active
                    Permit a high-risk upgrade while active Work Item JSON exists.
+--replace-glossary Back up and explicitly replace the project-owned .ai/glossary.md.
+--create-adoption Create the first auditable adoption Work Item; requires clean committed Git state.
 --with-examples    Copy examples/ into the target repository.
 --update-makefile  Append "include Makefile.ai" to the target Makefile.
 ```
@@ -94,6 +122,7 @@ By default, the installer is conservative:
 - It installs Cursor rules under `.cursor/rules/ai-cockpit.mdc`.
 - It skips existing files unless `--force` is provided.
 - It creates clean active/archive directories and does not copy the template repository's Work Item history.
+- It installs `templates/glossary.md` only when `.ai/glossary.md` is absent. Reinstall, `--force`, and `--upgrade` preserve a project glossary unless `--replace-glossary` is explicitly provided.
 
 The installed runtime includes `scripts/ai_check_pr.py`, the `check-ai-pr` Make target, and Contract-aware guard wiring. The distribution template is exercised independently from the repository-root Makefile in CI.
 
@@ -112,13 +141,21 @@ Stack selection configures quality-command starting points. It does not infer th
 The installed `.ai/cockpit/version.json` records the distribution and Contract schema version. Use `--upgrade` for an existing installation:
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.3.0 \
-  sh install-ai-cockpit.sh --upgrade --stack rust
+CURRENT_VERSION=v0.5.0
+TARGET_VERSION='<release-tag-newer-than-current>'
+test "$TARGET_VERSION" != "$CURRENT_VERSION"
+INSTALLER="$(mktemp)"
+trap 'rm -f "$INSTALLER"' EXIT
+curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/$TARGET_VERSION/install.sh" -o "$INSTALLER"
+AI_COCKPIT_TEMPLATE_REF="$TARGET_VERSION" \
+  sh "$INSTALLER" --upgrade --stack rust
 ```
+
+The installer rejects distribution or Contract-schema downgrades; never set `TARGET_VERSION` lower than the version recorded in the installed `.ai/cockpit/version.json`.
 
 By default, upgrade stops before writing if `.ai/work-items/active/` contains Work Item JSON. Finish and archive the active task first. `--upgrade-with-active` is an explicit high-risk override for recovery scenarios where changing governance semantics during a task is intentional.
 
-Before replacement, managed files are copied under `.ai/cockpit/upgrade-backups/<timestamp>/`. This directory and active review records are added to the managed `.gitignore` rules. Agent sections between the AI Cockpit markers are replaced as one managed block. If an existing `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` has no markers, upgrade preserves its content and appends the managed section. Customized guards and `checks.yaml` are backed up before the source version is installed. The installer validates version metadata before writing, rejects distribution or Contract-schema downgrades, validates the installed managed runtime afterward, and automatically restores backed-up files if installation or post-copy validation fails. Review and remove successful-upgrade backups when they are no longer needed. `--force` replaces files without an upgrade backup and is intended for disposable or externally backed-up installations.
+Before replacement, managed files are copied under `.ai/cockpit/upgrade-backups/<timestamp>/`. This directory and active review records are added to the managed `.gitignore` rules. Agent sections between the AI Cockpit markers are replaced as one managed block. If an existing `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` has no markers, upgrade preserves its content and appends the managed section. Customized guards and `checks.yaml` are backed up before the source version is installed. Project-owned `.ai/glossary.md` is preserved by default; `--replace-glossary` backs it up before installing a fresh template. The installer validates version metadata before writing, rejects distribution or Contract-schema downgrades, validates the installed managed runtime afterward, and automatically restores backed-up files if installation or post-copy validation fails. Review and remove successful-upgrade backups when they are no longer needed. `--force` replaces managed files without an upgrade backup, but does not replace the glossary unless explicitly requested.
 
 If you did not use `--update-makefile`, add this line to your project Makefile:
 
@@ -139,7 +176,7 @@ jobs:
   ai-governance:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - run: make check-ai-pr AI_BASE_COMMIT="$(git merge-base HEAD origin/${{ github.base_ref }})"
@@ -151,6 +188,8 @@ The PR check requires at least one archive Contract/Summary pair in the PR diff 
 ## Runtime Requirements
 
 - Python 3.10 or newer.
-- Git with merge-base and three-dot diff support.
+- A Git repository with at least one commit, plus merge-base and three-dot diff support.
 - POSIX shell and GNU Make-compatible command behavior.
 - Linux and macOS are the supported CI/runtime environments. Native Windows shells are not currently supported; use WSL or another POSIX environment.
+
+AI Cockpit is application-language-agnostic: its governance runtime does not depend on the target application's programming language. It is not runtime- or platform-agnostic; the Python, Make, POSIX, and Git requirements above remain mandatory, and stack/framework presets require project-specific configuration.

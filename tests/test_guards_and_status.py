@@ -37,6 +37,12 @@ def test_default_coverage_policy_covers_advertised_stack_layouts(monkeypatch):
         "MyApp/Services/Feature.cs",
         "src/main/java/com/example/Feature.java",
         "lib/feature.dart",
+        "Program.cs",
+        "app.go",
+        "index.ts",
+        "packages/web/src/index.ts",
+        "services/api/src/main/java/com/example/App.java",
+        "packages/ui/lib/widget.dart",
     ]
     for path in production_paths:
         assert ai_check_coverage_guard.detect([path]), path
@@ -48,6 +54,12 @@ def test_default_coverage_policy_recognizes_stack_test_layouts(monkeypatch):
         ("app/src/main/kotlin/Feature.kt", "app/src/test/kotlin/FeatureTest.kt"),
         ("Sources/App/Feature.swift", "Tests/AppTests/FeatureTests.swift"),
         ("MyApp/Services/Feature.cs", "MyApp.Tests/FeatureTests.cs"),
+        ("app.go", "app_test.go"),
+        ("Program.cs", "ProgramTests.cs"),
+        ("index.ts", "index.test.ts"),
+        ("packages/web/src/index.ts", "packages/web/tests/index.test.ts"),
+        ("services/api/src/main/java/App.java", "services/api/src/test/java/AppTest.java"),
+        ("packages/ui/lib/widget.dart", "packages/ui/test/widget_test.dart"),
     ]
     for production, test in cases:
         assert ai_check_coverage_guard.detect([production, test]) == []

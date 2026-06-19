@@ -1,0 +1,419 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_candidate_readiness",
+  "mode": "code",
+  "title": "Align examples claims diagnostics and CI matrices",
+  "baseCommit": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "5dd5e34171ad0426a4130394cf2a32d0057179b6d8474193ec15f6212b12a677"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+      "status": "A",
+      "fingerprint": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "status": "A",
+      "fingerprint": "48c41fbeab35d20cadfa8476588c0148bb482976025f8d9d0b11ec9836afb879"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.contract.json",
+      "status": "A",
+      "fingerprint": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.summary.json",
+      "status": "A",
+      "fingerprint": "c26347692d7856c600b1485d7e97b2675116ac366193d8e16a801cdf2138f026"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.contract.json",
+      "status": "A",
+      "fingerprint": "4b05a5851792af5f203b41a0878e77be77c5784dc9ff26f97972cc5415efc337"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.summary.json",
+      "status": "A",
+      "fingerprint": "1a30b96d4c8c0b6b6c17c67880abbfe6d08189da2d28839d052ad59cc7ae185d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+      "status": "A",
+      "fingerprint": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "status": "A",
+      "fingerprint": "60a338c09abae05e9aa42b5a31335ef178daa0c906efb382e91199ca4ef50367"
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "status": "M",
+      "fingerprint": "d0a79069b67d5b8a97d3b5e62aa225f8e2fc30b29399ba8000790373324d9b82"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "4da784a7d3b0f32144ad9cdff4154de20944a81cef042ad1efa28f4b0e47301c"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "2efb0e7dbce4b52dc02f0b5fbdc3b18d0a71d80da379078eb21811db8752ad9e"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "ad67a186a4c129499d2e8851c87753ce23704830fd45eab7560cc744e06b2aa8"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "97031a3a0ae7715fdb4b86e2c4cce3926ce425cc1b2933de9267fb790bc391f2"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "f94045f7de39c781d687cd41839258abe9361186e34e9bd6b72df5afe0f3183a"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "1acc8576d91c67dd73ecf3e67e9d46dca0697989dd147d68c72f54010e4e28ed"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "b435c485b4dca3a2f9461eb1c523d50cbfa126204d99475c28c5b977af1dfaba"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "7f314b7b482c3a9597ff2833b99f4eb1a62f3548dd63365941c2a23f604ff74a"
+    },
+    {
+      "path": "docs/launch.md",
+      "status": "M",
+      "fingerprint": "6f60f3a8f1c3d73c8e47bf580d4446a278813461415c4031b47214d02e22b4dc"
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "status": "M",
+      "fingerprint": "2c5b6aecf11bf5d912f48220402f48ab0f5448acbc2f6ca3c4a96c6ce08bf23c"
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "status": "M",
+      "fingerprint": "c889b72edd3e5a42ca9afc39f84fffd1fcfdcb76fa3a70136115aed42f61f733"
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "status": "M",
+      "fingerprint": "edfc2a3155ef7323333b6836820d8e0349c579feedddcb4fbbfef92524dd703c"
+    },
+    {
+      "path": "examples/go/README.md",
+      "status": "M",
+      "fingerprint": "5f76e90b76b659d03d3fd099a0488b52f5ecc846086d788047ae238a262f5bfb"
+    },
+    {
+      "path": "examples/java/README.md",
+      "status": "M",
+      "fingerprint": "b35214bb985109f25d4eab520e6ee90914d93a7be946661bae7ddc8acaf5c591"
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "status": "M",
+      "fingerprint": "acec8ddb92b40cca3d925ddecf32748d30248852f2c8fe992341b066bd3ecbe4"
+    },
+    {
+      "path": "examples/php/README.md",
+      "status": "M",
+      "fingerprint": "25829b3fde8ab8664b709a8dd450d57d2615bd4a55cf3ebec43c715acb859b6e"
+    },
+    {
+      "path": "examples/python/README.md",
+      "status": "M",
+      "fingerprint": "6fa96cc654c303b35a99620e95c7cfd622c9eeb7ef7d458d89a13402bd8cabb8"
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "status": "M",
+      "fingerprint": "98721d3e0e9ac8831463e3ec427d4e659229de8bd4674e806c6673912f253e58"
+    },
+    {
+      "path": "examples/rust/README.md",
+      "status": "M",
+      "fingerprint": "2013988066cecee332d582396c809f2771ec8d400a9393af8f1908d4381f5d0d"
+    },
+    {
+      "path": "examples/swift/README.md",
+      "status": "M",
+      "fingerprint": "6bac50a1d6e072bbf19d2bbb351a8c15a91212308e67d3bd95283c0afc52923b"
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "status": "M",
+      "fingerprint": "04da680ad672a8404f08ba01798d37fdf38cf5b7b845b95ade74e1a6fee65993"
+    },
+    {
+      "path": "install.sh",
+      "status": "M",
+      "fingerprint": "ac8b33d25fb7ed26c98faf44d8030a65fbaeab71965a156a28117d789e5e923b"
+    },
+    {
+      "path": "release.json",
+      "status": "A",
+      "fingerprint": "b6144754e89f5f26c241c959b875026d53acfde114241f235fec484bae70a9ef"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "68c0d4e0da686a5c5ac7ce4afde7ccc4a933f122f8fd631b4ec348eeaea8a60c"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "status": "M",
+      "fingerprint": "04dcb9c7c2431738022f61a4c744a80519c015376527983cc5b5767297c8a8c2"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "c368098ab9dd3b8a93f27be04368e981a3ed11b1a368d8eb11b4a6d192cb77a2"
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "94f20a2bf0809f6123aebc9399549dd43904264aa13ab50b0381968b6da8eb6b"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "A",
+      "fingerprint": "2c6e24cfe8e47407736071a35671270f394663502194f153141e86a887bc740b"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "79056248b569b78a2aa130bd35bd740e0ae413f63e6f899a9ada796cb1ce550b"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "A",
+      "fingerprint": "83211081b370c9eb2bac9f44cc5d89c285c1ee07a91bcb154cd8a6ebc60ffd42"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "M",
+      "fingerprint": "9e512058da4f5bae3712889b15e337466289012981c8170a91db405e3f04614b"
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "status": "A",
+      "fingerprint": "ee0dbc110c822e7f31c9bc7cf4e85038b531d7af9bc145892fc4ee208b2ea8db"
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "status": "M",
+      "fingerprint": "19c849ed8464c668739be3e3b2ec000a5f8b096de194b5aec9f44ac9f42a04bf"
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "e7e510b83e4869fa1bf1a282a831cc2c2f0a05bad1a1c5a05889e2fcb09c3e71"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "status": "A",
+      "fingerprint": "f07aa11e0786b1767e1bc62e024f5632e6eeb1bb105122ade85b2305241854b0"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "4d3f7d5f4e93c04d604d443f6350f3b00aa1923dd79334d016d4fe20d36120ec"
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "status": "M",
+      "fingerprint": "6fb3cdbde3e3e1e6b0ae7b545902df7f6f4fa7320abce9420a7330b811739bba"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "A",
+      "fingerprint": "807eca0f021fcf35c6ae69d42d71251aa16ced0b3a83434fdf831466391d948e"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/release_candidate_readiness.contract.json",
+    ".ai/work-items/active/release_candidate_readiness.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/_templates/work_item_summary.example.json",
+    ".github/workflows/compatibility.yml",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "scripts/ai_start.py",
+    "scripts/ai_doctor.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_contract_examples.py",
+    "tests/test_doctor.py",
+    "tests/test_installer.py",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/launch.md",
+    "docs/installation.md"
+  ],
+  "outOfScope": [
+    "Publishing a new release tag",
+    "Adding an interactive adoption wizard",
+    "Claiming CI coverage for stacks beyond Python, Go, Rust, and TypeScript"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "User-reported mismatch between the static example and Agent Risk Guard requirements."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Current CI baseline lacks Python/macOS and real stack project matrices."
+    },
+    {
+      "path": "README.md",
+      "reason": "User-reported root-access wording overstates isolation capability."
+    },
+    {
+      "path": "docs/installation.md",
+      "reason": "First-use workflow needs an environment and configuration diagnostic."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "template_drift",
+      "ci_compatibility",
+      "positioning_overclaim",
+      "first_use_diagnostics"
+    ],
+    "reason": "Published examples and claimed compatibility need executable checks aligned with runtime policy."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Template alignment, diagnostics, wording, and CI definitions have bounded repository changes."
+  },
+  "preReviewWarnings": [
+    "Review example parity with ai-start and Agent Risk policy.",
+    "Review compatibility matrix cost and actual project commands.",
+    "Review ai-doctor failure versus warning classification.",
+    "Review positioning language near the landing-page introduction."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Static Contract and Summary examples contain the same default verification IDs and checkpoint stages as ai-start.",
+    "Example parity and applicable Agent Risk validation are enforced by automated tests.",
+    "Landing-page and promotional copy describe bounded independently enforced review rather than repository permission isolation.",
+    "The product is described as application-language-agnostic with explicit Python, Make, POSIX, and Git runtime requirements.",
+    "CI defines Python 3.10, 3.11, and current stable tests on Ubuntu and macOS.",
+    "CI creates minimal Python, Go, Rust, and TypeScript projects, installs their preset, and runs make quality.",
+    "ai-doctor reports hard environment prerequisites and actionable project configuration warnings without modifying files.",
+    "ai-doctor is available in both repository and installed Make entrypoints with regression tests.",
+    "Public v0.4.4 remains explicitly labeled as lacking the current adoption bootstrap until a new tag is published.",
+    "All required AI and project checks pass."
+  ],
+  "guidelines": [
+    "Examples must derive or assert parity against the same defaults used by ai-start.",
+    "Compatibility claims require executable CI jobs, not file-generation smoke tests.",
+    "Diagnostics must distinguish blocking prerequisites from configurable warnings.",
+    "Positioning must not imply filesystem permission isolation.",
+    "Do not hand-edit generated cockpit status."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "repository user",
+    "reason": "The user explicitly requested CI matrix and shared Make entrypoint changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

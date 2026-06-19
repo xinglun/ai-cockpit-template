@@ -11,11 +11,13 @@ keywords:
 
 # Ruby Adaptation Example
 
-Install with:
+## 1. インストール
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack ruby
+AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack ruby --update-makefile
 ```
+
+## 2. 品質ゲートとガード設定
 
 Use this stack preset in `Makefile.ai.stack` for a Ruby repository:
 
@@ -60,7 +62,7 @@ tests:
   ],
   "guidelines": [
     "新機能に対応するモデルスペック (RSpec) を必ず追加すること",
-    "RuboCop の警告が発生しない綺麗なコードを書くこと"
+    "変更対象について RuboCop の警告を 0 件にすること"
   ],
   "verification": [
     { "check": "aiWorkItem", "required": true },
@@ -86,7 +88,7 @@ tests:
       "evidence": "spec/models/user_spec.rb に新しいバリデーションとアソシエーションのテストを追記しました。"
     },
     {
-      "guideline": "RuboCop の警告が発生しない綺麗なコードを書くこと",
+      "guideline": "変更対象について RuboCop の警告を 0 件にすること",
       "compliant": true,
       "evidence": "bundle exec rubocop を実行し、追加ファイルに警告がないことを確認しました。"
     }

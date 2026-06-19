@@ -1,0 +1,533 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fail_closed_coverage_readiness",
+  "mode": "code",
+  "title": "Fail closed missing stacks and calibrate coverage readiness",
+  "baseCommit": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/README.md",
+      "status": "A",
+      "fingerprint": "0d0c367903ae36eb28dca8408537498c06e06bc99f84a0b27f7e154655f5c758"
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "status": "A",
+      "fingerprint": "33453fa0fe4cc6d821f8310c6b0cfb1113ec3c121686335085e28798751d5137"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "1e570236c4290f2626ddb8e6299d4862fc3d30226b8d6b13dc782515fa734ee5"
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "e05fa3e53b9e1e5bacd06af2a613ba425a406bcc54db92fadc50a0a6d6c05ac2"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "status": "M",
+      "fingerprint": "bf58113992c5f1d0ce95ffcad97dbb927072ce533cf4e2b92de1544be3b967e2"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "status": "M",
+      "fingerprint": "702f604ed1a61a36ade885812b2936e3d4f65b735d3671a9f221b5a25e653e21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_alignment.contract.json",
+      "status": "A",
+      "fingerprint": "2b47d6e08f26894d4466c01d445644063b292f9638976fa575f2b853e96eda54"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_alignment.summary.json",
+      "status": "A",
+      "fingerprint": "7dccf8909e448cf1dd004287e9a0ab6bc037f4675d15e84a6a91eb9e1cb9d02f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+      "status": "A",
+      "fingerprint": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "status": "A",
+      "fingerprint": "48c41fbeab35d20cadfa8476588c0148bb482976025f8d9d0b11ec9836afb879"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.contract.json",
+      "status": "A",
+      "fingerprint": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.summary.json",
+      "status": "A",
+      "fingerprint": "c26347692d7856c600b1485d7e97b2675116ac366193d8e16a801cdf2138f026"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.contract.json",
+      "status": "A",
+      "fingerprint": "4b05a5851792af5f203b41a0878e77be77c5784dc9ff26f97972cc5415efc337"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.summary.json",
+      "status": "A",
+      "fingerprint": "1a30b96d4c8c0b6b6c17c67880abbfe6d08189da2d28839d052ad59cc7ae185d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+      "status": "A",
+      "fingerprint": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "status": "A",
+      "fingerprint": "60a338c09abae05e9aa42b5a31335ef178daa0c906efb382e91199ca4ef50367"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.contract.json",
+      "status": "A",
+      "fingerprint": "24299170feafe039e59e16455518d2c5e8929c1efa354b697c90ed6276399852"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.summary.json",
+      "status": "A",
+      "fingerprint": "9dc10cf768802b8202e6ce862674406a85e0ba2890418ddffd1589e564013f6d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_entrypoint_quality.contract.json",
+      "status": "A",
+      "fingerprint": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_entrypoint_quality.summary.json",
+      "status": "A",
+      "fingerprint": "465eda6043567a133c189d44c73fc5ac9c82a7291f3a63f2f4171c3ece52ae23"
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "status": "A",
+      "fingerprint": "754a9c8ea92df4e6a1abb92a24bc18401fe821bce50c245b78737276fad13b9d"
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "status": "M",
+      "fingerprint": "695d177effa93c13f46d246eb366565ea93f6e8319b40c01440a6975e5574513"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "361593b33f59836ca25ba43ae79521c1d269197b4d8ee0b63242c1ac56478251"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "ec1a4aa054c03d4671868d955c5a3ebfb67c9cb0cc0eb7a00b5be606148c532c"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "74762328bba89ce86509a4fca36e71a994daaf9441dae528e83a3411d8e34af8"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "d2fb6c7ff457e2c62337b39babddbfe30c7f97194c4d6a2ec47521a2956e474e"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "f94045f7de39c781d687cd41839258abe9361186e34e9bd6b72df5afe0f3183a"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "19909a23705c5f833a3f0c53a64f71b3ca2512b065dc48b25f0fcab477ae69dc"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "b435c485b4dca3a2f9461eb1c523d50cbfa126204d99475c28c5b977af1dfaba"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "db7ca88080deddf96e9f095eae74c580794b404e898c298f1250847b9fce31f8"
+    },
+    {
+      "path": "docs/launch.md",
+      "status": "M",
+      "fingerprint": "e796202f5cf4efd88e094e6c05d1c21e797d3bf55a297043b70fe3b2f0ee3ddc"
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "status": "M",
+      "fingerprint": "03019bcda0d1494ebf0693220c506def6cf47f2573d06fce774969268063a318"
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "status": "M",
+      "fingerprint": "c889b72edd3e5a42ca9afc39f84fffd1fcfdcb76fa3a70136115aed42f61f733"
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "status": "M",
+      "fingerprint": "edfc2a3155ef7323333b6836820d8e0349c579feedddcb4fbbfef92524dd703c"
+    },
+    {
+      "path": "examples/go/README.md",
+      "status": "M",
+      "fingerprint": "5f76e90b76b659d03d3fd099a0488b52f5ecc846086d788047ae238a262f5bfb"
+    },
+    {
+      "path": "examples/java/README.md",
+      "status": "M",
+      "fingerprint": "b35214bb985109f25d4eab520e6ee90914d93a7be946661bae7ddc8acaf5c591"
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "status": "M",
+      "fingerprint": "acec8ddb92b40cca3d925ddecf32748d30248852f2c8fe992341b066bd3ecbe4"
+    },
+    {
+      "path": "examples/php/README.md",
+      "status": "M",
+      "fingerprint": "25829b3fde8ab8664b709a8dd450d57d2615bd4a55cf3ebec43c715acb859b6e"
+    },
+    {
+      "path": "examples/python/README.md",
+      "status": "M",
+      "fingerprint": "6fa96cc654c303b35a99620e95c7cfd622c9eeb7ef7d458d89a13402bd8cabb8"
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "status": "M",
+      "fingerprint": "98721d3e0e9ac8831463e3ec427d4e659229de8bd4674e806c6673912f253e58"
+    },
+    {
+      "path": "examples/rust/README.md",
+      "status": "M",
+      "fingerprint": "2013988066cecee332d582396c809f2771ec8d400a9393af8f1908d4381f5d0d"
+    },
+    {
+      "path": "examples/swift/README.md",
+      "status": "M",
+      "fingerprint": "6bac50a1d6e072bbf19d2bbb351a8c15a91212308e67d3bd95283c0afc52923b"
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "status": "M",
+      "fingerprint": "04da680ad672a8404f08ba01798d37fdf38cf5b7b845b95ade74e1a6fee65993"
+    },
+    {
+      "path": "install.sh",
+      "status": "M",
+      "fingerprint": "5d0409a403ed7a44d30db7ff75a795ccf4ae2c2748556104e8891008d8ede232"
+    },
+    {
+      "path": "pyproject.toml",
+      "status": "A",
+      "fingerprint": "904c07876a4c39a03d699c2f3454eb110d031504165dafa0983cf8254851441d"
+    },
+    {
+      "path": "release.json",
+      "status": "A",
+      "fingerprint": "b6144754e89f5f26c241c959b875026d53acfde114241f235fec484bae70a9ef"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "status": "M",
+      "fingerprint": "d8d17366db4dcbdab318fa7f813607a077c70ab37d1d2f104aa54718be95238d"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "A",
+      "fingerprint": "20c3279e0f2982c99fe8a7eb4d24fdce40c0a51293f99ca18515545b84986581"
+    },
+    {
+      "path": "scripts/ai_check_coverage_guard.py",
+      "status": "M",
+      "fingerprint": "a38baaf6007cc3a8966a19b371461c6c256c7c44ff740e215d7b52953b3c9935"
+    },
+    {
+      "path": "scripts/ai_check_guidelines.py",
+      "status": "M",
+      "fingerprint": "d35b99d9db14c05d745aced1c6ffdc772dcfca2257db1f8a849f2d12ce7d2751"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "68c0d4e0da686a5c5ac7ce4afde7ccc4a933f122f8fd631b4ec348eeaea8a60c"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "status": "M",
+      "fingerprint": "04dcb9c7c2431738022f61a4c744a80519c015376527983cc5b5767297c8a8c2"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "c368098ab9dd3b8a93f27be04368e981a3ed11b1a368d8eb11b4a6d192cb77a2"
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "status": "A",
+      "fingerprint": "f58db563bd650c6a5a826443b3f566bbf8dfd4f65e76af2d6398dfd96f7d2695"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "91a52d4c6de808020a952dc7181d35e7d860ba2d2aeb851e4cbe375e5a68d2af"
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "56f5c9c668066606a13d1fc14155885d5f5a5905d64cc26195eeefce15b49afc"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "A",
+      "fingerprint": "11f6214330a7c85313c48d3d04e571048c7aa63cada2a08eef6e8bca908f6b06"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "f5b3fd693134980121c9082960371bf74a10021f80930004a32c0a008e34ee43"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "A",
+      "fingerprint": "83211081b370c9eb2bac9f44cc5d89c285c1ee07a91bcb154cd8a6ebc60ffd42"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "M",
+      "fingerprint": "9e512058da4f5bae3712889b15e337466289012981c8170a91db405e3f04614b"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "M",
+      "fingerprint": "e5ae3f386f500488fb61f203131d20e7dc6dd3092ed44fe7f85d1936fa27951c"
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "status": "A",
+      "fingerprint": "fc9a8796dd90179780b182ec1a13e7b0c0263d6f2609494e9c35d0b85440dc98"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "A",
+      "fingerprint": "f3d96a9775de0456f3899eee9e76f7f9a7db47140a1f75b0ceb7d9e29bbdc36a"
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "status": "M",
+      "fingerprint": "58753da82a72609a305d44328a2a7d12415b1775f8ff1f73282f9f8237f01273"
+    },
+    {
+      "path": "tests/test_contract_examples.py",
+      "status": "A",
+      "fingerprint": "e6f55a3a0f81665904af8e55e9f24a3a789e1229d53d553ed3fe416da33dbd97"
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "a571bcb62cee1aeabe7b618db3a87bf70b48f3fda88ea70dc348f38dbf8d0f30"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "A",
+      "fingerprint": "202eecab96efa8485b7815c73738026354ef216523cd351fa8279234bccf5e92"
+    },
+    {
+      "path": "tests/test_guidelines.py",
+      "status": "M",
+      "fingerprint": "f1643a579503ea8babae37543bf727b8e5d64aea0ade814bbf14885cfa62f473"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "status": "A",
+      "fingerprint": "f07aa11e0786b1767e1bc62e024f5632e6eeb1bb105122ade85b2305241854b0"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "5fd5229d060f3656af108ae6fe27d62b8a48432faf4821d531d910db5d8d28e2"
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "status": "M",
+      "fingerprint": "6fb3cdbde3e3e1e6b0ae7b545902df7f6f4fa7320abce9420a7330b811739bba"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "A",
+      "fingerprint": "807eca0f021fcf35c6ae69d42d71251aa16ced0b3a83434fdf831466391d948e"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "e82dfb496f506d58ba04da2accff35e2303620ff511ae55c6f92250aa33edcdd"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+    ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/adoption.md",
+    ".ai/guards/coverage_policy.yaml",
+    "templates/make/Makefile.ai",
+    "Makefile",
+    "scripts/ai_check_adoption_ready.py",
+    "tests/test_installer.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_core_gates.py",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/installation.md"
+  ],
+  "outOfScope": [
+    "Publishing a new release tag",
+    "Publishing SHA256 archives, signatures, or provenance",
+    "Claiming static configuration checks prove project command effectiveness",
+    "Implementing minimal/core/full installation modes",
+    "Completing real-project CI for all Preset-only stacks"
+  ],
+  "sources": [
+    {
+      "path": "User engineering review dated 2026-06-19",
+      "reason": "Reports fail-open quality defaults, root-layout Coverage gaps, readiness overclaim, and core coverage risk."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Defines installed project quality fallback behavior."
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "reason": "Defines default cross-stack production and test path heuristics."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "fail_open_gate",
+      "coverage_false_negative",
+      "readiness_overclaim"
+    ],
+    "reason": "Installed defaults and guard heuristics can incorrectly report success or miss production changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Fallback exit codes, path detection, and static readiness semantics are deterministic and testable."
+  },
+  "preReviewWarnings": [
+    "Coverage additions are heuristics and must not be described as universal framework support.",
+    "The adoption gate must not claim to prove the semantic effectiveness of arbitrary commands."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Installed make quality fails when Makefile.ai.stack is missing.",
+    "Each missing default project quality command prints an ERROR message and exits nonzero.",
+    "Default Coverage Guard detects root Go, C#, and TypeScript production files and common monorepo, Maven, and Flutter package layouts.",
+    "Default Coverage Guard recognizes corresponding root and nested test layouts.",
+    "Adoption readiness rejects exact trivial no-op quality commands.",
+    "Adoption readiness is consistently documented as a static configuration completeness check, not production effectiveness proof.",
+    "Regression tests cover fail-closed defaults, path heuristics, and readiness semantics.",
+    "All required governance and project checks pass."
+  ],
+  "guidelines": [
+    "Missing configuration must fail closed with actionable errors.",
+    "Coverage defaults are reviewable heuristics, not universal framework guarantees.",
+    "Static configuration checks must not overclaim runtime or test effectiveness.",
+    "Compatibility-preserving command names should be retained when documentation can accurately narrow semantics.",
+    "Do not hand-edit generated cockpit status."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user request in current thread",
+    "reason": "The requested changes explicitly modify guard policy and installed Make behavior."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

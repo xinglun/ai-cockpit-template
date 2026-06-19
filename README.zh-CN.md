@@ -1,7 +1,7 @@
 ---
 author: Ray
 title: "AI Cockpit"
-description: 面向 Codex、Gemini、Claude、Cursor、Antigravity 和其他 AI 编码代理的语言无关 AI 治理模板。
+description: 面向 Codex、Gemini、Claude、Cursor、Antigravity 等 AI 编码代理、与目标应用语言无关的变更治理模板。
 keywords:
   - ai-agents
   - ai-agent
@@ -34,7 +34,9 @@ AI 编码代理可能会：
 - 绕过验证
 - 让 reviewer 猜不出发生了什么
 
-你的 AI agent 不应该拥有整个仓库的 root access。
+不应在缺少边界明确、独立执行的 review 时接受 AI 生成的变更。
+
+AI Cockpit 是写入后的差分治理流程，不是文件系统权限边界或安全沙箱。
 
 AI Cockpit 是面向 coding agents 的 AI Change Governance。
 
@@ -69,11 +71,17 @@ Cockpit 已更新。
 Review 从上下文开始。
 ```
 
-## 3 分钟安装
+## 安装最新公开运行时
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust --update-makefile
+RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
+INSTALLER="$(mktemp)"
+trap 'rm -f "$INSTALLER"' EXIT
+curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile
 ```
+
+该命令优先读取公开的 `release.json`；在发布元数据尚未上线的过渡期，则从公开的语义化版本标签中选择最高版本。随后只下载并执行解析出的固定标签安装器。公开版本的能力可能落后于源码树；创建首次采用 PR 前请先阅读[安装文档](docs/installation.md)。
 
 启动一个受治理的 AI 任务：
 
@@ -96,9 +104,9 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | 层 | 作用 |
 | --- | --- |
 | Work Item Contract | 在 AI 修改文件前声明任务边界。 |
-| Scope Guard | 阻止超出声明 scope 的变更。 |
-| Backtrack Guard | 默认阻止删除受保护的测试、snapshot 或 Work Item 记录。 |
-| Coverage Guard | 默认阻止没有对应测试变更的已配置生产代码修改。 |
+| Scope Guard | 检测超出声明 scope 的变更，并阻止完成、归档或合并门禁通过。 |
+| Backtrack Guard | 检测受保护测试、snapshot 或 Work Item 记录的删除，并阻止已配置门禁通过。 |
+| Coverage Guard | 检测缺少对应测试变更的生产代码修改，并阻止已配置门禁通过。 |
 | Agent Risk Guard | 针对「prompt 仅是建议」、「mid-task 漂移」和「过度声明」风险的硬门控。 |
 | AI Review Policy | 标记需要在 Change Summary 中明确说明 review 重点的治理和 CI 变更（仅报告）。 |
 | Checkpoint | Mid-task 完整性快照，用于在完成前检测 scope 漂移。 |
@@ -145,9 +153,21 @@ Codex, Gemini, Claude, Cursor, Antigravity, and other coding agents
 generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ruby, php, csharp
 ```
 
+兼容性等级：
+
+<!-- stack-tiers: verified=python,go,rust,typescript; preset-only=generic,flutter,java,android,kotlin,swift,ruby,php,csharp -->
+
+- **CI 已验证：** `python`、`go`、`rust`、`typescript` 会创建最小工程并执行 `make quality`。
+- **仅预设：** `generic`、`flutter`、`java`、`android`、`kotlin`、`swift`、`ruby`、`php`、`csharp` 只提供命令起点，尚无真实工程 CI 证据。`generic` 在完成配置前会按设计失败关闭。
+- **不支持的运行环境：** 原生 Windows shell。请使用 WSL 或其他 POSIX 环境。
+
 技术栈预设是可按项目修改的起点，不负责安装依赖。目标项目必须已具备 formatter、测试运行器、SDK 和构建插件；例如 Java 和 Android 预设要求 Gradle Wrapper 与 Spotless 配置，Python 预设要求 Ruff 和 pytest。`examples/` 仅覆盖部分技术栈，目前并未包含每一种预设。
 
 治理运行时本身不依赖目标语言，但技术栈预设和默认 guard 路径并不代表完整的框架支持。将其设为 CI 必需检查前，必须根据目标仓库调整 `Makefile.ai.stack` 和 `.ai/guards/coverage_policy.yaml`。
+
+安装只完成治理运行时部署，并不代表生产适配完成。配置质量命令、Coverage 路径和 PR CI 后，将 Coverage policy 中的 `adoptionReviewed` 设置为 `true`，再运行 `make check-ai-adoption-ready`。这是静态配置完整性检查，不能证明项目命令有效；CI 仍须分别要求 `make quality` 和 `check-ai-pr` 成功。
+
+当前固定公开版本尚未包含源码树中的首次 adoption 审计流程。如果准备在同一个 PR 中引入 AI Cockpit 并运行 `check-ai-pr`，请先阅读安装文档中的版本边界。
 
 ## 运行环境要求
 
@@ -155,6 +175,8 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - 具有 merge-base 和 three-dot 差分（`...`）支持的 Git 环境。
 - 兼容 POSIX shell 和 GNU Make 的命令执行环境。
 - 官方支持 Linux 和 macOS 运行和 CI。原生 Windows shell 暂不支持，请在 WSL (Windows Subsystem for Linux) 或其他 POSIX 终端中运行。
+
+仓库的 `make quality` 会运行全部测试并要求脚本覆盖率不低于 60%，对 `scripts/` 和 `tests/` 执行 Ruff，对已完成类型标注的核心工具子集执行 Mypy，同时执行中高等级 Bandit 扫描、Python 编译、差分检查和文档一致性检查。Mypy 当前有意限定范围，后续扩展不得依赖宽泛忽略规则。
 
 ## 版本与迁移策略
 

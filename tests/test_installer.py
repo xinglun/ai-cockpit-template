@@ -23,7 +23,13 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
 
     assert installer.install() == 0
     assert (tmp_path / "scripts" / "ai_check_pr.py").is_file()
+    assert (tmp_path / ".ai" / "README.md").is_file()
+    assert (tmp_path / "scripts" / "ai_doctor.py").is_file()
+    assert (tmp_path / "scripts" / "ai_check_adoption_ready.py").is_file()
     assert "<!-- AI_COCKPIT_SECTION -->" in (tmp_path / "AGENTS.md").read_text(encoding="utf-8")
+    managed = (tmp_path / "AGENTS.md").read_text(encoding="utf-8")
+    assert "\n---\n" not in managed
+    assert "\n# Agent Operating Rules" not in managed
     assert not list((tmp_path / ".ai" / "work-items" / "active").glob("*.json"))
     assert not list((tmp_path / ".ai" / "work-items" / "archive").rglob("*.json"))
     assert "- State: `no_active_work_item`" in (
@@ -34,8 +40,16 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     assert ".ai/cockpit/upgrade-backups/" in (tmp_path / ".gitignore").read_text(encoding="utf-8")
     makefile_ai = (tmp_path / "Makefile.ai").read_text(encoding="utf-8")
     assert "check-ai-pr:" in makefile_ai
+    assert "ai-doctor:" in makefile_ai
+    assert "check-ai-adoption-ready:" in makefile_ai
     assert "scripts/ai_check_pr.py" in makefile_ai
     assert 'scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))' in makefile_ai
+    assert (tmp_path / ".ai" / "glossary.md").read_text(encoding="utf-8") == (
+        ROOT / "templates" / "glossary.md"
+    ).read_text(encoding="utf-8")
+    assert (tmp_path / ".ai" / "glossary.md").read_text(encoding="utf-8") != (
+        ROOT / ".ai" / "glossary.md"
+    ).read_text(encoding="utf-8")
 
     result = subprocess.run(
         ["make", "-n", "check-ai-pr", "AI_BASE_COMMIT=abc123"],
@@ -46,6 +60,31 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     )
     assert result.returncode == 0, result.stdout + result.stderr
     assert 'scripts/ai_check_pr.py --base "abc123"' in result.stdout
+
+
+def test_missing_stack_file_project_quality_targets_fail_closed(tmp_path):
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    assert installer.install() == 0
+    (tmp_path / "Makefile.ai.stack").unlink()
+
+    for target, message in (
+        ("project-format-check", "ERROR: no project formatter configured"),
+        ("project-test", "ERROR: no project test command configured"),
+        ("project-lint", "ERROR: no project linter configured"),
+    ):
+        result = subprocess.run(
+            ["make", target], cwd=tmp_path, text=True, capture_output=True, check=False,
+        )
+        assert result.returncode != 0
+        assert message in result.stderr
+
+    quality = subprocess.run(
+        ["make", "quality"], cwd=tmp_path, text=True, capture_output=True, check=False,
+    )
+    assert quality.returncode != 0
 
 
 def test_upgrade_backs_up_policies_and_replaces_agent_marker_section(tmp_path):
@@ -124,6 +163,77 @@ def test_commented_makefile_include_does_not_suppress_active_include(tmp_path):
     lines = makefile.read_text(encoding="utf-8").splitlines()
     assert "# include Makefile.ai" in lines
     assert "include Makefile.ai" in lines
+
+
+@pytest.mark.parametrize(
+    ("force", "upgrade"),
+    [(False, False), (True, False), (False, True)],
+)
+def test_reinstall_preserves_project_glossary_by_default(tmp_path, force, upgrade):
+    initial = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    assert initial.install() == 0
+    glossary = tmp_path / ".ai" / "glossary.md"
+    glossary.write_text("# PROJECT GLOSSARY\n\nKEEP-ME\n", encoding="utf-8")
+
+    reinstall = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=force, dry_run=False,
+        with_examples=False, update_makefile=True, upgrade=upgrade,
+    )
+
+    assert reinstall.install() == 0
+    assert glossary.read_text(encoding="utf-8") == "# PROJECT GLOSSARY\n\nKEEP-ME\n"
+
+
+def test_replace_glossary_is_explicit_and_backed_up(tmp_path):
+    custom = tmp_path / ".ai" / "glossary.md"
+    custom.parent.mkdir(parents=True)
+    custom.write_text("# PROJECT GLOSSARY\n\nKEEP-ME\n", encoding="utf-8")
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True, replace_glossary=True,
+    )
+
+    assert installer.install() == 0
+    assert custom.read_text(encoding="utf-8") == (ROOT / "templates" / "glossary.md").read_text(encoding="utf-8")
+    backups = list((tmp_path / ".ai" / "cockpit" / "upgrade-backups").glob("*/.ai/glossary.md"))
+    assert len(backups) == 1
+    assert backups[0].read_text(encoding="utf-8") == "# PROJECT GLOSSARY\n\nKEEP-ME\n"
+
+
+def test_install_warns_when_repository_has_no_initial_commit(tmp_path, capsys):
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+
+    assert installer.install() == 0
+    assert "ai-start requires a Git repository with at least one commit" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("mode", ["upgrade", "force"])
+@pytest.mark.parametrize(
+    "malformed",
+    [
+        "before\n<!-- AI_COCKPIT_SECTION -->\ncritical user rule\n",
+        "<!-- /AI_COCKPIT_SECTION -->\nbefore\n<!-- AI_COCKPIT_SECTION -->\n",
+        "<!-- AI_COCKPIT_SECTION -->\n<!-- AI_COCKPIT_SECTION -->\n<!-- /AI_COCKPIT_SECTION -->\n",
+        "<!-- AI_COCKPIT_SECTION -->\n<!-- /AI_COCKPIT_SECTION -->\n<!-- /AI_COCKPIT_SECTION -->\n",
+    ],
+)
+def test_malformed_agent_markers_fail_before_writing(tmp_path, mode, malformed):
+    agents = tmp_path / "AGENTS.md"
+    agents.write_text(malformed, encoding="utf-8")
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=mode == "force", dry_run=False,
+        with_examples=False, update_makefile=True, upgrade=mode == "upgrade",
+    )
+
+    assert installer.install() == 2
+    assert agents.read_text(encoding="utf-8") == malformed
+    assert not (tmp_path / "Makefile.ai").exists()
 
 
 def test_upgrade_refuses_active_work_item_before_writing(tmp_path):
@@ -225,3 +335,44 @@ def test_upgrade_rolls_back_when_post_copy_validation_fails(tmp_path, monkeypatc
 
     assert upgrade.install() == 2
     assert checks.read_text(encoding="utf-8") == "# CUSTOM BEFORE UPGRADE\n"
+
+
+def test_failed_upgrade_removes_new_gitignore(tmp_path, monkeypatch):
+    initial = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    assert initial.install() == 0
+    (tmp_path / ".gitignore").unlink()
+    upgrade = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True, upgrade=True,
+    )
+    monkeypatch.setattr(
+        upgrade,
+        "validate_upgraded_installation",
+        lambda: (_ for _ in ()).throw(ValueError("simulated validation failure")),
+    )
+
+    assert upgrade.install() == 2
+    assert not (tmp_path / ".gitignore").exists()
+
+
+def test_failed_initial_install_restores_original_tree(tmp_path, monkeypatch):
+    (tmp_path / "README.md").write_text("# Existing\n", encoding="utf-8")
+    preserved_empty = tmp_path / "preserved-empty"
+    preserved_empty.mkdir()
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    monkeypatch.setattr(
+        installer,
+        "append_makefile_include",
+        lambda: (_ for _ in ()).throw(ValueError("simulated late install failure")),
+    )
+
+    assert installer.install() == 2
+    assert (tmp_path / "README.md").read_text(encoding="utf-8") == "# Existing\n"
+    assert preserved_empty.is_dir()
+    assert sorted(path.relative_to(tmp_path).as_posix() for path in tmp_path.rglob("*") if path.is_file()) == ["README.md"]

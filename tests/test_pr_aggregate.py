@@ -120,7 +120,7 @@ def test_pr_rejects_summary_only_tampering_even_when_new_work_item_claims_it(tmp
 
     issues = ai_check_pr.validate_pr_bundle("a" * 40, [new])
 
-    assert any("archived Work Item evidence is immutable" in issue and old_summary in issue for issue in issues)
+    assert any("archive PR policy is append-only" in issue and old_summary in issue for issue in issues)
 
 
 def test_pr_rejects_contract_only_archive_modification(tmp_path, monkeypatch):
@@ -134,7 +134,7 @@ def test_pr_rejects_contract_only_archive_modification(tmp_path, monkeypatch):
 
     issues = ai_check_pr.validate_pr_bundle("a" * 40, [])
 
-    assert any("archived Work Item evidence is immutable" in issue for issue in issues)
+    assert any("archive PR policy is append-only" in issue for issue in issues)
 
 
 def test_pr_rejects_archive_delete_and_rename(tmp_path, monkeypatch):
@@ -157,4 +157,4 @@ def test_pr_rejects_archive_delete_and_rename(tmp_path, monkeypatch):
 
     issues = ai_check_pr.validate_pr_bundle("a" * 40, [])
 
-    assert sum("archived Work Item evidence is immutable" in issue for issue in issues) == 2
+    assert sum("archive PR policy is append-only" in issue for issue in issues) == 2

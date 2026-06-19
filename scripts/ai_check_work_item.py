@@ -36,6 +36,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "riskAssessment",
     "baseCommit",
     "baselineDirtyPaths",
+    "adoptionBootstrapPaths",
     "restrictedWriteApproval",
     "guidelines",
 }
@@ -181,6 +182,13 @@ def validate_baseline_and_approvals(data: dict[str, Any]) -> list[str]:
             for key in ("path", "status", "fingerprint"):
                 if not non_empty_string(item.get(key)):
                     issues.append(f"baselineDirtyPaths[{index}].{key} is required")
+
+    bootstrap = data.get("adoptionBootstrapPaths")
+    if bootstrap is not None:
+        if data.get("workItemId") != "adopt_ai_cockpit":
+            issues.append("adoptionBootstrapPaths is only allowed for workItemId adopt_ai_cockpit")
+        if not isinstance(bootstrap, list) or not bootstrap or any(not non_empty_string(item) for item in bootstrap):
+            issues.append("adoptionBootstrapPaths must be a non-empty list of path patterns")
 
     destructive = data.get("destructiveChangePolicy")
     if not isinstance(destructive, dict):

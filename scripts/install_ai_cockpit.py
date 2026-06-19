@@ -5,8 +5,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -31,6 +33,8 @@ STACKS = {
     "csharp",
 }
 SCRIPT_NAMES = {
+    "ai_doctor.py",
+    "ai_check_adoption_ready.py",
     "ai_archive_work_item.py",
     "ai_checkpoint.py",
     "ai_check_agent_risk.py",
@@ -87,6 +91,8 @@ class Installer:
         update_makefile: bool,
         upgrade: bool = False,
         upgrade_with_active: bool = False,
+        replace_glossary: bool = False,
+        create_adoption: bool = False,
     ) -> None:
         self.source = source.resolve()
         self.target = target.resolve()
@@ -97,10 +103,13 @@ class Installer:
         self.update_makefile = update_makefile
         self.upgrade = upgrade
         self.upgrade_with_active = upgrade_with_active
+        self.replace_glossary = replace_glossary
+        self.create_adoption = create_adoption
         self.backup_dir = self.target / ".ai" / "cockpit" / "upgrade-backups" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
         self.actions: list[Action] = []
         self.backups: dict[Path, Path] = {}
         self.created_paths: set[Path] = set()
+        self.preexisting_dirs: set[Path] = set()
 
     def install(self) -> int:
         if not self.source.exists():
@@ -111,15 +120,26 @@ class Installer:
             return 2
         if self.upgrade and not self.upgrade_preflight():
             return 2
+        if self.create_adoption and not self.adoption_preflight():
+            return 2
+        try:
+            self.validate_agent_markers()
+        except (OSError, ValueError) as exc:
+            print(f"ERROR: installation failed before writing: {exc}", file=sys.stderr)
+            return 2
+        if self.target.exists():
+            self.preexisting_dirs = {self.target, *(path for path in self.target.rglob("*") if path.is_dir())}
         self.target.mkdir(parents=True, exist_ok=True)
         try:
+            if self.create_adoption:
+                self.create_adoption_records()
             self.copy_tree(".ai")
             self.install_initial_status()
             self.copy_tree(".cursor")
             self.copy_scripts()
             self.copy_file("templates/make/Makefile.ai", "Makefile.ai")
             self.copy_file(f"templates/stacks/{self.stack}.mk", "Makefile.ai.stack")
-            self.copy_file("templates/glossary.md", ".ai/glossary.md")
+            self.install_glossary()
             if self.with_examples:
                 self.copy_tree("examples")
             self.install_agent_doc("AGENTS.md")
@@ -130,14 +150,33 @@ class Installer:
                 self.append_makefile_include()
             if self.upgrade:
                 self.validate_upgraded_installation()
-        except (OSError, json.JSONDecodeError, ValueError) as exc:
-            if self.upgrade and not self.dry_run:
-                self.rollback_upgrade()
+            if self.create_adoption:
+                self.finalize_adoption_records()
+        except (OSError, json.JSONDecodeError, ValueError, subprocess.SubprocessError) as exc:
+            if not self.dry_run:
+                self.rollback_installation()
             print(f"ERROR: installation failed: {exc}", file=sys.stderr)
             return 2
 
         self.print_summary()
         return 0
+
+    def validate_agent_markers(self) -> None:
+        for name in ("AGENTS.md", "GEMINI.md", "CLAUDE.md"):
+            path = self.target / name
+            if not path.exists():
+                continue
+            text = path.read_text(encoding="utf-8")
+            starts = text.count(AGENT_MARKER)
+            ends = text.count(AGENT_END_MARKER)
+            if starts == 0 and ends == 0:
+                continue
+            if starts != 1 or ends != 1:
+                raise ValueError(
+                    f"{name}: malformed AI Cockpit markers; expected exactly one start and one end marker"
+                )
+            if text.index(AGENT_MARKER) > text.index(AGENT_END_MARKER):
+                raise ValueError(f"{name}: malformed AI Cockpit markers; end marker appears before start marker")
 
     def validate_upgraded_installation(self) -> None:
         if self.dry_run:
@@ -154,14 +193,155 @@ class Installer:
         if missing:
             raise ValueError(f"upgraded installation is missing managed files: {', '.join(missing)}")
 
-    def rollback_upgrade(self) -> None:
+    def rollback_installation(self) -> None:
         for original, backup in reversed(list(self.backups.items())):
             original.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(backup, original)
         for path in sorted(self.created_paths, key=lambda item: len(item.parts), reverse=True):
             if path.is_file() or path.is_symlink():
                 path.unlink()
-        print(f"Upgrade rolled back from backups in {self.backup_dir.relative_to(self.target)}")
+        shutil.rmtree(self.backup_dir, ignore_errors=True)
+        candidate_dirs = {
+            parent
+            for path in [*self.created_paths, self.backup_dir]
+            for parent in path.parents
+            if parent != self.target and self.target in parent.parents and parent not in self.preexisting_dirs
+        }
+        for directory in sorted(candidate_dirs, key=lambda item: len(item.parts), reverse=True):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+        print("Installation transaction rolled back")
+
+    def adoption_preflight(self) -> bool:
+        if self.upgrade:
+            print("ERROR: --create-adoption is for first installation and cannot be combined with --upgrade.", file=sys.stderr)
+            return False
+        head = subprocess.run(
+            ["git", "rev-parse", "--verify", "HEAD"], cwd=self.target,
+            text=True, capture_output=True, check=False,
+        )
+        if head.returncode != 0:
+            print("ERROR: --create-adoption requires a Git repository with at least one commit.", file=sys.stderr)
+            return False
+        status = subprocess.run(
+            ["git", "status", "--porcelain"], cwd=self.target,
+            text=True, capture_output=True, check=False,
+        )
+        if status.returncode != 0 or status.stdout.strip():
+            print("ERROR: --create-adoption requires a clean Git worktree before installation.", file=sys.stderr)
+            return False
+        active = self.target / ".ai" / "work-items" / "active"
+        if active.exists() and any(active.glob("*.json")):
+            print("ERROR: --create-adoption requires no existing active Work Item.", file=sys.stderr)
+            return False
+        return True
+
+    def adoption_paths(self) -> tuple[Path, Path]:
+        active = self.target / ".ai" / "work-items" / "active"
+        return active / "adopt_ai_cockpit.contract.json", active / "adopt_ai_cockpit.summary.json"
+
+    @staticmethod
+    def write_json(path: Path, data: dict) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    def create_adoption_records(self) -> None:
+        contract_path, summary_path = self.adoption_paths()
+        base_commit = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=self.target,
+            text=True, capture_output=True, check=True,
+        ).stdout.strip()
+        contract_rel = contract_path.relative_to(self.target).as_posix()
+        verification = [
+            {"check": check, "required": True}
+            for check in ("aiWorkItem", "aiScope", "aiAgentRisk", "aiSummary", "aiStatus", "aiStatusCheck")
+        ]
+        contract = {
+            "contractVersion": 2,
+            "workItemId": "adopt_ai_cockpit",
+            "mode": "code",
+            "title": "Adopt AI Cockpit governance",
+            "baseCommit": base_commit,
+            "baselineDirtyPaths": [],
+            "adoptionBootstrapPaths": ["scripts/ai_*.py"],
+            "scope": [
+                ".ai/**", ".cursor/**", "scripts/ai_*.py", "Makefile.ai", "Makefile.ai.stack",
+                "AGENTS.md", "GEMINI.md", "CLAUDE.md", ".gitignore", "Makefile", "examples/**",
+            ],
+            "outOfScope": ["Product source changes", "Claiming project-specific quality checks are configured"],
+            "sources": [{"path": ".ai/cockpit/adoption.md", "reason": "Installed first-adoption and production-readiness workflow."}],
+            "unknowns": [],
+            "notCodable": False,
+            "riskAssessment": {"level": "medium", "riskTypes": ["governance_bootstrap"], "reason": "The first governance PR introduces its own policy files."},
+            "agentCapability": {"canImplement": True, "canVerify": True, "needsHumanDecision": False, "blockedReason": ""},
+            "executionDecision": {"status": "continue", "reason": "The installer records the complete clean-worktree adoption diff."},
+            "preReviewWarnings": ["Protected platform review remains required for trusted approval."],
+            "checkpointPolicy": {"requiredBeforeFinish": False, "requiredStages": [], "reason": "Installer-generated bounded adoption record."},
+            "acceptance": ["All installer-created changes are owned by this Contract and Summary.", "The archived pair passes check-ai-pr for the complete adoption diff."],
+            "guidelines": ["Do not claim project quality checks are configured by adoption."],
+            "verification": verification,
+            "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
+            "restrictedWriteApproval": {"approved": True, "approvedBy": "installer adoption workflow", "reason": "The user explicitly invoked --create-adoption to introduce governance files."},
+            "rollbackNote": "Revert the adoption commit to remove AI Cockpit governance files.",
+        }
+        summary = {
+            "workItemId": "adopt_ai_cockpit",
+            "contractPath": contract_rel,
+            "changedFiles": [],
+            "sourcesUsed": [".ai/cockpit/adoption.md", "installer action log"],
+            "verification": [{"check": item["check"], "result": "not_run"} for item in verification],
+            "guidelinesCompliance": [{"guideline": contract["guidelines"][0], "compliant": True, "evidence": "Adoption verification excludes unconfigured project quality commands."}],
+            "unknownsRemaining": [],
+            "risk": {"level": "medium", "detail": "Trusted approval must be enforced by the code-hosting platform."},
+            "generatedFiles": [".ai/cockpit/current_status.md"],
+            "destructiveChanges": [],
+            "observedIssues": [],
+            "residualRisks": [{"level": "medium", "area": "project_quality", "detail": "Configure and require project quality checks after adoption.", "reviewRecommended": True, "followUpCandidate": True}],
+            "reviewReadiness": {"status": "ready_with_risks", "reason": "Governance bootstrap is recorded; project checks remain a follow-up.", "expectedReviewFocus": ["Complete installation path ownership", "External trusted approval"]},
+            "boundaryChecks": {key: "verified" for key in ("runtimeEntrypoints", "userVisibleOutput", "persistence", "localization", "generatedArtifacts", "makeEntrypoints")},
+            "userCorrectionsCaptured": [],
+            "userCorrectionSolidification": [],
+            "checkpointEvidence": [],
+            "knownGaps": ["Project-specific quality commands are not configured by adoption."],
+            "overclaimPrevention": "This record covers governance adoption only, not product quality validation.",
+        }
+        for path, data, detail in (
+            (contract_path, contract, "create adoption Contract"),
+            (summary_path, summary, "create adoption Summary"),
+        ):
+            self.record("write", path, detail)
+            if not self.dry_run:
+                self.write_json(path, data)
+                self.created_paths.add(path)
+
+    def finalize_adoption_records(self) -> None:
+        contract_path, summary_path = self.adoption_paths()
+        status_path = self.target / ".ai" / "cockpit" / "current_status.md"
+        self.record("write", status_path, "generate adoption Work Item status")
+        if self.dry_run:
+            return
+        if not status_path.exists():
+            self.created_paths.add(status_path)
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        changed: dict[str, str] = {}
+        for action in self.actions:
+            if action.kind not in {"write", "overwrite", "append", "replace"}:
+                continue
+            if action.path.is_relative_to(self.target):
+                changed[action.path.relative_to(self.target).as_posix()] = action.detail
+        summary["changedFiles"] = [
+            {"path": path, "reason": reason} for path, reason in sorted(changed.items())
+        ]
+        self.write_json(summary_path, summary)
+        result = subprocess.run(
+            [sys.executable, "scripts/ai_generate_status.py", contract_path.relative_to(self.target).as_posix(), "--summary", summary_path.relative_to(self.target).as_posix()],
+            cwd=self.target, text=True, capture_output=True, check=False,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        if result.returncode != 0:
+            raise ValueError(f"failed to generate adoption status: {result.stderr.strip()}")
 
     def upgrade_preflight(self) -> bool:
         active_dir = self.target / ".ai" / "work-items" / "active"
@@ -222,6 +402,8 @@ class Installer:
             rel = item.relative_to(src)
             if relative == ".ai" and rel.as_posix() == "cockpit/current_status.md":
                 continue
+            if relative == ".ai" and rel.as_posix() == "glossary.md":
+                continue
             if relative == ".ai" and len(rel.parts) >= 3 and rel.parts[:2] == ("work-items", "active") and rel.name != ".gitkeep":
                 continue
             if relative == ".ai" and len(rel.parts) >= 3 and rel.parts[:2] == ("work-items", "archive") and rel.name != ".gitkeep":
@@ -235,18 +417,35 @@ class Installer:
             return
         dst = self.target / ".ai" / "cockpit" / "current_status.md"
         existed = dst.exists()
-        if existed and self.upgrade:
+        if existed:
             self.backup_path(dst)
         self.record("write" if not existed else "overwrite", dst, "generate no-active Work Item status")
         if self.dry_run:
             return
         write_no_active_status(dst)
-        if self.upgrade and not existed:
+        if not existed:
             self.created_paths.add(dst)
 
     def copy_scripts(self) -> None:
         for name in sorted(SCRIPT_NAMES):
             self.copy_path(self.source / "scripts" / name, self.target / "scripts" / name, executable=True)
+
+    def install_glossary(self) -> None:
+        src = self.source / "templates" / "glossary.md"
+        dst = self.target / ".ai" / "glossary.md"
+        if dst.exists() and not self.replace_glossary:
+            self.record("skip", dst, "preserve project-owned glossary")
+            return
+        existed = dst.exists()
+        if existed:
+            self.backup_path(dst)
+        self.record("overwrite" if existed else "write", dst, "install project glossary template")
+        if self.dry_run:
+            return
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        if not existed:
+            self.created_paths.add(dst)
 
     def copy_file(self, src_relative: str, dst_relative: str) -> None:
         self.copy_path(self.source / src_relative, self.target / dst_relative)
@@ -256,14 +455,14 @@ class Installer:
         if existed and not (self.force or self.upgrade):
             self.record("skip", dst, "already exists")
             return
-        if existed and self.upgrade:
+        if existed:
             self.backup_path(dst)
         self.record("write" if not existed else "overwrite", dst, f"from {src.relative_to(self.source)}")
         if self.dry_run:
             return
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
-        if self.upgrade and not existed:
+        if not existed:
             self.created_paths.add(dst)
         if executable:
             dst.chmod(dst.stat().st_mode | 0o111)
@@ -281,37 +480,34 @@ class Installer:
         self.backups.setdefault(path, backup)
 
     def install_agent_doc(self, name: str) -> None:
-        src = self.source / name
         dst = self.target / name
         if not dst.exists():
             self.record("write", dst, "install managed AI Cockpit section")
             if not self.dry_run:
                 dst.parent.mkdir(parents=True, exist_ok=True)
-                dst.write_text(self.agent_section(src), encoding="utf-8")
-                if self.upgrade:
-                    self.created_paths.add(dst)
+                dst.write_text(self.agent_section(), encoding="utf-8")
+                self.created_paths.add(dst)
             return
         text = dst.read_text(encoding="utf-8")
         if AGENT_MARKER in text:
             if not (self.force or self.upgrade):
                 self.record("skip", dst, "AI Cockpit section already present")
                 return
-            if self.upgrade:
-                self.backup_path(dst)
-            section = self.agent_section(src)
+            self.backup_path(dst)
+            section = self.agent_section()
             start = text.index(AGENT_MARKER)
             end_index = text.find(AGENT_END_MARKER, start)
-            suffix = "" if end_index < 0 else text[end_index + len(AGENT_END_MARKER):]
+            suffix = text[end_index + len(AGENT_END_MARKER):]
             replacement = text[:start].rstrip() + "\n\n" + section + suffix
             self.record("replace", dst, "replace managed AI Cockpit section")
             if not self.dry_run:
                 dst.write_text(replacement, encoding="utf-8")
             return
-        section = self.agent_section(src)
+        section = self.agent_section()
         detail = "add AI Cockpit section"
         if self.upgrade:
-            self.backup_path(dst)
             detail = "preserve unmarked agent rules and add managed section"
+        self.backup_path(dst)
         self.record("append", dst, detail)
         if self.dry_run:
             return
@@ -320,9 +516,9 @@ class Installer:
                 handle.write("\n")
             handle.write("\n" + section)
 
-    def agent_section(self, src: Path) -> str:
+    def agent_section(self) -> str:
         title = "AI Cockpit Rules"
-        body = src.read_text(encoding="utf-8").strip()
+        body = (self.source / "templates" / "agents" / "AI_COCKPIT_RULES.md").read_text(encoding="utf-8").strip()
         return f"{AGENT_MARKER}\n\n## {title}\n\n{body}\n\n{AGENT_END_MARKER}\n"
 
     def append_makefile_include(self) -> None:
@@ -332,16 +528,14 @@ class Installer:
             self.record("write", dst, "create Makefile with AI Cockpit include")
             if not self.dry_run:
                 dst.write_text(f"{include_line}\n", encoding="utf-8")
-                if self.upgrade:
-                    self.created_paths.add(dst)
+                self.created_paths.add(dst)
             return
         text = dst.read_text(encoding="utf-8")
         active_include = re.compile(r"^\s*include\s+Makefile\.ai\s*(?:#.*)?$")
         if any(active_include.match(line) for line in text.splitlines()):
             self.record("skip", dst, "Makefile.ai already included")
             return
-        if self.upgrade:
-            self.backup_path(dst)
+        self.backup_path(dst)
         self.record("append", dst, "include Makefile.ai")
         if self.dry_run:
             return
@@ -352,12 +546,13 @@ class Installer:
 
     def install_gitignore(self) -> None:
         dst = self.target / ".gitignore"
+        existed = dst.exists()
         text = dst.read_text(encoding="utf-8") if dst.exists() else ""
         missing_rules = [rule for rule in GITIGNORE_RULES if rule not in text.splitlines()]
         if GITIGNORE_MARKER in text and not missing_rules:
             self.record("skip", dst, "AI Cockpit local-state rules already present")
             return
-        if dst.exists() and self.upgrade:
+        if dst.exists():
             self.backup_path(dst)
         self.record("append" if dst.exists() else "write", dst, "add missing AI Cockpit local-state ignore rules")
         if self.dry_run:
@@ -372,16 +567,26 @@ class Installer:
         else:
             addition = GITIGNORE_SECTION
         dst.write_text(prefix + addition, encoding="utf-8")
+        if not existed:
+            self.created_paths.add(dst)
 
     def print_summary(self) -> None:
         writes = sum(1 for action in self.actions if action.kind in {"write", "overwrite", "append", "replace"})
         skips = sum(1 for action in self.actions if action.kind == "skip")
         print("")
         print(f"AI Cockpit install {'dry run ' if self.dry_run else ''}complete: {writes} write/append action(s), {skips} skipped.")
-        if self.upgrade:
-            print(f"Upgrade backups: {self.backup_dir.relative_to(self.target)}")
+        if self.backups:
+            print(f"Backups: {self.backup_dir.relative_to(self.target)}")
         print("")
         print("Next steps:")
+        if self.create_adoption:
+            print("  1. Run: make ai-finish TASK=adopt_ai_cockpit")
+            print("  2. Commit the installation and archived adoption evidence together.")
+            print("  3. In PR CI run: make check-ai-pr AI_BASE_COMMIT=<pre-adoption-commit>")
+            print("  4. Complete .ai/cockpit/adoption.md, then run: make check-ai-adoption-ready")
+            return
+        if not self.has_initial_commit():
+            print("  WARNING: ai-start requires a Git repository with at least one commit.")
         if not self.update_makefile:
             print("  1. Add this line to your Makefile: include Makefile.ai")
             print("  2. Run: make ai-start TASK=example_change TITLE=\"Example change\" MODE=code")
@@ -394,6 +599,16 @@ class Installer:
             print("  3. Finish with: make ai-finish TASK=example_change")
             print("  4. In PR CI run: make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>")
 
+    def has_initial_commit(self) -> bool:
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "--verify", "HEAD"], cwd=self.target,
+                text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
+            )
+        except OSError:
+            return False
+        return result.returncode == 0
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Install AI Cockpit into an existing repository.")
@@ -405,6 +620,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--with-examples", action="store_true", help="Copy examples/ into the target repository.")
     parser.add_argument("--update-makefile", action="store_true", help="Append include Makefile.ai to the target Makefile.")
     parser.add_argument("--upgrade", action="store_true", help="Back up and replace managed AI Cockpit files and agent marker sections.")
+    parser.add_argument(
+        "--create-adoption",
+        action="store_true",
+        help="Create an auditable first-adoption Work Item; requires a clean repository with an initial commit.",
+    )
+    parser.add_argument(
+        "--replace-glossary",
+        action="store_true",
+        help="Back up and explicitly replace the project-owned .ai/glossary.md template.",
+    )
     parser.add_argument(
         "--upgrade-with-active",
         action="store_true",
@@ -425,6 +650,8 @@ def main() -> int:
         update_makefile=args.update_makefile,
         upgrade=args.upgrade,
         upgrade_with_active=args.upgrade_with_active,
+        replace_glossary=args.replace_glossary,
+        create_adoption=args.create_adoption,
     ).install()
 
 

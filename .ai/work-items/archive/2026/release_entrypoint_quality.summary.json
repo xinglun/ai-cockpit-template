@@ -1,0 +1,454 @@
+{
+  "workItemId": "release_entrypoint_quality",
+  "contractPath": ".ai/work-items/archive/2026/release_entrypoint_quality.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/release_entrypoint_quality.contract.json",
+      "reason": "Declared release entrypoint, quality, documentation, and terminology scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_entrypoint_quality.summary.json",
+      "reason": "Recorded verification evidence and residual release risks."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated active Work Item status."
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "Added the stable governance entrypoint referenced by Agent workflow rules."
+    },
+    {
+      "path": "README.md",
+      "reason": "Removed concrete Quick Start versions, added tagged resolution fallback, tiers, and quality gates."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Applied equivalent Japanese release resolution, tiers, and quality documentation."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Applied equivalent Chinese release resolution, tiers, and quality documentation."
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "reason": "Separated lifecycle layers from concrete blocking/reporting controls and normalized terminology."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added coverage, Ruff, typed-core Mypy, Bandit, and compilation quality gates."
+    },
+    {
+      "path": "requirements-dev.txt",
+      "reason": "Declared every repository quality tool dependency."
+    },
+    {
+      "path": "pyproject.toml",
+      "reason": "Configured Python 3.10 lint/type targets and ignored coverage data location."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Ran the complete quality target across the Python/platform matrix."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Replaced partial test commands with the complete quality target."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Prevented concrete README versions and enforced tagged release resolution."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Documented the fixed HTTPS URL trust boundary for Bandit."
+    },
+    {
+      "path": "scripts/ai_check_coverage_guard.py",
+      "reason": "Removed an unused import required by Ruff."
+    },
+    {
+      "path": "scripts/ai_check_guidelines.py",
+      "reason": "Removed an unused import required by Ruff."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Removed an unused import required by Ruff."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Removed an unused local required by Ruff."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Covered README release resolution drift and the new governance entrypoint fixture."
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "reason": "Removed an unused import required by Ruff."
+    },
+    {
+      "path": "tests/test_guidelines.py",
+      "reason": "Removed an unused import required by Ruff."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Removed an unused import required by Ruff."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Verified .ai/README.md is included in installed distributions."
+    }
+  ],
+  "sourcesUsed": [
+    "User-provided engineering review attachment dated 2026-06-19",
+    "release.json",
+    "requirements-dev.txt",
+    ".ai/glossary.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:20.857025+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "9fafb1e45ec6369e5b72cb9236b8dfafe53a8f15b16a26bc5ac2edb098f1f899",
+      "commandHash": "beb3cd23a95a8ed252c4cf6fb1c47a324338bfc9e9f1dfd2ed9ed14e7f861904",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/release_entrypoint_quality.contract.json work item contract check passed: .ai/work-items/active/release_entrypoint_quality.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.037167+00:00",
+      "exitCode": 0,
+      "durationMs": 178,
+      "outputDigest": "3cc2c4e4c8af6f7db4ea9d642b41b96b52d7c0b5f59c3bfd125777b5920b1fb8",
+      "commandHash": "fb1f307ca191b758e4f0fc67e9fa5b08bd89da5eac1e99045bc52d68c14f18b7",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/release_entrypoint_quality.contract.json scope guard passed: 22 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.190038+00:00",
+      "exitCode": 0,
+      "durationMs": 151,
+      "outputDigest": "7b3d6ae756990b91fb1c1a924b8ea5c923908cf6dc256fdeca605bf837437645",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/release_entrypoint_quality.contract.json [warning] restricted_write: .ai/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: .github/workflows/compatibility.yml (.github/workflows/**) - CI workflow configuration. [warning] restricted_write: .github/workflows/smoke.yml (.github/workflows/**) - CI workflow configuration. [warning] restricted_write: Makefile (Makefile) - "
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.270643+00:00",
+      "exitCode": 0,
+      "durationMs": 78,
+      "outputDigest": "104df059105def1cc8f4178a49a72c4a93827edd6f4342dd46e0db911ffeff6b",
+      "commandHash": "02bf316e6dc2dd2589410256c3dd78ce7afc0197b8466304d59fc0bc145df9f9",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/release_entrypoint_quality.contract.json --summary .ai/work-items/active/release_entrypoint_quality.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_entrypoint_quality` - Contract Hash: `0da68b957ff18396` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `9` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.419754+00:00",
+      "exitCode": 0,
+      "durationMs": 145,
+      "outputDigest": "5ff46b8e24f878670c4f0114158d0ea1215fcbd015159ab42ac6331ceb64de3d",
+      "commandHash": "b3702c3600f4362d125c7ea573fff6c823f62dda24f3b3f61ebcf14f031e175e",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_entrypoint_quality.summary.json review policy matched 8 path(s) [review] .ai/README.md [review] .github/workflows/compatibility.yml [review] .ai/cockpit/current_status.md [review] .github/workflows/smoke.yml [review] Makefile [review] scripts/ai_check_coverage_guard.py [review] scripts/ai_check_guidelines.py [review] scripts/ai_start.py review focus recorded: 5 item(s) report: tar"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.563353+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.696983+00:00",
+      "exitCode": 0,
+      "durationMs": 131,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:21.774651+00:00",
+      "exitCode": 0,
+      "durationMs": 76,
+      "outputDigest": "3a19540457a0298ed988c67de428c7d9b02553b05cc1451b52b931b0c986fb5b",
+      "commandHash": "e7aea62c601259a3b7461460c958ac9a8297243aadb7998d28ec5700eef4ff4a",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_entrypoint_quality.contract.json --summary .ai/work-items/active/release_entrypoint_quality.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:32.809286+00:00",
+      "exitCode": 0,
+      "durationMs": 11033,
+      "outputDigest": "2f65f60887478495ada86943cf24962d86c29d62408a984e4ae8715350943e2e",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-fail-under=55 ........................................................................ [ 72%] ............................ [100%] ================================ tests coverage ================================ _______________ coverage: platform darwin, python 3.14.4-final-0 _______________ Name Stmts Miss Cover Missing -----------------------------------------------------------"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:33.220862+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "cd0d37eeb1751523974b5862f4b7a0618b25f48164a257269ae792f69e545e0e",
+      "commandHash": "2c6108b4da860f534451be862bce70936f64f16f48575102fddfab8bd981270d",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/release_entrypoint_quality.contract.json --summary .ai/work-items/active/release_entrypoint_quality.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:33.276314+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "d77b04fc9112be7053dadd9a920e53113a577423be387dc6f607543d5296cc7a",
+      "commandHash": "a11cb3e83c83484f637ee6d0cd15c43a752dff0fb136d626c774be45e4ca2f9c",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_entrypoint_quality.contract.json --summary .ai/work-items/active/release_entrypoint_quality.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:33.331908+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:33.391027+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "d579888ed3917741270f62527b1fbeff29b0dffaa5f0ea4eece5bd2977730137",
+      "commandHash": "2e209cffa02b7f1c514a92421c0919ff8e713378ff9c9676ad051be1552097b4",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_entrypoint_quality.contract.json --summary .ai/work-items/active/release_entrypoint_quality.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_entrypoint_quality.summary.json CONTRACT=.ai/work-items/active/release_entrypoint_quality.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:41:33.530560+00:00",
+      "exitCode": 0,
+      "durationMs": 138,
+      "outputDigest": "5d9f059407d43e10ab620730812d71dc99618b03b2a98cae959ebe280216cd5c",
+      "commandHash": "38a7910b86c3e452658cb069a0437e4faa21e0a6e58d039d9a879ca42297fd3a",
+      "contractHash": "0da68b957ff18396f70af8ffec5f0b78b323ca2318818b9d81d095003f547d16",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/release_entrypoint_quality.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_entrypoint_quality.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/release_entrypoint_quality.summary.json --contract .ai/work-items/active/release_entrypoint_quality.contract.json ai summary check passed: .ai/work-items/active/release_entrypoint_quality.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Do not execute an installer fetched from a mutable branch.",
+      "compliant": true,
+      "evidence": "README resolves release metadata or published semver tags, then downloads only the resolved tagged installer."
+    },
+    {
+      "guideline": "release.json remains the only mutable pointer to the current public tag.",
+      "compliant": true,
+      "evidence": "README prefers release.json; the temporary fallback derives only from immutable-named published tags while metadata is unavailable."
+    },
+    {
+      "guideline": "New quality gates must pass on the current repository without blanket ignore settings.",
+      "compliant": true,
+      "evidence": "Coverage, Ruff, Mypy typed core, Bandit medium/high, compilation, and documentation checks pass."
+    },
+    {
+      "guideline": "Partial type coverage must be labeled as a typed-core subset.",
+      "compliant": true,
+      "evidence": "All three READMEs state that Mypy currently covers an explicitly typed core subset."
+    },
+    {
+      "guideline": "Do not hand-edit generated cockpit status.",
+      "compliant": true,
+      "evidence": "Status was generated by lifecycle commands."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Quick Start resolution and repository quality requirements affect every contributor and new adopter."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/.coverage"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Public main does not yet expose release.json, so the verified command used the documented semver-tag fallback.",
+    "Strict Mypy over all runtime scripts currently reports historical type errors; the gate checks four explicitly typed core tools.",
+    "Bandit reports expected low-severity subprocess usage; medium/high findings are enforced."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "release",
+      "detail": "The highest currently published tag still lacks current source adoption capabilities; publishing a new tag remains required.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "typing",
+      "detail": "Mypy does not yet cover every runtime script; historical errors must be fixed before expanding the target list.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "compatibility",
+      "detail": "Nine stacks remain Preset only without real-project CI.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "README resolution, quality gates, rule references, architecture model, and terminology are corrected; publication and broader typing/stack work remain.",
+    "expectedReviewFocus": [
+      "README tagged installer resolution",
+      "Quality threshold calibration",
+      "Typed-core boundary",
+      "Bandit URL exception",
+      "Japanese lifecycle model"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified",
+    "userVisibleOutput": "verified",
+    "persistence": "verified",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "README primary install commands must not explicitly name a version.",
+    "Do not create a branch."
+  ],
+  "userCorrectionSolidification": [
+    "Documentation metadata rejects concrete README semver strings and requires tagged resolution.",
+    "All work remained on main."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Release resolution, measured quality baselines, rule references, support tiers, and Japanese model reviewed.",
+      "contractHash": "0da68b957ff18396",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "100 tests, 59.11 percent coverage, Ruff, typed-core Mypy, Bandit, remote install, release contract, and documentation checks reviewed.",
+      "contractHash": "0da68b957ff18396",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "A new public release containing current source capabilities has not been published.",
+    "Complete runtime Mypy coverage is not yet enabled.",
+    "Nine Preset-only stacks still lack real-project CI."
+  ],
+  "overclaimPrevention": "Do not equate dynamic tag resolution with a new release, typed-core Mypy with full typing, or Preset-only templates with verified compatibility."
+}

@@ -1,7 +1,7 @@
 ---
 author: Ray
 title: "AI Cockpit"
-description: Language-agnostic AI governance template for Codex, Gemini, Claude, Cursor, Antigravity, and other agentic coding tools.
+description: Application-language-agnostic AI governance template for Codex, Gemini, Claude, Cursor, Antigravity, and other agentic coding tools.
 keywords:
   - ai-agents
   - ai-agent
@@ -34,7 +34,9 @@ AI coding agents can:
 - bypass verification
 - leave reviewers guessing
 
-Your AI agent should not have root access to your repository.
+AI-generated changes should not be accepted without bounded, independently enforced review.
+
+AI Cockpit checks diffs after writes; it is not a filesystem permission boundary or security sandbox.
 
 AI Cockpit is AI Change Governance for coding agents.
 
@@ -69,11 +71,17 @@ Cockpit updated.
 Review starts from context.
 ```
 
-## 3-Minute Install
+## Install the Latest Published Runtime
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust --update-makefile
+RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
+INSTALLER="$(mktemp)"
+trap 'rm -f "$INSTALLER"' EXIT
+curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile
 ```
+
+The command prefers the public `release.json` pointer and falls back to the highest published semantic-version tag during the metadata rollout. It then downloads and executes only the resolved tagged installer. Published capabilities may lag the source tree; review [Installation](docs/installation.md) before creating the first adoption PR.
 
 Start a governed AI task:
 
@@ -96,9 +104,9 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Layer | What it does |
 | --- | --- |
 | Work Item Contract | Declares the task boundary before AI changes files. |
-| Scope Guard | Blocks changes outside the declared scope. |
-| Backtrack Guard | Blocks protected test, snapshot, or Work Item record deletion by default. |
-| Coverage Guard | Blocks configured production changes without matching test changes by default. |
+| Scope Guard | Detects changes outside the declared scope and blocks finish, archive, or merge gates. |
+| Backtrack Guard | Detects protected test, snapshot, or Work Item record deletion and blocks configured gates. |
+| Coverage Guard | Detects configured production changes without matching test changes and blocks configured gates. |
 | Agent Risk Guard | Hard gate against prompt-is-advice, mid-task drift, and unknown-overclaim risks. |
 | AI Review Policy | Flags governance and CI changes that need explicit review focus. |
 | Checkpoint | Mid-task snapshot to detect scope drift before finishing. |
@@ -153,9 +161,21 @@ Stacks:
 generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ruby, php, csharp
 ```
 
+Compatibility levels:
+
+<!-- stack-tiers: verified=python,go,rust,typescript; preset-only=generic,flutter,java,android,kotlin,swift,ruby,php,csharp -->
+
+- **Verified in CI:** `python`, `go`, `rust`, `typescript` use generated minimal projects and execute `make quality`.
+- **Preset only:** `generic`, `flutter`, `java`, `android`, `kotlin`, `swift`, `ruby`, `php`, `csharp` provide command presets but do not yet have real-project CI evidence. `generic` intentionally fails closed until configured.
+- **Unsupported runtime/platform:** native Windows shells. Use WSL or another POSIX environment.
+
 Stack presets are customizable starting points, not dependency installers. The selected project's formatter, test runner, SDK, and build plugins must already be available; for example, the Java and Android presets expect a Gradle wrapper and Spotless configuration, while Python expects Ruff and pytest. The examples directory covers selected stacks and does not currently include every preset.
 
 The governance runtime is language-agnostic, but stack presets and default guard paths are not universal framework support. Review `Makefile.ai.stack` and `.ai/guards/coverage_policy.yaml` against the target repository before making them required CI gates.
+
+Installation deploys the runtime; it does not complete production adaptation. After configuring quality commands, Coverage paths, and PR CI, set `adoptionReviewed: true` in the Coverage policy and run `make check-ai-adoption-ready`. This is a static configuration completeness check, not proof that project commands are effective; require successful `make quality` and `check-ai-pr` CI runs separately.
+
+The pinned public release does not yet include the auditable first-adoption bootstrap available in the current source tree. See the installation guide before using `check-ai-pr` on the same PR that introduces AI Cockpit.
 
 ## Runtime Requirements
 
@@ -163,6 +183,8 @@ The governance runtime is language-agnostic, but stack presets and default guard
 - Git environment with support for merge-base and three-dot diffs (`...`).
 - POSIX-compliant shell and GNU Make execution environment.
 - Linux and macOS are officially supported for local execution and CI. Native Windows shells are not supported; please run inside WSL (Windows Subsystem for Linux) or another POSIX terminal.
+
+Repository `make quality` runs the full test suite with a 60% script coverage floor, Ruff over `scripts/` and `tests/`, Mypy over the explicitly typed core tool subset, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency. The typed subset is intentionally narrower than the complete runtime and must be expanded without blanket ignores.
 
 ## Advanced Docs
 

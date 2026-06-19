@@ -1,0 +1,368 @@
+{
+  "contractVersion": 2,
+  "workItemId": "bootstrap_adoption_flow",
+  "mode": "code",
+  "title": "Add auditable adoption flow and transactional rollback",
+  "baseCommit": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "d76d6f67b73657d8f7265ab41f23051e2c6211553808c447cdf661dc64f351eb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+      "status": "A",
+      "fingerprint": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "status": "A",
+      "fingerprint": "48c41fbeab35d20cadfa8476588c0148bb482976025f8d9d0b11ec9836afb879"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.contract.json",
+      "status": "A",
+      "fingerprint": "4b05a5851792af5f203b41a0878e77be77c5784dc9ff26f97972cc5415efc337"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.summary.json",
+      "status": "A",
+      "fingerprint": "1a30b96d4c8c0b6b6c17c67880abbfe6d08189da2d28839d052ad59cc7ae185d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+      "status": "A",
+      "fingerprint": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "status": "A",
+      "fingerprint": "60a338c09abae05e9aa42b5a31335ef178daa0c906efb382e91199ca4ef50367"
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "status": "M",
+      "fingerprint": "d0a79069b67d5b8a97d3b5e62aa225f8e2fc30b29399ba8000790373324d9b82"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "4da784a7d3b0f32144ad9cdff4154de20944a81cef042ad1efa28f4b0e47301c"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "40dd618a571db7d4d06b6a449b344544ac99d4274877cd320da0b1cac54fa4d4"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "1371bd6993c5f74e0844d7cc81ed2063539f567af3ebd5e966c3db85db0e88dc"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "16e0bd214e01f0c6230d3518b27bf6ef0b969bbf1b68e3a6d6d8559af845a633"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "7af8e3763a2c087c291a6546cc477c0da17e4c5415cc956346e7ef70f8feb58d"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "4e75470383b5ff39d5003b8bb6c5f813b8434ccc6859d1bd77808784d55754d9"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "c868590f51a90df34750598d3e68484659f036e9b0c5608c24c99d625ab5aa46"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "ca0148854fca648b6d10e572a6ef8a8200259e42e157e1b0f3a30eae906ed824"
+    },
+    {
+      "path": "docs/launch.md",
+      "status": "M",
+      "fingerprint": "6f60f3a8f1c3d73c8e47bf580d4446a278813461415c4031b47214d02e22b4dc"
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "status": "M",
+      "fingerprint": "c889b72edd3e5a42ca9afc39f84fffd1fcfdcb76fa3a70136115aed42f61f733"
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "status": "M",
+      "fingerprint": "edfc2a3155ef7323333b6836820d8e0349c579feedddcb4fbbfef92524dd703c"
+    },
+    {
+      "path": "examples/go/README.md",
+      "status": "M",
+      "fingerprint": "5f76e90b76b659d03d3fd099a0488b52f5ecc846086d788047ae238a262f5bfb"
+    },
+    {
+      "path": "examples/java/README.md",
+      "status": "M",
+      "fingerprint": "b35214bb985109f25d4eab520e6ee90914d93a7be946661bae7ddc8acaf5c591"
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "status": "M",
+      "fingerprint": "acec8ddb92b40cca3d925ddecf32748d30248852f2c8fe992341b066bd3ecbe4"
+    },
+    {
+      "path": "examples/php/README.md",
+      "status": "M",
+      "fingerprint": "25829b3fde8ab8664b709a8dd450d57d2615bd4a55cf3ebec43c715acb859b6e"
+    },
+    {
+      "path": "examples/python/README.md",
+      "status": "M",
+      "fingerprint": "6fa96cc654c303b35a99620e95c7cfd622c9eeb7ef7d458d89a13402bd8cabb8"
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "status": "M",
+      "fingerprint": "98721d3e0e9ac8831463e3ec427d4e659229de8bd4674e806c6673912f253e58"
+    },
+    {
+      "path": "examples/rust/README.md",
+      "status": "M",
+      "fingerprint": "2013988066cecee332d582396c809f2771ec8d400a9393af8f1908d4381f5d0d"
+    },
+    {
+      "path": "examples/swift/README.md",
+      "status": "M",
+      "fingerprint": "6bac50a1d6e072bbf19d2bbb351a8c15a91212308e67d3bd95283c0afc52923b"
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "status": "M",
+      "fingerprint": "04da680ad672a8404f08ba01798d37fdf38cf5b7b845b95ade74e1a6fee65993"
+    },
+    {
+      "path": "install.sh",
+      "status": "M",
+      "fingerprint": "8ae28d3fc645cab840e6230888effe5eb0f9a2f36554e07a987150ec71d89120"
+    },
+    {
+      "path": "release.json",
+      "status": "A",
+      "fingerprint": "b6144754e89f5f26c241c959b875026d53acfde114241f235fec484bae70a9ef"
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "94f20a2bf0809f6123aebc9399549dd43904264aa13ab50b0381968b6da8eb6b"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "A",
+      "fingerprint": "2c6e24cfe8e47407736071a35671270f394663502194f153141e86a887bc740b"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "ae99a688c03dd2a84db7faa9b3fa2ac672c9c08c9167e0661038159aadc4fa03"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "A",
+      "fingerprint": "83211081b370c9eb2bac9f44cc5d89c285c1ee07a91bcb154cd8a6ebc60ffd42"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "M",
+      "fingerprint": "9e512058da4f5bae3712889b15e337466289012981c8170a91db405e3f04614b"
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "e7e510b83e4869fa1bf1a282a831cc2c2f0a05bad1a1c5a05889e2fcb09c3e71"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "status": "A",
+      "fingerprint": "f07aa11e0786b1767e1bc62e024f5632e6eeb1bb105122ade85b2305241854b0"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "f9ac4f21ed2ba55f2728c06a23b9bb13b229fb97b413bf17cb0bbaf36f660d74"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "A",
+      "fingerprint": "807eca0f021fcf35c6ae69d42d71251aa16ced0b3a83434fdf831466391d948e"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/bootstrap_adoption_flow.contract.json",
+    ".ai/work-items/active/bootstrap_adoption_flow.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "install.sh",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_check_scope.py",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_check_pr.py",
+    "tests/test_installer.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_contract_and_policy.py",
+    "tests/test_pr_aggregate.py",
+    "docs/installation.md",
+    "docs/architecture.md",
+    "docs/design-philosophy.md",
+    "docs/contract-fields.md",
+    "docs/overview.ja.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md"
+  ],
+  "outOfScope": [
+    "Publishing a new release tag",
+    "Adding real build matrices for every stack",
+    "Changing archive files to filesystem read-only permissions"
+  ],
+  "sources": [
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "User-reported first-adoption audit paradox and incomplete rollback transaction."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Defines complete PR ownership requirements the adoption evidence must satisfy."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "User-reported archive immutability overclaim."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "bootstrap_ownership",
+      "transaction_rollback",
+      "archive_claim_accuracy"
+    ],
+    "reason": "Initial governance files must own their complete PR diff, and failed installation must restore the pre-install state."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The adoption flow can be verified end-to-end in an isolated Git repository through check-ai-pr."
+  },
+  "preReviewWarnings": [
+    "Review adoption evidence ownership against the complete installation diff.",
+    "Review rollback coverage for created and modified paths.",
+    "Review archive wording as PR-policy enforcement rather than filesystem immutability."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "--create-adoption requires a clean Git repository with an initial commit before writing.",
+    "The installer creates a dedicated adoption Contract/Summary that owns every actual installation path.",
+    "The adoption Work Item can pass ai-finish and its archived pair passes check-ai-pr for the complete installation diff.",
+    "Adoption does not claim unconfigured project quality commands have passed.",
+    "Any installation or upgrade exception restores modified files and removes all newly created files including .gitignore.",
+    "Rollback removes empty directories created by the failed transaction without deleting pre-existing directories.",
+    "Archive documentation describes PR-policy append-only evidence, not filesystem read-only or cryptographic immutability.",
+    "Japanese terminology and technical inaccuracies identified in the report are corrected in scoped documents.",
+    "Support wording distinguishes language-agnostic governance from configurable stack/framework presets.",
+    "All required AI and project checks pass."
+  ],
+  "guidelines": [
+    "Bootstrap evidence must satisfy the same complete-PR ownership check it introduces.",
+    "Do not bypass required governance gates by claiming project quality was configured during adoption.",
+    "All installer mutations must participate in one rollback transaction.",
+    "Archive claims must match PR policy enforcement and not imply filesystem immutability.",
+    "Do not hand-edit generated cockpit status."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

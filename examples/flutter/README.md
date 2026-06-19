@@ -12,6 +12,8 @@ keywords:
 
 # Flutter Adaptation Example
 
+## 1. 品質ゲート設定
+
 Use this stack preset in `Makefile.ai.stack` for a Flutter repository:
 
 ```make
@@ -19,6 +21,8 @@ PROJECT_FORMAT_CHECK = dart format --set-exit-if-changed .
 PROJECT_TEST = flutter test
 PROJECT_LINT = flutter analyze
 ```
+
+## 2. Coverage Guard 設定
 
 Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
 

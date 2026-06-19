@@ -8,8 +8,6 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Any
-
 from ai_common import load_json, non_empty_string
 from ai_observability import create_observability, elapsed_ms
 

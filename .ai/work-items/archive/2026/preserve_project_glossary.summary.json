@@ -1,0 +1,395 @@
+{
+  "workItemId": "preserve_project_glossary",
+  "contractPath": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated active Work Item status."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+      "reason": "Declared glossary ownership and documentation repair scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "reason": "Recorded implementation and verification evidence."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Separated glossary installation, preserved project data by default, added explicit backed-up replacement and initial-commit diagnostics."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Covered initial template source, reinstall/force/upgrade preservation, explicit backup replacement, and missing-commit warning."
+    },
+    {
+      "path": "templates/glossary.md",
+      "reason": "Standardized installed terminology to AI エージェント."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Exposed the --replace-glossary option in bootstrap help."
+    },
+    {
+      "path": "docs/installation.md",
+      "reason": "Documented glossary ownership, explicit replacement, backups, and initial Git commit prerequisite."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "Removed prompt-injection and strong anti-forgery overclaims."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Described runner/hash fields as consistency evidence rather than identity or tamper-proof guarantees."
+    }
+  ],
+  "sourcesUsed": [
+    "User comprehensive engineering review",
+    "scripts/install_ai_cockpit.py",
+    ".ai/glossary.md",
+    "templates/glossary.md",
+    "docs/architecture.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:16.416722+00:00",
+      "exitCode": 0,
+      "durationMs": 77,
+      "outputDigest": "e951049a27acbadc6cd446305e99bd7ea8c379e829757bcd2ff720cfbe0703aa",
+      "commandHash": "2b6c7dc1bacfba09b7ed1d06bcc0d4f70edb9ae74202e7a91eacc020d247b311",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/preserve_project_glossary.contract.json work item contract check passed: .ai/work-items/active/preserve_project_glossary.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:16.610169+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "fd0c502589cb2a7b8833f9c2b836e7595741f7af97e327e7b560acf324f8b8f6",
+      "commandHash": "38041051c1bc28e53203853ce7cccb2c1e03ea8f57e1001fbd410fe6bc77e31e",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/preserve_project_glossary.contract.json scope guard passed: 8 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:16.758285+00:00",
+      "exitCode": 0,
+      "durationMs": 147,
+      "outputDigest": "1667285f91687fff4f34846c5349584510b836e4f248eab2e32a532b9434b13c",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/preserve_project_glossary.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:16.811017+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "60ffc15b2466ad84814f1fec12d8531cc803226f53f8fada3e9bd94c984400f1",
+      "commandHash": "0196f417f766cbb4ef52d3fad14cbd525bf2770cf1b4e054cd98a7c15d081fd9",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/preserve_project_glossary.contract.json --summary .ai/work-items/active/preserve_project_glossary.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `preserve_project_glossary` - Contract Hash: `21a64644af3a4ebe` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `8` - Unknown Count: `0` - Required Checks: `1"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:17.008160+00:00",
+      "exitCode": 0,
+      "durationMs": 195,
+      "outputDigest": "fb33ab0bca3f5e3d46c25ffebf7d9db8485a048c515edda7332c5c57cfb1b439",
+      "commandHash": "8017970b03983b0ec173ff43a0e0238ae14535b9e565c63d03bfeaebccf799c1",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/preserve_project_glossary.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:17.149854+00:00",
+      "exitCode": 0,
+      "durationMs": 140,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:17.281906+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:17.339695+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "62120b27ac7dec5580150120b191a4b9a1036dac5581a1e4a2ffd847aaf8b3b1",
+      "commandHash": "3b99e40ebac3eb6c6bb40c18f4fdab0d678f6cc3e9a3061675f580a54842befd",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/preserve_project_glossary.contract.json --summary .ai/work-items/active/preserve_project_glossary.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:26.078261+00:00",
+      "exitCode": 0,
+      "durationMs": 8737,
+      "outputDigest": "197a17cfc697e54fcb0583deeca7d27506675bc52063097201a580debf3c5c3e",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q ........................................................................ [ 87%] .......... [100%] 82 passed in 8.32s PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m py_compile scripts/*.py tests/*.py git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/check_docs_metadata.py documentation metadata check passed"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:26.498546+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "d9970efcff9addbe429bc5c17dd3e3c90f58ba4cd9d2723540f3e3d0f10a3c64",
+      "commandHash": "e1a6f97fb6b0335f7d6a842dc01f608f056197325040d586504979a430ca9ffd",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/preserve_project_glossary.contract.json --summary .ai/work-items/active/preserve_project_glossary.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:26.551981+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "3fbb58ff6164068e14c39ea161b2db9a800161b23297c79239823bd42f497259",
+      "commandHash": "de0089985b91b589d0bd493f6739a406581b3a3d9a2286c851745340124da6cd",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/preserve_project_glossary.contract.json --summary .ai/work-items/active/preserve_project_glossary.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:26.605521+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:26.660827+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "8db1127d4a671d947eb4bb73a4ca8fb981211175e8ac0eb98ccd30833531f024",
+      "commandHash": "44d1c9a1e6f5544fcb6091097048aa7f869713f0410c6031c654ae3f403a6feb",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/preserve_project_glossary.contract.json --summary .ai/work-items/active/preserve_project_glossary.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/preserve_project_glossary.summary.json CONTRACT=.ai/work-items/active/preserve_project_glossary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T03:39:26.804315+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "f3e6c802d21bb35e67accf6326c8d7ee8eddc5b60a7cfad0727660deda760d75",
+      "commandHash": "383f777f364add9c78a7584abee90cf8a780d59cc3f73e4e26b7cecc0c8d8961",
+      "contractHash": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/preserve_project_glossary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/preserve_project_glossary.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/preserve_project_glossary.summary.json --contract .ai/work-items/active/preserve_project_glossary.contract.json ai summary check passed: .ai/work-items/active/preserve_project_glossary.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Treat target .ai/glossary.md as project-owned user data.",
+      "compliant": true,
+      "evidence": "Bulk .ai copy excludes glossary and the dedicated installer preserves existing content by default."
+    },
+    {
+      "guideline": "Destructive glossary replacement must be explicit and backed up.",
+      "compliant": true,
+      "evidence": "Only --replace-glossary overwrites, after backup_path records and copies prior content."
+    },
+    {
+      "guideline": "Installer defaults must remain non-destructive under force and upgrade.",
+      "compliant": true,
+      "evidence": "Parameterized tests verify reinstall, --force, and --upgrade retain KEEP-ME glossary content."
+    },
+    {
+      "guideline": "Documentation must not claim controls that the validators do not implement.",
+      "compliant": true,
+      "evidence": "Architecture and field docs now describe state/record consistency and explicitly deny prompt-injection or cryptographic guarantees."
+    },
+    {
+      "guideline": "Do not hand-edit generated cockpit status.",
+      "compliant": true,
+      "evidence": "Status was generated by lifecycle commands."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Glossary ownership paths and destructive opt-in behavior are covered by regression tests."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/ai_*.json",
+    "target/ai_observability.jsonl"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "coverage_presets",
+      "detail": "Stack selection still does not install stack-specific Coverage Guard policies for every framework layout.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "release",
+      "detail": "A new public release containing current worktree installer capabilities has not been published.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "platform_matrix",
+      "detail": "Python 3.10/3.11 and macOS CI were not added in this Work Item.",
+      "reviewRecommended": false,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The P0 glossary data-ownership defect and bounded documentation issues are fixed; larger release and stack-policy work remains explicit.",
+    "expectedReviewFocus": [
+      "Glossary preservation under force/upgrade",
+      "Explicit replacement backup",
+      "Initial commit warning",
+      "Architecture guarantee wording"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified",
+    "userVisibleOutput": "verified",
+    "persistence": "verified",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "Project glossary content must remain owned by the target repository."
+  ],
+  "userCorrectionSolidification": [
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer.py",
+    "docs/installation.md"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Glossary ownership, replacement backup, prerequisites, and documentation claims reviewed.",
+      "contractHash": "21a64644af3a4ebe",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Full tests, glossary ownership matrix, documentation gates, and residual adoption risks reviewed.",
+      "contractHash": "21a64644af3a4ebe",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "No stack-specific Coverage Guard distribution was added.",
+    "No new public release was published.",
+    "No Python/macOS CI matrix expansion was made."
+  ],
+  "overclaimPrevention": "Completion claims are limited to glossary ownership, initial-commit diagnostics, and corrected validator documentation."
+}

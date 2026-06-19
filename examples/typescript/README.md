@@ -11,6 +11,8 @@ keywords:
 
 # TypeScript Adaptation Example
 
+## 1. 品質ゲート設定
+
 Use this stack preset in `Makefile.ai.stack` for a TypeScript repository:
 
 ```make
@@ -18,6 +20,8 @@ PROJECT_FORMAT_CHECK = npm run format:check
 PROJECT_TEST = npm test
 PROJECT_LINT = npm run lint
 ```
+
+## 2. Coverage Guard 設定
 
 Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
 

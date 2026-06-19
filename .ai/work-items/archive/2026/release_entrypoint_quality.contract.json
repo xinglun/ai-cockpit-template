@@ -1,0 +1,497 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_entrypoint_quality",
+  "mode": "code",
+  "title": "Align release entrypoint quality gates and governance docs",
+  "baseCommit": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "status": "A",
+      "fingerprint": "33453fa0fe4cc6d821f8310c6b0cfb1113ec3c121686335085e28798751d5137"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "5712a4d76f494a7e263ebbe1353440b1ffc0a8454ce3af7eb0cdd44cd9d3a5a6"
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "e05fa3e53b9e1e5bacd06af2a613ba425a406bcc54db92fadc50a0a6d6c05ac2"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "status": "M",
+      "fingerprint": "bf58113992c5f1d0ce95ffcad97dbb927072ce533cf4e2b92de1544be3b967e2"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "status": "M",
+      "fingerprint": "702f604ed1a61a36ade885812b2936e3d4f65b735d3671a9f221b5a25e653e21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_alignment.contract.json",
+      "status": "A",
+      "fingerprint": "2b47d6e08f26894d4466c01d445644063b292f9638976fa575f2b853e96eda54"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_alignment.summary.json",
+      "status": "A",
+      "fingerprint": "7dccf8909e448cf1dd004287e9a0ab6bc037f4675d15e84a6a91eb9e1cb9d02f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+      "status": "A",
+      "fingerprint": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "status": "A",
+      "fingerprint": "48c41fbeab35d20cadfa8476588c0148bb482976025f8d9d0b11ec9836afb879"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.contract.json",
+      "status": "A",
+      "fingerprint": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.summary.json",
+      "status": "A",
+      "fingerprint": "c26347692d7856c600b1485d7e97b2675116ac366193d8e16a801cdf2138f026"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.contract.json",
+      "status": "A",
+      "fingerprint": "4b05a5851792af5f203b41a0878e77be77c5784dc9ff26f97972cc5415efc337"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.summary.json",
+      "status": "A",
+      "fingerprint": "1a30b96d4c8c0b6b6c17c67880abbfe6d08189da2d28839d052ad59cc7ae185d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+      "status": "A",
+      "fingerprint": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "status": "A",
+      "fingerprint": "60a338c09abae05e9aa42b5a31335ef178daa0c906efb382e91199ca4ef50367"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.contract.json",
+      "status": "A",
+      "fingerprint": "24299170feafe039e59e16455518d2c5e8929c1efa354b697c90ed6276399852"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.summary.json",
+      "status": "A",
+      "fingerprint": "9dc10cf768802b8202e6ce862674406a85e0ba2890418ddffd1589e564013f6d"
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "status": "A",
+      "fingerprint": "53539a15ad2c76c69ed6cce6fa17adaacdba11291f195018327264e8dee7e216"
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "status": "M",
+      "fingerprint": "d0a79069b67d5b8a97d3b5e62aa225f8e2fc30b29399ba8000790373324d9b82"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "67ddbcf9b8d9f1cb2e3ecde43a2199c0d3d3ee89138a2a1a30956048be47c5c1"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "ebba8024b21ce9cff9f174bff0ad0dddabf2065422d58365df6acf2efc086fe3"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "a4b7c08d219951f424d9a59abe2136f040072b4ed22cc854ae86387977e81507"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "18289748fc5287e303336f2c30bd6f852f1fe9f637380cddfff23c35e2fc7742"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "f94045f7de39c781d687cd41839258abe9361186e34e9bd6b72df5afe0f3183a"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "19909a23705c5f833a3f0c53a64f71b3ca2512b065dc48b25f0fcab477ae69dc"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "b435c485b4dca3a2f9461eb1c523d50cbfa126204d99475c28c5b977af1dfaba"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "db7ca88080deddf96e9f095eae74c580794b404e898c298f1250847b9fce31f8"
+    },
+    {
+      "path": "docs/launch.md",
+      "status": "M",
+      "fingerprint": "e796202f5cf4efd88e094e6c05d1c21e797d3bf55a297043b70fe3b2f0ee3ddc"
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "status": "M",
+      "fingerprint": "eed0d8a6e4a20aff214438941bf765e2f7f7a492ffeea834bd52e15a3bb639b5"
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "status": "M",
+      "fingerprint": "c889b72edd3e5a42ca9afc39f84fffd1fcfdcb76fa3a70136115aed42f61f733"
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "status": "M",
+      "fingerprint": "edfc2a3155ef7323333b6836820d8e0349c579feedddcb4fbbfef92524dd703c"
+    },
+    {
+      "path": "examples/go/README.md",
+      "status": "M",
+      "fingerprint": "5f76e90b76b659d03d3fd099a0488b52f5ecc846086d788047ae238a262f5bfb"
+    },
+    {
+      "path": "examples/java/README.md",
+      "status": "M",
+      "fingerprint": "b35214bb985109f25d4eab520e6ee90914d93a7be946661bae7ddc8acaf5c591"
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "status": "M",
+      "fingerprint": "acec8ddb92b40cca3d925ddecf32748d30248852f2c8fe992341b066bd3ecbe4"
+    },
+    {
+      "path": "examples/php/README.md",
+      "status": "M",
+      "fingerprint": "25829b3fde8ab8664b709a8dd450d57d2615bd4a55cf3ebec43c715acb859b6e"
+    },
+    {
+      "path": "examples/python/README.md",
+      "status": "M",
+      "fingerprint": "6fa96cc654c303b35a99620e95c7cfd622c9eeb7ef7d458d89a13402bd8cabb8"
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "status": "M",
+      "fingerprint": "98721d3e0e9ac8831463e3ec427d4e659229de8bd4674e806c6673912f253e58"
+    },
+    {
+      "path": "examples/rust/README.md",
+      "status": "M",
+      "fingerprint": "2013988066cecee332d582396c809f2771ec8d400a9393af8f1908d4381f5d0d"
+    },
+    {
+      "path": "examples/swift/README.md",
+      "status": "M",
+      "fingerprint": "6bac50a1d6e072bbf19d2bbb351a8c15a91212308e67d3bd95283c0afc52923b"
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "status": "M",
+      "fingerprint": "04da680ad672a8404f08ba01798d37fdf38cf5b7b845b95ade74e1a6fee65993"
+    },
+    {
+      "path": "install.sh",
+      "status": "M",
+      "fingerprint": "5d0409a403ed7a44d30db7ff75a795ccf4ae2c2748556104e8891008d8ede232"
+    },
+    {
+      "path": "release.json",
+      "status": "A",
+      "fingerprint": "b6144754e89f5f26c241c959b875026d53acfde114241f235fec484bae70a9ef"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "A",
+      "fingerprint": "20c3279e0f2982c99fe8a7eb4d24fdce40c0a51293f99ca18515545b84986581"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "68c0d4e0da686a5c5ac7ce4afde7ccc4a933f122f8fd631b4ec348eeaea8a60c"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "status": "M",
+      "fingerprint": "04dcb9c7c2431738022f61a4c744a80519c015376527983cc5b5767297c8a8c2"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "c368098ab9dd3b8a93f27be04368e981a3ed11b1a368d8eb11b4a6d192cb77a2"
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "status": "A",
+      "fingerprint": "f58db563bd650c6a5a826443b3f566bbf8dfd4f65e76af2d6398dfd96f7d2695"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "15e32dc879e94b00626be7d7fedf009e340966330f716633a5250501fb7bf4c2"
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "9ceed4cd497c7ed10d2cbd2aa602e26cc25a77ce3bd6f313bbcd058d78720f6b"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "A",
+      "fingerprint": "2c6e24cfe8e47407736071a35671270f394663502194f153141e86a887bc740b"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "c135f5732c5564fab38acea2291a78956279f4e95d998304c003cce6326800e2"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "A",
+      "fingerprint": "83211081b370c9eb2bac9f44cc5d89c285c1ee07a91bcb154cd8a6ebc60ffd42"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "M",
+      "fingerprint": "9e512058da4f5bae3712889b15e337466289012981c8170a91db405e3f04614b"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "M",
+      "fingerprint": "e5ae3f386f500488fb61f203131d20e7dc6dd3092ed44fe7f85d1936fa27951c"
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "status": "A",
+      "fingerprint": "fc9a8796dd90179780b182ec1a13e7b0c0263d6f2609494e9c35d0b85440dc98"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "A",
+      "fingerprint": "f3d96a9775de0456f3899eee9e76f7f9a7db47140a1f75b0ceb7d9e29bbdc36a"
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "status": "M",
+      "fingerprint": "19c849ed8464c668739be3e3b2ec000a5f8b096de194b5aec9f44ac9f42a04bf"
+    },
+    {
+      "path": "tests/test_contract_examples.py",
+      "status": "A",
+      "fingerprint": "e6f55a3a0f81665904af8e55e9f24a3a789e1229d53d553ed3fe416da33dbd97"
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "0ba3c57ae111a77d252eb9ec5022b29740b9e35cc487971e83f0f9d1133ba704"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "A",
+      "fingerprint": "202eecab96efa8485b7815c73738026354ef216523cd351fa8279234bccf5e92"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "status": "A",
+      "fingerprint": "f07aa11e0786b1767e1bc62e024f5632e6eeb1bb105122ade85b2305241854b0"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "4be8920d30f33343ce82bb386a35afb93c10ea839347f6bea52ffcce17faae73"
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "status": "M",
+      "fingerprint": "6fb3cdbde3e3e1e6b0ae7b545902df7f6f4fa7320abce9420a7330b811739bba"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "A",
+      "fingerprint": "807eca0f021fcf35c6ae69d42d71251aa16ced0b3a83434fdf831466391d948e"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/release_entrypoint_quality.contract.json",
+    ".ai/work-items/active/release_entrypoint_quality.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/README.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/overview.ja.md",
+    "Makefile",
+    "requirements-dev.txt",
+    "pyproject.toml",
+    ".github/workflows/compatibility.yml",
+    ".github/workflows/smoke.yml",
+    "scripts/check_docs_metadata.py",
+    "scripts/check_release_distribution.py",
+    "scripts/ai_check_coverage_guard.py",
+    "scripts/ai_check_guidelines.py",
+    "scripts/ai_start.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_docs_metadata.py",
+    "tests/test_contract_and_policy.py",
+    "tests/test_guidelines.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_installer.py"
+  ],
+  "outOfScope": [
+    "Publishing or moving a release tag",
+    "Executing an installer script directly from the mutable main branch",
+    "Claiming full strict Mypy coverage before historical type errors are resolved",
+    "Adding real-project CI for the nine Preset-only stacks",
+    "Implementing an interactive onboarding wizard"
+  ],
+  "sources": [
+    {
+      "path": "User-provided engineering review attachment dated 2026-06-19",
+      "reason": "Identifies release entrypoint, quality gate, rule reference, compatibility, architecture, and terminology gaps."
+    },
+    {
+      "path": "release.json",
+      "reason": "Single source of truth for the current published tag."
+    },
+    {
+      "path": "requirements-dev.txt",
+      "reason": "Defines dependencies available to repository quality checks."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_supply_chain",
+      "quality_gate",
+      "documentation_accuracy"
+    ],
+    "reason": "The primary install command and repository-wide quality target affect contributor and user trust."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "README release resolution, deterministic quality gates, and documentation consistency are locally verifiable."
+  },
+  "preReviewWarnings": [
+    "README must resolve a fixed published tag without executing main/install.sh.",
+    "Coverage and typing thresholds must reflect measured current behavior rather than aspirational claims."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All three README primary install commands contain no concrete version and resolve releaseTag from release.json before downloading the tagged installer.",
+    "Documentation checks prevent concrete README release versions and mutable main installer execution.",
+    "make quality enforces Ruff, a documented typed-core Mypy subset, and at least 55 percent script coverage.",
+    "Development dependencies and CI install every quality-gate tool.",
+    "Ruff passes without repository-wide suppression of unused-code findings.",
+    "The missing .ai/README.md rule reference resolves to an installed repository document.",
+    "The Japanese overview distinguishes lifecycle layers from concrete blocking and report-only controls.",
+    "Japanese terminology uses the established product names and natural wording for production code and test requirements.",
+    "All required governance and project checks pass."
+  ],
+  "guidelines": [
+    "Do not execute an installer fetched from a mutable branch.",
+    "release.json remains the only mutable pointer to the current public tag.",
+    "New quality gates must pass on the current repository without blanket ignore settings.",
+    "Partial type coverage must be labeled as a typed-core subset.",
+    "Do not hand-edit generated cockpit status."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user request in current thread",
+    "reason": "The requested changes explicitly cover README release behavior, CI, Makefile quality gates, and AI governance documentation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

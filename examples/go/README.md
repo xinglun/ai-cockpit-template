@@ -11,11 +11,13 @@ keywords:
 
 # Go Adaptation Example
 
-Install with:
+## 1. インストール
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack go
+AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack go --update-makefile
 ```
+
+## 2. 品質ゲートとガード設定
 
 Use this stack preset in `Makefile.ai.stack` for a Go repository:
 

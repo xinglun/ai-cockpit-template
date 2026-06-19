@@ -22,6 +22,25 @@ def string_list(data: dict[str, Any], key: str) -> list[str]:
     return [item for item in value if isinstance(item, str)]
 
 
+def dependency_scope_issues(
+    contract: dict[str, Any], paths: list[str], policy_lists: dict[str, list[str]]
+) -> list[str]:
+    bootstrap_patterns = string_list(contract, "adoptionBootstrapPaths")
+    dependency_paths = [path for path in paths if not included(path, bootstrap_patterns)]
+    issues = []
+    dependency_rules = {
+        key.removeprefix("dependencyScopeRules."): values
+        for key, values in policy_lists.items()
+        if key.startswith("dependencyScopeRules.")
+    }
+    for trigger, required_patterns in dependency_rules.items():
+        if any(included(path, [trigger]) for path in dependency_paths):
+            for required_pattern in required_patterns:
+                if not any(included(path, [required_pattern]) for path in paths):
+                    issues.append(f"dependency scope rule requires {required_pattern} when {trigger} changes")
+    return issues
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate Work Item scope against the current diff.")
     parser.add_argument("contract", nargs="?")
@@ -75,17 +94,9 @@ def main() -> int:
             if args.verbose:
                 print(f"[DEBUG] {path} is covered by scope pattern: '{matched_scope[0]}'")
 
-    dependency_rules = {
-        key.removeprefix("dependencyScopeRules."): values
-        for key, values in policy_lists.items()
-        if key.startswith("dependencyScopeRules.")
-    }
-    for trigger, required_patterns in dependency_rules.items():
-        if any(included(path, [trigger]) for path in paths):
-            for required_pattern in required_patterns:
-                if not any(included(path, [required_pattern]) for path in paths):
-                    issues.append(f"dependency scope rule requires {required_pattern} when {trigger} changes")
-                    obs.guard_violation(check_id="aiScope", severity="error", path=trigger, detail=f"missing_dependency_pattern: {required_pattern}")
+    for issue in dependency_scope_issues(contract, paths, policy_lists):
+        issues.append(issue)
+        obs.guard_violation(check_id="aiScope", severity="error", path="adoptionBootstrapPaths", detail=issue)
 
     duration = elapsed_ms(start)
     if issues:

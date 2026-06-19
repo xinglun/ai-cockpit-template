@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import ai_check_guards
 import ai_check_agent_risk
 import ai_check_scope
@@ -54,6 +52,21 @@ def test_dependency_scope_rules_are_parsed(tmp_path):
     policy.write_text('dependencyScopeRules:\n  "scripts/ai_*.py":\n    - "tests/**"\n', encoding="utf-8")
     lists = ai_check_scope.simple_yaml_lists(policy)
     assert lists["dependencyScopeRules.scripts/ai_*.py"] == ["tests/**"]
+
+
+def test_adoption_bootstrap_paths_only_bypass_companion_rule_for_adoption():
+    policy = {"dependencyScopeRules.scripts/ai_*.py": ["tests/**"]}
+    paths = ["scripts/ai_common.py"]
+    contract = {"workItemId": "adopt_ai_cockpit", "adoptionBootstrapPaths": ["scripts/ai_*.py"]}
+
+    assert ai_check_scope.dependency_scope_issues(contract, paths, policy) == []
+    assert ai_check_scope.dependency_scope_issues({}, paths, policy)
+
+
+def test_adoption_bootstrap_paths_are_restricted_to_installer_work_item():
+    contract = valid_contract()
+    contract["adoptionBootstrapPaths"] = ["scripts/ai_*.py"]
+    assert any("only allowed" in issue for issue in ai_check_work_item.validate_contract(contract))
 
 
 def test_stale_checkpoint_hash_is_rejected():

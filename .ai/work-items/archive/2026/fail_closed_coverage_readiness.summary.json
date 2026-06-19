@@ -1,0 +1,420 @@
+{
+  "workItemId": "fail_closed_coverage_readiness",
+  "contractPath": ".ai/work-items/archive/2026/fail_closed_coverage_readiness.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/fail_closed_coverage_readiness.contract.json",
+      "reason": "Declared fail-closed, Coverage, readiness, and core-test scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fail_closed_coverage_readiness.summary.json",
+      "reason": "Recorded implementation evidence and remaining release/test risks."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated active Work Item status."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Defined adoption readiness as a static completeness gate with independent CI requirements."
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "reason": "Added root and nested cross-stack production/test path heuristics."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Made all missing project quality defaults fail closed."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Raised the repository script coverage floor from 55 to 60 percent."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Narrowed semantics to static completeness and rejected exact trivial no-op commands."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Verified missing stack files make every project quality target and quality fail."
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "reason": "Covered root Go/C#/TypeScript and monorepo/Maven/Flutter Coverage layouts."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Covered static readiness output and trivial command rejection."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Added direct tests for Review Policy, Status Check, and Status Consistency."
+    },
+    {
+      "path": "README.md",
+      "reason": "Documented static readiness limits and the 60 percent coverage floor."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Applied equivalent Japanese readiness and coverage wording."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Applied equivalent Chinese readiness and coverage wording."
+    },
+    {
+      "path": "docs/installation.md",
+      "reason": "Clarified static completeness versus command effectiveness."
+    }
+  ],
+  "sourcesUsed": [
+    "User engineering review dated 2026-06-19",
+    "templates/make/Makefile.ai",
+    ".ai/guards/coverage_policy.yaml",
+    ".ai/glossary.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:16.607071+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "e737ce52a24d207e138dd5860fe360c821addaf130579ba01c36337f56958e0d",
+      "commandHash": "66eaac64d4702fd46de7eeff47505ab647f9d049bc216f88397fe46e29e58f0a",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/fail_closed_coverage_readiness.contract.json work item contract check passed: .ai/work-items/active/fail_closed_coverage_readiness.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:16.790825+00:00",
+      "exitCode": 0,
+      "durationMs": 182,
+      "outputDigest": "0cf89c048fe9d0ff09a7ed61f2f9413e8526aeff50adb8950eecf9c54f49931a",
+      "commandHash": "a85aa4a814cabf55f048c516a561697a56a5de94e3bf04990e8895d5fe56b589",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/fail_closed_coverage_readiness.contract.json scope guard passed: 14 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:16.950945+00:00",
+      "exitCode": 0,
+      "durationMs": 158,
+      "outputDigest": "4d1ce05c229c4b5d8f759223a0c2aae657a44c461b2e70ff467b60faff0ad385",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/fail_closed_coverage_readiness.contract.json [warning] restricted_write: .ai/cockpit/adoption.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/coverage_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. [warning] restricted_write: Makefile (Makefile) - Shared local and CI command entrypoint. g"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:17.027310+00:00",
+      "exitCode": 0,
+      "durationMs": 75,
+      "outputDigest": "10af132219e5a4fb8399e36b73bdf93195e5c2426b076305787e7a060464e30e",
+      "commandHash": "21e9092c7a0e91c9709a1eff5840f4957f26cd1891854637252a83259cc5db96",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/fail_closed_coverage_readiness.contract.json --summary .ai/work-items/active/fail_closed_coverage_readiness.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `fail_closed_coverage_readiness` - Contract Hash: `6f5e3bec4ed462e3` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `8` - Unknown Count: `0` - Requ"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:17.176777+00:00",
+      "exitCode": 0,
+      "durationMs": 145,
+      "outputDigest": "7fb53b636edbdbc1490883b5e85e1fb13b4b80b76b7af3c3f71cc8c10cfa9041",
+      "commandHash": "7aea82e379240fe7dbe5d3e42f4d848f774b629eb0bf0238c46656909e0b23f3",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/fail_closed_coverage_readiness.summary.json review policy matched 6 path(s) [review] .ai/cockpit/adoption.md [review] scripts/ai_check_adoption_ready.py [review] .ai/cockpit/current_status.md [review] .ai/guards/coverage_policy.yaml [review] Makefile [review] templates/make/Makefile.ai review focus recorded: 5 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:17.315128+00:00",
+      "exitCode": 0,
+      "durationMs": 137,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:17.446973+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:17.506258+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "61e7981ed6536e48bd387ce02376ff59010329dc69adad6ec05deedfab7d1090",
+      "commandHash": "2412be0ffec1d840bdfa57dd7601bff9021f16cfd83f274fc29876ac3190317f",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/fail_closed_coverage_readiness.contract.json --summary .ai/work-items/active/fail_closed_coverage_readiness.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:29.198545+00:00",
+      "exitCode": 0,
+      "durationMs": 11690,
+      "outputDigest": "eadb1a91871d5d04d34df8fbd86a07958b7e898efa9924517af50807e8db9606",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-fail-under=60 ........................................................................ [ 68%] ................................. [100%] ================================ tests coverage ================================ _______________ coverage: platform darwin, python 3.14.4-final-0 _______________ Name Stmts Miss Cover Missing ------------------------------------------------------"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:29.665276+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "24bfdba836cb7837253d74cdb3d3bd9ca457c6504150737396a06e03dbfabd10",
+      "commandHash": "9015de836bd9b8d1bd128a824132e861701bafc778a87497644f29cff6e8253d",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/fail_closed_coverage_readiness.contract.json --summary .ai/work-items/active/fail_closed_coverage_readiness.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:29.719964+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "c08d78c8206c6a9385d0e7267e533d18a36d31c1cc1ecef22323bb3f7c288291",
+      "commandHash": "241da0d28cc11a4796799fa3f0441e6be263226f6ec2d8ccdeccb8ffbb5b0026",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/fail_closed_coverage_readiness.contract.json --summary .ai/work-items/active/fail_closed_coverage_readiness.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:29.778557+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:29.846337+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "6608fb43822b6e5eda47162d95327466a058676e453d2d7dfb4d82aa415bf234",
+      "commandHash": "b2b2fe6796ff91eed5ffe8b1da1ad1e1be34bee6e3d7cdf257a0988ef54b1b92",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/fail_closed_coverage_readiness.contract.json --summary .ai/work-items/active/fail_closed_coverage_readiness.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fail_closed_coverage_readiness.summary.json CONTRACT=.ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T09:54:29.986112+00:00",
+      "exitCode": 0,
+      "durationMs": 138,
+      "outputDigest": "969b568fbedd254d4a1d6cce99a1d9690181575aac7c1a3de176513396e39880",
+      "commandHash": "8676b51ee90edbbb03f04a5ebd270c72f9a27954007347570e6ab1c766701f91",
+      "contractHash": "6f5e3bec4ed462e3a6d0d9e03c16232ff5148cc7c6970db5994c2041c572ed67",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/fail_closed_coverage_readiness.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fail_closed_coverage_readiness.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/fail_closed_coverage_readiness.summary.json --contract .ai/work-items/active/fail_closed_coverage_readiness.contract.json ai summary check passed: .ai/work-items/active/fail_closed_coverage_readiness.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Missing configuration must fail closed with actionable errors.",
+      "compliant": true,
+      "evidence": "Missing Makefile.ai.stack causes all project targets and make quality to emit ERROR and exit nonzero."
+    },
+    {
+      "guideline": "Coverage defaults are reviewable heuristics, not universal framework guarantees.",
+      "compliant": true,
+      "evidence": "Policy adds common root/nested layouts while adoptionReviewed and documentation retain mandatory project review."
+    },
+    {
+      "guideline": "Static configuration checks must not overclaim runtime or test effectiveness.",
+      "compliant": true,
+      "evidence": "CLI and multilingual docs explicitly require independent make quality and check-ai-pr results."
+    },
+    {
+      "guideline": "Compatibility-preserving command names should be retained when documentation can accurately narrow semantics.",
+      "compliant": true,
+      "evidence": "check-ai-adoption-ready remains available but consistently identifies itself as static configuration completeness."
+    },
+    {
+      "guideline": "Do not hand-edit generated cockpit status.",
+      "compliant": true,
+      "evidence": "Status was generated by lifecycle commands."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Installed fail-closed behavior and default Coverage matching affect every adopted repository."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/.coverage"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Missing Makefile.ai.stack previously allowed make quality to succeed with informational output.",
+    "Python fnmatch does not make **/*.ext match root files, requiring explicit root patterns.",
+    "Static command text cannot establish that arbitrary project checks are semantically effective."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "release",
+      "detail": "No new public tag, checksum archive, signature, or provenance was published.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "coverage_policy",
+      "detail": "Default paths remain heuristics; custom monorepos, generated code, and framework layouts require project review.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "core_test_depth",
+      "detail": "Status Check reached 73%, but Review Policy is 44%, Status Consistency 48%, Scope 33%, Checkpoint 24%, Finish 27%, and Status Generation 35%.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Fail-open defaults, reported root Coverage gaps, readiness overclaim, and two zero-coverage core modules are addressed; publication and broader core coverage remain.",
+    "expectedReviewFocus": [
+      "Missing-stack exit behavior",
+      "Root and nested Coverage heuristics",
+      "Static readiness wording",
+      "Trivial no-op detection",
+      "Core gate coverage"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified",
+    "userVisibleOutput": "verified",
+    "persistence": "verified",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "Do not create a branch."
+  ],
+  "userCorrectionSolidification": [
+    "All work remained on main."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Fail-open reproduction, fnmatch root behavior, readiness semantics, and core coverage baseline reviewed.",
+      "contractHash": "6f5e3bec4ed462e3",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "105 tests, 62.89 percent coverage, fail-closed Make, Coverage layouts, static readiness, and release contract reviewed.",
+      "contractHash": "6f5e3bec4ed462e3",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "A new public release and integrity artifacts have not been published.",
+    "Several lifecycle-critical modules remain below 70 percent direct coverage.",
+    "Minimal/core/full installation modes are not implemented."
+  ],
+  "overclaimPrevention": "Describe Coverage paths as heuristics and adoption readiness as static completeness; require independent project quality, PR, and release evidence."
+}

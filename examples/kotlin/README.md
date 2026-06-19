@@ -11,11 +11,13 @@ keywords:
 
 # Kotlin Adaptation Example
 
-Install with:
+## 1. インストール
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack kotlin
+AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack kotlin --update-makefile
 ```
+
+## 2. 品質ゲートとガード設定
 
 Use this stack preset in `Makefile.ai.stack` for a Gradle-based Kotlin repository:
 

@@ -82,7 +82,7 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
     for path, status in sorted(evidence_changes.items()):
         if status != "A":
             issues.append(
-                f"archived Work Item evidence is immutable; existing path has status {status}: {path}"
+                f"archive PR policy is append-only; existing evidence path has status {status}: {path}"
             )
     for stem in sorted(changed_stems):
         contract_rel = f"{stem}.contract.json"

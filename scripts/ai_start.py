@@ -6,8 +6,6 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-from pathlib import Path
-
 from ai_common import PROJECT_ROOT, capture_dirty_baseline, current_head, save_json
 from ai_check_status_consistency import validate_status_consistency
 from ai_generate_status import write_active_status
@@ -17,6 +15,16 @@ from ai_observability import create_observability
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
 MODES = ["investigate", "author_todo", "code", "review", "cleanup"]
 JOURNEYS = ["feature", "bugfix", "refactor", "cleanup"]
+DEFAULT_CHECKPOINT_STAGES = ["before_edit", "before_finish"]
+DEFAULT_VERIFICATION_CHECKS = [
+    "aiWorkItem", "aiScope", "aiGuards", "aiCheckpoint", "aiAgentRisk",
+    "aiReviewPolicy", "aiBacktrack", "aiCoverage", "aiGuidelines", "aiSummary",
+    "aiStatus", "aiStatusCheck", "aiStatusConsistency", "quality",
+]
+
+
+def default_verification() -> list[dict[str, object]]:
+    return [{"check": check, "required": True} for check in DEFAULT_VERIFICATION_CHECKS]
 
 
 def slug(value: str) -> str:
@@ -160,27 +168,12 @@ def main() -> int:
         ],
         "checkpointPolicy": {
             "requiredBeforeFinish": True,
-            "requiredStages": ["before_edit", "before_finish"],
+            "requiredStages": list(DEFAULT_CHECKPOINT_STAGES),
             "reason": "Record at least one checkpoint before finishing to reduce mid-task drift.",
         },
         "acceptance": acceptance_criteria,
         "guidelines": guidelines_list,
-        "verification": [
-            {"check": "aiWorkItem", "required": True},
-            {"check": "aiScope", "required": True},
-            {"check": "aiGuards", "required": True},
-            {"check": "aiCheckpoint", "required": True},
-            {"check": "aiAgentRisk", "required": True},
-            {"check": "aiReviewPolicy", "required": True},
-            {"check": "aiBacktrack", "required": True},
-            {"check": "aiCoverage", "required": True},
-            {"check": "aiGuidelines", "required": True},
-            {"check": "aiSummary", "required": True},
-            {"check": "aiStatus", "required": True},
-            {"check": "aiStatusCheck", "required": True},
-            {"check": "aiStatusConsistency", "required": True},
-            {"check": "quality", "required": True},
-        ],
+        "verification": default_verification(),
         "destructiveChangePolicy": destructive_change_policy,
         "restrictedWriteApproval": {
             "approved": False,

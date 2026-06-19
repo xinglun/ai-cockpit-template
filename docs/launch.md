@@ -19,7 +19,7 @@ AI Cockpit is AI Change Governance for coding agents.
 
 ## Short Punchlines
 
-- Your AI agent should not have root access to your repository.
+- AI-generated changes should not be accepted without bounded, independently enforced review.
 - AI changed 37 files. Cockpit stopped the merge.
 - Git-style discipline for AI-generated changes.
 - Stop reviewing AI diffs blind.
@@ -38,12 +38,12 @@ Post:
 ```text
 I built AI Cockpit after repeatedly seeing AI coding agents rewrite unrelated files, silently remove tests, roll back completed work, and leave reviewers guessing what happened.
 
-The idea is simple: AI should not have root access to your repository.
+The idea is simple: AI-generated changes need bounded, independently enforced review. AI Cockpit checks diffs after writes; it is not a filesystem permission boundary.
 
 AI Cockpit adds a lightweight workflow around AI-generated changes:
 
 - Work Item Contract: declare scope before the agent edits files
-- Scope Guard: block changes outside the declared boundary
+- Scope Guard: detect out-of-scope changes and block finish/archive/merge gates
 - Backtrack Guard: report deleted tests/snapshots/work-item records
 - Change Summary: require the agent to say what changed and what passed
 - Cockpit Status: show the current task state in one generated file
@@ -51,10 +51,10 @@ AI Cockpit adds a lightweight workflow around AI-generated changes:
 
 It is language-agnostic and installs with:
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust
+AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack rust --update-makefile --create-adoption
 
 Supported agents: Codex, Gemini, Claude, Cursor, Antigravity, and others.
-Supported stacks: Rust, Flutter, TypeScript, Python, Go, Java, Kotlin, Swift, Ruby, PHP, C#.
+Supported stack presets: Rust, Flutter, TypeScript, Python, Go, Java, Android, Kotlin, Swift, Ruby, PHP, C#. Presets require project-specific quality commands and guard paths.
 
 This is not another agent framework. It is a small change-control layer for AI-assisted development.
 ```
@@ -62,7 +62,7 @@ This is not another agent framework. It is a small change-control layer for AI-a
 ## X / Twitter
 
 ```text
-Your AI agent should not have root access to your repository.
+AI-generated changes should not be accepted without bounded, independently enforced review.
 
 I built AI Cockpit: lightweight change governance for coding agents.
 
@@ -76,7 +76,7 @@ AI changed 37 files. Cockpit stopped the merge.
 Title:
 
 ```text
-Your AI agent should not have root access to your repository
+AI-generated changes should not be accepted without bounded, independently enforced review
 ```
 
 Outline:
@@ -90,4 +90,3 @@ Outline:
 6. Install AI Cockpit and run the first Work Item.
 7. What I am intentionally not building yet: cloud dashboard, orchestration, enterprise platform.
 ```
-

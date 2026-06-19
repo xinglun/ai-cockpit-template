@@ -1,0 +1,465 @@
+{
+  "contractVersion": 2,
+  "workItemId": "adoption_readiness_alignment",
+  "mode": "code",
+  "title": "Align adoption readiness stack claims and documentation",
+  "baseCommit": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "7e328759cb11b373857565b45d7909fd890e1632a0e08684bfb9814613bcd275"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "status": "M",
+      "fingerprint": "bf58113992c5f1d0ce95ffcad97dbb927072ce533cf4e2b92de1544be3b967e2"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "status": "M",
+      "fingerprint": "702f604ed1a61a36ade885812b2936e3d4f65b735d3671a9f221b5a25e653e21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+      "status": "A",
+      "fingerprint": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "status": "A",
+      "fingerprint": "48c41fbeab35d20cadfa8476588c0148bb482976025f8d9d0b11ec9836afb879"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.contract.json",
+      "status": "A",
+      "fingerprint": "d93e53310f55328cef8013e395e60a14e3e7fdbc578b54a2ef9232b55471f2c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.summary.json",
+      "status": "A",
+      "fingerprint": "c26347692d7856c600b1485d7e97b2675116ac366193d8e16a801cdf2138f026"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.contract.json",
+      "status": "A",
+      "fingerprint": "4b05a5851792af5f203b41a0878e77be77c5784dc9ff26f97972cc5415efc337"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.summary.json",
+      "status": "A",
+      "fingerprint": "1a30b96d4c8c0b6b6c17c67880abbfe6d08189da2d28839d052ad59cc7ae185d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.contract.json",
+      "status": "A",
+      "fingerprint": "21a64644af3a4ebe09919d0b92c69346a9cc6f04d4a05cd95aeda2af460765bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "status": "A",
+      "fingerprint": "60a338c09abae05e9aa42b5a31335ef178daa0c906efb382e91199ca4ef50367"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.contract.json",
+      "status": "A",
+      "fingerprint": "24299170feafe039e59e16455518d2c5e8929c1efa354b697c90ed6276399852"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.summary.json",
+      "status": "A",
+      "fingerprint": "9dc10cf768802b8202e6ce862674406a85e0ba2890418ddffd1589e564013f6d"
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "status": "A",
+      "fingerprint": "a5a26eb164336d92b46599c71b4857c000a294267112824c97a0e86cd51be5ba"
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "status": "M",
+      "fingerprint": "d0a79069b67d5b8a97d3b5e62aa225f8e2fc30b29399ba8000790373324d9b82"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "e458c5981a670c6b2f090b0d2ab7775d123e23a3bf8ae1857f812737163ca22f"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "9db5b3a0378f13b208b49178866d34ee9ec20c5645a4b4a3fb15c0684e2b515d"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "f2978337de565dcc52e1f16e1fe10d72ec84387139970e1ad43ecc19c1732164"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "0f02b43a9fab12426d5e6faa1dcb037a6d8bfbe05174068b64c192eaa16d837f"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "f94045f7de39c781d687cd41839258abe9361186e34e9bd6b72df5afe0f3183a"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "1acc8576d91c67dd73ecf3e67e9d46dca0697989dd147d68c72f54010e4e28ed"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "b435c485b4dca3a2f9461eb1c523d50cbfa126204d99475c28c5b977af1dfaba"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "c4043686d869af9fa21bc91184d97abc92ee4fc6d915f237cac0e8a9a6d1bd15"
+    },
+    {
+      "path": "docs/launch.md",
+      "status": "M",
+      "fingerprint": "e796202f5cf4efd88e094e6c05d1c21e797d3bf55a297043b70fe3b2f0ee3ddc"
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "status": "M",
+      "fingerprint": "2c5b6aecf11bf5d912f48220402f48ab0f5448acbc2f6ca3c4a96c6ce08bf23c"
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "status": "M",
+      "fingerprint": "c889b72edd3e5a42ca9afc39f84fffd1fcfdcb76fa3a70136115aed42f61f733"
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "status": "M",
+      "fingerprint": "edfc2a3155ef7323333b6836820d8e0349c579feedddcb4fbbfef92524dd703c"
+    },
+    {
+      "path": "examples/go/README.md",
+      "status": "M",
+      "fingerprint": "5f76e90b76b659d03d3fd099a0488b52f5ecc846086d788047ae238a262f5bfb"
+    },
+    {
+      "path": "examples/java/README.md",
+      "status": "M",
+      "fingerprint": "b35214bb985109f25d4eab520e6ee90914d93a7be946661bae7ddc8acaf5c591"
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "status": "M",
+      "fingerprint": "acec8ddb92b40cca3d925ddecf32748d30248852f2c8fe992341b066bd3ecbe4"
+    },
+    {
+      "path": "examples/php/README.md",
+      "status": "M",
+      "fingerprint": "25829b3fde8ab8664b709a8dd450d57d2615bd4a55cf3ebec43c715acb859b6e"
+    },
+    {
+      "path": "examples/python/README.md",
+      "status": "M",
+      "fingerprint": "6fa96cc654c303b35a99620e95c7cfd622c9eeb7ef7d458d89a13402bd8cabb8"
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "status": "M",
+      "fingerprint": "98721d3e0e9ac8831463e3ec427d4e659229de8bd4674e806c6673912f253e58"
+    },
+    {
+      "path": "examples/rust/README.md",
+      "status": "M",
+      "fingerprint": "2013988066cecee332d582396c809f2771ec8d400a9393af8f1908d4381f5d0d"
+    },
+    {
+      "path": "examples/swift/README.md",
+      "status": "M",
+      "fingerprint": "6bac50a1d6e072bbf19d2bbb351a8c15a91212308e67d3bd95283c0afc52923b"
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "status": "M",
+      "fingerprint": "04da680ad672a8404f08ba01798d37fdf38cf5b7b845b95ade74e1a6fee65993"
+    },
+    {
+      "path": "install.sh",
+      "status": "M",
+      "fingerprint": "ac8b33d25fb7ed26c98faf44d8030a65fbaeab71965a156a28117d789e5e923b"
+    },
+    {
+      "path": "release.json",
+      "status": "A",
+      "fingerprint": "b6144754e89f5f26c241c959b875026d53acfde114241f235fec484bae70a9ef"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "68c0d4e0da686a5c5ac7ce4afde7ccc4a933f122f8fd631b4ec348eeaea8a60c"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "status": "M",
+      "fingerprint": "04dcb9c7c2431738022f61a4c744a80519c015376527983cc5b5767297c8a8c2"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "c368098ab9dd3b8a93f27be04368e981a3ed11b1a368d8eb11b4a6d192cb77a2"
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "status": "A",
+      "fingerprint": "c8b15e0f4494795f9c90838ddc25db0da929d9c2d265d7713df133dd2baf61c7"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "15e32dc879e94b00626be7d7fedf009e340966330f716633a5250501fb7bf4c2"
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "94f20a2bf0809f6123aebc9399549dd43904264aa13ab50b0381968b6da8eb6b"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "A",
+      "fingerprint": "2c6e24cfe8e47407736071a35671270f394663502194f153141e86a887bc740b"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "3afe7f723d701ad0887787458e1dc865e0980a06ed6fa91c550472e84b7bb01c"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "A",
+      "fingerprint": "83211081b370c9eb2bac9f44cc5d89c285c1ee07a91bcb154cd8a6ebc60ffd42"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "M",
+      "fingerprint": "9e512058da4f5bae3712889b15e337466289012981c8170a91db405e3f04614b"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "M",
+      "fingerprint": "7cf59c9176161655fa111fbaa0a77fb15e8899e092f29c99f9942f504aef6a66"
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "status": "A",
+      "fingerprint": "ee0dbc110c822e7f31c9bc7cf4e85038b531d7af9bc145892fc4ee208b2ea8db"
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "status": "M",
+      "fingerprint": "19c849ed8464c668739be3e3b2ec000a5f8b096de194b5aec9f44ac9f42a04bf"
+    },
+    {
+      "path": "tests/test_contract_examples.py",
+      "status": "A",
+      "fingerprint": "e6f55a3a0f81665904af8e55e9f24a3a789e1229d53d553ed3fe416da33dbd97"
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "e7e510b83e4869fa1bf1a282a831cc2c2f0a05bad1a1c5a05889e2fcb09c3e71"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "A",
+      "fingerprint": "96a88bca1402af7d81c923cbe34417d7a62f45edb8ecef00cf78df7be9027d5c"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "status": "A",
+      "fingerprint": "f07aa11e0786b1767e1bc62e024f5632e6eeb1bb105122ade85b2305241854b0"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "f26c8299c73f97a62256c56f4244cebcce3db3f1e0030832ae13abf80f563b95"
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "status": "M",
+      "fingerprint": "6fb3cdbde3e3e1e6b0ae7b545902df7f6f4fa7320abce9420a7330b811739bba"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "A",
+      "fingerprint": "807eca0f021fcf35c6ae69d42d71251aa16ced0b3a83434fdf831466391d948e"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/adoption_readiness_alignment.contract.json",
+    ".ai/work-items/active/adoption_readiness_alignment.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/adoption.md",
+    ".ai/guards/coverage_policy.yaml",
+    ".github/workflows/compatibility.yml",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_doctor.py",
+    "scripts/install_ai_cockpit.py",
+    "scripts/check_docs_metadata.py",
+    "install.sh",
+    "tests/test_adoption_ready.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_doctor.py",
+    "tests/test_installer.py",
+    "tests/test_docs_metadata.py",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/installation.md",
+    "docs/contract-fields.md",
+    "docs/overview.ja.md"
+  ],
+  "outOfScope": [
+    "Publishing a new release tag",
+    "Claiming verified compatibility for the nine template-only stacks",
+    "Adding an external textlint or Vale dependency"
+  ],
+  "sources": [
+    {
+      "path": "User engineering review dated 2026-06-19",
+      "reason": "Reported adoption readiness, compatibility, traceability, documentation, and prose quality gaps."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Defines installed adoption records and distributed runtime files."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Defines the currently executable compatibility matrix."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_gate",
+      "compatibility_claims",
+      "documentation_accuracy"
+    ],
+    "reason": "A new hard gate and installed evidence source affect adoption behavior and public support claims."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The readiness contract, installed source, CI definitions, and documentation checks are locally testable."
+  },
+  "preReviewWarnings": [
+    "Publishing remains external; documentation must continue to label v0.4.4 as lacking source capabilities.",
+    "Template-only stacks must not be presented as CI-verified."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make check-ai-adoption-ready fails unless project quality commands, Coverage paths, and check-ai-pr CI wiring are explicitly configured.",
+    "ai-doctor remains advisory and points users to the hard readiness gate.",
+    "Installer-generated adoption evidence references an installed repository-local source.",
+    "Public stacks are labeled Verified or Template-only consistently in all three READMEs.",
+    "Compatibility CI runs shellcheck and retains executable quality jobs for the four Verified stacks.",
+    "Contract field documentation includes author_todo and describes baseCommit as a valid Git object ID rather than fixed SHA-1 length.",
+    "The installation CI example uses the repository's current checkout action major.",
+    "A repository-local Japanese terminology/style check blocks known regressions without adding a Node dependency.",
+    "All required governance and project checks pass."
+  ],
+  "guidelines": [
+    "Readiness failures must state the concrete remediation and remain distinct from doctor warnings.",
+    "Support claims must not exceed executable CI evidence.",
+    "Adoption evidence sources must remain available inside the installed repository.",
+    "Japanese lint rules must be narrow, deterministic, and covered by tests.",
+    "Do not hand-edit generated cockpit status."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user request in current thread",
+    "reason": "The requested fixes explicitly require governance policy, Make entrypoint, and CI workflow changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

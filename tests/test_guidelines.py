@@ -1,7 +1,5 @@
 import json
 import sys
-from pathlib import Path
-
 import ai_check_guidelines
 
 

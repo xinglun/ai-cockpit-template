@@ -1,0 +1,395 @@
+{
+  "workItemId": "align_release_documentation",
+  "contractPath": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated active Work Item status."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.contract.json",
+      "reason": "Declared release consistency scope and verification."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "reason": "Recorded implementation and verification evidence."
+    },
+    {
+      "path": "release.json",
+      "reason": "Defined the documented public tag and its published capability flags."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Downloaded and behavior-tested the real public tag installer with an incorrect digest."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Covered supported, unsupported, and drifted SHA256 capability contracts."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Validated documented tags, installer default ref, and unpublished capability claims against release metadata."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Covered rejection of unpublished SHA256 claims."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added an explicit networked release-distribution check target."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Ran the public release contract check separately in CI."
+    },
+    {
+      "path": "docs/installation.md",
+      "reason": "Removed the false v0.4.4 SHA256 guarantee, fixed upgrade semantics, and used temporary bootstrap files."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Normalized the reported mixed English-Japanese terminology."
+    }
+  ],
+  "sourcesUsed": [
+    "User engineering review",
+    "docs/installation.md",
+    "public v0.4.4 install.sh behavior",
+    "tests/test_install_script.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/align_release_documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:27.327385+00:00",
+      "exitCode": 0,
+      "durationMs": 67,
+      "outputDigest": "64622368bd5d094c2b7380b6cf2cff469ecda5b4b3cf28d91e3f73dbf656f492",
+      "commandHash": "6f9eddb1ffe013e349fccb9fe5ed4ec74f56bebbfdc636949b1817bcaa9d738b",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/align_release_documentation.contract.json work item contract check passed: .ai/work-items/active/align_release_documentation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/align_release_documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:27.508524+00:00",
+      "exitCode": 0,
+      "durationMs": 179,
+      "outputDigest": "32c36d411b9a60547685d04ecf74e679f9888a89121a9a63ae9f1be83dc9be1b",
+      "commandHash": "21cf92a2206029c05e2dee919987d8805e438205c0a416726cce03e8137a5c93",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/align_release_documentation.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:27.710594+00:00",
+      "exitCode": 0,
+      "durationMs": 200,
+      "outputDigest": "64b6308b51c1460f97d08c54e9520fa0e0be3cc961b85b7e45d6720049a7c8e4",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/align_release_documentation.contract.json [warning] restricted_write: .github/workflows/smoke.yml (.github/workflows/**) - CI workflow configuration. [warning] restricted_write: Makefile (Makefile) - Shared local and CI command entrypoint. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/align_release_documentation.contract.json SUMMARY=.ai/work-items/active/align_release_documentation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:27.776657+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "c5252cfbd95f7669ecd880bb8625ddb8cf9c6c3d9661474203440612cf8688bd",
+      "commandHash": "37f637c9241cb32428a9039cc86cdf6729ef19a8c8b43ce79e8892b7ff815b4d",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/align_release_documentation.contract.json --summary .ai/work-items/active/align_release_documentation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `align_release_documentation` - Contract Hash: `f0703e0ee80d0ecd` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `9` - Unknown Count: `0` - Required Chec"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/align_release_documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:27.941699+00:00",
+      "exitCode": 0,
+      "durationMs": 163,
+      "outputDigest": "018441e12e90e21ad260ce994628dfbe215e76a911aa27d0a0398cf605b6e959",
+      "commandHash": "10a0e6f51dc51b2e11c7a37f10af7081d2d4373985e27ec6ffdcedd2ce691049",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/align_release_documentation.summary.json review policy matched 3 path(s) [review] .ai/cockpit/current_status.md [review] .github/workflows/smoke.yml [review] Makefile review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:28.101391+00:00",
+      "exitCode": 0,
+      "durationMs": 158,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:28.258992+00:00",
+      "exitCode": 0,
+      "durationMs": 156,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/align_release_documentation.contract.json SUMMARY=.ai/work-items/active/align_release_documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:28.327160+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "af69cd3fc62bb7d3eb3dc9902a4cd4fb87d638f0d862685540ffc55c9d8307f9",
+      "commandHash": "e2ca003d952b5e8e04f4c5e0e8cf8080f24902be21b6b439bf1dbf0317fae435",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/align_release_documentation.contract.json --summary .ai/work-items/active/align_release_documentation.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:37.541502+00:00",
+      "exitCode": 0,
+      "durationMs": 9211,
+      "outputDigest": "3a00df1b03e52c91cd26e8d2cb3121b765ba5080d358bf0477ec71955534263b",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q ........................................................................ [ 93%] ..... [100%] 77 passed in 8.79s PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m py_compile scripts/*.py tests/*.py git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/check_docs_metadata.py documentation metadata check passed"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/align_release_documentation.contract.json SUMMARY=.ai/work-items/active/align_release_documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:37.990343+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "ccb1cb944ac0ccba020013d9afbe8f98361dd96151f94b6202716a08fa70e9ba",
+      "commandHash": "9833b9d4e83be842cf1d1324fec171aae22769adab491336ff1249c51c7251be",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/align_release_documentation.contract.json --summary .ai/work-items/active/align_release_documentation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/align_release_documentation.contract.json SUMMARY=.ai/work-items/active/align_release_documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:38.048165+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "b0a1003890dd26fc7d7d98aa5bd6676b2b29428101e535f303de9d24bbaba045",
+      "commandHash": "5d1f190cb82fc5a13c757320f0c33114d286447a14af58da56c772dbd85b4db8",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/align_release_documentation.contract.json --summary .ai/work-items/active/align_release_documentation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:38.103047+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/align_release_documentation.contract.json SUMMARY=.ai/work-items/active/align_release_documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:38.160695+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "b42486647a8b8cd676f0a5ed02d3b0809d88937763ae46702e40db8f78c6b6b9",
+      "commandHash": "f2f9fe89f1d219f8526befb955d6b473a56c99dee25eba208998ced0176f2e96",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/align_release_documentation.contract.json --summary .ai/work-items/active/align_release_documentation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/align_release_documentation.summary.json CONTRACT=.ai/work-items/active/align_release_documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T02:47:38.317018+00:00",
+      "exitCode": 0,
+      "durationMs": 155,
+      "outputDigest": "49457ca8840a1a4555ad7cae8d7ac76e3835fa9c598febfa409065e348a75aa8",
+      "commandHash": "547413f5969ace283446a4e5606f4c3d6e0967a2fe962ed42db42a2bfe0d5db5",
+      "contractHash": "f0703e0ee80d0ecd6c8c7d54d8ac5ff59316aaa694c1dddf887e14b641ff34c9",
+      "commitSha": "91df8a098a5eae1e458b65474f7c5e5e9e1dc912",
+      "executionContractPath": ".ai/work-items/active/align_release_documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_release_documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/align_release_documentation.summary.json --contract .ai/work-items/active/align_release_documentation.contract.json ai summary check passed: .ai/work-items/active/align_release_documentation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Published capability claims must be derived from release metadata and verified against the immutable remote tag.",
+      "compliant": true,
+      "evidence": "release.json drives offline docs checks and the networked real-tag behavior check."
+    },
+    {
+      "guideline": "Do not describe worktree-only behavior as available in a published release.",
+      "compliant": true,
+      "evidence": "Installation docs explicitly state public v0.4.4 does not implement SHA256 verification."
+    },
+    {
+      "guideline": "Remote checks must use isolated temporary files and must not modify the repository.",
+      "compliant": true,
+      "evidence": "The remote contract uses TemporaryDirectory and a controlled fixture archive."
+    },
+    {
+      "guideline": "Keep network-dependent release checks separate from deterministic offline quality checks.",
+      "compliant": true,
+      "evidence": "quality runs offline metadata validation; check-release-distribution is a separate CI step."
+    },
+    {
+      "guideline": "Do not hand-edit generated cockpit status.",
+      "compliant": true,
+      "evidence": "Status was generated by lifecycle commands."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Public release facts now have offline drift checks and a real-tag behavior test."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/ai_*.json",
+    "target/ai_observability.jsonl"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Public v0.4.4 ignores AI_COCKPIT_TEMPLATE_SHA256; this is now documented as unsupported rather than secured."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "release",
+      "detail": "SHA256 remains unavailable to public users until a new tag containing the implementation is published and release.json is updated.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "network_ci",
+      "detail": "The remote release check depends on GitHub availability and is intentionally separate from offline quality.",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The factual error is removed and release behavior is gated; publishing a future SHA-capable release remains external work.",
+    "expectedReviewFocus": [
+      "release.json capability truth",
+      "Remote incorrect-digest contract isolation",
+      "No public SHA256 claim",
+      "Temporary installer cleanup"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified",
+    "userVisibleOutput": "verified",
+    "persistence": "verified",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "Do not treat worktree SHA256 tests as proof of public v0.4.4 behavior."
+  ],
+  "userCorrectionSolidification": [
+    "release.json",
+    "scripts/check_release_distribution.py",
+    ".github/workflows/smoke.yml"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Release facts, remote behavior, documentation, CI, and localization scope reviewed.",
+      "contractHash": "f0703e0ee80d0ecd",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Offline quality, real v0.4.4 remote contract, upgrade flow, cleanup, and residual release risk reviewed.",
+      "contractHash": "f0703e0ee80d0ecd",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "No public release currently provides SHA256 archive verification."
+  ],
+  "overclaimPrevention": "Documentation distinguishes public v0.4.4 behavior from capabilities present only in the worktree."
+}

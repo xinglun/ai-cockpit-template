@@ -15,7 +15,7 @@ Rust 開発で本フレームワークを利用する場合、以下の設定を
 
 ## 1. 開発環境の品質ゲート設定 (`Makefile.ai.stack`)
 
-リポジトリで以下のMake変数を設定します。これらは `make quality` 実行時に自動的に呼び出され、フォーマット、テスト、および Clippy による静的解析が AI 代理に強制されます。
+リポジトリで以下の Make 変数を設定します。これらは `make quality` 実行時に呼び出され、フォーマット、テスト、および Clippy による静的解析の結果を AI エージェントの完了条件として検証します。
 
 ```make
 PROJECT_FORMAT_CHECK = cargo fmt --all -- --check

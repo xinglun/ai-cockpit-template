@@ -39,11 +39,11 @@ def matching_required_commands(commands: list[str], required_prefix: str) -> lis
 def summary_status(summary: dict[str, Any] | None) -> dict[str, str]:
     if not isinstance(summary, dict):
         return {}
-    return {
-        verification_key(item): item.get("result")
-        for item in summary.get("verification", [])
-        if isinstance(item, dict) and verification_key(item) and isinstance(item.get("result"), str)
-    }
+    statuses: dict[str, str] = {}
+    for item in summary.get("verification", []):
+        if isinstance(item, dict) and verification_key(item) and isinstance(item.get("result"), str):
+            statuses[verification_key(item)] = str(item["result"])
+    return statuses
 
 
 def checkpoint_evidence(summary: dict[str, Any] | None) -> list[dict[str, Any]]:
@@ -77,7 +77,8 @@ def validate_agent_risks(
     has_unknowns = isinstance(contract.get("unknowns"), list) and bool(contract.get("unknowns"))
     not_codable = contract.get("notCodable") is True
     mode = contract.get("mode")
-    capability = contract.get("agentCapability") if isinstance(contract.get("agentCapability"), dict) else {}
+    raw_capability = contract.get("agentCapability")
+    capability: dict[str, Any] = raw_capability if isinstance(raw_capability, dict) else {}
 
     if mode == "code" and (has_unknowns or not_codable):
         issues.append("mode code cannot proceed with unknowns or notCodable; use investigate/author_todo/review/cleanup or clear blockers")

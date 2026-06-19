@@ -36,7 +36,10 @@ def test_check_rejects_stack_tier_drift(tmp_path):
     copy_documentation(tmp_path)
     readme = tmp_path / "README.zh-CN.md"
     readme.write_text(
-        readme.read_text(encoding="utf-8").replace("verified=python,go,rust,typescript", "verified=python"),
+        readme.read_text(encoding="utf-8").replace(
+            "workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp",
+            "workflow-implemented=python",
+        ),
         encoding="utf-8",
     )
 
@@ -77,6 +80,27 @@ def test_check_rejects_mutable_or_incomplete_install_commands(tmp_path):
     errors = check_repository(tmp_path)
     assert any("remote installer must use a fixed tag or commit" in error for error in errors)
     assert any("install command with --stack requires --update-makefile" in error for error in errors)
+
+
+def test_check_rejects_install_commands_without_adoption_evidence(tmp_path):
+    copy_documentation(tmp_path)
+    readme = tmp_path / "README.ja.md"
+    readme.write_text(readme.read_text(encoding="utf-8").replace(" --create-adoption", "", 1), encoding="utf-8")
+    example = tmp_path / "examples" / "python" / "README.md"
+    example.write_text(example.read_text(encoding="utf-8").replace(" --create-adoption", ""), encoding="utf-8")
+
+    errors = check_repository(tmp_path)
+    assert "README.ja.md: primary install command must create auditable adoption evidence" in errors
+    assert any("example install command must create auditable adoption evidence" in error for error in errors)
+
+
+def test_check_rejects_readme_that_calibrates_before_finishing_adoption(tmp_path):
+    copy_documentation(tmp_path)
+    readme = tmp_path / "README.md"
+    text = readme.read_text(encoding="utf-8")
+    text = text.replace("make ai-finish TASK=adopt_ai_cockpit", "make ai-finish TASK=other")
+    readme.write_text(text, encoding="utf-8")
+    assert "README.md: primary adoption flow must finish, commit, and audit before calibration" in check_repository(tmp_path)
 
 
 def test_check_rejects_unpublished_sha256_claim(tmp_path):

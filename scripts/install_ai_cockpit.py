@@ -54,6 +54,10 @@ SCRIPT_NAMES = {
     "ai_generate_status.py",
     "ai_observability.py",
     "ai_start.py",
+    "ai_project_profile.py",
+    "ai_project_doctor.py",
+    "ai_calibrate.py",
+    "ai_check_guard_calibration.py",
 }
 AGENT_MARKER = "<!-- AI_COCKPIT_SECTION -->"
 AGENT_END_MARKER = "<!-- /AI_COCKPIT_SECTION -->"
@@ -63,6 +67,7 @@ GITIGNORE_SECTION = """# AI Cockpit local state
 .ai/work-items/active/*.summary.json
 .ai/work-items/active/*.review.json
 .ai/cockpit/upgrade-backups/
+.ai/project_profile.proposed.yaml
 target/ai_*.json
 target/ai_*.jsonl
 """
@@ -188,7 +193,9 @@ class Installer:
             if item.is_dir():
                 continue
             rel = item.relative_to(src)
-            if relative == ".ai" and rel.as_posix() in {"cockpit/current_status.md", "glossary.md"}:
+            if relative == ".ai" and rel.as_posix() in {
+                "cockpit/current_status.md", "glossary.md", "project_profile.yaml", "project_profile.proposed.yaml",
+            }:
                 continue
             if relative == ".ai" and len(rel.parts) >= 3 and rel.parts[:2] == ("work-items", "active") and rel.name != ".gitkeep":
                 continue
@@ -333,6 +340,7 @@ class Installer:
             {"check": check, "required": True}
             for check in ("aiWorkItem", "aiScope", "aiAgentRisk", "aiSummary", "aiStatus", "aiStatusCheck")
         ]
+        adoption_guidelines = ["Do not claim project quality checks are configured by adoption."]
         contract = {
             "contractVersion": 2,
             "workItemId": "adopt_ai_cockpit",
@@ -355,7 +363,7 @@ class Installer:
             "preReviewWarnings": ["Protected platform review remains required for trusted approval."],
             "checkpointPolicy": {"requiredBeforeFinish": False, "requiredStages": [], "reason": "Installer-generated bounded adoption record."},
             "acceptance": ["All installer-created changes are owned by this Contract and Summary.", "The archived pair passes check-ai-pr for the complete adoption diff."],
-            "guidelines": ["Do not claim project quality checks are configured by adoption."],
+            "guidelines": adoption_guidelines,
             "verification": verification,
             "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
             "restrictedWriteApproval": {"approved": True, "approvedBy": "installer adoption workflow", "reason": "The user explicitly invoked --create-adoption to introduce governance files."},
@@ -367,7 +375,7 @@ class Installer:
             "changedFiles": [],
             "sourcesUsed": [".ai/cockpit/adoption.md", "installer action log"],
             "verification": [{"check": item["check"], "result": "not_run"} for item in verification],
-            "guidelinesCompliance": [{"guideline": contract["guidelines"][0], "compliant": True, "evidence": "Adoption verification excludes unconfigured project quality commands."}],
+            "guidelinesCompliance": [{"guideline": adoption_guidelines[0], "compliant": True, "evidence": "Adoption verification excludes unconfigured project quality commands."}],
             "unknownsRemaining": [],
             "risk": {"level": "medium", "detail": "Trusted approval must be enforced by the code-hosting platform."},
             "generatedFiles": [".ai/cockpit/current_status.md"],
@@ -643,7 +651,8 @@ class Installer:
             print("  1. Run: make ai-finish TASK=adopt_ai_cockpit")
             print("  2. Commit the installation and archived adoption evidence together.")
             print("  3. In PR CI run: make check-ai-pr AI_BASE_COMMIT=<pre-adoption-commit>")
-            print("  4. Complete .ai/cockpit/adoption.md, then run: make check-ai-adoption-ready")
+            print("  4. Run: make cockpit-doctor && make cockpit-calibrate")
+            print("  5. Confirm .ai/project_profile.yaml, validate Guards, then run: make check-ai-adoption-ready")
             return
         if not self.has_initial_commit():
             print("  WARNING: ai-start requires a Git repository with at least one commit.")

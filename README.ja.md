@@ -52,7 +52,7 @@ AI Cockpit は、AI が生成した変更の範囲を制限し、レビューと
 
 ## 30 秒で理解する
 
-Before:
+導入前：
 
 ```text
 AI が 24 ファイルを変更した。
@@ -61,7 +61,7 @@ AI が 24 ファイルを変更した。
 レビューは混乱から始まる。
 ```
 
-After:
+導入後：
 
 ```text
 タスク範囲が宣言されている。
@@ -74,16 +74,34 @@ Cockpit が更新される。
 ## 最新の公開ランタイムをインストール
 
 ```sh
+ADOPTION_BASE="$(git rev-parse HEAD)"
 RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
-AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
+make ai-finish TASK=adopt_ai_cockpit
+git add .
+git commit -m "adopt AI Cockpit governance"
+make check-ai-pr AI_BASE_COMMIT="$ADOPTION_BASE"
 ```
 
 このコマンドは公開済みの `release.json` を優先し、メタデータ移行中にファイルが存在しない場合は、公開済みのセマンティックバージョンタグから最新のものを選びます。その後、解決したタグのインストーラーのみをダウンロードして実行します。公開版の機能はソースツリーより遅れる場合があるため、初回導入 PR を作成する前に[インストール手順](docs/installation.md)を確認してください。
 
-ガバナンス付きの AI タスクを開始します。
+ブロッキングゲートを有効にする前に、導入した実行系を対象プロジェクトに合わせて調整します。
+
+<!-- governance-flow: install,doctor,calibrate,confirm,validate,readiness,develop -->
+
+```sh
+make cockpit-doctor
+make cockpit-calibrate
+# .ai/project_profile.proposed.yaml を確認し、承認済みの .ai/project_profile.yaml を作成する。
+make check-ai-project-profile
+make check-ai-guard-calibration
+make check-ai-adoption-ready
+```
+
+Doctor はプロジェクトポリシーを変更せず、検出した事実、証拠、確信度、提案、および不明点を記録します。Calibration は候補のみを生成し、Guard の上書きや高リスクパスの承認は行いません。人が明示的に確認し、Readiness 検査が成功した後に、ガバナンス付きの AI タスクを開始します。
 
 ```sh
 make ai-start TASK=example_change TITLE="Example change" MODE=code
@@ -129,12 +147,12 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 
 ```text
 [BLOCKED]
-Scope violation detected.
+スコープ違反を検出しました。
 
-Unauthorized file modification:
+許可されていないファイル変更：
 - src/auth/payment.rs
 
-Allowed scope:
+許可されたスコープ：
 - src/auth/session.rs
 - tests/auth/session_test.rs
 ```
@@ -155,17 +173,18 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 互換性レベル:
 
-<!-- stack-tiers: verified=python,go,rust,typescript; preset-only=generic,flutter,java,android,kotlin,swift,ruby,php,csharp -->
+<!-- stack-tiers: verified=; workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp; preset-only=generic,flutter,android,swift -->
 
-- **CI 検証済み:** `python`、`go`、`rust`、`typescript` は最小プロジェクトを生成し、`make quality` を実行します。
-- **プリセットのみ:** `generic`、`flutter`、`java`、`android`、`kotlin`、`swift`、`ruby`、`php`、`csharp` はコマンドの出発点を提供しますが、実プロジェクトを使った CI 証跡はまだありません。`generic` は設定が完了するまで意図的に失敗します。
+- **ホステッド環境で検証済み:** 現時点で記録済みの成功実績はありません。ワークフローの存在だけを実行成功の証拠として扱いません。
+- **CI ワークフロー実装済み・ホステッド実行待ち:** `python`、`go`、`rust`、`typescript`、`java`、`kotlin`、`ruby`、`php`、`csharp` には、最小プロジェクトを生成して `make quality` を実行するジョブがあります。
+- **プリセットのみ:** `generic`、`flutter`、`android`、`swift` はコマンドの出発点を提供しますが、実プロジェクトを使った CI 証跡はまだありません。`generic` は設定が完了するまで意図的に失敗します。
 - **未対応の実行環境:** ネイティブ Windows シェル。WSL または別の POSIX 環境を使用してください。
 
 スタックプリセットは、カスタマイズを前提とした出発点であり、依存ツールをインストールするものではありません。対象プロジェクトには、フォーマッター、テストランナー、SDK、ビルドプラグインがあらかじめ必要です。たとえば Java と Android は Gradle Wrapper と Spotless の設定、Python は Ruff と pytest を前提とします。`examples/` は一部のスタックのみを扱い、すべてのプリセットには対応していません。
 
 ガバナンス実行系は対象言語に依存しませんが、スタックプリセットと既定のガード対象パスは、あらゆるフレームワークへの完全対応を意味しません。CI の必須チェックにする前に、対象リポジトリに合わせて `Makefile.ai.stack` と `.ai/guards/coverage_policy.yaml` を調整してください。
 
-インストールで完了するのはガバナンス実行系の配置であり、本番運用向けの適合確認ではありません。品質コマンド、Coverage 対象パス、PR CI を設定した後、Coverage policy の `adoptionReviewed` を `true` に変更し、`make check-ai-adoption-ready` を実行してください。これは静的な設定完全性の検査であり、プロジェクトコマンドの有効性を証明するものではありません。CI では `make quality` と `check-ai-pr` の成功を別途必須にしてください。
+インストールで完了するのはガバナンス実行系の配置であり、本番運用向けの適合確認ではありません。導入準備の検査には、承認済み Project Profile、Profile と Guard の整合性、実効性のある品質コマンド、確認済み Coverage 対象パス、および `quality` と `check-ai-pr` の CI 設定が必要です。この検査は静的な完全性確認であり、安全性やプロジェクトコマンドの妥当性を証明するものではありません。
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 

@@ -12,13 +12,13 @@ ARGS ?=
 TASK ?=
 TITLE ?=
 MODE ?= investigate
-PYTHON ?= python3
+PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 PROJECT_FORMAT_CHECK ?= printf '%s\n' 'ERROR: no project formatter configured. Set PROJECT_FORMAT_CHECK in Makefile.ai.stack.' >&2; false
 PROJECT_TEST ?= printf '%s\n' 'ERROR: no project test command configured. Set PROJECT_TEST in Makefile.ai.stack.' >&2; false
 PROJECT_LINT ?= printf '%s\n' 'ERROR: no project linter configured. Set PROJECT_LINT in Makefile.ai.stack.' >&2; false
 
-.PHONY: ai-help ai-doctor check-ai-adoption-ready \
+.PHONY: ai-help ai-doctor cockpit-doctor cockpit-calibrate cockpit-validate-calibration check-ai-project-profile check-ai-guard-calibration check-ai-adoption-ready \
 	project-format-check project-test project-lint diff-check quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy \
@@ -28,6 +28,10 @@ ai-help:
 	@printf '%s\n' 'AI Cockpit commands:'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..." MODE=code'
 	@printf '%s\n' '  make ai-doctor'
+	@printf '%s\n' '  make cockpit-doctor'
+	@printf '%s\n' '  make cockpit-calibrate'
+	@printf '%s\n' '  make cockpit-validate-calibration'
+	@printf '%s\n' '  make check-ai-guard-calibration'
 	@printf '%s\n' '  make check-ai-adoption-ready'
 	@printf '%s\n' '  make check-ai'
 	@printf '%s\n' '  make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>'
@@ -55,6 +59,22 @@ ai-start:
 
 ai-doctor:
 	$(AI_PYTHON) scripts/ai_doctor.py --root .
+
+cockpit-doctor:
+	$(AI_PYTHON) scripts/ai_doctor.py --root .
+	$(AI_PYTHON) scripts/ai_project_doctor.py --root .
+
+cockpit-calibrate:
+	$(AI_PYTHON) scripts/ai_calibrate.py generate --root .
+
+cockpit-validate-calibration:
+	$(AI_PYTHON) scripts/ai_calibrate.py validate --profile "$(or $(PROFILE),.ai/project_profile.proposed.yaml)" $(ARGS)
+
+check-ai-project-profile:
+	$(AI_PYTHON) scripts/ai_calibrate.py validate --profile .ai/project_profile.yaml --confirmed
+
+check-ai-guard-calibration: check-ai-project-profile
+	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
 
 check-ai-adoption-ready:
 	$(AI_PYTHON) scripts/ai_check_adoption_ready.py --root .

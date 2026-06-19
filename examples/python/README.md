@@ -14,20 +14,20 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack python --update-makefile
+AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.2/install.sh)" -- --stack python --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲートとガード設定
 
-Use this stack preset in `Makefile.ai.stack` for a Python repository:
+Python リポジトリでは、`Makefile.ai.stack` に次のスタックプリセットを設定します。
 
 ```make
-PROJECT_FORMAT_CHECK = python3 -m ruff format --check .
-PROJECT_TEST = python3 -m pytest
-PROJECT_LINT = python3 -m ruff check .
+PROJECT_FORMAT_CHECK = $(PYTHON) -m ruff format --check .
+PROJECT_TEST = $(PYTHON) -m pytest
+PROJECT_LINT = $(PYTHON) -m ruff check .
 ```
 
-Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
+`.ai/guards/coverage_policy.yaml` には、次のガードパターンを推奨します。
 
 ```yaml
 production:

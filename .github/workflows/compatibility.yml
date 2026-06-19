@@ -97,3 +97,142 @@ jobs:
           git commit -qm initial
           "$GITHUB_WORKSPACE/install.sh" --stack "$STACK" --update-makefile
           make quality
+
+  extended-real-stack-quality:
+    strategy:
+      fail-fast: false
+      matrix:
+        stack: [java, kotlin, ruby, php, csharp]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - uses: actions/setup-java@v5
+        if: contains(fromJSON('["java", "kotlin"]'), matrix.stack)
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v5
+        if: contains(fromJSON('["java", "kotlin"]'), matrix.stack)
+        with:
+          gradle-version: "8.12"
+      - uses: ruby/setup-ruby@v1
+        if: matrix.stack == 'ruby'
+        with:
+          ruby-version: "3.4"
+      - uses: shivammathur/setup-php@v2
+        if: matrix.stack == 'php'
+        with:
+          php-version: "8.4"
+          tools: composer
+      - uses: actions/setup-dotnet@v5
+        if: matrix.stack == 'csharp'
+        with:
+          dotnet-version: "9.0.x"
+      - name: Create and verify extended minimal project
+        shell: bash
+        env:
+          STACK: ${{ matrix.stack }}
+        run: |
+          set -euo pipefail
+          project="$(mktemp -d)"
+          cd "$project"
+          git init -q
+          git config user.email test@example.invalid
+          git config user.name 'Compatibility CI'
+          case "$STACK" in
+            java)
+              mkdir -p src/main/java/example src/test/java/example
+              cat > settings.gradle <<'EOF'
+          rootProject.name = 'ai-cockpit-java-smoke'
+          EOF
+              cat > build.gradle <<'EOF'
+          plugins {
+              id 'java'
+              id 'com.diffplug.spotless' version '7.0.2'
+          }
+          repositories { mavenCentral() }
+          dependencies { testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4' }
+          test { useJUnitPlatform() }
+          spotless { java { googleJavaFormat() } }
+          EOF
+              printf 'package example;\n\npublic final class App { private App() {} public static int add(int a, int b) { return a + b; } }\n' > src/main/java/example/App.java
+              printf 'package example;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\nimport org.junit.jupiter.api.Test;\nclass AppTest { @Test void adds() { assertEquals(3, App.add(1, 2)); } }\n' > src/test/java/example/AppTest.java
+              gradle wrapper --gradle-version 8.12
+              ./gradlew spotlessApply
+              ;;
+            kotlin)
+              mkdir -p src/main/kotlin/example src/test/kotlin/example
+              cat > settings.gradle.kts <<'EOF'
+          rootProject.name = "ai-cockpit-kotlin-smoke"
+          EOF
+              cat > build.gradle.kts <<'EOF'
+          plugins {
+              kotlin("jvm") version "2.1.20"
+              id("com.diffplug.spotless") version "7.0.2"
+          }
+          repositories { mavenCentral() }
+          dependencies { testImplementation(kotlin("test")) }
+          tasks.test { useJUnitPlatform() }
+          spotless { kotlin { ktfmt() } }
+          EOF
+              printf 'package example\n\nfun add(a: Int, b: Int): Int = a + b\n' > src/main/kotlin/example/App.kt
+              printf 'package example\n\nimport kotlin.test.Test\nimport kotlin.test.assertEquals\nclass AppTest { @Test fun adds() { assertEquals(3, add(1, 2)) } }\n' > src/test/kotlin/example/AppTest.kt
+              gradle wrapper --gradle-version 8.12
+              ./gradlew spotlessApply
+              ;;
+            ruby)
+              gem install bundler --no-document
+              cat > Gemfile <<'EOF'
+          source 'https://rubygems.org'
+          gem 'minitest', '~> 5.25'
+          gem 'rake', '~> 13.2'
+          gem 'rubocop', '~> 1.70'
+          EOF
+              mkdir -p lib test
+              printf 'module App\n  def self.add(a, b) = a + b\nend\n' > lib/app.rb
+              printf "require 'minitest/autorun'\nrequire_relative '../lib/app'\nclass AppTest < Minitest::Test\n  def test_add = assert_equal(3, App.add(1, 2))\nend\n" > test/app_test.rb
+              printf "require 'rake/testtask'\nRake::TestTask.new { |t| t.pattern = 'test/**/*_test.rb' }\n" > Rakefile
+              bundle install --jobs 4 --retry 3
+              bundle exec rubocop -A
+              ;;
+            php)
+              mkdir -p src tests
+              cat > composer.json <<'EOF'
+          {"autoload":{"psr-4":{"App\\":"src/"}},"autoload-dev":{"psr-4":{"App\\Tests\\":"tests/"}},"require-dev":{"friendsofphp/php-cs-fixer":"^3.68","phpstan/phpstan":"^2.1","phpunit/phpunit":"^11.5"}}
+          EOF
+              cat > src/Calculator.php <<'EOF'
+          <?php
+          namespace App;
+          final class Calculator { public static function add(int $a, int $b): int { return $a + $b; } }
+          EOF
+              cat > tests/CalculatorTest.php <<'EOF'
+          <?php
+          namespace App\Tests;
+          use App\Calculator;
+          use PHPUnit\Framework\TestCase;
+          final class CalculatorTest extends TestCase { public function testAdd(): void { self::assertSame(3, Calculator::add(1, 2)); } }
+          EOF
+              printf 'parameters:\n  paths:\n    - src\n  level: 9\n' > phpstan.neon
+              printf '<?xml version="1.0"?><phpunit bootstrap="vendor/autoload.php"><testsuites><testsuite name="smoke"><directory>tests</directory></testsuite></testsuites></phpunit>\n' > phpunit.xml
+              printf '<?php return (new PhpCsFixer\\Config())->setRules(["@PSR12" => true])->setFinder(PhpCsFixer\\Finder::create()->in(__DIR__ . "/src")->in(__DIR__ . "/tests"));\n' > .php-cs-fixer.php
+              composer install --no-interaction --no-progress
+              vendor/bin/php-cs-fixer fix
+              ;;
+            csharp)
+              dotnet new sln -n Smoke
+              dotnet new classlib -n App -o src/App
+              dotnet new xunit -n App.Tests -o tests/App.Tests
+              dotnet sln Smoke.sln add src/App/App.csproj tests/App.Tests/App.Tests.csproj
+              dotnet add tests/App.Tests/App.Tests.csproj reference src/App/App.csproj
+              printf 'namespace App; public static class Calculator { public static int Add(int a, int b) => a + b; }\n' > src/App/Calculator.cs
+              printf 'using App; namespace App.Tests; public class CalculatorTests { [Fact] public void Adds() => Assert.Equal(3, Calculator.Add(1, 2)); }\n' > tests/App.Tests/CalculatorTests.cs
+              dotnet format Smoke.sln
+              ;;
+          esac
+          git add .
+          git commit -qm initial
+          "$GITHUB_WORKSPACE/install.sh" --stack "$STACK" --update-makefile
+          make quality

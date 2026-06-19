@@ -2,6 +2,7 @@ import json
 import sys
 
 import ai_check_review_policy
+import ai_check_scope
 import ai_check_status
 import ai_check_status_consistency
 import ai_checkpoint
@@ -9,10 +10,19 @@ import ai_finish
 
 
 class ObservabilityStub:
+    def check_started(self, **kwargs):
+        return None
+
     def check_passed(self, **kwargs):
         return None
 
     def check_failed(self, **kwargs):
+        return None
+
+    def guard_violation(self, **kwargs):
+        return None
+
+    def work_item_finished(self, **kwargs):
         return None
 
 
@@ -157,3 +167,70 @@ def test_finish_main_fails_when_contract_is_missing(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "missing"])
 
     assert ai_finish.main() == 1
+
+
+def test_finish_main_records_required_check_failure(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    contract = active / "task.contract.json"
+    summary = active / "task.summary.json"
+    contract.write_text(json.dumps({
+        "contractVersion": 2,
+        "workItemId": "task",
+        "verification": [{"check": "quality", "required": True}],
+    }), encoding="utf-8")
+    summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
+    monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_finish, "current_head", lambda: "a" * 40)
+    monkeypatch.setattr(ai_finish, "render_check_command", lambda *_args, **_kwargs: ("make quality", ["make", "quality"]))
+    monkeypatch.setattr(ai_finish, "run", lambda _command: (3, 7, "quality failed"))
+    monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
+
+    assert ai_finish.main() == 3
+    recorded = json.loads(summary.read_text(encoding="utf-8"))["verification"]
+    assert recorded[0]["result"] == "failed"
+    assert recorded[0]["exitCode"] == 3
+
+
+def test_scope_main_reports_out_of_scope_and_dependency_failures(tmp_path, monkeypatch, capsys):
+    contract = tmp_path / "task.contract.json"
+    contract.write_text(json.dumps({
+        "workItemId": "task",
+        "scope": ["src/**"],
+        "outOfScope": ["src/private/**"],
+        "destructiveChangePolicy": {"allowed": False},
+    }), encoding="utf-8")
+    monkeypatch.setattr(ai_check_scope, "changed_paths", lambda _contract: ["src/private/key.py", "README.md"])
+    monkeypatch.setattr(
+        ai_check_scope,
+        "simple_yaml_lists",
+        lambda _path: {"dependencyScopeRules.src/**": ["tests/**"]},
+    )
+    monkeypatch.setattr(ai_check_scope, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(sys, "argv", ["ai_check_scope.py", str(contract)])
+
+    assert ai_check_scope.main() == 1
+    errors = capsys.readouterr().err
+    assert "matches outOfScope" in errors
+    assert "dependency scope rule requires tests/**" in errors
+
+
+def test_review_policy_main_writes_warning_report(tmp_path, monkeypatch):
+    policy = tmp_path / ".ai" / "guards" / "ai_review_policy.yaml"
+    policy.parent.mkdir(parents=True)
+    policy.write_text("requiredReviewChecklist:\n  include:\n    - .ai/**\n", encoding="utf-8")
+    summary = tmp_path / "summary.json"
+    summary.write_text(json.dumps({"workItemId": "task", "reviewReadiness": {"expectedReviewFocus": []}}), encoding="utf-8")
+    monkeypatch.setattr(ai_check_review_policy, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_review_policy, "POLICY", policy)
+    monkeypatch.setattr(ai_check_review_policy, "REPORT", tmp_path / "target" / "review.json")
+    monkeypatch.setattr(ai_check_review_policy, "changed_paths", lambda: [".ai/guards/scope.yaml"])
+    monkeypatch.setattr(ai_check_review_policy, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(sys, "argv", ["ai_check_review_policy.py", "--summary", str(summary)])
+
+    assert ai_check_review_policy.main() == 0
+    report = json.loads(ai_check_review_policy.REPORT.read_text(encoding="utf-8"))
+    assert report["status"] == "warning"
+    assert report["matchedPaths"] == [".ai/guards/scope.yaml"]

@@ -82,3 +82,46 @@ def test_execution_output_redacts_project_and_home_paths():
     redacted = ai_common.redact_machine_paths(value)
     assert "<PROJECT_ROOT>/status" in redacted
     assert "/Users/alice" not in redacted
+
+
+def test_summary_validator_reports_nested_governance_schema_failures():
+    summary = {
+        "workItemId": "wrong",
+        "contractPath": "contract.json",
+        "changedFiles": [{"path": "", "reason": ""}],
+        "verification": [{"check": "quality", "result": "unknown"}],
+        "risk": {"level": "critical", "detail": ""},
+        "sourcesUsed": "not-a-list",
+        "unknownsRemaining": {},
+        "generatedFiles": None,
+        "destructiveChanges": "none",
+        "observedIssues": {},
+        "guidelinesCompliance": "invalid",
+        "userCorrectionsCaptured": "invalid",
+        "userCorrectionSolidification": "invalid",
+        "knownGaps": "invalid",
+        "checkpointEvidence": ["invalid", {
+            "stage": "",
+            "recorded": "yes",
+            "detail": 1,
+            "contractHash": "",
+            "acceptanceCount": "one",
+        }],
+        "residualRisks": ["invalid", {"level": "critical", "area": "", "detail": ""}],
+        "reviewReadiness": {"status": "unknown", "reason": "", "expectedReviewFocus": [""]},
+        "boundaryChecks": {"": ""},
+        "overclaimPrevention": "",
+        "machinePath": "/Users/alice/private.txt",
+    }
+    contract = {
+        "contractVersion": 2,
+        "workItemId": "task",
+        "verification": [{"check": "quality", "required": True}, {"check": "aiScope", "required": True}],
+    }
+
+    issues = ai_check_summary.validate_summary(summary, contract)
+    assert len(issues) >= 25
+    assert any("checkpointEvidence[0]" in issue for issue in issues)
+    assert any("residualRisks[1].level" in issue for issue in issues)
+    assert any("machine-specific path" in issue for issue in issues)
+    assert any("missing required verification: aiScope" in issue for issue in issues)

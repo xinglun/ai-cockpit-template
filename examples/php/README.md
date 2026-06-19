@@ -14,12 +14,12 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack php --update-makefile
+AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.2/install.sh)" -- --stack php --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲートとガード設定
 
-Use this stack preset in `Makefile.ai.stack` for a PHP repository:
+PHP リポジトリでは、`Makefile.ai.stack` に次のスタックプリセットを設定します。
 
 ```make
 PROJECT_FORMAT_CHECK = vendor/bin/php-cs-fixer fix --dry-run --diff
@@ -27,7 +27,7 @@ PROJECT_TEST = vendor/bin/phpunit
 PROJECT_LINT = vendor/bin/phpstan analyse
 ```
 
-Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
+`.ai/guards/coverage_policy.yaml` には、次のガードパターンを推奨します。
 
 ```yaml
 production:

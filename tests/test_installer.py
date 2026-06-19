@@ -378,6 +378,29 @@ def test_upgrade_rolls_back_when_post_copy_validation_fails(tmp_path, monkeypatc
     assert checks.read_text(encoding="utf-8") == "# CUSTOM BEFORE UPGRADE\n"
 
 
+def test_install_and_upgrade_preserve_project_owned_profiles(tmp_path):
+    profile = tmp_path / ".ai" / "project_profile.yaml"
+    proposal = tmp_path / ".ai" / "project_profile.proposed.yaml"
+    profile.parent.mkdir(parents=True)
+    profile.write_text("version: 1\n# KEEP PROJECT BOUNDARY\n", encoding="utf-8")
+    proposal.write_text("version: 1\n# KEEP PROPOSAL\n", encoding="utf-8")
+    initial = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    assert initial.install() == 0
+    assert "KEEP PROJECT BOUNDARY" in profile.read_text(encoding="utf-8")
+    assert "KEEP PROPOSAL" in proposal.read_text(encoding="utf-8")
+
+    upgrade = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True, upgrade=True,
+    )
+    assert upgrade.install() == 0
+    assert "KEEP PROJECT BOUNDARY" in profile.read_text(encoding="utf-8")
+    assert "KEEP PROPOSAL" in proposal.read_text(encoding="utf-8")
+
+
 def test_failed_upgrade_removes_new_gitignore(tmp_path, monkeypatch):
     initial = Installer(
         source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,

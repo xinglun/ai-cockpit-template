@@ -14,12 +14,12 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack java --update-makefile
+AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.2/install.sh)" -- --stack java --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲートとガード設定
 
-Use this stack preset in `Makefile.ai.stack` for a Gradle-based Java repository:
+Gradle ベースの Java リポジトリでは、`Makefile.ai.stack` に次のスタックプリセットを設定します。
 
 ```make
 PROJECT_FORMAT_CHECK = ./gradlew spotlessCheck
@@ -27,7 +27,7 @@ PROJECT_TEST = ./gradlew test
 PROJECT_LINT = ./gradlew check
 ```
 
-Suggested guard patterns for Spring Boot (`.ai/guards/coverage_policy.yaml`):
+Spring Boot 向けの `.ai/guards/coverage_policy.yaml` には、次のガードパターンを推奨します。
 
 ```yaml
 production:
@@ -48,7 +48,7 @@ tests:
     - "**/*IT.java"
 ```
 
-Suggested guard patterns for Android (`.ai/guards/coverage_policy.yaml`):
+Android 向けの `.ai/guards/coverage_policy.yaml` には、次のガードパターンを推奨します。
 
 ```yaml
 production:

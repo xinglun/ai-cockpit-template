@@ -169,7 +169,7 @@ def validate_baseline_and_approvals(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     base = data.get("baseCommit")
     requires_baseline = data.get("contractVersion") == 2
-    if requires_baseline and (not non_empty_string(base) or len(base.strip()) < 7):
+    if requires_baseline and (not non_empty_string(base) or len(str(base).strip()) < 7):
         issues.append("baseCommit must be a non-empty Git commit identifier")
     dirty = data.get("baselineDirtyPaths")
     if requires_baseline and not isinstance(dirty, list):

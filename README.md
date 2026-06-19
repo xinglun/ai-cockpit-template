@@ -74,16 +74,34 @@ Review starts from context.
 ## Install the Latest Published Runtime
 
 ```sh
+ADOPTION_BASE="$(git rev-parse HEAD)"
 RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
-AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
+make ai-finish TASK=adopt_ai_cockpit
+git add .
+git commit -m "adopt AI Cockpit governance"
+make check-ai-pr AI_BASE_COMMIT="$ADOPTION_BASE"
 ```
 
 The command prefers the public `release.json` pointer and falls back to the highest published semantic-version tag during the metadata rollout. It then downloads and executes only the resolved tagged installer. Published capabilities may lag the source tree; review [Installation](docs/installation.md) before creating the first adoption PR.
 
-Start a governed AI task:
+Calibrate the installed runtime to the project before enabling blocking gates:
+
+<!-- governance-flow: install,doctor,calibrate,confirm,validate,readiness,develop -->
+
+```sh
+make cockpit-doctor
+make cockpit-calibrate
+# Review .ai/project_profile.proposed.yaml, then create and approve .ai/project_profile.yaml.
+make check-ai-project-profile
+make check-ai-guard-calibration
+make check-ai-adoption-ready
+```
+
+Doctor records detected facts, evidence, confidence, suggestions, and unknowns without changing project policy. Calibration creates only a proposal; it never overwrites Guards or approves high-risk paths. After explicit human confirmation and successful readiness checks, start a governed task:
 
 ```sh
 make ai-start TASK=example_change TITLE="Example change" MODE=code
@@ -163,17 +181,18 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 Compatibility levels:
 
-<!-- stack-tiers: verified=python,go,rust,typescript; preset-only=generic,flutter,java,android,kotlin,swift,ruby,php,csharp -->
+<!-- stack-tiers: verified=; workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp; preset-only=generic,flutter,android,swift -->
 
-- **Verified in CI:** `python`, `go`, `rust`, `typescript` use generated minimal projects and execute `make quality`.
-- **Preset only:** `generic`, `flutter`, `java`, `android`, `kotlin`, `swift`, `ruby`, `php`, `csharp` provide command presets but do not yet have real-project CI evidence. `generic` intentionally fails closed until configured.
+- **Hosted verification:** none recorded yet. Workflow presence is not successful hosted execution evidence.
+- **CI workflow implemented; hosted execution pending:** `python`, `go`, `rust`, `typescript`, `java`, `kotlin`, `ruby`, `php`, and `csharp` have generated minimal-project jobs that execute `make quality`.
+- **Preset only:** `generic`, `flutter`, `android`, and `swift` provide command presets but do not yet have real-project CI evidence. `generic` intentionally fails closed until configured.
 - **Unsupported runtime/platform:** native Windows shells. Use WSL or another POSIX environment.
 
 Stack presets are customizable starting points, not dependency installers. The selected project's formatter, test runner, SDK, and build plugins must already be available; for example, the Java and Android presets expect a Gradle wrapper and Spotless configuration, while Python expects Ruff and pytest. The examples directory covers selected stacks and does not currently include every preset.
 
 The governance runtime is language-agnostic, but stack presets and default guard paths are not universal framework support. Review `Makefile.ai.stack` and `.ai/guards/coverage_policy.yaml` against the target repository before making them required CI gates.
 
-Installation deploys the runtime; it does not complete production adaptation. After configuring quality commands, Coverage paths, and PR CI, set `adoptionReviewed: true` in the Coverage policy and run `make check-ai-adoption-ready`. This is a static configuration completeness check, not proof that project commands are effective; require successful `make quality` and `check-ai-pr` CI runs separately.
+Installation deploys the runtime; it does not complete production adaptation. Adoption readiness also requires an approved Project Profile, Profile/Guard consistency, non-placeholder quality commands, reviewed Coverage paths, and CI wiring for both `quality` and `check-ai-pr`. This is a static completeness check, not a security proof or proof that project commands are meaningful.
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 

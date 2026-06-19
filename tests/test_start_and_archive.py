@@ -63,6 +63,28 @@ def test_archive_refuses_to_overwrite_existing_audit_record(tmp_path, monkeypatc
     assert ai_archive_work_item.main() == 1
 
 
+def test_archive_dry_run_and_successful_review_item(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    archive = tmp_path / ".ai" / "work-items" / "archive"
+    active.mkdir(parents=True)
+    contract = active / "task.contract.json"
+    contract.write_text(json.dumps({"workItemId": "task", "mode": "review"}), encoding="utf-8")
+    monkeypatch.setattr(ai_archive_work_item, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_archive_work_item, "ARCHIVE_BASE_DIR", archive)
+    monkeypatch.setattr(ai_archive_work_item, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(sys, "argv", ["ai_archive_work_item.py", str(contract), "--dry-run"])
+    assert ai_archive_work_item.main() == 0
+    assert contract.exists()
+
+    observer = type("Obs", (), {"record": lambda *_args, **_kwargs: None})()
+    monkeypatch.setattr(ai_archive_work_item, "create_observability", lambda **_kwargs: observer)
+    monkeypatch.setattr(ai_archive_work_item.subprocess, "run", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(sys, "argv", ["ai_archive_work_item.py", str(contract)])
+    assert ai_archive_work_item.main() == 0
+    assert not contract.exists()
+    assert list(archive.glob("*/task.contract.json"))
+
+
 def test_ai_start_journeys(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)

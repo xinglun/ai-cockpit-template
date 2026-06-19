@@ -13,7 +13,13 @@ keywords:
 
 Rust 開発で本フレームワークを利用する場合、以下の設定を推奨します。
 
-## 1. 開発環境の品質ゲート設定 (`Makefile.ai.stack`)
+## 1. インストール
+
+```sh
+AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.2/install.sh)" -- --stack rust --update-makefile --create-adoption
+```
+
+## 2. 開発環境の品質ゲート設定 (`Makefile.ai.stack`)
 
 リポジトリで以下の Make 変数を設定します。これらは `make quality` 実行時に呼び出され、フォーマット、テスト、および Clippy による静的解析の結果を AI エージェントの完了条件として検証します。
 
@@ -25,7 +31,7 @@ PROJECT_LINT = cargo clippy --all-targets -- -D warnings
 
 ---
 
-## 2. カバレッジポリシーの設定 (`.ai/guards/coverage_policy.yaml`)
+## 3. カバレッジポリシーの設定 (`.ai/guards/coverage_policy.yaml`)
 
 Rust ではテストコードが `tests/` ディレクトリと `src/` 配下のインラインモジュール（`#[cfg(test)]`）の両方に存在することが多いため、以下のようにパターンを設定します。
 
@@ -45,7 +51,7 @@ tests:
 
 ---
 
-## 3. 実践的な Rust 用 Contract 設計例 (`*.contract.json` 抜粋)
+## 4. 実践的な Rust 用 Contract 設計例 (`*.contract.json` 抜粋)
 
 以下は、典型的な Rust 機能追加時の Contract 設定例です。
 
@@ -75,7 +81,7 @@ tests:
 
 ---
 
-## 4. guidelinesCompliance の記述例 (`*.summary.json` 抜粋)
+## 5. guidelinesCompliance の記述例 (`*.summary.json` 抜粋)
 
 上記のガイドラインに適合したことを証明する要約（Summary）の記述例です。
 

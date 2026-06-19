@@ -28,11 +28,11 @@ def contract_hash(path: Path) -> str:
 def verification_status(summary: dict[str, Any] | None) -> dict[str, str]:
     if not isinstance(summary, dict):
         return {}
-    return {
-        verification_key(item): item.get("result")
-        for item in summary.get("verification", [])
-        if isinstance(item, dict) and verification_key(item) and isinstance(item.get("result"), str)
-    }
+    statuses: dict[str, str] = {}
+    for item in summary.get("verification", []):
+        if isinstance(item, dict) and verification_key(item) and isinstance(item.get("result"), str):
+            statuses[verification_key(item)] = str(item["result"])
+    return statuses
 
 
 def review_focus(summary: dict[str, Any] | None) -> list[str]:

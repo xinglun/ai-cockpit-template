@@ -48,7 +48,7 @@ def changed_file_paths(summary: dict[str, Any]) -> set[str]:
     if not isinstance(changed, list):
         return set()
     return {
-        item.get("path")
+        str(item["path"])
         for item in changed
         if isinstance(item, dict) and non_empty_string(item.get("path"))
     }
@@ -117,10 +117,11 @@ def validate_summary(
                     issues.append(f"verification[{index}].executedAt is required for passed result")
                 if not isinstance(item.get("exitCode"), int) or item.get("exitCode") != 0:
                     issues.append(f"verification[{index}].exitCode must be 0 for passed result")
-                if not isinstance(item.get("durationMs"), int) or item.get("durationMs") < 0:
+                duration = item.get("durationMs")
+                if not isinstance(duration, int) or duration < 0:
                     issues.append(f"verification[{index}].durationMs must be a non-negative integer")
                 digest = item.get("outputDigest")
-                if not non_empty_string(digest) or len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+                if not non_empty_string(digest) or len(str(digest)) != 64 or any(ch not in "0123456789abcdef" for ch in str(digest)):
                     issues.append(f"verification[{index}].outputDigest must be a SHA-256 hex digest")
                 if isinstance(contract, dict) and contract.get("contractVersion") == 2:
                     command = item.get("command", "")
@@ -133,8 +134,8 @@ def validate_summary(
                         if not non_empty_string(item.get(path_key)) or Path(item[path_key]).is_absolute():
                             issues.append(f"verification[{index}].{path_key} must be a repository-relative path")
                     commit_sha = item.get("commitSha")
-                    if not non_empty_string(commit_sha) or len(commit_sha) not in {40, 64} or any(
-                        ch not in "0123456789abcdef" for ch in commit_sha
+                    if not non_empty_string(commit_sha) or len(str(commit_sha)) not in {40, 64} or any(
+                        ch not in "0123456789abcdef" for ch in str(commit_sha)
                     ):
                         issues.append(f"verification[{index}].commitSha must be a Git object id")
 

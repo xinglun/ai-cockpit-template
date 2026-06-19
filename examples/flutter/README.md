@@ -12,9 +12,15 @@ keywords:
 
 # Flutter Adaptation Example
 
-## 1. 品質ゲート設定
+## 1. インストール
 
-Use this stack preset in `Makefile.ai.stack` for a Flutter repository:
+```sh
+AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.2/install.sh)" -- --stack flutter --update-makefile --create-adoption
+```
+
+## 2. 品質ゲート設定
+
+Flutter リポジトリでは、`Makefile.ai.stack` に次のスタックプリセットを設定します。
 
 ```make
 PROJECT_FORMAT_CHECK = dart format --set-exit-if-changed .
@@ -22,9 +28,9 @@ PROJECT_TEST = flutter test
 PROJECT_LINT = flutter analyze
 ```
 
-## 2. Coverage Guard 設定
+## 3. Coverage Guard 設定
 
-Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
+`.ai/guards/coverage_policy.yaml` には、次のガードパターンを推奨します。
 
 ```yaml
 production:
@@ -42,7 +48,7 @@ tests:
 
 ---
 
-## 3. 実践的な Flutter/Dart 用 Contract 設計例 (`*.contract.json` 抜粋)
+## 4. 実践的な Flutter/Dart 用 Contract 設計例 (`*.contract.json` 抜粋)
 
 以下は、典型的な Flutter 機能追加時の Contract 設定例です。
 
@@ -71,7 +77,7 @@ tests:
 
 ---
 
-## 4. guidelinesCompliance の記述例 (`*.summary.json` 抜粋)
+## 5. guidelinesCompliance の記述例 (`*.summary.json` 抜粋)
 
 上記ガイドラインに適合したことを証明する要約（Summary）の記述例です。
 

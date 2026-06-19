@@ -34,6 +34,14 @@ csharp
 
 ## Project Checks
 
+Compatibility evidence is tiered:
+
+- **Hosted verification:** no successful hosted compatibility run is recorded yet.
+- **CI workflow implemented; hosted execution pending:** Python, Go, Rust, TypeScript, Java, Kotlin, Ruby, PHP, and C# have generated minimal-project jobs that execute their preset through `make quality`.
+- **Preset only:** Flutter, Android, and Swift provide editable commands but do not yet have real-project CI evidence. The generic preset intentionally fails closed until configured.
+
+CI verification proves the documented minimal project only. It does not guarantee compatibility with every framework version, plugin set, monorepo layout, SDK, or generated-code policy.
+
 Stack presets configure these variables:
 
 ```make

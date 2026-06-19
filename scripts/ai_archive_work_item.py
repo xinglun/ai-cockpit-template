@@ -91,9 +91,9 @@ def main() -> int:
                 if isinstance(item, dict) and item.get("path") in replacements:
                     item["path"] = replacements[item["path"]]
             existing = {item.get("path") for item in changed if isinstance(item, dict)}
-            for target in replacements.values():
-                if target not in existing:
-                    changed.append({"path": target, "reason": "Archived Work Item audit evidence."})
+            for archived_path in replacements.values():
+                if archived_path not in existing:
+                    changed.append({"path": archived_path, "reason": "Archived Work Item audit evidence."})
         save_json(summary_path, summary)
 
     for src, target in files_to_move:

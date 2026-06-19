@@ -14,12 +14,12 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.0 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.0/install.sh)" -- --stack go --update-makefile
+AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.2/install.sh)" -- --stack go --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲートとガード設定
 
-Use this stack preset in `Makefile.ai.stack` for a Go repository:
+Go リポジトリでは、`Makefile.ai.stack` に次のスタックプリセットを設定します。
 
 ```make
 PROJECT_FORMAT_CHECK = test -z "$$(gofmt -l .)"
@@ -27,7 +27,7 @@ PROJECT_TEST = go test ./...
 PROJECT_LINT = go vet ./...
 ```
 
-Suggested guard patterns for `.ai/guards/coverage_policy.yaml`:
+`.ai/guards/coverage_policy.yaml` には、次のガードパターンを推奨します。
 
 ```yaml
 production:

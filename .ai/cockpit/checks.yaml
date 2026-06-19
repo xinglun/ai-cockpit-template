@@ -24,6 +24,18 @@ checks:
     command: make check-docs-metadata
     purpose: Validate Markdown front matter and supported-stack documentation consistency.
 
+  systemInvariants:
+    command: make check-ai-system-invariants
+    purpose: Validate release, documentation, stack, CI, and distribution consistency.
+
+  aiProjectProfile:
+    command: make check-ai-project-profile
+    purpose: Validate the confirmed project boundary Profile schema and approval state.
+
+  aiGuardCalibration:
+    command: make check-ai-guard-calibration
+    purpose: Validate that confirmed Profile boundaries are represented by Guard policies.
+
   quality:
     command: make quality
     purpose: Run all configured project quality checks.

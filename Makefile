@@ -8,12 +8,13 @@ ARGS ?=
 TASK ?=
 TITLE ?=
 MODE ?= investigate
-PYTHON ?= python3
+PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 
 .PHONY: help \
-	project-format-check project-test project-lint diff-check quality \
+	test project-format-check project-test project-lint diff-check quality \
 	check-docs-metadata \
+	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
 	check-release-distribution \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	ai-doctor check-ai-adoption-ready \
@@ -41,7 +42,12 @@ help:
 	@printf '%s\n' '  make ai-finish TASK=<task>'
 	@printf '%s\n' '  make check-ai'
 	@printf '%s\n' '  make quality'
+	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make check-docs-metadata'
+	@printf '%s\n' '  make check-ai-system-invariants'
+	@printf '%s\n' '  make cockpit-doctor'
+	@printf '%s\n' '  make cockpit-calibrate'
+	@printf '%s\n' '  make cockpit-validate-calibration'
 	@printf '%s\n' '  make check-release-distribution  # networked public release contract'
 	@printf '%s\n' '  make archive-work-item CONTRACT=<contract.json> [ARGS="--dry-run"]'
 	@printf '%s\n' ''
@@ -54,9 +60,11 @@ project-test:
 	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60
 	$(AI_PYTHON) scripts/check_critical_coverage.py
 
+test: project-test
+
 project-lint:
 	$(AI_PYTHON) -m ruff check scripts tests
-	$(AI_PYTHON) -m mypy scripts/ai_check_adoption_ready.py scripts/ai_doctor.py scripts/check_docs_metadata.py scripts/check_release_distribution.py scripts/check_critical_coverage.py
+	$(AI_PYTHON) -m mypy scripts/*.py
 	$(AI_PYTHON) -m bandit -q -r scripts -ll
 	$(AI_PYTHON) -m py_compile scripts/*.py tests/*.py
 
@@ -69,7 +77,26 @@ check-docs-metadata:
 check-release-distribution:
 	$(AI_PYTHON) scripts/check_release_distribution.py
 
-quality: project-format-check project-test project-lint diff-check check-docs-metadata
+check-ai-system-invariants:
+	$(AI_PYTHON) scripts/check_system_invariants.py
+
+cockpit-doctor:
+	$(AI_PYTHON) scripts/ai_doctor.py --root .
+	$(AI_PYTHON) scripts/ai_project_doctor.py --root .
+
+cockpit-calibrate:
+	$(AI_PYTHON) scripts/ai_calibrate.py generate --root .
+
+cockpit-validate-calibration:
+	$(AI_PYTHON) scripts/ai_calibrate.py validate --profile "$(or $(PROFILE),.ai/project_profile.proposed.yaml)" $(ARGS)
+
+check-ai-project-profile:
+	$(AI_PYTHON) scripts/ai_calibrate.py validate --profile .ai/project_profile.yaml --confirmed
+
+check-ai-guard-calibration: check-ai-project-profile
+	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
+
+quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration
 
 ai-start:
 	$(AI_PYTHON) scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"

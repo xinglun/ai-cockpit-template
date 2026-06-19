@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import shutil
 from pathlib import Path
 
 from ai_check_adoption_ready import readiness_failures
@@ -15,23 +16,26 @@ def write_ready_configuration(root: Path) -> None:
         "PROJECT_LINT = linter\n",
         encoding="utf-8",
     )
+    shutil.copytree(ROOT / ".ai", root / ".ai")
     guards = root / ".ai" / "guards"
-    guards.mkdir(parents=True)
     (guards / "coverage_policy.yaml").write_text(
-        "version: 1\nadoptionReviewed: true\n", encoding="utf-8",
+        (ROOT / ".ai" / "guards" / "coverage_policy.yaml").read_text(encoding="utf-8").replace(
+            "adoptionReviewed: false", "adoptionReviewed: true"
+        ), encoding="utf-8",
     )
     workflows = root / ".github" / "workflows"
     workflows.mkdir(parents=True)
-    (workflows / "ai.yml").write_text("run: make check-ai-pr\n", encoding="utf-8")
+    (workflows / "ai.yml").write_text("run: make quality && make check-ai-pr\n", encoding="utf-8")
 
 
 def test_readiness_fails_with_all_actionable_configuration_gaps(tmp_path):
     failures = readiness_failures(tmp_path)
 
-    assert len(failures) == 3
+    assert len(failures) >= 4
     assert any("quality" in failure for failure in failures)
     assert any("adoptionReviewed: true" in failure for failure in failures)
     assert any("check-ai-pr" in failure for failure in failures)
+    assert any("Project Profile" in failure for failure in failures)
 
 
 def test_readiness_passes_only_after_explicit_configuration(tmp_path):

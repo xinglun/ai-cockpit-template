@@ -1,0 +1,400 @@
+{
+  "workItemId": "review_truth_and_python",
+  "contractPath": ".ai/work-items/archive/2026/review_truth_and_python.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/review_truth_and_python.contract.json",
+      "reason": "Defined review correction scope and acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_truth_and_python.summary.json",
+      "reason": "Recorded corrections, verification, and residual risk."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated lifecycle status."
+    },
+    {
+      "path": ".ai/cockpit/system_invariants.json",
+      "reason": "Separated hosted verification from implemented workflows."
+    },
+    {
+      "path": "README.md",
+      "reason": "Completed Adoption before calibration and corrected compatibility claims."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Completed Adoption, corrected evidence claims, and removed Chinese terminology."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Completed Adoption and corrected compatibility evidence levels."
+    },
+    {
+      "path": "docs/configuration.md",
+      "reason": "Changed CI claims to workflow implemented and hosted execution pending."
+    },
+    {
+      "path": "docs/overview.ja.md",
+      "reason": "Replaced Chinese blocking terminology with natural Japanese."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Rephrased blocking semantics in natural Japanese."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Preferred project .venv Python when present."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Applied deterministic overridable Python selection to installed projects."
+    },
+    {
+      "path": "templates/stacks/python.mk",
+      "reason": "Routed Python preset commands through the selected PYTHON variable."
+    },
+    {
+      "path": "examples/python/README.md",
+      "reason": "Aligned the Python example with venv-aware commands."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Enforced evidence tiers, complete Adoption order, and Japanese terminology."
+    },
+    {
+      "path": "scripts/check_system_invariants.py",
+      "reason": "Validated three disjoint compatibility evidence tiers."
+    },
+    {
+      "path": "scripts/check_critical_coverage.py",
+      "reason": "Added hard floors for five previously under-covered core gates."
+    },
+    {
+      "path": "tests/test_guard_failure_paths.py",
+      "reason": "Added executable failure-path tests for core governance gates."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Covered compatibility and Adoption-order drift."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Verified automatic venv selection and explicit override precedence."
+    }
+  ],
+  "sourcesUsed": [
+    "User-provided engineering review",
+    "GitHub compatibility execution status from the review",
+    "Make dry-run and Python import resolution output",
+    "target/coverage.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:23.849144+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "ada4d3e298014451e45d7764fd1ba0f5bc76b048767f22480f045fdd7fa3c44a",
+      "commandHash": "4c8d938cf5eae21f3783f14ed2e18e726a1579a2708b6539caeb1afff0bbfccf",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/review_truth_and_python.contract.json work item contract check passed: .ai/work-items/active/review_truth_and_python.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.013715+00:00",
+      "exitCode": 0,
+      "durationMs": 163,
+      "outputDigest": "98a57939d1b64bbf6609abf2395aa58c5d1dcd6feeb2a3acde6e4e18444ca542",
+      "commandHash": "f20dc7edc97335916e44d82c4ab48e8ead496a47b1545dc8777a671c326a0055",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/review_truth_and_python.contract.json scope guard passed: 18 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.179415+00:00",
+      "exitCode": 0,
+      "durationMs": 163,
+      "outputDigest": "696e47a7014cd065fc322be3c5259677ef0a2ee13b7379de2d45cc65dfbccab2",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/review_truth_and_python.contract.json [warning] restricted_write: .ai/cockpit/system_invariants.json (.ai/**) - AI governance configuration. [warning] restricted_write: Makefile (Makefile) - Shared local and CI command entrypoint. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.235919+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "643065c8b93ddcf984e5ca0db9e49842774f79a3d1efb213e3a1948ebc240c68",
+      "commandHash": "bfda1123c826102dd3da6542833fcba201b95dad23b7c46df841c67b539ba015",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/review_truth_and_python.contract.json --summary .ai/work-items/active/review_truth_and_python.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `review_truth_and_python` - Contract Hash: `626170a41075c618` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `6` - Unknown Count: `0` - Required Checks: `14` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.384082+00:00",
+      "exitCode": 0,
+      "durationMs": 146,
+      "outputDigest": "9555dfe0c2ae9e4438be800322ebd5e7ceaa2fb1cb296032dce6c74b6566a3dc",
+      "commandHash": "28e330df3c2c5f08d955d3fede47a86288d0cc26ef31d7828b8df529822b6234",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/review_truth_and_python.summary.json review policy matched 4 path(s) [review] .ai/cockpit/system_invariants.json [review] .ai/cockpit/current_status.md [review] Makefile [review] templates/make/Makefile.ai review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.512256+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.640960+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:24.700279+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "5e73e6c74f5b684186e254f74a14b3335de9cf290167745fb9827c2541d32ea9",
+      "commandHash": "f3da0996480f5b7955f9081c87c30e3efa304efbe220910e27e57d9894e7f5c2",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/review_truth_and_python.contract.json --summary .ai/work-items/active/review_truth_and_python.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:47.578502+00:00",
+      "exitCode": 0,
+      "durationMs": 22876,
+      "outputDigest": "15eedc954d515d32801cbe2ba8975938a10ea7547bbb0d13e07037050ca6da5c",
+      "commandHash": "e483963884b442f0092037d5409f23ba2e2c9c9bfec6670efa7529b84ce15b8b",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 51%] .................................................................... [100%] ================================ tests coverage ================================ _______________ coverage: platform darwin, python 3.14.4-final-0 _______________ Name Stmts"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:48.008071+00:00",
+      "exitCode": 0,
+      "durationMs": 60,
+      "outputDigest": "68973747c77a2070d1c35cc5d2d6c88b4d42791bc3a7c8583fa9f930902569e4",
+      "commandHash": "8f7d195d09f13ad5930692d58ac7ac6120a8de3837f4979838099e378622dfaa",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/review_truth_and_python.contract.json --summary .ai/work-items/active/review_truth_and_python.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:48.066272+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "91770e1bfa3c08a73f2744ac7e248dfefb94e0d2ce3fd2c72730517828b28b8e",
+      "commandHash": "ac259e1f498d0ba2584c19531173d456e26ce1722c22fcd8d12197a5e79b0007",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/review_truth_and_python.contract.json --summary .ai/work-items/active/review_truth_and_python.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:48.125087+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:48.186748+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "fcd703350f0f9c79da21be1b73a6ec009154d7aed4737b18599fa3bc82c7e1c3",
+      "commandHash": "3445d21217d754ba38271ff2da8a591a2b88242ef0f5b3c89199e232c4e51d22",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/review_truth_and_python.contract.json --summary .ai/work-items/active/review_truth_and_python.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review_truth_and_python.summary.json CONTRACT=.ai/work-items/active/review_truth_and_python.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-19T15:57:48.327006+00:00",
+      "exitCode": 0,
+      "durationMs": 139,
+      "outputDigest": "dc0da78f1376880cee4ab790bb1fb1fadbf47e4de8e3a683c1473ba24369966f",
+      "commandHash": "4b8349aaa346fa61904f219b566fdc78b7f2956690930ca9fcf500e8d1adcc30",
+      "contractHash": "626170a41075c6184c68a1eb652511a44447fa886d9761755151478b8296d503",
+      "commitSha": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+      "executionContractPath": ".ai/work-items/active/review_truth_and_python.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_truth_and_python.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/review_truth_and_python.summary.json --contract .ai/work-items/active/review_truth_and_python.contract.json ai summary check passed: .ai/work-items/active/review_truth_and_python.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Compatibility claims must follow recorded execution evidence, not workflow presence.",
+      "compliant": true,
+      "evidence": "Hosted verification is empty; nine stacks are explicitly workflow-implemented and execution-pending."
+    },
+    {
+      "guideline": "Primary onboarding commands must be executable in documented order.",
+      "compliant": true,
+      "evidence": "All three READMEs finish, commit, and PR-audit Adoption before Doctor or calibration."
+    },
+    {
+      "guideline": "Python resolution must be deterministic and overridable.",
+      "compliant": true,
+      "evidence": "Make dry-run selects .venv/bin/python; PYTHON=/custom/python overrides it in tests."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "User-facing evidence claims, onboarding order, interpreter resolution, and core gate regression floors changed."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Global mise python3 does not contain pytest; project .venv contains pytest 9.1.0."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "hosted_ci",
+      "detail": "Nine compatibility jobs remain workflow-implemented but unverified until hosted execution succeeds.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Local quality and evidence gates pass; hosted compatibility execution remains pending.",
+    "expectedReviewFocus": [
+      "Compatibility evidence wording",
+      "README command ordering",
+      "Python override precedence",
+      "Core gate coverage floors"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified: ordinary make quality resolves project .venv",
+    "userVisibleOutput": "verified: three-language onboarding and compatibility claims",
+    "persistence": "not_applicable",
+    "localization": "verified: Japanese blocking terminology corrected and linted",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "verified: automatic venv selection and explicit PYTHON override"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Review findings and interpreter mismatch confirmed before edits.",
+      "contractHash": "626170a41075c618",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Normal make quality, docs, invariants, and coverage gates passed.",
+      "contractHash": "626170a41075c618",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "Hosted compatibility workflow success evidence has not yet been recorded."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

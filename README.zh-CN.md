@@ -74,16 +74,34 @@ Review 从上下文开始。
 ## 安装最新公开运行时
 
 ```sh
+ADOPTION_BASE="$(git rev-parse HEAD)"
 RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
-AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
+make ai-finish TASK=adopt_ai_cockpit
+git add .
+git commit -m "adopt AI Cockpit governance"
+make check-ai-pr AI_BASE_COMMIT="$ADOPTION_BASE"
 ```
 
 该命令优先读取公开的 `release.json`；在发布元数据尚未上线的过渡期，则从公开的语义化版本标签中选择最高版本。随后只下载并执行解析出的固定标签安装器。公开版本的能力可能落后于源码树；创建首次采用 PR 前请先阅读[安装文档](docs/installation.md)。
 
-启动一个受治理的 AI 任务：
+启用阻断型门禁前，先根据目标工程校准已安装的治理运行时：
+
+<!-- governance-flow: install,doctor,calibrate,confirm,validate,readiness,develop -->
+
+```sh
+make cockpit-doctor
+make cockpit-calibrate
+# 审阅 .ai/project_profile.proposed.yaml，再创建并批准 .ai/project_profile.yaml。
+make check-ai-project-profile
+make check-ai-guard-calibration
+make check-ai-adoption-ready
+```
+
+Doctor 不修改项目策略，只记录检测事实、证据、置信度、建议和 unknown。Calibration 只生成候选文件，不覆盖 Guard，也不自动批准高风险路径。人工明确确认且 Readiness 检查通过后，再启动受治理的 AI 任务：
 
 ```sh
 make ai-start TASK=example_change TITLE="Example change" MODE=code
@@ -155,17 +173,18 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 兼容性等级：
 
-<!-- stack-tiers: verified=python,go,rust,typescript; preset-only=generic,flutter,java,android,kotlin,swift,ruby,php,csharp -->
+<!-- stack-tiers: verified=; workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp; preset-only=generic,flutter,android,swift -->
 
-- **CI 已验证：** `python`、`go`、`rust`、`typescript` 会创建最小工程并执行 `make quality`。
-- **仅预设：** `generic`、`flutter`、`java`、`android`、`kotlin`、`swift`、`ruby`、`php`、`csharp` 只提供命令起点，尚无真实工程 CI 证据。`generic` 在完成配置前会按设计失败关闭。
+- **Hosted CI 已验证：** 当前没有已记录的成功运行证据，不能把 workflow 存在等同于执行成功。
+- **CI workflow 已实现、等待 hosted execution：** `python`、`go`、`rust`、`typescript`、`java`、`kotlin`、`ruby`、`php`、`csharp` 已配置创建最小工程并执行 `make quality` 的任务。
+- **仅预设：** `generic`、`flutter`、`android`、`swift` 只提供命令起点，尚无真实工程 CI 证据。`generic` 在完成配置前会按设计失败关闭。
 - **不支持的运行环境：** 原生 Windows shell。请使用 WSL 或其他 POSIX 环境。
 
 技术栈预设是可按项目修改的起点，不负责安装依赖。目标项目必须已具备 formatter、测试运行器、SDK 和构建插件；例如 Java 和 Android 预设要求 Gradle Wrapper 与 Spotless 配置，Python 预设要求 Ruff 和 pytest。`examples/` 仅覆盖部分技术栈，目前并未包含每一种预设。
 
 治理运行时本身不依赖目标语言，但技术栈预设和默认 guard 路径并不代表完整的框架支持。将其设为 CI 必需检查前，必须根据目标仓库调整 `Makefile.ai.stack` 和 `.ai/guards/coverage_policy.yaml`。
 
-安装只完成治理运行时部署，并不代表生产适配完成。配置质量命令、Coverage 路径和 PR CI 后，将 Coverage policy 中的 `adoptionReviewed` 设置为 `true`，再运行 `make check-ai-adoption-ready`。这是静态配置完整性检查，不能证明项目命令有效；CI 仍须分别要求 `make quality` 和 `check-ai-pr` 成功。
+安装只完成治理运行时部署，并不代表生产适配完成。Adoption Readiness 还要求已批准的 Project Profile、Profile 与 Guard 一致、质量命令非占位、Coverage 路径已确认，并在 CI 中配置 `quality` 和 `check-ai-pr`。该检查只验证静态完整性，不是安全证明，也不能证明项目命令本身有效。
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 

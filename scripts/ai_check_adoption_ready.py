@@ -7,6 +7,9 @@ import argparse
 import re
 from pathlib import Path
 
+from ai_check_guard_calibration import calibration_issues
+from ai_project_profile import load_profile
+
 
 PLACEHOLDER_MARKERS = ("configure PROJECT_", "No project")
 QUALITY_VARIABLES = ("PROJECT_FORMAT_CHECK", "PROJECT_TEST", "PROJECT_LINT")
@@ -42,18 +45,22 @@ def readiness_failures(root: Path) -> list[str]:
             "review production/test paths in .ai/guards/coverage_policy.yaml and set adoptionReviewed: true"
         )
 
+    profile, profile_issues = load_profile(root / ".ai" / "project_profile.yaml", require_approval=True)
+    failures.extend(f"fix Project Profile: {issue}" for issue in profile_issues)
+    if not profile_issues:
+        failures.extend(f"calibrate Guard policies: {issue}" for issue in calibration_issues(root, profile))
+
     ci_files = list((root / ".github" / "workflows").glob("*.y*ml"))
     gitlab = root / ".gitlab-ci.yml"
     if gitlab.is_file():
         ci_files.append(gitlab)
-    if not any(
-        any(
-            not line.lstrip().startswith("#") and re.search(r"\bmake\s+check-ai-pr\b", line)
-            for line in path.read_text(encoding="utf-8").splitlines()
-        )
-        for path in ci_files
-    ):
-        failures.append("configure check-ai-pr in GitHub Actions or GitLab CI")
+    ci_text = "\n".join(path.read_text(encoding="utf-8") for path in ci_files)
+    for target in ("quality", "check-ai-pr"):
+        if not any(
+            not line.lstrip().startswith("#") and re.search(rf"\bmake\s+{re.escape(target)}\b", line)
+            for line in ci_text.splitlines()
+        ):
+            failures.append(f"configure {target} in GitHub Actions or GitLab CI")
     return failures
 
 

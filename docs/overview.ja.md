@@ -38,7 +38,7 @@ AI Cockpit は、変更管理の流れを以下の 5 つのライフサイクル
 
 | 種別 | 主な制御 | 動作 |
 |---|---|---|
-| 阻断型 | Contract、Scope Guard、Agent Risk Guard、Backtrack Guard、Coverage Guard、Status Consistency、Adoption Readiness、PR Aggregate Ownership | 条件を満たさない場合、完了・アーカイブ・マージ用チェックを失敗させる |
+| ブロッキング | Contract、Scope Guard、Agent Risk Guard、Backtrack Guard、Coverage Guard、Status Consistency、Adoption Readiness、PR Aggregate Ownership | 条件を満たさない場合、完了・アーカイブ・マージ用チェックを失敗させる |
 | 報告型 | AI Review Policy | ガバナンス変更のレビュー注視点を報告し、Summary への記録を促す |
 
 ---

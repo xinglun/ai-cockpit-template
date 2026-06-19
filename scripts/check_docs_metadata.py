@@ -15,11 +15,15 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FRONT_MATTER = ("author", "title", "description")
 README_FILES = ("README.md", "README.ja.md", "README.zh-CN.md")
 README_CAPABILITY_MARKER = "<!-- release-capabilities: auditable-adoption,sha256-verification -->"
-VERIFIED_STACKS = ("python", "go", "rust", "typescript")
-TEMPLATE_ONLY_STACKS = ("generic", "flutter", "java", "android", "kotlin", "swift", "ruby", "php", "csharp")
+VERIFIED_STACKS: tuple[str, ...] = ()
+WORKFLOW_IMPLEMENTED_STACKS = ("python", "go", "rust", "typescript", "java", "kotlin", "ruby", "php", "csharp")
+TEMPLATE_ONLY_STACKS = ("generic", "flutter", "android", "swift")
 JAPANESE_STYLE_RULES = {
     "Gemini, Claude, Codex": "use Japanese punctuation between agent names",
     "実行時の安全性を確保": "do not overstate command registry guarantees",
+    "Use this stack preset": "translate instructional prose into Japanese",
+    "Suggested guard patterns": "translate instructional prose into Japanese",
+    "阻断": "use Japanese terminology such as ブロッキング",
 }
 
 
@@ -59,6 +63,7 @@ def stack_errors(root: Path) -> list[str]:
     readme_list = ", ".join(ordered_stacks)
     tier_marker = (
         "<!-- stack-tiers: verified=" + ",".join(VERIFIED_STACKS)
+        + "; workflow-implemented=" + ",".join(WORKFLOW_IMPLEMENTED_STACKS)
         + "; preset-only=" + ",".join(TEMPLATE_ONLY_STACKS) + " -->"
     )
     errors = []
@@ -91,11 +96,19 @@ def installation_command_errors(root: Path) -> list[str]:
                 errors.append(f"{relative}: primary install command must resolve the tagged installer from release.json")
             if README_CAPABILITY_MARKER not in text:
                 errors.append(f"{relative}: release capability marker is missing or inconsistent")
+            if "--create-adoption" not in text:
+                errors.append(f"{relative}: primary install command must create auditable adoption evidence")
+            ordered_steps = ("--create-adoption", "make ai-finish TASK=adopt_ai_cockpit", "git commit", "make check-ai-pr", "make cockpit-doctor")
+            positions = [text.find(step) for step in ordered_steps]
+            if any(position < 0 for position in positions) or positions != sorted(positions):
+                errors.append(f"{relative}: primary adoption flow must finish, commit, and audit before calibration")
         for number, line in enumerate(text.splitlines(), start=1):
             if "raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh" in line:
                 errors.append(f"{relative}:{number}: remote installer must use a fixed tag or commit")
             if "--stack" in line and "install" in line and "--upgrade" not in line and "--update-makefile" not in line:
                 errors.append(f"{relative}:{number}: install command with --stack requires --update-makefile")
+            if relative.startswith("examples/") and "--stack" in line and "install" in line and "--create-adoption" not in line:
+                errors.append(f"{relative}:{number}: example install command must create auditable adoption evidence")
             for tag in re.findall(r"v\d+\.\d+\.\d+", line):
                 if tag != release_tag:
                     errors.append(f"{relative}:{number}: documented release {tag} does not match release.json {release_tag}")
@@ -113,7 +126,11 @@ def installation_command_errors(root: Path) -> list[str]:
 
 def japanese_style_errors(root: Path) -> list[str]:
     errors = []
-    paths = [root / "README.ja.md", *sorted((root / "docs").glob("*.md"))]
+    paths = [
+        root / "README.ja.md",
+        *sorted((root / "docs").glob("*.md")),
+        *sorted((root / "examples").glob("*/README.md")),
+    ]
     for path in paths:
         relative = path.relative_to(root).as_posix()
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):

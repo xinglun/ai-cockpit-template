@@ -1,0 +1,139 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_hardening_v050",
+  "mode": "code",
+  "title": "Harden installation entrypoints, core gates, localization, and compatibility",
+  "baseCommit": "67a1bacbff8c75956bb62e20d7c165cf34ad3afd",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_hardening_v050.contract.json",
+    ".ai/work-items/active/release_hardening_v050.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "examples/**",
+    "docs/**",
+    "Makefile",
+    ".github/workflows/compatibility.yml",
+    "scripts/**",
+    "tests/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/release_hardening_v050.contract.json",
+      "reason": "Initial Work Item skeleton."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["governance_regression", "documentation_drift", "ci_compatibility"],
+    "reason": "Changes affect public onboarding, lifecycle coverage gates, localization, and compatibility CI."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The review provides concrete defects and acceptance criteria."
+  },
+  "preReviewWarnings": ["Review CI runtime cost and ensure public compatibility claims match executable jobs."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All primary README installation commands create an auditable adoption record.",
+    "Japanese examples contain no untranslated instructional sentences and terminology is consistent.",
+    "A conventional make test entrypoint runs the project test suite.",
+    "Lifecycle-critical scripts gain direct failure-path tests and materially stronger per-file coverage floors.",
+    "Static type checking covers all governance scripts that currently pass strict checking.",
+    "Compatibility documentation and CI distinguish verified stacks from preset-only stacks without overclaiming.",
+    "All repository quality and AI governance checks pass."
+  ],
+  "guidelines": [
+    "Keep installation commands executable and consistent across languages.",
+    "Treat compatibility as evidence-based and avoid claims beyond CI coverage.",
+    "Preserve fail-closed lifecycle behavior while increasing test depth."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly requested repository-wide hardening in this review response."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

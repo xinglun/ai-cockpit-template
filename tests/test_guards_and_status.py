@@ -92,3 +92,55 @@ def test_retry_circuit_breaker_counts_consecutive_failures(tmp_path):
 def test_project_relative_accepts_relative_repository_path():
     path = Path(".ai/work-items/active/task.contract.json")
     assert ai_generate_status.project_relative(path) == path.as_posix()
+
+
+def test_generate_active_status_renders_evidence_and_backtrack(tmp_path, monkeypatch):
+    contract = tmp_path / "task.contract.json"
+    summary = tmp_path / "task.summary.json"
+    output = tmp_path / "status.md"
+    backtrack = tmp_path / "backtrack.json"
+    contract.write_text(json.dumps({
+        "workItemId": "task",
+        "mode": "code",
+        "notCodable": False,
+        "unknowns": [],
+        "verification": [{"check": "quality", "required": True}],
+    }), encoding="utf-8")
+    summary.write_text(json.dumps({
+        "verification": [{"check": "quality", "result": "passed"}],
+        "changedFiles": [{"path": "src/app.py", "reason": "feature"}],
+    }), encoding="utf-8")
+    backtrack.write_text(json.dumps({
+        "status": "passed",
+        "items": [{"kind": "test", "path": "tests/test_app.py", "detail": "present"}],
+    }), encoding="utf-8")
+    monkeypatch.setattr(ai_generate_status, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_generate_status, "BACKTRACK_REPORT", backtrack)
+    monkeypatch.setattr(
+        ai_generate_status,
+        "create_observability",
+        lambda **_kwargs: type("Obs", (), {"status_generated": lambda *_args, **_kwargs: None})(),
+    )
+
+    ai_generate_status.write_active_status(contract, summary, output=output, observability_log=tmp_path / "events.jsonl")
+    text = output.read_text(encoding="utf-8")
+    assert "ready_for_review" in text
+    assert "`quality`: passed" in text
+    assert "`src/app.py`: feature" in text
+    assert "test: `tests/test_app.py` - present" in text
+
+
+def test_generate_status_main_handles_no_active_and_invalid_contract(tmp_path, monkeypatch):
+    output = tmp_path / "status.md"
+    monkeypatch.setattr(
+        __import__("sys"),
+        "argv",
+        ["ai_generate_status.py", "--no-active", "--output", str(output)],
+    )
+    assert ai_generate_status.main() == 0
+    assert "no_active_work_item" in output.read_text(encoding="utf-8")
+
+    broken = tmp_path / "broken.json"
+    broken.write_text("{", encoding="utf-8")
+    monkeypatch.setattr(__import__("sys"), "argv", ["ai_generate_status.py", str(broken), "--output", str(output)])
+    assert ai_generate_status.main() == 1

@@ -14,7 +14,7 @@ keywords:
 Install a fixed release of AI Cockpit into an existing repository:
 
 ```sh
-VERSION=v0.5.0
+VERSION=v0.5.2
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/$VERSION/install.sh" -o "$INSTALLER"
@@ -23,7 +23,7 @@ AI_COCKPIT_TEMPLATE_REF="$VERSION" sh "$INSTALLER" --stack rust --update-makefil
 
 Review release notes before changing `VERSION`. A branch such as `main` is mutable and is not recommended for reproducible installation. The temporary bootstrap is removed automatically when the shell exits.
 
-Public `v0.5.0` includes the auditable adoption bootstrap. The first installation PR can generate its own bounded Contract/Summary pair and pass complete `check-ai-pr` ownership after the documented finish and commit steps.
+Public `v0.5.2` includes the auditable adoption bootstrap. The first installation PR can generate its own bounded Contract/Summary pair and pass complete `check-ai-pr` ownership after the documented finish and commit steps.
 
 ## Auditable First Adoption
 
@@ -38,7 +38,21 @@ make check-ai-pr AI_BASE_COMMIT='<pre-adoption-commit>'
 
 The installer-generated Work Item owns every file actually written or appended by installation. It keeps project quality configuration as an explicit follow-up rather than recording generic placeholder commands as passed. `--create-adoption` fails before writing unless the repository has an initial commit, a clean worktree, and no active Work Item.
 
-Run `make ai-doctor` before adoption and after configuring the project. It reports Python/Git/Make/POSIX prerequisites, Git cleanliness, quality-command placeholders, Coverage Guard review needs, and missing CI configuration without modifying files.
+After finishing the installation Adoption Work Item, calibrate the runtime before starting normal development:
+
+```sh
+make cockpit-doctor
+make cockpit-calibrate
+# Review the proposal. Copy only confirmed facts and boundaries into .ai/project_profile.yaml.
+make check-ai-project-profile
+make check-ai-guard-calibration
+make quality
+make check-ai-adoption-ready
+```
+
+`cockpit-doctor` runs the existing environment checks and writes a read-only project-fact report to `target/ai_project_doctor_report.json`. Each detected fact and suggested boundary includes evidence and confidence. Directory existence is evidence, not approval. `cockpit-calibrate` consumes that report and creates `.ai/project_profile.proposed.yaml`; it refuses to overwrite an existing proposal and never modifies Guard files.
+
+Human confirmation creates `.ai/project_profile.yaml` with explicit `approvedBoundaries` and approval metadata. Keep unresolved decisions in `unknowns`; entries prefixed with `blocking:` prevent readiness. `check-ai-guard-calibration` then verifies that approved production/test/generated/critical paths are represented by Coverage, boundary, ownership, or review policies.
 
 `ai-doctor` is advisory. Before enabling production-required gates, complete the installed `.ai/cockpit/adoption.md` checklist and run the static configuration completeness gate:
 
@@ -47,9 +61,9 @@ make quality
 make check-ai-adoption-ready
 ```
 
-The readiness check fails closed until all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and a GitHub Actions or GitLab CI file actually invokes `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require `make quality` and `check-ai-pr` as independently successful CI checks before treating adoption as production-ready.
+The readiness check fails closed until the confirmed Project Profile is valid, blocking unknowns are resolved, approved boundaries match Guards, all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and CI invokes both `quality` and `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require those CI jobs to succeed before treating adoption as production-ready.
 
-This workflow is published in `v0.5.0`. Older tags do not gain adoption capability retroactively.
+This workflow is published in `v0.5.2`. Older tags do not gain adoption capability retroactively.
 
 Start a governed AI task:
 
@@ -97,7 +111,7 @@ From a local clone:
 
 ## Published Integrity Capabilities
 
-The documented release is defined in `release.json`. Public `v0.5.0` supports caller-provided `AI_COCKPIT_TEMPLATE_SHA256` verification and fails before extraction when the downloaded archive digest differs.
+The documented release is defined in `release.json`. Public `v0.5.2` supports caller-provided `AI_COCKPIT_TEMPLATE_SHA256` verification and fails before extraction when the downloaded archive digest differs.
 
 The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations. Obtain the expected SHA256 through a trusted independent channel before setting `AI_COCKPIT_TEMPLATE_SHA256`; support for comparing a caller-provided digest is not itself a published integrity root. Worktree capabilities are not public until `release.json` points to a tag whose real installer passes `make check-release-distribution`.
 
@@ -141,7 +155,7 @@ Stack selection configures quality-command starting points. It does not infer th
 The installed `.ai/cockpit/version.json` records the distribution and Contract schema version. Use `--upgrade` for an existing installation:
 
 ```sh
-CURRENT_VERSION=v0.5.0
+CURRENT_VERSION=v0.5.2
 TARGET_VERSION='<release-tag-newer-than-current>'
 test "$TARGET_VERSION" != "$CURRENT_VERSION"
 INSTALLER="$(mktemp)"

@@ -229,7 +229,7 @@ def parse_yaml(path: Path) -> dict[str, Any]:
                 raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Cannot define key-value pair under a list.")
 
             if val:
-                parent_container[key] = val
+                parent_container[key] = [] if val == "[]" else val
             else:
                 new_container: dict[str, Any] = {}
                 parent_container[key] = new_container
@@ -238,7 +238,7 @@ def parse_yaml(path: Path) -> dict[str, Any]:
     return root
 
 
-def _flatten_lists(obj: Any, prefix: str = "", result: dict[str, list[str]] = None) -> dict[str, list[str]]:
+def _flatten_lists(obj: Any, prefix: str = "", result: dict[str, list[str]] | None = None) -> dict[str, list[str]]:
     if result is None:
         result = {}
     if isinstance(obj, dict):
@@ -251,7 +251,7 @@ def _flatten_lists(obj: Any, prefix: str = "", result: dict[str, list[str]] = No
     return result
 
 
-def _flatten_scalars(obj: Any, prefix: str = "", result: dict[str, str] = None) -> dict[str, str]:
+def _flatten_scalars(obj: Any, prefix: str = "", result: dict[str, str] | None = None) -> dict[str, str]:
     if result is None:
         result = {}
     if isinstance(obj, dict):
@@ -325,9 +325,9 @@ def render_check_command(
 def verification_key(item: dict[str, Any]) -> str:
     check_id = item.get("check")
     if non_empty_string(check_id):
-        return check_id.strip()
+        return str(check_id).strip()
     command = item.get("command")
-    return command.strip() if non_empty_string(command) else ""
+    return str(command).strip() if non_empty_string(command) else ""
 
 
 def redact_machine_paths(value: str) -> str:

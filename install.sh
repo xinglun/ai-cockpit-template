@@ -2,7 +2,7 @@
 set -eu
 
 REPO="${AI_COCKPIT_TEMPLATE_REPO:-xinglun/ai-cockpit-template}"
-REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.3}"
+REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.5}"
 SOURCE="${AI_COCKPIT_TEMPLATE_SOURCE:-}"
 EXPECTED_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:-}"
 
@@ -16,7 +16,7 @@ Usage:
 Environment:
   AI_COCKPIT_TEMPLATE_SOURCE=/path/to/ai-cockpit-template
   AI_COCKPIT_TEMPLATE_REPO=xinglun/ai-cockpit-template
-  AI_COCKPIT_TEMPLATE_REF=v0.5.3
+  AI_COCKPIT_TEMPLATE_REF=v0.5.5
   AI_COCKPIT_TEMPLATE_SHA256=<expected archive SHA256>
 
 Common options passed through to the Python installer:

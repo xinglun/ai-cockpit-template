@@ -122,7 +122,11 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
             env=env,
         )
         if installed.returncode != 0:
-            raise RuntimeError(f"{tag}: public installation failed: {installed.stderr.strip()}")
+            raise RuntimeError(
+                f"{tag}: public installation failed:\n"
+                f"--- STDOUT ---\n{installed.stdout}\n"
+                f"--- STDERR ---\n{installed.stderr}"
+            )
         target = run_command(["make", "-n", quality_target], cwd=project)
         if target.returncode != 0:
             raise RuntimeError(f"{tag}: documented Make target is missing: {quality_target}")
@@ -138,17 +142,29 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
             raise RuntimeError(f"{tag}: adoption readiness must fail before project calibration")
         finished = run_command(["make", "ai-finish", "TASK=adopt_ai_cockpit"], cwd=project)
         if finished.returncode != 0:
-            raise RuntimeError(f"{tag}: adoption finish failed: {finished.stderr.strip()}")
+            raise RuntimeError(
+                f"{tag}: adoption finish failed:\n"
+                f"--- STDOUT ---\n{finished.stdout}\n"
+                f"--- STDERR ---\n{finished.stderr}"
+            )
         run_command(["git", "add", "."], cwd=project)
         committed = run_command(
             ["git", "-c", "user.name=AI Cockpit", "-c", "user.email=release@example.invalid", "commit", "-qm", "adopt"],
             cwd=project,
         )
         if committed.returncode != 0:
-            raise RuntimeError(f"{tag}: failed to commit adoption: {committed.stderr.strip()}")
+            raise RuntimeError(
+                f"{tag}: failed to commit adoption:\n"
+                f"--- STDOUT ---\n{committed.stdout}\n"
+                f"--- STDERR ---\n{committed.stderr}"
+            )
         audited = run_command(["make", "check-ai-pr", f"AI_BASE_COMMIT={base}"], cwd=project)
         if audited.returncode != 0:
-            raise RuntimeError(f"{tag}: adoption PR audit failed: {audited.stderr.strip()}")
+            raise RuntimeError(
+                f"{tag}: adoption PR audit failed:\n"
+                f"--- STDOUT ---\n{audited.stdout}\n"
+                f"--- STDERR ---\n{audited.stderr}"
+            )
         configured = run_command(
             [
                 "make", "ai-start", "TASK=configure_ai_cockpit",
@@ -157,7 +173,11 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
             cwd=project,
         )
         if configured.returncode != 0:
-            raise RuntimeError(f"{tag}: configuration Work Item creation failed: {configured.stderr.strip()}")
+            raise RuntimeError(
+                f"{tag}: configuration Work Item creation failed:\n"
+                f"--- STDOUT ---\n{configured.stdout}\n"
+                f"--- STDERR ---\n{configured.stderr}"
+            )
         active = project / ".ai" / "work-items" / "active"
         if not (active / "configure_ai_cockpit.contract.json").is_file() or not (
             active / "configure_ai_cockpit.summary.json"

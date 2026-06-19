@@ -95,7 +95,7 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
 
 def run_command(command: list[str], *, cwd: Path, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     if env is None:
-        env = os.environ
+        env = dict(os.environ)
     return subprocess.run(command, cwd=cwd, env=env, text=True, capture_output=True, check=False)
 
 

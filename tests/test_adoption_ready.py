@@ -25,7 +25,7 @@ def write_ready_configuration(root: Path) -> None:
     )
     workflows = root / ".github" / "workflows"
     workflows.mkdir(parents=True)
-    (workflows / "ai.yml").write_text("run: make quality && make check-ai-pr\n", encoding="utf-8")
+    (workflows / "ai.yml").write_text("run: make ai-cockpit-quality && make check-ai-pr\n", encoding="utf-8")
 
 
 def test_readiness_fails_with_all_actionable_configuration_gaps(tmp_path):
@@ -49,6 +49,7 @@ def test_readiness_passes_only_after_explicit_configuration(tmp_path):
     assert result.returncode == 0
     assert "static adoption configuration check passed" in result.stdout
     assert "does not prove command effectiveness" in result.stdout
+    assert "make ai-cockpit-quality and check-ai-pr" in result.stdout
 
 
 def test_generic_fail_closed_stack_is_not_adoption_ready(tmp_path):

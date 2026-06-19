@@ -1,0 +1,144 @@
+{
+  "contractVersion": 2,
+  "workItemId": "make_namespace_hardening",
+  "mode": "code",
+  "title": "Namespace installed Make targets and harden onboarding docs",
+  "baseCommit": "c5e2773494c26394910d6e8f280251a59079cea5",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/make_namespace_hardening.contract.json",
+    ".ai/work-items/active/make_namespace_hardening.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/cockpit/adoption.md",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/check_docs_metadata.py",
+    "scripts/check_critical_coverage.py",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    ".github/workflows/**",
+    "docs/**",
+    "examples/**",
+    "tests/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/make_namespace_hardening.contract.json",
+      "reason": "Initial Work Item skeleton."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": ["make_target_collision", "installer_compatibility", "check_registry_migration"],
+    "reason": "Renaming installed Make targets affects every registered project check and onboarding command."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The review provides a reproducible Make recipe override and a concrete namespace remedy."
+  },
+  "preReviewWarnings": ["Verify upgrades and fresh installs, and ensure no legacy generic recipe remains in Makefile.ai."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Installed Makefile.ai defines only ai-cockpit-* recipes and cannot override common host project targets.",
+    "Installation fails before writing when the host already defines a reserved ai-cockpit-* target.",
+    "Check Registry, readiness, CI examples, and docs use ai-cockpit-quality consistently.",
+    "Archive immutability and recommended-command behavior are described accurately.",
+    "Japanese confidence terminology is 信頼度 and core lifecycle failure paths gain stronger coverage.",
+    "Fresh install, upgrade, quality, lifecycle, and aggregate PR checks pass."
+  ],
+  "guidelines": [
+    "Never rely on GNU Make recipe override order.",
+    "Keep project-owned quality commands configurable through Makefile.ai.stack variables.",
+    "Fail before writing when a reserved target collision is detected."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly requested correction of the reviewed installation and Make compatibility risks."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

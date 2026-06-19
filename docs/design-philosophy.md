@@ -35,7 +35,7 @@ AI Cockpit の設計において、なぜ他の手段ではなく現在の形を
 
 ### Q: なぜ CI Action ではなく「Makefile 委譲」なのか？
 - **ローカルでの即時フィードバック**: CI サーバーにコードを Push する前に、開発者のローカル環境で AI エージェントが自律的に全チェックを実行して自己修正できる必要があります。
-- **言語スタックの中立性**: Contract は Check ID（`projectFormat`、`projectTest` など）を参照し、レジストリが Make ターゲット（`project-format-check`、`project-test` など）へ解決します。この分離により、共通の Python 制御スクリプトはスタック固有コマンドを直接知る必要がありません。
+- **言語スタックの中立性**: Contract は Check ID（`projectFormat`、`projectTest` など）を参照し、レジストリが名前空間付き Make ターゲット（`ai-cockpit-project-format-check`、`ai-cockpit-project-test` など）へ解決します。この分離により、共通の Python 制御スクリプトはスタック固有コマンドを直接知る必要がありません。
 
 ### Q: なぜ Contract は YAML ではなく「JSON」なのか？
 - **厳密なスキーマ検証の容易さ**: Contract は機械が生成し、機械が厳格に読み取ります。YAML はインデントや型推断が曖昧になりがちですが、JSON は仕様が極めてシンプルであり、Python の標準ライブラリ（`json`）のみで安全かつ高速にパースできます。

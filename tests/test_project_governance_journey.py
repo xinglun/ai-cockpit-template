@@ -53,7 +53,7 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
             *({"path": path, "reason": "Journey project change."} for path in changed),
         ],
         "sourcesUsed": changed,
-        "guidelinesCompliance": [{"guideline": "Keep project changes covered by tests.", "compliant": True, "evidence": "make quality is required."}],
+        "guidelinesCompliance": [{"guideline": "Keep project changes covered by tests.", "compliant": True, "evidence": "make ai-cockpit-quality is required."}],
         "unknownsRemaining": [],
         "risk": {"level": "medium", "detail": "Fixture verifies the public lifecycle."},
         "generatedFiles": [], "destructiveChanges": [], "observedIssues": [],
@@ -130,7 +130,7 @@ def test_documented_project_governance_journey_and_upgrade_rollback(tmp_path):
     (project / "tests" / "test_app.py").write_text("import unittest\nfrom src.app import add\nclass T(unittest.TestCase):\n    def test_add(self): self.assertEqual(add(1, 2), 3)\n", encoding="utf-8")
     (project / "pyproject.toml").write_text("[project]\nname='journey'\nversion='0.0.1'\n", encoding="utf-8")
     (project / "Makefile").write_text("# Project commands\n", encoding="utf-8")
-    (project / ".github" / "workflows" / "ci.yml").write_text("run: make quality\n# separate job\nrun: make check-ai-pr\n", encoding="utf-8")
+    (project / ".github" / "workflows" / "ci.yml").write_text("run: make ai-cockpit-quality\n# separate job\nrun: make check-ai-pr\n", encoding="utf-8")
     run(project, "git", "add", ".")
     assert run(project, "git", "commit", "-qm", "initial").returncode == 0
     base = run(project, "git", "rev-parse", "HEAD").stdout.strip()

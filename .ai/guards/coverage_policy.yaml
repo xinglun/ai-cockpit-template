@@ -75,5 +75,49 @@ tests:
     - "**/*Test*"
     - "**/*Spec*"
 
+# Each production path must match an association group, and at least one changed
+# test path must match a test pattern after placeholders are expanded from that
+# production path. Supported placeholders: {stem}, {module}, {name}, and {dir}.
+associations:
+  coverageGuard:
+    production:
+      - "scripts/ai_check_coverage_guard.py"
+    tests:
+      - "tests/test_guards_and_status.py"
+      - "tests/test_guard_failure_paths.py"
+  adoptionReadiness:
+    production:
+      - "scripts/ai_check_adoption_ready.py"
+    tests:
+      - "tests/test_adoption_ready.py"
+  cockpitStatus:
+    production:
+      - "scripts/ai_generate_status.py"
+    tests:
+      - "tests/test_guards_and_status.py"
+      - "tests/test_core_gates.py"
+  byModule:
+    production:
+      - "**"
+    tests:
+      - "test_{stem}.*"
+      - "test_{module}.*"
+      - "{stem}_test.*"
+      - "{module}_test.*"
+      - "{stem}.test.*"
+      - "{stem}.spec.*"
+      - "{stem}Test.*"
+      - "{stem}Tests.*"
+      - "{stem}_spec.*"
+      - "**/test_{stem}.*"
+      - "**/test_{module}.*"
+      - "**/{stem}_test.*"
+      - "**/{module}_test.*"
+      - "**/{stem}.test.*"
+      - "**/{stem}.spec.*"
+      - "**/{stem}Test.*"
+      - "**/{stem}Tests.*"
+      - "**/{stem}_spec.*"
+
 output:
   json: target/ai_coverage_guard_report.json

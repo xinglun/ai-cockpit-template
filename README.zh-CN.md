@@ -71,6 +71,10 @@ Cockpit 已更新。
 Review 从上下文开始。
 ```
 
+<!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->
+
+**前置条件：**支持 POSIX shell 的 Linux、macOS 或 WSL；Python 3.10+；Git、curl 和 GNU Make；以及至少已有一个提交且工作树干净的 Git 仓库。所选 stack 的 formatter、测试运行器、SDK 和构建插件也必须预先安装。
+
 ## 安装最新公开运行时
 
 ```sh
@@ -124,7 +128,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Work Item Contract | 在 AI 修改文件前声明任务边界。 |
 | Scope Guard | 检测超出声明 scope 的变更，并阻止完成、归档或合并门禁通过。 |
 | Backtrack Guard | 检测受保护测试、snapshot 或 Work Item 记录的删除，并阻止已配置门禁通过。 |
-| Coverage Guard | 检测缺少对应测试变更的生产代码修改，并阻止已配置门禁通过。 |
+| Coverage Guard | 要求每个生产代码路径都有由项目关联规则匹配的测试路径变更；它不分析测试内容，也不证明运行时覆盖率。 |
 | Agent Risk Guard | 针对「prompt 仅是建议」、「mid-task 漂移」和「过度声明」风险的硬门控。 |
 | AI Review Policy | 标记需要在 Change Summary 中明确说明 review 重点的治理和 CI 变更（仅报告）。 |
 | Checkpoint | Mid-task 完整性快照，用于在完成前检测 scope 漂移。 |
@@ -141,7 +145,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 - 安装器会分发相同的 PR validator 和 Make target。归档 Work Item 后，CI 运行 `make check-ai-pr AI_BASE_COMMIT=<merge-base>`。
 - 每个非豁免 PR 路径必须由同一对 Contract/Summary 同时声明 scope 和 `changedFiles`。
 - restricted/destructive approval 是 Contract 内的自声明流程记录；可信人工批准应由 CODEOWNERS、受保护 CI environment 或平台身份事件提供。
-- AI Cockpit 用于减少误操作和流程漂移，不是针对恶意代理的安全沙箱。项目测试或 `make quality` 必须作为独立 required CI check 运行。
+- AI Cockpit 用于减少误操作和流程漂移，不是针对恶意代理的安全沙箱。对于上述命令选择的公开版本，项目测试或 `make quality` 必须作为独立 required CI check 运行。
 
 ## 它会拦住什么
 
@@ -176,7 +180,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 <!-- stack-tiers: verified=; workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp; preset-only=generic,flutter,android,swift -->
 
 - **Hosted CI 已验证：** 当前没有已记录的成功运行证据，不能把 workflow 存在等同于执行成功。
-- **CI workflow 已实现、等待 hosted execution：** `python`、`go`、`rust`、`typescript`、`java`、`kotlin`、`ruby`、`php`、`csharp` 已配置创建最小工程并执行 `make quality` 的任务。
+- **CI workflow 已实现、等待 hosted execution：** `python`、`go`、`rust`、`typescript`、`java`、`kotlin`、`ruby`、`php`、`csharp` 已配置创建最小工程并执行 `make ai-cockpit-quality` 的任务。
 - **仅预设：** `generic`、`flutter`、`android`、`swift` 只提供命令起点，尚无真实工程 CI 证据。`generic` 在完成配置前会按设计失败关闭。
 - **不支持的运行环境：** 原生 Windows shell。请使用 WSL 或其他 POSIX 环境。
 
@@ -187,6 +191,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 安装只完成治理运行时部署，并不代表生产适配完成。Adoption Readiness 还要求已批准的 Project Profile、Profile 与 Guard 一致、质量命令非占位、Coverage 路径已确认，并在 CI 中配置 `quality` 和 `check-ai-pr`。该检查只验证静态完整性，不是安全证明，也不能证明项目命令本身有效。
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
+<!-- public-quality-target: quality -->
 
 当前公开版本已经包含可审计的首次采用流程，以及调用方提供 SHA256 时的校验能力。项目质量命令、Coverage 路径和 CI 仍需针对目标工程明确适配。
 
@@ -197,7 +202,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - 兼容 POSIX shell 和 GNU Make 的命令执行环境。
 - 官方支持 Linux 和 macOS 运行和 CI。原生 Windows shell 暂不支持，请在 WSL (Windows Subsystem for Linux) 或其他 POSIX 终端中运行。
 
-仓库的 `make quality` 会运行全部测试，要求脚本总覆盖率不低于 60%，并对生命周期关键脚本设置分文件回归下限；同时对 `scripts/` 和 `tests/` 执行 Ruff，对已完成类型标注的核心工具子集执行 Mypy，并执行中高等级 Bandit 扫描、Python 编译、差分检查和文档一致性检查。Mypy 当前有意限定范围，后续扩展不得依赖宽泛忽略规则。
+仓库的 `make quality` 会运行全部测试，要求脚本总覆盖率不低于 60%，并对生命周期关键脚本设置分文件回归下限；同时对 `scripts/` 和 `tests/` 执行 Ruff，对全部治理脚本执行 Mypy，并执行中高等级 Bandit 扫描、Python 编译、差分检查和文档一致性检查。
 
 ## 版本与迁移策略
 

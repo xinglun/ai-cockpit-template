@@ -11,13 +11,13 @@ from pathlib import Path
 
 CRITICAL_MINIMUMS = {
     "scripts/ai_checkpoint.py": 85.0,
-    "scripts/ai_finish.py": 55.0,
+    "scripts/ai_finish.py": 65.0,
     "scripts/ai_check_scope.py": 75.0,
     "scripts/ai_generate_status.py": 80.0,
-    "scripts/ai_check_summary.py": 65.0,
-    "scripts/ai_archive_work_item.py": 60.0,
+    "scripts/ai_check_summary.py": 70.0,
+    "scripts/ai_archive_work_item.py": 80.0,
     "scripts/ai_check_status.py": 70.0,
-    "scripts/ai_check_status_consistency.py": 60.0,
+    "scripts/ai_check_status_consistency.py": 75.0,
     "scripts/ai_check_review_policy.py": 80.0,
     "scripts/ai_project_doctor.py": 80.0,
     "scripts/ai_project_profile.py": 70.0,

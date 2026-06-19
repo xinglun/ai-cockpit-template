@@ -13,6 +13,7 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 
 .PHONY: help \
 	test project-format-check project-test project-lint diff-check quality \
+	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	check-docs-metadata \
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
 	check-release-distribution \
@@ -97,6 +98,16 @@ check-ai-guard-calibration: check-ai-project-profile
 	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
 
 quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration
+
+ai-cockpit-project-format-check: project-format-check
+
+ai-cockpit-project-test: project-test
+
+ai-cockpit-project-lint: project-lint
+
+ai-cockpit-diff-check: diff-check
+
+ai-cockpit-quality: quality
 
 ai-start:
 	$(AI_PYTHON) scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"

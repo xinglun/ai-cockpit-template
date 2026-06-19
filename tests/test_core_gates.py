@@ -1,5 +1,6 @@
 import json
 import sys
+from types import SimpleNamespace
 
 import ai_check_review_policy
 import ai_check_scope
@@ -194,6 +195,37 @@ def test_finish_main_records_required_check_failure(tmp_path, monkeypatch):
     assert recorded[0]["exitCode"] == 3
 
 
+def test_finish_main_stabilizes_successful_work_item(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    contract = active / "task.contract.json"
+    summary = active / "task.summary.json"
+    contract.write_text(json.dumps({
+        "contractVersion": 2,
+        "workItemId": "task",
+        "verification": [{"check": "quality", "required": True}],
+    }), encoding="utf-8")
+    summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
+    monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_finish, "current_head", lambda: "a" * 40)
+    monkeypatch.setattr(
+        ai_finish,
+        "render_check_command",
+        lambda check, **_kwargs: (f"make {check}", ["make", check]),
+    )
+    executed = []
+    monkeypatch.setattr(ai_finish, "run", lambda command: (executed.append(command) or (0, 2, "passed")))
+    monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
+
+    assert ai_finish.main() == 0
+    assert len(executed) == 6
+    recorded = json.loads(summary.read_text(encoding="utf-8"))["verification"]
+    assert all(item["result"] == "passed" for item in recorded)
+    assert {item["check"] for item in recorded} >= {"quality", "aiStatus", "aiSummary"}
+
+
 def test_scope_main_reports_out_of_scope_and_dependency_failures(tmp_path, monkeypatch, capsys):
     contract = tmp_path / "task.contract.json"
     contract.write_text(json.dumps({
@@ -234,3 +266,20 @@ def test_review_policy_main_writes_warning_report(tmp_path, monkeypatch):
     report = json.loads(ai_check_review_policy.REPORT.read_text(encoding="utf-8"))
     assert report["status"] == "warning"
     assert report["matchedPaths"] == [".ai/guards/scope.yaml"]
+
+
+def test_status_consistency_repair_no_active_state(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    status = tmp_path / ".ai" / "cockpit" / "current_status.md"
+    monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_check_status_consistency, "DEFAULT_STATUS", status)
+
+    def fake_run(_command, **_kwargs):
+        status.parent.mkdir(parents=True, exist_ok=True)
+        status.write_text("- State: `no_active_work_item`\n", encoding="utf-8")
+        return SimpleNamespace(returncode=0)
+
+    monkeypatch.setattr(ai_check_status_consistency.subprocess, "run", fake_run)
+    assert ai_check_status_consistency.repair_status(status) == 0

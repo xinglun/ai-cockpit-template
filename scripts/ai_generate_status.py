@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from ai_common import PROJECT_ROOT, load_json, verification_key
+from ai_common import PROJECT_ROOT, changed_paths, load_json, verification_key
 from ai_observability import DEFAULT_LOG_PATH, create_observability
 
 
@@ -93,6 +93,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def write_no_active_status(output: Path) -> None:
+    try:
+        repository_changes = changed_paths()
+    except RuntimeError:
+        repository_changes = []
     lines = [
         "---",
         "title: AI Cockpit Current Status",
@@ -120,7 +124,16 @@ def write_no_active_status(output: Path) -> None:
         "",
         "## Changed Files",
         "",
-        "- none",
+    ]
+    if repository_changes:
+        lines.extend(f"- `{path}`" for path in repository_changes)
+        lines.extend([
+            "",
+            "These are repository changes, not active ownership claims. If their Work Items are archived, run `make check-ai-pr AI_BASE_COMMIT=<merge-base>` to verify archive ownership before committing. Create a new Work Item before making further edits.",
+        ])
+    else:
+        lines.append("- none")
+    lines.extend([
         "",
         "## Backtrack",
         "",
@@ -128,8 +141,8 @@ def write_no_active_status(output: Path) -> None:
         "",
         "## Next Action",
         "",
-        "- create a Work Item with `make ai-start TASK=<task>`",
-    ]
+        "- verify archived ownership for existing changes, or create a Work Item with `make ai-start TASK=<task>` before editing",
+    ])
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

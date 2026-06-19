@@ -44,6 +44,19 @@ def local_link_issues(path: Path) -> list[str]:
     return issues
 
 
+def release_contract_issues(root: Path, release: dict[str, Any]) -> list[str]:
+    target = release.get("publicContract", {}).get("projectQualityTarget")
+    if not isinstance(target, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+", target):
+        return ["release.json public project quality target is missing or invalid"]
+    marker = f"<!-- public-quality-target: {target} -->"
+    paths = [*(root / name for name in README_FILES), root / "docs" / "installation.md"]
+    return [
+        f"{path.relative_to(root)}: public quality target differs from release.json"
+        for path in paths
+        if marker not in path.read_text(encoding="utf-8")
+    ]
+
+
 def invariant_issues(root: Path = ROOT) -> list[str]:
     issues = check_repository(root)
     try:
@@ -51,6 +64,7 @@ def invariant_issues(root: Path = ROOT) -> list[str]:
         release = json.loads((root / "release.json").read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return [*issues, f"failed to load invariant metadata: {exc}"]
+    issues.extend(release_contract_issues(root, release))
     stacks = manifest.get("stacks", [])
     if set(stacks) != STACKS:
         issues.append("system manifest stack list differs from installer STACKS")

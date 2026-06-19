@@ -24,7 +24,7 @@ AI Cockpit は、変更管理の流れを以下の 5 つのライフサイクル
 2. **境界（Scope & Guard Policies）**:
    - 変更されたファイル（Git 差分）が Contract のスコープ内に収まっているかを検出する Scope Guard。書き込み自体を事前に禁止する機能ではありません。
    - テストやドキュメントなどの勝手な削除を検知する Backtrack Guard。
-   - 本番コードを変更する場合に、対応するテスト変更を要求する Coverage Guard。
+   - 本番コードの各パスについて、設定済みの関連付けルールに一致するテストパス変更を要求する Coverage Guard。テスト内容は解析しない。
 3. **検証（Verification Registry）**:
    - コマンドを直接 Contract に記述することを禁止し、登録済みの Make ターゲット（`checks.yaml` に定義）のみに限定することで、任意命令が混入するリスクを低減。
 4. **記録（AI Change Summary）**:

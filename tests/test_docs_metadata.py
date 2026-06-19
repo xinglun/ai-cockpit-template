@@ -60,12 +60,60 @@ def test_check_rejects_release_capability_drift(tmp_path):
     assert "README.ja.md: release capability marker is missing or inconsistent" in check_repository(tmp_path)
 
 
+def test_check_rejects_public_quality_target_drift(tmp_path):
+    copy_documentation(tmp_path)
+    readme = tmp_path / "README.zh-CN.md"
+    readme.write_text(
+        readme.read_text(encoding="utf-8").replace(
+            "<!-- public-quality-target: quality -->",
+            "<!-- public-quality-target: ai-cockpit-quality -->",
+        ),
+        encoding="utf-8",
+    )
+
+    assert "README.zh-CN.md: public quality target differs from release.json" in check_repository(tmp_path)
+
+
+def test_check_rejects_public_quality_command_drift(tmp_path):
+    copy_documentation(tmp_path)
+    readme = tmp_path / "README.md"
+    readme.write_text(
+        readme.read_text(encoding="utf-8").replace(
+            "CI wiring for both `quality` and `check-ai-pr`",
+            "CI wiring for both `ai-cockpit-quality` and `check-ai-pr`",
+        ),
+        encoding="utf-8",
+    )
+    installation = tmp_path / "docs" / "installation.md"
+    installation.write_text(
+        installation.read_text(encoding="utf-8").replace(
+            "make quality\nmake check-ai-adoption-ready",
+            "make ai-cockpit-quality\nmake check-ai-adoption-ready",
+        ),
+        encoding="utf-8",
+    )
+
+    errors = check_repository(tmp_path)
+    assert "README.md: readiness guidance does not use the public quality target" in errors
+    assert "docs/installation.md: readiness commands do not use the public quality target" in errors
+
+
 def test_check_rejects_missing_front_matter_field(tmp_path):
     copy_documentation(tmp_path)
     readme = tmp_path / "README.ja.md"
     readme.write_text(readme.read_text(encoding="utf-8").replace("author: Ray\n", ""), encoding="utf-8")
 
     assert any(error.endswith("README.ja.md: front matter missing author") for error in check_repository(tmp_path))
+
+
+def test_check_rejects_prerequisites_after_install_command(tmp_path):
+    copy_documentation(tmp_path)
+    readme = tmp_path / "README.md"
+    marker = "<!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->"
+    text = readme.read_text(encoding="utf-8").replace(marker, "") + f"\n{marker}\n"
+    readme.write_text(text, encoding="utf-8")
+
+    assert "README.md: installation prerequisites must precede the primary install command" in check_repository(tmp_path)
 
 
 def test_check_rejects_mutable_or_incomplete_install_commands(tmp_path):
@@ -137,9 +185,9 @@ def test_check_rejects_known_japanese_style_regressions(tmp_path):
     copy_documentation(tmp_path)
     readme = tmp_path / "README.ja.md"
     readme.write_text(
-        readme.read_text(encoding="utf-8") + "\nGemini, Claude, Codex により実行時の安全性を確保します。\n",
+        readme.read_text(encoding="utf-8") + "\nGemini, Claude, Codex により実行時の安全性を確保し、確信度を記録します。\n",
         encoding="utf-8",
     )
 
     errors = check_repository(tmp_path)
-    assert sum("Japanese style:" in error for error in errors) == 2
+    assert sum("Japanese style:" in error for error in errors) == 3

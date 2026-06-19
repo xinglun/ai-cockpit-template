@@ -71,6 +71,10 @@ Cockpit が更新される。
 レビューは文脈から始まる。
 ```
 
+<!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->
+
+**前提条件:** POSIX シェルを利用できる Linux、macOS、または WSL、Python 3.10 以上、Git、curl、GNU Make、および 1 件以上のコミットがあるクリーンな Git リポジトリが必要です。選択したスタックのフォーマッター、テストランナー、SDK、ビルドプラグインも事前にインストールしてください。
+
 ## 最新の公開ランタイムをインストール
 
 ```sh
@@ -101,7 +105,9 @@ make check-ai-guard-calibration
 make check-ai-adoption-ready
 ```
 
-Doctor はプロジェクトポリシーを変更せず、検出した事実、証拠、確信度、提案、および不明点を記録します。Calibration は候補のみを生成し、Guard の上書きや高リスクパスの承認は行いません。人が明示的に確認し、Readiness 検査が成功した後に、ガバナンス付きの AI タスクを開始します。
+この文書では、Project Profile を「プロジェクトプロファイル」、Guard を「ガード」、Scope を「変更範囲」、Summary を「変更サマリー」、Readiness Check を「導入準備チェック」として扱います。コマンド名や JSON フィールド名では英語の識別子を保持します。
+
+プロジェクト診断（Doctor）はプロジェクトポリシーを変更せず、検出した事実、証拠、信頼度、提案、および不明点を記録します。境界校正（Calibration）は候補のみを生成し、ガード（Guard）の上書きや高リスクパスの承認は行いません。人が明示的に確認し、導入準備チェック（Readiness Check）が成功した後に、ガバナンス付きの AI タスクを開始します。
 
 ```sh
 make ai-start TASK=example_change TITLE="Example change" MODE=code
@@ -124,7 +130,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Work Item Contract | AI がファイルを変更する前にタスク境界を宣言する。 |
 | Scope Guard | 宣言された変更範囲外の差分を検出し、完了・アーカイブ・マージのゲート通過を防ぐ。 |
 | Backtrack Guard | 保護対象のテスト、スナップショット、Work Item 記録の削除を検出し、設定済みゲートの通過を防ぐ。 |
-| Coverage Guard | 対応するテスト変更がない本番コード変更を検出し、設定済みゲートの通過を防ぐ。 |
+| Coverage Guard | 本番コードの各パスについて、プロジェクト所有の関連付けルールに一致するテストパスの変更を要求する。テスト内容の解析や実行時カバレッジの証明は行わない。 |
 | Agent Risk Guard | プロンプト上の指示だけでは強制力を持たないリスク、作業途中の逸脱、不明点を残した完了申告に対する必須ゲート。 |
 | AI Review Policy | ガバナンスや CI の変更について、レビュー時の注視点を Change Summary に明記するよう促す（報告のみ）。 |
 | Checkpoint | 作業途中の整合性スナップショット。完了前に変更範囲の逸脱を検出する。 |
@@ -141,7 +147,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 - インストーラーは同じ PR 検証スクリプトと Make ターゲットを配布する。Work Item のアーカイブ後、CI で `make check-ai-pr AI_BASE_COMMIT=<merge-base>` を実行する。
 - 除外対象でない各 PR パスは、同じ Contract と Summary の組において、変更範囲と `changedFiles` の両方に含まれる必要がある。
 - 制限対象・破壊的変更の承認は、Contract 内の自己申告型ワークフロー記録である。信頼できる人間の承認には CODEOWNERS、保護された CI 環境、またはプラットフォームの ID イベントを使用する。
-- AI Cockpit は誤操作と作業途中の逸脱を抑える仕組みであり、悪意ある AI エージェントに対するセキュリティサンドボックスではない。プロジェクトテストまたは `make quality` は独立した CI 必須チェックとして実行する。
+- AI Cockpit は誤操作と作業途中の逸脱を抑える仕組みであり、悪意ある AI エージェントに対するセキュリティサンドボックスではない。上記で選択した公開版では、プロジェクトテストまたは `make quality` を独立した CI 必須チェックとして実行する。
 
 ## 何を検出するか
 
@@ -176,7 +182,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 <!-- stack-tiers: verified=; workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp; preset-only=generic,flutter,android,swift -->
 
 - **ホステッド環境で検証済み:** 現時点で記録済みの成功実績はありません。ワークフローの存在だけを実行成功の証拠として扱いません。
-- **CI ワークフロー実装済み・ホステッド実行待ち:** `python`、`go`、`rust`、`typescript`、`java`、`kotlin`、`ruby`、`php`、`csharp` には、最小プロジェクトを生成して `make quality` を実行するジョブがあります。
+- **CI ワークフロー実装済み・ホステッド実行待ち:** `python`、`go`、`rust`、`typescript`、`java`、`kotlin`、`ruby`、`php`、`csharp` には、最小プロジェクトを生成して `make ai-cockpit-quality` を実行するジョブがあります。
 - **プリセットのみ:** `generic`、`flutter`、`android`、`swift` はコマンドの出発点を提供しますが、実プロジェクトを使った CI 証跡はまだありません。`generic` は設定が完了するまで意図的に失敗します。
 - **未対応の実行環境:** ネイティブ Windows シェル。WSL または別の POSIX 環境を使用してください。
 
@@ -187,6 +193,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 インストールで完了するのはガバナンス実行系の配置であり、本番運用向けの適合確認ではありません。導入準備の検査には、承認済み Project Profile、Profile と Guard の整合性、実効性のある品質コマンド、確認済み Coverage 対象パス、および `quality` と `check-ai-pr` の CI 設定が必要です。この検査は静的な完全性確認であり、安全性やプロジェクトコマンドの妥当性を証明するものではありません。
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
+<!-- public-quality-target: quality -->
 
 現在の公開版には、監査可能な初回導入フローと、利用者が指定した SHA256 による検証機能が含まれています。プロジェクト固有の品質コマンド、Coverage 対象パス、CI は引き続き明示的な調整が必要です。
 
@@ -197,7 +204,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - POSIX 準拠のシェルおよび GNU Make 実行環境。
 - Linux および macOS は、ローカル実行および CI 用として公式にサポートされています。ネイティブの Windows シェルはサポートされていないため、WSL (Windows Subsystem for Linux) または他の POSIX ターミナルで実行してください。
 
-リポジトリの `make quality` は、スクリプトカバレッジ全体の下限 60% とライフサイクル上重要な各スクリプトの回帰防止下限、`scripts/` と `tests/` への Ruff、型注釈を整備した中核ツール群への Mypy、中・高重要度を対象とする Bandit、Python コンパイル、差分検査、ドキュメント整合性検査を実行します。Mypy の対象は意図的に限定しており、包括的な除外を追加せず段階的に拡大します。
+リポジトリの `make quality` は、スクリプトカバレッジ全体の下限 60% とライフサイクル上重要な各スクリプトの回帰防止下限、`scripts/` と `tests/` への Ruff、すべてのガバナンススクリプトへの Mypy、中・高重要度を対象とする Bandit、Python コンパイル、差分検査、ドキュメント整合性検査を実行します。
 
 ## 詳細ドキュメント
 

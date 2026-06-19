@@ -85,6 +85,38 @@ def test_archive_dry_run_and_successful_review_item(tmp_path, monkeypatch):
     assert list(archive.glob("*/task.contract.json"))
 
 
+def test_archive_code_item_rewrites_summary_paths(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    archive = tmp_path / ".ai" / "work-items" / "archive"
+    active.mkdir(parents=True)
+    contract = active / "task.contract.json"
+    summary = active / "task.summary.json"
+    contract.write_text(json.dumps({"workItemId": "task", "mode": "code"}), encoding="utf-8")
+    summary.write_text(json.dumps({
+        "contractPath": ".ai/work-items/active/task.contract.json",
+        "changedFiles": [
+            {"path": ".ai/work-items/active/task.contract.json", "reason": "contract"},
+            {"path": ".ai/work-items/active/task.summary.json", "reason": "summary"},
+        ],
+    }), encoding="utf-8")
+    monkeypatch.setattr(ai_archive_work_item, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_archive_work_item, "ARCHIVE_BASE_DIR", archive)
+    monkeypatch.setattr(ai_archive_work_item, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(
+        ai_archive_work_item,
+        "create_observability",
+        lambda **_kwargs: type("Obs", (), {"record": lambda *_args, **_kwargs: None})(),
+    )
+    monkeypatch.setattr(ai_archive_work_item.subprocess, "run", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(sys, "argv", ["ai_archive_work_item.py", str(contract)])
+
+    assert ai_archive_work_item.main() == 0
+    archived_summary = next(archive.glob("*/task.summary.json"))
+    data = json.loads(archived_summary.read_text(encoding="utf-8"))
+    assert "/active/" not in data["contractPath"]
+    assert all("/archive/" in item["path"] for item in data["changedFiles"])
+
+
 def test_ai_start_journeys(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)

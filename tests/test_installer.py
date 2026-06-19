@@ -112,9 +112,9 @@ def test_missing_stack_file_project_quality_targets_fail_closed(tmp_path):
     (tmp_path / "Makefile.ai.stack").unlink()
 
     for target, message in (
-        ("project-format-check", "ERROR: no project formatter configured"),
-        ("project-test", "ERROR: no project test command configured"),
-        ("project-lint", "ERROR: no project linter configured"),
+        ("ai-cockpit-project-format-check", "ERROR: no project formatter configured"),
+        ("ai-cockpit-project-test", "ERROR: no project test command configured"),
+        ("ai-cockpit-project-lint", "ERROR: no project linter configured"),
     ):
         result = subprocess.run(
             ["make", target], cwd=tmp_path, text=True, capture_output=True, check=False,
@@ -274,6 +274,35 @@ def test_malformed_agent_markers_fail_before_writing(tmp_path, mode, malformed):
 
     assert installer.install() == 2
     assert agents.read_text(encoding="utf-8") == malformed
+    assert not (tmp_path / "Makefile.ai").exists()
+
+
+def test_existing_common_make_target_is_preserved_without_override(tmp_path):
+    makefile = tmp_path / "Makefile"
+    makefile.write_text("project-test:\n\t@printf 'HOST TEST\\n'\n", encoding="utf-8")
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    assert installer.install() == 0
+    result = subprocess.run(
+        ["make", "project-test"], cwd=tmp_path, text=True, capture_output=True, check=False,
+    )
+    assert result.returncode == 0
+    assert result.stdout.strip() == "HOST TEST"
+    assert "overriding commands" not in result.stderr
+
+
+def test_reserved_make_target_conflict_fails_before_writing(tmp_path):
+    makefile = tmp_path / "Makefile"
+    original = "ai-cockpit-quality:\n\t@echo host\n"
+    makefile.write_text(original, encoding="utf-8")
+    installer = Installer(
+        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
+        with_examples=False, update_makefile=True,
+    )
+    assert installer.install() == 2
+    assert makefile.read_text(encoding="utf-8") == original
     assert not (tmp_path / "Makefile.ai").exists()
 
 

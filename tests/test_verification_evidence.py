@@ -21,7 +21,7 @@ def test_plain_passed_string_is_not_execution_evidence():
 
 def test_finish_evidence_is_complete():
     item = ai_finish.evidence(
-        "projectTest", "make project-test", 0, 12, "1 passed\n",
+        "projectTest", "make ai-cockpit-project-test", 0, 12, "1 passed\n",
         contract_hash="b" * 64, commit_sha="a" * 40,
         execution_contract_path=".ai/work-items/active/x.contract.json",
         execution_summary_path=".ai/work-items/active/x.summary.json",
@@ -125,3 +125,20 @@ def test_summary_validator_reports_nested_governance_schema_failures():
     assert any("residualRisks[1].level" in issue for issue in issues)
     assert any("machine-specific path" in issue for issue in issues)
     assert any("missing required verification: aiScope" in issue for issue in issues)
+
+
+def test_summary_diff_coverage_reports_missing_and_git_failure(monkeypatch):
+    monkeypatch.setattr(ai_check_summary, "summary_exempt_patterns", lambda: [])
+    monkeypatch.setattr(ai_check_summary, "changed_paths", lambda _contract: ["src/app.py", "tests/test_app.py"])
+    issues = ai_check_summary.validate_changed_files_cover_diff(
+        {"changedFiles": [{"path": "src/app.py", "reason": "changed"}]},
+        {"scope": ["src/**", "tests/**"]},
+    )
+    assert issues == ["changedFiles is missing actual changed path: tests/test_app.py"]
+
+    monkeypatch.setattr(
+        ai_check_summary,
+        "changed_paths",
+        lambda _contract: (_ for _ in ()).throw(RuntimeError("git unavailable")),
+    )
+    assert "failed to read changed paths" in ai_check_summary.validate_changed_files_cover_diff({}, None)[0]

@@ -74,6 +74,13 @@ target/ai_*.jsonl
 GITIGNORE_RULES = tuple(
     line for line in GITIGNORE_SECTION.splitlines() if line and not line.startswith("#")
 )
+RESERVED_MAKE_TARGETS = {
+    "ai-cockpit-project-format-check",
+    "ai-cockpit-project-test",
+    "ai-cockpit-project-lint",
+    "ai-cockpit-diff-check",
+    "ai-cockpit-quality",
+}
 
 
 @dataclass(frozen=True)
@@ -216,6 +223,7 @@ class Installer:
         return pairs
 
     def validate_managed_conflicts(self) -> None:
+        self.validate_make_target_conflicts()
         if self.force or self.upgrade:
             return
         pairs = self.managed_copy_pairs()
@@ -234,6 +242,25 @@ class Installer:
             raise ValueError(
                 "managed file conflicts detected; move the files, use --force for intentional replacement, "
                 f"or use --upgrade for an existing installation:\n  - {formatted}"
+            )
+
+    def validate_make_target_conflicts(self) -> None:
+        makefile = self.target / "Makefile"
+        if not self.update_makefile or not makefile.is_file():
+            return
+        defined: set[str] = set()
+        for line in makefile.read_text(encoding="utf-8").splitlines():
+            if not line or line[0].isspace() or line.lstrip().startswith("#"):
+                continue
+            match = re.match(r"^([^:=]+):(?!=)", line)
+            if match:
+                defined.update(token for token in match.group(1).split() if token)
+        conflicts = sorted(defined & RESERVED_MAKE_TARGETS)
+        if conflicts:
+            raise ValueError(
+                "host Makefile defines reserved AI Cockpit target(s): "
+                + ", ".join(conflicts)
+                + "; rename the host target or install without --update-makefile"
             )
 
     def validate_managed_installation(self) -> None:

@@ -19,7 +19,7 @@ PROJECT_TEST ?= printf '%s\n' 'ERROR: no project test command configured. Set PR
 PROJECT_LINT ?= printf '%s\n' 'ERROR: no project linter configured. Set PROJECT_LINT in Makefile.ai.stack.' >&2; false
 
 .PHONY: ai-help ai-doctor cockpit-doctor cockpit-calibrate cockpit-validate-calibration check-ai-project-profile check-ai-guard-calibration check-ai-adoption-ready \
-	project-format-check project-test project-lint diff-check quality \
+	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy \
 	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item check-ai-pr
@@ -36,23 +36,23 @@ ai-help:
 	@printf '%s\n' '  make check-ai'
 	@printf '%s\n' '  make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>'
 	@printf '%s\n' '  make ai-finish TASK=<task>'
-	@printf '%s\n' '  make quality'
+	@printf '%s\n' '  make ai-cockpit-quality'
 
-project-format-check:
+ai-cockpit-project-format-check:
 	@$(PROJECT_FORMAT_CHECK)
 
-project-test:
+ai-cockpit-project-test:
 	@$(PROJECT_TEST)
 
-project-lint:
+ai-cockpit-project-lint:
 	@$(PROJECT_LINT)
 
 -include Makefile.ai.stack
 
-diff-check:
+ai-cockpit-diff-check:
 	git diff --check
 
-quality: project-format-check project-test project-lint diff-check
+ai-cockpit-quality: ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check
 
 ai-start:
 	$(AI_PYTHON) scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"

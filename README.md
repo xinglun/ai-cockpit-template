@@ -71,6 +71,10 @@ Cockpit updated.
 Review starts from context.
 ```
 
+<!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->
+
+**Prerequisites:** Linux, macOS, or WSL with a POSIX shell; Python 3.10+; Git, curl, and GNU Make; and a clean Git repository with at least one commit. The selected stack's formatter, test runner, SDK, and build plugins must already be installed.
+
 ## Install the Latest Published Runtime
 
 ```sh
@@ -124,7 +128,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Work Item Contract | Declares the task boundary before AI changes files. |
 | Scope Guard | Detects changes outside the declared scope and blocks finish, archive, or merge gates. |
 | Backtrack Guard | Detects protected test, snapshot, or Work Item record deletion and blocks configured gates. |
-| Coverage Guard | Detects configured production changes without matching test changes and blocks configured gates. |
+| Coverage Guard | Requires each configured production path to have a changed test path matched by a project-owned association rule; it does not inspect test contents or prove runtime coverage. |
 | Agent Risk Guard | Hard gate against prompt-is-advice, mid-task drift, and unknown-overclaim risks. |
 | AI Review Policy | Flags governance and CI changes that need explicit review focus. |
 | Checkpoint | Mid-task snapshot to detect scope drift before finishing. |
@@ -149,7 +153,7 @@ The generic stack intentionally fails `quality` until its formatter, test, and l
 
 Template contributors can install the regression-test dependency with `python3 -m pip install -r requirements-dev.txt`. Runtime governance scripts still use only the Python standard library.
 
-AI Cockpit reduces accidental scope drift and makes review evidence explicit; it is not a security sandbox for a malicious agent that can modify repository policy. Run project tests or `make quality` as an independent required CI check in addition to `check-ai-pr`.
+AI Cockpit reduces accidental scope drift and makes review evidence explicit; it is not a security sandbox for a malicious agent that can modify repository policy. For the public release selected above, run project tests or `make quality` as an independent required CI check in addition to `check-ai-pr`.
 
 ## What It Catches
 
@@ -184,7 +188,7 @@ Compatibility levels:
 <!-- stack-tiers: verified=; workflow-implemented=python,go,rust,typescript,java,kotlin,ruby,php,csharp; preset-only=generic,flutter,android,swift -->
 
 - **Hosted verification:** none recorded yet. Workflow presence is not successful hosted execution evidence.
-- **CI workflow implemented; hosted execution pending:** `python`, `go`, `rust`, `typescript`, `java`, `kotlin`, `ruby`, `php`, and `csharp` have generated minimal-project jobs that execute `make quality`.
+- **CI workflow implemented; hosted execution pending:** `python`, `go`, `rust`, `typescript`, `java`, `kotlin`, `ruby`, `php`, and `csharp` have generated minimal-project jobs that execute `make ai-cockpit-quality`.
 - **Preset only:** `generic`, `flutter`, `android`, and `swift` provide command presets but do not yet have real-project CI evidence. `generic` intentionally fails closed until configured.
 - **Unsupported runtime/platform:** native Windows shells. Use WSL or another POSIX environment.
 
@@ -195,6 +199,7 @@ The governance runtime is language-agnostic, but stack presets and default guard
 Installation deploys the runtime; it does not complete production adaptation. Adoption readiness also requires an approved Project Profile, Profile/Guard consistency, non-placeholder quality commands, reviewed Coverage paths, and CI wiring for both `quality` and `check-ai-pr`. This is a static completeness check, not a security proof or proof that project commands are meaningful.
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
+<!-- public-quality-target: quality -->
 
 The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
 
@@ -205,7 +210,7 @@ The current public release includes auditable first-adoption bootstrap and calle
 - POSIX-compliant shell and GNU Make execution environment.
 - Linux and macOS are officially supported for local execution and CI. Native Windows shells are not supported; please run inside WSL (Windows Subsystem for Linux) or another POSIX terminal.
 
-Repository `make quality` runs the full test suite with a 60% overall script coverage floor and per-file regression floors for lifecycle-critical scripts, Ruff over `scripts/` and `tests/`, Mypy over the explicitly typed core tool subset, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency. The typed subset is intentionally narrower than the complete runtime and must be expanded without blanket ignores.
+Repository `make quality` runs the full test suite with a 60% overall script coverage floor and per-file regression floors for lifecycle-critical scripts, Ruff over `scripts/` and `tests/`, Mypy over all governance scripts, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency.
 
 ## Advanced Docs
 

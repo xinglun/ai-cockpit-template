@@ -21,7 +21,7 @@ AI_COCKPIT_TEMPLATE_REF=v0.5.2 sh -c "$(curl -fsSL https://raw.githubusercontent
 
 ## 2. 開発環境の品質ゲート設定 (`Makefile.ai.stack`)
 
-リポジトリで以下の Make 変数を設定します。これらは `make quality` 実行時に呼び出され、フォーマット、テスト、および Clippy による静的解析の結果を AI エージェントの完了条件として検証します。
+リポジトリで以下の Make 変数を設定します。これらは `make ai-cockpit-quality` 実行時に呼び出され、フォーマット、テスト、および Clippy による静的解析の結果を AI エージェントの完了条件として検証します。
 
 ```make
 PROJECT_FORMAT_CHECK = cargo fmt --all -- --check
@@ -33,7 +33,9 @@ PROJECT_LINT = cargo clippy --all-targets -- -D warnings
 
 ## 3. カバレッジポリシーの設定 (`.ai/guards/coverage_policy.yaml`)
 
-Rust ではテストコードが `tests/` ディレクトリと `src/` 配下のインラインモジュール（`#[cfg(test)]`）の両方に存在することが多いため、以下のようにパターンを設定します。
+Coverage Guard は Git の変更パスだけを解析するため、`src/lib.rs` 内の `#[cfg(test)]` インラインテスト追加を本番コード変更と区別できません。インラインテストだけで完結する変更では、この Guard を対応テストの証明として扱わないでください。独立した `tests/` ファイルへテストを追加する、対象パスを明示的に除外して Guard を advisory にする、または `cargo test` を独立した必須品質チェックとして使用してください。
+
+パス単位の関連付けを使う場合は、次のように本番パスと統合テストパスを明示します。
 
 ```yaml
 production:
@@ -41,12 +43,19 @@ production:
     - "src/**"
   exclude:
     - "tests/**"
-    - "src/**/*test*.rs"
 
 tests:
   include:
     - "tests/**"
-    - "src/**/*test*.rs"
+
+associations:
+  rustModules:
+    production:
+      - "src/**/*.rs"
+      - "src/*.rs"
+    tests:
+      - "tests/{stem}_test.rs"
+      - "tests/test_{stem}.rs"
 ```
 
 ---

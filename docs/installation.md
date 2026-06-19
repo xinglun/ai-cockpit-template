@@ -43,7 +43,10 @@ After finishing the installation Adoption Work Item, calibrate the runtime befor
 ```sh
 make cockpit-doctor
 make cockpit-calibrate
-# Review the proposal. Copy only confirmed facts and boundaries into .ai/project_profile.yaml.
+# Review the proposal, then explicitly create and edit the project-owned confirmation.
+cp .ai/project_profile.proposed.yaml .ai/project_profile.yaml
+${EDITOR:-vi} .ai/project_profile.yaml
+# Set approval.reviewed: true only after confirming facts, boundaries, and unknowns.
 make check-ai-project-profile
 make check-ai-guard-calibration
 make quality
@@ -61,9 +64,11 @@ make quality
 make check-ai-adoption-ready
 ```
 
-The readiness check fails closed until the confirmed Project Profile is valid, blocking unknowns are resolved, approved boundaries match Guards, all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and CI invokes both `quality` and `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require those CI jobs to succeed before treating adoption as production-ready.
+The readiness check fails closed until the confirmed Project Profile is valid, blocking unknowns are resolved, approved boundaries match Guards, all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and CI invokes both the public release quality target (`quality` for v0.5.2) and `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require those CI jobs to succeed before treating adoption as production-ready.
 
 This workflow is published in `v0.5.2`. Older tags do not gain adoption capability retroactively.
+
+<!-- public-quality-target: quality -->
 
 Start a governed AI task:
 
@@ -129,9 +134,11 @@ The project does not currently publish trusted archive checksum files, cryptogra
 --update-makefile  Append "include Makefile.ai" to the target Makefile.
 ```
 
-By default, the installer is conservative:
+Without `--update-makefile`, the installer does not modify the host `Makefile`; it writes separate `Makefile.ai` and `Makefile.ai.stack` files. The recommended command above does pass `--update-makefile`, so it appends `include Makefile.ai`. Public v0.5.2 uses the common `quality` target. The source candidate validates reserved `ai-cockpit-*` targets before writing, but that behavior is not public until a newer tag is released and selected by `release.json`.
 
-- It writes `Makefile.ai` and `Makefile.ai.stack` instead of modifying an existing Makefile.
+Other conservative defaults:
+
+- Public v0.5.2 defines common project-quality targets. Review host Make targets before adopting it. The unreleased source candidate uses namespaced `ai-cockpit-*` recipes to avoid replacing common host targets.
 - It appends AI Cockpit sections to existing `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md`.
 - It installs Cursor rules under `.cursor/rules/ai-cockpit.mdc`.
 - It skips existing files unless `--force` is provided.
@@ -169,7 +176,7 @@ The installer rejects distribution or Contract-schema downgrades; never set `TAR
 
 By default, upgrade stops before writing if `.ai/work-items/active/` contains Work Item JSON. Finish and archive the active task first. `--upgrade-with-active` is an explicit high-risk override for recovery scenarios where changing governance semantics during a task is intentional.
 
-Before replacement, managed files are copied under `.ai/cockpit/upgrade-backups/<timestamp>/`. This directory and active review records are added to the managed `.gitignore` rules. Agent sections between the AI Cockpit markers are replaced as one managed block. If an existing `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` has no markers, upgrade preserves its content and appends the managed section. Customized guards and `checks.yaml` are backed up before the source version is installed. Project-owned `.ai/glossary.md` is preserved by default; `--replace-glossary` backs it up before installing a fresh template. The installer validates version metadata before writing, rejects distribution or Contract-schema downgrades, validates the installed managed runtime afterward, and automatically restores backed-up files if installation or post-copy validation fails. Review and remove successful-upgrade backups when they are no longer needed. `--force` replaces managed files without an upgrade backup, but does not replace the glossary unless explicitly requested.
+Before replacement, managed files are copied under `.ai/cockpit/upgrade-backups/<timestamp>/`. Despite the historical directory name, the installer also uses it as a transaction rollback area when a first installation appends to an existing file such as `Makefile`; its presence does not mean an upgrade occurred. This directory and active review records are added to the managed `.gitignore` rules. Agent sections between the AI Cockpit markers are replaced as one managed block. If an existing `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` has no markers, upgrade preserves its content and appends the managed section. Customized guards and `checks.yaml` are backed up before the source version is installed. Project-owned `.ai/glossary.md` is preserved by default; `--replace-glossary` backs it up before installing a fresh template. The installer validates version metadata before writing, rejects distribution or Contract-schema downgrades, validates the installed managed runtime afterward, and automatically restores backed-up files if installation or post-copy validation fails. Review and remove successful-upgrade backups when they are no longer needed. `--force` replaces managed files without an upgrade backup, but does not replace the glossary unless explicitly requested.
 
 If you did not use `--update-makefile`, add this line to your project Makefile:
 

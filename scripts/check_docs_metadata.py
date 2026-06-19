@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FRONT_MATTER = ("author", "title", "description")
 README_FILES = ("README.md", "README.ja.md", "README.zh-CN.md")
 README_CAPABILITY_MARKER = "<!-- release-capabilities: auditable-adoption,sha256-verification -->"
+README_PREREQUISITE_MARKER = "<!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->"
 VERIFIED_STACKS: tuple[str, ...] = ()
 WORKFLOW_IMPLEMENTED_STACKS = ("python", "go", "rust", "typescript", "java", "kotlin", "ruby", "php", "csharp")
 TEMPLATE_ONLY_STACKS = ("generic", "flutter", "android", "swift")
@@ -24,6 +25,7 @@ JAPANESE_STYLE_RULES = {
     "Use this stack preset": "translate instructional prose into Japanese",
     "Suggested guard patterns": "translate instructional prose into Japanese",
     "阻断": "use Japanese terminology such as ブロッキング",
+    "確信度": "use 信頼度 for confidence in Japanese documentation",
 }
 
 
@@ -85,6 +87,8 @@ def installation_command_errors(root: Path) -> list[str]:
     release = json.loads((root / "release.json").read_text(encoding="utf-8"))
     release_tag = release["releaseTag"]
     sha256_published = release["capabilities"]["sha256ArchiveVerification"]
+    quality_target = release["publicContract"]["projectQualityTarget"]
+    quality_marker = f"<!-- public-quality-target: {quality_target} -->"
     errors = []
     for path in documentation_files(root):
         relative = path.relative_to(root).as_posix()
@@ -96,6 +100,19 @@ def installation_command_errors(root: Path) -> list[str]:
                 errors.append(f"{relative}: primary install command must resolve the tagged installer from release.json")
             if README_CAPABILITY_MARKER not in text:
                 errors.append(f"{relative}: release capability marker is missing or inconsistent")
+            prerequisite_position = text.find(README_PREREQUISITE_MARKER)
+            install_position = text.find('sh "$INSTALLER" --stack')
+            if prerequisite_position < 0 or install_position < 0 or prerequisite_position > install_position:
+                errors.append(f"{relative}: installation prerequisites must precede the primary install command")
+            if quality_marker not in text:
+                errors.append(f"{relative}: public quality target differs from release.json")
+            readiness_lines = [
+                line for line in text.splitlines()
+                if "`check-ai-pr`" in line
+                and ("readiness" in line.lower() or "導入準備" in line or "Adoption Readiness" in line)
+            ]
+            if not any(f"`{quality_target}`" in line for line in readiness_lines):
+                errors.append(f"{relative}: readiness guidance does not use the public quality target")
             if "--create-adoption" not in text:
                 errors.append(f"{relative}: primary install command must create auditable adoption evidence")
             ordered_steps = ("--create-adoption", "make ai-finish TASK=adopt_ai_cockpit", "git commit", "make check-ai-pr", "make cockpit-doctor")
@@ -121,6 +138,11 @@ def installation_command_errors(root: Path) -> list[str]:
     install_script = (root / "install.sh").read_text(encoding="utf-8")
     if f'REF="${{AI_COCKPIT_TEMPLATE_REF:-{release_tag}}}"' not in install_script:
         errors.append("install.sh: default ref does not match release.json")
+    installation = (root / "docs" / "installation.md").read_text(encoding="utf-8")
+    if quality_marker not in installation:
+        errors.append("docs/installation.md: public quality target differs from release.json")
+    if f"make {quality_target}\nmake check-ai-adoption-ready" not in installation:
+        errors.append("docs/installation.md: readiness commands do not use the public quality target")
     return errors
 
 

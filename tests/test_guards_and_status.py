@@ -21,12 +21,43 @@ def test_backtrack_detects_deleted_test_and_work_item():
 def test_coverage_detects_production_change_without_test(tmp_path, monkeypatch):
     policy = tmp_path / "coverage.yaml"
     policy.write_text(
-        "production:\n  include:\n    - src/**\ntests:\n  include:\n    - tests/**\n",
+        "production:\n  include:\n    - src/**\n"
+        "tests:\n  include:\n    - tests/**\n"
+        "associations:\n  service:\n    production:\n      - src/service.py\n"
+        "    tests:\n      - tests/test_{stem}.py\n",
         encoding="utf-8",
     )
     monkeypatch.setattr(ai_check_coverage_guard, "POLICY", policy)
     assert ai_check_coverage_guard.detect(["src/service.py"])
     assert ai_check_coverage_guard.detect(["src/service.py", "tests/test_service.py"]) == []
+
+
+def test_coverage_rejects_unrelated_test_change(tmp_path, monkeypatch):
+    policy = tmp_path / "coverage.yaml"
+    policy.write_text(
+        "production:\n  include:\n    - src/**\n"
+        "tests:\n  include:\n    - tests/**\n"
+        "associations:\n  modules:\n    production:\n      - src/**\n"
+        "    tests:\n      - tests/test_{stem}.py\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(ai_check_coverage_guard, "POLICY", policy)
+
+    items = ai_check_coverage_guard.detect(["src/auth.py", "tests/test_payment.py"])
+    assert [item.path for item in items] == ["src/auth.py"]
+    assert "configured association" in items[0].detail
+
+
+def test_coverage_rejects_production_without_association(tmp_path, monkeypatch):
+    policy = tmp_path / "coverage.yaml"
+    policy.write_text(
+        "production:\n  include:\n    - src/**\ntests:\n  include:\n    - tests/**\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(ai_check_coverage_guard, "POLICY", policy)
+
+    items = ai_check_coverage_guard.detect(["src/auth.py", "tests/test_auth.py"])
+    assert "no associations.*.production rule" in items[0].detail
 
 
 def test_default_coverage_policy_covers_advertised_stack_layouts(monkeypatch):
@@ -63,6 +94,12 @@ def test_default_coverage_policy_recognizes_stack_test_layouts(monkeypatch):
     ]
     for production, test in cases:
         assert ai_check_coverage_guard.detect([production, test]) == []
+
+
+def test_default_coverage_policy_rejects_cross_module_test(monkeypatch):
+    monkeypatch.setattr(ai_check_coverage_guard, "POLICY", ROOT / ".ai" / "guards" / "coverage_policy.yaml")
+    items = ai_check_coverage_guard.detect(["src/auth.rs", "tests/payment_test.rs"])
+    assert [item.path for item in items] == ["src/auth.rs"]
 
 
 def test_checkpoint_next_action_stops_on_unknowns():
@@ -144,3 +181,15 @@ def test_generate_status_main_handles_no_active_and_invalid_contract(tmp_path, m
     broken.write_text("{", encoding="utf-8")
     monkeypatch.setattr(__import__("sys"), "argv", ["ai_generate_status.py", str(broken), "--output", str(output)])
     assert ai_generate_status.main() == 1
+
+
+def test_no_active_status_reports_repository_changes(tmp_path, monkeypatch):
+    output = tmp_path / "status.md"
+    monkeypatch.setattr(ai_generate_status, "changed_paths", lambda: ["src/app.py", "tests/test_app.py"])
+
+    ai_generate_status.write_no_active_status(output)
+
+    text = output.read_text(encoding="utf-8")
+    assert "`src/app.py`" in text
+    assert "not active ownership claims" in text
+    assert "check-ai-pr" in text

@@ -55,7 +55,7 @@ def readiness_failures(root: Path) -> list[str]:
     if gitlab.is_file():
         ci_files.append(gitlab)
     ci_text = "\n".join(path.read_text(encoding="utf-8") for path in ci_files)
-    for target in ("quality", "check-ai-pr"):
+    for target in ("ai-cockpit-quality", "check-ai-pr"):
         if not any(
             not line.lstrip().startswith("#") and re.search(rf"\bmake\s+{re.escape(target)}\b", line)
             for line in ci_text.splitlines()
@@ -75,7 +75,7 @@ def main() -> int:
             print(f"[FAIL] {failure}")
         return 1
     print("AI Cockpit static adoption configuration check passed")
-    print("This does not prove command effectiveness; require make quality and check-ai-pr in CI.")
+    print("This does not prove command effectiveness; require make ai-cockpit-quality and check-ai-pr in CI.")
     return 0
 
 

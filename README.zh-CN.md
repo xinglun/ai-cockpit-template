@@ -79,22 +79,25 @@ Review 从上下文开始。
 
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
+STACK="${STACK:-generic}" # generic、python、go、rust、typescript、java、android、kotlin、flutter、swift、ruby、php 或 csharp
 RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
-AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
 make ai-finish TASK=adopt_ai_cockpit
 git add .
 git commit -m "adopt AI Cockpit governance"
 make check-ai-pr AI_BASE_COMMIT="$ADOPTION_BASE"
+CONFIG_BASE="$(git rev-parse HEAD)"
+make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this project" MODE=code
 ```
 
 该命令优先读取公开的 `release.json`；在发布元数据尚未上线的过渡期，则从公开的语义化版本标签中选择最高版本。随后只下载并执行解析出的固定标签安装器。公开版本的能力可能落后于源码树；创建首次采用 PR 前请先阅读[安装文档](docs/installation.md)。
 
-启用阻断型门禁前，先根据目标工程校准已安装的治理运行时：
+先审阅并扩展生成的配置 Contract scope，再修改 Project Profile、Guard、质量命令和 CI。然后在启用阻断型门禁前，根据目标工程校准治理运行时：
 
-<!-- governance-flow: install,doctor,calibrate,confirm,validate,readiness,develop -->
+<!-- governance-flow: install,configure-work-item,doctor,calibrate,confirm,validate,readiness,develop -->
 
 ```sh
 make cockpit-doctor
@@ -103,6 +106,10 @@ make cockpit-calibrate
 make check-ai-project-profile
 make check-ai-guard-calibration
 make check-ai-adoption-ready
+make ai-finish TASK=configure_ai_cockpit
+git add .
+git commit -m "configure AI Cockpit for this project"
+make check-ai-pr AI_BASE_COMMIT="$CONFIG_BASE"
 ```
 
 Doctor 不修改项目策略，只记录检测事实、证据、置信度、建议和 unknown。Calibration 只生成候选文件，不覆盖 Guard，也不自动批准高风险路径。人工明确确认且 Readiness 检查通过后，再启动受治理的 AI 任务：
@@ -145,7 +152,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 - 安装器会分发相同的 PR validator 和 Make target。归档 Work Item 后，CI 运行 `make check-ai-pr AI_BASE_COMMIT=<merge-base>`。
 - 每个非豁免 PR 路径必须由同一对 Contract/Summary 同时声明 scope 和 `changedFiles`。
 - restricted/destructive approval 是 Contract 内的自声明流程记录；可信人工批准应由 CODEOWNERS、受保护 CI environment 或平台身份事件提供。
-- AI Cockpit 用于减少误操作和流程漂移，不是针对恶意代理的安全沙箱。对于上述命令选择的公开版本，项目测试或 `make quality` 必须作为独立 required CI check 运行。
+- AI Cockpit 用于减少误操作和流程漂移，不是针对恶意代理的安全沙箱。对于上述命令选择的公开版本，项目测试或 `make ai-cockpit-quality` 必须作为独立 required CI check 运行。
 
 ## 它会拦住什么
 
@@ -188,10 +195,10 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 治理运行时本身不依赖目标语言，但技术栈预设和默认 guard 路径并不代表完整的框架支持。将其设为 CI 必需检查前，必须根据目标仓库调整 `Makefile.ai.stack` 和 `.ai/guards/coverage_policy.yaml`。
 
-安装只完成治理运行时部署，并不代表生产适配完成。Adoption Readiness 还要求已批准的 Project Profile、Profile 与 Guard 一致、质量命令非占位、Coverage 路径已确认，并在 CI 中配置 `quality` 和 `check-ai-pr`。该检查只验证静态完整性，不是安全证明，也不能证明项目命令本身有效。
+安装只完成治理运行时部署，并不代表生产适配完成。Project Profile、Guard、质量命令和 CI 适配由独立的 `configure_ai_cockpit` Work Item 覆盖。Adoption Readiness 还要求已批准的 Project Profile、Profile 与 Guard 一致、质量命令非占位、Coverage 路径已确认，并在 CI 中配置 `ai-cockpit-quality` 和 `check-ai-pr`。该检查只验证静态完整性，不是安全证明，也不能证明项目命令本身有效。
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
-<!-- public-quality-target: quality -->
+<!-- public-quality-target: ai-cockpit-quality -->
 
 当前公开版本已经包含可审计的首次采用流程，以及调用方提供 SHA256 时的校验能力。项目质量命令、Coverage 路径和 CI 仍需针对目标工程明确适配。
 

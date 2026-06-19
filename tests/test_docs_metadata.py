@@ -65,8 +65,8 @@ def test_check_rejects_public_quality_target_drift(tmp_path):
     readme = tmp_path / "README.zh-CN.md"
     readme.write_text(
         readme.read_text(encoding="utf-8").replace(
-            "<!-- public-quality-target: quality -->",
             "<!-- public-quality-target: ai-cockpit-quality -->",
+            "<!-- public-quality-target: quality -->",
         ),
         encoding="utf-8",
     )
@@ -79,16 +79,16 @@ def test_check_rejects_public_quality_command_drift(tmp_path):
     readme = tmp_path / "README.md"
     readme.write_text(
         readme.read_text(encoding="utf-8").replace(
-            "CI wiring for both `quality` and `check-ai-pr`",
             "CI wiring for both `ai-cockpit-quality` and `check-ai-pr`",
+            "CI wiring for both `quality` and `check-ai-pr`",
         ),
         encoding="utf-8",
     )
     installation = tmp_path / "docs" / "installation.md"
     installation.write_text(
         installation.read_text(encoding="utf-8").replace(
-            "make quality\nmake check-ai-adoption-ready",
             "make ai-cockpit-quality\nmake check-ai-adoption-ready",
+            "make quality\nmake check-ai-adoption-ready",
         ),
         encoding="utf-8",
     )
@@ -148,7 +148,20 @@ def test_check_rejects_readme_that_calibrates_before_finishing_adoption(tmp_path
     text = readme.read_text(encoding="utf-8")
     text = text.replace("make ai-finish TASK=adopt_ai_cockpit", "make ai-finish TASK=other")
     readme.write_text(text, encoding="utf-8")
-    assert "README.md: primary adoption flow must finish, commit, and audit before calibration" in check_repository(tmp_path)
+    assert any("primary adoption flow must finish" in error for error in check_repository(tmp_path))
+
+
+def test_check_rejects_language_specific_default_stack(tmp_path):
+    copy_documentation(tmp_path)
+    readme = tmp_path / "README.ja.md"
+    readme.write_text(
+        readme.read_text(encoding="utf-8")
+        .replace('STACK="${STACK:-generic}"', 'STACK="${STACK:-rust}"')
+        .replace('--stack "$STACK"', "--stack rust"),
+        encoding="utf-8",
+    )
+
+    assert "README.ja.md: primary install command must use an explicit generic-default STACK variable" in check_repository(tmp_path)
 
 
 def test_check_rejects_unpublished_sha256_claim(tmp_path):

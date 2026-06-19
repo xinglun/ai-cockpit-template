@@ -8,6 +8,17 @@ def stub_active_status(monkeypatch):
     monkeypatch.setattr(ai_start, "write_active_status", lambda *_args, **_kwargs: None)
 
 
+def test_ai_start_refreshes_only_stale_no_active_status(monkeypatch):
+    stale = "cockpit status Changed Files do not match current Git changes; run `make repair-ai-status`"
+    calls = []
+    monkeypatch.setattr(ai_start, "write_no_active_status", lambda path: calls.append(path))
+    monkeypatch.setattr(ai_start, "validate_status_consistency", lambda: [])
+
+    assert ai_start.refresh_stale_no_active_status([stale]) == []
+    assert calls == [ai_start.DEFAULT_STATUS]
+    assert ai_start.refresh_stale_no_active_status(["different lifecycle error"]) == ["different lifecycle error"]
+
+
 def test_ai_start_default_contains_agent_risk_gate(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)

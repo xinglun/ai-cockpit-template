@@ -185,11 +185,17 @@ def test_generate_status_main_handles_no_active_and_invalid_contract(tmp_path, m
 
 def test_no_active_status_reports_repository_changes(tmp_path, monkeypatch):
     output = tmp_path / "status.md"
-    monkeypatch.setattr(ai_generate_status, "changed_paths", lambda: ["src/app.py", "tests/test_app.py"])
+    monkeypatch.setattr(
+        ai_generate_status,
+        "changed_paths",
+        lambda: [".ai/cockpit/current_status.md", "src/app.py", "tests/test_app.py"],
+    )
+    monkeypatch.setattr(ai_generate_status, "project_relative", lambda _path: ".ai/cockpit/current_status.md")
 
     ai_generate_status.write_no_active_status(output)
 
     text = output.read_text(encoding="utf-8")
     assert "`src/app.py`" in text
+    assert "`.ai/cockpit/current_status.md`" not in text
     assert "not active ownership claims" in text
     assert "check-ai-pr" in text

@@ -77,6 +77,7 @@ def test_status_consistency_covers_empty_paired_and_unpaired_states(tmp_path, mo
     status = tmp_path / "current_status.md"
     monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_check_status_consistency, "repository_changes_for_status", lambda _path: [])
 
     status.write_text("- State: `no_active_work_item`\n", encoding="utf-8")
     assert ai_check_status_consistency.validate_status_consistency(status) == []
@@ -275,6 +276,7 @@ def test_status_consistency_repair_no_active_state(tmp_path, monkeypatch):
     monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
     monkeypatch.setattr(ai_check_status_consistency, "DEFAULT_STATUS", status)
+    monkeypatch.setattr(ai_check_status_consistency, "repository_changes_for_status", lambda _path: [])
 
     def fake_run(_command, **_kwargs):
         status.parent.mkdir(parents=True, exist_ok=True)
@@ -283,3 +285,18 @@ def test_status_consistency_repair_no_active_state(tmp_path, monkeypatch):
 
     monkeypatch.setattr(ai_check_status_consistency.subprocess, "run", fake_run)
     assert ai_check_status_consistency.repair_status(status) == 0
+
+
+def test_status_consistency_rejects_stale_no_active_changed_files(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    status = tmp_path / "current_status.md"
+    status.write_text(
+        "- State: `no_active_work_item`\n\n## Changed Files\n\n- `src/old.py`\n\n## Next Action\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_check_status_consistency, "repository_changes_for_status", lambda _path: ["src/new.py"])
+
+    issues = ai_check_status_consistency.validate_status_consistency(status)
+    assert any("Changed Files do not match current Git changes" in issue for issue in issues)

@@ -7,8 +7,8 @@ import argparse
 import re
 import sys
 from ai_common import PROJECT_ROOT, capture_dirty_baseline, current_head, save_json
-from ai_check_status_consistency import validate_status_consistency
-from ai_generate_status import write_active_status
+from ai_check_status_consistency import DEFAULT_STATUS, validate_status_consistency
+from ai_generate_status import write_active_status, write_no_active_status
 from ai_observability import create_observability
 
 
@@ -44,6 +44,14 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def refresh_stale_no_active_status(issues: list[str]) -> list[str]:
+    stale_message = "cockpit status Changed Files do not match current Git changes; run `make repair-ai-status`"
+    if issues == [stale_message]:
+        write_no_active_status(DEFAULT_STATUS)
+        return validate_status_consistency()
+    return issues
+
+
 def main() -> int:
     args = parse_args()
     try:
@@ -52,7 +60,7 @@ def main() -> int:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 
-    consistency_issues = validate_status_consistency()
+    consistency_issues = refresh_stale_no_active_status(validate_status_consistency())
     if consistency_issues:
         for issue in consistency_issues:
             print(f"[ERROR] {issue}", file=sys.stderr)

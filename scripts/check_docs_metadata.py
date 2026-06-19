@@ -115,10 +115,21 @@ def installation_command_errors(root: Path) -> list[str]:
                 errors.append(f"{relative}: readiness guidance does not use the public quality target")
             if "--create-adoption" not in text:
                 errors.append(f"{relative}: primary install command must create auditable adoption evidence")
-            ordered_steps = ("--create-adoption", "make ai-finish TASK=adopt_ai_cockpit", "git commit", "make check-ai-pr", "make cockpit-doctor")
+            if 'STACK="${STACK:-generic}"' not in text or '--stack "$STACK"' not in text:
+                errors.append(f"{relative}: primary install command must use an explicit generic-default STACK variable")
+            ordered_steps = (
+                "--create-adoption",
+                "make ai-finish TASK=adopt_ai_cockpit",
+                "git commit",
+                "make check-ai-pr",
+                "make ai-start TASK=configure_ai_cockpit",
+                "make cockpit-doctor",
+            )
             positions = [text.find(step) for step in ordered_steps]
             if any(position < 0 for position in positions) or positions != sorted(positions):
-                errors.append(f"{relative}: primary adoption flow must finish, commit, and audit before calibration")
+                errors.append(
+                    f"{relative}: primary adoption flow must finish, audit, and start configuration governance before calibration"
+                )
         for number, line in enumerate(text.splitlines(), start=1):
             if "raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh" in line:
                 errors.append(f"{relative}:{number}: remote installer must use a fixed tag or commit")

@@ -1,0 +1,168 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_053_and_configure_adoption",
+  "mode": "code",
+  "title": "Align v0.5.3 release and govern configuration adoption",
+  "baseCommit": "9e82ad5bac85be7eb97a4a2a9bb9072256d5ed12",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_053_and_configure_adoption.contract.json",
+    ".ai/work-items/active/release_053_and_configure_adoption.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/system_invariants.json",
+    ".ai/guards/coverage_policy.yaml",
+    "release.json",
+    "install.sh",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/installation.md",
+    "docs/launch.md",
+    "examples/**",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_start.py",
+    "scripts/ai_check_status_consistency.py",
+    "scripts/check_release_distribution.py",
+    "scripts/check_docs_metadata.py",
+    "scripts/check_system_invariants.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_core_gates.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_project_governance_journey.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_release_distribution.py",
+    "tests/test_install_script.py",
+    "tests/test_docs_metadata.py",
+    "tests/test_system_invariants.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Current public release pointer."
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "Current lifecycle-only status validator."
+    },
+    {
+      "path": "docs/installation.md",
+      "reason": "Current single-Contract adoption workflow."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "release_pointer_drift",
+      "adoption_ownership_gap",
+      "status_staleness"
+    ],
+    "reason": "Release selection, governance ownership, and generated status are user-facing trust boundaries."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The remote tag, stale status, and configuration ownership gap are directly reproducible."
+  },
+  "preReviewWarnings": [
+    "Do not claim a configuration helper that is absent from public v0.5.3."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json, install.sh, documentation, and public quality target describe v0.5.3 accurately.",
+    "Release distribution verification fails when the public pointer is not the highest remote semantic version tag.",
+    "Installation creates a configure_ai_cockpit Work Item before Project Profile, Guard, quality, or CI edits.",
+    "No-active status consistency rejects stale changed-file listings and ignores the generated status file itself.",
+    "Three README files use an explicit STACK variable with a language-neutral generic default and selection guidance.",
+    "Quality, real v0.5.3 distribution, lifecycle, and aggregate PR checks pass."
+  ],
+  "guidelines": [
+    "Use only commands available in the selected public release.",
+    "Every configuration edit must be owned by the second adoption Work Item.",
+    "Generated status must be reproducible from current repository state."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly requested release, lifecycle, and adoption workflow corrections."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

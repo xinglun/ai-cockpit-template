@@ -143,9 +143,11 @@ def test_documented_project_governance_journey_and_upgrade_rollback(tmp_path):
     run(project, "git", "add", ".")
     assert run(project, "git", "commit", "-qm", "adopt cockpit").returncode == 0
 
+    assert run(
+        project, "make", "ai-start", "TASK=configure_ai_cockpit", "MODE=code", f"PYTHON={sys.executable}"
+    ).returncode == 0
     assert run(project, "make", "cockpit-doctor", f"PYTHON={sys.executable}").returncode == 0
     assert run(project, "make", "cockpit-calibrate", f"PYTHON={sys.executable}").returncode == 0
-    assert run(project, "make", "ai-start", "TASK=calibrate_project", "MODE=code", f"PYTHON={sys.executable}").returncode == 0
     (project / ".ai" / "project_profile.yaml").write_text(confirmed_profile(), encoding="utf-8")
     coverage = project / ".ai" / "guards" / "coverage_policy.yaml"
     coverage.write_text(coverage.read_text(encoding="utf-8").replace("adoptionReviewed: false", "adoptionReviewed: true"), encoding="utf-8")
@@ -154,13 +156,18 @@ def test_documented_project_governance_journey_and_upgrade_rollback(tmp_path):
         encoding="utf-8",
     )
     prepare_work_item(
-        project, "calibrate_project",
-        [".ai/project_profile.yaml", ".ai/guards/coverage_policy.yaml", "Makefile.ai.stack"],
+        project, "configure_ai_cockpit",
+        [
+            ".ai/project_profile.proposed.yaml",
+            ".ai/project_profile.yaml",
+            ".ai/guards/coverage_policy.yaml",
+            "Makefile.ai.stack",
+        ],
         extra_checks=("aiProjectProfile", "aiGuardCalibration"),
     )
-    finish = run(project, "make", "ai-finish", "TASK=calibrate_project", f"PYTHON={sys.executable}")
-    assert finish.returncode == 0, finish.stdout + finish.stderr
     assert run(project, "make", "check-ai-adoption-ready", f"PYTHON={sys.executable}").returncode == 0
+    finish = run(project, "make", "ai-finish", "TASK=configure_ai_cockpit", f"PYTHON={sys.executable}")
+    assert finish.returncode == 0, finish.stdout + finish.stderr
     run(project, "git", "add", ".")
     assert run(project, "git", "commit", "-qm", "calibrate boundaries").returncode == 0
 

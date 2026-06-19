@@ -1,6 +1,6 @@
 import pytest
 
-from check_release_distribution import exercise_installer, exercise_public_distribution
+from check_release_distribution import exercise_installer, exercise_public_distribution, highest_semver_tag
 
 
 IGNORES_SHA = b"""#!/bin/sh
@@ -31,6 +31,10 @@ ai-finish:
 	@true
 check-ai-pr:
 	@true
+ai-start:
+	@mkdir -p .ai/work-items/active
+	@touch .ai/work-items/active/configure_ai_cockpit.contract.json
+	@touch .ai/work-items/active/configure_ai_cockpit.summary.json
 EOF
 """
 
@@ -60,3 +64,17 @@ def test_exercise_public_distribution_rejects_missing_documented_target():
 def test_exercise_public_distribution_rejects_invalid_target():
     with pytest.raises(RuntimeError, match="invalid public quality target"):
         exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="--version")
+
+
+def test_highest_semver_tag_uses_numeric_version_order():
+    refs = "\n".join([
+        "a refs/tags/v0.5.9",
+        "b refs/tags/v0.5.10",
+        "c refs/tags/not-a-release",
+    ])
+    assert highest_semver_tag(refs) == "v0.5.10"
+
+
+def test_highest_semver_tag_requires_release_tags():
+    with pytest.raises(RuntimeError, match="no semantic-version tags"):
+        highest_semver_tag("a refs/tags/latest")

@@ -79,22 +79,25 @@ Cockpit が更新される。
 
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
+STACK="${STACK:-generic}" # generic、python、go、rust、typescript、java、android、kotlin、flutter、swift、ruby、php、csharp
 RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
-AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
 make ai-finish TASK=adopt_ai_cockpit
 git add .
 git commit -m "adopt AI Cockpit governance"
 make check-ai-pr AI_BASE_COMMIT="$ADOPTION_BASE"
+CONFIG_BASE="$(git rev-parse HEAD)"
+make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this project" MODE=code
 ```
 
 このコマンドは公開済みの `release.json` を優先し、メタデータ移行中にファイルが存在しない場合は、公開済みのセマンティックバージョンタグから最新のものを選びます。その後、解決したタグのインストーラーのみをダウンロードして実行します。公開版の機能はソースツリーより遅れる場合があるため、初回導入 PR を作成する前に[インストール手順](docs/installation.md)を確認してください。
 
-ブロッキングゲートを有効にする前に、導入した実行系を対象プロジェクトに合わせて調整します。
+生成された設定用 Contract の変更範囲を確認・拡張してから、Project Profile、Guard、品質コマンド、CI を変更します。その後、ブロッキングゲートを有効にする前に実行系を対象プロジェクトへ適合させます。
 
-<!-- governance-flow: install,doctor,calibrate,confirm,validate,readiness,develop -->
+<!-- governance-flow: install,configure-work-item,doctor,calibrate,confirm,validate,readiness,develop -->
 
 ```sh
 make cockpit-doctor
@@ -103,6 +106,10 @@ make cockpit-calibrate
 make check-ai-project-profile
 make check-ai-guard-calibration
 make check-ai-adoption-ready
+make ai-finish TASK=configure_ai_cockpit
+git add .
+git commit -m "configure AI Cockpit for this project"
+make check-ai-pr AI_BASE_COMMIT="$CONFIG_BASE"
 ```
 
 この文書では、Project Profile を「プロジェクトプロファイル」、Guard を「ガード」、Scope を「変更範囲」、Summary を「変更サマリー」、Readiness Check を「導入準備チェック」として扱います。コマンド名や JSON フィールド名では英語の識別子を保持します。
@@ -147,7 +154,7 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 - インストーラーは同じ PR 検証スクリプトと Make ターゲットを配布する。Work Item のアーカイブ後、CI で `make check-ai-pr AI_BASE_COMMIT=<merge-base>` を実行する。
 - 除外対象でない各 PR パスは、同じ Contract と Summary の組において、変更範囲と `changedFiles` の両方に含まれる必要がある。
 - 制限対象・破壊的変更の承認は、Contract 内の自己申告型ワークフロー記録である。信頼できる人間の承認には CODEOWNERS、保護された CI 環境、またはプラットフォームの ID イベントを使用する。
-- AI Cockpit は誤操作と作業途中の逸脱を抑える仕組みであり、悪意ある AI エージェントに対するセキュリティサンドボックスではない。上記で選択した公開版では、プロジェクトテストまたは `make quality` を独立した CI 必須チェックとして実行する。
+- AI Cockpit は誤操作と作業途中の逸脱を抑える仕組みであり、悪意ある AI エージェントに対するセキュリティサンドボックスではない。上記で選択した公開版では、プロジェクトテストまたは `make ai-cockpit-quality` を独立した CI 必須チェックとして実行する。
 
 ## 何を検出するか
 
@@ -190,10 +197,10 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 ガバナンス実行系は対象言語に依存しませんが、スタックプリセットと既定のガード対象パスは、あらゆるフレームワークへの完全対応を意味しません。CI の必須チェックにする前に、対象リポジトリに合わせて `Makefile.ai.stack` と `.ai/guards/coverage_policy.yaml` を調整してください。
 
-インストールで完了するのはガバナンス実行系の配置であり、本番運用向けの適合確認ではありません。導入準備の検査には、承認済み Project Profile、Profile と Guard の整合性、実効性のある品質コマンド、確認済み Coverage 対象パス、および `quality` と `check-ai-pr` の CI 設定が必要です。この検査は静的な完全性確認であり、安全性やプロジェクトコマンドの妥当性を証明するものではありません。
+インストールで完了するのはガバナンス実行系の配置であり、本番運用向けの適合確認ではありません。Project Profile、Guard、品質コマンド、CI の適合は、別の `configure_ai_cockpit` Work Item が所有します。導入準備の検査には、承認済み Project Profile、Profile と Guard の整合性、実効性のある品質コマンド、確認済み Coverage 対象パス、および `ai-cockpit-quality` と `check-ai-pr` の CI 設定が必要です。この検査は静的な完全性確認であり、安全性やプロジェクトコマンドの妥当性を証明するものではありません。
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
-<!-- public-quality-target: quality -->
+<!-- public-quality-target: ai-cockpit-quality -->
 
 現在の公開版には、監査可能な初回導入フローと、利用者が指定した SHA256 による検証機能が含まれています。プロジェクト固有の品質コマンド、Coverage 対象パス、CI は引き続き明示的な調整が必要です。
 

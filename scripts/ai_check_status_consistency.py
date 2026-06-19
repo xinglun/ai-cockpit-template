@@ -4,11 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 from ai_common import PROJECT_ROOT
+from ai_generate_status import repository_changes_for_status
 
 
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
@@ -37,6 +39,18 @@ def status_text(status_path: Path) -> str:
     return status_path.read_text(encoding="utf-8")
 
 
+def no_active_changed_files(text: str) -> list[str]:
+    try:
+        block = text.split("## Changed Files", 1)[1].split("\n## ", 1)[0]
+    except IndexError:
+        return []
+    return sorted(
+        match.group(1)
+        for line in block.splitlines()
+        if (match := re.match(r"^- `([^`]+)`$", line))
+    )
+
+
 def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]:
     issues: list[str] = []
     contracts = active_contracts()
@@ -61,6 +75,16 @@ def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]
     if not contract_ids and not summary_ids:
         if "- State: `no_active_work_item`" not in text:
             issues.append("cockpit status is not no_active_work_item while no active Work Item exists; run `make repair-ai-status`")
+        try:
+            expected_changes = repository_changes_for_status(status_path)
+        except RuntimeError as exc:
+            issues.append(f"cannot compare cockpit status to repository changes: {exc}")
+        else:
+            listed_changes = no_active_changed_files(text)
+            if listed_changes != expected_changes:
+                issues.append(
+                    "cockpit status Changed Files do not match current Git changes; run `make repair-ai-status`"
+                )
         return issues
 
     if len(contract_ids) == 1 and len(summary_ids) == 1 and contract_ids == summary_ids:

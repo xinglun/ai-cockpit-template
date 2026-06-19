@@ -18,6 +18,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT / "release.json"
+PUBLIC_REPOSITORY = "https://github.com/xinglun/ai-cockpit-template.git"
+
+
+def highest_semver_tag(refs: str) -> str:
+    tags = {
+        match.group(1)
+        for line in refs.splitlines()
+        if (match := re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line))
+    }
+    if not tags:
+        raise RuntimeError("public repository has no semantic-version tags")
+    return max(tags, key=lambda tag: tuple(int(part) for part in tag[1:].split(".")))
 
 
 def fixture_archive(path: Path) -> None:
@@ -137,6 +149,20 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
         audited = run_command(["make", "check-ai-pr", f"AI_BASE_COMMIT={base}"], cwd=project)
         if audited.returncode != 0:
             raise RuntimeError(f"{tag}: adoption PR audit failed: {audited.stderr.strip()}")
+        configured = run_command(
+            [
+                "make", "ai-start", "TASK=configure_ai_cockpit",
+                "TITLE=Configure AI Cockpit for this project", "MODE=code",
+            ],
+            cwd=project,
+        )
+        if configured.returncode != 0:
+            raise RuntimeError(f"{tag}: configuration Work Item creation failed: {configured.stderr.strip()}")
+        active = project / ".ai" / "work-items" / "active"
+        if not (active / "configure_ai_cockpit.contract.json").is_file() or not (
+            active / "configure_ai_cockpit.summary.json"
+        ).is_file():
+            raise RuntimeError(f"{tag}: configuration Work Item pair is missing")
 
 
 def main() -> int:
@@ -146,6 +172,12 @@ def main() -> int:
     quality_target = metadata["publicContract"]["projectQualityTarget"]
     url = f"https://raw.githubusercontent.com/xinglun/ai-cockpit-template/{tag}/install.sh"
     try:
+        tags = run_command(["git", "ls-remote", "--tags", "--refs", PUBLIC_REPOSITORY], cwd=ROOT)
+        if tags.returncode != 0:
+            raise RuntimeError(f"failed to list public tags: {tags.stderr.strip()}")
+        latest_tag = highest_semver_tag(tags.stdout)
+        if tag != latest_tag:
+            raise RuntimeError(f"release.json points to {tag}, but highest public tag is {latest_tag}")
         # The URL is constructed from a fixed HTTPS GitHub origin and a validated release tag.
         with urllib.request.urlopen(url, timeout=30) as response:  # nosec B310
             script = response.read()

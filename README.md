@@ -79,22 +79,25 @@ Review starts from context.
 
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
+STACK="${STACK:-generic}" # generic, python, go, rust, typescript, java, android, kotlin, flutter, swift, ruby, php, or csharp
 RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
-AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack rust --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
 make ai-finish TASK=adopt_ai_cockpit
 git add .
 git commit -m "adopt AI Cockpit governance"
 make check-ai-pr AI_BASE_COMMIT="$ADOPTION_BASE"
+CONFIG_BASE="$(git rev-parse HEAD)"
+make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this project" MODE=code
 ```
 
 The command prefers the public `release.json` pointer and falls back to the highest published semantic-version tag during the metadata rollout. It then downloads and executes only the resolved tagged installer. Published capabilities may lag the source tree; review [Installation](docs/installation.md) before creating the first adoption PR.
 
-Calibrate the installed runtime to the project before enabling blocking gates:
+Review and extend the generated configuration Contract scope before changing Project Profile, Guard, quality-command, or CI files. Then calibrate the installed runtime before enabling blocking gates:
 
-<!-- governance-flow: install,doctor,calibrate,confirm,validate,readiness,develop -->
+<!-- governance-flow: install,configure-work-item,doctor,calibrate,confirm,validate,readiness,develop -->
 
 ```sh
 make cockpit-doctor
@@ -103,6 +106,10 @@ make cockpit-calibrate
 make check-ai-project-profile
 make check-ai-guard-calibration
 make check-ai-adoption-ready
+make ai-finish TASK=configure_ai_cockpit
+git add .
+git commit -m "configure AI Cockpit for this project"
+make check-ai-pr AI_BASE_COMMIT="$CONFIG_BASE"
 ```
 
 Doctor records detected facts, evidence, confidence, suggestions, and unknowns without changing project policy. Calibration creates only a proposal; it never overwrites Guards or approves high-risk paths. After explicit human confirmation and successful readiness checks, start a governed task:
@@ -153,7 +160,7 @@ The generic stack intentionally fails `quality` until its formatter, test, and l
 
 Template contributors can install the regression-test dependency with `python3 -m pip install -r requirements-dev.txt`. Runtime governance scripts still use only the Python standard library.
 
-AI Cockpit reduces accidental scope drift and makes review evidence explicit; it is not a security sandbox for a malicious agent that can modify repository policy. For the public release selected above, run project tests or `make quality` as an independent required CI check in addition to `check-ai-pr`.
+AI Cockpit reduces accidental scope drift and makes review evidence explicit; it is not a security sandbox for a malicious agent that can modify repository policy. For the public release selected above, run project tests or `make ai-cockpit-quality` as an independent required CI check in addition to `check-ai-pr`.
 
 ## What It Catches
 
@@ -196,10 +203,10 @@ Stack presets are customizable starting points, not dependency installers. The s
 
 The governance runtime is language-agnostic, but stack presets and default guard paths are not universal framework support. Review `Makefile.ai.stack` and `.ai/guards/coverage_policy.yaml` against the target repository before making them required CI gates.
 
-Installation deploys the runtime; it does not complete production adaptation. Adoption readiness also requires an approved Project Profile, Profile/Guard consistency, non-placeholder quality commands, reviewed Coverage paths, and CI wiring for both `quality` and `check-ai-pr`. This is a static completeness check, not a security proof or proof that project commands are meaningful.
+Installation deploys the runtime; it does not complete production adaptation. The separate `configure_ai_cockpit` Work Item owns Project Profile, Guard, quality-command, and CI adaptation. Adoption readiness also requires an approved Project Profile, Profile/Guard consistency, non-placeholder quality commands, reviewed Coverage paths, and CI wiring for both `ai-cockpit-quality` and `check-ai-pr`. This is a static completeness check, not a security proof or proof that project commands are meaningful.
 
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
-<!-- public-quality-target: quality -->
+<!-- public-quality-target: ai-cockpit-quality -->
 
 The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
 

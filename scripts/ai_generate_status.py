@@ -92,9 +92,14 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def repository_changes_for_status(output: Path) -> list[str]:
+    status_path = project_relative(output)
+    return sorted(path for path in changed_paths() if path != status_path)
+
+
 def write_no_active_status(output: Path) -> None:
     try:
-        repository_changes = changed_paths()
+        repository_changes = repository_changes_for_status(output)
     except RuntimeError:
         repository_changes = []
     lines = [

@@ -28,16 +28,32 @@ def test_project_governance_make_targets_are_public():
     assert "ai_check_guard_calibration.py" in result.stdout
 
 
-def test_make_prefers_project_venv_and_allows_explicit_python_override():
-    automatic = subprocess.run(
-        ["make", "-n", "test"], cwd=ROOT, text=True, capture_output=True, check=False,
-    )
-    assert automatic.returncode == 0
-    assert ".venv/bin/python -m pytest" in automatic.stdout
+def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path):
+    makefile_content = (ROOT / "Makefile").read_text(encoding="utf-8")
+    (tmp_path / "Makefile").write_text(makefile_content, encoding="utf-8")
 
+    # When no .venv exists, defaults to python3
+    automatic_no_venv = subprocess.run(
+        ["make", "-n", "test"], cwd=tmp_path, text=True, capture_output=True, check=False,
+    )
+    assert automatic_no_venv.returncode == 0
+    assert "python3 -m pytest" in automatic_no_venv.stdout
+
+    # When .venv exists, uses .venv/bin/python
+    venv_python = tmp_path / ".venv" / "bin" / "python"
+    venv_python.parent.mkdir(parents=True)
+    venv_python.touch()
+
+    automatic_with_venv = subprocess.run(
+        ["make", "-n", "test"], cwd=tmp_path, text=True, capture_output=True, check=False,
+    )
+    assert automatic_with_venv.returncode == 0
+    assert ".venv/bin/python -m pytest" in automatic_with_venv.stdout
+
+    # Explicit override works regardless
     explicit = subprocess.run(
         ["make", "-n", "test", "PYTHON=/custom/python"],
-        cwd=ROOT, text=True, capture_output=True, check=False,
+        cwd=tmp_path, text=True, capture_output=True, check=False,
     )
     assert explicit.returncode == 0
     assert "/custom/python -m pytest" in explicit.stdout

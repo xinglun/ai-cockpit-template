@@ -289,7 +289,11 @@ def test_existing_common_make_target_is_preserved_without_override(tmp_path):
         ["make", "project-test"], cwd=tmp_path, text=True, capture_output=True, check=False,
     )
     assert result.returncode == 0
-    assert result.stdout.strip() == "HOST TEST"
+    clean_stdout = "\n".join(
+        line for line in result.stdout.splitlines()
+        if not (line.startswith("make[") and ("Entering directory" in line or "Leaving directory" in line))
+    ).strip()
+    assert clean_stdout == "HOST TEST"
     assert "overriding commands" not in result.stderr
 
 

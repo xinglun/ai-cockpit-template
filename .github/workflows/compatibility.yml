@@ -191,7 +191,7 @@ jobs:
           gem 'minitest', '~> 5.25'
           gem 'rake', '~> 13.2'
           gem 'rubocop', '~> 1.70'
-              EOF
+          EOF
               mkdir -p lib test
               printf 'module App\n  def self.add(a, b)\n    a + b\n  end\nend\n' > lib/app.rb
               printf "require 'minitest/autorun'\nrequire_relative '../lib/app'\nclass AppTest < Minitest::Test\n  def test_add\n    assert_equal(3, App.add(1, 2))\n  end\nend\n" > test/app_test.rb

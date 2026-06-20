@@ -1,0 +1,137 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix_ruby_heredoc_alignment",
+  "mode": "code",
+  "title": "Fix Ruby fixture heredoc alignment",
+  "baseCommit": "92956100881e19c6d5997ee8c13c5f0b95a6153f",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "5f36c7bff08c5af74e7bed0761ef91c415cfe5736e7124ba3714e115f1aeebc4"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/fix_ruby_heredoc_alignment.contract.json",
+    ".ai/work-items/active/fix_ruby_heredoc_alignment.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/compatibility.yml"
+  ],
+  "outOfScope": ["release.json", "install.sh", "templates/**", "scripts/**", ".kiro/**"],
+  "sources": [
+    {
+      "path": "GitHub Actions run 27862482992",
+      "reason": "Ruby and PHP jobs show the Ruby Gemfile heredoc consuming subsequent case branches."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["ci_shell_parsing"],
+    "reason": "A single heredoc delimiter indentation regression breaks multiple matrix branches."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The diff and Actions logs identify the exact whitespace regression."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Ruby Gemfile heredoc delimiter matches the YAML block content indentation.",
+    "Ruby and PHP case branches parse independently.",
+    "Full project quality and affected Actions jobs pass."
+  ],
+  "guidelines": [
+    "Change only the regressed heredoc delimiter alignment.",
+    "Do not move or overwrite the published v0.5.11 tag."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User-approved CI repair",
+    "reason": "Follow-up correction within the approved compatibility CI remediation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

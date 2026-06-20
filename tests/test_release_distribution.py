@@ -24,6 +24,10 @@ fi
 
 PUBLIC_CONTRACT_FIXTURE = b"""#!/bin/sh
 set -eu
+if [ "${GIT_DIR+x}" = x ] || [ "${GIT_WORK_TREE+x}" = x ]; then
+  echo 'fixture received an explicit Git repository binding' >&2
+  exit 12
+fi
 mkdir -p .ai/work-items/active
 base=$(git rev-parse HEAD)
 printf '{"baseCommit":"%s"}\n' "$base" > .ai/work-items/active/adopt_ai_cockpit.contract.json

@@ -26,15 +26,6 @@ def clean_git_environment() -> dict[str, str]:
     return {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
 
 
-def repository_environment(project: Path, base: dict[str, str]) -> dict[str, str]:
-    return {
-        **base,
-        "GIT_DIR": str((project / ".git").resolve()),
-        "GIT_WORK_TREE": str(project.resolve()),
-        "GIT_CEILING_DIRECTORIES": str(project.parent.resolve()),
-    }
-
-
 def highest_semver_tag(refs: str) -> str:
     tags = {
         match.group(1)
@@ -121,7 +112,7 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
         init_result = run_command(["git", "init", "-q"], cwd=project, env=init_env)
         if init_result.returncode != 0:
             raise RuntimeError(f"{tag}: failed to initialize git repository: {init_result.stderr.strip()}")
-        isolated_env = repository_environment(project, init_env)
+        isolated_env = init_env
         (project / "README.md").write_text("# Release contract fixture\n", encoding="utf-8")
         run_command(["git", "add", "README.md"], cwd=project, env=isolated_env)
         initial = run_command(

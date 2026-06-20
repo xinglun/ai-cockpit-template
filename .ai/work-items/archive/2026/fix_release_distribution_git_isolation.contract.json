@@ -1,0 +1,156 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix_release_distribution_git_isolation",
+  "mode": "code",
+  "title": "Fix release distribution Git isolation",
+  "baseCommit": "f63d5b65319187ede6ae77cf1f6bf214df247cd2",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "b2972b62f30cea81efaa23750037e392345e5ae11828cee242e06c7c79d37db6"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/fix_release_distribution_git_isolation.contract.json",
+    ".ai/work-items/active/fix_release_distribution_git_isolation.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py"
+  ],
+  "outOfScope": [
+    "install.sh",
+    "scripts/install_ai_cockpit.py",
+    "release.json",
+    ".kiro/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "The public distribution fixture currently exports repository binding variables into nested installer commands."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Contains the Git isolation regression coverage for the public distribution journey."
+    },
+    {
+      "path": "User-provided check-release-distribution failure",
+      "reason": "Shows adoption scope validation resolving the caller repository commit instead of the synthetic project commit."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "git_environment_isolation",
+      "release_validation"
+    ],
+    "reason": "The checker exercises a public installer through nested Git and Make processes, so ambient repository bindings must not leak."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failing baseCommit and current environment propagation identify a bounded checker defect."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Public distribution fixture commands resolve Git state from the synthetic project repository.",
+    "Nested installer and Make processes receive no GIT_DIR or GIT_WORK_TREE binding.",
+    "Hostile ambient Git variables remain isolated without mutating the caller environment.",
+    "Focused release distribution tests and full project quality checks pass."
+  ],
+  "guidelines": [
+    "Do not mutate the process-wide environment while isolating release checks.",
+    "Use repository cwd and GIT_CEILING_DIRECTORIES instead of propagating repository binding variables.",
+    "Keep release validation fail-closed when the synthetic repository cannot be proven."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

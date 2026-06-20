@@ -193,7 +193,7 @@ jobs:
           gem 'rubocop', '~> 1.70'
           EOF
               mkdir -p lib test
-              printf 'module App\n  def self.add(a, b)\n    a + b\n  end\nend\n' > lib/app.rb
+              printf '# Simple arithmetic fixture.\nmodule App\n  def self.add(left, right)\n    left + right\n  end\nend\n' > lib/app.rb
               printf "require 'minitest/autorun'\nrequire_relative '../lib/app'\nclass AppTest < Minitest::Test\n  def test_add\n    assert_equal(3, App.add(1, 2))\n  end\nend\n" > test/app_test.rb
               printf "require 'rake/testtask'\nRake::TestTask.new { |t| t.pattern = 'test/**/*_test.rb' }\n" > Rakefile
               bundle install --jobs 4 --retry 3

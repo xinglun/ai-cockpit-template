@@ -1,0 +1,135 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix_ruby_fixture_lint",
+  "mode": "code",
+  "title": "Fix Ruby fixture lint",
+  "baseCommit": "0bcb54480c929e9085a987a7bb8b2edfb245bcbc",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "606cc4e9b674e1e60c29879a030416848d0592ffcf6e5cfc672fc8426680812f"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/fix_ruby_fixture_lint.contract.json",
+    ".ai/work-items/active/fix_ruby_fixture_lint.summary.json",
+    ".ai/work-items/archive/**", ".ai/cockpit/current_status.md", ".github/workflows/compatibility.yml"
+  ],
+  "outOfScope": ["release.json", "install.sh", "templates/**", "scripts/**", ".kiro/**"],
+  "sources": [
+    {
+      "path": "GitHub Actions job 82460961333",
+      "reason": "RuboCop reports missing module documentation and undersized parameter names in the Ruby fixture."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["ci_fixture_lint"],
+    "reason": "The change only makes the Ruby fixture satisfy its configured lint policy."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The hosted lint output identifies both exact source changes."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Ruby fixture module has a concise documentation comment.",
+    "Ruby fixture parameters satisfy RuboCop naming rules.",
+    "Full quality and the Ruby matrix job pass."
+  ],
+  "guidelines": [
+    "Change only the failing Ruby fixture source.",
+    "Do not move or overwrite v0.5.11."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User-approved CI repair",
+    "reason": "Follow-up within the approved compatibility CI remediation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

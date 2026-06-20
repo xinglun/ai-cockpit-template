@@ -20,9 +20,19 @@ ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT / "release.json"
 PUBLIC_REPOSITORY = "https://github.com/xinglun/ai-cockpit-template.git"
 
-# Prevent git sub-commands from referencing the parent repository in CI
-for key in ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_COMMON_DIR"]:
-    os.environ.pop(key, None)
+
+def clean_git_environment() -> dict[str, str]:
+    """Return an environment with no ambient Git repository or object-store overrides."""
+    return {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+
+
+def repository_environment(project: Path, base: dict[str, str]) -> dict[str, str]:
+    return {
+        **base,
+        "GIT_DIR": str((project / ".git").resolve()),
+        "GIT_WORK_TREE": str(project.resolve()),
+        "GIT_CEILING_DIRECTORIES": str(project.parent.resolve()),
+    }
 
 
 def highest_semver_tag(refs: str) -> str:
@@ -106,13 +116,12 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-public-release-") as raw:
         project = Path(raw) / "project"
         project.mkdir()
-        # GIT_CEILING_DIRECTORIES を設定して git が project 外のリポジトリを発見しないよう隔離する。
-        # CI 環境では親ディレクトリに .git が存在するケースがあり、設定なしだと誤ったリポジトリが
-        # 使われて adoption contract の baseCommit に CI の HEAD が記録されてしまう。
-        isolated_env: dict[str, str] = {**dict(os.environ), "GIT_CEILING_DIRECTORIES": str(project.resolve())}
-        init_result = run_command(["git", "init", "-q"], cwd=project, env=isolated_env)
+        init_env = clean_git_environment()
+        init_env["GIT_CEILING_DIRECTORIES"] = str(project.parent.resolve())
+        init_result = run_command(["git", "init", "-q"], cwd=project, env=init_env)
         if init_result.returncode != 0:
             raise RuntimeError(f"{tag}: failed to initialize git repository: {init_result.stderr.strip()}")
+        isolated_env = repository_environment(project, init_env)
         (project / "README.md").write_text("# Release contract fixture\n", encoding="utf-8")
         run_command(["git", "add", "README.md"], cwd=project, env=isolated_env)
         initial = run_command(
@@ -123,6 +132,8 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
         if initial.returncode != 0:
             raise RuntimeError(f"{tag}: failed to create installation fixture: {initial.stderr.strip()}")
         base = run_command(["git", "rev-parse", "HEAD"], cwd=project, env=isolated_env).stdout.strip()
+        if run_command(["git", "cat-file", "-e", f"{base}^{{commit}}"], cwd=project, env=isolated_env).returncode != 0:
+            raise RuntimeError(f"{tag}: fixture initial commit is not available: {base}")
         installer = project.parent / "install.sh"
         installer.write_bytes(script)
         installer.chmod(0o755)
@@ -139,6 +150,18 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
                 f"{tag}: public installation failed:\n"
                 f"--- STDOUT ---\n{installed.stdout}\n"
                 f"--- STDERR ---\n{installed.stderr}"
+            )
+        if run_command(["git", "cat-file", "-e", f"{base}^{{commit}}"], cwd=project, env=isolated_env).returncode != 0:
+            raise RuntimeError(f"{tag}: fixture initial commit disappeared after installation: {base}")
+        adoption_contract = project / ".ai" / "work-items" / "active" / "adopt_ai_cockpit.contract.json"
+        try:
+            recorded_base = json.loads(adoption_contract.read_text(encoding="utf-8"))["baseCommit"]
+        except (OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
+            raise RuntimeError(f"{tag}: cannot read adoption baseCommit: {exc}") from exc
+        if recorded_base != base:
+            raise RuntimeError(
+                f"{tag}: adoption baseCommit escaped fixture repository "
+                f"(expected={base}, recorded={recorded_base})"
             )
         target = run_command(["make", "-n", quality_target], cwd=project, env=isolated_env)
         if target.returncode != 0:

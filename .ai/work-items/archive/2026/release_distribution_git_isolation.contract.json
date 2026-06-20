@@ -1,0 +1,144 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_distribution_git_isolation",
+  "mode": "code",
+  "title": "Isolate release distribution Git fixture in CI",
+  "baseCommit": "87de37ddbc51cfa0f31847ff12d0b3c2ca371535",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "fadd3be4d75f71e8db57d6f1e83057a9cc2a43ea3f48a75f5983f9828c37144c"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/release_distribution_git_isolation.contract.json",
+    ".ai/work-items/active/release_distribution_git_isolation.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Failing CI distribution fixture and Git environment isolation logic."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Release distribution regression tests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "ci_git_environment_leak",
+      "release_contract_false_failure"
+    ],
+    "reason": "The public release gate is blocked because its temporary repository records a parent repository commit."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The leaked baseCommit equals the parent checkout commit and can be prevented with explicit repository environment." 
+  },
+  "preReviewWarnings": [
+    "Verify every fixture subprocess receives only the temporary repository Git context."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The fixture removes every ambient GIT_* variable before initialization.",
+    "Post-init commands explicitly use the fixture GIT_DIR and GIT_WORK_TREE.",
+    "The initial commit exists before and after installation and equals the adoption Contract baseCommit.",
+    "Tests reproduce hostile ambient Git variables without leaking the parent commit.",
+    "make check-release-distribution and make quality pass."
+  ],
+  "guidelines": [
+    "Do not rely on repository discovery in release black-box tests.",
+    "Fail with the mismatched expected and actual baseCommit before ai-finish."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "No restricted governance path is modified."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

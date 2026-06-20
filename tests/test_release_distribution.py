@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from check_release_distribution import exercise_installer, exercise_public_distribution, highest_semver_tag
@@ -22,6 +24,9 @@ fi
 
 PUBLIC_CONTRACT_FIXTURE = b"""#!/bin/sh
 set -eu
+mkdir -p .ai/work-items/active
+base=$(git rev-parse HEAD)
+printf '{"baseCommit":"%s"}\n' "$base" > .ai/work-items/active/adopt_ai_cockpit.contract.json
 cat > Makefile <<'EOF'
 quality:
 	@printf '%s\\n' 'ERROR: no project test command configured.' >&2; false
@@ -54,6 +59,25 @@ def test_exercise_installer_rejects_capability_drift():
 
 def test_exercise_public_distribution_validates_documented_journey():
     exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="quality")
+
+
+def test_exercise_public_distribution_ignores_hostile_ambient_git_environment(tmp_path, monkeypatch):
+    parent_git = tmp_path / "parent.git"
+    parent_git.mkdir()
+    for key, value in {
+        "GIT_DIR": str(parent_git),
+        "GIT_WORK_TREE": str(tmp_path),
+        "GIT_INDEX_FILE": str(tmp_path / "index"),
+        "GIT_OBJECT_DIRECTORY": str(tmp_path / "objects"),
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES": str(tmp_path / "alternates"),
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_CONFIG_KEY_0": "core.bare",
+        "GIT_CONFIG_VALUE_0": "true",
+    }.items():
+        monkeypatch.setenv(key, value)
+
+    exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="quality")
+    assert os.environ["GIT_DIR"] == str(parent_git)
 
 
 def test_exercise_public_distribution_rejects_missing_documented_target():

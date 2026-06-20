@@ -1,0 +1,157 @@
+{
+  "contractVersion": 2,
+  "workItemId": "sync_release_metadata",
+  "mode": "code",
+  "title": "Sync release metadata to v0.5.10",
+  "baseCommit": "24a37e95f752fcd29af8483b0be573a695289f0f",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "99d5a047bbc3fd0281cfbf39efa5db5e1fe7e9df071abac7e065afabde1fa282"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/sync_release_metadata.contract.json",
+    ".ai/work-items/active/sync_release_metadata.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "docs/installation.md",
+    "docs/launch.md",
+    "examples/*/README.md",
+    "install.sh",
+    "tests/test_install_script.py"
+  ],
+  "outOfScope": [
+    "release.json",
+    "tests/test_release_distribution.py",
+    ".kiro/**"
+  ],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Canonical release tag is v0.5.10."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Defines consistency requirements for documented release tags and installer defaults."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Verifies the install script's default archive reference."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_metadata_drift"
+    ],
+    "reason": "The change only aligns stale public release references and their direct test expectation with release.json."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Canonical release metadata and failing consistency checks fully determine the required edits."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All public installation and example commands reference release v0.5.10.",
+    "install.sh defaults and help text reference v0.5.10.",
+    "Installer and documentation metadata tests pass.",
+    "The full project quality target passes."
+  ],
+  "guidelines": [
+    "Treat release.json as the canonical release version.",
+    "Keep release references consistent across public documentation, examples, installer behavior, and tests.",
+    "Do not alter historical semver fixtures that intentionally contain older tags."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

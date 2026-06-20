@@ -15,7 +15,7 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.9 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.9/install.sh)" -- --stack csharp --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF=v0.5.10 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.10/install.sh)" -- --stack csharp --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲートとガード設定

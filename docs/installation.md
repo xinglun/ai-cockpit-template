@@ -14,7 +14,7 @@ keywords:
 Install a fixed release of AI Cockpit into an existing repository:
 
 ```sh
-VERSION=v0.5.8
+VERSION=v0.5.9
 STACK="${STACK:-generic}"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
@@ -24,7 +24,7 @@ AI_COCKPIT_TEMPLATE_REF="$VERSION" sh "$INSTALLER" --stack "$STACK" --update-mak
 
 Review release notes before changing `VERSION`. A branch such as `main` is mutable and is not recommended for reproducible installation. The temporary bootstrap is removed automatically when the shell exits.
 
-Public `v0.5.8` includes the auditable adoption bootstrap. The first installation PR can generate its own bounded Contract/Summary pair and pass complete `check-ai-pr` ownership after the documented finish and commit steps.
+Public `v0.5.9` includes the auditable adoption bootstrap. The first installation PR can generate its own bounded Contract/Summary pair and pass complete `check-ai-pr` ownership after the documented finish and commit steps.
 
 ## Auditable First Adoption
 
@@ -89,9 +89,9 @@ make ai-cockpit-quality
 make check-ai-adoption-ready
 ```
 
-The readiness check fails closed until the confirmed Project Profile is valid, blocking unknowns are resolved, approved boundaries match Guards, all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and CI invokes both the public release quality target (`ai-cockpit-quality` for v0.5.8) and `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require those CI jobs to succeed before treating adoption as production-ready.
+The readiness check fails closed until the confirmed Project Profile is valid, blocking unknowns are resolved, approved boundaries match Guards, all project quality commands are non-placeholder and nontrivial values, `.ai/guards/coverage_policy.yaml` records `adoptionReviewed: true`, and CI invokes both the public release quality target (`ai-cockpit-quality` for v0.5.9) and `check-ai-pr`. It cannot determine whether arbitrary commands provide meaningful project validation. Require those CI jobs to succeed before treating adoption as production-ready.
 
-This workflow is published in `v0.5.8`. Older tags do not gain adoption capability retroactively.
+This workflow is published in `v0.5.9`. Older tags do not gain adoption capability retroactively.
 
 <!-- public-quality-target: ai-cockpit-quality -->
 
@@ -141,7 +141,7 @@ From a local clone:
 
 ## Published Integrity Capabilities
 
-The documented release is defined in `release.json`. Public `v0.5.8` supports caller-provided `AI_COCKPIT_TEMPLATE_SHA256` verification and fails before extraction when the downloaded archive digest differs.
+The documented release is defined in `release.json`. Public `v0.5.9` supports caller-provided `AI_COCKPIT_TEMPLATE_SHA256` verification and fails before extraction when the downloaded archive digest differs.
 
 The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations. Obtain the expected SHA256 through a trusted independent channel before setting `AI_COCKPIT_TEMPLATE_SHA256`; support for comparing a caller-provided digest is not itself a published integrity root. Worktree capabilities are not public until `release.json` points to a tag whose real installer passes `make check-release-distribution`.
 
@@ -159,11 +159,11 @@ The project does not currently publish trusted archive checksum files, cryptogra
 --update-makefile  Append "include Makefile.ai" to the target Makefile.
 ```
 
-Without `--update-makefile`, the installer does not modify the host `Makefile`; it writes separate `Makefile.ai` and `Makefile.ai.stack` files. The recommended command above does pass `--update-makefile`, so it appends `include Makefile.ai`. Public v0.5.8 validates reserved `ai-cockpit-*` targets before writing and exposes namespaced project-quality targets.
+Without `--update-makefile`, the installer does not modify the host `Makefile`; it writes separate `Makefile.ai` and `Makefile.ai.stack` files. The recommended command above does pass `--update-makefile`, so it appends `include Makefile.ai`. Public v0.5.9 validates reserved `ai-cockpit-*` targets before writing and exposes namespaced project-quality targets.
 
 Other conservative defaults:
 
-- Public v0.5.8 uses namespaced `ai-cockpit-*` recipes to avoid replacing common host targets.
+- Public v0.5.9 uses namespaced `ai-cockpit-*` recipes to avoid replacing common host targets.
 - It appends AI Cockpit sections to existing `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md`.
 - It installs Cursor rules under `.cursor/rules/ai-cockpit.mdc`.
 - It skips existing files unless `--force` is provided.
@@ -187,7 +187,7 @@ Stack selection configures quality-command starting points. It does not infer th
 The installed `.ai/cockpit/version.json` records the distribution and Contract schema version. Use `--upgrade` for an existing installation:
 
 ```sh
-CURRENT_VERSION=v0.5.8
+CURRENT_VERSION=v0.5.9
 TARGET_VERSION='<release-tag-newer-than-current>'
 test "$TARGET_VERSION" != "$CURRENT_VERSION"
 INSTALLER="$(mktemp)"

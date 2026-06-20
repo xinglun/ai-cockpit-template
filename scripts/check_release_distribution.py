@@ -106,26 +106,33 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-public-release-") as raw:
         project = Path(raw) / "project"
         project.mkdir()
-        run_command(["git", "init", "-q"], cwd=project)
+        # GIT_CEILING_DIRECTORIES を設定して git が project 外のリポジトリを発見しないよう隔離する。
+        # CI 環境では親ディレクトリに .git が存在するケースがあり、設定なしだと誤ったリポジトリが
+        # 使われて adoption contract の baseCommit に CI の HEAD が記録されてしまう。
+        isolated_env: dict[str, str] = {**dict(os.environ), "GIT_CEILING_DIRECTORIES": str(project.resolve())}
+        init_result = run_command(["git", "init", "-q"], cwd=project, env=isolated_env)
+        if init_result.returncode != 0:
+            raise RuntimeError(f"{tag}: failed to initialize git repository: {init_result.stderr.strip()}")
         (project / "README.md").write_text("# Release contract fixture\n", encoding="utf-8")
-        run_command(["git", "add", "README.md"], cwd=project)
+        run_command(["git", "add", "README.md"], cwd=project, env=isolated_env)
         initial = run_command(
             ["git", "-c", "user.name=AI Cockpit", "-c", "user.email=release@example.invalid", "commit", "-qm", "initial"],
             cwd=project,
+            env=isolated_env,
         )
         if initial.returncode != 0:
             raise RuntimeError(f"{tag}: failed to create installation fixture: {initial.stderr.strip()}")
-        base = run_command(["git", "rev-parse", "HEAD"], cwd=project).stdout.strip()
+        base = run_command(["git", "rev-parse", "HEAD"], cwd=project, env=isolated_env).stdout.strip()
         installer = project.parent / "install.sh"
         installer.write_bytes(script)
         installer.chmod(0o755)
-        env = os.environ.copy()
-        env.pop("AI_COCKPIT_TEMPLATE_SHA256", None)
-        env["AI_COCKPIT_TEMPLATE_REF"] = tag
+        install_env = {**isolated_env}
+        install_env.pop("AI_COCKPIT_TEMPLATE_SHA256", None)
+        install_env["AI_COCKPIT_TEMPLATE_REF"] = tag
         installed = run_command(
             [str(installer), "--stack", "generic", "--update-makefile", "--create-adoption"],
             cwd=project,
-            env=env,
+            env=install_env,
         )
         if installed.returncode != 0:
             raise RuntimeError(
@@ -133,30 +140,31 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
                 f"--- STDOUT ---\n{installed.stdout}\n"
                 f"--- STDERR ---\n{installed.stderr}"
             )
-        target = run_command(["make", "-n", quality_target], cwd=project)
+        target = run_command(["make", "-n", quality_target], cwd=project, env=isolated_env)
         if target.returncode != 0:
             raise RuntimeError(f"{tag}: documented Make target is missing: {quality_target}")
-        quality = run_command(["make", quality_target], cwd=project)
+        quality = run_command(["make", quality_target], cwd=project, env=isolated_env)
         if quality.returncode == 0:
             output = " ".join((quality.stdout + quality.stderr).split())[:400]
             raise RuntimeError(
                 f"{tag}: generic {quality_target} must fail closed before project configuration "
                 f"(exit={quality.returncode}, output={output!r})"
             )
-        readiness = run_command(["make", "check-ai-adoption-ready"], cwd=project)
+        readiness = run_command(["make", "check-ai-adoption-ready"], cwd=project, env=isolated_env)
         if readiness.returncode == 0:
             raise RuntimeError(f"{tag}: adoption readiness must fail before project calibration")
-        finished = run_command(["make", "ai-finish", "TASK=adopt_ai_cockpit"], cwd=project)
+        finished = run_command(["make", "ai-finish", "TASK=adopt_ai_cockpit"], cwd=project, env=isolated_env)
         if finished.returncode != 0:
             raise RuntimeError(
                 f"{tag}: adoption finish failed:\n"
                 f"--- STDOUT ---\n{finished.stdout}\n"
                 f"--- STDERR ---\n{finished.stderr}"
             )
-        run_command(["git", "add", "."], cwd=project)
+        run_command(["git", "add", "."], cwd=project, env=isolated_env)
         committed = run_command(
             ["git", "-c", "user.name=AI Cockpit", "-c", "user.email=release@example.invalid", "commit", "-qm", "adopt"],
             cwd=project,
+            env=isolated_env,
         )
         if committed.returncode != 0:
             raise RuntimeError(
@@ -164,7 +172,7 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
                 f"--- STDOUT ---\n{committed.stdout}\n"
                 f"--- STDERR ---\n{committed.stderr}"
             )
-        audited = run_command(["make", "check-ai-pr", f"AI_BASE_COMMIT={base}"], cwd=project)
+        audited = run_command(["make", "check-ai-pr", f"AI_BASE_COMMIT={base}"], cwd=project, env=isolated_env)
         if audited.returncode != 0:
             raise RuntimeError(
                 f"{tag}: adoption PR audit failed:\n"
@@ -177,6 +185,7 @@ def exercise_public_distribution(script: bytes, *, tag: str, quality_target: str
                 "TITLE=Configure AI Cockpit for this project", "MODE=code",
             ],
             cwd=project,
+            env=isolated_env,
         )
         if configured.returncode != 0:
             raise RuntimeError(

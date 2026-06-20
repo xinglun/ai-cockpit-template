@@ -327,15 +327,18 @@ class Installer:
         if self.upgrade:
             print("ERROR: --create-adoption is for first installation and cannot be combined with --upgrade.", file=sys.stderr)
             return False
+        # --git-dir を明示することで、CI 環境での git 自動発見が親リポジトリを誤って使うことを防ぐ。
+        git_dir = str(self.target / ".git")
         head = subprocess.run(
-            ["git", "rev-parse", "--verify", "HEAD"], cwd=self.target,
+            ["git", f"--git-dir={git_dir}", "rev-parse", "--verify", "HEAD"],
             text=True, capture_output=True, check=False,
         )
         if head.returncode != 0:
             print("ERROR: --create-adoption requires a Git repository with at least one commit.", file=sys.stderr)
             return False
         status = subprocess.run(
-            ["git", "status", "--porcelain"], cwd=self.target,
+            ["git", f"--git-dir={git_dir}", "--work-tree={}".format(self.target), "status", "--porcelain"],
+            cwd=self.target,
             text=True, capture_output=True, check=False,
         )
         if status.returncode != 0 or status.stdout.strip():
@@ -358,8 +361,12 @@ class Installer:
 
     def create_adoption_records(self) -> None:
         contract_path, summary_path = self.adoption_paths()
+        # --git-dir を明示して一時ディレクトリの .git を確実に参照する。
+        # CI 環境で git 自動発見が親リポジトリを誤って使い、
+        # baseCommit に CI の HEAD SHA が記録される問題を防ぐ。
+        git_dir = str(self.target / ".git")
         base_commit = subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=self.target,
+            ["git", f"--git-dir={git_dir}", "rev-parse", "HEAD"],
             text=True, capture_output=True, check=True,
         ).stdout.strip()
         contract_rel = contract_path.relative_to(self.target).as_posix()

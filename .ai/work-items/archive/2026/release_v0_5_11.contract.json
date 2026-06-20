@@ -1,0 +1,163 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0_5_11",
+  "mode": "code",
+  "title": "Release v0.5.11",
+  "baseCommit": "20447fb39a3f488772dbd26c9b1198adb48d0117",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "b2b9be12b358cbba95d834a94e5158e15ddcce6e97121e38483d412a67341fb7"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/release_v0_5_11.contract.json",
+    ".ai/work-items/active/release_v0_5_11.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "release.json",
+    "install.sh",
+    "docs/installation.md",
+    "docs/launch.md",
+    "examples/*/README.md",
+    "tests/test_install_script.py"
+  ],
+  "outOfScope": [
+    "tests/test_release_distribution.py",
+    ".github/**",
+    ".kiro/**"
+  ],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Canonical public release metadata to advance from v0.5.10 to v0.5.11."
+    },
+    {
+      "path": "Git history v0.5.10..20447fb",
+      "reason": "Contains release metadata, Git isolation, AI_BASE_COMMIT isolation, and install-smoke evidence fixes absent from v0.5.10."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Defines consistency requirements for public release references."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "public_release",
+      "version_consistency"
+    ],
+    "reason": "A new immutable public tag changes every installation entrypoint and must remain internally consistent."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly approved publishing v0.5.11 and the required release references are discoverable."
+  },
+  "preReviewWarnings": [
+    "check-release-distribution can pass only after the immutable v0.5.11 tag is visible on the public remote."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json declares v0.5.11.",
+    "All public installer, documentation, and example references use v0.5.11.",
+    "Documentation metadata, installer tests, and full project quality pass.",
+    "The repository diff and governance evidence are ready for a release branch commit and pull request.",
+    "Post-publication verification requires an immutable v0.5.11 tag followed by check-release-distribution."
+  ],
+  "guidelines": [
+    "Treat release.json as the canonical public release version.",
+    "Keep installer defaults, documentation, examples, and direct tests synchronized.",
+    "Do not move or overwrite an existing public tag.",
+    "Do not include unrelated .kiro files in release commits."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

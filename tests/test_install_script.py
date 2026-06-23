@@ -66,7 +66,7 @@ def test_remote_install_defaults_to_fixed_release_and_accepts_matching_sha256(tm
     result = run_remote_install(tmp_path, "MATCH")
 
     assert result.returncode == 0, result.stdout + result.stderr
-    assert (tmp_path / "url.txt").read_text(encoding="utf-8").endswith("/archive/v0.5.12.tar.gz")
+    assert (tmp_path / "url.txt").read_text(encoding="utf-8").endswith("/archive/v0.5.13.tar.gz")
     assert "Verified archive SHA256:" in result.stdout
 
 

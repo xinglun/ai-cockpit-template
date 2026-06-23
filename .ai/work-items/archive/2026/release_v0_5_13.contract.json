@@ -1,0 +1,109 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0_5_13",
+  "mode": "code",
+  "title": "Release v0.5.13",
+  "baseCommit": "1db801180ae1c679db3dd2ec5f964df970c0022b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/release_v0_5_13.contract.json",
+    ".ai/work-items/active/release_v0_5_13.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "release.json",
+    "install.sh",
+    "docs/installation.md",
+    "docs/launch.md",
+    "examples/*/README.md",
+    "tests/test_install_script.py"
+  ],
+  "outOfScope": [
+    "tests/test_release_distribution.py",
+    ".github/**",
+    ".kiro/**"
+  ],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Advance canonical public release from v0.5.12 to v0.5.13 after compatibility CI fix on main."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_compatibility_ci_regression.summary.json",
+      "reason": "CI fix included in this patch release."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Defines consistency requirements for public release references."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["public_release", "version_consistency"],
+    "reason": "Patch release synchronizes public install references after a verified CI fix."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User approved full v0.5.13 release; compatibility workflow passed on main."
+  },
+  "preReviewWarnings": [
+    "check-release-distribution passes only after the immutable v0.5.13 tag is visible on the public remote."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit", "before_finish"],
+    "reason": "Public release metadata bump."
+  },
+  "acceptance": [
+    "release.json declares v0.5.13.",
+    "Public installer, documentation, examples, and install script tests reference v0.5.13.",
+    "make quality and documentation metadata checks pass.",
+    "Repository is ready for v0.5.13 tag commit and push."
+  ],
+  "guidelines": [
+    "Treat release.json as the canonical public release version.",
+    "Keep installer defaults, documentation, examples, and direct tests synchronized.",
+    "Do not move or overwrite an existing public tag.",
+    "Do not include unrelated .kiro files in release commits."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true},
+    {"check": "aiScope", "required": true},
+    {"check": "aiGuards", "required": true},
+    {"check": "aiCheckpoint", "required": true},
+    {"check": "aiAgentRisk", "required": true},
+    {"check": "aiReviewPolicy", "required": true},
+    {"check": "aiBacktrack", "required": true},
+    {"check": "aiCoverage", "required": true},
+    {"check": "aiGuidelines", "required": true},
+    {"check": "aiSummary", "required": true},
+    {"check": "aiStatus", "required": true},
+    {"check": "aiStatusCheck", "required": true},
+    {"check": "aiStatusConsistency", "required": true},
+    {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert release metadata bump and restore v0.5.12 references."
+}

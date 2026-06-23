@@ -15,7 +15,7 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.12 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.12/install.sh)" -- --stack flutter --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF=v0.5.13 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.13/install.sh)" -- --stack flutter --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲート設定

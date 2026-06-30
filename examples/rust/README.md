@@ -16,7 +16,7 @@ Rust 開発で本フレームワークを利用する場合、以下の設定を
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.13 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.13/install.sh)" -- --stack rust --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF=v0.5.14 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.14/install.sh)" -- --stack rust --update-makefile --create-adoption
 ```
 
 ## 2. 開発環境の品質ゲート設定 (`Makefile.ai.stack`)

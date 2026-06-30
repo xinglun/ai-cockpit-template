@@ -13,6 +13,11 @@ This repository uses AI Cockpit as a collaborative engineering environment for A
 7. Run `make ai-finish TASK=<task>` and treat failures as blockers for completion or archive.
    Use checkpoints to keep long-running tasks from drifting.
 
+Before editing, use Empathy, Design, Architecture, Implementation, Judgment, and Shipping as review lenses.
+Do not invent missing product context. Prefer explicit "not provided" over inferred explanations.
+If the user did not provide motivation or user impact, record that plainly in `problemStatement` or `unknowns` when relevant.
+Treat `executionDecision` as the judgment point: continue only when scope, acceptance, verification, and unresolved unknowns support implementation.
+
 ### Safety Rules
 
 - Never revert user changes unless the user explicitly requests it.

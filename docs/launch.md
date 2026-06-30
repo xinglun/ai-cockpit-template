@@ -53,7 +53,7 @@ AI Cockpit adds a lightweight workflow around AI-generated changes:
 
 It is language-agnostic and installs with:
 
-AI_COCKPIT_TEMPLATE_REF=v0.5.13 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.13/install.sh)" -- --stack rust --update-makefile --create-adoption
+AI_COCKPIT_TEMPLATE_REF=v0.5.14 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.14/install.sh)" -- --stack rust --update-makefile --create-adoption
 
 Supported agents: Codex, Gemini, Claude, Cursor, Antigravity, and others.
 Supported stack presets: Rust, Flutter, TypeScript, Python, Go, Java, Android, Kotlin, Swift, Ruby, PHP, C#. Presets require project-specific quality commands and guard paths.

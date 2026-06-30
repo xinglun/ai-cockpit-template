@@ -1,0 +1,207 @@
+{
+  "contractVersion": 2,
+  "workItemId": "link_work_item_style_guide_from_stable_entrypoint",
+  "mode": "code",
+  "title": "Link Work Item Style Guide from Stable Entrypoint",
+  "baseCommit": "e2d028dde83130fabe192065ee08829e2d36727b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "8c5061f2b9161315c4bed9a32f82e563ef82a8fd5b31d4daa625aec5a18c26a5"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "status": "M",
+      "fingerprint": "6734fb0c3fe41febecabb2cfb8524baae17f0655b587cf6ecbab8b127b5a1a4b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/establish_work_item_policy_and_add_lightweight_problem_intent.contract.json",
+      "status": "A",
+      "fingerprint": "c53b40231785983de512b94564022407660925fda300b856eb5e241003193c16"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/establish_work_item_policy_and_add_lightweight_problem_intent.summary.json",
+      "status": "A",
+      "fingerprint": "1b6263ded9f83001715aa5bad914e0de0eb9105f1b94478d7d7a9891cfa22df8"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "e72f15e6f82e9f2eb78d13b5475c6f2a2d9f1a3aaa0a3c75da1373b266f68580"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "f7f12d96edef79734118eb01c95e353ea8ee4e89e7d2a376694dbf07bc925e47"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "5f5c21f249c272fce8277acfd3c30fe8b83e00e8224d4ef5ebe6eac15c8b7414"
+    },
+    {
+      "path": "docs/work-item-style-guide.md",
+      "status": "A",
+      "fingerprint": "8c03d3d3994cdc03df1c526a90d286d41347fd5072d10abd4e99e9974990c7e1"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "10379e3e575eb22bf89ae3632c05391e9d7f4dd3f33869a59ea67ec3271471d1"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "M",
+      "fingerprint": "da55b8ceab1ed78ae3c7a6899d0d0e633bfea91ed799f7cfdbb74f96ddf90ed8"
+    },
+    {
+      "path": "tests/test_ai_check_work_item.py",
+      "status": "A",
+      "fingerprint": "e4d7d1cca61b7dfb3661693b2be998a94b1e292dfb64f19e26807072106fb5e6"
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "status": "M",
+      "fingerprint": "f304dbb5004df4d510e8a29c6a6a59aeb519ff7078fe7fad0ca8ab3931e978fa"
+    },
+    {
+      "path": "tests/test_contract_examples.py",
+      "status": "M",
+      "fingerprint": "8e47a408529b1b5f1ada7097a5d41ca700ef16faed79b8f27677c4fcdc149d6e"
+    }
+  ],
+  "scope": [
+    "README.md",
+    ".ai/work-items/active/link_work_item_style_guide_from_stable_entrypoint.contract.json",
+    ".ai/work-items/active/link_work_item_style_guide_from_stable_entrypoint.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    ".ai/README.md",
+    "docs/**",
+    "scripts/**",
+    "templates/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/work-item-style-guide.md",
+      "reason": "The guide should be discoverable from a stable entrypoint."
+    },
+    {
+      "path": "README.md",
+      "reason": "Public stable entrypoint that should link the style guide."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "documentation",
+      "discoverability"
+    ],
+    "reason": "A one-line entrypoint change can be missed if the navigation path is not explicit."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope and verification are explicit for a small documentation update."
+  },
+  "preReviewWarnings": [
+    "Keep the change to a single discoverability link without expanding the guide itself."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "README.md links to docs/work-item-style-guide.md from the core principles area or nearby stable entrypoint.",
+    "The change does not expand the style guide content or alter other governance docs.",
+    "The Work Item remains backward compatible and passes the required checks."
+  ],
+  "guidelines": [
+    "Keep the change intentionally small.",
+    "Prefer discoverability improvements over broader documentation rewrites.",
+    "Do not change unrelated governance docs."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

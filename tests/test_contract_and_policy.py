@@ -10,6 +10,7 @@ def valid_contract():
         "workItemId": "task",
         "mode": "code",
         "title": "Task",
+        "problemStatement": "Describe the problem this task solves, or state that no product context was provided for a mechanical change.",
         "baseCommit": "1234567",
         "baselineDirtyPaths": [],
         "scope": ["scripts/**", "tests/**"],
@@ -67,6 +68,17 @@ def test_adoption_bootstrap_paths_are_restricted_to_installer_work_item():
     contract = valid_contract()
     contract["adoptionBootstrapPaths"] = ["scripts/ai_*.py"]
     assert any("only allowed" in issue for issue in ai_check_work_item.validate_contract(contract))
+
+
+def test_problem_statement_is_optional_but_must_not_be_empty():
+    contract = valid_contract()
+    contract.pop("problemStatement")
+    assert "problemStatement" not in contract
+    assert ai_check_work_item.validate_contract(contract) == []
+
+    contract["problemStatement"] = ""
+    issues = ai_check_work_item.validate_contract(contract)
+    assert "problemStatement must be a non-empty string" in issues
 
 
 def test_stale_checkpoint_hash_is_rejected():

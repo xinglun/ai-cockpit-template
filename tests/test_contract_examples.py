@@ -32,3 +32,10 @@ def test_example_contract_contains_all_agent_risk_hard_gates():
             item["result"] = "passed"
 
     assert ai_check_agent_risk.validate_agent_risks(contract, simulated) == []
+
+
+def test_example_contract_includes_problem_statement():
+    contract = load("work_item_contract.example.json")
+
+    assert contract["problemStatement"]
+    assert "task solves" in contract["problemStatement"]

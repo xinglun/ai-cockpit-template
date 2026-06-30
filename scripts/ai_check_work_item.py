@@ -39,6 +39,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "adoptionBootstrapPaths",
     "restrictedWriteApproval",
     "guidelines",
+    "problemStatement",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 RISK_LEVELS = {"low", "medium", "high"}
@@ -250,6 +251,8 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_verification(data))
     issues.extend(validate_optional_readiness(data))
     issues.extend(validate_baseline_and_approvals(data))
+    if "problemStatement" in data and not non_empty_string(data.get("problemStatement")):
+        issues.append("problemStatement must be a non-empty string")
 
     if not isinstance(data.get("notCodable"), bool):
         issues.append("notCodable must be boolean")

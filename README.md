@@ -146,6 +146,56 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | Cockpit Status | Shows the current AI task state in one generated view. |
 | Finish Flow | Archives the Work Item only after checks pass. |
 
+## Core Principles
+
+- Evidence over reasoning
+- Machine-verifiable contracts
+- Minimal process
+- Scope-first engineering
+- Backward compatibility by default
+- Explicit non-goals
+- Prefer extending existing concepts
+- Documentation before schema
+
+See also: [Work Item Style Guide](docs/work-item-style-guide.md)
+
+AI Cockpit stores evidence, not reasoning. Reasoning guides the agent; evidence supports review, verification, and audit. Only reviewable evidence belongs in repository records.
+
+Every new schema field should answer one question: what machine-verifiable evidence does this field preserve?
+
+## Responsibility Model
+
+| Layer | Responsibility |
+| --- | --- |
+| Human Intent | Why the work exists |
+| Agent Thinking | How the task is interpreted |
+| Reviewable Evidence | What the repository records |
+| Repository Governance | What checks and policies validate |
+| Repository History | What is preserved for audit and review |
+
+Thinking can be rich and contextual, but repository records should preserve reviewable evidence. Governance checks operate on that evidence, not on private reasoning.
+
+## Review Lenses
+
+| Review Lens | AI Cockpit Surface |
+| --- | --- |
+| Empathy | `problemStatement`, `sources` |
+| Design | `acceptance`, `guidelines` |
+| Architecture | `scope`, `outOfScope`, `riskAssessment`, `rollbackNote` |
+| Implementation | `mode`, actual diff, `changedFiles` |
+| Judgment | `unknowns`, `notCodable`, `agentCapability`, `executionDecision`, `reviewReadiness` |
+| Shipping | `verification`, `Summary`, `Cockpit Status`, `Archive` |
+
+These are review lenses, not hard lifecycle phases.
+The lenses explain how to review and reason about a task, not how the repository records private reasoning.
+They do not replace `Plan -> Scope -> Verify -> Summarize -> Status -> Archive`.
+
+Do not add `workflowPhase`.
+Do not add `workflowEvidence`.
+Do not require empathy, design, architecture, implementation, judgment, or shipping fields.
+Agents must not invent missing user impact or business motivation.
+Prefer explicit `not provided` over inferred explanations.
+
 ## Trust Model
 
 - `ai-start` records `baseCommit` and fingerprints pre-existing dirty paths.

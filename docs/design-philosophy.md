@@ -39,6 +39,33 @@ AI Cockpit の設計において、なぜ他の手段ではなく現在の形を
 
 AI Cockpit はこの環境設計を、AI Change Governance を中核メカニズムとして実装します。Contract、Checks、Summary、Status、Archive は、単なる監査部品ではなく、協働の前提条件を明示するための構造です。
 
+## 3. Responsibility Model and Review Lenses
+
+AI Cockpit は、内部の思考そのものを保存するのではなく、レビュー可能な証拠を保存します。思考は豊かで文脈依存でよい一方で、レポジトリに残る記録は検証できる形であるべきです。ガバナンスのチェックは private reasoning ではなく、その証拠に対して動きます。
+
+| Layer | Responsibility |
+| --- | --- |
+| Human Intent | Why the work exists |
+| Agent Thinking | How the task is interpreted |
+| Reviewable Evidence | What the repository records |
+| Repository Governance | What checks and policies validate |
+| Repository History | What is preserved for audit and review |
+
+レビューの観点は次の 6 つを使います。これは hard な lifecycle phase ではありません。タスクをどう読むか、どうレビューするかを整理するための lens です。
+
+| Review Lens | AI Cockpit Surface |
+| --- | --- |
+| Empathy | `problemStatement`, `sources` |
+| Design | `acceptance`, `guidelines` |
+| Architecture | `scope`, `outOfScope`, `riskAssessment`, `rollbackNote` |
+| Implementation | `mode`, actual diff, `changedFiles` |
+| Judgment | `unknowns`, `notCodable`, `agentCapability`, `executionDecision`, `reviewReadiness` |
+| Shipping | `verification`, `Summary`, `Cockpit Status`, `Archive` |
+
+これらは review lenses であり、`Plan -> Scope -> Verify -> Summarize -> Status -> Archive` を置き換えるものではありません。`workflowPhase` や `workflowEvidence` を追加する必要はなく、empathy / design / architecture / implementation / judgment / shipping を必須フィールドにするべきでもありません。
+
+ユーザーが動機や影響を明示していない場合、推測で補わず、`problemStatement` か `unknowns` に `not provided` を明記するほうがよいです。
+
 ## 4D Operating Model
 
 - Delegation: Work Item Contract と Check ID registry が、作業と検証の担当を明示的に委譲する。

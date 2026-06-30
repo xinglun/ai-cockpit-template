@@ -1,0 +1,182 @@
+{
+  "contractVersion": 2,
+  "workItemId": "establish_work_item_policy_and_add_lightweight_problem_intent",
+  "mode": "code",
+  "title": "Establish Work Item Policy and Add Lightweight Problem Intent",
+  "baseCommit": "e2d028dde83130fabe192065ee08829e2d36727b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "166ff60421b6b1558c08741085c479dd72c1c09794bee34a309e6e4222008e7c"
+    }
+  ],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/establish_work_item_policy_and_add_lightweight_problem_intent.contract.json",
+    ".ai/work-items/active/establish_work_item_policy_and_add_lightweight_problem_intent.summary.json",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    "README.md",
+    "docs/contract-fields.md",
+    "docs/design-philosophy.md",
+    "docs/work-item-style-guide.md",
+    "scripts/ai_check_work_item.py",
+    "templates/agents/AI_COCKPIT_RULES.md",
+    "tests/test_ai_check_work_item.py",
+    "tests/test_contract_and_policy.py",
+    "tests/test_contract_examples.py"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/**",
+    ".github/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "README.md",
+      "reason": "Defines the repository's current cockpit workflow and core guidance."
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "reason": "Explains the responsibility model and review-lens framing to update."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Documents the contract schema and requires a new field reference."
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Implements Work Item Contract validation."
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "reason": "Provides agent guidance that should reflect the new review-lens language."
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Defines the canonical Work Item Contract example."
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "reason": "Contains contract validation regression coverage."
+    },
+    {
+      "path": "tests/test_contract_examples.py",
+      "reason": "Checks that the example contract stays aligned with defaults."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "documentation",
+      "validation",
+      "scope"
+    ],
+    "reason": "Touches governance docs, contract validation, and example fixtures while keeping backward compatibility."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit; no unresolved unknowns remain."
+  },
+  "preReviewWarnings": [
+    "Review the schema addition for backward compatibility and keep the new guidance concise."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "README.md includes Core Principles, the responsibility model, review lenses, and the schema evaluation rule.",
+    "docs/work-item-style-guide.md exists and provides reusable Work Item style guidance.",
+    "docs/design-philosophy.md and docs/contract-fields.md explain the new review-lens framing and problemStatement semantics.",
+    "scripts/ai_check_work_item.py accepts optional non-empty problemStatement values and rejects empty ones when present.",
+    "The example Work Item Contract includes problemStatement and remains backward compatible.",
+    "The agent guidance file mentions review lenses and judgment behavior."
+  ],
+  "guidelines": [
+    "Keep the change intentionally small and backward compatible.",
+    "Prefer documentation updates over schema expansion unless machine-verifiable evidence is needed.",
+    "Do not invent missing product context; use explicit 'not provided' instead."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

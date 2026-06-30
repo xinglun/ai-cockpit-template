@@ -1,0 +1,352 @@
+{
+  "workItemId": "pr_ready_cleanup",
+  "contractPath": ".ai/work-items/archive/2026/pr_ready_cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/pr_ready_cleanup.contract.json",
+      "reason": "Captured the cleanup scope for restoring append-only evidence and removing the IDE leftover directory."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_ready_cleanup.summary.json",
+      "reason": "Recorded the cleanup evidence, verification, and review handoff."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+      "reason": "Restored the archived release verification record to its original append-only evidence state."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/collaborative_environment_positioning.contract.json",
+      "reason": "Archived the collaborative environment positioning Work Item Contract."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/collaborative_environment_positioning.summary.json",
+      "reason": "Archived the collaborative environment positioning AI Change Summary with duplicate changedFiles entries removed."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated the Cockpit status after cleanup changes."
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "reason": "Removed the AWS IDE leftover workspace artifact."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/pr_ready_cleanup.contract.json",
+    ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+    ".ai/work-items/archive/2026/collaborative_environment_positioning.summary.json",
+    ".ai/work-items/archive/2026/collaborative_environment_positioning.contract.json",
+    ".kiro/steering/ai-cockpit.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:49.563609+00:00",
+      "exitCode": 0,
+      "durationMs": 37,
+      "outputDigest": "8bdff5cac208fd6f99420e3db015a9bfd3a34adb17e870006d760c6aff46a832",
+      "commandHash": "b228b7220fa5b4096d42e749b501746d8b85c924ce74052f89ab9fd8f4710423",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/pr_ready_cleanup.contract.json work item contract check passed: .ai/work-items/active/pr_ready_cleanup.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:49.679506+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "327c7753005528dd751cddedc787e76e1d7eb99902a4f2ba9e2328f9b21ed96e",
+      "commandHash": "bc37204de97a64a4417e980aecba80f3b773e91dcd34309908c6853ef7855fbd",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/pr_ready_cleanup.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:49.801423+00:00",
+      "exitCode": 0,
+      "durationMs": 115,
+      "outputDigest": "3d7911158a6970f683122721f82a7a503a35b15b862fad2384acadc48cec0b3f",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/pr_ready_cleanup.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:49.855421+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "1dec26456e87f34ad26e4c8ee3bd5f631c6bb86f0a29cd245edd8c5b499d389f",
+      "commandHash": "3c3b3a7ad08f2de01f69d68c8692d96a63c076ea52a84bc7cf32e39039b5ca59",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/pr_ready_cleanup.contract.json --summary .ai/work-items/active/pr_ready_cleanup.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `pr_ready_cleanup` - Contract Hash: `fda7dc3177ced938` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `14` - Required Checks Passed"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:49.969509+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "324da51f5e64e81fd36b977c65d6311ad038411972eecfb389099617d68b56af",
+      "commandHash": "e1353c120e4e3e37f71f4fc4755f43ea503fbf186267962af8e56817d45fcef1",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/pr_ready_cleanup.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:50.083456+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:50.197439+00:00",
+      "exitCode": 0,
+      "durationMs": 106,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:00:50.258703+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "eada167801bb3105644fab50e6810b04767b1c88838c976a7384a764f55dca2a",
+      "commandHash": "c69bdd908156cbc07b37e0e0903dbc80b3164c0c3fc7af7772a221e9bbf749b8",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/pr_ready_cleanup.contract.json --summary .ai/work-items/active/pr_ready_cleanup.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:01:29.847664+00:00",
+      "exitCode": 0,
+      "durationMs": 39584,
+      "outputDigest": "fff0c369d3ee872f30b433418220bafeb9aef7449d0b772ea8120022fa15f09c",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 36%] ........................................................................ [ 73%] ................................................... [100%] ================================ tests coverage ================================ _______________ coverage: pl"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:01:30.281400+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "feb124f3b26180de818a0ce8b139147db4076d8f95c93dafd118c36e06e6179e",
+      "commandHash": "8887939e699e879117e1339093cb2b3a6c307af1e9f75b700821f3c9b9cb022d",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/pr_ready_cleanup.contract.json --summary .ai/work-items/active/pr_ready_cleanup.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:01:30.327190+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "49dd0f339aa67b975ddbc460039af57f784a483f1bd26269d44617ab374e4e57",
+      "commandHash": "54bb4e4e0bbadd957887d02b2bc6b6624859f0ff1f8451a8b8fecf21e0b8a02d",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/pr_ready_cleanup.contract.json --summary .ai/work-items/active/pr_ready_cleanup.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:01:30.371363+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:01:30.418619+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "07f2cf87149189bb706b99abb526d21ae1e6b985dd613e0660bfdcdc181c08c7",
+      "commandHash": "ebb3bf1f2e98ae6f7c28c581187d01a6eec1790f7f7f2ab3e53dfc7499d614bc",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/pr_ready_cleanup.contract.json --summary .ai/work-items/active/pr_ready_cleanup.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr_ready_cleanup.summary.json CONTRACT=.ai/work-items/active/pr_ready_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-06-30T02:01:30.525486+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "cf1ce4fd777186e0d98abc8d78f46cdfda0e5d0e6db5f670eebcfcd34a669261",
+      "commandHash": "b571a7c46b014a19224e34125fcb869b0b462c62f70b121ca2c428ec68f18119",
+      "contractHash": "fda7dc3177ced938873fdd26d3b1c5dfc6086927597529b06b6ae67eb983ffae",
+      "commitSha": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+      "executionContractPath": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_ready_cleanup.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/pr_ready_cleanup.summary.json --contract .ai/work-items/active/pr_ready_cleanup.contract.json ai summary check passed: .ai/work-items/active/pr_ready_cleanup.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Archive evidence is append-only; restore historic records instead of rewriting verification history.",
+      "compliant": true,
+      "evidence": "release_v0_5_13.summary.json was restored to the original archived verification record instead of keeping the rewritten June 30 evidence."
+    },
+    {
+      "guideline": "Workspace IDE leftovers may be removed when they are not part of the product repository.",
+      "compliant": true,
+      "evidence": "The untracked .kiro directory was removed from the workspace."
+    },
+    {
+      "guideline": "Do not modify unrelated documentation or runtime files in this cleanup task.",
+      "compliant": true,
+      "evidence": "Cleanup was limited to archive evidence restoration, archived summary normalization, Cockpit status generation, and .kiro removal."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Residual risk is limited to ensuring the restored archive evidence matches the original record byte-for-byte and that existing documentation changes remain owned by their prior Work Item."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [
+    ".kiro/steering/ai-cockpit.md"
+  ],
+  "observedIssues": [
+    "release_v0_5_13 archive evidence had been rewritten with newer verification output.",
+    "collaborative_environment_positioning archived summary contained duplicate changedFiles entries.",
+    "an untracked .kiro workspace directory caused PR ownership noise."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "archive_integrity",
+      "detail": "The restored release summary should be compared against the original archive record, which the verification commands will confirm.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Verification must be rerun after the cleanup edits.",
+    "expectedReviewFocus": [
+      "Confirm the archived release evidence is append-only again.",
+      "Confirm the archived collaborative_environment_positioning summary no longer has duplicate changedFiles entries.",
+      "Confirm the workspace no longer contains .kiro leftovers."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "fda7dc3177ced938",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0,
+      "evidence": "Ran make check-ai-contract and make ai-checkpoint after aligning the cleanup scope to the append-only archive restore and .kiro removal."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "fda7dc3177ced938",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 3,
+      "evidence": "Ran make ai-checkpoint in the finish flow after the cleanup scope was validated, before the remaining verification checks."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

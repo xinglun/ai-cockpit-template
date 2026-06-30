@@ -1,0 +1,249 @@
+{
+  "contractVersion": 2,
+  "workItemId": "pr_ready_cleanup",
+  "mode": "code",
+  "title": "Restore append-only evidence and remove IDE leftovers",
+  "baseCommit": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "status": "M",
+      "fingerprint": "8c487f96eb36b1b976ae8b165b563bbc8db0ba67df0e5c1f773d22f76d7f5450"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "ebcf75ba83ff7b35ba27024e4917d0dc39e303ea0e9649703f9ac191b060ad31"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "875e19da0e92a00997f349d24d921a47dd158d2125c230eb674753a85437e654"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/collaborative_environment_positioning.contract.json",
+      "status": "A",
+      "fingerprint": "f7bac8902600c4d177bfea563200b876b5951f702155438c032aa28793fbdda2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/collaborative_environment_positioning.summary.json",
+      "status": "A",
+      "fingerprint": "ce5daa005b53027e63d85f86547e858563b02c3cad8a0a48a7d493c13943a50e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+      "status": "M",
+      "fingerprint": "2cf75f2edeb719b819df0133e06dd99528db8e9957af0ee121dd52354ecd2a2f"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "M",
+      "fingerprint": "5ca4ba06a7cd2fcabcabc18931b613e6aaf142ee25495475588a3886f80b90aa"
+    },
+    {
+      "path": "CLAUDE.md",
+      "status": "M",
+      "fingerprint": "db22e36d7f1027e8581ee02ae788c9aaf8f856157b265e4a43a6d84409895f15"
+    },
+    {
+      "path": "GEMINI.md",
+      "status": "M",
+      "fingerprint": "6f0304d4425828d2dc466b4fb10806157aa00b0b85c3fd68a53ca8f0375008e3"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "6537db97c4cf69b9a358e628d837bd4cfa898cc3c45513083d24a0e669f6bd64"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "19347e5dadc37ab15e14b1547925d24fd639285caebf77e11385866d4bf6b392"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "75e9051fc00fc23fdcb15c18a639b734cb36995cc5df6e0c6220e9967ebb5664"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "41ef01b7ad8ad85c548ff9b145286846b14acef61322f10c15fee08ed012f07d"
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "status": "M",
+      "fingerprint": "f41ce4b77bfef9968922cc181ceb1bd22dfc7fe25cc0c2b3a0861a9eb1c5dcad"
+    },
+    {
+      "path": "docs/launch.md",
+      "status": "M",
+      "fingerprint": "63c1e609ec47e334d067635770e0c70d55e1b0b214ce1169705fe7f9c09f94ed"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "M",
+      "fingerprint": "7bd943b8854a8869c5c2e38b6d37b07e5050698905efb8b5c5ccd2306ab44bc0"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/pr_ready_cleanup.contract.json",
+    ".ai/work-items/active/pr_ready_cleanup.summary.json",
+    ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+    ".ai/work-items/archive/2026/collaborative_environment_positioning.contract.json",
+    ".ai/work-items/archive/2026/collaborative_environment_positioning.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".kiro/**"
+  ],
+  "outOfScope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/**",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "templates/agents/AI_COCKPIT_RULES.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    "scripts/**",
+    ".ai/guards/**",
+    ".github/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/pr_ready_cleanup.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+      "reason": "Archived evidence file must remain append-only and should be restored to the original release verification record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/collaborative_environment_positioning.summary.json",
+      "reason": "Archived summary contains duplicate changedFiles entries that should be normalized."
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "reason": "Workspace artifact from the local IDE that should be removed."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "append_only_evidence",
+      "workspace_pollution"
+    ],
+    "reason": "This task touches archived audit evidence and a stray workspace directory. The main risk is accidentally changing historic records instead of restoring them verbatim."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The cleanup is mechanically bounded and can be verified through archive diff checks and PR ownership validation."
+  },
+  "preReviewWarnings": [
+    "Verify the restored release_v0_5_13 archive summary matches the original append-only evidence exactly.",
+    "Ensure .kiro is removed without disturbing unrelated workspace changes from the active documentation task."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The archived release_v0_5_13 summary is restored to its original append-only evidence record.",
+    "The archived collaborative_environment_positioning summary has no duplicate changedFiles entries.",
+    "The .kiro workspace directory is removed from the repository tree.",
+    "Current Cockpit status remains consistent after cleanup."
+  ],
+  "guidelines": [
+    "Archive evidence is append-only; restore historic records instead of rewriting verification history.",
+    "Workspace IDE leftovers may be removed when they are not part of the product repository.",
+    "Do not modify unrelated documentation or runtime files in this cleanup task."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

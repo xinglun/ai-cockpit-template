@@ -1,7 +1,7 @@
 ---
 author: Ray
 title: "AI Cockpit"
-description: 面向 Codex、Gemini、Claude、Cursor、Antigravity 等 AI 编码代理、与目标应用语言无关的变更治理模板。
+description: 面向 Codex、Gemini、Claude、Cursor、Antigravity 等 AI 编码代理、与目标应用语言无关的协作式工程环境与变更治理模板。
 keywords:
   - ai-agents
   - ai-agent
@@ -38,9 +38,9 @@ AI 编码代理可能会：
 
 AI Cockpit 是写入后的差分治理流程，不是文件系统权限边界或安全沙箱。
 
-AI Cockpit 是面向 coding agents 的 AI Change Governance。
+AI Cockpit 是面向 agentic development 的协作式工程环境。
 
-它为 AI 辅助开发增加一套轻量 AI review workflow。
+它通过显式 scope、委派式 checks、review 证据和可审计的任务记录来提供 AI Change Governance。
 
 ![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
@@ -48,7 +48,7 @@ AI Cockpit 是面向 coding agents 的 AI Change Governance。
 
 AI Cockpit 让 AI 生成的变更有边界、可审查、可审计。
 
-我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我做了一套围绕 scope、checks、summary 和 status 的轻量 change-control workflow。
+我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我围绕 scope、checks、summary 和 status 设计了一套协作式工程环境，而治理是其中的核心控制机制。
 
 ## 30 秒理解
 

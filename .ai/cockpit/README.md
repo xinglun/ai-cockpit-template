@@ -14,9 +14,9 @@ keywords:
 
 [日本語](README.ja.md)
 
-AI Cockpit is a small governance layer for agentic coding. It gives Codex, Gemini, Antigravity, or another coding agent a shared operating contract before files are changed.
+AI Cockpit is a collaborative engineering environment for agentic development. It gives Codex, Gemini, Claude, Cursor, Antigravity, or another coding agent a shared operating contract before files are changed.
 
-The cockpit is intentionally language-agnostic. The Python scripts validate the AI workflow, while the Makefile delegates product-specific checks to commands that each repository can customize.
+The cockpit is intentionally language-agnostic. It provides AI Change Governance through explicit scope, delegated checks, review evidence, and auditable task records, while the Makefile delegates product-specific checks to commands that each repository can customize.
 
 ## Core Files
 
@@ -34,6 +34,8 @@ The cockpit is intentionally language-agnostic. The Python scripts validate the 
 4. Update the Summary with changed files, checks, risks, review readiness, boundary checks, known gaps, and any destructive changes.
 5. Run `make ai-finish TASK=<task>`.
 6. Review the generated status and archived Contract/Summary.
+
+Unknowns and `notCodable` are valid outputs, not failures. Summary is both an audit record and a collaboration handoff. Checkpoints exist to reduce drift in longer tasks, not merely to satisfy compliance.
 
 `current_status.md` is generated. Do not hand-edit it.
 

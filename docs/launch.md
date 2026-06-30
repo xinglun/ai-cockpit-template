@@ -9,18 +9,20 @@ keywords:
   - reddit
   - devto
   - ai-change-governance
+  - collaborative-engineering
 ---
 
 # Launch Copy
 
 ## One-Line Positioning
 
-AI Cockpit is AI Change Governance for coding agents.
+AI Cockpit is a collaborative engineering environment for agentic development.
 
 ## Short Punchlines
 
 - AI-generated changes should not be accepted without bounded, independently enforced review.
 - AI changed 37 files. Cockpit stopped the merge.
+- AI Change Governance as the control layer for human-agent collaboration.
 - Git-style discipline for AI-generated changes.
 - Stop reviewing AI diffs blind.
 - Make AI changes bounded, reviewable, and auditable.
@@ -30,7 +32,7 @@ AI Cockpit is AI Change Governance for coding agents.
 Title:
 
 ```text
-Show HN: AI Cockpit — lightweight change governance for coding agents
+Show HN: AI Cockpit — collaborative environment design for coding agents
 ```
 
 Post:
@@ -38,7 +40,7 @@ Post:
 ```text
 I built AI Cockpit after repeatedly seeing AI coding agents rewrite unrelated files, silently remove tests, roll back completed work, and leave reviewers guessing what happened.
 
-The idea is simple: AI-generated changes need bounded, independently enforced review. AI Cockpit checks diffs after writes; it is not a filesystem permission boundary.
+The idea is simple: AI-generated changes need bounded, independently enforced review. AI Cockpit is a collaborative engineering environment for agentic development, and AI Change Governance is the control layer inside it. It checks diffs after writes; it is not a filesystem permission boundary.
 
 AI Cockpit adds a lightweight workflow around AI-generated changes:
 
@@ -56,7 +58,7 @@ AI_COCKPIT_TEMPLATE_REF=v0.5.13 sh -c "$(curl -fsSL https://raw.githubuserconten
 Supported agents: Codex, Gemini, Claude, Cursor, Antigravity, and others.
 Supported stack presets: Rust, Flutter, TypeScript, Python, Go, Java, Android, Kotlin, Swift, Ruby, PHP, C#. Presets require project-specific quality commands and guard paths.
 
-This is not another agent framework. It is a small change-control layer for AI-assisted development.
+This is not another agent framework. It is a collaborative environment design for AI-assisted development, with a small change-control layer at its core.
 ```
 
 ## X / Twitter
@@ -64,7 +66,7 @@ This is not another agent framework. It is a small change-control layer for AI-a
 ```text
 AI-generated changes should not be accepted without bounded, independently enforced review.
 
-I built AI Cockpit: lightweight change governance for coding agents.
+I built AI Cockpit: collaborative environment design for coding agents.
 
 Contract -> Guard -> Summary -> Cockpit Status -> Archive
 
@@ -83,7 +85,7 @@ Outline:
 
 ```text
 1. AI coding agents are useful, but the diff can drift.
-2. The real problem is not generation. It is change governance.
+2. The real problem is not generation alone. It is the collaborative environment around change governance.
 3. The failure mode: unrelated rewrites, silent test deletion, rollback corruption.
 4. The control layer: Contract, Guard, Summary, Status, Archive.
 5. A blocked example: unauthorized file modification.

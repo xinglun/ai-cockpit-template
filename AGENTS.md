@@ -12,7 +12,7 @@ keywords:
 
 # Agent Operating Rules
 
-This repository is an AI Governance Template. It is meant to be copied into other codebases and adapted.
+This repository is an AI Governance Template. It is meant to be copied into other codebases and adapted. Agents work here inside a collaborative engineering environment, not only under a list of restrictions.
 
 ## Required Workflow
 
@@ -21,12 +21,16 @@ Before changing code, docs, CI, build files, or AI governance files:
 1. Create or identify a Work Item Contract in `.ai/work-items/active/`.
    - **Contract Versions**: The framework enforces `contractVersion: 2`. Historic archived `v1` Contract files are preserved and parsed for backward-compatibility checks but new task contracts must use version 2 format.
 2. Confirm the Contract has explicit `scope`, `outOfScope`, `sources`, `acceptance`, and `verification`.
+   Contract is both delegation and description: it assigns task boundaries and makes the intended work legible before implementation.
 3. Read `.ai/glossary.md` to align terminology and architectural boundaries before implementing.
 4. Adhere strictly to the guidelines defined in the `guidelines` section of the Contract, and record compliance evidence in the Summary's `guidelinesCompliance` section.
 5. Do not edit files outside the declared scope unless you first update the Contract.
 6. Do not remove tests, snapshots, or Work Item records without documenting the reason in the Summary.
 7. Update the AI Change Summary before finishing.
+   Summary is not only an audit artifact; it is also the handoff record for reviewers and the next collaborator.
 8. Run the AI checks and project checks declared in the Contract.
+
+`unknowns` and `notCodable` are valid outputs when the task is not ready for coding. `make ai-checkpoint` is environment support against long-task drift, not paperwork.
 
 ## Safety Rules
 

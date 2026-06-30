@@ -33,6 +33,19 @@ keywords:
 
 AI Cockpit の設計において、なぜ他の手段ではなく現在の形を選択したのか、その技術的合理性を以下に記します。
 
+## Collaborative Environment Design
+
+強い AI エンジニアリング環境は、参加者全員が曖昧な運用期待に完璧に適応することを前提にしません。環境そのものが、人間とエージェントの両方を安定して働かせる必要があります。境界は見えること、委譲は明示されること、不明点は合法的に報告できること、検証は再現可能なチェックへ委譲されること、そしてレビューは事後復元ではなく証拠から始まることが重要です。
+
+AI Cockpit はこの環境設計を、AI Change Governance を中核メカニズムとして実装します。Contract、Checks、Summary、Status、Archive は、単なる監査部品ではなく、協働の前提条件を明示するための構造です。
+
+## 4D Operating Model
+
+- Delegation: Work Item Contract と Check ID registry が、作業と検証の担当を明示的に委譲する。
+- Description: `scope`、`outOfScope`、`sources`、`acceptance`、`rollbackNote` が、実装前にタスクを記述する。
+- Discernment: `unknowns`、`riskAssessment`、`agentCapability`、`executionDecision`、`reviewReadiness` が、判断を可視化する。
+- Diligence: required checks、checkpoints、Summary、Status、Archive が、やり切りとレビュー可能性を担保する。
+
 ### Q: なぜ CI Action ではなく「Makefile 委譲」なのか？
 - **ローカルでの即時フィードバック**: CI サーバーにコードを Push する前に、開発者のローカル環境で AI エージェントが自律的に全チェックを実行して自己修正できる必要があります。
 - **言語スタックの中立性**: Contract は Check ID（`projectFormat`、`projectTest` など）を参照し、レジストリが名前空間付き Make ターゲット（`ai-cockpit-project-format-check`、`ai-cockpit-project-test` など）へ解決します。この分離により、共通の Python 制御スクリプトはスタック固有コマンドを直接知る必要がありません。

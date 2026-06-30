@@ -1,7 +1,7 @@
 ---
 author: Ray
 title: "AI Cockpit"
-description: Application-language-agnostic AI governance template for Codex, Gemini, Claude, Cursor, Antigravity, and other agentic coding tools.
+description: Application-language-agnostic collaborative engineering environment and AI governance template for Codex, Gemini, Claude, Cursor, Antigravity, and other agentic coding tools.
 keywords:
   - ai-agents
   - ai-agent
@@ -38,9 +38,9 @@ AI-generated changes should not be accepted without bounded, independently enfor
 
 AI Cockpit checks diffs after writes; it is not a filesystem permission boundary or security sandbox.
 
-AI Cockpit is AI Change Governance for coding agents.
+AI Cockpit is a collaborative engineering environment for agentic development.
 
-It adds a lightweight AI review workflow to AI-assisted development.
+It provides AI Change Governance through explicit scope, delegated checks, review evidence, and auditable task records.
 
 ![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
@@ -48,7 +48,7 @@ It adds a lightweight AI review workflow to AI-assisted development.
 
 AI Cockpit makes AI-generated changes bounded, reviewable, and auditable.
 
-I kept seeing AI rewrite unrelated files, roll back completed work, and bypass review expectations. So I built a small change-control workflow around scope, checks, summaries, and status.
+I kept seeing AI rewrite unrelated files, roll back completed work, and bypass review expectations. So I built a collaborative environment around scope, checks, summaries, and status, with governance as the core control mechanism.
 
 ## 30-Second Version
 

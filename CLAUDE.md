@@ -11,7 +11,7 @@ keywords:
 
 # Claude Operating Rules
 
-Claude uses the same AI Cockpit workflow as Codex, Gemini, Cursor, Antigravity, and other coding agents.
+Claude uses the same collaborative AI Cockpit environment as Codex, Gemini, Cursor, Antigravity, and other coding agents. This file is Claude-labeled, but the operating model is not Claude-specific.
 
 ## Contract First
 
@@ -25,7 +25,10 @@ Do not begin implementation until the active Work Item Contract describes:
 - verification commands;
 - task-specific rules in `guidelines` (if any).
 
+The Contract is both delegation and description: it assigns the work boundary and makes the task reviewable before implementation begins.
+
 If the Contract has `mode: code`, then `unknowns` must be empty and `notCodable` must be `false`.
+If `unknowns` remain or the task is `notCodable`, report that state explicitly instead of forcing implementation.
 
 ## Stay Inside Scope
 
@@ -48,6 +51,5 @@ Before declaring the work complete, update the matching Summary with:
 - destructive changes;
 - observed issues.
 
-
+Summary is both an audit record and a collaboration handoff for the next reviewer or agent. Use checkpoints to prevent drift during longer tasks.
 Run `make ai-finish TASK=<task>` when the Summary is ready.
-

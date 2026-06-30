@@ -11,6 +11,8 @@ keywords:
 
 # アーキテクチャ (Architecture)
 
+AI Cockpit のアーキテクチャは、AI Change Governance を単独のチェック群としてではなく、人間とエージェントが同じ証拠面で協働するための環境として構成されています。ガバナンスが制御の中心にあり、Contract、Checks、Summary、Status、Archive が delegation、description、discernment、diligence を実体化します。
+
 ## コンポーネントの依存関係とプロセスフロー
 
 AI Cockpit フレームワーク内における、タスクの開始から PR の検証にいたるまでのライフサイクルとデータ/コントロールのフローは以下の通りです。

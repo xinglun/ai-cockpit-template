@@ -1,0 +1,193 @@
+{
+  "contractVersion": 2,
+  "workItemId": "collaborative_environment_positioning",
+  "mode": "code",
+  "title": "Position AI Cockpit as collaborative environment design",
+  "baseCommit": "af91f67fd3b8c6f4339ab5bc7b35f7afb6920dfa",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "1af753e7593545d5619abeb9f2f9ffbb21dc0cc5bda9eb5b9f7100cf35efd5f5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+      "status": "M",
+      "fingerprint": "2cf75f2edeb719b819df0133e06dd99528db8e9957af0ee121dd52354ecd2a2f"
+    },
+    {
+      "path": ".kiro/steering/ai-cockpit.md",
+      "status": "A",
+      "fingerprint": "42039ec6276a8a732a0b70d068b8053775756064e4eb53578cfb0a16855e7aa1"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/collaborative_environment_positioning.contract.json",
+    ".ai/work-items/active/collaborative_environment_positioning.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    ".ai/cockpit/current_status.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/architecture.md",
+    "docs/design-philosophy.md",
+    "docs/launch.md",
+    "templates/agents/AI_COCKPIT_RULES.md"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    ".ai/guards/**",
+    ".ai/cockpit/checks.yaml",
+    "tests/**",
+    ".github/**",
+    ".kiro/**",
+    "docs/overview.ja.md"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/collaborative_environment_positioning.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": "README.md",
+      "reason": "Primary English positioning and top-level product narrative."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Chinese positioning must remain aligned with the English direction."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Japanese positioning must remain aligned with the English direction."
+    },
+    {
+      "path": "docs/design-philosophy.md",
+      "reason": "Design-principle document where collaborative environment design and 4D mapping will be explained."
+    },
+    {
+      "path": "docs/launch.md",
+      "reason": "Launch copy currently presents the older single-axis positioning and must be kept directionally consistent."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "positioning_drift",
+      "translation_alignment",
+      "governance_dilution"
+    ],
+    "reason": "This task changes cross-document positioning language. The main risks are weakening the existing governance framing, introducing agent-specific wording, or letting translated docs drift from the English source direction."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The requested scope is documentation-only, the boundaries are explicit, and the task can be implemented and verified through repository governance checks plus documentation quality validation."
+  },
+  "preReviewWarnings": [
+    "Review wording changes for accidental replacement of the existing AI Change Governance positioning instead of elevating it under a collaborative environment design frame.",
+    "Check multilingual docs and agent rule files for consistent treatment of unknowns, notCodable states, summaries, and checkpoints."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "README and design philosophy describe AI Cockpit as collaborative environment design without removing AI Change Governance positioning.",
+    "4D Framework is documented as an explanatory operating model mapped to existing Cockpit mechanisms, not as new runtime schema.",
+    "Agent operating rules are updated consistently across generic, Claude, Gemini, and installed template rules.",
+    "No runtime scripts, guard policies, checks, CI, or tests are changed.",
+    "Chinese and Japanese documentation remain directionally aligned with the English positioning."
+  ],
+  "guidelines": [
+    "Keep AI Change Governance as the core enforcement mechanism; add collaborative environment design above it rather than replacing it.",
+    "Treat Delegation, Description, Discernment, and Diligence as an explanatory operating model only; do not introduce them as required runtime schema fields.",
+    "Do not make the repository sound Claude-only or tied to any single agent vendor; wording must apply equally to Codex, Claude, Gemini, Cursor, Antigravity, and similar agents.",
+    "Preserve the existing bounded, reviewable, and auditable framing.",
+    "Do not change scripts, guard policies, checks, CI, or tests in this Work Item."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user request in current thread",
+    "reason": "The user explicitly requested coordinated documentation and agent-rule updates under .ai/** and top-level operating rule files."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

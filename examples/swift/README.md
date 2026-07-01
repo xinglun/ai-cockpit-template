@@ -11,6 +11,10 @@ keywords:
 
 # Swift Adaptation Example
 
+この例は **Swift Package Manager (SPM)** 向けです。テンプレートの `STACK=swift` preset も SPM を前提とし、ホステッド検証（`mobile-stack-quality`）は最小 SPM fixture のみを対象とします。
+
+Xcode プロジェクト、workspace、CocoaPods など非 SPM レイアウトでは、インストール後に `configure_ai_cockpit` Work Item で Project Calibration が必須です。preset を起点として `Makefile.ai.stack` の品質コマンド、`project_profile.yaml` の境界、Coverage Guard、CI をプロジェクトに合わせて置き換えてください。`STACK=generic` は preset が誤解を招く場合の推奨選択肢です。
+
 ## 1. インストール
 
 ```sh
@@ -20,6 +24,8 @@ AI_COCKPIT_TEMPLATE_REF=v0.5.14 sh -c "$(curl -fsSL https://raw.githubuserconten
 ## 2. 品質ゲートとガード設定
 
 Swift Package Manager リポジトリでは、`Makefile.ai.stack` に次のスタックプリセットを設定します。
+
+非 SPM レイアウト（Xcode / workspace / CocoaPods）では、上記をそのまま使わず、Project Calibration で `xcodebuild` 等のプロジェクト固有コマンドに置き換えてください。doctor は事実を報告するのみで、`xcodebuild` 引数は自動生成しません。
 
 ```make
 PROJECT_FORMAT_CHECK = swift format lint --recursive .

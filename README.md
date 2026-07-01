@@ -249,6 +249,7 @@ Compatibility levels:
 <!-- stack-tiers: verified=python,go,rust,typescript,java,kotlin,ruby,php,csharp,flutter,android,swift; workflow-implemented=; preset-only=generic -->
 
 - **Hosted verification recorded:** `python`, `go`, `rust`, and `typescript` run minimal-project jobs in `real-stack-quality`. `java`, `kotlin`, `ruby`, `php`, and `csharp` run the same gate in `extended-real-stack-quality`. `flutter`, `android`, and `swift` run the same gate in `mobile-stack-quality`.
+- **Swift verified scope:** `mobile-stack-quality` exercises a minimal Swift Package Manager fixture only. Hosted verification does **not** cover Xcode projects, workspaces, or CocoaPods; those layouts require Project Calibration after installation.
 - **Preset only:** `generic` intentionally fails closed until its formatter, test, and lint commands are configured.
 - **Unsupported runtime/platform:** native Windows shells. Use WSL or another POSIX environment.
 

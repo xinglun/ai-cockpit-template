@@ -1,0 +1,197 @@
+{
+  "contractVersion": 2,
+  "workItemId": "local_calibration_phase_a_docs",
+  "mode": "code",
+  "title": "Phase A: local calibration documentation alignment",
+  "baseCommit": "154b0505764c42f77f5f6bea2f33387de3e44bd8",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ce842dc95af127ba2bb638e146be1b3958e0e485df4d3332f861853ea766917d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_dev_plan.contract.json",
+      "status": "A",
+      "fingerprint": "9018d8aa66836181f348a7e937aca113384be0aa886ab640db77dd63f2e40ee6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_dev_plan.summary.json",
+      "status": "A",
+      "fingerprint": "76a5fa6ab2a76b161c232117aad39fbfc695e45b63b54fa3bc2c39b8186da235"
+    },
+    {
+      "path": "docs/plans/local-calibration-template-improvements.md",
+      "status": "A",
+      "fingerprint": "c3c1ad3d951530b4764684153116efc237d470a148345dff6c8fdf175717e4a9"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/local_calibration_phase_a_docs.contract.json",
+    ".ai/work-items/active/local_calibration_phase_a_docs.summary.json",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/cockpit/current_status.md",
+    "docs/getting-started/installation.md",
+    "examples/swift/README.md",
+    "README.md",
+    "templates/stacks/swift.mk"
+  ],
+  "outOfScope": [
+    "scripts/ai_project_doctor.py",
+    "tests/test_doctor.py",
+    "docs/plans/local-calibration-template-improvements.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/configuration.md",
+    "docs/reference/distribution.md",
+    "特定プロジェクト向け preset や sej_ios 固有名称"
+  ],
+  "sources": [
+    {
+      "path": "docs/plans/local-calibration-template-improvements.md",
+      "reason": "Phase A scope, acceptance, and developer instructions."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Official adoption and calibration flow to extend."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Installed adoption checklist to align with local calibration model."
+    },
+    {
+      "path": "templates/stacks/swift.mk",
+      "reason": "Swift preset is SPM-oriented; documentation must clarify scope."
+    },
+    {
+      "path": "README.md",
+      "reason": "Hosted verification footnote for Swift mobile-stack-quality."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "mobile-stack-quality uses minimal SPM fixture only."
+    }
+  ],
+  "problemStatement": "Legacy Native iOS adoption showed that AI Cockpit fits a generic template plus local calibration model, not install-and-go. Phase A reduces misunderstanding by documenting Swift verified scope, local calibration checklist, generic stack guidance, and staged CI without adding project-specific presets.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_drift"
+    ],
+    "reason": "Documentation-only changes; no runtime or doctor behavior changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Phase A file scope, sources, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Confirm Swift verified footnote does not overstate Xcode or CocoaPods coverage.",
+    "Confirm no project-specific identifiers appear in template docs."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Document alignment across multiple entry points requires checkpoint review."
+  },
+  "acceptance": [
+    "Swift stack scope documents SPM as the preset default and requires Project Calibration for Xcode, workspace, or CocoaPods layouts.",
+    "README hosted verification footnote states mobile-stack-quality Swift coverage is a minimal SPM fixture, not Xcode or CocoaPods validation.",
+    "installation.md and adoption docs include a local calibration checklist with adopt then configure Work Items, staged L1/L2 CI, and initial Coverage reportOnly guidance.",
+    "installation.md recommends STACK=generic when stack presets are misleading for the target repository.",
+    "installation.md includes a GitLab CI snippet with GIT_DEPTH: 0 and check-ai-pr; ai-cockpit-quality remains optional at L1.",
+    "examples/swift/README.md clarifies SPM scope and points to Project Calibration for non-SPM layouts.",
+    "templates/stacks/swift.mk comments state SPM default and calibration requirement for Xcode or CocoaPods.",
+    "make check-docs-metadata passes."
+  ],
+  "guidelines": [
+    "Documentation body is English for installation and adoption entry points unless editing adoption.ja.md Japanese body.",
+    "adoption.ja.md body remains Japanese with YAML front matter author: Ray.",
+    "Do not embed project-specific identifiers such as sej_ios in template documentation.",
+    "Do not change installation flow stage numbering."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": false
+    },
+    {
+      "check": "docsMetadata",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "local calibration Phase A plan",
+    "reason": "Phase A explicitly scopes adoption.md and adoption.ja.md for local calibration checklist alignment per docs/plans/local-calibration-template-improvements.md."
+  },
+  "rollbackNote": "Revert Phase A documentation edits and archive this Work Item."
+}

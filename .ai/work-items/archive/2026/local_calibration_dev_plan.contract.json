@@ -1,0 +1,156 @@
+{
+  "contractVersion": 2,
+  "workItemId": "local_calibration_dev_plan",
+  "mode": "investigate",
+  "title": "Local calibration lessons and template improvement plan",
+  "baseCommit": "154b0505764c42f77f5f6bea2f33387de3e44bd8",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "a47b7aa197dc40398eaa36616a2cc3ddc401f229be52824bf35554da2a856548"
+    }
+  ],
+  "scope": [
+    "docs/plans/local-calibration-template-improvements.md",
+    ".ai/work-items/active/local_calibration_dev_plan.contract.json",
+    ".ai/work-items/active/local_calibration_dev_plan.summary.json"
+  ],
+  "outOfScope": [
+    "templates/stacks/**",
+    "scripts/**",
+    "examples/**",
+    "tests/**",
+    "sej_ios または特定プロジェクト向け preset"
+  ],
+  "sources": [
+    {
+      "path": "docs/plans/local-calibration-template-improvements.md",
+      "reason": "Authoring target for the improvement plan."
+    },
+    {
+      "path": "templates/stacks/swift.mk",
+      "reason": "Swift preset is SPM-oriented; motivates Phase A documentation."
+    },
+    {
+      "path": "scripts/ai_project_doctor.py",
+      "reason": "Doctor directory heuristics gap for legacy iOS layouts."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Official adoption and calibration flow."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "mobile-stack-quality uses SPM fixture only."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_drift"
+    ],
+    "reason": "Planning document only; implementation tracked in follow-up Work Items."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Investigate-mode authoring of a repository-local development plan."
+  },
+  "preReviewWarnings": [
+    "Follow-up implementation Work Items must respect the no project-specific preset rule."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record plan authoring before archive."
+  },
+  "acceptance": [
+    "docs/plans/local-calibration-template-improvements.md captures lessons, principles, phased plan, and developer instructions.",
+    "The plan keeps the template generic and delegates project-specific commands to local calibration.",
+    "Out-of-scope items explicitly exclude customer-specific presets."
+  ],
+  "guidelines": [
+    "Plan document body is Japanese with YAML front matter author: Ray.",
+    "Do not embed sej_ios-specific identifiers in template planning docs."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": false
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Planning doc only."
+  },
+  "rollbackNote": "Remove docs/plans/local-calibration-template-improvements.md and archive this Work Item."
+}

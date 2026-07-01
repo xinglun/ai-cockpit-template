@@ -43,7 +43,7 @@ Use the Quick Install entry in [README.md](../../README.md) and choose the stack
 
 | Stack | When to choose it |
 | --- | --- |
-| `generic` | Default preset. It fails closed until you calibrate project-specific quality commands. |
+| `generic` | Default preset. It fails closed until you calibrate project-specific quality commands. Prefer this when a named stack preset would be misleading—for example, CocoaPods plus Xcode workspace layouts where `STACK=swift` suggests SPM-only commands. |
 | `flutter` | Flutter applications and packages. |
 | `python` | Python repositories. |
 | `typescript` | JavaScript and TypeScript repositories. There is no separate `node` preset. |
@@ -52,7 +52,7 @@ Use the Quick Install entry in [README.md](../../README.md) and choose the stack
 | `java` | Java repositories. |
 | `android` | Android projects. |
 | `kotlin` | Kotlin projects. |
-| `swift` | Swift projects. |
+| `swift` | Swift Package Manager (SPM) projects. Xcode workspaces, `.xcodeproj` layouts, and CocoaPods require Project Calibration even when this preset is the starting point. |
 | `ruby` | Ruby projects. |
 | `php` | PHP projects. |
 | `csharp` | C# and .NET projects. |
@@ -81,6 +81,18 @@ make check-ai-pr AI_BASE_COMMIT='<pre-adoption-commit>'
 ```
 
 The installer-generated Work Item owns every file actually written or appended by installation. It keeps project quality configuration as an explicit follow-up rather than recording generic placeholder commands as passed. `--create-adoption` fails before writing unless the repository has an initial commit, a clean worktree, and no active Work Item. `make check-ai-status` should report no active adoption Work Item before you move on.
+
+### Local Calibration Checklist
+
+AI Cockpit fits a **generic template plus local calibration** model. Installation deploys governance runtime and fail-closed defaults; it does not complete production adaptation. Use this checklist after Phase 3 Adoption and before treating the repository as production-ready:
+
+1. **Two Work Items, two commits:** finish `adopt_ai_cockpit` in its own commit, then start `configure_ai_cockpit` for Profile, Guard, quality-command, and CI changes.
+2. **Doctor facts, human approval:** review `target/ai_project_doctor_report.json` and resolve every `blocking:` unknown in `.ai/project_profile.yaml`. Doctor reports facts only; it does not auto-approve boundaries or generate `xcodebuild` commands.
+3. **Coverage starts report-only when needed:** for legacy or broad source trees, keep `.ai/guards/coverage_policy.yaml` at `reportOnly: true` with narrowed include/exclude paths until boundaries are stable, then set `adoptionReviewed: true`.
+4. **Staged CI:** start with **L1** governance only—full Git history plus `make check-ai-pr`. After L1 is stable, add **L2** `make ai-cockpit-quality` as a separate required job.
+5. **Pilot Work Item:** run one governed task with quality optional if needed, then promote quality and Coverage to blocking gates.
+
+See [Local Calibration Template Improvements](../plans/local-calibration-template-improvements.md) for the template-side phased plan. The installed [Adoption Readiness](../../.ai/cockpit/adoption.md) checklist mirrors these steps for day-to-day use.
 
 ### Phase 4. Project Calibration
 
@@ -209,7 +221,22 @@ jobs:
         with:
           fetch-depth: 0
       - run: make check-ai-pr AI_BASE_COMMIT="$(git merge-base HEAD origin/${{ github.base_ref }})"
+      # L2: add after L1 check-ai-pr is stable
       - run: make ai-cockpit-quality
+```
+
+For GitLab CI, fetch full history (`GIT_DEPTH: 0`) and start with L1 governance only:
+
+```yaml
+variables:
+  GIT_DEPTH: "0"
+
+ai-governance:
+  stage: test
+  script:
+    - make check-ai-pr AI_BASE_COMMIT="$(git merge-base HEAD origin/${CI_DEFAULT_BRANCH})"
+    # L2: uncomment after L1 is stable
+    # - make ai-cockpit-quality
 ```
 
 The PR check requires at least one archive Contract/Summary pair in the PR diff and validates every changed pair against the complete merge-base diff.

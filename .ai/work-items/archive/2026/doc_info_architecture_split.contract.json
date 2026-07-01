@@ -1,0 +1,183 @@
+{
+  "contractVersion": 2,
+  "workItemId": "doc_info_architecture_split",
+  "mode": "code",
+  "title": "Split installation docs into guide and reference",
+  "baseCommit": "10e3c76d14d60bb2a5bdb386abaf97186fc9af3e",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "7cda85b4944d5073a7d5789d3c83648ebe889e114e476f877f76f67946060a9d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installation_readiness_flow.contract.json",
+      "status": "A",
+      "fingerprint": "fec36914c45b92d0bb89884321866b8909fbf78ff126e5426bc231626f08ce50"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installation_readiness_flow.summary.json",
+      "status": "A",
+      "fingerprint": "ada0c81e11303473482fc7efb60c6eeb113c790c910bc22994067ecc3a13ef2c"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "2d54d3484d4670e6165f508ac5ab3d99b1ed3cbee9206f68468ede3cb83b2631"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/doc_info_architecture_split.contract.json",
+    ".ai/work-items/active/doc_info_architecture_split.summary.json",
+    "README.md",
+    "docs/installation.md",
+    "docs/documentation-architecture.md",
+    "docs/distribution.md",
+    "docs/troubleshooting.md",
+    "docs/upgrade.md"
+  ],
+  "outOfScope": [
+    ".ai/cockpit/**",
+    ".ai/guards/**",
+    ".ai/work-items/archive/**",
+    "scripts/**",
+    "tests/**",
+    "examples/**",
+    ".github/**",
+    "Makefile",
+    "docs/design-philosophy.md",
+    "docs/configuration.md",
+    "docs/launch.md"
+  ],
+  "sources": [
+    {
+      "path": "docs/installation.md",
+      "reason": "Primary installation guide to shorten into a focused adoption lifecycle."
+    },
+    {
+      "path": "README.md",
+      "reason": "Repository entry point that should expose a concise Quick Install path."
+    },
+    {
+      "path": "docs/configuration.md",
+      "reason": "Stack and validation reference that remains the source of truth for preset details."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Workflow and status conventions that the reorganized docs should continue to reference."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical terminology for guide and reference labels."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation",
+      "navigation"
+    ],
+    "reason": "The change only reorganizes documentation and links, with no runtime behavior change."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit for a doc-only split."
+  },
+  "preReviewWarnings": [
+    "Check that the README quick path stays concise while preserving required metadata markers and install-command invariants."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "README.md exposes a concise Quick Install entry that points readers to the full installation lifecycle doc.",
+    "docs/installation.md is shorter and keeps only the core adoption lifecycle, with upgrade, distribution, and troubleshooting content moved to separate reference pages.",
+    "A new documentation architecture draft explains the guide/reference split and the role of each documentation page."
+  ],
+  "guidelines": [
+    "Keep README and installation content version-neutral where possible and avoid embedding release-specific narrative in the guide path.",
+    "Preserve existing documentation metadata markers and the published make-target references required by the repository checks."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

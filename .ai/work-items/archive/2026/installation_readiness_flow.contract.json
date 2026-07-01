@@ -1,0 +1,157 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installation_readiness_flow",
+  "mode": "code",
+  "title": "Clarify installation readiness flow",
+  "baseCommit": "10e3c76d14d60bb2a5bdb386abaf97186fc9af3e",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "9a5090bbde8cf5e1818ce816dc4cc3c1655e69f6d9872d5f5cad9fdf56438515"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/installation_readiness_flow.contract.json",
+    ".ai/work-items/active/installation_readiness_flow.summary.json",
+    "docs/installation.md"
+  ],
+  "outOfScope": [
+    "Makefile",
+    "scripts/**",
+    ".ai/cockpit/**",
+    ".ai/guards/**",
+    "tests/**",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "examples/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/installation.md",
+      "reason": "Primary installation guide to revise for clearer readiness and verification steps."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Repository workflow guide for the active Work Item, checkpoint, and status commands."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Installed adoption checklist that the installation guide should reference more explicitly."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical terminology for Work Item, adoption, and Cockpit Status wording."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation",
+      "verification"
+    ],
+    "reason": "Narrow documentation update with existing commands and checks already present in the repository."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit for a doc-only change."
+  },
+  "preReviewWarnings": [
+    "Review command names and phase sequencing for accuracy against the Makefile and onboarding docs."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "docs/installation.md presents the installation flow as six phases: pre-flight, install, adoption, project calibration, validation, and first Work Item.",
+    "The guide explains the pre-flight checks, stack selection guidance, post-install file confirmation, adoption completion confirmation, calibration review points, and final readiness verification.",
+    "Every command named in the guide exists in the repository and the phrasing makes manual review points explicit rather than implying unattended acceptance."
+  ],
+  "guidelines": [
+    "Keep the installation walkthrough accurate to the repository's published Make targets and scripts.",
+    "Do not widen the edit scope beyond the installation guide and its paired Work Item records."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

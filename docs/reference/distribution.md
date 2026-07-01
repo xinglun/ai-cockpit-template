@@ -1,0 +1,55 @@
+---
+author: Ray
+title: "Distribution"
+description: Distribution and integrity reference for AI Cockpit.
+keywords:
+  - ai-cockpit
+  - distribution
+  - integrity
+  - install
+  - release
+---
+
+# Distribution
+
+AI Cockpit distribution is versioned through the published installer and release metadata. Use this page when you need installer flags, integrity capabilities, or local-install details that do not belong in the main adoption flow.
+
+## Published Capabilities
+
+The documented release is defined in `release.json`.
+
+- Public releases can verify the installer archive when `AI_COCKPIT_TEMPLATE_SHA256` is provided and supported by the published release metadata.
+- `make check-release-distribution` validates the documented distribution contract against the real installer.
+- Worktree capabilities are only public when the installed release passes the published distribution check.
+
+The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations. Treat caller-provided SHA256 comparison as an additional check, not as a published trust root.
+
+## Installer Options
+
+```text
+--dry-run          Show actions without writing files.
+--force            Overwrite existing AI Cockpit files.
+--upgrade          Back up and replace managed runtime, policy, and agent marker files.
+--upgrade-with-active
+                   Permit a high-risk upgrade while active Work Item JSON exists.
+--replace-glossary Back up and explicitly replace the project-owned .ai/glossary.md.
+--create-adoption Create the first auditable adoption Work Item; requires clean committed Git state.
+--with-examples    Copy examples/ into the target repository.
+--update-makefile  Append "include Makefile.ai" to the target Makefile.
+```
+
+Without `--update-makefile`, the installer writes `Makefile.ai` and `Makefile.ai.stack` but does not modify the host `Makefile`.
+
+## Local Install
+
+From a local clone:
+
+```sh
+/path/to/ai-cockpit-template/install.sh --stack rust --update-makefile
+```
+
+## When To Use This Page
+
+- You need the installed distribution behavior, not the adoption workflow.
+- You need a canonical place for installer options and integrity notes.
+- You are documenting release-specific distribution details for maintainers or integrators.

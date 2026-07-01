@@ -1,0 +1,207 @@
+{
+  "contractVersion": 2,
+  "workItemId": "doc_installation_tidy",
+  "mode": "code",
+  "title": "Tighten installation doc navigation",
+  "baseCommit": "10e3c76d14d60bb2a5bdb386abaf97186fc9af3e",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "744549c0db707343c4d6cbaa946165b385aebbe8ab94ec868df0165468e7aa0a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/doc_info_architecture_split.contract.json",
+      "status": "A",
+      "fingerprint": "59b7ce095f7a608fb4deb97d316ab1a4a66fffa8fd5af78d6771a53591275f22"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/doc_info_architecture_split.summary.json",
+      "status": "A",
+      "fingerprint": "dfb972071f7b5299bb597bbbb1a7809245f6d4353cb89aef54a9155f5fbb8b44"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installation_readiness_flow.contract.json",
+      "status": "A",
+      "fingerprint": "fec36914c45b92d0bb89884321866b8909fbf78ff126e5426bc231626f08ce50"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installation_readiness_flow.summary.json",
+      "status": "A",
+      "fingerprint": "ada0c81e11303473482fc7efb60c6eeb113c790c910bc22994067ecc3a13ef2c"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "029d51a44f80c480a4fd1bab2712373ec38532dd7c0c238b77a6b9a5b28def5e"
+    },
+    {
+      "path": "docs/distribution.md",
+      "status": "A",
+      "fingerprint": "623795738f63f2ed454478e05ef4d0abaf581cb042296496f73119fa87dd5202"
+    },
+    {
+      "path": "docs/documentation-architecture.md",
+      "status": "A",
+      "fingerprint": "4db24fa6dbd86278c447b6fef06f152dd1938f2d9c3b14c3bd3947cd7c8d5ae4"
+    },
+    {
+      "path": "docs/installation.md",
+      "status": "M",
+      "fingerprint": "d2be354c080ee3980275f5b6a522bce614b06ca03d4629717ab4af68fbbe6123"
+    },
+    {
+      "path": "docs/troubleshooting.md",
+      "status": "A",
+      "fingerprint": "7a4c252c18b1631a654a289733dc92f7a36ff9de60a868e5fb8c82b4a420e6fb"
+    },
+    {
+      "path": "docs/upgrade.md",
+      "status": "A",
+      "fingerprint": "d91c0518758f924a21b15f7e53ae561f260bfc27833159bd261f66b777d75250"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/doc_installation_tidy.contract.json",
+    ".ai/work-items/active/doc_installation_tidy.summary.json",
+    "docs/installation.md"
+  ],
+  "outOfScope": [
+    "README.md",
+    "docs/documentation-architecture.md",
+    "docs/distribution.md",
+    "docs/troubleshooting.md",
+    "docs/upgrade.md",
+    ".ai/cockpit/**",
+    ".ai/guards/**",
+    ".ai/work-items/archive/**",
+    "scripts/**",
+    "tests/**",
+    "examples/**",
+    ".github/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "docs/installation.md",
+      "reason": "Primary installation guide to adjust for navigation order and version-neutral wording."
+    },
+    {
+      "path": "docs/documentation-architecture.md",
+      "reason": "Documents the guide/reference split that the installation guide should reflect."
+    },
+    {
+      "path": "README.md",
+      "reason": "Quick Install entry that the installation guide links back to."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation",
+      "navigation"
+    ],
+    "reason": "A narrow doc-only adjustment to ordering and wording."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Keep the installation guide version-neutral and do not expand the scope back into reference content."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "docs/installation.md places Reference Pages before Phase 6 so navigation reads from guide to reference to task start.",
+    "docs/installation.md removes the remaining version-specific wording from the validation section and keeps the guide version-neutral.",
+    "The rest of the documentation split remains unchanged."
+  ],
+  "guidelines": [
+    "Preserve existing documentation metadata markers and the published make-target references required by the repository checks.",
+    "Keep the installation guide focused on the adoption lifecycle and do not widen it back into reference material."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

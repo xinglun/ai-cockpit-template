@@ -1,89 +1,14 @@
 ---
 author: Ray
 title: "Design Philosophy"
-description: Design philosophy behind AI Cockpit.
+description: Compatibility entry page for the philosophy guide.
 keywords:
   - ai-cockpit
   - design-philosophy
-  - governance
-  - cockpit
+  - compatibility
+  - philosophy
 ---
 
-# 設計思想 (Design Philosophy)
+# Design Philosophy
 
-人間の知的生産や開発プロセスが複雑化し、AI エージェントによるコードの自動生成が一般化するにつれ、システム全体の複雑性は人間の直接的な認知限界を超えつつあります。AI Cockpit はこの複雑性を圧縮し、AI エージェントのコード変更に「境界」と「検証可能性」を与えるために設計されました。
-
-本フレームワークの構造は、航空機のフライトプランおよびコックピット計器類と類似しています。これは航空のメタファを無理に当てはめたのではなく、制御問題（Control Problem）を本質から解決しようとした結果、自然と同じ形に収束したものです。
-
-## 1. 5 つの制御レイヤー
-
-強固な制御システムは、常に以下の独立したレイヤーによって多層防護されます。
-
-| AI 開発における制御課題 | 導入する制御レイヤー | 航空におけるアナロジー |
-| --- | --- | --- |
-| 開発計画と境界が曖昧 | **Work Item Contract** (契約) | 飛行計画 (Flight Plan) |
-| 変更するファイル領域が不明確 | **Scope Guard**（範囲外差分の検出） | 管制空域 (Controlled Airspace) |
-| 検証プロセスの省略や形骸化 | **Required Checks** (必須検証) | 計器検査 (Instrument Check) |
-| 意思決定プロセスの証跡が残らない | **Change Summary / Archive**（追加式の監査記録） | フライトレコーダー (Black Box) |
-| 現在の稼働状態が不透明 | **Cockpit Status** (コックピット) | 計器盤 (Cockpit display) |
-
----
-
-## 2. 中核となるアーキテクチャ上の決定と背景
-
-AI Cockpit の設計において、なぜ他の手段ではなく現在の形を選択したのか、その技術的合理性を以下に記します。
-
-## Collaborative Environment Design
-
-強い AI エンジニアリング環境は、参加者全員が曖昧な運用期待に完璧に適応することを前提にしません。環境そのものが、人間とエージェントの両方を安定して働かせる必要があります。境界は見えること、委譲は明示されること、不明点は合法的に報告できること、検証は再現可能なチェックへ委譲されること、そしてレビューは事後復元ではなく証拠から始まることが重要です。
-
-AI Cockpit はこの環境設計を、AI Change Governance を中核メカニズムとして実装します。Contract、Checks、Summary、Status、Archive は、単なる監査部品ではなく、協働の前提条件を明示するための構造です。
-
-## 3. Responsibility Model and Review Lenses
-
-AI Cockpit は、内部の思考そのものを保存するのではなく、レビュー可能な証拠を保存します。思考は豊かで文脈依存でよい一方で、レポジトリに残る記録は検証できる形であるべきです。ガバナンスのチェックは private reasoning ではなく、その証拠に対して動きます。
-
-| Layer | Responsibility |
-| --- | --- |
-| Human Intent | Why the work exists |
-| Agent Thinking | How the task is interpreted |
-| Reviewable Evidence | What the repository records |
-| Repository Governance | What checks and policies validate |
-| Repository History | What is preserved for audit and review |
-
-レビューの観点は次の 6 つを使います。これは hard な lifecycle phase ではありません。タスクをどう読むか、どうレビューするかを整理するための lens です。
-
-| Review Lens | AI Cockpit Surface |
-| --- | --- |
-| Empathy | `problemStatement`, `sources` |
-| Design | `acceptance`, `guidelines` |
-| Architecture | `scope`, `outOfScope`, `riskAssessment`, `rollbackNote` |
-| Implementation | `mode`, actual diff, `changedFiles` |
-| Judgment | `unknowns`, `notCodable`, `agentCapability`, `executionDecision`, `reviewReadiness` |
-| Shipping | `verification`, `Summary`, `Cockpit Status`, `Archive` |
-
-これらは review lenses であり、`Plan -> Scope -> Verify -> Summarize -> Status -> Archive` を置き換えるものではありません。`workflowPhase` や `workflowEvidence` を追加する必要はなく、empathy / design / architecture / implementation / judgment / shipping を必須フィールドにするべきでもありません。
-
-ユーザーが動機や影響を明示していない場合、推測で補わず、`problemStatement` か `unknowns` に `not provided` を明記するほうがよいです。
-
-## 4D Operating Model
-
-- Delegation: Work Item Contract と Check ID registry が、作業と検証の担当を明示的に委譲する。
-- Description: `scope`、`outOfScope`、`sources`、`acceptance`、`rollbackNote` が、実装前にタスクを記述する。
-- Discernment: `unknowns`、`riskAssessment`、`agentCapability`、`executionDecision`、`reviewReadiness` が、判断を可視化する。
-- Diligence: required checks、checkpoints、Summary、Status、Archive が、やり切りとレビュー可能性を担保する。
-
-### Q: なぜ CI Action ではなく「Makefile 委譲」なのか？
-- **ローカルでの即時フィードバック**: CI サーバーにコードを Push する前に、開発者のローカル環境で AI エージェントが自律的に全チェックを実行して自己修正できる必要があります。
-- **言語スタックの中立性**: Contract は Check ID（`projectFormat`、`projectTest` など）を参照し、レジストリが名前空間付き Make ターゲット（`ai-cockpit-project-format-check`、`ai-cockpit-project-test` など）へ解決します。この分離により、共通の Python 制御スクリプトはスタック固有コマンドを直接知る必要がありません。
-
-### Q: なぜ Contract は YAML ではなく「JSON」なのか？
-- **厳密なスキーマ検証の容易さ**: Contract は機械が生成し、機械が厳格に読み取ります。YAML はインデントや型推断が曖昧になりがちですが、JSON は仕様が極めてシンプルであり、Python の標準ライブラリ（`json`）のみで安全かつ高速にパースできます。
-- **バイト単位の整合性比較**: 現在の Contract ハッシュはファイルの生バイト列から計算するため、空白、インデント、キー順序の変更でも値が変わります。JSON を採用する理由は構文と型の扱いが明確なことであり、整形差を吸収する正規化ハッシュを提供するためではありません。
-
-### Q: なぜ「単一のアクティブ Work Item」に制限するのか？
-- **状態の混在防止**: 複数の AI エージェントが並行して異なるタスクの Contract を同時にアクティブにすると、Git 差分がどのタスクの変更範囲に属するのか判別できず、監査の整合性が崩れます。
-- **開発プロセスのシングルスレッド化**: 1 つのタスクに集中させ、終了チェックを通過してアーカイブ（`archive-work-item`）した後にのみ次のタスクに着手させることで、開発ブランチの健全性とレビューの追跡性を最大化します。
-
-### Q: なぜ成功した検証結果のみをアーカイブするのか？
-- **結果整合性の保証**: 検証済みの Contract/Summary を `.ai/work-items/archive/` へ移し、既存証跡の変更を PR ポリシーで拒否します。これは通常のレビュー経路で追加式の履歴を強制する仕組みであり、ファイルシステムや外部ストレージの不変性を保証するものではありません。
+This compatibility entry now lives at [Design Philosophy](philosophy/design-philosophy.md).

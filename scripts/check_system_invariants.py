@@ -32,7 +32,7 @@ def check_ids(path: Path) -> set[str]:
     return set(re.findall(r"^  ([A-Za-z][A-Za-z0-9]+):$", block, re.MULTILINE))
 
 
-def local_link_issues(path: Path) -> list[str]:
+def local_link_issues(root: Path, path: Path) -> list[str]:
     issues = []
     text = path.read_text(encoding="utf-8")
     for link in re.findall(r"\[[^\]]+\]\(([^)]+)\)", text):
@@ -40,7 +40,7 @@ def local_link_issues(path: Path) -> list[str]:
             continue
         target = (path.parent / link.split("#", 1)[0]).resolve()
         if not target.exists():
-            issues.append(f"{path.relative_to(ROOT)}: broken local link: {link}")
+            issues.append(f"{path.relative_to(root)}: broken local link: {link}")
     return issues
 
 
@@ -49,7 +49,7 @@ def release_contract_issues(root: Path, release: dict[str, Any]) -> list[str]:
     if not isinstance(target, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+", target):
         return ["release.json public project quality target is missing or invalid"]
     marker = f"<!-- public-quality-target: {target} -->"
-    paths = [*(root / name for name in README_FILES), root / "docs" / "installation.md"]
+    paths = [*(root / name for name in README_FILES), root / "docs" / "getting-started" / "installation.md"]
     return [
         f"{path.relative_to(root)}: public quality target differs from release.json"
         for path in paths
@@ -113,7 +113,7 @@ def invariant_issues(root: Path = ROOT) -> list[str]:
             issues.append(f"Contract example references unknown Check ID: {item.get('check')}")
     documentation = [
         *(root / name for name in README_FILES),
-        *sorted((root / "docs").glob("*.md")),
+        *sorted((root / "docs").rglob("*.md")),
         *sorted((root / "examples").glob("*/README.md")),
     ]
     documented_targets: set[str] = set()
@@ -125,7 +125,7 @@ def invariant_issues(root: Path = ROOT) -> list[str]:
         if target not in targets:
             issues.append(f"documentation references missing Make target: {target}")
     for path in documentation:
-        issues.extend(local_link_issues(path))
+        issues.extend(local_link_issues(root, path))
     try:
         exercise_installer(
             (root / "install.sh").read_bytes(),

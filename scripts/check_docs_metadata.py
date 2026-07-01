@@ -36,7 +36,7 @@ def documentation_files(root: Path) -> list[Path]:
     files = [root / name for name in README_FILES]
     files.append(root / ".ai" / "README.md")
     files.append(root / ".ai" / "glossary.md")
-    files.extend(sorted((root / "docs").glob("*.md")))
+    files.extend(sorted((root / "docs").rglob("*.md")))
     files.extend(sorted((root / "examples").glob("*/README.md")))
     return files
 
@@ -158,11 +158,11 @@ def installation_command_errors(root: Path) -> list[str]:
     install_script = (root / "install.sh").read_text(encoding="utf-8")
     if f'REF="${{AI_COCKPIT_TEMPLATE_REF:-{release_tag}}}"' not in install_script:
         errors.append("install.sh: default ref does not match release.json")
-    installation = (root / "docs" / "installation.md").read_text(encoding="utf-8")
+    installation = (root / "docs" / "getting-started" / "installation.md").read_text(encoding="utf-8")
     if quality_marker not in installation:
-        errors.append("docs/installation.md: public quality target differs from release.json")
+        errors.append("docs/getting-started/installation.md: public quality target differs from release.json")
     if f"make {quality_target}\nmake check-ai-adoption-ready" not in installation:
-        errors.append("docs/installation.md: readiness commands do not use the public quality target")
+        errors.append("docs/getting-started/installation.md: readiness commands do not use the public quality target")
     return errors
 
 
@@ -170,7 +170,7 @@ def japanese_style_errors(root: Path) -> list[str]:
     errors = []
     paths = [
         root / "README.ja.md",
-        *sorted((root / "docs").glob("*.md")),
+        *sorted((root / "docs").rglob("*.md")),
         *sorted((root / "examples").glob("*/README.md")),
     ]
     for path in paths:

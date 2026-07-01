@@ -101,7 +101,7 @@ def test_check_rejects_public_quality_command_drift(tmp_path):
         ),
         encoding="utf-8",
     )
-    installation = tmp_path / "docs" / "installation.md"
+    installation = tmp_path / "docs" / "getting-started" / "installation.md"
     installation.write_text(
         installation.read_text(encoding="utf-8").replace(
             "make ai-cockpit-quality\nmake check-ai-adoption-ready",
@@ -112,7 +112,7 @@ def test_check_rejects_public_quality_command_drift(tmp_path):
 
     errors = check_repository(tmp_path)
     assert "README.md: readiness guidance does not use the public quality target" in errors
-    assert "docs/installation.md: readiness commands do not use the public quality target" in errors
+    assert "docs/getting-started/installation.md: readiness commands do not use the public quality target" in errors
 
 
 def test_check_rejects_missing_front_matter_field(tmp_path):

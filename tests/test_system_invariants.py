@@ -4,13 +4,13 @@ from check_system_invariants import release_contract_issues
 
 
 def write_release_contract_fixture(root, target="quality"):
-    (root / "docs").mkdir()
+    (root / "docs" / "getting-started").mkdir(parents=True)
     metadata = {"publicContract": {"projectQualityTarget": target}}
     (root / "release.json").write_text(json.dumps(metadata), encoding="utf-8")
     marker = f"<!-- public-quality-target: {target} -->\n"
     for name in ("README.md", "README.ja.md", "README.zh-CN.md"):
         (root / name).write_text(marker, encoding="utf-8")
-    (root / "docs" / "installation.md").write_text(marker, encoding="utf-8")
+    (root / "docs" / "getting-started" / "installation.md").write_text(marker, encoding="utf-8")
     return metadata
 
 

@@ -75,7 +75,9 @@ Review starts from context.
 
 **Prerequisites:** Linux, macOS, or WSL with a POSIX shell; Python 3.10+; Git, curl, and GNU Make; and a clean Git repository with at least one commit. The selected stack's formatter, test runner, SDK, and build plugins must already be installed.
 
-## Install the Latest Published Runtime
+## Quick Install
+
+Use this when you want the shortest path to a fresh adoption install. For the full lifecycle and page map, read [Installation](docs/getting-started/installation.md) and [Documentation Architecture](docs/reference/documentation-architecture.md).
 
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
@@ -93,7 +95,7 @@ CONFIG_BASE="$(git rev-parse HEAD)"
 make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this project" MODE=code
 ```
 
-The command prefers the public `release.json` pointer and falls back to the highest published semantic-version tag during the metadata rollout. It then downloads and executes only the resolved tagged installer. Published capabilities may lag the source tree; review [Installation](docs/installation.md) before creating the first adoption PR.
+The command resolves a tagged installer from `release.json` when possible and falls back to the highest published semantic-version tag during the metadata rollout. It then downloads and executes only the resolved tagged installer.
 
 Review and extend the generated configuration Contract scope before changing Project Profile, Guard, quality-command, or CI files. Then calibrate the installed runtime before enabling blocking gates:
 
@@ -272,13 +274,15 @@ Repository `make quality` runs the full test suite with a 60% overall script cov
 
 ## Advanced Docs
 
-- [Installation](docs/installation.md)
+- [Installation](docs/getting-started/installation.md)
+- [First Work Item](docs/getting-started/first-work-item.md)
 - [Concept Guide (Japanese)](docs/overview.ja.md)
 - [Contract & Summary Fields Manual](docs/contract-fields.md)
 - [Configuration](docs/configuration.md)
 - [Non-Make Adaptation (Japanese)](docs/non-make-adaptation.ja.md)
 - [Architecture](docs/architecture.md)
-- [Design Philosophy](docs/design-philosophy.md)
+- [Documentation Architecture](docs/reference/documentation-architecture.md)
+- [Design Philosophy](docs/philosophy/design-philosophy.md)
 - [Case Study: Stopping AI Rollback Corruption](docs/case-study-ai-rollback-corruption.md)
 - [Promotional Material](docs/launch.md)
 - [GitHub Topic Recommendations](docs/topics.md)

@@ -114,6 +114,8 @@ Makefile.ai.stack
 .gitlab-ci.yml
 ```
 
+Include `.gitlab-ci.yml` when the repository uses GitLab CI; include `.github/workflows/**` when it uses GitHub Actions. A single configure Work Item may cover both if your project changes both, but scope only paths you will actually edit.
+
 Also replace skeleton unknowns, capability, execution decision, acceptance, and guideline fields before the `before_edit` checkpoint. The second Contract owns all Project Profile, Guard, quality-command, and CI changes; the archived installation Contract does not.
 
 Do not treat `make ai-onboard` as an unattended acceptance step. The generated proposal and the stack preset both require human review, especially `target/ai_project_doctor_report.json`, `.ai/project_profile.proposed.yaml`, `Makefile.ai.stack`, and any `blocking:` unknowns that the calibration step surfaces.

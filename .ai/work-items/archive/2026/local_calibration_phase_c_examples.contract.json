@@ -1,0 +1,159 @@
+{
+  "contractVersion": 2,
+  "workItemId": "local_calibration_phase_c_examples",
+  "mode": "code",
+  "title": "Phase C: Swift Xcode adaptation examples",
+  "baseCommit": "f6bbb2277bf4db2d57d2b9e8e1aa244f0b084ab8",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "placeholder"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/local_calibration_phase_c_examples.contract.json",
+    ".ai/work-items/active/local_calibration_phase_c_examples.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/getting-started/installation.md",
+    "examples/swift/README.md"
+  ],
+  "outOfScope": [
+    "scripts/ai_project_doctor.py",
+    "templates/stacks/**",
+    ".ai/guards/coverage_policy.yaml",
+    "tests/**",
+    "特定プロジェクト向け preset"
+  ],
+  "sources": [
+    {
+      "path": "docs/plans/local-calibration-template-improvements.md",
+      "reason": "Phase C acceptance for Xcode examples and GitLab CI scope reinforcement."
+    },
+    {
+      "path": "examples/swift/README.md",
+      "reason": "Swift adaptation example to extend with Xcode and Coverage samples."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "configure_ai_cockpit scope list to reinforce GitLab CI."
+    }
+  ],
+  "problemStatement": "Phase A documented local calibration conceptually; Phase C adds neutral Xcode and CocoaPods manual calibration examples without introducing a dedicated ios-cocoapods stack or changing template coverage defaults.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_drift"
+    ],
+    "reason": "Example-only documentation; no runtime changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Phase C scope and acceptance are explicit."
+  },
+  "preReviewWarnings": [
+    "Confirm examples use MyApp placeholders only.",
+    "Confirm template coverage_policy.yaml default is unchanged."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Example documentation must stay illustrative and project-neutral."
+  },
+  "acceptance": [
+    "examples/swift/README.md documents that examples/ is illustrative and not copied during installation.",
+    "examples/swift/README.md adds an Xcode or workspace section with neutral xcodebuild test -workspace, -configuration, and pre-test pod install guidance.",
+    "examples/swift/README.md adds Xcode-oriented Coverage Guard include and exclude examples such as Pods exclusion without changing template defaults.",
+    "docs/getting-started/installation.md reinforces that configure_ai_cockpit scope includes .gitlab-ci.yml for GitLab-hosted repositories.",
+    "make check-docs-metadata passes."
+  ],
+  "guidelines": [
+    "examples/swift/README.md body is Japanese with YAML front matter author: Ray.",
+    "Use MyApp placeholders only; no customer-specific identifiers.",
+    "Do not narrow template coverage_policy.yaml defaults."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": false
+    },
+    {
+      "check": "docsMetadata",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Documentation-only task."
+  },
+  "rollbackNote": "Revert Phase C example and installation doc edits."
+}

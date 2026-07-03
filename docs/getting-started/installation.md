@@ -190,7 +190,7 @@ Installation is complete when validation succeeds and the first Work Item walkth
 The installed `.ai/cockpit/version.json` records the distribution and Contract schema version. Use `--upgrade` for an existing installation:
 
 ```sh
-CURRENT_VERSION=v0.5.15
+CURRENT_VERSION=v0.5.16
 TARGET_VERSION='<release-tag-newer-than-current>'
 test "$TARGET_VERSION" != "$CURRENT_VERSION"
 INSTALLER="$(mktemp)"

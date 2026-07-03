@@ -14,7 +14,7 @@ keywords:
 Use `--upgrade` when the target repository already contains AI Cockpit files and you want the managed runtime, policy, and marker files replaced in a controlled way.
 
 ```sh
-CURRENT_VERSION=v0.5.15
+CURRENT_VERSION=v0.5.16
 TARGET_VERSION='<release-tag-newer-than-current>'
 test "$TARGET_VERSION" != "$CURRENT_VERSION"
 INSTALLER="$(mktemp)"

@@ -1,0 +1,225 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0_5_16",
+  "mode": "code",
+  "title": "Release v0.5.16",
+  "baseCommit": "b43369f61e6939b5893f1f2a267c87889c4e4964",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "a6072498ff122c8bf597f4711d25acc29a648c8946c106e87393e618705d5358"
+    }
+  ],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/release_v0_5_16.contract.json",
+    ".ai/work-items/active/release_v0_5_16.summary.json",
+    "docs/getting-started/installation.md",
+    "docs/reference/upgrade.md",
+    "examples/csharp/README.md",
+    "examples/flutter/README.md",
+    "examples/go/README.md",
+    "examples/java/README.md",
+    "examples/kotlin/README.md",
+    "examples/php/README.md",
+    "examples/python/README.md",
+    "examples/ruby/README.md",
+    "examples/rust/README.md",
+    "examples/swift/README.md",
+    "examples/typescript/README.md",
+    "install.sh",
+    "release.json",
+    "tests/test_install_script.py"
+  ],
+  "outOfScope": [
+    ".ai/guards/**",
+    ".ai/project_profile.yaml",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/configuration.md",
+    "docs/reference/distribution.md",
+    "docs/reference/documentation-architecture.md",
+    "docs/reference/troubleshooting.md",
+    "scripts/**",
+    ".github/**"
+  ],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Advance the public release tag to v0.5.16."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Keep the default AI_COCKPIT_TEMPLATE_REF aligned with release.json."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Update the documented current version in the upgrade flow."
+    },
+    {
+      "path": "docs/reference/upgrade.md",
+      "reason": "Update the documented current version in the upgrade flow."
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/go/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/java/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/php/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/python/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/rust/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/swift/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "reason": "Keep the example install command aligned with the published release tag."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Keep the installer regression test aligned with the new release tag."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_metadata_drift"
+    ],
+    "reason": "Version sync across release metadata, installer default ref, upgrade docs, and regression tests."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Release metadata sync and tag/release publication are explicit."
+  },
+  "preReviewWarnings": [
+    "Confirm the release tag bump is reflected in release.json, install.sh, docs, and the installer regression test."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json releaseTag is advanced to v0.5.16.",
+    "install.sh default AI_COCKPIT_TEMPLATE_REF matches release.json.",
+    "docs/getting-started/installation.md and docs/reference/upgrade.md show v0.5.16 in their upgrade examples.",
+    "examples/**/README.md install commands resolve v0.5.16 from release.json metadata.",
+    "tests/test_install_script.py expects the v0.5.16 archive URL.",
+    "make quality and make check-system-invariants pass before the release tag is created."
+  ],
+  "guidelines": [
+    "Keep release metadata synchronized across the installer, upgrade examples, and regression tests.",
+    "Do not change unrelated language-stack presets or guard policies in a version bump task."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

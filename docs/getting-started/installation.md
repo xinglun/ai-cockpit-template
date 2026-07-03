@@ -92,9 +92,11 @@ AI Cockpit fits a **generic template plus local calibration** model. Installatio
 
 1. **Two Work Items, two commits:** finish `adopt_ai_cockpit` in its own commit, then start `configure_ai_cockpit` for Profile, Guard, quality-command, and CI changes.
 2. **Doctor facts, human approval:** review `target/ai_project_doctor_report.json` and resolve every `blocking:` unknown in `.ai/project_profile.yaml`. Doctor reports facts only; it does not auto-approve boundaries or generate `xcodebuild` commands.
-3. **Coverage starts report-only when needed:** for legacy or broad source trees, keep `.ai/guards/coverage_policy.yaml` at `reportOnly: true` with narrowed include/exclude paths until boundaries are stable, then set `adoptionReviewed: true`.
-4. **Staged CI:** start with **L1** governance only—full Git history plus `make check-ai-pr`. After L1 is stable, add **L2** `make ai-cockpit-quality` as a separate required job.
+3. **Coverage starts report-only when needed:** for legacy or broad source trees, keep `.ai/guards/coverage_policy.yaml` at `reportOnly: true` with narrowed include/exclude paths until boundaries are stable, then set `adoptionReviewed: true`. Android repositories should use this phase to map `app/src/main/**`, `*/src/main/**`, `app/src/test/**`, and `app/src/androidTest/**` before they tighten any flavor-specific associations.
+4. **Staged CI:** start with **L1** governance only—full Git history plus `make check-ai-pr`. After L1 is stable, add **L2** `make ai-cockpit-quality` as a separate required job. For Android/Java, keep L2 non-blocking until the actual Gradle variant tasks and coverage boundaries are calibrated.
 5. **Pilot Work Item:** run one governed task with quality optional if needed, then promote quality and Coverage to blocking gates.
+
+For Java and Android repositories, treat the host JDK as a prerequisite before the flow above starts. The template does not install, switch, or manage JDK versions; confirm JDK 21 on the host first, then verify that `./gradlew` runs, then replace the preset task names with the actual variant-aware Gradle commands your project exposes.
 
 The installed [Adoption Readiness](../../.ai/cockpit/adoption.md) checklist mirrors these steps for day-to-day use.
 
@@ -145,7 +147,7 @@ git commit -m "configure AI Cockpit for this project"
 make check-ai-pr AI_BASE_COMMIT="$CONFIG_BASE"
 ```
 
-`cockpit-doctor` runs the existing environment checks and writes a read-only project-fact report to `target/ai_project_doctor_report.json`. `cockpit-calibrate` consumes that report and creates `.ai/project_profile.proposed.yaml`; it refuses to overwrite an existing proposal and never modifies Guard files. Human confirmation creates `.ai/project_profile.yaml` with explicit `approvedBoundaries` and approval metadata. Keep unresolved decisions in `unknowns`; entries prefixed with `blocking:` prevent readiness.
+`cockpit-doctor` runs the existing environment checks and writes a read-only project-fact report to `target/ai_project_doctor_report.json`. `cockpit-calibrate` consumes that report and creates `.ai/project_profile.proposed.yaml`; it refuses to overwrite an existing proposal and never modifies Guard files. Human confirmation creates `.ai/project_profile.yaml` with explicit `approvedBoundaries` and approval metadata. Keep unresolved decisions in `unknowns`; entries prefixed with `blocking:` prevent readiness. For Android/Java, the main calibration question is not whether the preset exists, but whether the repo's module, flavor, and variant commands match the host Gradle wrapper.
 
 ### Phase 5. Validation
 

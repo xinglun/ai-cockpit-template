@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "configure_android_java_calibration",
+  "mode": "code",
+  "title": "Android/Java calibration refinements",
+  "baseCommit": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ef7a932e7daedbafd4d995bcccaf3e197482c25755fbfaaec7e6f20a633a9d67"
+    }
+  ],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/configure_android_java_calibration.contract.json",
+    ".ai/work-items/active/configure_android_java_calibration.summary.json",
+    ".ai/work-items/archive/**",
+    "docs/configuration.md",
+    "docs/getting-started/installation.md",
+    "docs/reference/troubleshooting.md",
+    "examples/java/README.md",
+    "templates/stacks/android.mk"
+  ],
+  "outOfScope": [
+    ".ai/guards/coverage_policy.yaml",
+    "scripts/ai_project_doctor.py",
+    "templates/stacks/java.mk"
+  ],
+  "sources": [
+    {
+      "path": "docs/configuration.md",
+      "reason": "Document host JDK 21 as an external prerequisite and explain Android/Java calibration starting points."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Explain the Android-friendly calibration flow and staged CI order."
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "reason": "Record the Android/Java recovery path when preset commands or Gradle checks need calibration."
+    },
+    {
+      "path": "examples/java/README.md",
+      "reason": "Show Android Java coverage boundaries, flavor boundaries, and report-only guard guidance."
+    },
+    {
+      "path": "templates/stacks/android.mk",
+      "reason": "Convert Android preset commands into calibration starting points without changing other stacks."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "docs_accuracy",
+      "calibration"
+    ],
+    "reason": "The change is limited to Android/Java docs and preset comments, but task-name and boundary guidance must stay precise."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Verify that Android task names are framed as calibration starting points, not guaranteed defaults.",
+    "Keep the default coverage policy broad and report-only in the examples and docs."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record checkpoints so scope, acceptance, and Android calibration guidance stay visible during the edit."
+  },
+  "acceptance": [
+    "docs/configuration.md and docs/getting-started/installation.md state that Android/Java requires a host JDK 21 and the template does not install or manage JDK versions.",
+    "docs/configuration.md and docs/reference/troubleshooting.md explain the Android-friendly calibration flow: verify the Gradle wrapper first, then replace preset quality commands, then wire L1 and L2 CI.",
+    "examples/java/README.md explains Android coverage and flavor boundaries, including app/src/main/**, */src/main/**, app/src/test/**, and app/src/androidTest/**, and keeps the default coverage policy report-only at first.",
+    "templates/stacks/android.mk keeps default commands but marks them as calibration starting points for actual variant-specific task names."
+  ],
+  "guidelines": [
+    "Document host JDK 21 as an external prerequisite rather than a template-managed dependency.",
+    "Keep Android preset commands and coverage guidance as calibration starting points and do not change the default coverage policy in this task."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "docsMetadata",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert the doc and template edits made for Android/Java calibration guidance."
+}

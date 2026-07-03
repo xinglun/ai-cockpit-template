@@ -54,9 +54,9 @@ PROJECT_LINT = printf '%s\n' 'No linter configured.'
 
 Those lines illustrate variable names only. The shipped generic preset fails closed until all three commands are configured; it does not treat placeholder output as a successful quality gate.
 
-Presets are editable starting points rather than dependency installers or universal compatibility guarantees. Before using one, make sure its formatter, test runner, SDK, and build plugins are configured in the target repository. In particular, the Java and Android presets expect a Gradle wrapper and Spotless; the Python preset expects Ruff and pytest. `examples/` demonstrates selected stacks and does not mirror every available preset.
+Presets are editable starting points rather than dependency installers or universal compatibility guarantees. Before using one, make sure its formatter, test runner, SDK, and build plugins are configured in the target repository. The Java and Android presets assume the host already provides JDK 21; this template does not install, switch, or version-manage JDKs. For Android projects, the preset task names are calibration starting points: replace `testDebugUnitTest`, `spotlessCheck`, and `lint` with the actual `test<Flavor><BuildType>UnitTest` and `lint<Variant>` commands exposed by the Gradle wrapper. The Python preset expects Ruff and pytest. `examples/` demonstrates selected stacks and does not mirror every available preset.
 
-Stack selection changes quality commands only; it does not install a stack-specific guard policy. The default Coverage Guard includes several common layouts (`src/`, `lib/`, Android `app/src/main/`, Swift `Sources/`, and C# files), but repositories must review production/test patterns and `associations` in `.ai/guards/coverage_policy.yaml` before treating the gate as complete framework coverage.
+Stack selection changes quality commands only; it does not install a stack-specific guard policy. The default Coverage Guard includes several common layouts (`src/`, `lib/`, Android `app/src/main/`, Swift `Sources/`, and C# files), but repositories must review production/test patterns and `associations` in `.ai/guards/coverage_policy.yaml` before treating the gate as complete framework coverage. Android adopters should keep that policy report-only at first, then narrow module and flavor boundaries after the real source-set layout is confirmed.
 
 Examples:
 
@@ -107,6 +107,8 @@ These approval objects are explicit workflow records, not trusted identity asser
 `scope_policy.yaml` `dependencyScopeRules` maps a changed source pattern to required companion change patterns. The default template requires governance script changes to include tests.
 
 For pull-request CI, set `AI_BASE_COMMIT` to `git merge-base HEAD <target-branch>`. This makes every diff-aware guard inspect committed PR changes in a clean checkout.
+
+For Android and Java projects, keep CI staged: use `make check-ai-pr` as the first blocking check once the Gradle wrapper and preset task names are calibrated, then add `make ai-cockpit-quality` as a separate L2 gate after the variant-specific tasks and coverage boundaries are stable.
 
 The lifecycle permits one active Work Item per worktree. A branch may archive several serial Work Items before commit. CI validates every changed archive pair against the full PR diff, and each non-exempt path must be both in one Contract's scope, outside that Contract's outOfScope, and in its paired Summary's `changedFiles`. Cross-pair scope/report claims do not satisfy ownership. Use separate worktrees for truly parallel Work Items.
 

@@ -1,0 +1,379 @@
+{
+  "workItemId": "configure_android_java_calibration",
+  "contractPath": ".ai/work-items/archive/2026/configure_android_java_calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated lifecycle status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/configure_android_java_calibration.contract.json",
+      "reason": "Updated the Work Item Contract for Android/Java calibration scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/configure_android_java_calibration.summary.json",
+      "reason": "Recorded the Android/Java calibration plan and verification state."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/configure_android_java_calibration.contract.json",
+      "reason": "Archive the completed Work Item contract after finish."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/configure_android_java_calibration.summary.json",
+      "reason": "Archive the completed Work Item summary after finish."
+    },
+    {
+      "path": "docs/configuration.md",
+      "reason": "Document host JDK 21 as a prerequisite and explain Android/Java calibration starting points."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Explain the Android-friendly calibration flow and staged CI order."
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "reason": "Record the Android/Java recovery path when preset commands or Gradle checks need calibration."
+    },
+    {
+      "path": "examples/java/README.md",
+      "reason": "Show Android coverage boundaries, flavor boundaries, and report-only guard guidance."
+    },
+    {
+      "path": "templates/stacks/android.mk",
+      "reason": "Mark Android preset commands as calibration starting points."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/configure_android_java_calibration.contract.json",
+    "docs/configuration.md",
+    "docs/getting-started/installation.md",
+    "docs/reference/troubleshooting.md",
+    "examples/java/README.md",
+    "templates/stacks/android.mk"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:39.144106+00:00",
+      "exitCode": 0,
+      "durationMs": 84,
+      "outputDigest": "4da96cb6be673a948a24600686e3c9957657394092764c1a2aef014268f88e17",
+      "commandHash": "3b058407d5b866073e2d202971fec4245fa8698a14de6929b83d441e31e50c54",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/configure_android_java_calibration.contract.json work item contract check passed: .ai/work-items/active/configure_android_java_calibration.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:39.330950+00:00",
+      "exitCode": 0,
+      "durationMs": 178,
+      "outputDigest": "0a98e2d0dce2dfae5de641f53092cc2fa1dad606c111286a2a18411d26e77603",
+      "commandHash": "6740b43e6181d8e95450f3335e28c319543c3b8afac8604fea3e6a267e55abc5",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/configure_android_java_calibration.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "docsMetadata",
+      "command": "make check-docs-metadata",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:39.426727+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "ad5ca456c99d6df5663f552488284b4454e728fe977661cea0cf621e19373e75",
+      "commandHash": "3865c2222dbcd28d7b8123bfe6deb2e6fe0a487794ff37758a6aa211c4e5dfc6",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/check_docs_metadata.py documentation metadata check passed"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:39.653846+00:00",
+      "exitCode": 0,
+      "durationMs": 216,
+      "outputDigest": "14cc0da77f958f1cb3abf8264c40842b221c7db28d31037e046bf74d5da44820",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/configure_android_java_calibration.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:39.736014+00:00",
+      "exitCode": 0,
+      "durationMs": 67,
+      "outputDigest": "d7263de212cf68c64fb51f679828a2e6d46409ac463aa6b2211800a88d530f7e",
+      "commandHash": "fd9d1aa04458582bccc425d05307cb6f30a62e4251fe9da8adb4e15ac161abc9",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/configure_android_java_calibration.contract.json --summary .ai/work-items/active/configure_android_java_calibration.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `configure_android_java_calibration` - Contract Hash: `6ca13a31b21e8fbd` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:39.904298+00:00",
+      "exitCode": 0,
+      "durationMs": 161,
+      "outputDigest": "527114574bfec0a02079d3d0a0bb63014937f7c3ea384cb22dd559d236eddf35",
+      "commandHash": "576846040f38196c82c470ee62c3d4ab71d345e43918b8033e17c1a8e1140b78",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/configure_android_java_calibration.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:40.118239+00:00",
+      "exitCode": 0,
+      "durationMs": 206,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:40.327914+00:00",
+      "exitCode": 0,
+      "durationMs": 193,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:44:40.412846+00:00",
+      "exitCode": 0,
+      "durationMs": 72,
+      "outputDigest": "03e3200e50abbd2fa51071e897d314172e2a3696b4085e405ff32aca7e0930c4",
+      "commandHash": "9bd35dafbd7e4770a0275ed7a106213fa0bdf3f0d0163b5e2dbfcb3052addfc5",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/configure_android_java_calibration.contract.json --summary .ai/work-items/active/configure_android_java_calibration.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:45:37.423437+00:00",
+      "exitCode": 0,
+      "durationMs": 57004,
+      "outputDigest": "32d8d1dd5a7b1c8a9d86f057ae833d78b04b131ef188c8b08f9a81298ef1cb5e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 35%] ........................................................................ [ 70%] ............................................................ [100%] ================================ tests coverage ================================ _______________ cov"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:45:38.228207+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "3be8a617800578a17d100f095e08b48e453527066ccaf40b66010dfa7f52ea3e",
+      "commandHash": "b7141fa818e145b96464e897b0739acb215ea842fb1b3398a75fe619e0ee4482",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/configure_android_java_calibration.contract.json --summary .ai/work-items/active/configure_android_java_calibration.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:45:38.301011+00:00",
+      "exitCode": 0,
+      "durationMs": 63,
+      "outputDigest": "867d8e6ed1022ecfb89553e7bd66bf2687be8021681cf4bade58cb45827a21ca",
+      "commandHash": "ce2d766e2c10d2dd00b3c24e352f93be9ab9fa6be2644a80c83042b3440348ac",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/configure_android_java_calibration.contract.json --summary .ai/work-items/active/configure_android_java_calibration.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:45:38.374381+00:00",
+      "exitCode": 0,
+      "durationMs": 61,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:45:38.440392+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "1d4bf1104b3e7fd05f4b670649c9585f50d89aca4d6122f1c45404cd37ba2ddb",
+      "commandHash": "8143c74edbfeaf9202b547c16a4ab3000488b82f60fe714c733cc3db58660a3b",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/configure_android_java_calibration.contract.json --summary .ai/work-items/active/configure_android_java_calibration.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/configure_android_java_calibration.summary.json CONTRACT=.ai/work-items/active/configure_android_java_calibration.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-03T01:45:38.664940+00:00",
+      "exitCode": 0,
+      "durationMs": 201,
+      "outputDigest": "8b996335d3f27a699e6f99e47aa7e389a07ac593aba0a42aebd7c3854ece5fa3",
+      "commandHash": "d898699e061d923377e38960a5675c19279c5f7d4eb9517d1579131c246be093",
+      "contractHash": "6ca13a31b21e8fbdffad1608b3327f9f82f34a9f6aafb4fc66d74e8260f1b9eb",
+      "commitSha": "37f1475b08e9c1986b4c730b64d4a0c11f9f4fd8",
+      "executionContractPath": ".ai/work-items/active/configure_android_java_calibration.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/configure_android_java_calibration.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/configure_android_java_calibration.summary.json --contract .ai/work-items/active/configure_android_java_calibration.contract.json ai summary check passed: .ai/work-items/active/configure_android_java_calibration.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Document host JDK 21 as an external prerequisite rather than a template-managed dependency.",
+      "compliant": true,
+      "evidence": "docs/configuration.md and docs/getting-started/installation.md state that Android/Java requires host JDK 21 and the template does not install or manage JDK versions."
+    },
+    {
+      "guideline": "Keep Android preset commands and coverage guidance as calibration starting points and do not change the default coverage policy in this task.",
+      "compliant": true,
+      "evidence": "templates/stacks/android.mk adds calibration guidance, docs/reference/troubleshooting.md explains how to replace task names, and examples/java/README.md keeps the default coverage policy report-only at first."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change is limited to Android/Java calibration docs and preset comments, with no JDK management or coverage-policy edits."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Android task names and flavor roots must still be calibrated in each target repository; the preset intentionally stays a starting point."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "calibration",
+      "detail": "Variant-specific Gradle tasks and source-set boundaries still need project-specific confirmation before Android CI can be made blocking.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "low",
+      "area": "adoption",
+      "detail": "The template continues to rely on the host for JDK 21, so adopters must keep their own environment setup documented.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Required verification passed; Android task names and flavor boundaries still need project-specific calibration in each adoptee.",
+    "expectedReviewFocus": [
+      "host JDK 21 remains external to the template",
+      "Android preset commands are calibration starting points",
+      "coverage policy stays broad/report-only until each repo calibrates its module and flavor boundaries"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "6ca13a31b21e8fbd",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed scope, out-of-scope, acceptance, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "6ca13a31b21e8fbd",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 11,
+      "detail": "Recorded the Android/Java calibration checkpoint after the docs, example, and preset edits were in place."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report the Android/Java calibration guidance as validated until the required checks pass."
+}

@@ -216,12 +216,14 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 ## 版本与迁移策略
 
 - **Contract v2 升级**：本项目在 `contractVersion: 2` 起引入了严格的 Check ID 映射机制以防注入风险。
-- **历史归档兼容 (v1 Archive)**：在 `.ai/work-items/archive/` 中的历史 `v1` Contract 记录以只读方式被保留和兼容，但全新创建的任务必须强制使用 `v2` 格式，以确保管控契约和验证强度的升级。
+- **V2 — Intent-aware Development**：Work Item Contract 新增可选的 `intent` 节点（`problem`、`constraints`、`rationale` 等字段），让 AI 理解「为什么这个变更存在」而不只是「改什么」。全字段可空，完全向后兼容。详见 [Roadmap](docs/roadmap.md)。
+- **历史归档兼容 (v1 Archive)**：在 `.ai/work-items/archive/` 中的历史 `v1` Contract 记录以只读方式被保留和兼容，但全新创建的任务必须强制使用 `v2` 格式。
 
 ## 进阶文档
 
 - [安装](docs/installation.md)
 - [概念导读（日文）](docs/overview.ja.md)
+- [路线图 (V1〜V4)](docs/roadmap.md)
 - [字段说明手册](docs/contract-fields.md)
 - [配置](docs/configuration.md)
 - [架构](docs/architecture.md)

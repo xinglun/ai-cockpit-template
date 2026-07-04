@@ -215,10 +215,16 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 リポジトリの `make quality` は、スクリプトカバレッジ全体の下限 60% とライフサイクル上重要な各スクリプトの回帰防止下限、`scripts/` と `tests/` への Ruff、すべてのガバナンススクリプトへの Mypy、中・高重要度を対象とする Bandit、Python コンパイル、差分検査、ドキュメント整合性検査を実行します。
 
+## バージョン進化
+
+- **V2 — Intent-aware Development（現行）**: Work Item Contract に `intent` セクション（`problem`・`constraints`・`rationale` など）を追加。AI が「なぜその変更が存在するか」を理解できるようにします。全フィールド任意・後方互換。詳細は [ロードマップ (V1〜V4)](docs/roadmap.md) を参照してください。
+
 ## 詳細ドキュメント
+
 
 - [インストール](docs/installation.md)
 - [概要・コンセプトガイド](docs/overview.ja.md)
+- [ロードマップ (V1〜V4)](docs/roadmap.md)
 - [フィールド解説書](docs/contract-fields.md)
 - [設定](docs/configuration.md)
 - [アーキテクチャ](docs/architecture.md)

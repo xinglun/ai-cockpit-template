@@ -22,6 +22,7 @@ Before changing code, docs, CI, build files, or AI governance files:
    - **Contract Versions**: The framework enforces `contractVersion: 2`. Historic archived `v1` Contract files are preserved and parsed for backward-compatibility checks but new task contracts must use version 2 format.
 2. Confirm the Contract has explicit `scope`, `outOfScope`, `sources`, `acceptance`, and `verification`.
    Contract is both delegation and description: it assigns task boundaries and makes the intended work legible before implementation.
+   - **Intent (recommended)**: If the Contract contains an `intent` section, read it before implementing. If you have sufficient context, fill in at least `intent.problem` (detailed background), `intent.constraints` (constraints to respect), and `intent.rationale` (why this approach). All fields are optional — do not invent content when context is not provided.
 3. Read `.ai/glossary.md` to align terminology and architectural boundaries before implementing.
 4. Adhere strictly to the guidelines defined in the `guidelines` section of the Contract, and record compliance evidence in the Summary's `guidelinesCompliance` section.
 5. Do not edit files outside the declared scope unless you first update the Contract.

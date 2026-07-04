@@ -181,6 +181,15 @@ def main() -> int:
         },
         "acceptance": acceptance_criteria,
         "guidelines": guidelines_list,
+        # intent セクション（V2 以降）: AI が「なぜこの変更が存在するか」を理解するための文脈。
+        # 全フィールドは任意。None は「未記入」を意味し、バリデーターに空文字列エラーを起こさない。
+        # 現在の AI ワークフローで最も自然に記入されるのは problem / constraints / rationale の 3 フィールド。
+        # businessGoal / userGoal / nonGoals はセクションに存在するが、文脈が提供されない限り記入しない。
+        "intent": {
+            "problem": None,
+            "constraints": [],
+            "rationale": None,
+        },
         "verification": default_verification(),
         "destructiveChangePolicy": destructive_change_policy,
         "restrictedWriteApproval": {

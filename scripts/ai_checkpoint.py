@@ -47,6 +47,29 @@ def review_focus(summary: dict[str, Any] | None) -> list[str]:
     return [item for item in focus if isinstance(item, str) and item.strip()]
 
 
+def intent_context(contract: dict[str, Any]) -> list[str]:
+    """intent セクションからチェックポイント表示用のコンテキスト行を抽出する。
+
+    値が記入されているフィールドのみ表示し、未記入（None / 空リスト）はスキップする。
+    """
+    intent = contract.get("intent")
+    if not isinstance(intent, dict):
+        return []
+    lines: list[str] = []
+    problem = intent.get("problem")
+    if isinstance(problem, str) and problem.strip():
+        lines.append(f"problem: {problem.strip()}")
+    constraints = intent.get("constraints")
+    if isinstance(constraints, list) and constraints:
+        for item in constraints:
+            if isinstance(item, str) and item.strip():
+                lines.append(f"constraint: {item.strip()}")
+    rationale = intent.get("rationale")
+    if isinstance(rationale, str) and rationale.strip():
+        lines.append(f"rationale: {rationale.strip()}")
+    return lines
+
+
 def next_action(contract: dict[str, Any], summary: dict[str, Any] | None) -> str:
     if contract.get("notCodable") is True:
         return "Stop coding. Resolve notCodable or record blocker/unknowns."
@@ -106,6 +129,7 @@ def main() -> int:
     print(f"- Required Checks: `{len(required)}`")
     print(f"- Required Checks Passed: `{len(passed_required)}`")
 
+    print_list("Intent Context", intent_context(contract))
     print_list("Scope", contract.get("scope", []) if isinstance(contract.get("scope"), list) else [])
     print_list("Out Of Scope", contract.get("outOfScope", []) if isinstance(contract.get("outOfScope"), list) else [])
     print_list("Unknowns", unknowns)

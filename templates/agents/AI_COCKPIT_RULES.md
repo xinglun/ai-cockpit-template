@@ -5,6 +5,7 @@ This repository uses AI Cockpit as a collaborative engineering environment for A
 1. Create or identify a version 2 Work Item Contract in `.ai/work-items/active/`.
 2. Before implementation, complete `scope`, `outOfScope`, `sources`, `acceptance`, `verification`, risk, capability, and execution-decision fields.
    Treat the Contract as delegation plus description: it assigns boundaries and explains the work before changes begin.
+   If the Contract contains an `intent` section, read it before implementing. When context is available, fill in at least `intent.problem` (detailed background and gap), `intent.constraints` (constraints to respect), and `intent.rationale` (why this approach). All `intent` fields are optional — do not invent content when context is not provided.
 3. Read `.ai/glossary.md` and follow the Contract `guidelines`.
 4. Do not change files outside the declared scope. Update the Contract first if the required scope changes.
 5. Do not remove tests, snapshots, or Work Item records without documenting the reason in the Summary.

@@ -114,3 +114,96 @@ def test_parse_yaml_invalid_syntax(tmp_path):
     policy.write_text('risks:\n  -invalid_list_item', encoding="utf-8")
     with pytest.raises(ValueError, match="Invalid list item format"):
         parse_yaml(policy)
+
+
+# ---------------------------------------------------------------------------
+# intent フィールドのバリデーションテスト（V2）
+# ---------------------------------------------------------------------------
+
+def test_intent_absent_is_fully_backward_compatible():
+    """intent なしの既存 Contract は引き続きパスする。"""
+    contract = valid_contract()
+    assert "intent" not in contract
+    assert ai_check_work_item.validate_contract(contract) == []
+
+
+def test_intent_empty_object_is_valid():
+    """intent: {} は全フィールド任意のため合法。"""
+    contract = valid_contract()
+    contract["intent"] = {}
+    assert ai_check_work_item.validate_contract(contract) == []
+
+
+def test_intent_with_problem_only_is_valid():
+    """最小構成: problem のみ記入でもパスする。"""
+    contract = valid_contract()
+    contract["intent"] = {"problem": "Existing contract validator silently rejects unknown schema fields."}
+    assert ai_check_work_item.validate_contract(contract) == []
+
+
+def test_intent_with_all_known_fields_is_valid():
+    """全フィールドを記入した場合もパスする。"""
+    contract = valid_contract()
+    contract["intent"] = {
+        "businessGoal": "Reduce scope violations in AI-assisted development.",
+        "userGoal": "Agents understand why a change exists, not only what to change.",
+        "problem": "Without intent context, agents often solve the wrong problem.",
+        "constraints": ["Must remain backward compatible.", "No new required fields."],
+        "nonGoals": ["Automatic intent generation.", "Repository memory."],
+        "rationale": "Optional fields allow gradual adoption without breaking existing workflows.",
+    }
+    assert ai_check_work_item.validate_contract(contract) == []
+
+
+def test_intent_wrong_type_is_rejected():
+    """intent が object でない場合はエラー。"""
+    contract = valid_contract()
+    contract["intent"] = "should be an object"
+    issues = ai_check_work_item.validate_contract(contract)
+    assert "intent must be an object" in issues
+
+
+def test_intent_unknown_key_is_rejected():
+    """intent に未定義のキーが含まれる場合はエラー。"""
+    contract = valid_contract()
+    contract["intent"] = {"problem": "Valid problem.", "unknownKey": "not allowed"}
+    issues = ai_check_work_item.validate_contract(contract)
+    assert "intent.unknownKey is not a recognized field" in issues
+
+
+def test_intent_string_field_empty_string_is_rejected():
+    """文字列フィールドに空文字列を渡した場合はエラー。"""
+    for key in ("businessGoal", "userGoal", "problem", "rationale"):
+        contract = valid_contract()
+        contract["intent"] = {key: ""}
+        issues = ai_check_work_item.validate_contract(contract)
+        assert f"intent.{key} must be a non-empty string when provided" in issues, \
+            f"Expected error for empty intent.{key}"
+
+
+def test_intent_list_field_wrong_type_is_rejected():
+    """リストフィールドに文字列を渡した場合はエラー。"""
+    for key in ("constraints", "nonGoals"):
+        contract = valid_contract()
+        contract["intent"] = {key: "should be a list"}
+        issues = ai_check_work_item.validate_contract(contract)
+        assert f"intent.{key} must be a list of non-empty strings when provided" in issues, \
+            f"Expected error for non-list intent.{key}"
+
+
+def test_intent_list_field_with_empty_string_item_is_rejected():
+    """リストフィールドに空文字列アイテムが含まれる場合はエラー。"""
+    for key in ("constraints", "nonGoals"):
+        contract = valid_contract()
+        contract["intent"] = {key: ["valid constraint", ""]}
+        issues = ai_check_work_item.validate_contract(contract)
+        assert f"intent.{key} must be a list of non-empty strings when provided" in issues, \
+            f"Expected error for empty string in intent.{key}"
+
+
+def test_intent_list_field_empty_list_is_valid():
+    """リストフィールドに空リストを渡した場合はエラーにならない（記入なしと同等）。"""
+    contract = valid_contract()
+    contract["intent"] = {"constraints": [], "nonGoals": []}
+    assert ai_check_work_item.validate_contract(contract) == []
+

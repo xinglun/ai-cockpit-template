@@ -29,7 +29,7 @@ The cockpit is intentionally language-agnostic. It provides AI Change Governance
 ## Flow
 
 1. Create a Work Item with `make ai-start TASK=<task> TITLE="..." MODE=code`.
-2. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit.
+2. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available — all fields are optional.
 3. Implement only inside the declared scope.
 4. Update the Summary with changed files, checks, risks, review readiness, boundary checks, known gaps, and any destructive changes.
 5. Run `make ai-finish TASK=<task>`.
@@ -67,7 +67,7 @@ AI Cockpit treats prompt instructions as guidance, not enforcement. Repository s
 The default template maps three common agent risks to controls:
 
 - Prompt is advice: `make check-ai-agent-risk` verifies required AI gates are present in the Contract verification list and passed in the Summary when a Summary is provided.
-- Mid-task drift: `make ai-checkpoint` prints scope, out-of-scope files, unknowns, acceptance, required check status, review focus, next action, and checkpoint integrity metadata.
+- Mid-task drift: `make ai-checkpoint` prints intent context (problem, constraints, rationale), scope, out-of-scope files, unknowns, acceptance, required check status, review focus, next action, and checkpoint integrity metadata.
 - Unknown overclaim: Contract validation and Agent Risk Guard require unknowns or `notCodable` states to use a non-coding execution decision instead of continuing implementation.
 
 Record checkpoint usage in Summary `checkpointEvidence` before finishing when the Contract `checkpointPolicy.requiredBeforeFinish` is true.

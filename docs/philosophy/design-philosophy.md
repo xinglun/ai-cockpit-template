@@ -55,7 +55,7 @@ AI Cockpit は、内部の思考そのものを保存するのではなく、レ
 
 | Review Lens | AI Cockpit Surface |
 | --- | --- |
-| Empathy | `problemStatement`, `sources` |
+| Empathy | `problemStatement`, `intent.problem`, `intent.constraints`, `intent.rationale`, `sources` |
 | Design | `acceptance`, `guidelines` |
 | Architecture | `scope`, `outOfScope`, `riskAssessment`, `rollbackNote` |
 | Implementation | `mode`, actual diff, `changedFiles` |
@@ -64,7 +64,8 @@ AI Cockpit は、内部の思考そのものを保存するのではなく、レ
 
 これらは review lenses であり、`Plan -> Scope -> Verify -> Summarize -> Status -> Archive` を置き換えるものではありません。`workflowPhase` や `workflowEvidence` を追加する必要はなく、empathy / design / architecture / implementation / judgment / shipping を必須フィールドにするべきでもありません。
 
-ユーザーが動機や影響を明示していない場合、推測で補わず、`problemStatement` か `unknowns` に `not provided` を明記するほうがよいです。
+ユーザーが動機や影響を明示していない場合、推測で補わず、`problemStatement` か `unknowns` に `not provided` を明記するほうがよいです。コンテキストが提供されている場合は `intent.problem` に詳細な背景を記述し、`problemStatement` との共存を維持します。
+
 
 ## 4D Operating Model
 
@@ -87,3 +88,9 @@ AI Cockpit は、内部の思考そのものを保存するのではなく、レ
 
 ### Q: なぜ成功した検証結果のみをアーカイブするのか？
 - **結果整合性の保証**: 検証済みの Contract/Summary を `.ai/work-items/archive/` へ移し、既存証跡の変更を PR ポリシーで拒否します。これは通常のレビュー経路で追加式の履歴を強制する仕組みであり、ファイルシステムや外部ストレージの不変性を保証するものではありません。
+
+---
+
+## 関連ドキュメント
+
+- [ロードマップ (Roadmap)](../roadmap.md) — V1〜V4 の長期進化方向を定義。本設計思想がその基盤となる。

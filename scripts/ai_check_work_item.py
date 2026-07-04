@@ -39,11 +39,14 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "adoptionBootstrapPaths",
     "restrictedWriteApproval",
     "guidelines",
+    "intent",
     "problemStatement",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 RISK_LEVELS = {"low", "medium", "high"}
 EXECUTION_STATUSES = {"continue", "defer", "needs_human_decision", "block"}
+INTENT_STRING_KEYS = {"businessGoal", "userGoal", "problem", "rationale"}
+INTENT_LIST_KEYS = {"constraints", "nonGoals"}
 
 
 def validate_string_list(data: dict[str, Any], key: str, *, allow_empty: bool) -> list[str]:
@@ -224,6 +227,36 @@ def validate_baseline_and_approvals(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_intent(data: dict[str, Any]) -> list[str]:
+    """intent フィールドのオプション構造を検証する。
+
+    intent セクション全体が省略されている場合は何も検証しない。
+    存在する場合は、許可されたキーと各フィールドの型のみを検査する。
+    全フィールドは任意であり、存在しないこと・空であることを許容する。
+    """
+    issues: list[str] = []
+    intent = data.get("intent")
+    if intent is None:
+        return issues
+    if not isinstance(intent, dict):
+        issues.append("intent must be an object")
+        return issues
+    allowed_keys = INTENT_STRING_KEYS | INTENT_LIST_KEYS
+    for key in intent:
+        if key not in allowed_keys:
+            issues.append(f"intent.{key} is not a recognized field")
+    for key in INTENT_STRING_KEYS:
+        value = intent.get(key)
+        if value is not None and not non_empty_string(value):
+            issues.append(f"intent.{key} must be a non-empty string when provided")
+    for key in INTENT_LIST_KEYS:
+        value = intent.get(key)
+        if value is not None:
+            if not isinstance(value, list) or any(not non_empty_string(item) for item in value):
+                issues.append(f"intent.{key} must be a list of non-empty strings when provided")
+    return issues
+
+
 def validate_contract(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -251,6 +284,7 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_verification(data))
     issues.extend(validate_optional_readiness(data))
     issues.extend(validate_baseline_and_approvals(data))
+    issues.extend(validate_intent(data))
     if "problemStatement" in data and not non_empty_string(data.get("problemStatement")):
         issues.append("problemStatement must be a non-empty string")
 

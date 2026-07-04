@@ -14,6 +14,17 @@ Start with the outcome. State what should be true when the work is done before d
 
 Say why the work exists. If no product context was provided, say that plainly instead of inventing motivation, impact, or user pain.
 
+Use `problemStatement` for a one-line summary of the problem. Use the `intent` section to provide richer context when it is available:
+
+- `intent.problem` — detailed background, current state, and the gap this work closes.
+- `intent.constraints` — implementation or design constraints the agent must respect.
+- `intent.rationale` — why this approach was chosen over alternatives.
+
+`businessGoal`, `userGoal`, and `nonGoals` are available for future workflows; leave them empty when context is not provided. Do not invent intent fields when motivation has not been stated — prefer explicit `not provided` over inferred explanations.
+
+The `intent` section can be omitted entirely without breaking validation. All fields are optional.
+
+
 ## Scope Before Implementation
 
 Declare allowed and out-of-scope files before changing code. Scope is a boundary, not a summary after the fact.

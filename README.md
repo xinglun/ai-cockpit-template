@@ -181,7 +181,7 @@ Thinking can be rich and contextual, but repository records should preserve revi
 
 | Review Lens | AI Cockpit Surface |
 | --- | --- |
-| Empathy | `problemStatement`, `sources` |
+| Empathy | `problemStatement`, `intent.problem`, `intent.constraints`, `intent.rationale`, `sources` |
 | Design | `acceptance`, `guidelines` |
 | Architecture | `scope`, `outOfScope`, `riskAssessment`, `rollbackNote` |
 | Implementation | `mode`, actual diff, `changedFiles` |
@@ -273,10 +273,15 @@ The current public release includes auditable first-adoption bootstrap and calle
 
 Repository `make quality` runs the full test suite with a 60% overall script coverage floor and per-file regression floors for lifecycle-critical scripts, Ruff over `scripts/` and `tests/`, Mypy over all governance scripts, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency.
 
+## Version Evolution
+
+- **V2 — Intent-aware Development (current)**: Work Item Contracts now include an optional `intent` section (`problem`, `constraints`, `rationale`, and more) so agents understand *why* a change exists, not only *what* to change. All fields are optional and fully backward-compatible. See [Roadmap (V1–V4)](docs/roadmap.md).
+
 ## Advanced Docs
 
 - [Installation](docs/getting-started/installation.md)
 - [First Work Item](docs/getting-started/first-work-item.md)
+- [Roadmap (V1–V4)](docs/roadmap.md)
 - [Concept Guide (Japanese)](docs/overview.ja.md)
 - [Contract & Summary Fields Manual](docs/contract-fields.md)
 - [Configuration](docs/configuration.md)

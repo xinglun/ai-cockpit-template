@@ -36,11 +36,23 @@ AI coding agents can:
 
 AI-generated changes should not be accepted without bounded, independently enforced review.
 
+## What is AI Cockpit?
+
+**AI Cockpit is a Repository Governance Layer for AI-assisted Software Development.**
+
+It is **not** an Agent Runtime. It is **not** a Workflow Engine.
+
+It provides:
+
+- **Governance**: Scope boundaries, verification requirements, policy enforcement
+- **Repository Context**: Explicit intent, constraints, architectural knowledge
+- **Verification**: Independent validation of changes against declared contracts
+- **Auditability**: Complete records of what changed, why, and how it was verified
+- **Intent**: First-class representation of why work exists, not just what to implement
+
+AI Cockpit does not replace agents like Claude Code, Codex, Cursor, or Gemini CLI. Agents evolve continuously with model capabilities. **Governance should remain stable.**
+
 AI Cockpit checks diffs after writes; it is not a filesystem permission boundary or security sandbox.
-
-AI Cockpit is a collaborative engineering environment for agentic development.
-
-It provides AI Change Governance through explicit scope, delegated checks, review evidence, and auditable task records.
 
 ![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
@@ -48,7 +60,7 @@ It provides AI Change Governance through explicit scope, delegated checks, revie
 
 AI Cockpit makes AI-generated changes bounded, reviewable, and auditable.
 
-I kept seeing AI rewrite unrelated files, roll back completed work, and bypass review expectations. So I built a collaborative environment around scope, checks, summaries, and status, with governance as the core control mechanism.
+I kept seeing AI rewrite unrelated files, roll back completed work, and bypass review expectations. So I built a governance layer around scope, checks, summaries, and status, with explicit contracts as the core control mechanism.
 
 ## 30-Second Version
 
@@ -130,12 +142,15 @@ make ai-finish TASK=example_change
 
 ## How It Works
 
+The governance loop:
+
 ```text
-Plan -> Scope -> Verify -> Summarize -> Status -> Archive
+Intent → Contract → Implementation → Verification → Summary (Intent Alignment)
 ```
 
 | Layer | What it does |
 | --- | --- |
+| Intent | Declares why the work exists, constraints to respect, and rationale for the approach (optional but recommended). |
 | Work Item Contract | Declares the task boundary before AI changes files. |
 | Scope Guard | Detects changes outside the declared scope and blocks finish, archive, or merge gates. |
 | Backtrack Guard | Detects protected test, snapshot, or Work Item record deletion and blocks configured gates. |
@@ -144,22 +159,23 @@ Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 | AI Review Policy | Flags governance and CI changes that need explicit review focus. |
 | Checkpoint | Mid-task snapshot to detect scope drift before finishing. |
 | Status Consistency Guard | Verifies Cockpit status matches the current set of active Work Items. |
-| Change Summary | Records what changed, what was verified, and what risk remains. |
+| Change Summary | Records what changed, what was verified, what risk remains, and whether intent was achieved. |
 | Cockpit Status | Shows the current AI task state in one generated view. |
 | Finish Flow | Archives the Work Item only after checks pass. |
 
 ## Core Principles
 
-- Evidence over reasoning
-- Machine-verifiable contracts
-- Minimal process
-- Scope-first engineering
-- Backward compatibility by default
-- Explicit non-goals
-- Prefer extending existing concepts
-- Documentation before schema
+- **Intent-driven Development**: Work should be driven by declared intent (problem, constraints, rationale), not only by task descriptions
+- **Evidence over reasoning**: Store verifiable evidence, not private reasoning
+- **Machine-verifiable contracts**: Governance depends on structured, auditable records
+- **Minimal process**: Add governance only where it prevents real failures
+- **Scope-first engineering**: Declare boundaries before changing files
+- **Backward compatibility by default**: Schema evolution is conservative
+- **Explicit non-goals**: Document what should not be solved in this scope
+- **Prefer extending existing concepts**: Avoid inventing new abstractions prematurely
+- **Documentation before schema**: Design principles are documented before implementation
 
-See also: [Work Item Style Guide](docs/work-item-style-guide.md)
+See also: [Work Item Style Guide](docs/work-item-style-guide.md), [Roadmap (V1–V4)](docs/roadmap.md)
 
 AI Cockpit stores evidence, not reasoning. Reasoning guides the agent; evidence supports review, verification, and audit. Only reviewable evidence belongs in repository records.
 
@@ -275,13 +291,14 @@ Repository `make quality` runs the full test suite with a 60% overall script cov
 
 ## Version Evolution
 
-- **V2 — Intent-aware Development (current)**: Work Item Contracts now include an optional `intent` section (`problem`, `constraints`, `rationale`, and more) so agents understand *why* a change exists, not only *what* to change. All fields are optional and fully backward-compatible. See [Roadmap (V1–V4)](docs/roadmap.md).
+- **V2 — Intent-aware Development (current)**: Work Item Contracts now include an optional `intent` section (`problem`, `constraints`, `rationale`, and more) so agents understand *why* a change exists, not only *what* to change. Intent becomes a first-class governance object, creating a complete governance loop: Intent → Contract → Implementation → Verification → Summary (Intent Alignment). All fields are optional and fully backward-compatible. See [Roadmap (V1–V4)](docs/roadmap.md) and [V2 Implementation Plan](docs/reference/v2-implementation-plan.md).
 
 ## Advanced Docs
 
 - [Installation](docs/getting-started/installation.md)
 - [First Work Item](docs/getting-started/first-work-item.md)
 - [Roadmap (V1–V4)](docs/roadmap.md)
+- [V2 Implementation Plan](docs/reference/v2-implementation-plan.md)
 - [Concept Guide (Japanese)](docs/overview.ja.md)
 - [Contract & Summary Fields Manual](docs/contract-fields.md)
 - [Configuration](docs/configuration.md)

@@ -12,25 +12,97 @@ keywords:
 
 # ロードマップ (Roadmap)
 
-AI Cockpit は AI アシスト型ソフトウェア開発のためのリポジトリガバナンスフレームワークです。本ドキュメントでは、プロジェクトの長期的なアーキテクチャ方向性を V1〜V4 の進化ステージとして定義します。
+AI Cockpit は AI アシスト型ソフトウェア開発のためのリポジトリガバナンスレイヤーです。本ドキュメントでは、プロジェクトの長期的なアーキテクチャ方向性を V1〜V4 の進化ステージとして定義します。
 
 各バージョンは前バージョンのガバナンスを**拡張**するものであり、**置き換え**るものではありません。
 
 ---
 
-## ポジショニング
+## Core Positioning
 
-大規模言語モデルのベンダーが AI エージェントの動作方法を急速に検証しています。AI Cockpit は、もう一つのエージェントランタイムを発明するのではなく、異なる責務に焦点を当てます。
+**AI Cockpit is not an Agent Runtime. It is not a Workflow Engine.**
 
-**Repository Governance（リポジトリガバナンス）**
+**AI Cockpit is a Repository Governance Layer for AI-assisted Software Development.**
 
-エージェントランタイムは進化し続けます。ガバナンスは安定であるべきです。
+It provides:
 
-AI Cockpit は業界で検証された方向性に追従しつつ、モデル非依存を維持します。
+- **Governance**: Scope boundaries, verification requirements, and policy enforcement
+- **Repository Context**: Explicit intent, constraints, and architectural knowledge
+- **Verification**: Independent validation of changes against declared contracts
+- **Auditability**: Complete records of what changed, why, and how it was verified
+- **Intent**: First-class representation of why work exists, not just what to implement
+
+AI Cockpit does not replace Claude Code, Codex, Cursor, Gemini CLI, or other agents. Agents evolve continuously. Governance should remain stable.
 
 ---
 
-## V1 — Governance Foundation（現行）
+## Design Principles
+
+These four principles guide all architectural decisions and roadmap phases:
+
+### 1. Model Agnostic
+
+AI Cockpit does not bind to any specific model or vendor. It supports Claude, GPT, Gemini, Codex, and future agents equally through stable, language-neutral governance contracts.
+
+### 2. Stable Schema
+
+Schema evolution is conservative and backward-compatible. We prioritize adding optional fields over breaking changes. Long-term stability enables trust.
+
+### 3. Governance Over Workflow
+
+AI Cockpit defines Repository Governance, not Agent Workflow. Workflows belong to agents and evolve with model capabilities. Governance remains stable and agent-agnostic.
+
+### 4. Intent-driven Development
+
+Implementation should be driven by Intent, not only by tasks. AI agents should understand:
+
+- **Why** the work exists
+- **What constraints** must be respected
+- **What problems** should not be solved in this scope
+- **Why this approach** was chosen
+
+Intent becomes the foundation of the complete governance loop.
+
+---
+
+## The Governance Loop
+
+AI Cockpit establishes a complete governance closed loop:
+
+```text
+Intent
+  ↓
+Contract
+  ↓
+Implementation
+  ↓
+Verification
+  ↓
+Summary (Intent Alignment)
+```
+
+This is not:
+```text
+Contract → Implementation → Verification
+```
+
+But rather:
+```text
+Intent → Contract → Implementation → Verification → Summary (validates alignment back to Intent)
+```
+
+The loop answers:
+- **Intent**: Why does this work exist?
+- **Contract**: What should change?
+- **Implementation**: What actually changed?
+- **Verification**: Does it meet requirements?
+- **Summary**: Did we achieve the intended goal?
+
+This governance loop is the architectural foundation for all V1–V4 evolution phases.
+
+---
+
+## V1 — Governance Foundation（deployed）
 
 **目的**: AI アシスト型コーディングに対してリポジトリレベルのガバナンスを提供する。
 
@@ -53,95 +125,154 @@ AI Cockpit は業界で検証された方向性に追従しつつ、モデル非
 
 ---
 
-## V2 — Intent-aware Development
+## V2 — Intent-aware Development（current milestone）
 
-**目的**: AI が「何を変更すべきか」だけでなく、「**なぜ**この変更が存在するか」を理解できるようにする。
+**Purpose**: Make Intent a first-class governance object. AI understands not only "**what** to change" but "**why** the change exists."
 
-**概要**: Work Item Contract に `intent` セクションを導入する。
+**Key Insight**: Intent is not a subsection of Contract. Intent **drives** Contract.
 
-**初期スキーマ**:
+The governance flow becomes:
 
-```yaml
-intent:
-  businessGoal:    # ビジネス上の目的（任意）
-  userGoal:        # ユーザー視点の目的（任意）
-  problem:         # 解決すべき課題の詳細（任意）
-  constraints:     # 守るべき制約（任意）
-  nonGoals:        # 今回のスコープで解決しないこと（任意）
-  rationale:       # このアプローチを選択した理由（任意）
+```text
+Intent (first-class governance object)
+  ↓
+Work Item Contract (scope driven by intent)
+  ↓
+Implementation
+  ↓
+Verification
+  ↓
+Summary (Intent Alignment validation)
 ```
 
-**設計方針**:
+### Contract Schema Enhancement
 
-- 全フィールドは任意。空値も許容される。
-- いかなるリポジトリにもすべてのフィールドの記入を強制しない。
-- スキーマは即時の完全性よりも長期的な安定性を重視して設計される。
+The V2 Contract introduces an `intent` section as a top-level node:
 
-**現在の AI コーディングワークフローで最も自然に利用されるフィールド**:
+```json
+{
+  "contractVersion": 2,
+  "intent": {
+    "businessGoal": "Optional: Business objective",
+    "userGoal": "Optional: User-facing goal",
+    "problem": "Optional: Detailed problem context",
+    "constraints": ["Optional: Constraints to respect"],
+    "nonGoals": ["Optional: What not to solve"],
+    "rationale": "Optional: Why this approach"
+  },
+  "scope": [...],
+  "acceptance": [...],
+  ...
+}
+```
 
-- `problem`
-- `constraints`
-- `rationale`
+**Design Decisions**:
 
-将来のワークフローで、残りのフィールドが段階的に活用されることを想定する。これにより、AI の能力進化に合わせて自然にスキーマが利用されるようになり、将来的な破壊的変更を回避する。
+- **All fields are optional**: Repositories should not be forced to fill every field
+- **Fully backward-compatible**: V1 Contracts remain valid
+- **Natural adoption**: Fields most naturally used in current AI workflows (`problem`, `constraints`, `rationale`) will be adopted first; other fields enable future workflow evolution without schema changes
+- **Intent as Concept, not File**: Intent is a governance object within the Contract, not a separate file format
+
+### Summary Enhancement
+
+Summary gains a new section: **Intent Alignment**
+
+Example:
+```json
+{
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Approach worked as expected"
+  }
+}
+```
+
+Summary no longer only answers "What changed?" but also "Did we achieve the intended goal?"
+
+### problemStatement Relationship
+
+The existing `problemStatement` field remains:
+
+- `problemStatement`: One-line summary
+- `intent.problem`: Detailed context and background
+
+Both coexist. Future versions may deprecate `problemStatement` if `intent.problem` proves sufficient, but V2 preserves both for compatibility.
+
+### Future Direction
+
+**Checker (V3 consideration)**: Future versions may validate implementation against declared intent automatically. Example:
+
+- Intent declares: `constraints: ["No API changes"]`
+- Implementation modifies API
+- Checker flags: "Intent Conflict Detected"
+
+V2 establishes the schema. V3+ can build validation tooling.
 
 ---
 
 ## V3 — Repository Intelligence
 
-**目的**: リポジトリの長期的なエンジニアリング知識を蓄積する。
+**Purpose**: Accumulate long-term repository engineering knowledge beyond individual tasks.
 
-**対象となる知識の例**:
+**Target Knowledge**:
 
-- アーキテクチャの知識
-- 過去の意思決定とその背景
-- マイグレーション履歴
-- 既知の落とし穴とアンチパターン
-- エンジニアリング上の慣習
+- Architecture decisions and evolution
+- Decision history and context
+- Migration knowledge and patterns
+- Known pitfalls and anti-patterns
+- Engineering conventions and practices
+- Why the codebase is the way it is today
 
-**ゴール**: AI がタスク単位の指示だけでなく、リポジトリの歴史と文脈を理解した上で動作できるようにする。
+**Goal**: Enable AI agents to operate with understanding of repository history and context, not just task-level instructions.
+
+**Relationship to V2**: V2's Intent provides task-level "why." V3 extends this to repository-level "why" — capturing architectural decisions, historical context, and organizational knowledge that should inform all future work.
 
 ---
 
 ## V4 — Organization Governance
 
-**目的**: リポジトリガバナンスを組織レベルのガバナンスへ拡張する。
+**Purpose**: Extend repository-level governance to organization-level governance.
 
-**対象となるポリシーの例**:
+**Target Policies**:
 
-- エンジニアリングポリシー
-- セキュリティポリシー
-- アーキテクチャポリシー
-- コンプライアンスポリシー
-- レビュー標準
+- Engineering standards
+- Security policies
+- Architecture policies
+- Compliance requirements
+- Review standards
+- Cross-repository conventions
 
-**ゴール**: AI エージェントが組織横断的なルールを尊重しながら、複数リポジトリにわたって一貫した動作をできるようにする。
+**Goal**: Enable AI agents to respect organization-wide rules consistently across multiple repositories.
+
+**Relationship to V2/V3**: V2 establishes Intent as first-class. V3 extends Intent to repository knowledge. V4 extends governance to organization-wide policy that multiple repositories share.
 
 ---
 
-## 設計原則
+## Implementation Strategy
 
-### Stable Schema（安定したスキーマ）
+### Incremental Evolution
 
-Contract の構造はゆっくりと進化させる。破壊的なスキーマ変更よりも、オプショナルフィールドの追加を優先する。
+AI Cockpit evolves through small, backward-compatible steps. Each roadmap phase should:
 
-### Model Agnostic（モデル非依存）
+- Preserve existing workflows
+- Avoid breaking schema changes
+- Introduce optional capabilities first
+- Validate value before expanding scope
 
-AI Cockpit は特定のモデルやベンダーに依存しない。ガバナンスレイヤーは Claude Code、Codex、Cursor、Gemini CLI、またはその他の将来の AI ランタイムと等しく動作するべきである。
+### Current Active Milestone
 
-### Intent Before Implementation（実装の前にインテント）
+**V2 — Intent-aware Development**
 
-実装はインテント（意図）に駆動されるべきである。AI は以下を理解した上で動作するべきである:
+Implementation proceeds in four incremental phases:
 
-- **なぜ**その作業が存在するか
-- どのような**制約**を尊重すべきか
-- 現在のスコープで**解決すべきでない**問題は何か
+1. **Roadmap Documentation**: Establish architectural positioning and design principles
+2. **Contract Schema**: V2 schema already deployed; documentation alignment only
+3. **Validator Compatibility**: Ensure all validators handle optional intent fields correctly
+4. **Templates & AI Integration**: Update templates and agent guidance to leverage intent naturally
 
-単に実装指示を受け取るだけでなく、意図の文脈を踏まえて開発を行う。
-
-### Governance Over Automation（自動化よりガバナンス）
-
-AI Cockpit は AI エージェントを置き換えることを目指さない。その責務は、あらゆる AI エージェントが必要とするガバナンス、検証、およびリポジトリコンテキストを提供することである。
+See [V2 Implementation Plan](reference/v2-implementation-plan.md) for detailed phase breakdown.
 
 ---
 

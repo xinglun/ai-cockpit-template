@@ -48,7 +48,23 @@ AI Cockpit 是面向 agentic development 的协作式工程环境。
 
 AI Cockpit 让 AI 生成的变更有边界、可审查、可审计。
 
-我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我围绕 scope、checks、summary 和 status 设计了一套协作式工程环境，而治理是其中的核心控制机制。
+我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我围绕 scope、checks、summary 和 status 构建了一个治理层，以显式契约作为核心控制机制。
+
+## 什么是 AI Cockpit？
+
+**AI Cockpit 是面向 AI 辅助软件开发的代码仓库治理层。**
+
+它**不是** Agent Runtime。也**不是** Workflow Engine。
+
+AI Cockpit 提供：
+
+- **治理**: Scope 边界、验证需求、策略执行
+- **代码仓库上下文**: 显式 intent、约束、架构知识
+- **验证**: 针对声明契约的独立变更验证
+- **可审计性**: 完整记录变更内容、变更原因、验证方式
+- **Intent**: 一级表达——不仅仅是"实现什么"，还有"工作为何存在"
+
+AI Cockpit 不会取代 Claude Code、Codex、Cursor、Gemini CLI 等 agent。Agent 随模型能力持续演进。**治理应保持稳定。**
 
 ## 30 秒理解
 

@@ -14,9 +14,23 @@ keywords:
 
 [日本語](README.ja.md)
 
-AI Cockpit is a collaborative engineering environment for agentic development. It gives Codex, Gemini, Claude, Cursor, Antigravity, or another coding agent a shared operating contract before files are changed.
+AI Cockpit is a Repository Governance Layer for AI-assisted development. It provides governance contracts, verification gates, and audit trails for AI agents (Codex, Gemini, Claude, Cursor, Antigravity, etc.).
 
-The cockpit is intentionally language-agnostic. It provides AI Change Governance through explicit scope, delegated checks, review evidence, and auditable task records, while the Makefile delegates product-specific checks to commands that each repository can customize.
+AI Cockpit is intentionally language-agnostic. It provides AI Change Governance through explicit scope, delegated checks, review evidence, and auditable task records, while the Makefile delegates product-specific checks to commands that each repository can customize.
+
+## The Governance Loop
+
+```text
+Intent → Contract → Implementation → Verification → Summary (Intent Alignment)
+```
+
+| Phase | Purpose |
+| --- | --- |
+| **Intent** | Why does this work exist? (problem, constraints, rationale) |
+| **Contract** | What should change? (scope, acceptance, verification) |
+| **Implementation** | What actually changed? |
+| **Verification** | Does it meet requirements? |
+| **Summary** | Did we achieve the intended goal? |
 
 ## Core Files
 
@@ -28,12 +42,15 @@ The cockpit is intentionally language-agnostic. It provides AI Change Governance
 
 ## Flow
 
-1. Create a Work Item with `make ai-start TASK=<task> TITLE="..." MODE=code`.
-2. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available — all fields are optional.
-3. Implement only inside the declared scope.
-4. Update the Summary with changed files, checks, risks, review readiness, boundary checks, known gaps, and any destructive changes.
-5. Run `make ai-finish TASK=<task>`.
-6. Review the generated status and archived Contract/Summary.
+1. Declare Intent (optional but recommended): Why does this work exist? What constraints must be respected? What's the rationale?
+2. Create a Work Item with `make ai-start TASK=<task> TITLE="..." MODE=code`.
+3. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available — all fields are optional.
+4. Implement only inside the declared scope.
+5. Update the Summary with changed files, checks, risks, review readiness, boundary checks, known gaps, any destructive changes, and intent alignment validation.
+6. Run `make ai-finish TASK=<task>`.
+7. Review the generated status and archived Contract/Summary.
+
+Intent drives Contract. Contract drives Implementation. Verification validates execution. Summary validates alignment back to Intent.
 
 Unknowns and `notCodable` are valid outputs, not failures. Summary is both an audit record and a collaboration handoff. Checkpoints exist to reduce drift in longer tasks, not merely to satisfy compliance.
 

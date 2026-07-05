@@ -1,0 +1,172 @@
+{
+  "contractVersion": 2,
+  "workItemId": "realign_ai_cockpit_v2",
+  "mode": "code",
+  "title": "Realign AI Cockpit architectural direction and V2 roadmap",
+  "baseCommit": "20c653a2b0695c39928833a7c23e0edb5e688d6a",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/realign_ai_cockpit_v2.contract.json",
+    ".ai/work-items/active/realign_ai_cockpit_v2.summary.json",
+    ".ai/work-items/archive/**",
+    "docs/roadmap.md",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    ".ai/glossary.md",
+    "docs/reference/v2-implementation-plan.md"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    ".ai/guards/**",
+    ".github/**",
+    "examples/**",
+    "tests/**",
+    "Makefile",
+    "Makefile.ai.*"
+  ],
+  "sources": [
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Current roadmap to be revised with new architectural direction emphasizing Intent → Contract → Implementation → Verification → Summary governance loop."
+    },
+    {
+      "path": "README.md",
+      "reason": "Main documentation showing current positioning that needs to be realigned to emphasize Repository Governance Layer rather than workflow engine."
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Shows the current V2 intent schema structure that becomes central to the new architecture."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation"
+    ],
+    "reason": "Documentation-only changes to realign project positioning and roadmap. No code or schema changes in this work item."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Documentation scope is clear. Roadmap revision, README updates, and V2 implementation plan creation are all well-defined."
+  },
+  "preReviewWarnings": [
+    "Review the new architectural positioning to ensure it accurately reflects the Intent → Contract → Implementation → Verification → Summary governance loop.",
+    "Confirm the design principles (Model Agnostic, Stable Schema, Governance over Workflow, Intent-driven Development) align with project vision."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "docs/roadmap.md is revised to emphasize AI Cockpit as Repository Governance Layer, not Agent Runtime or Workflow Engine",
+    "Four design principles are clearly stated: Model Agnostic, Stable Schema, Governance over Workflow, Intent-driven Development",
+    "V2 section explicitly positions Intent as first-class governance object and shows Intent → Contract → Implementation flow",
+    "README.md and localized versions reflect new positioning emphasizing Governance, Repository Context, Verification, Auditability, Intent",
+    ".ai/README.md and .ai/cockpit/README.md align with new governance-first terminology",
+    "docs/reference/v2-implementation-plan.md is created with four incremental PR phases: Roadmap Documentation, Contract Schema, Validator Compatibility, Templates & AI Integration",
+    "All documentation changes maintain backward compatibility and do not introduce breaking changes"
+  ],
+  "guidelines": [
+    "Keep positioning language-neutral and model-agnostic",
+    "Emphasize governance stability over workflow evolution",
+    "Intent fields remain optional—do not make them mandatory",
+    "Maintain backward compatibility with V1 Contract format",
+    "Focus on 'what should change' rather than prescribing implementation details"
+  ],
+  "intent": {
+    "problem": "AI Cockpit's architectural positioning has drifted. The project started as Repository Governance but documentation and messaging mixed in workflow concepts. The V2 intent schema exists but isn't positioned as the foundational shift it represents: moving from 'Contract → Verification → Summary' to 'Intent → Contract → Implementation → Verification → Summary (Intent Alignment)'. This creates a complete governance closed loop where Intent drives development, and Summary validates alignment back to Intent.",
+    "constraints": [
+      "No code changes in this work item—documentation only",
+      "No schema changes—V2 Contract schema already exists and is stable",
+      "Must maintain backward compatibility messaging",
+      "Cannot break existing workflows or installations",
+      "All intent fields must remain optional"
+    ],
+    "rationale": "Realigning the architecture now establishes a clear foundation for V2 adoption and future V3/V4 evolution. By positioning AI Cockpit as Repository Governance Layer (not Agent Runtime), we clarify that agents evolve while governance stays stable. By making Intent a first-class governance object, we create natural extensibility: V3 Repository Intelligence and V4 Organization Governance become logical progressions of the Intent → Execution → Validation → Alignment loop."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "Ray",
+    "reason": "Architectural realignment requires updating core governance documentation (.ai/README.md, .ai/cockpit/README.md, .ai/glossary.md) to reflect new Repository Governance Layer positioning and Intent → Contract → Implementation → Verification → Summary governance loop. Documentation-only changes with no code or schema modifications."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

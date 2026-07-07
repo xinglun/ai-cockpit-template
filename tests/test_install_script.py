@@ -2,7 +2,6 @@ import hashlib
 import io
 import os
 import subprocess
-import shutil
 import tarfile
 from pathlib import Path
 

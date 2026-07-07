@@ -1,0 +1,153 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0_5_19",
+  "mode": "code",
+  "title": "Release v0.5.19",
+  "baseCommit": "2a8dc62768766778e0c7a341b7640500872b569b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_release_distribution.py",
+    "release.json",
+    "install.sh",
+    "docs/getting-started/installation.md",
+    "docs/reference/upgrade.md",
+    "examples/**/README.md",
+    "tests/test_install_script.py",
+    "tests/test_install_sh.py",
+    "tests/test_release_distribution.py",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/release_v0_5_19.contract.json",
+    ".ai/work-items/active/release_v0_5_19.summary.json"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Release distribution check fetches installer contents from a raw GitHub URL that currently returns 404."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "User requested running the installation compatibility CI after the fix."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_distribution",
+      "version_sync"
+    ],
+    "reason": "Fixing public release validation and synchronizing the published version touches installer, docs, and release metadata."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope and verification are now concrete."
+  },
+  "preReviewWarnings": [
+    "Review the release distribution source change carefully because it alters how public installer contents are fetched."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make check-release-distribution passes without raw.githubusercontent 404 failures.",
+    "release.json, install.sh, docs, examples, and installer tests reference the new published version consistently.",
+    "The installation compatibility workflow remains valid after the release update.",
+    "The new release tag is created after verification."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Prefer stable GitHub-supported fetch paths over raw file URLs in release verification."
+  ],
+  "intent": {
+    "problem": "The published release check currently fails because it fetches install.sh from a raw.githubusercontent.com URL that returns 404 for the current release tag, blocking release verification and publication.",
+    "constraints": [
+      "Keep the release verification conservative and network-backed.",
+      "Preserve compatibility with the existing installation and compatibility CI flow.",
+      "Synchronize the published version references consistently when bumping the release."
+    ],
+    "rationale": "Switching release verification to a stable GitHub-supported fetch path removes the raw URL failure mode while keeping the check public and reproducible."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

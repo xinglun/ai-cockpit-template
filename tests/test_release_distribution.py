@@ -7,19 +7,25 @@ from check_release_distribution import exercise_installer, exercise_public_distr
 
 IGNORES_SHA = b"""#!/bin/sh
 set -eu
-curl -fsSL https://example.invalid/archive.tar.gz | tar -xz --strip-components=1
-python3 scripts/install_ai_cockpit.py "$@"
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+git clone --depth 1 --branch "$AI_COCKPIT_TEMPLATE_REF" --single-branch https://example.invalid/ai-cockpit-template.git "$tmp/source"
+python3 "$tmp/source/scripts/install_ai_cockpit.py" "$@"
 """
 
 ENFORCES_SHA = b"""#!/bin/sh
 set -eu
-archive=source.tar.gz
-curl -fsSL https://example.invalid/archive.tar.gz -o "$archive"
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+git clone --depth 1 --branch "$AI_COCKPIT_TEMPLATE_REF" --single-branch https://example.invalid/ai-cockpit-template.git "$tmp/source"
+archive="$tmp/source.tar.gz"
+git -C "$tmp/source" archive --format=tar.gz --prefix=ai-cockpit/ HEAD -o "$archive"
 actual=$(sha256sum "$archive" | awk '{print $1}')
 if [ "$actual" != "$AI_COCKPIT_TEMPLATE_SHA256" ]; then
   echo 'ERROR: archive SHA256 mismatch' >&2
   exit 2
 fi
+python3 "$tmp/source/scripts/install_ai_cockpit.py" "$@"
 """
 
 PUBLIC_CONTRACT_FIXTURE = b"""#!/bin/sh

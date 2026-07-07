@@ -89,7 +89,8 @@ def fake_git(path: Path) -> None:
         "    shutil.copytree(source, destination)\n"
         "elif cmd == 'archive':\n"
         "    out = rest[rest.index('-o') + 1]\n"
-        "    shutil.copy2(os.environ['FAKE_ARCHIVE'], out)\n"
+        "    archive = os.environ.get('RELEASE_CONTRACT_ARCHIVE') or os.environ['FAKE_ARCHIVE']\n"
+        "    shutil.copy2(archive, out)\n"
         "else:\n"
         "    print(f'unexpected git invocation: {args!r}', file=sys.stderr)\n"
         "    sys.exit(1)\n",

@@ -1,0 +1,333 @@
+{
+  "workItemId": "release_distribution_installer_auth",
+  "contractPath": ".ai/work-items/archive/2026/release_distribution_installer_auth.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Propagate checkout auth to installer subprocesses by re-encoding it as Git environment variables."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Add regression coverage for checkout-auth env propagation and isolated Git command execution."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerate cockpit status for the active release distribution installer auth fix."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_installer_auth.contract.json",
+      "reason": "Record the actual scope, intent, and acceptance for the installer auth bridge fix."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_installer_auth.summary.json",
+      "reason": "Record implementation, verification, and handoff details for the installer auth bridge fix."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:13.461374+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "8d4a1c008fbe09975e4ab820f76a267a85ace9a35445bc88004af49d94120713",
+      "commandHash": "ce314abc8204cd43eb893a765dcb71278cd30943f75484b15a1e8a6576cf653f",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/release_distribution_installer_auth.contract.json work item contract check passed: .ai/work-items/active/release_distribution_installer_auth.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:13.599343+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "bbb8d5945e2ab11916cdd5d9fc9dc9c872fb34c73b51d97cb04f0f7051525169",
+      "commandHash": "efbeb2362614083701f4fd1b697baf40ac5c1eb7a1d25e85abfbd98a5dc16cc2",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/release_distribution_installer_auth.contract.json scope guard passed: 1 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:13.756464+00:00",
+      "exitCode": 0,
+      "durationMs": 149,
+      "outputDigest": "268a0fd536e830e48d45743565ba77b489781fe121085236d4cae8d409a36fb1",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/release_distribution_installer_auth.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:13.813602+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "b45b9844dd669df5e6ddcb6cb1cf6a3f33c9c6c12a47eee45aa6b5df875bcacd",
+      "commandHash": "8e7a53fab85748a67d4925388498922e30b91b01d68b0dc629e28ca82f172b29",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/release_distribution_installer_auth.contract.json --summary .ai/work-items/active/release_distribution_installer_auth.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_distribution_installer_auth` - Contract Hash: `a8063e6c325cc74b` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:13.952841+00:00",
+      "exitCode": 0,
+      "durationMs": 134,
+      "outputDigest": "274dbe9dba3d7bd0ad505f05010212de7b70858cddf130448b222bd0218567ef",
+      "commandHash": "d2402f4411377bd15d3613f47474b7ee5a5e7bc78e6222eee9d91769c228fa12",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_distribution_installer_auth.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:14.100969+00:00",
+      "exitCode": 0,
+      "durationMs": 143,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:14.247276+00:00",
+      "exitCode": 0,
+      "durationMs": 134,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:04:14.309464+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "ebf3f9d9197aeca6ec397d811dce1d13d53a445527012f30a6a9c00c8b1b6966",
+      "commandHash": "3cd633cc90bcd1097a96ce8877bc2d2dc44292c849601665cb6e40804125db83",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_distribution_installer_auth.contract.json --summary .ai/work-items/active/release_distribution_installer_auth.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:05:01.513392+00:00",
+      "exitCode": 0,
+      "durationMs": 47197,
+      "outputDigest": "8ff0f044a6aa8f9abc3f844a530ca1c32b15349195874565a844613b084afa29",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 27%] ........................................................................ [ 55%] ........................................................................ [ 83%] ........................................... [100%] ================================ test"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:05:01.992191+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "25fb895858261e216930759628d2d8cf0f699fc781ff694f1b6d5815950a8f44",
+      "commandHash": "c51fb5f70ddb9b83ad5fadc4bff18e1aff25ea69b0e33eff99c82ffa9e306fb2",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/release_distribution_installer_auth.contract.json --summary .ai/work-items/active/release_distribution_installer_auth.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:05:02.059722+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "efda35994a81ea7df3437b0173cb841bf81f36d7d27480e1cefe5d24ce7711f5",
+      "commandHash": "6e6cb4638cf8900f07b773a2ccd0a3608f49acc40863fb7e2c7aabbd6d3a4e1e",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_distribution_installer_auth.contract.json --summary .ai/work-items/active/release_distribution_installer_auth.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:05:02.115202+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:05:02.175633+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "d6b1e974545e8f33703872212e203b45635d09020e9f6cfdfb080fc53a8072e8",
+      "commandHash": "2d4b2198b1033cbf41d69e8db13076018df51150dac17a51e1b4f814afb562ac",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_distribution_installer_auth.contract.json --summary .ai/work-items/active/release_distribution_installer_auth.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_distribution_installer_auth.summary.json CONTRACT=.ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T14:05:02.333692+00:00",
+      "exitCode": 0,
+      "durationMs": 137,
+      "outputDigest": "db0af0a48fb2c68f6fbd4509c081ffef282d9b82a4f308f9e2cd36b81ac6ca25",
+      "commandHash": "963b29d520f703a6ea84503553bd3eb57d64981a077df2e3f7e3d54ddb505401",
+      "contractHash": "a8063e6c325cc74be9aead12c0bbd25aede4040d10eb75dcb95280833f7a169f",
+      "commitSha": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+      "executionContractPath": ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/release_distribution_installer_auth.summary.json --contract .ai/work-items/active/release_distribution_installer_auth.contract.json ai summary check passed: .ai/work-items/active/release_distribution_installer_auth.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The fix does not add a public API."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The change stays within the release distribution checker and its regression test."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The fix changes how release validation reuses GitHub auth context so installer subprocesses can clone the tagged release in private CI."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "The release installer subprocess failed to clone the private repository because it did not inherit the checkout auth context."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "private-ci access",
+      "detail": "The fix depends on checkout auth remaining available through Git environment variables for child processes.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Implementation and verification still need to run.",
+    "expectedReviewFocus": [
+      "scripts/check_release_distribution.py re-encodes checkout auth for installer subprocesses",
+      "tests/test_release_distribution.py covers env propagation and isolated Git command execution",
+      "No credential material is echoed into logs"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Checkpoint captured before editing the release installer auth propagation fix.",
+      "contractHash": "a8063e6c325cc74b",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Checkpoint captured before finish verification for the release installer auth propagation fix.",
+      "contractHash": "a8063e6c325cc74b",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "Implementation and verification still need to be completed."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

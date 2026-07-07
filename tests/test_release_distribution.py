@@ -128,6 +128,20 @@ def test_git_extraheader_args_uses_checkout_header(monkeypatch):
     ]
 
 
+def test_git_extraheader_env_uses_checkout_header(monkeypatch):
+    def fake_run_command(command, *, cwd, env=None):
+        if command == ["git", "config", "--get-all", "http.https://github.com/.extraheader"]:
+            return SimpleNamespace(returncode=0, stdout="AUTHORIZATION: basic abc123\n")
+        raise AssertionError(f"unexpected command: {command!r}")
+
+    monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
+    assert release_distribution.git_extraheader_env("https://github.com/xinglun/ai-cockpit-template.git") == {
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
+        "GIT_CONFIG_VALUE_0": "AUTHORIZATION: basic abc123",
+    }
+
+
 def test_list_remote_tags_runs_outside_repo_root(monkeypatch):
     seen = {}
 

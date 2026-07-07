@@ -1,0 +1,168 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_distribution_installer_auth",
+  "mode": "code",
+  "title": "Pass checkout auth to release installer subprocesses",
+  "baseCommit": "e759ce24968bb96865fb5c96c0673953f891c0ce",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "67251606b6df22f9cdafc3ba42f753dead5e2f392d305aad0b7b94f27f658b5d"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "M",
+      "fingerprint": "a081ed93f07a6ab19900a535eb1e2452eaf90910b7019e1399b6cda3cf112cd6"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "M",
+      "fingerprint": "1650f68671495fe32b66dbffe0af2cb40d0286b38604a66c272b3378e038e7a3"
+    }
+  ],
+  "scope": [
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/release_distribution_installer_auth.contract.json",
+    ".ai/work-items/active/release_distribution_installer_auth.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    ".github/workflows/**",
+    "release.json",
+    "install.sh",
+    "docs/**",
+    "examples/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Release validation must propagate checkout auth to installer subprocesses in private CI."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Regression coverage must confirm the checkout-auth env bridge and isolated Git command execution."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_distribution",
+      "private_ci"
+    ],
+    "reason": "The fix changes how release validation reuses GitHub auth context without changing public release semantics."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The checkout-auth env bridge is concrete and verifiable."
+  },
+  "preReviewWarnings": [
+    "Verify that no credential material is echoed into logs.",
+    "Verify installer subprocesses receive checkout auth only through Git environment variables."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make check-release-distribution completes in a private repository CI context without losing checkout auth inside installer subprocesses.",
+    "The release distribution check still works in a public repository environment.",
+    "Regression tests cover checkout-auth env propagation and isolated Git command execution."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The release installer subprocess does not inherit checkout auth in private GitHub CI, so the public release contract can fail when it clones the repository during installation.",
+    "constraints": [
+      "Do not change public release validation semantics beyond safely reusing checkout auth for Git commands.",
+      "Keep the check reproducible in CI and locally.",
+      "Do not expose credential material in logs."
+    ],
+    "rationale": "Bridge checkout auth into child Git processes through environment variables so the installer can clone the tagged release in private CI without modifying the public release artifact."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

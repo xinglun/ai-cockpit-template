@@ -79,6 +79,29 @@ def git_extraheader_args(repository_url: str) -> list[str]:
     return args
 
 
+def git_extraheader_env(repository_url: str) -> dict[str, str]:
+    """Return environment variables that re-encode checkout auth for child Git processes."""
+    host = urlsplit(repository_url).netloc
+    if not host:
+        return {}
+    config_key = f"http.https://{host}/.extraheader"
+    result = run_command(
+        ["git", "config", "--get-all", config_key],
+        cwd=ROOT,
+        env=clean_git_environment(),
+    )
+    if result.returncode != 0:
+        return {}
+    headers = [header.strip() for header in result.stdout.splitlines() if header.strip()]
+    if not headers:
+        return {}
+    env = {"GIT_CONFIG_COUNT": str(len(headers))}
+    for index, header in enumerate(headers):
+        env[f"GIT_CONFIG_KEY_{index}"] = config_key
+        env[f"GIT_CONFIG_VALUE_{index}"] = header
+    return env
+
+
 def fixture_archive(path: Path) -> None:
     payload = b"import sys\nprint('release contract fixture')\nsys.exit(0)\n"
     with tarfile.open(path, "w:gz") as archive:
@@ -152,6 +175,7 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
             }
         )
         env.pop("AI_COCKPIT_TEMPLATE_SOURCE", None)
+        env.update(git_extraheader_env(PUBLIC_REPOSITORY))
         result = subprocess.run(
             [str(installer), "--stack", "generic"], cwd=target, env=env,
             text=True, capture_output=True, check=False,

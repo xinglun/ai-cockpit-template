@@ -490,6 +490,8 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
     execution_status = _dict(contract.get("executionDecision")).get("status")
     if execution_status in {"block", "blocked"}:
         decision_drivers.append(f"executionDecision is {execution_status}")
+    if execution_status in {"defer", "needs_human_decision"}:
+        decision_drivers.append(f"executionDecision is {execution_status}")
     if verification["value"] == "failed":
         decision_drivers.extend(verification["evidence"])
     if signals["Guidelines"]["value"] == "violated":
@@ -525,6 +527,8 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
         }
     ):
         recommendation = "blocked"
+    elif execution_status in {"defer", "needs_human_decision"}:
+        recommendation = "needs_investigation"
     elif signals["Verification"]["value"] == "failed" or signals["Guidelines"]["value"] == "violated":
         recommendation = "blocked"
     elif any(

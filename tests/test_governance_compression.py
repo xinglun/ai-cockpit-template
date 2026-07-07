@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pytest
+
 import ai_governance_compression
 
 
@@ -157,6 +159,17 @@ def test_no_contract_intent_is_not_applicable():
     model = ai_governance_compression.derive_governance_status(contract, summary)
 
     assert model["signals"][0]["value"] == "not_applicable"
+
+
+@pytest.mark.parametrize("status", ["defer", "needs_human_decision"])
+def test_deferred_execution_decisions_remain_conservative(status):
+    contract = complete_contract()
+    contract["executionDecision"] = {"status": status}
+
+    model = ai_governance_compression.derive_governance_status(contract, complete_summary())
+
+    assert model["recommendation"] == "needs_investigation"
+    assert f"executionDecision is {status}" in model["decisionDrivers"]
 
 
 def test_guideline_violation_blocks():

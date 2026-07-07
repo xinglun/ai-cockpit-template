@@ -12,6 +12,7 @@ import sys
 import tarfile
 import tempfile
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,6 +56,27 @@ def highest_semver_tag(refs: str) -> str:
     if not tags:
         raise RuntimeError("public repository has no semantic-version tags")
     return max(tags, key=lambda tag: tuple(int(part) for part in tag[1:].split(".")))
+
+
+def git_extraheader_args(repository_url: str) -> list[str]:
+    """Return `git -c` overrides for any checkout-auth header on the current repo."""
+    host = urlsplit(repository_url).netloc
+    if not host:
+        return []
+    config_key = f"http.https://{host}/.extraheader"
+    result = run_command(
+        ["git", "config", "--local", "--get-all", config_key],
+        cwd=ROOT,
+        env=clean_git_environment(),
+    )
+    if result.returncode != 0:
+        return []
+    args: list[str] = []
+    for header in result.stdout.splitlines():
+        header = header.strip()
+        if header:
+            args.extend(["-c", f"{config_key}={header}"])
+    return args
 
 
 def fixture_archive(path: Path) -> None:
@@ -276,6 +298,7 @@ def fetch_tagged_installer(tag: str) -> bytes:
         clone = run_command(
             [
                 "git",
+                *git_extraheader_args(PUBLIC_REPOSITORY),
                 "clone",
                 "--depth",
                 "1",
@@ -303,7 +326,10 @@ def main() -> int:
     quality_target = metadata["publicContract"]["projectQualityTarget"]
     local_source = os.environ.get("AI_COCKPIT_TEMPLATE_SOURCE")
     try:
-        tags = run_command(["git", "ls-remote", "--tags", "--refs", PUBLIC_REPOSITORY], cwd=ROOT)
+        tags = run_command(
+            ["git", *git_extraheader_args(PUBLIC_REPOSITORY), "ls-remote", "--tags", "--refs", PUBLIC_REPOSITORY],
+            cwd=ROOT,
+        )
         if tags.returncode != 0:
             raise RuntimeError(f"failed to list public tags: {tags.stderr.strip()}")
         latest_tag = highest_semver_tag(tags.stdout)

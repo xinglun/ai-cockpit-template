@@ -1,7 +1,10 @@
+import importlib
 import os
+from types import SimpleNamespace
 
 import pytest
 
+import check_release_distribution as release_distribution
 from check_release_distribution import exercise_installer, exercise_public_distribution, highest_semver_tag
 
 
@@ -100,6 +103,29 @@ def test_exercise_public_distribution_rejects_missing_documented_target():
 def test_exercise_public_distribution_rejects_invalid_target():
     with pytest.raises(RuntimeError, match="invalid public quality target"):
         exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="--version")
+
+
+def test_public_repository_override_is_honored(monkeypatch):
+    monkeypatch.setenv("AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY", "https://example.invalid/private.git")
+    try:
+        reloaded = importlib.reload(release_distribution)
+        assert reloaded.PUBLIC_REPOSITORY == "https://example.invalid/private.git"
+    finally:
+        monkeypatch.delenv("AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY", raising=False)
+        importlib.reload(release_distribution)
+
+
+def test_git_extraheader_args_uses_checkout_header(monkeypatch):
+    def fake_run_command(command, *, cwd, env=None):
+        if command == ["git", "config", "--local", "--get-all", "http.https://github.com/.extraheader"]:
+            return SimpleNamespace(returncode=0, stdout="AUTHORIZATION: basic abc123\n")
+        raise AssertionError(f"unexpected command: {command!r}")
+
+    monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
+    assert release_distribution.git_extraheader_args("https://github.com/xinglun/ai-cockpit-template.git") == [
+        "-c",
+        "http.https://github.com/.extraheader=AUTHORIZATION: basic abc123",
+    ]
 
 
 def test_highest_semver_tag_uses_numeric_version_order():

@@ -1,0 +1,154 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_private_repo",
+  "mode": "code",
+  "title": "Make release distribution check private-repo aware",
+  "baseCommit": "f521b6f44d1360928f65e6450560c6a0fa037c7e",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "f0da7991ccbd345a2c436a2ff6a3c5cc3616c717e9d7c59fa55daff8940ef6b4"
+    }
+  ],
+  "scope": [
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    ".ai/work-items/active/release_private_repo.contract.json",
+    ".ai/work-items/active/release_private_repo.summary.json"
+  ],
+  "outOfScope": [
+    ".github/workflows/**",
+    "release.json",
+    "install.sh",
+    "docs/**",
+    "examples/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "The release distribution check needs to reuse authenticated checkout headers when the repository is private."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "The regression test coverage needs to confirm the auth header and public repository override paths."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_distribution"
+    ],
+    "reason": "The release distribution checker now reads authenticated checkout headers for private CI repositories while preserving public release validation."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The workflow fix is narrowly scoped and directly verifiable."
+  },
+  "preReviewWarnings": [
+    "Verify that the release checker reuses checkout-auth headers without exposing secrets in logs."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make check-release-distribution can run in a private repository CI environment.",
+    "The release distribution check still works in a public repository environment.",
+    "The regression tests cover checkout-auth headers and explicit repository overrides."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The release distribution check currently clones a GitHub URL without reusing the authenticated checkout context, which fails in CI after the repository is made private because the checker does not have access to the private repository.",
+    "constraints": [
+      "Do not change the public release validation semantics beyond how the repository URL is supplied.",
+      "Keep the release distribution check reproducible in CI and locally.",
+      "Avoid exposing credentials in logs."
+    ],
+    "rationale": "Reusing the authenticated checkout header preserves the existing release verification logic while making it work in private-repo CI without changing workflow semantics."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

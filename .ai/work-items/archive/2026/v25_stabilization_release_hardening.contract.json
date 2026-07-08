@@ -1,0 +1,178 @@
+{
+  "contractVersion": 2,
+  "workItemId": "v25_stabilization_release_hardening",
+  "mode": "code",
+  "title": "V2.5 stabilization and release hardening",
+  "baseCommit": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+    ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+    "README.md",
+    "README.ja.md",
+    "docs/roadmap.md",
+    "docs/reference/v2-5-governance-compression-plan.md",
+    "docs/reference/how-to-read-cockpit-status.md"
+  ],
+  "outOfScope": [
+    "docs/reference/v3-**",
+    "scripts/**",
+    "tests/**",
+    "templates/**",
+    ".ai/work-items/archive/**",
+    "Makefile",
+    "docs/**/schema*"
+  ],
+  "sources": [
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical repository governance terminology and architecture boundaries."
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "Check catalog and status-generation verification references."
+    },
+    {
+      "path": "README.md",
+      "reason": "English repository overview that describes V2.5 and advanced docs."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Japanese repository overview that must stay aligned with the English README."
+    },
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Long-term roadmap that positions V2.5 relative to V3."
+    },
+    {
+      "path": "docs/reference/v2-5-governance-compression-plan.md",
+      "reason": "Reference plan for the implemented V2.5 architecture."
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Authoritative status-field names and renderer shape for reviewer-facing examples."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "docs_alignment",
+      "reviewer_confusion"
+    ],
+    "reason": "The change is documentation-only, but multiple reader-facing files must stay consistent with the real status renderer."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit for a docs-only stabilization pass."
+  },
+  "preReviewWarnings": [
+    "Check that all examples match the real generated Cockpit Status headings and recommendation values."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The repository documents V2.5 stabilization and release hardening without expanding into V3 or new schema fields.",
+    "Reviewer-facing Cockpit Status examples explain clean ready, ready with medium residual risk, missing verification, unknowns remaining, and intent unresolved cases.",
+    "The English and Japanese overview docs stay aligned on the V2.5 release-readiness message.",
+    "The generated Cockpit Status file is refreshed through the documented Make target rather than hand-edited."
+  ],
+  "guidelines": [
+    "Keep V2.5 limited to stabilization and release hardening; do not introduce V3 Repository Intelligence or schema expansion.",
+    "Keep the English and Japanese documentation semantically aligned.",
+    "Ensure reviewer-facing examples match the real Cockpit Status renderer."
+  ],
+  "intent": {
+    "problem": "V2.5 is implemented, but the repository does not yet have a focused stabilization pass that shows reviewers how to read Cockpit Status or how the current recommendation model behaves on common Work Item shapes.",
+    "constraints": [
+      "Do not add V3 Repository Intelligence work.",
+      "Do not expand the schema or make Cockpit longer.",
+      "Keep the change documentation-first and reviewer-facing.",
+      "Keep English and Japanese guidance aligned."
+    ],
+    "rationale": "Documenting the release-hardening behavior, examples, and status interpretation should improve trust in the existing model without increasing product complexity."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -292,7 +292,7 @@ Repository `make quality` runs the full test suite with a 60% overall script cov
 ## Version Evolution
 
 - **V2 — Intent-aware Development (completed)**: Work Item Contracts include an optional `intent` section (`problem`, `constraints`, `rationale`, and more) so agents understand *why* a change exists, not only *what* to change. Intent is a first-class governance object, and both `intent` and Summary `intentAlignment` are optional and fully backward-compatible. See [Roadmap (V1–V4)](docs/roadmap.md) and [V2 Implementation Plan](docs/reference/v2-implementation-plan.md).
-- **V2.5 — Governance Compression (implemented, current capability)**: Summary is Repository Truth, and Cockpit is the Human Decision State. Cockpit compresses repository evidence into recommendation-oriented signals such as `ready_for_review`, `ready_with_risks`, `needs_investigation`, and `blocked` without inventing new facts.
+- **V2.5 — Governance Compression (implemented, current capability)**: Summary is Repository Truth, and Cockpit is the Human Decision State. Cockpit compresses repository evidence into recommendation-oriented signals such as `ready_for_review`, `ready_with_risks`, `needs_investigation`, and `blocked` without inventing new facts. Before moving to V3, use the stabilization guidance in [How to Read Cockpit Status](docs/reference/how-to-read-cockpit-status.md) to validate reviewer-facing behavior on real Work Items.
 
 ## Advanced Docs
 
@@ -300,6 +300,7 @@ Repository `make quality` runs the full test suite with a 60% overall script cov
 - [First Work Item](docs/getting-started/first-work-item.md)
 - [Roadmap (V1–V4)](docs/roadmap.md)
 - [V2 Implementation Plan](docs/reference/v2-implementation-plan.md)
+- [How to Read Cockpit Status](docs/reference/how-to-read-cockpit-status.md)
 - [Concept Guide (Japanese)](docs/overview.ja.md)
 - [Contract & Summary Fields Manual](docs/contract-fields.md)
 - [Configuration](docs/configuration.md)

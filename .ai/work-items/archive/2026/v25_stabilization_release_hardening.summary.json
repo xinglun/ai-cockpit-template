@@ -1,0 +1,354 @@
+{
+  "workItemId": "v25_stabilization_release_hardening",
+  "contractPath": ".ai/work-items/archive/2026/v25_stabilization_release_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/v25_stabilization_release_hardening.contract.json",
+      "reason": "Refined the Work Item Contract into a docs-only stabilization pass."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v25_stabilization_release_hardening.summary.json",
+      "reason": "Recorded the active Work Item's verification and review metadata."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit Status now reflects the active Work Item."
+    },
+    {
+      "path": "README.md",
+      "reason": "Added the V2.5 stabilization guidance and linked reviewer-facing status documentation."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Kept the Japanese overview aligned with the release-hardening message."
+    },
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Clarified that V2.5 should be stabilized before V3 is considered."
+    },
+    {
+      "path": "docs/reference/v2-5-governance-compression-plan.md",
+      "reason": "Added release-hardening notes and a pointer to the new status-reading guide."
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "reason": "Created the reviewer-facing Cockpit Status interpretation guide and examples."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/glossary.md",
+    ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+    "README.md",
+    "README.ja.md",
+    "docs/roadmap.md",
+    "docs/reference/v2-5-governance-compression-plan.md",
+    "docs/reference/how-to-read-cockpit-status.md",
+    "scripts/ai_governance_compression.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:18.853537+00:00",
+      "exitCode": 0,
+      "durationMs": 72,
+      "outputDigest": "d212630b4bfb224bfd48fecb2f6fed6c3553f69973a01ac0e78881ffad625ba4",
+      "commandHash": "254c19953ab82fa76cefe35a5f8a476772babd26420f645330eaec791fd7ee1a",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/v25_stabilization_release_hardening.contract.json work item contract check passed: .ai/work-items/active/v25_stabilization_release_hardening.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.009906+00:00",
+      "exitCode": 0,
+      "durationMs": 150,
+      "outputDigest": "62d5b29a35c4c630f9d1e652183cf1443747e2a0d5b57b0f86f4a035b082b57e",
+      "commandHash": "96d3bef2471e40a08e27fa0d3b3a6f05753e4b74bff4d5ec46f6e1ce2ea90583",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/v25_stabilization_release_hardening.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.174108+00:00",
+      "exitCode": 0,
+      "durationMs": 152,
+      "outputDigest": "bb042fb75de177b07861ca9a469f29d72d8ab47123508a2433002b2030c8865a",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/v25_stabilization_release_hardening.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.251113+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "0dddab215b0fe0969476c5d11f6730aab1e6266b146955e5df05f0a1f572aac5",
+      "commandHash": "d1b0964586029d5b9fbc1d126c4f603876b3ccfb47c925d164c829ad80515d02",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/v25_stabilization_release_hardening.contract.json --summary .ai/work-items/active/v25_stabilization_release_hardening.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `v25_stabilization_release_hardening` - Contract Hash: `3f088593711cca29` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.399638+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "5db80237cb086195725dd44623e2c15c3be72f688479e912c8b3e0c811ebffa8",
+      "commandHash": "87f813b8605299198f8750616669045c3a02a7da32e9951fe3df52bdd5d3b91f",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/v25_stabilization_release_hardening.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.546628+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.706114+00:00",
+      "exitCode": 0,
+      "durationMs": 150,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:26:19.781680+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "acbbd40bda536c343a9f1b19fbf62d074086f2532151089d58e7d33e6041d848",
+      "commandHash": "5e55347a6e68f18d52344cb554efabcc4c9253151acae3d16fdb6a89aa2af3d0",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/v25_stabilization_release_hardening.contract.json --summary .ai/work-items/active/v25_stabilization_release_hardening.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:27:04.575022+00:00",
+      "exitCode": 0,
+      "durationMs": 44785,
+      "outputDigest": "f7765bd423ea8167f36039a70d9438a657da0cd766b1e25e29dc6b4a689aa923",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 27%] ........................................................................ [ 55%] ........................................................................ [ 83%] ........................................... [100%] ================================ test"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:27:05.070043+00:00",
+      "exitCode": 0,
+      "durationMs": 70,
+      "outputDigest": "fc95120fc3585a867fba5483d5fbaa7e86d0e93d07f2b640330b80cf88666937",
+      "commandHash": "f6b7be0622581365cd4a7b3e28c3ace8fd9d8558b820c85248bbd27218bf9537",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/v25_stabilization_release_hardening.contract.json --summary .ai/work-items/active/v25_stabilization_release_hardening.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:27:05.136361+00:00",
+      "exitCode": 0,
+      "durationMs": 61,
+      "outputDigest": "71298c51a0f99e20cf74f3ea5fa702da903f42c43bd83426807cc964dfaf6e43",
+      "commandHash": "70a4326bd4798db0b007ce4ab64f7a07f13d1d75f1b2be583a6c92f752f1d0f9",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/v25_stabilization_release_hardening.contract.json --summary .ai/work-items/active/v25_stabilization_release_hardening.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:27:05.201499+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:27:05.269292+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "a1f0b32854cbb134b04d66faa1a7e3846a892469efc07706f6cc6d71b6aa78b0",
+      "commandHash": "4d4c6b2639b5a4dec09a3d09672f9c5e230a591ea7037ab34e7c715aec7c5029",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/v25_stabilization_release_hardening.contract.json --summary .ai/work-items/active/v25_stabilization_release_hardening.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/v25_stabilization_release_hardening.summary.json CONTRACT=.ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-07T23:27:05.397822+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "33febe6e302792a1a7db61bb4f14d002c329f2c7fcc8d6a7a8abdbf1155ab2f0",
+      "commandHash": "9494827a078cdb57283102f7392af769c6d1d6d9e4ae6ab79e3fe915b0407395",
+      "contractHash": "3f088593711cca29e634dd962823f3f9cf636db6da00ad097e0f893392969866",
+      "commitSha": "fe7970911c35fc7f5fbb49fe5ebe34213bc72434",
+      "executionContractPath": ".ai/work-items/active/v25_stabilization_release_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/v25_stabilization_release_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/v25_stabilization_release_hardening.summary.json --contract .ai/work-items/active/v25_stabilization_release_hardening.contract.json ai summary check passed: .ai/work-items/active/v25_stabilization_release_hardening.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep V2.5 limited to stabilization and release hardening; do not introduce V3 Repository Intelligence or schema expansion.",
+      "compliant": true,
+      "evidence": "README.md, README.ja.md, and the V2.5 reference plan all say to stabilize the current model before considering V3."
+    },
+    {
+      "guideline": "Keep the English and Japanese documentation semantically aligned.",
+      "compliant": true,
+      "evidence": "Both overview READMEs link to the same reviewer guide and describe the same V2.5 stabilization message."
+    },
+    {
+      "guideline": "Ensure reviewer-facing examples match the real Cockpit Status renderer.",
+      "compliant": true,
+      "evidence": "The new guide follows the current_status.md headings and the status fields from scripts/ai_governance_compression.py."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change is documentation-only, but status wording must stay aligned with the generated renderer."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "Review should confirm that the new status guide and bilingual overview wording remain aligned with the actual renderer.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The documentation pass is complete; final review should confirm the generated current_status.md and example wording.",
+    "expectedReviewFocus": [
+      "Alignment between README variants and the new Cockpit Status guide",
+      "Generated current_status.md consistency with the active Work Item"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "updated",
+    "persistence": "not_applicable",
+    "localization": "updated",
+    "generatedArtifacts": "updated",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "3f088593711cca29",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "3f088593711cca29",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 4,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before finishing."
+    }
+  ],
+  "knownGaps": [
+    "current_status.md still needs a finish-time regeneration after the remaining checks pass."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

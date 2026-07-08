@@ -258,6 +258,20 @@ V2.5 should be delivered incrementally after the V2 Intent-aware Development fou
 - New status derivation is covered by focused tests.
 - Migration requirements are documented before release.
 
+## Release Hardening Notes
+
+V2.5 is implemented, but the release-hardening pass should still validate the status model against real Work Items before V3 is introduced.
+
+Focus areas:
+
+- Validate Cockpit recommendation behavior on clean, risky, incomplete, and unresolved Work Items.
+- Keep reviewer-facing examples aligned with the generated status renderer.
+- Confirm that `needs_investigation` is not overused for cases that are already clearly blocked or ready.
+- Ensure `ready_with_risks` remains useful when the work is complete but residual risk deserves attention.
+- Keep the review model explainable without adding new schema fields or longer output.
+
+The reviewer-oriented reference for this pass is [How to Read Cockpit Status](how-to-read-cockpit-status.md).
+
 ## Validation Strategy
 
 V2.5 validation should prove that Cockpit compresses truth without inventing it:

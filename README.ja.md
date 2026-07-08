@@ -90,7 +90,7 @@ Cockpit が更新される。
 ## バージョンの進化
 
 - **V2 — Intent-aware Development（完了）**: Work Item Contract に任意の `intent` セクション（`problem`、`constraints`、`rationale` など）を追加し、AI が「何を変えるか」だけでなく「なぜその変更が存在するか」を理解できるようにします。`intent` と Summary の `intentAlignment` はどちらも任意で、文脈がない場合は空欄のままでかまいません。詳細は [ロードマップ (V1〜V4)](docs/roadmap.md) と [V2 Implementation Plan](docs/reference/v2-implementation-plan.md) を参照してください。
-- **V2.5 — Governance Compression（実装済み、現在の機能）**: Summary は Repository Truth、Cockpit は Human Decision State です。Cockpit はリポジトリ証拠を圧縮して、`ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked` のような意思決定向けシグナルを出します。
+- **V2.5 — Governance Compression（実装済み、現在の機能）**: Summary は Repository Truth、Cockpit は Human Decision State です。Cockpit はリポジトリ証拠を圧縮して、`ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked` のような意思決定向けシグナルを出します。V3 に進む前に、[Cockpit Status の読み方](docs/reference/how-to-read-cockpit-status.md) を使って、実 Work Item 上でレビュー向けの挙動を確認してください。
 
 ## 最新の公開ランタイムをインストール
 
@@ -239,6 +239,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - [概要・コンセプトガイド](docs/overview.ja.md)
 - [ロードマップ (V1〜V4)](docs/roadmap.md)
 - [フィールド解説書](docs/contract-fields.md)
+- [Cockpit Status の読み方](docs/reference/how-to-read-cockpit-status.md)
 - [設定](docs/configuration.md)
 - [アーキテクチャ](docs/architecture.md)
 - [設計思想](docs/design-philosophy.md)

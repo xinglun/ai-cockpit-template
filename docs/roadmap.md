@@ -251,6 +251,8 @@ The four layers have distinct responsibilities:
 
 Summary should continue becoming a complete audit record. Cockpit should compress that repository truth into decision-oriented signals such as Intent resolved, Acceptance complete, Unknowns resolved, Verification passed, Residual risk low, and Recommendation ready for review.
 
+Before V3 is considered, V2.5 should be stabilized against real Work Items and reviewer-facing examples. The practical reference for that calibration is [How to Read Cockpit Status](reference/how-to-read-cockpit-status.md).
+
 Completion Assurance becomes one component of Governance Compression rather than the milestone name.
 
 See [V2.5 Governance Compression Plan](reference/v2-5-governance-compression-plan.md) for the implemented reference plan.

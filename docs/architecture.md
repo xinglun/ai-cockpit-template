@@ -44,31 +44,33 @@ graph TD
 
 
 ```text
-.ai/
+.ai/                                   # AI Cockpit の管理ディレクトリ
   cockpit/
-    README.md
-    checks.yaml
-    current_status.md
-  guards/
-    agent_risk_policy.yaml
-    ai_review_policy.yaml
-    backtrack_policy.yaml
-    cockpit_status_policy.yaml
-    coverage_policy.yaml
-    file_boundary.yaml
-    file_ownership.yaml
-    scope_policy.yaml
-    summary_policy.yaml
-  work-items/
+    README.md                          # Cockpit の概要・利用方法
+    checks.yaml                        # Cockpit のチェック設定
+    current_status.md                  # 現在のガバナンス状態（人向けサマリー）
+  guards/                              # ガードポリシー定義
+    agent_risk_policy.yaml             # AI 実装リスク判定ポリシー
+    ai_review_policy.yaml              # AI レビュー判定ポリシー
+    backtrack_policy.yaml              # 巻き戻し（Backtrack）防止ポリシー
+    cockpit_status_policy.yaml         # Cockpit ステータス判定ポリシー
+    coverage_policy.yaml               # カバレッジ検証ポリシー
+    file_boundary.yaml                 # 編集可能ファイル境界ポリシー
+    file_ownership.yaml                # ファイル責任範囲ポリシー
+    scope_policy.yaml                  # Work Item のスコープ制御ポリシー
+    summary_policy.yaml                # Summary 生成・検証ポリシー
+  work-items/                          # Work Item 管理
     _templates/
-      work_item_contract.example.json
-      work_item_summary.example.json
-    active/
-    archive/
+      work_item_contract.example.json  # Contract テンプレート
+      work_item_summary.example.json   # Summary テンプレート
+    active/                            # 作業中の Work Item
+    archive/                           # 完了済み Work Item
+
 .cursor/
   rules/
-    ai-cockpit.mdc
-examples/
+    ai-cockpit.mdc                     # Cursor 用 AI Cockpit ルール
+
+examples/                              # 各言語向け導入サンプル
   csharp/
   flutter/
   go/
@@ -80,42 +82,48 @@ examples/
   rust/
   swift/
   typescript/
+
 docs/
   assets/
-    ai-cockpit-demo.gif
-scripts/
-  ai_archive_work_item.py
-  ai_check_agent_risk.py
-  ai_check_backtrack.py
-  ai_check_coverage_guard.py
-  ai_check_guards.py
-  ai_check_review_policy.py
-  ai_check_scope.py
-  ai_check_status.py
-  ai_check_status_consistency.py
-  ai_check_summary.py
-  ai_check_work_item.py
-  ai_checkpoint.py
-  ai_common.py
-  ai_governance_compression.py
-  ai_finish.py
-  ai_generate_status.py
-  ai_observability.py
-  ai_start.py
-  install_ai_cockpit.py
-target/
-  ai_observability.jsonl
-  ai_*.json
-templates/
+    ai-cockpit-demo.gif                # デモ・ドキュメント用画像
+
+scripts/                               # AI Cockpit のコアスクリプト
+  ai_archive_work_item.py              # Work Item のアーカイブ
+  ai_check_agent_risk.py               # AI 実装リスクチェック
+  ai_check_backtrack.py                # Backtrack チェック
+  ai_check_coverage_guard.py           # カバレッジガード検証
+  ai_check_guards.py                   # ガード統合チェック
+  ai_check_review_policy.py            # レビューポリシー検証
+  ai_check_scope.py                    # スコープ検証
+  ai_check_status.py                   # ステータス検証
+  ai_check_status_consistency.py       # ステータス整合性検証
+  ai_check_summary.py                  # Summary 検証
+  ai_check_work_item.py                # Work Item 検証
+  ai_checkpoint.py                     # チェックポイント記録
+  ai_common.py                         # 共通ライブラリ
+  ai_governance_compression.py         # Governance Compression 生成
+  ai_finish.py                         # Work Item 完了処理
+  ai_generate_status.py                # Cockpit ステータス生成
+  ai_observability.py                  # 実行ログ・監査情報出力
+  ai_start.py                          # Work Item 開始処理
+  install_ai_cockpit.py                # AI Cockpit インストーラー
+
+target/                                # 実行時生成ファイル（監査・ログ）
+  ai_observability.jsonl               # Observability ログ
+  ai_*.json                            # 実行結果・中間生成ファイル
+
+templates/                             # テンプレート群
   make/
-    Makefile.ai
+    Makefile.ai                        # 共通 Make タスク
   stacks/
-    *.mk
-install.sh
-Makefile
-AGENTS.md
-CLAUDE.md
-GEMINI.md
+    *.mk                               # スタック別 Make 設定
+
+install.sh                             # インストールエントリーポイント
+Makefile                               # プロジェクト共通タスク
+
+AGENTS.md                              # AI Agent 向けガイド
+CLAUDE.md                              # Claude 向けガイド
+GEMINI.md                              # Gemini 向けガイド
 ```
 
 ## コアコンポーネント (Core Components)

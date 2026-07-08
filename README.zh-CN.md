@@ -94,7 +94,8 @@ Review 从上下文开始。
 ## 版本演进
 
 - **V2 — Intent-aware Development（已完成）**：Work Item Contract 新增可选的 `intent` 节点（`problem`、`constraints`、`rationale` 等字段），让 AI 不只知道“改什么”，也知道“为什么存在这次变更”。`intent` 和 Summary 的 `intentAlignment` 都是可选的，在缺少上下文时可以留空。详见 [Roadmap](docs/roadmap.md) 和 [V2 Implementation Plan](docs/reference/v2-implementation-plan.md)。
-- **V2.5 — Governance Compression（已实现，当前能力）**：Summary 是 Repository Truth，Cockpit 是 Human Decision State。Cockpit 会把仓库证据压缩成面向决策的信号，例如 `ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked`，但不会发明新事实。
+- **V2.5 — Governance Compression（已实现，稳定中）**：Summary 是 Repository Truth，Cockpit 是 Human Decision State。Cockpit 会把仓库证据压缩成面向决策的信号，例如 `ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked`，但不会发明新事实。
+- **V2.6 — Scenario Coverage（当前能力）**：中高风险 Work Item 可以记录通用的场景覆盖结果，而不需要把 release/auth/installer 的场景库硬编码进 Core。场景内容仍然由 Work Item 持有，策略来源在 `.ai/guards/scenario_coverage_policy.yaml`。
 
 ## 安装最新公开运行时
 
@@ -114,7 +115,7 @@ CONFIG_BASE="$(git rev-parse HEAD)"
 make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this project" MODE=code
 ```
 
-该命令优先读取公开的 `release.json`；在发布元数据尚未上线的过渡期，则从公开的语义化版本标签中选择最高版本。随后只下载并执行解析出的固定标签安装器。公开版本的能力可能落后于源码树；创建首次采用 PR 前请先阅读[安装文档](docs/installation.md)。
+该命令优先读取公开的 `release.json`；在发布元数据尚未上线的过渡期，则从公开的语义化版本标签中选择最高版本。随后只下载并执行解析出的固定标签安装器。公开版本的能力可能落后于源码树；创建首次采用 PR 前请先阅读[安装文档](docs/getting-started/installation.md)。
 
 先审阅并扩展生成的配置 Contract scope，再修改 Project Profile、Guard、质量命令和 CI。然后在启用阻断型门禁前，根据目标工程校准治理运行时：
 
@@ -241,7 +242,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 
 ## 进阶文档
 
-- [安装](docs/installation.md)
+- [安装](docs/getting-started/installation.md)
 - [概念导读（日文）](docs/overview.ja.md)
 - [路线图 (V1〜V4)](docs/roadmap.md)
 - [字段说明手册](docs/contract-fields.md)

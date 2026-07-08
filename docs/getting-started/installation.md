@@ -15,7 +15,7 @@ Install a fixed release of AI Cockpit into an existing repository. Start with th
 
 ## Installation Flow
 
-Use the same five-stage adoption flow until validation completes:
+The installation flow has five stages. The first governed Work Item walkthrough comes after adoption readiness:
 
 1. Pre-flight: confirm the repository is a clean Git work tree with the required toolchain.
 2. Install: choose the stack preset and run the installer.
@@ -179,7 +179,7 @@ If those commands succeed, the installation is operational rather than merely co
 - [Distribution](../reference/distribution.md)
 - [Troubleshooting](../reference/troubleshooting.md)
 
-### Phase 6. First Work Item
+### Phase 6. First Work Item Walkthrough
 
 Continue in [First Work Item](first-work-item.md) for the full walkthrough that starts, checkpoints, and finishes the first governed task.
 

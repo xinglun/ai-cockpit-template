@@ -1,0 +1,202 @@
+{
+  "contractVersion": 2,
+  "workItemId": "align_v26_docs_and_status",
+  "mode": "code",
+  "title": "Align docs and status narrative with V2.6",
+  "baseCommit": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+  "baselineDirtyPaths": [],
+  "intent": {
+    "problem": "Repository-facing documentation still narrates AI Cockpit as if the story ends at V2.5, while the implemented scenario coverage signal and the current architecture are already V2.6-shaped. Several localized README links also point to the wrong installation page.",
+    "constraints": [
+      "Keep the governance vocabulary consistent with .ai/glossary.md and existing cockpit terminology.",
+      "Do not change runtime behavior or generated status semantics beyond regenerating status after doc edits.",
+      "Do not expand scope into unrelated product or code changes."
+    ],
+    "rationale": "Readers should see one coherent version story across README, roadmap, architecture, and field documentation, with V2.6 scenario coverage and installation links pointing to the actual canonical path."
+  },
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/roadmap.md",
+    "docs/architecture.md",
+    "docs/contract-fields.md",
+    "docs/getting-started/installation.md",
+    ".ai/cockpit/README.md"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/**",
+    "examples/**",
+    "release.json",
+    "install.sh"
+  ],
+  "sources": [
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines the canonical V2.6 terminology for Repository Truth, Governance Compression, and Scenario Coverage."
+    },
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Captures the intended version progression and the current milestone narrative."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Provides the canonical installation path that localized README files should link to."
+    },
+    {
+      "path": ".ai/guards/scenario_coverage_policy.yaml",
+      "reason": "Explains the generic scenario coverage policy mechanism that should be documented for Work Items."
+    }
+  ],
+  "problemStatement": "The repository documentation is partially synced to V2.6 but still contains V2.5-era language, stale architecture flow, and broken installation links in the localized READMEs.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Version narrative reflects V2.6 across primary README entrypoints",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Needs doc edits and a final review pass."
+    },
+    {
+      "scenario": "Architecture and field documentation describe Scenario Coverage and the current cockpit flow",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Needs doc edits and a final review pass."
+    },
+    {
+      "scenario": "Localized installation links point to docs/getting-started/installation.md",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Needs link updates in localized READMEs."
+    },
+    {
+      "scenario": "Scenario coverage policy source is documented for readers",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Needs field-level documentation updates."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_drift",
+      "link_hygiene"
+    ],
+    "reason": "This is a doc-only synchronization task with no expected runtime or code-path impact."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The required sources are available and the scope is limited to documentation."
+  },
+  "preReviewWarnings": [
+    "Keep the README, roadmap, architecture, and contract-field terminology aligned rather than independently rewritten.",
+    "Regenerate generated status instead of hand-editing it if doc edits affect cockpit status."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Long-form doc alignment is prone to drift across multiple files."
+  },
+  "acceptance": [
+    "README.md, README.zh-CN.md, and README.ja.md describe V2 as completed/implemented and V2.5 as implemented while also surfacing V2.6 scenario coverage.",
+    "README.zh-CN.md and README.ja.md link to docs/getting-started/installation.md instead of the stale docs/installation.md path.",
+    "docs/roadmap.md no longer describes V2 as the current milestone; V2.5 is stabilizing/implemented and V2.6 is the current capability reference.",
+    "docs/architecture.md shows the current Intent -> Contract -> Implementation -> Verification -> Summary -> Cockpit -> Human Decision flow and includes Scenario Coverage in the core model.",
+    "docs/contract-fields.md places knownGaps in the Summary field section, fixes the commandHash wording, and documents scenario_coverage_policy.yaml as the generic policy source.",
+    ".ai/cockpit/README.md remains consistent with the updated V2.6 narrative and current status terminology."
+  ],
+  "guidelines": [
+    "Prefer precise, user-facing terminology over historical shorthand when those terms conflict.",
+    "Keep cross-language README links canonical and identical where possible.",
+    "Treat policy files as generic mechanism descriptions, not as repositories of scenario content."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user request in current thread",
+    "reason": "The task requires synchronized updates to repository documentation and cockpit-facing narrative files."
+  },
+  "rollbackNote": "Revert the doc diffs and regenerate cockpit status back to the pre-task state if necessary."
+}

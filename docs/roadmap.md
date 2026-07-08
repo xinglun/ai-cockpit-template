@@ -125,7 +125,7 @@ This governance loop is the architectural foundation for all V1–V4 evolution p
 
 ---
 
-## V2 — Intent-aware Development（current milestone）
+## V2 — Intent-aware Development（completed）
 
 **Purpose**: Make Intent a first-class governance object. AI understands not only "**what** to change" but "**why** the change exists."
 
@@ -212,7 +212,7 @@ V2 establishes the schema. V3+ can build validation tooling.
 
 ---
 
-## V2.5 — Governance Compression（implemented, retained as reference）
+## V2.5 — Governance Compression（implemented, stabilizing）
 
 **Purpose**: Convert repository truth into human decision state.
 
@@ -259,11 +259,13 @@ See [V2.5 Governance Compression Plan](reference/v2-5-governance-compression-pla
 
 ---
 
-## V2.6 — Scenario Coverage / Risk Domain Scenario Matrix
+## V2.6 — Scenario Coverage / Risk Domain Scenario Matrix（current capability）
 
 **Purpose**: Add a generic Scenario Coverage layer so medium/high-risk Work Items can prove which risk-domain scenarios were verified, which remain unverified, and which are not_applicable.
 
 V2.6 does not add built-in release/auth/installer scenario libraries to Core. It adds the mechanism, then lets each repository or Work Item provide its own scenario content.
+
+The policy source for deciding when Scenario Coverage is required lives in `.ai/guards/scenario_coverage_policy.yaml`.
 
 ### Key Shift
 
@@ -351,9 +353,11 @@ Implementation completed in four incremental phases:
 
 See [V2 Implementation Plan](reference/v2-implementation-plan.md) for the completed phase breakdown.
 
-**V2.5 — Governance Compression**
+**V2.5 — Governance Compression (implemented, stabilizing)**
 
-V2.5 completed the human review compression layer that turns Summary evidence into operational recommendations.
+V2.5 established the human review compression layer that turns Summary evidence into operational recommendations.
+
+V2.6 extends that layer with generic Scenario Coverage for medium/high-risk Work Items.
 
 See [V2.5 Governance Compression Plan](reference/v2-5-governance-compression-plan.md) for the implemented reference plan.
 

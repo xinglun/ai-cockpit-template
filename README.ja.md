@@ -90,7 +90,8 @@ Cockpit が更新される。
 ## バージョンの進化
 
 - **V2 — Intent-aware Development（完了）**: Work Item Contract に任意の `intent` セクション（`problem`、`constraints`、`rationale` など）を追加し、AI が「何を変えるか」だけでなく「なぜその変更が存在するか」を理解できるようにします。`intent` と Summary の `intentAlignment` はどちらも任意で、文脈がない場合は空欄のままでかまいません。詳細は [ロードマップ (V1〜V4)](docs/roadmap.md) と [V2 Implementation Plan](docs/reference/v2-implementation-plan.md) を参照してください。
-- **V2.5 — Governance Compression（実装済み、現在の機能）**: Summary は Repository Truth、Cockpit は Human Decision State です。Cockpit はリポジトリ証拠を圧縮して、`ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked` のような意思決定向けシグナルを出します。V3 に進む前に、[Cockpit Status の読み方](docs/reference/how-to-read-cockpit-status.md) を使って、実 Work Item 上でレビュー向けの挙動を確認してください。
+- **V2.5 — Governance Compression（実装済み、安定化中）**: Summary は Repository Truth、Cockpit は Human Decision State です。Cockpit はリポジトリ証拠を圧縮して、`ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked` のような意思決定向けシグナルを出します。V3 に進む前に、[Cockpit Status の読み方](docs/reference/how-to-read-cockpit-status.md) を使って、実 Work Item 上でレビュー向けの挙動を確認してください。
+- **V2.6 — Scenario Coverage（現在の機能）**: 中高リスク Work Item は、release/auth/installer のような場面別ライブラリを Core に固定せず、通用的な Scenario Coverage を記録できます。場面の内容は Work Item が保持し、ポリシーの出所は `.ai/guards/scenario_coverage_policy.yaml` です。
 
 ## 最新の公開ランタイムをインストール
 
@@ -110,7 +111,7 @@ CONFIG_BASE="$(git rev-parse HEAD)"
 make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this project" MODE=code
 ```
 
-このコマンドは公開済みの `release.json` を優先し、メタデータ移行中にファイルが存在しない場合は、公開済みのセマンティックバージョンタグから最新のものを選びます。その後、解決したタグのインストーラーのみをダウンロードして実行します。公開版の機能はソースツリーより遅れる場合があるため、初回導入 PR を作成する前に[インストール手順](docs/installation.md)を確認してください。
+このコマンドは公開済みの `release.json` を優先し、メタデータ移行中にファイルが存在しない場合は、公開済みのセマンティックバージョンタグから最新のものを選びます。その後、解決したタグのインストーラーのみをダウンロードして実行します。公開版の機能はソースツリーより遅れる場合があるため、初回導入 PR を作成する前に[インストール手順](docs/getting-started/installation.md)を確認してください。
 
 生成された設定用 Contract の変更範囲を確認・拡張してから、Project Profile、Guard、品質コマンド、CI を変更します。その後、ブロッキングゲートを有効にする前に実行系を対象プロジェクトへ適合させます。
 
@@ -235,7 +236,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 ## 詳細ドキュメント
 
 
-- [インストール](docs/installation.md)
+- [インストール](docs/getting-started/installation.md)
 - [概要・コンセプトガイド](docs/overview.ja.md)
 - [ロードマップ (V1〜V4)](docs/roadmap.md)
 - [フィールド解説書](docs/contract-fields.md)

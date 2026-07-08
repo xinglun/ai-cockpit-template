@@ -1,0 +1,436 @@
+{
+  "workItemId": "align_v26_docs_and_status",
+  "contractPath": ".ai/work-items/archive/2026/align_v26_docs_and_status.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documented the scenario coverage policy source in the cockpit runtime guide."
+    },
+    {
+      "path": "README.md",
+      "reason": "Aligned the English version narrative and governance loop with V2.6 scenario coverage."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Aligned the Chinese version narrative and corrected the installation link."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Aligned the Japanese version narrative and corrected the installation link."
+    },
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Reclassified V2 as completed, V2.5 as stabilizing, and V2.6 as the current capability."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "Reworked the main architecture flow and added Scenario Coverage and policy-source documentation."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Moved knownGaps into the Summary field section and documented the scenario coverage policy source."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Clarified that the first Work Item walkthrough is after the five-stage installation flow."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_v26_docs_and_status.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_v26_docs_and_status.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/glossary.md",
+    ".ai/guards/scenario_coverage_policy.yaml",
+    ".ai/cockpit/README.md",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/roadmap.md",
+    "docs/architecture.md",
+    "docs/contract-fields.md",
+    "docs/getting-started/installation.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Version narrative reflects V2.6 across primary README entrypoints",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "README.md",
+        "README.zh-CN.md",
+        "README.ja.md"
+      ]
+    },
+    {
+      "scenario": "Architecture and field documentation describe Scenario Coverage and the current cockpit flow",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "docs/architecture.md",
+        "docs/contract-fields.md",
+        ".ai/cockpit/README.md"
+      ]
+    },
+    {
+      "scenario": "Localized installation links point to docs/getting-started/installation.md",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "README.zh-CN.md",
+        "README.ja.md"
+      ]
+    },
+    {
+      "scenario": "Scenario coverage policy source is documented for readers",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/cockpit/README.md",
+        "docs/architecture.md",
+        "docs/contract-fields.md",
+        "docs/roadmap.md"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:17.610105+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "5e73d7887a827651157111987c4f859ecee0eaf32b178246d08c4241e6e38793",
+      "commandHash": "2cb2fa45bfc00222ed77342aa0a8582baa6f8a4889190c12ad3d3cb44f537f26",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/align_v26_docs_and_status.contract.json work item contract check passed: .ai/work-items/active/align_v26_docs_and_status.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:17.783871+00:00",
+      "exitCode": 0,
+      "durationMs": 149,
+      "outputDigest": "47d47b46c61aeaa25bc2e47da1b29dcf979282e9d23e6923c1d1133b055ea4fb",
+      "commandHash": "db7a4bf8a5f8e570688adc2b2c6002e2da409f9107cb81d9abac36dd874b4ee8",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/align_v26_docs_and_status.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:17.940796+00:00",
+      "exitCode": 0,
+      "durationMs": 152,
+      "outputDigest": "cca85da74496ad92e3fcdbce6b04e7351b6dc78d6ac13740ac5b73b25d869a3a",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/align_v26_docs_and_status.contract.json [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:17.996966+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "fd0e1a831aa60ce8241a626768e3066ab2be762ba9a0c92481bbd296d2471982",
+      "commandHash": "6cc3a02507d3de4029f88317d7d69ab40cc2fa3937b376eeb6216d2f1a1a2dcc",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/align_v26_docs_and_status.contract.json --summary .ai/work-items/active/align_v26_docs_and_status.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `align_v26_docs_and_status` - Contract Hash: `e4f6fed16511a4aa` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `6` - Unknown Count: `0` - Required Checks: `1"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:18.148161+00:00",
+      "exitCode": 0,
+      "durationMs": 146,
+      "outputDigest": "4b591bfadf01da6d6173fe1042a37a21250f1d834584e3a0946bc2776439c753",
+      "commandHash": "50f71e06eda0be0725813003908054048cb9d8a9808a29f26ca7bbb008fd02ef",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/align_v26_docs_and_status.summary.json review policy matched 2 path(s) [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:18.282262+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:18.437813+00:00",
+      "exitCode": 0,
+      "durationMs": 143,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:18.497745+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "47b2049206d24ad22e857c9ac62649646c8b89124431dc7e38626a1a6f25b6db",
+      "commandHash": "e7e80e62e031267f5ad112cdd390ae4be9846d7ee29da8e2d5d2d7aa276e40c2",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/align_v26_docs_and_status.contract.json --summary .ai/work-items/active/align_v26_docs_and_status.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:17:18.552300+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "8282366dfd28573c784697f9904f165850de48547a9b7ade05ee33f676b07eb8",
+      "commandHash": "eb0d8c50d73f0f5ede4aff9c7a1f23e516e69cf442baa8258ca66502e01394c0",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/align_v26_docs_and_status.contract.json --summary .ai/work-items/active/align_v26_docs_and_status.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:18:10.422792+00:00",
+      "exitCode": 0,
+      "durationMs": 51864,
+      "outputDigest": "49e5358f08ad8518e012ca5e73b8c88e7368486c2bb4b44c40a8875cc708dd06",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 27%] ........................................................................ [ 54%] ........................................................................ [ 81%] .................................................. [100%] =============================="
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:18:10.973155+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "1b4b426bfabbd2718ef2adb3dc8a51e3ed9584be11a7b79656a2aa5e5ebba6dc",
+      "commandHash": "6924d51690067eee73ddfb74f0ffdce686c27e730ca06924d80dc53434b47a67",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/align_v26_docs_and_status.contract.json --summary .ai/work-items/active/align_v26_docs_and_status.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:18:11.042892+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "8d166c5295203f7ce5c8221d51369c2115bceaf850c55850e6dc35836668c0a0",
+      "commandHash": "0de8691558397789fc261beaf2e6db7e07304049be1b56a9a5c6075ab9e08c10",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/align_v26_docs_and_status.contract.json --summary .ai/work-items/active/align_v26_docs_and_status.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:18:11.107108+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:18:11.166935+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "fae349223fe3b96d2bd6185251003b93067bbd2cbea8b26cdf359e945f17a213",
+      "commandHash": "cef6f7f4e31dfe9c465b13c093f0e7abf66f95307330bc4eb2660d2e424ec051",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/align_v26_docs_and_status.contract.json --summary .ai/work-items/active/align_v26_docs_and_status.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/align_v26_docs_and_status.summary.json CONTRACT=.ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-08T10:18:11.317626+00:00",
+      "exitCode": 0,
+      "durationMs": 140,
+      "outputDigest": "a7c47b3d54195ea96a29e7bcd61b51c4a298bc9f7ede27843610d72dcf11515c",
+      "commandHash": "8c691c045dc691f2aff3d83653450b6eb26b2a88db1eb7e660d6b8a9aa6bd00b",
+      "contractHash": "e4f6fed16511a4aa03f0f23c061746c4dac32605f7ad1b1c614efc0975e5ff22",
+      "commitSha": "f3fd59d16de8c5e53b91f606e0c5a575c8f37e6f",
+      "executionContractPath": ".ai/work-items/active/align_v26_docs_and_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/align_v26_docs_and_status.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/align_v26_docs_and_status.summary.json --contract .ai/work-items/active/align_v26_docs_and_status.contract.json ai summary check passed: .ai/work-items/active/align_v26_docs_and_status.summary.json"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Doc-only synchronization with no runtime behavior change."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "followUps": [],
+  "unverifiedScenarios": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "documentation",
+      "detail": "The repository now carries both English and localized V2.6 narrative updates, so a reviewer should spot-check terminology consistency.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required checks passed; reviewer should still spot-check terminology consistency across the updated docs.",
+    "expectedReviewFocus": [
+      "Version narrative consistency across English, Chinese, and Japanese docs.",
+      "Architecture flow and policy-source wording for Scenario Coverage."
+    ]
+  },
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "The documentation set now tells one coherent V2.6 story, preserves the canonical installation path, and keeps scenario coverage policy generic."
+  },
+  "guidelinesCompliance": [
+    {
+      "guideline": "Prefer precise, user-facing terminology over historical shorthand when those terms conflict.",
+      "compliant": true,
+      "evidence": "Updated the README, roadmap, architecture, and localized entrypoints to use the current V2.6 and Scenario Coverage narrative consistently."
+    },
+    {
+      "guideline": "Keep cross-language README links canonical and identical where possible.",
+      "compliant": true,
+      "evidence": "Corrected the Chinese and Japanese README installation links to docs/getting-started/installation.md."
+    },
+    {
+      "guideline": "Treat policy files as generic mechanism descriptions, not as repositories of scenario content.",
+      "compliant": true,
+      "evidence": "Documented .ai/guards/scenario_coverage_policy.yaml as the policy source while keeping scenario content owned by Work Items."
+    }
+  ],
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "updated",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    {
+      "source": "user review",
+      "correction": "README, Roadmap, Architecture, localized README links, and contract field docs had drifted from the implemented V2.6 scenario coverage narrative."
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "source": "user review",
+      "solidifiedInto": "Keep version labels, architecture flow, and policy-source references synchronized across README entrypoints, roadmap, and field documentation."
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "e4f6fed16511a4aa",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the declared scope, sources, acceptance criteria, and verification list before editing the docs."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "e4f6fed16511a4aa",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 3,
+      "detail": "Recorded by ai-checkpoint during ai-finish before the remaining verification checks ran."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Record verification results and generated status explicitly rather than inferring them from the edited prose."
+}

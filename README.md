@@ -83,6 +83,12 @@ Cockpit updated.
 Review starts from context.
 ```
 
+## Version Evolution
+
+- **V2 - Intent-aware Development (completed)**: Work Item Contracts gained the optional `intent` node (`problem`, `constraints`, `rationale`, and related fields), so AI can understand not only what to change but why the work exists.
+- **V2.5 - Governance Compression (implemented, stabilizing)**: Summary became Repository Truth and Cockpit became the Human Decision layer. Cockpit compresses repository evidence into decision-oriented signals such as `ready_for_review`, `ready_with_risks`, `needs_investigation`, and `blocked`.
+- **V2.6 - Scenario Coverage (current capability)**: Medium/high-risk Work Items can record generic scenario coverage without hard-coding release/auth/installer scenario libraries into Core. Scenario content stays in the Work Item, and the policy source lives in `.ai/guards/scenario_coverage_policy.yaml`.
+
 <!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->
 
 **Prerequisites:** Linux, macOS, or WSL with a POSIX shell; Python 3.10+; Git, curl, and GNU Make; and a clean Git repository with at least one commit. The selected stack's formatter, test runner, SDK, and build plugins must already be installed.
@@ -145,7 +151,7 @@ make ai-finish TASK=example_change
 The governance loop:
 
 ```text
-Intent → Contract → Implementation → Verification → Summary (Intent Alignment)
+Intent → Contract → Implementation → Verification → Summary (Repository Truth) → Cockpit (Governance Compression) → Human Decision
 ```
 
 | Layer | What it does |
@@ -155,12 +161,13 @@ Intent → Contract → Implementation → Verification → Summary (Intent Alig
 | Scope Guard | Detects changes outside the declared scope and blocks finish, archive, or merge gates. |
 | Backtrack Guard | Detects protected test, snapshot, or Work Item record deletion and blocks configured gates. |
 | Coverage Guard | Requires each configured production path to have a changed test path matched by a project-owned association rule; it does not inspect test contents or prove runtime coverage. |
+| Scenario Coverage | Records generic risk-domain coverage for medium/high-risk Work Items using the policy in `.ai/guards/scenario_coverage_policy.yaml`. Scenario content stays in the Work Item. |
 | Agent Risk Guard | Hard gate against prompt-is-advice, mid-task drift, and unknown-overclaim risks. |
 | AI Review Policy | Flags governance and CI changes that need explicit review focus. |
 | Checkpoint | Mid-task snapshot to detect scope drift before finishing. |
 | Status Consistency Guard | Verifies Cockpit status matches the current set of active Work Items. |
-| Change Summary | Records what changed, what was verified, what risk remains, and whether intent was achieved. |
-| Cockpit Status | Shows the current AI task state in one generated view. |
+| Change Summary | Records what changed, what was verified, what risk remains, whether intent was achieved, and any scenario coverage evidence. |
+| Cockpit Status | Shows the current AI task state in one generated view, including the compressed scenario coverage signal. |
 | Finish Flow | Archives the Work Item only after checks pass. |
 
 ## Core Principles
@@ -288,11 +295,6 @@ The current public release includes auditable first-adoption bootstrap and calle
 - Linux and macOS are officially supported for local execution and CI. Native Windows shells are not supported; please run inside WSL (Windows Subsystem for Linux) or another POSIX terminal.
 
 Repository `make quality` runs the full test suite with a 60% overall script coverage floor and per-file regression floors for lifecycle-critical scripts, Ruff over `scripts/` and `tests/`, Mypy over all governance scripts, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency.
-
-## Version Evolution
-
-- **V2 — Intent-aware Development (completed)**: Work Item Contracts include an optional `intent` section (`problem`, `constraints`, `rationale`, and more) so agents understand *why* a change exists, not only *what* to change. Intent is a first-class governance object, and both `intent` and Summary `intentAlignment` are optional and fully backward-compatible. See [Roadmap (V1–V4)](docs/roadmap.md) and [V2 Implementation Plan](docs/reference/v2-implementation-plan.md).
-- **V2.5 — Governance Compression (implemented, current capability)**: Summary is Repository Truth, and Cockpit is the Human Decision State. Cockpit compresses repository evidence into recommendation-oriented signals such as `ready_for_review`, `ready_with_risks`, `needs_investigation`, and `blocked` without inventing new facts. Before moving to V3, use the stabilization guidance in [How to Read Cockpit Status](docs/reference/how-to-read-cockpit-status.md) to validate reviewer-facing behavior on real Work Items.
 
 ## Advanced Docs
 

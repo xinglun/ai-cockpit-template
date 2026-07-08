@@ -51,12 +51,13 @@ Cockpit does not duplicate Summary. It compresses contract, summary, and verific
 
 These fields should remain explainable and conservative. Missing evidence should not be rewritten as a positive outcome.
 
-V2.6 adds a generic `Scenario Coverage` signal for medium/high risk Work Items. It distinguishes `complete`, `incomplete`, `not_required`, and `unknown` without hard-coding release/auth/installer scenario libraries into Core. Scenario content stays in the Work Item, while Cockpit only compresses the evidence into a reviewer-facing signal.
+V2.6 adds a generic `Scenario Coverage` signal for medium/high risk Work Items. It distinguishes `complete`, `incomplete`, `not_required`, and `unknown` without hard-coding release/auth/installer scenario libraries into Core. The policy source lives in `.ai/guards/scenario_coverage_policy.yaml`; scenario content stays in the Work Item, while Cockpit only compresses the evidence into a reviewer-facing signal.
 
 ## Core Files
 
 - `checks.yaml`: check catalog and project-specific command selection guidance.
 - `current_status.md`: generated status view for the active Work Item.
+- `.ai/guards/scenario_coverage_policy.yaml`: generic policy source that decides when scenario coverage is required.
 - `.ai/work-items/active/*.contract.json`: task boundary before work starts.
 - `.ai/work-items/active/*.summary.json`: change report before finish.
 - `.ai/guards/*.yaml`: file ownership, boundary, scope, backtrack, and coverage rules.

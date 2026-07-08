@@ -1,0 +1,186 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix_pr_paired_ownership",
+  "mode": "code",
+  "title": "Fix check-ai-pr paired ownership for release files",
+  "baseCommit": "97dad1b5c1dfaa3ab9dfeb50c22bb631f16b2344",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "fbf8634e3008ae88a24dc7e2119526bf43020ab71017e67c428f24761758275e"
+    }
+  ],
+  "intent": {
+    "problem": "Release file changes on the main branch need a paired archived Work Item so check-ai-pr recognizes them as owned PR diff paths.",
+    "constraints": [
+      "Keep the release metadata and fixed-version examples aligned on the same published version.",
+      "Do not change check-ai-pr semantics; add the missing Work Item ownership evidence instead."
+    ],
+    "rationale": "A release Work Item archive pair can claim the release metadata edits and allow the PR ownership check to pass without weakening validation."
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/docs_architecture_ja_comments.contract.json",
+    ".ai/work-items/archive/2026/docs_architecture_ja_comments.summary.json",
+    ".ai/work-items/active/fix_pr_paired_ownership.contract.json",
+    ".ai/work-items/active/fix_pr_paired_ownership.summary.json",
+    "docs/getting-started/installation.md",
+    "docs/reference/upgrade.md",
+    "examples/csharp/README.md",
+    "examples/flutter/README.md",
+    "examples/go/README.md",
+    "examples/java/README.md",
+    "examples/kotlin/README.md",
+    "examples/php/README.md",
+    "examples/python/README.md",
+    "examples/ruby/README.md",
+    "examples/rust/README.md",
+    "examples/swift/README.md",
+    "examples/typescript/README.md",
+    "install.sh",
+    "release.json",
+    "tests/test_release_distribution.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Canonical public release metadata that must match the published tag."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Installer default ref must stay aligned with the published release version."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Installation docs include a fixed version example that should match the new release."
+    },
+    {
+      "path": "docs/reference/upgrade.md",
+      "reason": "Upgrade docs include a fixed version example that should match the new release."
+    },
+    {
+      "path": "examples/**/README.md",
+      "reason": "Example install commands hardcode the published release tag."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Regression coverage should reflect the published release tag used by the distribution check."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Defines the GitHub Actions workflow that should exercise compatibility instead of local ad-hoc runs."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "version_sync",
+      "docs_drift"
+    ],
+    "reason": "Bumping the published release tag requires consistent updates across release metadata, installer defaults, fixed-version docs, and the release distribution fixture."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The version bump is mechanical once the published release tag is chosen."
+  },
+  "preReviewWarnings": [
+    "Keep the release tag identical across release.json, install.sh, docs, examples, and tests.",
+    "Do not run compatibility locally; only observe the GitHub Actions result."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A release Work Item archive pair covers the release metadata edits on this branch.",
+    "check-ai-pr passes for the complete PR diff.",
+    "The archived Summary remains valid after finish and archive."
+  ],
+  "guidelines": [
+    "Keep release metadata synchronized across all fixed-version references.",
+    "Preserve the PR ownership check semantics; do not weaken validation rules."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

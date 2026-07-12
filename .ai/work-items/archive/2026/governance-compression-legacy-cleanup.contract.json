@@ -1,0 +1,47 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance-compression-legacy-cleanup",
+  "mode": "code",
+  "title": "Finalize cleanup status and declare template adoption exemption",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/project_profile.yaml",
+    "scripts/ai_check_adoption_ready.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_doctor.py",
+    ".ai/work-items/active/governance-compression-legacy-cleanup.contract.json",
+    ".ai/work-items/active/governance-compression-legacy-cleanup.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["new governance behavior and unrelated policy changes"],
+  "sources": [
+    {"path": ".ai/cockpit/current_status.md", "reason": "Fresh-clone CI must not reference ignored local Work Items."},
+    {"path": "scripts/ai_check_adoption_ready.py", "reason": "Template maintenance repositories require an explicit adoption-readiness exemption."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["governance_state", "ci"], "reason": "Repair tracked status and make template semantics explicit."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "User confirmed status repair, cleanup closure, and template exemption."},
+  "preReviewWarnings": ["Review fresh-clone status consistency and exemption scope."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record governance state transitions."},
+  "acceptance": [
+    "Committed Cockpit status represents no active Work Item in a fresh clone.",
+    "Template repositories are explicitly exempt from project adoption readiness without weakening adopted-project checks.",
+    "The cleanup Work Item is completed and archived with valid evidence."
+  ],
+  "guidelines": ["New public APIs must be documented.", "Do not import internal modules from other features."],
+  "intent": {"problem": "The committed generated status referenced an ignored local Work Item and adoption readiness treated the template as an adopted project.", "constraints": ["Keep adopted project checks strict.", "Do not alter archived security evidence except as already validated."], "rationale": "Separate template maintenance semantics from adoption readiness and leave committed checkouts self-consistent."},
+  "scenarioCoverage": [
+    {"scenario": "fresh clone has no-active status", "required": true, "status": "unverified", "evidence": ["make check-ai-status-consistency"]},
+    {"scenario": "template exemption does not bypass adopted project readiness", "required": true, "status": "unverified", "evidence": ["tests/test_adoption_ready.py"]}
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "User confirmation", "reason": "User authorized status repair and template adoption exemption."},
+  "rollbackNote": "Revert this Work Item diff and regenerate Cockpit status."
+}

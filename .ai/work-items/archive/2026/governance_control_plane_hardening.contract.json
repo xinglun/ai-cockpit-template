@@ -1,0 +1,255 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance_control_plane_hardening",
+  "mode": "code",
+  "title": "Governance control-plane hardening after audit",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "status": "M",
+      "fingerprint": "4a6257d86e84c0ab5b1ff6166384179a83afaba84f34431a01d7bd0edfbaffae"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "5315a2cfc7020d05d556bf6ba333fe29cfd27e4d262bf60faf225899998be47b"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "status": "M",
+      "fingerprint": "15553f91d8c0469ab8036c1db2f1e400a5e196515bd73a87e9cc3e64d4167757"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "M",
+      "fingerprint": "222889b0bea38c164e7b68011a23beb4d558b579de51e96f158d761a724c88a1"
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "fa181d5ef3009bc81baf9beb67f80ac94f48416585c4f6a9df9dd012d197352f"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "status": "M",
+      "fingerprint": "84c4a8198aba2ead9f36871dba5c979c858a103d3b2bdc93c8cf92b50e696b19"
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "status": "M",
+      "fingerprint": "18541d57bafbb647c903145a14c70e618117572b899490b75061f55235507e08"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ff68200fa7bd1ae2d8277e6d46014f4405228c5ba2fc7bd314b522a6b5d43bfe"
+    }
+  ],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/_templates/work_item_summary.example.json",
+    ".ai/work-items/archive/**",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/**",
+    "install.sh",
+    "scripts/**",
+    "templates/**",
+    "tests/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Final PR ownership semantics and archive evidence validation."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Template-maintenance and adopted-project readiness gating."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Archive gate, output evidence, and finish-time ownership checks."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Installation and adoption trust-root handling."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Generated cockpit status semantics for active and no-active work items."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Lifecycle consistency and work-item creation guardrails."
+    },
+    {
+      "path": "scripts/check_system_invariants.py",
+      "reason": "Release distribution invariant checks."
+    },
+    {
+      "path": "README.md",
+      "reason": "Public install and lifecycle documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_state",
+      "release_distribution",
+      "ownership"
+    ],
+    "reason": "The batch spans lifecycle, release, and ownership controls that must remain internally consistent."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The audit-driven controls are already implemented in the worktree and need verification plus archiving."
+  },
+  "preReviewWarnings": [
+    "Review lifecycle and release distribution semantics together; changes intentionally cross docs, scripts, tests, and generated status."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Ownership, lifecycle, and release-distribution checks stay fail-closed and explainable.",
+    "Generated Cockpit status and finish-time evidence remain consistent with the active Work Item state.",
+    "Adoption readiness and install semantics distinguish template maintenance from adopted-project calibration.",
+    "The project quality suite and governance checks pass for the current hardening batch."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "local diff ownership preview and PR ownership audit agree on active, archived, unowned, ambiguous, out-of-scope, and restricted paths",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py",
+        "tests/test_pr_aggregate.py"
+      ]
+    },
+    {
+      "scenario": "template-maintenance and adopted-project readiness remain explicit and fail-closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_ready.py",
+        "tests/test_doctor.py",
+        "tests/test_project_governance_journey.py"
+      ]
+    },
+    {
+      "scenario": "install, status, and finish lifecycle checks keep baseCommit, ownership, and status evidence aligned",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_e2e.py",
+        "tests/test_finish_e2e.py",
+        "tests/test_start_and_archive.py",
+        "tests/test_guards_and_status.py"
+      ]
+    }
+  ],
+  "guidelines": [],
+  "intent": {
+    "problem": "The audit showed that governance control-plane evidence was not yet trustworthy enough to support industrial release decisions.",
+    "constraints": [
+      "Keep archive evidence append-only.",
+      "Keep adoption readiness fail-closed for adopted projects.",
+      "Keep public installer and status generation semantics explainable."
+    ],
+    "rationale": "The current batch tightens the control plane so lifecycle, ownership, and release evidence agree before finish or merge."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

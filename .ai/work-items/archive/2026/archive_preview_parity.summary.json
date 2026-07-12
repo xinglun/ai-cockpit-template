@@ -1,0 +1,402 @@
+{
+  "workItemId": "archive_preview_parity",
+  "contractPath": ".ai/work-items/archive/2026/archive_preview_parity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.contract.json",
+      "reason": "Updated the Work Item Contract from skeleton to executable parity scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.summary.json",
+      "reason": "Recorded the AI Change Summary for the archive preview parity fix."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated cockpit status after the contract and preview updates."
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "Skipped archive audit records in preview by reusing the PR archive evidence set."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Added regression coverage for archive audit path skipping in preview mode."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/archive_preview_parity.contract.json",
+    "Makefile",
+    "scripts/ai_check_diff_ownership.py",
+    "scripts/ai_check_pr.py",
+    "tests/test_diff_ownership.py"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "archive Contract and Summary evidence are skipped by preview instead of being reported as out_of_scope",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --base HEAD --contract .ai/work-items/active/archive_preview_parity.contract.json"
+      ]
+    },
+    {
+      "scenario": "ai-pre-merge and check-ai-pr agree on archive evidence handling for the same complete diff",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make ai-pre-merge AI_BASE_COMMIT=HEAD",
+        "make check-ai-pr AI_BASE_COMMIT=HEAD"
+      ]
+    },
+    {
+      "scenario": "non-archive ownership preview behavior remains unchanged",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q tests/test_diff_ownership.py tests/test_makefile.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:35.666387+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "1bd63c57c4101681ccb712af5a8ee637c88dd29f13c0fd5def9b2e15d808fba5",
+      "commandHash": "2e2fba903705f82cde96217ca2fa19acd58daa5a5b8c694958c7d805905f65c1",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/archive_preview_parity.contract.json work item contract check passed: .ai/work-items/active/archive_preview_parity.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:35.802416+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "876f9e16c048cf19c05d1859e09ddf3e263a258e2b6b3c011c2f205c13dd9708",
+      "commandHash": "ec01bfb0099c95bf6a68d2c2742aadfe1af405bf1c6a4f211469ef6b61cc894a",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/archive_preview_parity.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.042934+00:00",
+      "exitCode": 0,
+      "durationMs": 231,
+      "outputDigest": "4ebe8cbfaf6be490ab3c79a80269680249c9cdb49c89492cfa59b3e6acd4ce0e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/archive_preview_parity.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.293766+00:00",
+      "exitCode": 0,
+      "durationMs": 237,
+      "outputDigest": "512a1187eb21482300ba0a3ae13f42d4edd81f921d90f1bfef4d4e31a5013979",
+      "commandHash": "83f6f8632bfddfcc903f421190f437196c9a088260343aa6ebd8c7b6daa3f22d",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/archive_preview_parity.contract.json --summary .ai/work-items/active/archive_preview_parity.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `archive_preview_parity` - Contract Hash: `023673e5785386f2` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` - Requ"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.422258+00:00",
+      "exitCode": 0,
+      "durationMs": 122,
+      "outputDigest": "1e0299647d3b99c546e3f2b2c9d47e36f5b5183b6848bd9780c74f617e298fc4",
+      "commandHash": "d7921f81ee86e46511d9f3dbe75b6732cf9730bc1cedc38b2bb024615c17ee4e",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/archive_preview_parity.summary.json review policy matched 2 path(s) [review] scripts/ai_check_diff_ownership.py [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.569545+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.774678+00:00",
+      "exitCode": 0,
+      "durationMs": 179,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.862780+00:00",
+      "exitCode": 0,
+      "durationMs": 77,
+      "outputDigest": "9ca2e4a33fca74bb48bac72d2144395d49341ae06d5129622b219afe92b1ddb4",
+      "commandHash": "a1c33728bfa8bb3bd9b48e63d8aae9867192127610247ecfa85d4db329a99037",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/archive_preview_parity.contract.json --summary .ai/work-items/active/archive_preview_parity.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:36.950899+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "6d69cc1b8369ff13e0efcd1bd4a7537673251e28e59ded227b55a629a3b658c0",
+      "commandHash": "f32eba99bef9380298496afc7fb2c75c63b17e37ea89895ddb55e541fcbcab79",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/archive_preview_parity.contract.json --summary .ai/work-items/active/archive_preview_parity.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:14:37.217277+00:00",
+      "exitCode": 0,
+      "durationMs": 259,
+      "outputDigest": "ddf3192aa18b15cabfa1ef1f74c01ab07e6058662595de2bb48d0c05922be69d",
+      "commandHash": "bc1f8b4637022d809691b2f04fa45e2e53d670561a88a1a212b9cf9f8b759b9e",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/archive_preview_parity.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_check_diff_ownership.py` — covered by Contract scope - [active_owned] `tests/test_diff_ownership.py` — cov"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:15:35.858644+00:00",
+      "exitCode": 0,
+      "durationMs": 58631,
+      "outputDigest": "834fb4ac995dd67a61f1d31c8965b5bb9ac38713d2384069aba3a8da5dc9bfe2",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 24%] ........................................................................ [ 48%] ........................................................................ [ 72%] ........................................................................ [ 96%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:15:36.826391+00:00",
+      "exitCode": 0,
+      "durationMs": 201,
+      "outputDigest": "6342dc48fab57e8e920ddc579c9c69437c92b21d16d6bd894d00f46d04e63a0a",
+      "commandHash": "e77058215a8598660d9cea815802fe5686754833b2c78917791149c893459c5d",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/archive_preview_parity.contract.json --summary .ai/work-items/active/archive_preview_parity.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:15:37.046310+00:00",
+      "exitCode": 0,
+      "durationMs": 212,
+      "outputDigest": "f2de97121330ee9791ed3f3a32a8de7af17b6e5c43e11bee505615fb6ed08bfa",
+      "commandHash": "0398a9bf66a1d42888795c4c2f414db53866054c8bba82e4255f458b602edb3a",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/archive_preview_parity.contract.json --summary .ai/work-items/active/archive_preview_parity.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:15:37.194506+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:15:37.309854+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "1e43925966ebe53d3e7efb6110bfa5cf1fe7ac33d95af2aa9ee692dc0d642ba1",
+      "commandHash": "c58eaf0e341d981d68ab8a6c29cf3e0480df9f78ad73314a562462ac504d2646",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/archive_preview_parity.contract.json --summary .ai/work-items/active/archive_preview_parity.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/archive_preview_parity.summary.json CONTRACT=.ai/work-items/active/archive_preview_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T15:15:37.452185+00:00",
+      "exitCode": 0,
+      "durationMs": 134,
+      "outputDigest": "1c9a86f672ef9b6ad235bba3eb37da31feed57c44087690683dcff005b834bec",
+      "commandHash": "df16cb2f5c096aa8310bfd343edb8e8f6e23cec67f2d2c831c063930c303b58d",
+      "contractHash": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/archive_preview_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_preview_parity.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/archive_preview_parity.summary.json --contract .ai/work-items/active/archive_preview_parity.contract.json ai summary check passed: .ai/work-items/active/archive_preview_parity.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public APIs changed; the behavior change stayed inside the ownership preview and its regression tests."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The fix reused the existing PR archive evidence helper and did not add cross-feature imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The change narrows a hard gate and must stay in lockstep with the PR audit's archive evidence rule."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "governance",
+      "detail": "The preview now skips archive audit records, so future audit-rule changes must keep preview and PR handling aligned.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The archive preview parity fix is implemented and verified, with only the expected governance coupling remaining.",
+    "expectedReviewFocus": [
+      "Archive audit record skipping in preview mode.",
+      "Parity between ai-pre-merge and check-ai-pr.",
+      "Regression coverage for unchanged non-archive ownership behavior."
+    ]
+  },
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "The preview and PR checks now agree on archive audit evidence handling without weakening the PR audit."
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "updated cockpit status and ownership preview output",
+    "persistence": "changed only the declared Work Item files and the generated cockpit status file",
+    "localization": "not_applicable",
+    "generatedArtifacts": "current_status.md was regenerated by the status command",
+    "makeEntrypoints": "ai-pre-merge and check-ai-pr remain the exposed verification entrypoints"
+  },
+  "userCorrectionsCaptured": [
+    "Ownership preview must not report the archived Contract and Summary as out_of_scope when the PR audit already ignores them."
+  ],
+  "userCorrectionSolidification": [
+    "Preview now reuses the PR archive evidence set and skips audit records instead of classifying them as out_of_scope."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "023673e5785386f2",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Captured the parity scope before the final implementation pass."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "023673e5785386f2",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Captured the updated parity state before finishing."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Report only the parity behavior that was actually verified; keep archive-rule coupling visible as the remaining risk."
+}

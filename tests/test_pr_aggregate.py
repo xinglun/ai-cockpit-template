@@ -90,6 +90,41 @@ def test_aggregate_pr_rejects_cross_pair_scope_and_summary_claims(tmp_path, monk
     assert len([issue for issue in issues if "lacks paired ownership" in issue]) == 2
 
 
+def test_aggregate_pr_prefers_latest_effective_owner(tmp_path, monkeypatch):
+    first = write_pair(tmp_path, "first", ["src/shared.py"], ["src/shared.py"])
+    second = write_pair(tmp_path, "second", ["src/shared.py"], ["src/shared.py"])
+    policy = tmp_path / "scope.yaml"
+    policy.write_text("allowAlways:\n", encoding="utf-8")
+    monkeypatch.setattr(ai_check_pr, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_pr, "SCOPE_POLICY", policy)
+    patch_changes(monkeypatch, ["src/shared.py"])
+
+    issues = ai_check_pr.validate_pr_bundle("a" * 40, [first, second])
+    assert issues == []
+
+
+def test_aggregate_pr_respects_input_order_for_overlapping_archive_claims(tmp_path, monkeypatch):
+    approved = write_pair(tmp_path, "z_approved", [".github/workflows/ci.yml"], [".github/workflows/ci.yml"])
+    unapproved = write_pair(tmp_path, "a_unapproved", [".github/workflows/ci.yml"], [".github/workflows/ci.yml"])
+    policy = tmp_path / "scope.yaml"
+    policy.write_text("allowAlways:\n", encoding="utf-8")
+    monkeypatch.setattr(ai_check_pr, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_pr, "SCOPE_POLICY", policy)
+    patch_changes(
+        monkeypatch,
+        [
+            ".github/workflows/ci.yml",
+            approved.relative_to(tmp_path).as_posix(),
+            approved.relative_to(tmp_path).as_posix().replace(".contract", ".summary"),
+            unapproved.relative_to(tmp_path).as_posix(),
+            unapproved.relative_to(tmp_path).as_posix().replace(".contract", ".summary"),
+        ],
+    )
+
+    issues = ai_check_pr.validate_pr_bundle("a" * 40, [approved, unapproved])
+    assert any("restricted path lacks approval" in issue for issue in issues)
+
+
 def test_aggregate_pr_rejects_contract_v1_downgrade(tmp_path, monkeypatch):
     legacy = write_pair(tmp_path, "legacy", ["src/a.py"], ["src/a.py"])
     contract = json.loads(legacy.read_text(encoding="utf-8"))

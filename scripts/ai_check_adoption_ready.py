@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 from pathlib import Path
 
@@ -14,6 +15,32 @@ from ai_project_profile import load_profile
 PLACEHOLDER_MARKERS = ("configure PROJECT_", "No project")
 QUALITY_VARIABLES = ("PROJECT_FORMAT_CHECK", "PROJECT_TEST", "PROJECT_LINT")
 TRIVIAL_COMMANDS = {":", "true", "/bin/true"}
+
+
+def template_exemption(profile: dict[str, object], root: Path) -> tuple[bool, list[str]]:
+    """Return an explicit, inspectable template-maintenance exemption.
+
+    Role is intent, not identity: it must be corroborated by a checked-in
+    template distribution layout and an explicit maintenance mode.
+    """
+    evidence: list[str] = []
+    if profile.get("repositoryRole") == "template":
+        evidence.append("repositoryRole=template")
+    if os.environ.get("AI_COCKPIT_EXECUTION_MODE") == "template_maintenance":
+        evidence.append("AI_COCKPIT_EXECUTION_MODE=template_maintenance")
+    if (root / "templates").is_dir() and (root / ".ai" / "work-items" / "_templates").is_dir():
+        evidence.append("template distribution and Work Item templates present")
+    return len(evidence) == 3, evidence
+
+
+def readiness_role_message(root: Path) -> str:
+    profile, issues = load_profile(root / ".ai" / "project_profile.yaml", require_approval=True)
+    if issues:
+        return "role=unknown; no exemption; fix Project Profile then calibrate adopted-project readiness"
+    exempt, evidence = template_exemption(profile, root)
+    if exempt:
+        return "role=template maintenance; exemption=project calibration only; evidence=" + "; ".join(evidence)
+    return "role=adopted or unconfirmed template; exemption=none; migrate with Profile, Guards, quality commands, Coverage, and CI calibration"
 
 
 def quality_commands(text: str) -> dict[str, str]:
@@ -27,6 +54,21 @@ def quality_commands(text: str) -> dict[str, str]:
 
 def readiness_failures(root: Path) -> list[str]:
     failures: list[str] = []
+    profile, profile_issues = load_profile(root / ".ai" / "project_profile.yaml", require_approval=True)
+    role = profile.get("repositoryRole") if not profile_issues else None
+    if not profile_issues and role not in {"template", "adopted"}:
+        failures.append(
+            "set repositoryRole: adopted after migration (or template with explicit template_maintenance execution mode); missing role is fail-closed"
+        )
+    if not profile_issues and profile.get("repositoryRole") == "template":
+        exempt, evidence = template_exemption(profile, root)
+        if exempt:
+            return []
+        failures.append(
+            "template role is not enough for readiness exemption; run with AI_COCKPIT_EXECUTION_MODE=template_maintenance "
+            "and retain verified template distribution evidence, or migrate to repositoryRole: adopted and calibrate Profile, Guards, quality commands, Coverage, and CI"
+        )
+
     stack = root / "Makefile.ai.stack"
     if not stack.is_file():
         failures.append("select and customize Makefile.ai.stack project quality commands")
@@ -45,7 +87,6 @@ def readiness_failures(root: Path) -> list[str]:
             "review production/test paths in .ai/guards/coverage_policy.yaml and set adoptionReviewed: true"
         )
 
-    profile, profile_issues = load_profile(root / ".ai" / "project_profile.yaml", require_approval=True)
     failures.extend(f"fix Project Profile: {issue}" for issue in profile_issues)
     if not profile_issues:
         failures.extend(f"calibrate Guard policies: {issue}" for issue in calibration_issues(root, profile))
@@ -69,6 +110,7 @@ def main() -> int:
     parser.add_argument("--root", default=".", help="Repository root to inspect.")
     args = parser.parse_args()
     failures = readiness_failures(Path(args.root).resolve())
+    print(f"adoption role: {readiness_role_message(Path(args.root).resolve())}")
     if failures:
         print("AI Cockpit static adoption configuration is incomplete:")
         for failure in failures:

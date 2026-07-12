@@ -38,7 +38,7 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
     summary_path = tmp_path / ".ai/work-items/active/e2e.summary.json"
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
     contract.update({
-        "scope": ["fixture.txt", ".ai/work-items/archive/**"],
+        "scope": ["fixture.txt", ".ai/cockpit/current_status.md", ".ai/work-items/archive/**"],
         "sources": ["test fixture"], "unknowns": [], "notCodable": False,
         "agentCapability": {"canImplement": True, "canVerify": True, "needsHumanDecision": False, "blockedReason": ""},
         "executionDecision": {"status": "continue", "reason": "E2E fixture is complete."},
@@ -68,7 +68,7 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
         "knownGaps": [],
         "checkpointEvidence": [
             {"stage": stage, "recorded": True, "detail": "fixture", "contractHash": contract_hash,
-             "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": 15, "requiredChecksPassed": 0}
+             "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": len(contract["verification"]), "requiredChecksPassed": 0}
             for stage in ("before_edit", "before_finish")
         ],
     })

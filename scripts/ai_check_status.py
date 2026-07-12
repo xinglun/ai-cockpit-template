@@ -15,6 +15,7 @@ from ai_common import load_json, verification_key
 from ai_observability import create_observability, elapsed_ms
 from ai_generate_status import BACKTRACK_REPORT, DEFAULT_LOG_PATH, DEFAULT_RETRY_THRESHOLD, load_preflight_review, project_relative, status_for
 from ai_governance_compression import derive_governance_status, render_active_status
+from ai_check_diff_ownership import counts as ownership_counts_for, preview as ownership_preview
 
 
 REQUIRED_FIELDS = ("workItemId", "mode")
@@ -70,6 +71,7 @@ def main() -> int:
     model = derive_governance_status(contract, summary)
     backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     preflight_review = load_preflight_review(contract, Path(args.contract))
+    ownership_counts = ownership_counts_for(ownership_preview(contract=contract))
     if state == "blocked" and blockers and blockers[0].startswith("retry circuit breaker"):
         model = {
             **model,
@@ -91,6 +93,7 @@ def main() -> int:
         backtrack_status=(backtrack.get("status") if isinstance(backtrack, dict) and isinstance(backtrack.get("status"), str) else None),
         backtrack_items=(backtrack.get("items") if isinstance(backtrack, dict) and isinstance(backtrack.get("items"), list) else None),
         preflight_review=preflight_review,
+        ownership_counts=ownership_counts,
     )
 
     if normalize_generated_at(status) != normalize_generated_at(expected):

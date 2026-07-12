@@ -3,8 +3,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -57,6 +59,19 @@ def release_contract_issues(root: Path, release: dict[str, Any]) -> list[str]:
     ]
 
 
+def release_archive_digest(root: Path, ref: str) -> str:
+    result = subprocess.run(
+        ["git", "archive", "--format=tar.gz", "--prefix=ai-cockpit/", ref],
+        cwd=root,
+        text=False,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.decode("utf-8", errors="replace").strip() or f"failed to archive {ref}")
+    return hashlib.sha256(result.stdout).hexdigest()
+
+
 def invariant_issues(root: Path = ROOT) -> list[str]:
     issues = check_repository(root)
     try:
@@ -99,9 +114,22 @@ def invariant_issues(root: Path = ROOT) -> list[str]:
         for flag in manifest.get("recommendedInstallFlags", []):
             if flag not in install_line:
                 issues.append(f"{name}: primary install command is missing {flag}")
-    default_match = re.search(r'^REF="\$\{AI_COCKPIT_TEMPLATE_REF:-(v\d+\.\d+\.\d+)\}"', (root / "install.sh").read_text(encoding="utf-8"), re.MULTILINE)
-    if not default_match or default_match.group(1) != release.get("releaseTag"):
+    install_script = (root / "install.sh").read_text(encoding="utf-8")
+    default_ref_match = re.search(r'^REF="\$\{AI_COCKPIT_TEMPLATE_REF:-(v\d+\.\d+\.\d+)\}"', install_script, re.MULTILINE)
+    default_sha_match = re.search(r'^EXPECTED_SHA256="\$\{AI_COCKPIT_TEMPLATE_SHA256:-([0-9a-f]{64})\}"', install_script, re.MULTILINE)
+    release_tag = release.get("releaseTag")
+    if not default_ref_match or default_ref_match.group(1) != release_tag:
         issues.append("install.sh default version differs from release.json")
+    if not default_sha_match:
+        issues.append("install.sh default archive digest is missing")
+    elif isinstance(release_tag, str):
+        try:
+            expected_digest = release_archive_digest(root, release_tag)
+        except RuntimeError as exc:
+            issues.append(f"install.sh default archive digest could not be verified: {exc}")
+        else:
+            if default_sha_match.group(1) != expected_digest:
+                issues.append("install.sh default archive digest differs from the release tag archive")
     host_targets = make_targets(root / "Makefile")
     distribution_targets = make_targets(root / "templates" / "make" / "Makefile.ai")
     targets = host_targets | distribution_targets

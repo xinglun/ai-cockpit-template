@@ -82,6 +82,8 @@ That target generates the advisory Preflight Review and then validates it. By de
 When `ai-start` or `ai-preflight` reports `needs_human_confirmation` or `not_ready`, the agent must pause and report the Preflight Review to the user before implementation continues.
 Cockpit Status keeps the Preflight Review visible for reviewers, but it does not replace that pre-implementation pause.
 
+Explicit blockers also produce `not_ready`: `notCodable: true`; `executionDecision.status` of `block`, `defer`, or `needs_human_decision`; and a declared `agentCapability` that cannot implement, cannot verify, or requires human decision.
+
 Intent drives Contract. Contract drives Implementation. Verification validates execution. Summary validates alignment back to Intent.
 Summary becomes Repository Truth, and Cockpit compresses that truth into a human decision state.
 
@@ -111,6 +113,12 @@ Run `make check-ai-status-consistency` after generating or checking `current_sta
 
 Run `make repair-ai-status` to regenerate `current_status.md` when there is no active Work Item or exactly one active Contract/Summary pair. It does not repair unpaired files or multiple active Work Items; those require manual cleanup.
 
+After archive, the generated state is `no_active_work_item`. It means no active Contract/Summary pair, not a clean worktree; no-active status deliberately omits the file list while still surfacing a compressed worktree-change signal and ownership preview state. Use `make check-ai-pr AI_BASE_COMMIT=<merge-base>` to validate archive ownership against the full PR diff. `make repair-ai-status` only regenerates status for a valid zero- or one-active-pair lifecycle state; it does not repair ownership evidence.
+
+`make check-ai-diff-ownership` is the earlier, read-only ownership preview. Without `AI_BASE_COMMIT` it evaluates the local worktree (including untracked files); with `AI_BASE_COMMIT=<merge-base>` it evaluates the PR diff using the same newly added archive pairs that `check-ai-pr` consumes. Its states are `active_owned`, `archived_owned`, `unowned`, `ambiguous`, `out_of_scope`, and `approval_required`. In PR mode the audit resolves overlapping archive claims deterministically, with the latest matching archive pair winning. Resolve every state except the two `*_owned` states before finishing; create a new Work Item for later changes rather than editing archive evidence.
+
+`make ai-pre-merge AI_BASE_COMMIT=<merge-base>` reports four layers in order: content quality, lifecycle consistency, ownership preview, and final PR audit. A failure in any layer means commit/merge is not allowed; `check-ai-pr` remains the final authority.
+
 ## Agent Risk Controls
 
 AI Cockpit treats prompt instructions as guidance, not enforcement. Repository safety comes from hard gates that inspect the actual Work Item and diff.
@@ -139,6 +147,6 @@ Keep these fields language-neutral when this template is copied into another rep
 
 Run `make check-ai-review-policy SUMMARY=<summary.json>` to report governance-sensitive paths declared in `.ai/guards/ai_review_policy.yaml`. The check is report-only and records whether `reviewReadiness.expectedReviewFocus` is present in the Summary.
 
-After archive, PR CI runs `make check-ai-pr AI_BASE_COMMIT=<merge-base>`. The installed distribution includes this target and validator. Every non-exempt path in the complete PR diff must be jointly owned by one changed archive pair: scoped by its Contract, not excluded by that Contract, and reported by its paired Summary.
+After archive, PR CI runs `make check-ai-pr AI_BASE_COMMIT=<merge-base>`. The installed distribution includes this target and validator. Every non-exempt path in the complete PR diff must be owned by exactly one changed archive pair: scoped by its Contract, not excluded by that Contract, and reported by its paired Summary.
 
 PR evidence requires Contract version 2; version 1 is legacy-read-only and cannot be introduced as new PR evidence. Contract approval fields are self-declared records, not proof of human identity. Use protected platform review for trusted approval and run project tests independently from the governance PR check.

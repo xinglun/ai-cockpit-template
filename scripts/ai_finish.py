@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from ai_common import PROJECT_ROOT, current_head, load_json, redact_machine_paths, redact_sensitive_output, render_check_command, save_json, verification_key
+from ai_check_diff_ownership import format_preview, preview
 from ai_observability import create_observability, elapsed_ms
 
 
@@ -46,9 +47,9 @@ def evidence(
     execution_contract_path: str,
     execution_summary_path: str,
 ) -> dict[str, Any]:
-    compact = " ".join(output.split())[:500]
-    compact = redact_sensitive_output(compact)
+    compact = redact_sensitive_output(output)
     compact = redact_machine_paths(compact)
+    compact = " ".join(compact.split())[:500]
     return {
         "check": check_id,
         "command": command,
@@ -153,6 +154,12 @@ def main() -> int:
     total_start = time.time()
     declared_items = [item for item in declared if isinstance(item, dict)]
     declared_items.sort(key=verification_priority)
+    ownership = preview(contract=contract_data)
+    print("\n".join(format_preview(ownership)))
+    ownership_failures = [item for item in ownership if item.state not in {"active_owned", "archived_owned"}]
+    if ownership_failures:
+        print("ERROR: finish is blocked until every task-era changed path has Work Item ownership.", file=sys.stderr)
+        return 1
     transactional_markers_written = False
     for item in declared_items:
         if not isinstance(item, dict):

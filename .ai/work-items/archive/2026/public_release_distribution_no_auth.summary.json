@@ -1,0 +1,386 @@
+{
+  "workItemId": "public_release_distribution_no_auth",
+  "contractPath": ".ai/work-items/archive/2026/public_release_distribution_no_auth.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/public_release_distribution_no_auth.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/public_release_distribution_no_auth.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated the active Work Item status."
+    },
+    {
+      "path": "README.md",
+      "reason": "Clarify that release verification runs anonymously and fails closed without public access."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Synchronize the Japanese release/install claim with anonymous verification."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Synchronize the Chinese release/install claim with anonymous verification."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Remove checkout-auth replay so release verification is anonymous."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Cover anonymous public tag listing and installer cloning behavior."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "public tag listing and installer clone run without any checkout-auth replay from the current repository",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_distribution.py"
+      ]
+    },
+    {
+      "scenario": "private or otherwise inaccessible release sources fail closed instead of being treated as public",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_distribution.py"
+      ]
+    },
+    {
+      "scenario": "the documented release/install story still matches the anonymous verification behavior",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "README.md",
+        "README.ja.md",
+        "README.zh-CN.md"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:49.777688+00:00",
+      "exitCode": 0,
+      "durationMs": 143,
+      "outputDigest": "e4e33b2738ca80193f65779171f8e809b83835b300a84918784408283cb1086d",
+      "commandHash": "93312008fad4ae5b88b241c8c6861f6c05f1fa9a14aadc2d69125d863492e856",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/public_release_distribution_no_auth.contract.json work item contract check passed: .ai/work-items/active/public_release_distribution_no_auth.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:49.924156+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "f5d33a5b5ac5092b59f6da1677d56105c729d717d26823a84d6e70898b461a12",
+      "commandHash": "6f06d10f1a31106468ecb8516a3e73228636e3ece485d68ebf8b93d6b35226d2",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/public_release_distribution_no_auth.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:50.145626+00:00",
+      "exitCode": 0,
+      "durationMs": 209,
+      "outputDigest": "e516611a005ef5bc4dcec9c56d42e8f082a574bacfabffc21b5f3c8cc43a73ea",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:50.384574+00:00",
+      "exitCode": 0,
+      "durationMs": 227,
+      "outputDigest": "a025146154439e6852778fb964d73d7ab8bc86392364c3687779249bb359c7a1",
+      "commandHash": "eaea4c7ab5e6492119ac7188c85befbc075b7e61212a0bf166f8dcd070e91e36",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `public_release_distribution_no_auth` - Contract Hash: `c2024ffd1d158432` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:50.515632+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "094c3face66ba37a8a8eeb88c8f643e2532cd0aad70ccb1fbcc43e7ff0b0ecfb",
+      "commandHash": "bbedc62375cc1b7658bc2a3fd2b49e0b2ae01f8290c9c245d6c774b0b51729bd",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:50.658511+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:50.870242+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:50.943059+00:00",
+      "exitCode": 0,
+      "durationMs": 61,
+      "outputDigest": "62db932aa7a48c23e3dfe92848eed273b8787dc51706033e374b91f4f38e4ce7",
+      "commandHash": "85453ad46eb5decca907e98f0d6a87a1266810fb6809d83feb1f3e79efd81522",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:51.011175+00:00",
+      "exitCode": 0,
+      "durationMs": 62,
+      "outputDigest": "89636b2cb6bd79457f91864b728d45771547278bfc34473a818b4cfa4ce1c62e",
+      "commandHash": "bb99a384e499a159ab8ad6407ed5a19308a2ba53713ceb5efed87c455d130f04",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json guidelines compliance check passed: 0 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:51:51.234913+00:00",
+      "exitCode": 0,
+      "durationMs": 218,
+      "outputDigest": "1440e95120f20ab5f838da7d2ef6f9f6cb52a4a85b26c42f4e9c9ac78071a046",
+      "commandHash": "5727fe53729c738ffe87dce01549b59dd7a1b4cb50b32c1dafba312fcaca1098",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `README.ja.md` — covered by Contract scope - [active_owned] `README.md` — covered by Contract scope - [ac"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:52:48.874400+00:00",
+      "exitCode": 0,
+      "durationMs": 57629,
+      "outputDigest": "cbaaa6519ed231d812f397b1af0770a104241bec1501df4cf1461f7ff40dd497",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 24%] ........................................................................ [ 48%] ........................................................................ [ 72%] ........................................................................ [ 96%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:52:49.884133+00:00",
+      "exitCode": 0,
+      "durationMs": 222,
+      "outputDigest": "43379fb185642f0fa9e019051120c2005a22535f3455c5f38afea2a2cd9e7fec",
+      "commandHash": "4ba79dcf125f69ef57568c1a994b2aab4cf35b4b14f51c0c9502c0b08c247d27",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/public_release_distribution_no_auth.contract.json --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:52:50.103380+00:00",
+      "exitCode": 0,
+      "durationMs": 209,
+      "outputDigest": "207ed6e31a347a89fa87a03a9f1159f75dc63dfb2924940866c797919584f5bb",
+      "commandHash": "0f856021e9430130a53a32cfd3bae0206ac06400d06b4740aab2ac124becbdb1",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:52:50.173863+00:00",
+      "exitCode": 0,
+      "durationMs": 60,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:52:50.243903+00:00",
+      "exitCode": 0,
+      "durationMs": 61,
+      "outputDigest": "c2889e5d35d3ac41d72e45ff7b274febe446cd61c035fb76814a0fd0583fd156",
+      "commandHash": "a7df7c94ed78d94101f45b548aab134c04c4018e30b92dd98b6ab5a81b70e684",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json --summary .ai/work-items/active/public_release_distribution_no_auth.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/public_release_distribution_no_auth.summary.json CONTRACT=.ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:52:50.442284+00:00",
+      "exitCode": 0,
+      "durationMs": 189,
+      "outputDigest": "152cf9cf4aeff491f6d507f646ddbd3f41c38354f445928fec10daa1dff6e17c",
+      "commandHash": "a68bed65787db16e54cfed52928ed79fbd264d9b8322b004a3e1b8758747ad9b",
+      "contractHash": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/public_release_distribution_no_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/public_release_distribution_no_auth.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/public_release_distribution_no_auth.summary.json --contract .ai/work-items/active/public_release_distribution_no_auth.contract.json ai summary check passed: .ai/work-items/active/public_release_distribution_no_auth.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Release verification must stop relying on checkout-auth replay so public reachability is tested honestly."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "release_distribution",
+      "detail": "The release check now fails closed without replaying checkout auth, so private or inaccessible tags should remain blocked.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Implementation and regression tests are in place; finish checks remain before archive.",
+    "expectedReviewFocus": [
+      "Anonymous release distribution verification",
+      "Public install claim consistency"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "c2024ffd1d158432",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Recorded the anonymous release verification checkpoint before finish checks."
+    }
+  ],
+  "knownGaps": [
+    "Finish checks still need to be recorded."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

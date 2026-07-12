@@ -75,6 +75,7 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
 
 def confirmed_profile() -> str:
     return """version: 1
+repositoryRole: adopted
 detectedFacts:
   languages:
     - "python"

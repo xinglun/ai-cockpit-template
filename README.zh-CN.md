@@ -151,6 +151,8 @@ make ai-finish TASK=example_change
 
 ## 工作方式
 
+完整的治理闭环是 **Intent → Contract → Implementation → Verification → Summary → Cockpit → Human Decision**。下方的简短生命周期描述的是操作顺序，而不是对这套架构闭环的替代。
+
 ```text
 Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 ```
@@ -225,7 +227,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-当前公开版本已经包含可审计的首次采用流程，以及调用方提供 SHA256 时的校验能力。项目质量命令、Coverage 路径和 CI 仍需针对目标工程明确适配。
+当前公开版本已经包含可审计的首次采用流程，以及调用方提供 SHA256 时的校验能力。发行分发检查会以匿名方式运行，并在标签源不可公开访问时失败关闭。项目质量命令、Coverage 路径和 CI 仍需针对目标工程明确适配。
 
 ## 运行环境要求
 

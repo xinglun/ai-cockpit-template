@@ -1,0 +1,601 @@
+{
+  "contractVersion": 2,
+  "workItemId": "diff_ownership_forbidden_boundary",
+  "mode": "code",
+  "title": "Treat forbidden file ownership as non-owned in diff preview",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "status": "M",
+      "fingerprint": "4a6257d86e84c0ab5b1ff6166384179a83afaba84f34431a01d7bd0edfbaffae"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "5315a2cfc7020d05d556bf6ba333fe29cfd27e4d262bf60faf225899998be47b"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "status": "M",
+      "fingerprint": "15553f91d8c0469ab8036c1db2f1e400a5e196515bd73a87e9cc3e64d4167757"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "317009b9f0e0b6fa03b7b8df4a5359e3f10d2445f91fecbd08e2cf0f59793c4b"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "M",
+      "fingerprint": "222889b0bea38c164e7b68011a23beb4d558b579de51e96f158d761a724c88a1"
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "fa181d5ef3009bc81baf9beb67f80ac94f48416585c4f6a9df9dd012d197352f"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "status": "M",
+      "fingerprint": "84c4a8198aba2ead9f36871dba5c979c858a103d3b2bdc93c8cf92b50e696b19"
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "status": "M",
+      "fingerprint": "18541d57bafbb647c903145a14c70e618117572b899490b75061f55235507e08"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "status": "M",
+      "fingerprint": "4439f93abeb5460448131dfe588a3c44e8926e489c99e212170884bcfa788c93"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "status": "M",
+      "fingerprint": "9f3f19d6cffa6b0d8f67c109e811952108f1e6108e1aee586b1c39c60e5782fc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.contract.json",
+      "status": "A",
+      "fingerprint": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.summary.json",
+      "status": "A",
+      "fingerprint": "585283afeb2dee4cdf1bb01256600d01a1836e9ea691d6f0d7afa3ac89416b6e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_git_env_isolation.contract.json",
+      "status": "A",
+      "fingerprint": "11fd54a9ebd31bed7134064a5d8740a5ff31500210eead705f909b1211165826"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_git_env_isolation.summary.json",
+      "status": "A",
+      "fingerprint": "55785315151d8f79a4bdc3742a1fcd8412c7b26d59af8bee64196b1af900f560"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.contract.json",
+      "status": "A",
+      "fingerprint": "023673e5785386f2d74237bbef2fb82f70f3b9085ae3aa37287565c9910a4ad3"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.summary.json",
+      "status": "A",
+      "fingerprint": "6dde2397032fdedccd1876506b8a5132c6b832262bb65e913fe51eb960858c19"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.contract.json",
+      "status": "A",
+      "fingerprint": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.summary.json",
+      "status": "A",
+      "fingerprint": "5308a5a446e5b73d7cdc3efda8a8ab6654272fa48c7b0480e9d78f64fd5a10aa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.contract.json",
+      "status": "A",
+      "fingerprint": "49874fcc67961522d4c9972b68c9edf837ac707ed552ab425b420d1bb85856a0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.summary.json",
+      "status": "A",
+      "fingerprint": "895621f5e657e8ecba46c8bcea1947a61aa17297ecbff1ecd8792a895c346438"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_sensitive_output_redaction.contract.json",
+      "status": "A",
+      "fingerprint": "7ab1a3d93a5125c8f9bff7ad253268b135e35044efe6e9ea4a99b590dcedb386"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_sensitive_output_redaction.summary.json",
+      "status": "A",
+      "fingerprint": "48b454f37cbe3974b4782ce5cb956bdbc7f81fd439e2b27983cd5dade4e13677"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.contract.json",
+      "status": "A",
+      "fingerprint": "361b9456debe81af934b8765f3239ca3d8afda1c68d9bb44c8e15d23d75e31e5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "status": "A",
+      "fingerprint": "9993e894e8a516a5b3e8dbaf87127b7228c9e261e58227c77c1381f3706bccb0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.contract.json",
+      "status": "A",
+      "fingerprint": "dae2f39c888f9652cd0956b64b01d3ad577caecfe2d57a76caa26c8d988a4f89"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.summary.json",
+      "status": "A",
+      "fingerprint": "7e4ff5152c4d58e1f54eea5bf92b14c0154c6128d12433f805a6df7510f2867a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_chain_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "88878b5fd24f7315244774724f4a759722dfb0eaf56ef8e1fc021d7701b740a5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_chain_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "5647beac0def2756a31d22acd38697e77dda3855b8be41316ef6192903f8bbd7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_control_plane_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_control_plane_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "c7773f28110b1d1875d4f0b32598c63fcaf08905abf098d2f6bdf8f6d854009b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.contract.json",
+      "status": "A",
+      "fingerprint": "bd9c2d0a2419c974a0d7ce87af07368f879c4cac0941ac4508cbe33629a1f2fb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.summary.json",
+      "status": "A",
+      "fingerprint": "a15078467388636920782531162e819b03bc9c6f15023cb83777040eb081ab5c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-preview-aggregate-alignment.contract.json",
+      "status": "A",
+      "fingerprint": "30326a081a96d6d5bfd77daf46e2d01dddb3338dc8f3f6f98f26ef334a5499c7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-preview-aggregate-alignment.summary.json",
+      "status": "A",
+      "fingerprint": "56cda7560aa43405b08036142a5fad435382f299dd0902974cc5a51482ff0030"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pre-merge-environment-isolation.contract.json",
+      "status": "A",
+      "fingerprint": "aaab9d25eeb4fe26102fc3b8be298aa375fc26fc3b125547392a2265109b08bf"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pre-merge-environment-isolation.summary.json",
+      "status": "A",
+      "fingerprint": "a6bc2dc6d5f701b2f683ef19b8902a158fe1cbb7e0736fb55f51677f5fde7a5f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/public_release_distribution_no_auth.contract.json",
+      "status": "A",
+      "fingerprint": "c2024ffd1d1584328e194b61771a23209b69689058925c8a5449198b56e87dd9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/public_release_distribution_no_auth.summary.json",
+      "status": "A",
+      "fingerprint": "620e27ad426cfa77f7df609fe9e9dfd1453c6f33bd5f0b4f1567c98a5dc3dfc8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/template-adoption-readiness-hardening.contract.json",
+      "status": "A",
+      "fingerprint": "c3c6de7df74fe9318991be6922da31bd9e5c34d855ab24fdeb53ab2f23ed8760"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/template-adoption-readiness-hardening.summary.json",
+      "status": "A",
+      "fingerprint": "ab1b259cb17f0fde898b95653b3641ce702700a14af63af744ab3052ef6a360b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ff68200fa7bd1ae2d8277e6d46014f4405228c5ba2fc7bd314b522a6b5d43bfe"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "3229a7f3e1c44c9a8f3ebc4ac66aa80578936802b90d2a499f4eb70076951c48"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "9eed1b0baeff67c93b236ee967985d590178d31f90a1030b72f9c94bee597c82"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "50a8c0fdd835349679c3d8f58918e026e88fff6053a511ceb8eee1732fcccca5"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "3911bdd22cd39b972a5ec9e49b452be957554a7bbc1f56ca2fd17b1ca01c49af"
+    },
+    {
+      "path": "docs/configuration.md",
+      "status": "M",
+      "fingerprint": "d7f3e8aac3e1928a3c63e06b8dd6f63ee26dde9ba1e1c5b776f2e39a2efda140"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "f75d40c002d4e8d42f3d97de417df1463705e96bc9b33bee0ef2257d35d893c0"
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "status": "M",
+      "fingerprint": "b3cd14d0267a7f55b59f34c572a374983e26cffbb84108534e78c13e1057acd2"
+    },
+    {
+      "path": "docs/reference/documentation-architecture.md",
+      "status": "M",
+      "fingerprint": "c4d37a1c5500992cc2110252a8e09c16331aee28aff6df5c1f31a1a9d17b9e6d"
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "status": "M",
+      "fingerprint": "98c18147f2941535a5a786be67a63e142b5da89eeb044974d39303ce020e164c"
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "status": "M",
+      "fingerprint": "5c0f2a3cf3e0fd05c650cf930d6d430ecd354733a7c0db3cdddc83eac0cb24ea"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "status": "M",
+      "fingerprint": "77fe222d2419f6111d5ce04124bc830916ca9afba49223d201c81c20f32dbaa2"
+    },
+    {
+      "path": "install.sh",
+      "status": "M",
+      "fingerprint": "4a122d6dfb17a97355d46302918f87994a8c05ae77fcba1f23577f6368bd3e51"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "cff36e3016da771d1123195e39782842cf64beb6ebf1315b97abbdc1bf49be0b"
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "4cfed3f8f5c5ebe3f599dbbee8f27c433cf83c0b75210a3095b694fb9e63ed5e"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "52032e03fd886fbfb25479774878bd34cb2f82522b62ea6eb7f91e9c15a09c5d"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "71778da5a503add1b5ee7b1aeef2dd6dc223690f44c8cacc307c4bf858075010"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "status": "M",
+      "fingerprint": "a965ecf92600b1c3e0e6113dc63e05710c1538e9a7350ab5f487d6283c04c4fe"
+    },
+    {
+      "path": "scripts/ai_checkpoint.py",
+      "status": "M",
+      "fingerprint": "0697473e7c3203f8d84458f58f38cc814593caa7d0f52ecdb8e1b65adadd32b1"
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "status": "M",
+      "fingerprint": "44eaae7def8e6c72ef3bf78a4914424a4d7eacdc47c041ee35a6dc24d474b32f"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "status": "M",
+      "fingerprint": "2da1cd6ccc9b0ef869f2aec93ecb49bcaf4bc53bac13972aeffdf123edd73edc"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "c6aabb69d014363b490c03344054c7bc56a1229a4cafafcf7bcee5f40fb6d8a0"
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "status": "M",
+      "fingerprint": "eaefbc1793653449323f4ffeaa2bbdd89b2bba40f907aa9a88adb5e5975a20b4"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "b8fa952443abbbe364f27b66b4c0cb1a8078d7e5aa29471b57eb6bc9ff6f9d7b"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "M",
+      "fingerprint": "0602ce9a3d211e2165ce903dd8c8f4c96d0ca7a130bbbd61e1c9140d2a69075c"
+    },
+    {
+      "path": "scripts/check_system_invariants.py",
+      "status": "M",
+      "fingerprint": "59c5d895587f45a002f9af520c092eb2bc7d45c0a19998e3b3a3efefafeb67a7"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "572757574d01014121258c318c2feb971ca661ad499827c1f97dd786a447c6ff"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "M",
+      "fingerprint": "a31c8bfe7d03682ed181c3f0520a22b38f3c77848186821817ce0461431b9e39"
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "status": "M",
+      "fingerprint": "8038ef92d147b276a54a24bd295802e8a3ad22a03ad4c7b0192b8bc50152e61d"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "9a9f99d0a2fbd0c0a851f040db07150ae3a15e6792ea7f1da74f480244a940af"
+    },
+    {
+      "path": "tests/test_ai_checkpoint.py",
+      "status": "M",
+      "fingerprint": "f00b70e85624182e08bb4f09ac6e162b7a16aea260f188f55568cb04a66ee080"
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "status": "M",
+      "fingerprint": "50e8e88b78d104192784f4bffe8bb5fb13fb2ee5ac5b161f721b6f0f7298c481"
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "a86499c34ee83f2615306361fab69c967987864c07d9586019d74c8b40f32085"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "M",
+      "fingerprint": "65958db67e4639cbdee6986585b1ce9bae8025783e2bc9d0b75f3ca0f6495d87"
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "status": "M",
+      "fingerprint": "6e06c3bf6c509a1a95fd001a996ec339cf6939b1daea686967c289da8016a8db"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "54eae360b512a5a4f7b25475944ca369b3543338ada8684f52d3e48cfafa7fa8"
+    },
+    {
+      "path": "tests/test_install_sh.py",
+      "status": "M",
+      "fingerprint": "688d180d0d22de3e1900fc7e9501e99f53f4fa72e78fc98d3b397b574a40d889"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "b71c47cfff179ebf2e063cc9123d25d9738477ea3ddd98435f6edb44008e68b1"
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "status": "M",
+      "fingerprint": "f800b5e6b112dd57335a750a834141577e1490f9964a2901e8a624e3697971c2"
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "status": "M",
+      "fingerprint": "dc39d4137db99d41b43572520ef5ff9d444e1e5a637cf0e381bd3da7391b6dd7"
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "status": "M",
+      "fingerprint": "16cfdce2fd5b43afcfdd6dc146bce33a39a5ffb3dff699f681e4cd4427c61fa2"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "M",
+      "fingerprint": "4d33c5aa741c86602eaace1eef207b6a747f02ad78cd62b46e070a2793512766"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "39c19e3fad3d4b850facf6324911f6b432a8798455bcf50fce39ae97d8df47d3"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/diff_ownership_forbidden_boundary.contract.json",
+    ".ai/work-items/active/diff_ownership_forbidden_boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_diff_ownership.py",
+    "tests/test_diff_ownership.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/diff_ownership_forbidden_boundary.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "Ownership classification logic that needs a forbidden-write boundary fix."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Regression coverage for diff ownership states."
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "Declares the aiWrite policy values that the preview must respect."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "classification_gap"
+    ],
+    "reason": "Diff ownership preview must distinguish forbidden writes from contract-owned paths without regressing the existing approval flow."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The diff ownership preview can be fixed locally and regression-tested."
+  },
+  "preReviewWarnings": [
+    "Treat forbidden ownership as non-owned in the diff ownership preview."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_finish"
+    ],
+    "reason": "Record a finish-time checkpoint before archiving the diff ownership boundary fix."
+  },
+  "acceptance": [
+    "Diff ownership preview treats aiWrite: forbidden as a non-owned path instead of claiming it as owned.",
+    "Forbidden ownership still leaves the existing approval_required flow for restricted writes unchanged.",
+    "Regression tests prove .env and similar forbidden paths are not reported as active_owned."
+  ],
+  "guidelines": [],
+  "intent": {
+    "problem": "The diff ownership preview currently checks only whether a path is restricted, so aiWrite: forbidden entries like .env can be misclassified as active-owned before the later PR gate catches them.",
+    "constraints": [
+      "Keep the preview logic local to the ownership classifier and its tests.",
+      "Preserve the current approval_required handling for restricted writes.",
+      "Do not change the file ownership policy format."
+    ],
+    "rationale": "Forbidden paths should be visible as blocked or unowned in the preview so the workflow does not overstate local ownership."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "forbidden ownership entries such as .env are not reported as active-owned in the diff preview",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_check_diff_ownership.py",
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "restricted ownership entries still surface approval_required with existing review focus details",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_check_diff_ownership.py",
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "PR and local preview modes continue to produce stable ownership counts",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_check_diff_ownership.py",
+        "tests/test_diff_ownership.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

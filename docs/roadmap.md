@@ -295,7 +295,7 @@ See the V2.6 implementation notes and reviewer-facing examples in the Cockpit do
 
 **Purpose**: Show implementation readiness before coding starts by deriving a Preflight Review from existing Work Item Contract evidence.
 
-V2.6.5 does not ask the AI whether it feels ready. It exposes whether the repository record supports implementation by reading the Contract fields that already exist: `intent`, `unknowns`, `sources`, `acceptance`, `scope`, `outOfScope`, `riskAssessment`, `scenarioCoverage`, and `verification`.
+V2.6.5 does not ask the AI whether it feels ready. It exposes whether the repository record supports implementation by reading the Contract fields that already exist: `intent`, `unknowns`, `sources`, `acceptance`, `scope`, `outOfScope`, `riskAssessment`, `scenarioCoverage`, and `verification`. It also reads explicit blocker fields: `notCodable: true`, `executionDecision.status` of `block`, `defer`, or `needs_human_decision`, and an `agentCapability` that cannot implement or verify or needs a human decision. Any of those explicit blockers derives `not_ready` directly.
 
 The review is advisory by default and becomes a gate only when policy explicitly enables that behavior. The workflow rule is separate from exit codes: when the review is `needs_human_confirmation` or `not_ready`, the agent must pause and report the review before implementation continues.
 

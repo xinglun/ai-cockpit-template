@@ -1,0 +1,217 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance-documentation-alignment",
+  "mode": "code",
+  "title": "Align governance documentation with runtime behavior",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "5c214751b5e8b0e637e532f1cb0cb8e3a0181fe0b63f1c39e1b5640bb7cfb515"
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "status": "M",
+      "fingerprint": "2e2209b7fafe2ec314c0ce6c916124b284347e9a01c5cef97c0d845edcdc1e2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.contract.json",
+      "status": "A",
+      "fingerprint": "361b9456debe81af934b8765f3239ca3d8afda1c68d9bb44c8e15d23d75e31e5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "status": "A",
+      "fingerprint": "9993e894e8a516a5b3e8dbaf87127b7228c9e261e58227c77c1381f3706bccb0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.contract.json",
+      "status": "A",
+      "fingerprint": "bd9c2d0a2419c974a0d7ce87af07368f879c4cac0941ac4508cbe33629a1f2fb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.summary.json",
+      "status": "A",
+      "fingerprint": "a15078467388636920782531162e819b03bc9c6f15023cb83777040eb081ab5c"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "99e6889ce7594b0cf61b72d793651ffc4cc5241e37b788b5c7e45be7ca27f6d0"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "status": "M",
+      "fingerprint": "a965ecf92600b1c3e0e6113dc63e05710c1538e9a7350ab5f487d6283c04c4fe"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "91b685a2bbee76afbe63001669cf506d080ee7ed32aa2d72fbaf43227f130535"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "d570876b24575699bda6db6641e6fd0503920990144832062459c07f78e6b7e9"
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "status": "M",
+      "fingerprint": "ba96083b4964079372554c9d8c813114f65b98196d5a3f617e3b0769b7c31c6b"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "M",
+      "fingerprint": "45cb4036c9ee284e8c39ac32070d2f8d21ee981a061912d9a1ac26480b5ada53"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "0b376be8f88205d3c050cb80a5452341e834345e61b25752d625fed5b7902b9c"
+    }
+  ],
+  "scope": [
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/architecture.md",
+    "docs/configuration.md",
+    "docs/contract-fields.md",
+    "docs/roadmap.md",
+    "docs/getting-started/installation.md",
+    "docs/reference/troubleshooting.md",
+    "docs/reference/how-to-read-cockpit-status.md",
+    "docs/reference/documentation-architecture.md",
+    ".ai/glossary.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    ".ai/work-items/active/governance-documentation-alignment.contract.json",
+    ".ai/work-items/active/governance-documentation-alignment.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["runtime behavior changes and release metadata changes"],
+  "sources": [
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Source of Preflight explicit blocker behavior."},
+    {"path": "scripts/ai_generate_status.py", "reason": "Source of stable no-active status behavior."},
+    {"path": "Makefile", "reason": "Source of lifecycle, status, and PR targets."},
+    {"path": ".github/workflows/smoke.yml", "reason": "Source of normal CI checks."},
+    {"path": "release.json", "reason": "Source of release metadata."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["documentation_accuracy"],
+    "reason": "Documentation must match implemented governance behavior across languages."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user supplied an explicit documentation remediation list."
+  },
+  "preReviewWarnings": [
+    "Cross-language alignment and source-of-truth accuracy."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Listed documentation accurately reflects the implemented lifecycle, Preflight blockers, status model, JDK compatibility, and PR audit behavior.",
+    "Architecture inventory lists current runtime governance components.",
+    "English, Japanese, and Chinese entry points convey equivalent governance semantics."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Governance documentation lags current runtime behavior and obscures CI, Preflight, status, and compatibility semantics.",
+    "constraints": ["Treat Makefile, scripts, CI, and release metadata as behavioral sources of truth.", "Maintain semantic alignment without requiring literal translation."],
+    "rationale": "Accurate operating documentation is part of the governance control surface."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User acceptance remediation request",
+    "reason": "User explicitly requested the documented framework alignment, including Cockpit runtime guides and glossary."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

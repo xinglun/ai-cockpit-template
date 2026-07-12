@@ -96,7 +96,7 @@ AI Cockpit fits a **generic template plus local calibration** model. Installatio
 4. **Staged CI:** start with **L1** governance only—full Git history plus `make check-ai-pr`. After L1 is stable, add **L2** `make ai-cockpit-quality` as a separate required job. For Android/Java, keep L2 non-blocking until the actual Gradle variant tasks and coverage boundaries are calibrated.
 5. **Pilot Work Item:** run one governed task with quality optional if needed, then promote quality and Coverage to blocking gates.
 
-For Java and Android repositories, treat the host JDK as a prerequisite before the flow above starts. The template does not install, switch, or manage JDK versions; confirm JDK 21 on the host first, then verify that `./gradlew` runs, then replace the preset task names with the actual variant-aware Gradle commands your project exposes.
+For Java and Android repositories, treat the host JDK as a prerequisite before the flow above starts. The installer does not install, switch, or manage JDK versions. Java compatibility CI uses JDK 21 and the Android smoke uses JDK 17, but an adopted project must use the version required by its Gradle Wrapper and AGP. Verify that `./gradlew` runs with that project-required JDK, then replace preset task names with the actual variant-aware Gradle commands it exposes.
 
 The installed [Adoption Readiness](../../.ai/cockpit/adoption.md) checklist mirrors these steps for day-to-day use.
 
@@ -197,10 +197,11 @@ INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/$TARGET_VERSION/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$TARGET_VERSION" \
+AI_COCKPIT_TEMPLATE_SHA256="<release-archive-sha256>" \
   sh "$INSTALLER" --upgrade --stack rust
 ```
 
-The installer rejects distribution or Contract-schema downgrades; never set `TARGET_VERSION` lower than the version recorded in the installed `.ai/cockpit/version.json`.
+The installer rejects distribution or Contract-schema downgrades; never set `TARGET_VERSION` lower than the version recorded in the installed `.ai/cockpit/version.json`. The remote path now verifies a default archive SHA-256 for the release tag, so use the published archive digest when overriding `AI_COCKPIT_TEMPLATE_REF` to a different release.
 
 By default, upgrade stops before writing if `.ai/work-items/active/` contains Work Item JSON. Finish and archive the active task first. `--upgrade-with-active` is an explicit high-risk override for recovery scenarios where changing governance semantics during a task is intentional.
 

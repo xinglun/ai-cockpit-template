@@ -17,6 +17,8 @@ def write_ready_configuration(root: Path) -> None:
         encoding="utf-8",
     )
     shutil.copytree(ROOT / ".ai", root / ".ai")
+    profile = root / ".ai" / "project_profile.yaml"
+    profile.write_text(profile.read_text(encoding="utf-8").replace("repositoryRole: template\n", "repositoryRole: adopted\n"), encoding="utf-8")
     guards = root / ".ai" / "guards"
     (guards / "coverage_policy.yaml").write_text(
         (ROOT / ".ai" / "guards" / "coverage_policy.yaml").read_text(encoding="utf-8").replace(
@@ -50,6 +52,27 @@ def test_readiness_passes_only_after_explicit_configuration(tmp_path):
     assert "static adoption configuration check passed" in result.stdout
     assert "does not prove command effectiveness" in result.stdout
     assert "make ai-cockpit-quality and check-ai-pr" in result.stdout
+
+
+def test_confirmed_template_profile_is_exempt_only_in_explicit_maintenance_mode(tmp_path, monkeypatch):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    (tmp_path / "templates").mkdir()
+    monkeypatch.setenv("AI_COCKPIT_EXECUTION_MODE", "template_maintenance")
+    assert readiness_failures(tmp_path) == []
+
+
+def test_template_role_without_maintenance_evidence_remains_fail_closed(tmp_path):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    profile = tmp_path / ".ai" / "project_profile.yaml"
+    profile.write_text(profile.read_text(encoding="utf-8"), encoding="utf-8")
+    assert any("template role is not enough" in item for item in readiness_failures(tmp_path))
+
+
+def test_missing_role_is_fail_closed(tmp_path):
+    write_ready_configuration(tmp_path)
+    profile = tmp_path / ".ai" / "project_profile.yaml"
+    profile.write_text(profile.read_text(encoding="utf-8").replace("repositoryRole: adopted\n", ""), encoding="utf-8")
+    assert any("missing role is fail-closed" in item for item in readiness_failures(tmp_path))
 
 
 def test_generic_fail_closed_stack_is_not_adoption_ready(tmp_path):

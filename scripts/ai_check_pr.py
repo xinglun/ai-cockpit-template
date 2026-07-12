@@ -83,8 +83,8 @@ def archive_stem(path: str) -> str:
 
 
 def archived_contract_paths(base: str) -> list[Path]:
-    stems = {archive_stem(path) for path in archive_evidence_changes(base)}
-    return [PROJECT_ROOT / f"{stem}.contract.json" for stem in sorted(stems)]
+    stems = dict.fromkeys(archive_stem(path) for path in archive_evidence_changes(base))
+    return [PROJECT_ROOT / f"{stem}.contract.json" for stem in stems]
 
 
 def machine_path_issues(value: Any, location: str = "root") -> list[str]:
@@ -103,11 +103,13 @@ def machine_path_issues(value: Any, location: str = "root") -> list[str]:
 def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
     issues: list[str] = []
     evidence_changes = archive_evidence_changes(base)
-    changed_stems = {archive_stem(path) for path in evidence_changes}
-    discovered_contracts = {
-        PROJECT_ROOT / f"{stem}.contract.json" for stem in changed_stems
-    }
-    contract_paths = sorted({*contract_paths, *discovered_contracts})
+    changed_stems = dict.fromkeys(archive_stem(path) for path in evidence_changes)
+    discovered_contracts = [
+        PROJECT_ROOT / f"{archive_stem(path)}.contract.json"
+        for path in evidence_changes
+        if path.startswith(ARCHIVE_PREFIX) and path.endswith(ARCHIVE_SUFFIXES)
+    ]
+    contract_paths = list(dict.fromkeys([*contract_paths, *discovered_contracts]))
 
     # Collect no-op restore paths so they are exempt from the ownership check below.
     all_archive_changes = changed_name_status(
@@ -201,15 +203,18 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
             issues.append(
                 f"complete PR diff path lacks paired ownership (same Contract scope and Summary changedFiles): {path}"
             )
+            continue
+        # The PR audit resolves overlapping archive claims deterministically:
+        # the latest matching archive pair in the PR wins for a given path.
+        effective_contract, _ = owners[-1]
         owner_match = first_match(path, ownership)
         if owner_match:
             _, owner = owner_match
             if owner.get("aiWrite") == "forbidden":
                 issues.append(f"complete PR diff contains forbidden write: {path}")
-            if owner.get("aiWrite") == "restricted" and not any(
-                isinstance(contract.get("restrictedWriteApproval"), dict)
-                and contract["restrictedWriteApproval"].get("approved") is True
-                for contract, _ in owners
+            if owner.get("aiWrite") == "restricted" and not (
+                isinstance(effective_contract.get("restrictedWriteApproval"), dict)
+                and effective_contract["restrictedWriteApproval"].get("approved") is True
             ):
                 issues.append(f"complete PR diff restricted path lacks approval in a covering Contract: {path}")
     return issues

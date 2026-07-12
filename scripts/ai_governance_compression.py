@@ -556,6 +556,7 @@ def render_active_status(
     backtrack_status: str | None = None,
     backtrack_items: list[dict[str, Any]] | None = None,
     preflight_review: dict[str, Any] | None = None,
+    ownership_counts: dict[str, int] | None = None,
 ) -> str:
     timestamp = generated_at or datetime.now(timezone.utc).isoformat()
     lines = [
@@ -598,6 +599,15 @@ def render_active_status(
             "- Pause Rule: `Cockpit Status keeps the Preflight Review visible for reviewers, but it does not replace the pre-implementation pause.`"
         )
 
+    lines.extend(["", "## Diff Ownership", ""])
+    if ownership_counts is None:
+        lines.append("- Status: `not_generated`")
+    else:
+        for state in ("active_owned", "archived_owned", "unowned", "ambiguous", "out_of_scope", "approval_required"):
+            lines.append(f"- {state}: `{ownership_counts.get(state, 0)}`")
+        unresolved = sum(ownership_counts.get(state, 0) for state in ("unowned", "ambiguous", "out_of_scope", "approval_required"))
+        lines.append(f"- Unresolved: `{unresolved}`")
+
     lines.extend(["", "## Evidence", ""])
     for key in ("contract", "summary", "verification", "intentAlignment", "scenarioCoverage", "guidelines", "checkpoints", "residualRisk", "reviewReadiness"):
         entries = model["evidence"].get(key, [])
@@ -631,5 +641,5 @@ def render_active_status(
     elif backtrack_report:
         lines.append("- Items: none")
 
-    lines.extend(["", "## Next Action", "", "- human review / commit decision"])
+    lines.extend(["", "## Next Action", "", "- resolve Diff Ownership Preview findings, then complete human review / commit decision"])
     return "\n".join(lines) + "\n"

@@ -149,6 +149,8 @@ make ai-finish TASK=example_change
 
 ## 仕組み
 
+完全なガバナンス閉ループは **Intent → Contract → Implementation → Verification → Summary → Cockpit → Human Decision** です。以下の短いライフサイクルは、このアーキテクチャを操作する順序であり、閉ループそのものの置き換えではありません。
+
 ```text
 Plan -> Scope -> Verify -> Summarize -> Status -> Archive
 ```
@@ -223,7 +225,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-現在の公開版には、監査可能な初回導入フローと、利用者が指定した SHA256 による検証機能が含まれています。プロジェクト固有の品質コマンド、Coverage 対象パス、CI は引き続き明示的な調整が必要です。
+現在の公開版には、監査可能な初回導入フローと、利用者が指定した SHA256 による検証機能が含まれています。リリース分配チェックは匿名で実行され、タグ元に公開アクセスできない場合は失敗として終了します。プロジェクト固有の品質コマンド、Coverage 対象パス、CI は引き続き明示的な調整が必要です。
 
 ## 動作環境要件
 

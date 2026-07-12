@@ -115,49 +115,48 @@ def test_public_repository_override_is_honored(monkeypatch):
         importlib.reload(release_distribution)
 
 
-def test_git_extraheader_args_uses_checkout_header(monkeypatch):
-    def fake_run_command(command, *, cwd, env=None):
-        if command == ["git", "config", "--get-all", "http.https://github.com/.extraheader"]:
-            return SimpleNamespace(returncode=0, stdout="AUTHORIZATION: basic abc123\n")
-        raise AssertionError(f"unexpected command: {command!r}")
-
-    monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
-    assert release_distribution.git_extraheader_args("https://github.com/xinglun/ai-cockpit-template.git") == [
-        "-c",
-        "http.https://github.com/.extraheader=AUTHORIZATION: basic abc123",
-    ]
-
-
-def test_git_extraheader_env_uses_checkout_header(monkeypatch):
-    def fake_run_command(command, *, cwd, env=None):
-        if command == ["git", "config", "--get-all", "http.https://github.com/.extraheader"]:
-            return SimpleNamespace(returncode=0, stdout="AUTHORIZATION: basic abc123\n")
-        raise AssertionError(f"unexpected command: {command!r}")
-
-    monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
-    assert release_distribution.git_extraheader_env("https://github.com/xinglun/ai-cockpit-template.git") == {
-        "GIT_CONFIG_COUNT": "1",
-        "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
-        "GIT_CONFIG_VALUE_0": "AUTHORIZATION: basic abc123",
-    }
-
-
 def test_list_remote_tags_runs_outside_repo_root(monkeypatch):
     seen = {}
 
     def fake_run_command(command, *, cwd, env=None):
         seen["command"] = command
         seen["cwd"] = cwd
-        if command == ["git", "config", "--get-all", "http.https://github.com/.extraheader"]:
-            return SimpleNamespace(returncode=0, stdout="AUTHORIZATION: basic abc123\n", stderr="")
-        if command[:3] == ["git", "-c", "http.https://github.com/.extraheader=AUTHORIZATION: basic abc123"] and command[3:6] == ["ls-remote", "--tags", "--refs"]:
+        if command == ["git", "ls-remote", "--tags", "--refs", "https://github.com/xinglun/ai-cockpit-template.git"]:
             return SimpleNamespace(returncode=0, stdout="a refs/tags/v0.5.22\n", stderr="")
         raise AssertionError(f"unexpected command: {command!r}")
 
     monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
     assert release_distribution.list_remote_tags("https://github.com/xinglun/ai-cockpit-template.git") == "a refs/tags/v0.5.22\n"
     assert seen["cwd"] != release_distribution.ROOT
-    assert seen["command"] != ["git", "config", "--get-all", "http.https://github.com/.extraheader"]
+
+
+def test_fetch_tagged_installer_uses_plain_git_without_checkout_auth(monkeypatch):
+    seen = {}
+
+    def fake_run_command(command, *, cwd, env=None):
+        seen["command"] = command
+        seen["cwd"] = cwd
+        if command == [
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "--branch",
+            "v0.5.22",
+            "--single-branch",
+            release_distribution.PUBLIC_REPOSITORY,
+            str(cwd / "repo"),
+        ]:
+            installer = cwd / "repo" / "install.sh"
+            installer.parent.mkdir(parents=True, exist_ok=True)
+            installer.write_bytes(b"#!/bin/sh\nexit 0\n")
+            return SimpleNamespace(returncode=0, stdout="", stderr="")
+        raise AssertionError(f"unexpected command: {command!r}")
+
+    monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
+    installer = release_distribution.fetch_tagged_installer("v0.5.22")
+    assert installer == b"#!/bin/sh\nexit 0\n"
+    assert seen["cwd"] != release_distribution.ROOT
 
 
 def test_highest_semver_tag_uses_numeric_version_order():

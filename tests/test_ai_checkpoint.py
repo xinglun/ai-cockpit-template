@@ -1,4 +1,5 @@
 import ai_checkpoint
+from ai_check_diff_ownership import Ownership
 
 
 def test_intent_context_defaults_when_intent_is_missing():
@@ -22,3 +23,10 @@ def test_intent_context_keeps_values_and_default_placeholders():
         "constraint: Keep V2 backward compatible.",
         "rationale: not provided",
     ]
+
+
+def test_checkpoint_ownership_preview_keeps_unresolved_state_visible():
+    rendered = ai_checkpoint.format_preview([
+        Ownership("docs/guide.md", "unowned", [], "no archive evidence"),
+    ])
+    assert "[unowned] `docs/guide.md`" in "\n".join(rendered)

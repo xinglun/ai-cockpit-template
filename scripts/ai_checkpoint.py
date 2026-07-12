@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from ai_common import load_json, verification_key
+from ai_check_diff_ownership import format_preview, preview
 
 
 def required_verification(contract: dict[str, Any]) -> list[str]:
@@ -157,6 +158,8 @@ def main() -> int:
         print(f"- `{command}`: {status.get(command, 'not_recorded')}")
 
     print_list("Review Focus", review_focus(summary))
+    print()
+    print("\n".join(format_preview(preview(contract=contract))))
     print(f"\n## Next Action\n- {next_action(contract, summary)}")
     return 0
 

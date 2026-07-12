@@ -2,6 +2,8 @@ import json
 import sys
 from types import SimpleNamespace
 
+import pytest
+
 import ai_check_review_policy
 import ai_check_scope
 import ai_check_status
@@ -9,6 +11,11 @@ import ai_check_status_consistency
 import ai_checkpoint
 import ai_finish
 import ai_governance_compression
+
+
+@pytest.fixture(autouse=True)
+def isolate_diff_ownership_preview(monkeypatch):
+    monkeypatch.setattr(ai_finish, "preview", lambda **_kwargs: [])
 
 
 class ObservabilityStub:
@@ -78,11 +85,13 @@ def test_status_check_main_accepts_matching_ready_status(tmp_path, monkeypatch):
             contract_path=str(contract),
             summary_path=str(summary),
             generated_at="<timestamp>",
+            ownership_counts={},
         ),
         encoding="utf-8",
     )
     monkeypatch.setattr(ai_check_status, "create_observability", lambda **kwargs: ObservabilityStub())
     monkeypatch.setattr(ai_check_status, "BACKTRACK_REPORT", tmp_path / "backtrack.json")
+    monkeypatch.setattr(ai_check_status, "ownership_preview", lambda **_kwargs: [])
     monkeypatch.setattr(sys, "argv", ["ai_check_status.py", str(status), "--contract", str(contract), "--summary", str(summary)])
 
     assert ai_check_status.main() == 0
@@ -95,7 +104,6 @@ def test_status_consistency_covers_empty_paired_and_unpaired_states(tmp_path, mo
     status = tmp_path / "current_status.md"
     monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
-    monkeypatch.setattr(ai_check_status_consistency, "repository_changes_for_status", lambda _path: [])
 
     status.write_text("- State: `no_active_work_item`\n", encoding="utf-8")
     assert ai_check_status_consistency.validate_status_consistency(status) == []
@@ -114,6 +122,33 @@ def test_status_consistency_covers_empty_paired_and_unpaired_states(tmp_path, mo
         encoding="utf-8",
     )
     assert ai_check_status_consistency.validate_status_consistency(status) == []
+
+
+def test_status_consistency_rejects_live_no_active_changes(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    status = tmp_path / "current_status.md"
+    status.write_text(
+        "- State: `no_active_work_item`\n\n## Changed Files\n\n- none\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
+
+    def fake_run(command, **kwargs):
+        if command[:3] == ["git", "rev-parse", "--verify"]:
+            return SimpleNamespace(returncode=0, stdout="head\n")
+        if command[:3] == ["git", "diff", "--name-only"]:
+            return SimpleNamespace(returncode=0, stdout="src/app.py\n")
+        if command[:3] == ["git", "ls-files", "--others"]:
+            return SimpleNamespace(returncode=0, stdout="")
+        return SimpleNamespace(returncode=0, stdout="")
+
+    monkeypatch.setattr(ai_check_status_consistency.subprocess, "run", fake_run)
+
+    issues = ai_check_status_consistency.validate_status_consistency(status)
+
+    assert "cockpit status no-active state must not persist changed files; run `make repair-ai-status`" in issues
 
 
 def test_checkpoint_main_reports_required_state(tmp_path, monkeypatch, capsys):
@@ -172,6 +207,20 @@ def test_finish_evidence_redacts_and_replaces_existing_result(tmp_path, monkeypa
     assert recorded == [item]
     assert "secret-value" not in item["outputSummary"]
     assert "<LOCAL_PATH>" in item["outputSummary"]
+    long_private_key = "-----BEGIN PRIVATE KEY-----\n" + ("A" * 800) + "\n-----END PRIVATE KEY-----"
+    long_item = ai_finish.evidence(
+        "quality",
+        "make quality",
+        0,
+        12,
+        f"prefix {long_private_key} suffix",
+        contract_hash="a" * 64,
+        commit_sha="b" * 40,
+        execution_contract_path=".ai/work-items/active/task.contract.json",
+        execution_summary_path=".ai/work-items/active/task.summary.json",
+    )
+    assert "[PRIVATE_KEY_REDACTED]" in long_item["outputSummary"]
+    assert "BEGIN PRIVATE KEY" not in long_item["outputSummary"]
     assert ai_finish.pending_evidence(
         "quality",
         "make quality",
@@ -544,18 +593,17 @@ def test_status_consistency_repair_no_active_state(tmp_path, monkeypatch):
     monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
     monkeypatch.setattr(ai_check_status_consistency, "DEFAULT_STATUS", status)
-    monkeypatch.setattr(ai_check_status_consistency, "repository_changes_for_status", lambda _path: [])
 
     def fake_run(_command, **_kwargs):
         status.parent.mkdir(parents=True, exist_ok=True)
         status.write_text("- State: `no_active_work_item`\n", encoding="utf-8")
-        return SimpleNamespace(returncode=0)
+        return SimpleNamespace(returncode=0, stdout="")
 
     monkeypatch.setattr(ai_check_status_consistency.subprocess, "run", fake_run)
     assert ai_check_status_consistency.repair_status(status) == 0
 
 
-def test_status_consistency_rejects_stale_no_active_changed_files(tmp_path, monkeypatch):
+def test_status_consistency_rejects_no_active_changed_files(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)
     status = tmp_path / "current_status.md"
@@ -564,7 +612,5 @@ def test_status_consistency_rejects_stale_no_active_changed_files(tmp_path, monk
         encoding="utf-8",
     )
     monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
-    monkeypatch.setattr(ai_check_status_consistency, "repository_changes_for_status", lambda _path: ["src/new.py"])
-
     issues = ai_check_status_consistency.validate_status_consistency(status)
-    assert any("Changed Files do not match current Git changes" in issue for issue in issues)
+    assert any("must not persist changed files" in issue for issue in issues)

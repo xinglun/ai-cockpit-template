@@ -32,6 +32,7 @@ def test_first_adoption_finishes_and_passes_complete_pr_check(tmp_path):
             encoding="utf-8"
         )
     )
+    assert contract["baseCommit"] == base
     assert contract["sources"] == [{
         "path": ".ai/cockpit/adoption.md",
         "reason": "Installed first-adoption and production-readiness workflow.",

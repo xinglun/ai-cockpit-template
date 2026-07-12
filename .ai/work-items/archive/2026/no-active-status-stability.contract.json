@@ -1,0 +1,184 @@
+{
+  "contractVersion": 2,
+  "workItemId": "no-active-status-stability",
+  "mode": "code",
+  "title": "Stabilize committed no-active Cockpit status",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "6230e7fdbc66501688ceb65856e18a2f8751bbdb65552b3d8d385e319355c659"
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "status": "M",
+      "fingerprint": "2e2209b7fafe2ec314c0ce6c916124b284347e9a01c5cef97c0d845edcdc1e2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.contract.json",
+      "status": "A",
+      "fingerprint": "361b9456debe81af934b8765f3239ca3d8afda1c68d9bb44c8e15d23d75e31e5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "status": "A",
+      "fingerprint": "9993e894e8a516a5b3e8dbaf87127b7228c9e261e58227c77c1381f3706bccb0"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "99e6889ce7594b0cf61b72d793651ffc4cc5241e37b788b5c7e45be7ca27f6d0"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "d570876b24575699bda6db6641e6fd0503920990144832062459c07f78e6b7e9"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "M",
+      "fingerprint": "45cb4036c9ee284e8c39ac32070d2f8d21ee981a061912d9a1ac26480b5ada53"
+    }
+  ],
+  "scope": [
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status_consistency.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_core_gates.py",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/no-active-status-stability.contract.json",
+    ".ai/work-items/active/no-active-status-stability.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["active Work Item status rendering and unrelated governance policies"],
+  "sources": [
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "No-active status currently serializes transient worktree changes."
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "Consistency validation currently compares no-active status to transient Git changes."
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "committed no-active status has no changed files", "required": true, "status": "verified", "evidence": ["tests/test_guards_and_status.py", "tests/test_core_gates.py"]},
+    {"scenario": "active Work Item consistency remains enforced", "required": true, "status": "verified", "evidence": ["tests/test_core_gates.py"]}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["ci", "governance_state"],
+    "reason": "Fresh clones must validate committed no-active status independently of the prior worktree diff."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User supplied a reproducible post-commit clean-checkout failure and requested the repair."
+  },
+  "preReviewWarnings": [
+    "Verify no-active status is stable before and after a commit."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "No-active status does not persist transient changed file paths.",
+    "Consistency validation accepts a stable no-active status in a clean checkout.",
+    "Regression tests cover the committed-status behavior."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Committed no-active status captured transient worktree changes and failed after a clean committed checkout.",
+    "constraints": ["Keep active Work Item consistency checks intact.", "Do not weaken CI validation for active status."],
+    "rationale": "No-active status is a stable repository state and must not encode ephemeral local diffs."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

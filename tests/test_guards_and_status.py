@@ -4,6 +4,7 @@ from pathlib import Path
 
 import ai_check_backtrack
 import ai_check_coverage_guard
+import ai_check_status_consistency
 import ai_checkpoint
 import ai_generate_status
 import ai_preflight_review
@@ -258,7 +259,41 @@ def test_generate_status_main_handles_no_active_and_invalid_contract(tmp_path, m
     assert ai_generate_status.main() == 1
 
 
-def test_no_active_status_reports_repository_changes(tmp_path, monkeypatch):
+def test_status_consistency_rejects_live_no_active_changes(tmp_path, monkeypatch):
+    status = tmp_path / "status.md"
+    status.write_text(
+        "\n".join([
+            "# AI Cockpit Current Status",
+            "",
+            "- State: `no_active_work_item`",
+            "",
+            "## Changed Files",
+            "",
+            "- none",
+            "",
+        ]),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(ai_check_status_consistency, "active_contracts", lambda: [])
+    monkeypatch.setattr(ai_check_status_consistency, "active_summaries", lambda: [])
+
+    def fake_run(command, **_kwargs):
+        if command[:3] == ["git", "rev-parse", "--verify"]:
+            return type("Result", (), {"returncode": 0, "stdout": "head\n"})()
+        if command[:3] == ["git", "diff", "--name-only"]:
+            return type("Result", (), {"returncode": 0, "stdout": "src/app.py\n"})()
+        if command[:3] == ["git", "ls-files", "--others"]:
+            return type("Result", (), {"returncode": 0, "stdout": ""})()
+        return type("Result", (), {"returncode": 0, "stdout": ""})()
+
+    monkeypatch.setattr(ai_check_status_consistency.subprocess, "run", fake_run)
+
+    issues = ai_check_status_consistency.validate_status_consistency(status)
+
+    assert "cockpit status no-active state must not persist changed files; run `make repair-ai-status`" in issues
+
+
+def test_no_active_status_excludes_repository_changes(tmp_path, monkeypatch):
     output = tmp_path / "status.md"
     monkeypatch.setattr(
         ai_generate_status,
@@ -270,7 +305,10 @@ def test_no_active_status_reports_repository_changes(tmp_path, monkeypatch):
     ai_generate_status.write_no_active_status(output)
 
     text = output.read_text(encoding="utf-8")
-    assert "`src/app.py`" in text
+    assert "`src/app.py`" not in text
     assert "`.ai/cockpit/current_status.md`" not in text
-    assert "not active ownership claims" in text
+    assert "Worktree Changes: `present`" in text
+    assert "Worktree Change Count: `2`" in text
+    assert "Ownership Preview: `ambiguous`" in text
+    assert "intentionally excludes transient worktree changes" in text
     assert "check-ai-pr" in text

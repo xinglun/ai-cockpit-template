@@ -16,7 +16,7 @@ Use this page when installation or adoption fails and you need a direct recovery
 
 ## Common Failures
 
-- `./gradlew` fails before any AI Cockpit check runs: confirm the host already has JDK 21 and the wrapper is healthy. The template does not install or switch JDK versions.
+- `./gradlew` fails before any AI Cockpit check runs: first identify the project type. For a Java project, use the JDK required by its Gradle Wrapper; Java compatibility CI uses 21. For Android, use the JDK required by the Wrapper/AGP combination; the Android smoke uses 17. Then verify `./gradlew` itself before debugging Cockpit commands. The template does not install or switch JDK versions.
 - `No rule to make target 'ai-start'`: rerun the installer with `--update-makefile`, or add an active `include Makefile.ai` line to the project Makefile. A commented line is not active.
 - Contract validation reports placeholders or unknowns: complete the checklist in [Installation](../getting-started/installation.md); do not weaken required checks to make the task start.
 - Status consistency fails: run `make repair-ai-status` only when there is no active item or exactly one paired Contract/Summary. Repair unpaired or multiple active records manually.

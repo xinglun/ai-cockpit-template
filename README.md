@@ -286,7 +286,7 @@ Installation deploys the runtime; it does not complete production adaptation. Th
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
+The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. The release-distribution check runs anonymously and fails closed if the tagged source is not publicly reachable. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
 
 ## Runtime Requirements
 

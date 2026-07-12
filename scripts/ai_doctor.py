@@ -10,7 +10,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from ai_check_adoption_ready import readiness_failures
+from ai_check_adoption_ready import readiness_failures, readiness_role_message
 
 
 def command_ok(root: Path, *command: str) -> bool:
@@ -79,8 +79,10 @@ def diagnose(root: Path) -> tuple[list[str], list[str], list[str]]:
     else:
         warnings.append("No GitHub Actions or GitLab CI configuration detected for check-ai-pr")
     if readiness_failures(root):
+        warnings.append(readiness_role_message(root))
         warnings.append("Run make check-ai-adoption-ready before enabling production gates")
     else:
+        passed.append(readiness_role_message(root))
         passed.append("Adoption readiness configuration is complete")
     return passed, warnings, failures
 

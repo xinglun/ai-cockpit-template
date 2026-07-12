@@ -40,6 +40,7 @@ SCRIPT_NAMES = {
     "ai_check_agent_risk.py",
     "ai_check_backtrack.py",
     "ai_check_coverage_guard.py",
+    "ai_check_diff_ownership.py",
     "ai_check_scenario_coverage.py",
     "ai_check_guidelines.py",
     "ai_check_guards.py",
@@ -107,16 +108,22 @@ def git_target_args(target: Path) -> list[str]:
     return [f"--git-dir={target / '.git'}", f"--work-tree={target}"]
 
 
+def clean_git_environment() -> dict[str, str]:
+    return {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+
+
 def adoption_preflight_warnings(target: Path) -> list[str]:
     """--create-adoption 失敗前に dirty worktree と tracked 衛生ファイルを警告する。"""
     warnings: list[str] = []
     git_args = git_target_args(target)
+    git_env = clean_git_environment()
     status = subprocess.run(
         ["git", *git_args, "status", "--porcelain"],
         cwd=target,
         text=True,
         capture_output=True,
         check=False,
+        env=git_env,
     )
     if status.returncode == 0 and status.stdout.strip():
         dirty_lines = [line.rstrip() for line in status.stdout.strip().splitlines()]
@@ -133,6 +140,7 @@ def adoption_preflight_warnings(target: Path) -> list[str]:
         text=True,
         capture_output=True,
         check=False,
+        env=git_env,
     )
     if ls_files.returncode == 0:
         tracked_hygiene = []
@@ -225,7 +233,7 @@ class Installer:
             self.validate_managed_installation()
             if self.create_adoption:
                 self.finalize_adoption_records()
-        except (OSError, json.JSONDecodeError, ValueError, subprocess.SubprocessError) as exc:
+        except (OSError, json.JSONDecodeError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
             if not self.dry_run:
                 self.rollback_installation()
             print(f"ERROR: installation failed: {exc}", file=sys.stderr)
@@ -424,13 +432,13 @@ class Installer:
 
     def create_adoption_records(self) -> None:
         contract_path, summary_path = self.adoption_paths()
-        # --git-dir を明示して一時ディレクトリの .git を確実に参照する。
-        # CI 環境で git 自動発見が親リポジトリを誤って使い、
-        # baseCommit に CI の HEAD SHA が記録される問題を防ぐ。
-        git_dir = str(self.target / ".git")
+        # Target worktree を明示する。--git-dir だけでは worktree 情報が
+        # 欠け、親リポジトリや CI の Git metadata を参照し得る。
         base_commit = subprocess.run(
-            ["git", f"--git-dir={git_dir}", "rev-parse", "HEAD"],
+            ["git", *git_target_args(self.target), "rev-parse", "--verify", "HEAD"],
             text=True, capture_output=True, check=True,
+            cwd=self.target,
+            env=clean_git_environment(),
         ).stdout.strip()
         contract_rel = contract_path.relative_to(self.target).as_posix()
         verification = [

@@ -1,0 +1,431 @@
+{
+  "workItemId": "diff-ownership-documentation",
+  "contractPath": ".ai/work-items/archive/2026/diff-ownership-documentation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "Align PR Preview archive selection with PR audit."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Cover PR and local ownership semantics."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Document Preview and pre-merge workflow."
+    },
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "reason": "Synchronize Japanese runtime guidance."
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "reason": "Explain PR Preview classifications."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated active Work Item status."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_pr.py",
+    "scripts/ai_check_diff_ownership.py",
+    ".ai/work-items/archive/2026/diff-ownership-preview.summary.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "multiple archive Work Items",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "serial Work Items modify a shared path",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "active follow-up Work Item takes precedence over archived evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "restricted path requires explicit approval",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "untracked file has an ownership result",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "unchanged dirty baseline is not claimed by a later active Work Item",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "ai-pre-merge completes with a valid project quality configuration",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "MAKE=<system make> make ai-pre-merge"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:44.658645+00:00",
+      "exitCode": 0,
+      "durationMs": 74,
+      "outputDigest": "b035bc69b0ef8f6c3ba10cc528c26bcaf2f78623911d19665ae48806ebebc9f6",
+      "commandHash": "31b805b87ad191c676c13b0cb63bf449cf65445cb6a38f97000268f50d68ac2b",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/diff-ownership-documentation.contract.json work item contract check passed: .ai/work-items/active/diff-ownership-documentation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:44.814226+00:00",
+      "exitCode": 0,
+      "durationMs": 145,
+      "outputDigest": "24e96c283cb36b5aa86cf7b370a429ac822773ba899096fdc6e72ede939520e6",
+      "commandHash": "68ba10d02ee49304ecd232c4764ee1648c2f86e2da6bc9c5e5c2425f3cba8258",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/diff-ownership-documentation.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:44.984211+00:00",
+      "exitCode": 0,
+      "durationMs": 157,
+      "outputDigest": "93de0aa54cc81ce153b53739a8453015be971b9cb71ec23c5e4b59c2ec9a9476",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/diff-ownership-documentation.contract.json [warning] restricted_write: .ai/cockpit/README.ja.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.182106+00:00",
+      "exitCode": 0,
+      "durationMs": 178,
+      "outputDigest": "91f9300f6c24515fd7c1a9507c5709f996e58d994404291889082c2b157dc629",
+      "commandHash": "0182595450e775229d45cb16728740b4552e9e4e4b37303440b931ebfb27bdc3",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/diff-ownership-documentation.contract.json --summary .ai/work-items/active/diff-ownership-documentation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `diff-ownership-documentation` - Contract Hash: `9e31eea1ace6a9d1` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required C"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.341579+00:00",
+      "exitCode": 0,
+      "durationMs": 150,
+      "outputDigest": "39d5e83ce84f84573439e2b62f0da409bcd3f6bf72cd61aba326fb8d7c539822",
+      "commandHash": "7975a0ee561954a0f3302890ec2d75509234002cfe536f6bec0c51d5f77a3222",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/diff-ownership-documentation.summary.json review policy matched 4 path(s) [review] scripts/ai_check_diff_ownership.py [review] .ai/cockpit/README.ja.md [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.487679+00:00",
+      "exitCode": 0,
+      "durationMs": 138,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.631416+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.725760+00:00",
+      "exitCode": 0,
+      "durationMs": 78,
+      "outputDigest": "78d5062cf150ac55f66b260338cf4990177566cd06f08f33f63464e329bae41d",
+      "commandHash": "152585d99023e3934084a01e71f186605cf0c3bcce8bcdb5162c014be744c476",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/diff-ownership-documentation.contract.json --summary .ai/work-items/active/diff-ownership-documentation.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.804088+00:00",
+      "exitCode": 0,
+      "durationMs": 70,
+      "outputDigest": "47dcd9422e1cfa39c2812ec63610db51deaa1a4464c40138bf75f7536fa6ed53",
+      "commandHash": "affd5b885c61db9b0e34a885a20b50ff10547cebc7691746bc1c30161dbce713",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/diff-ownership-documentation.contract.json --summary .ai/work-items/active/diff-ownership-documentation.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:41:45.973936+00:00",
+      "exitCode": 0,
+      "durationMs": 163,
+      "outputDigest": "4fc06122bea701c919c75c74ee18550e3efb3ccf05abb39929313a28910b8317",
+      "commandHash": "982fd3f9b0fb599004c1523e57145bbad064519f5363c36e6201fca9c1914e57",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/diff-ownership-documentation.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Con"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:42:44.010835+00:00",
+      "exitCode": 0,
+      "durationMs": 58027,
+      "outputDigest": "c90e6e852be26c7ec840e4b49371e0eb43170e21df636757de8b6a4d08a28d9c",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 24%] ........................................................................ [ 49%] ........................................................................ [ 73%] ........................................................................ [ 98%] .... [10"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:42:45.941124+00:00",
+      "exitCode": 0,
+      "durationMs": 431,
+      "outputDigest": "31519deb5bde772166323a9bdda3f89e059d292f29b088145caceaf19e57f6aa",
+      "commandHash": "408e91ca06cfef2c91b70ba38e98e1d3d77f9ef07cc81804d0f0405361f69a16",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/diff-ownership-documentation.contract.json --summary .ai/work-items/active/diff-ownership-documentation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:42:46.539128+00:00",
+      "exitCode": 0,
+      "durationMs": 555,
+      "outputDigest": "a263dd96655bd0bb57954bf7d947c4b0ba298c980d02ed534fb0310d766002aa",
+      "commandHash": "92b51aafe4ade8881e7d7ba67835dad4079ced8ec1dfc171f915c1a597a203c8",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/diff-ownership-documentation.contract.json --summary .ai/work-items/active/diff-ownership-documentation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:42:46.770130+00:00",
+      "exitCode": 0,
+      "durationMs": 210,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:42:46.901640+00:00",
+      "exitCode": 0,
+      "durationMs": 115,
+      "outputDigest": "55aa01e950de3bd6063378f8a43d6f25869308f3de520b56575113caef7cf740",
+      "commandHash": "0043c3f4093a9ef883f0a7c2f38ff2d88906ad6a0e84b1129080ec73f12af312",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/diff-ownership-documentation.contract.json --summary .ai/work-items/active/diff-ownership-documentation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/diff-ownership-documentation.summary.json CONTRACT=.ai/work-items/active/diff-ownership-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-10T22:42:47.202114+00:00",
+      "exitCode": 0,
+      "durationMs": 279,
+      "outputDigest": "cb091eb6b4f2eea2adf3d91efa0ebc99f204ca14f5f6754940a6613822d28a9b",
+      "commandHash": "285bd3879d2844bac5586a8943f16d493ee27742b037c4831d213b8aa60abccc",
+      "contractHash": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/diff-ownership-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/diff-ownership-documentation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/diff-ownership-documentation.summary.json --contract .ai/work-items/active/diff-ownership-documentation.contract.json ai summary check passed: .ai/work-items/active/diff-ownership-documentation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The Cockpit runtime guides and status reference document the new Make entrypoints and outcomes."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "PR mode reuses archive selection from ai_check_pr rather than importing feature-internal modules."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Preview and final PR audit must agree on effective archive ownership."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Ownership precedence must remain explainable when archived scopes overlap.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Contract is ready for implementation; verification has not run.",
+    "expectedReviewFocus": [
+      "PR-mode ownership precedence",
+      "pre-merge behavior with valid quality configuration",
+      "runtime documentation"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "9e31eea1ace6a9d1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed PR audit semantics and declared scenarios."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "9e31eea1ace6a9d1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed Preview, documentation, and pre-merge evidence."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

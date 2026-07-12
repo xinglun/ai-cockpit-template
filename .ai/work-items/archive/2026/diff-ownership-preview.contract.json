@@ -1,0 +1,304 @@
+{
+  "contractVersion": 2,
+  "workItemId": "diff-ownership-preview",
+  "mode": "code",
+  "title": "Add early diff ownership preview and pre-merge gate",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "status": "M",
+      "fingerprint": "1acd70b522926d7c64a96b2d8cfdbb2711108115d519f61a518395829f1be2c3"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "0f04bd4ce5b6cdd0bfcf79059a6acd9886bcea789b1cb761e70e6f1d09e1ac9d"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "2cd6c99097ae9430b5bb156eb4ba081a915f2d9ad3625b24d00a4365e53d3b62"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "M",
+      "fingerprint": "533b7ee1addf4cb4570be7819fc63b25205541cbf98cb89b7b29f66f893bf4a7"
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "status": "M",
+      "fingerprint": "2e2209b7fafe2ec314c0ce6c916124b284347e9a01c5cef97c0d845edcdc1e2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.contract.json",
+      "status": "A",
+      "fingerprint": "361b9456debe81af934b8765f3239ca3d8afda1c68d9bb44c8e15d23d75e31e5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "status": "A",
+      "fingerprint": "9993e894e8a516a5b3e8dbaf87127b7228c9e261e58227c77c1381f3706bccb0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.contract.json",
+      "status": "A",
+      "fingerprint": "dae2f39c888f9652cd0956b64b01d3ad577caecfe2d57a76caa26c8d988a4f89"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.summary.json",
+      "status": "A",
+      "fingerprint": "7e4ff5152c4d58e1f54eea5bf92b14c0154c6128d12433f805a6df7510f2867a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.contract.json",
+      "status": "A",
+      "fingerprint": "bd9c2d0a2419c974a0d7ce87af07368f879c4cac0941ac4508cbe33629a1f2fb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.summary.json",
+      "status": "A",
+      "fingerprint": "a15078467388636920782531162e819b03bc9c6f15023cb83777040eb081ab5c"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "e4b65c05546f52e26aaaded5118afa6faed39f182d867de7437dcb299863a092"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "5b4a7b1a833f0585aca0b2ee2c21f1e56ab1612b272991c9ff663bfd9bd257ea"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "3911bdd22cd39b972a5ec9e49b452be957554a7bbc1f56ca2fd17b1ca01c49af"
+    },
+    {
+      "path": "docs/configuration.md",
+      "status": "M",
+      "fingerprint": "d7f3e8aac3e1928a3c63e06b8dd6f63ee26dde9ba1e1c5b776f2e39a2efda140"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "f75d40c002d4e8d42f3d97de417df1463705e96bc9b33bee0ef2257d35d893c0"
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "status": "M",
+      "fingerprint": "fbcfdee3737366202162201c04fc92c172990ac0adfce075429bb346454c8bf8"
+    },
+    {
+      "path": "docs/reference/documentation-architecture.md",
+      "status": "M",
+      "fingerprint": "c4d37a1c5500992cc2110252a8e09c16331aee28aff6df5c1f31a1a9d17b9e6d"
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "status": "M",
+      "fingerprint": "dddc45e7dcdfe7b0b1d11cd413c485765fbe1bc5aa455de3d6d744b3779cb143"
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "status": "M",
+      "fingerprint": "5c0f2a3cf3e0fd05c650cf930d6d430ecd354733a7c0db3cdddc83eac0cb24ea"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "status": "M",
+      "fingerprint": "77fe222d2419f6111d5ce04124bc830916ca9afba49223d201c81c20f32dbaa2"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "99e6889ce7594b0cf61b72d793651ffc4cc5241e37b788b5c7e45be7ca27f6d0"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "status": "M",
+      "fingerprint": "a965ecf92600b1c3e0e6113dc63e05710c1538e9a7350ab5f487d6283c04c4fe"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "91b685a2bbee76afbe63001669cf506d080ee7ed32aa2d72fbaf43227f130535"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "d570876b24575699bda6db6641e6fd0503920990144832062459c07f78e6b7e9"
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "status": "M",
+      "fingerprint": "ba96083b4964079372554c9d8c813114f65b98196d5a3f617e3b0769b7c31c6b"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "M",
+      "fingerprint": "45cb4036c9ee284e8c39ac32070d2f8d21ee981a061912d9a1ac26480b5ada53"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "0b376be8f88205d3c050cb80a5452341e834345e61b25752d625fed5b7902b9c"
+    }
+  ],
+  "scope": [
+    "scripts/ai_check_diff_ownership.py",
+    "scripts/ai_start.py",
+    "scripts/ai_checkpoint.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_governance_compression.py",
+    "scripts/install_ai_cockpit.py",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    ".ai/cockpit/checks.yaml",
+    ".ai/guards/file_ownership.yaml",
+    ".ai/guards/coverage_policy.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/_templates/work_item_summary.example.json",
+    "tests/test_diff_ownership.py",
+    "tests/test_core_gates.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_contract_examples.py",
+    "tests/test_ai_checkpoint.py",
+    ".ai/work-items/active/diff-ownership-preview.contract.json",
+    ".ai/work-items/active/diff-ownership-preview.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["changes to archived Work Item evidence"],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Final PR ownership semantics and archive evidence validation."},
+    {"path": "scripts/ai_check_scope.py", "reason": "Active Contract scope semantics."},
+    {"path": "scripts/ai_check_guards.py", "reason": "Restricted-path approval semantics."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["governance_state", "ci", "ownership"],
+    "reason": "Early ownership diagnostics must agree with final PR audit without weakening append-only archive evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User provided detailed requirements and acceptance cases."
+  },
+  "preReviewWarnings": [
+    "Ownership status semantics, PR parity, and lifecycle integration."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Every changed controlled path receives an explainable ownership state in local and PR modes.",
+    "Lifecycle commands expose unowned or approval-required paths before archive.",
+    "Pre-merge aggregation distinguishes quality, lifecycle evidence, and PR ownership.",
+    "Regression tests cover active, archived, unowned, ambiguous, out-of-scope, restricted, and untracked paths."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Ownership gaps are currently discovered mainly by final PR audit, after content quality may already be green.",
+    "constraints": ["Keep archive evidence append-only.", "Use Guard policy rather than hard-coded path classes.", "Preserve multiple serial Work Items per PR."],
+    "rationale": "A shared preview makes ownership evidence visible at the earliest lifecycle points while preserving PR audit as final authority."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "repository maintainer",
+    "reason": "User explicitly authorized the Diff Ownership Preview governance, Makefile, Cockpit, and Guard policy changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

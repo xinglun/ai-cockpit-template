@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from ai_common import PROJECT_ROOT, changed_paths, load_json
+from ai_check_diff_ownership import counts as ownership_counts_for, preview as ownership_preview
 from ai_observability import DEFAULT_LOG_PATH, create_observability
 from ai_governance_compression import derive_governance_status, render_active_status
 
@@ -88,6 +89,14 @@ def default_preflight_report_path() -> Path:
     return PROJECT_ROOT / "target" / "ai_preflight_review.json"
 
 
+def no_active_worktree_state(output: Path) -> tuple[str, int, str]:
+    paths = repository_changes_for_status(output)
+    count = len(paths)
+    if count == 0:
+        return "absent", 0, "clean"
+    return "present", count, "ambiguous"
+
+
 def load_preflight_review(
     contract: dict[str, Any],
     contract_path: Path,
@@ -113,10 +122,7 @@ def load_preflight_review(
 
 
 def write_no_active_status(output: Path) -> None:
-    try:
-        repository_changes = repository_changes_for_status(output)
-    except RuntimeError:
-        repository_changes = []
+    worktree_state, worktree_count, ownership_preview_state = no_active_worktree_state(output)
     lines = [
         "---",
         "title: AI Cockpit Current Status",
@@ -133,6 +139,9 @@ def write_no_active_status(output: Path) -> None:
         "- State: `no_active_work_item`",
         "- Contract Path: ``",
         "- Summary Path: ``",
+        f"- Worktree Changes: `{worktree_state}`",
+        f"- Worktree Change Count: `{worktree_count}`",
+        f"- Ownership Preview: `{ownership_preview_state}`",
         "",
         "## Blocking",
         "",
@@ -144,16 +153,10 @@ def write_no_active_status(output: Path) -> None:
         "",
         "## Changed Files",
         "",
-    ]
-    if repository_changes:
-        lines.extend(f"- `{path}`" for path in repository_changes)
-        lines.extend([
-            "",
-            "These are repository changes, not active ownership claims. If their Work Items are archived, run `make check-ai-pr AI_BASE_COMMIT=<merge-base>` to verify archive ownership before committing. Create a new Work Item before making further edits.",
-        ])
-    else:
-        lines.append("- none")
-    lines.extend([
+        "- none",
+        "",
+        "No-active status intentionally excludes transient worktree changes. Use `make check-ai-diff-ownership` for a local preview and `make check-ai-pr AI_BASE_COMMIT=<merge-base>` for final PR ownership.",
+        "",
         "",
         "## Backtrack",
         "",
@@ -161,8 +164,8 @@ def write_no_active_status(output: Path) -> None:
         "",
         "## Next Action",
         "",
-        "- verify archived ownership for existing changes, or create a Work Item with `make ai-start TASK=<task>` before editing",
-    ])
+        "- run `make check-ai-diff-ownership`, then verify PR ownership or create a Work Item with `make ai-start TASK=<task>` before editing",
+    ]
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -190,6 +193,7 @@ def write_active_status(
     )
     backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     preflight_review = load_preflight_review(contract, contract_path)
+    ownership_counts = ownership_counts_for(ownership_preview(contract=contract))
     model = derive_governance_status(contract, summary)
     if state == "blocked" and blockers and blockers[0].startswith("retry circuit breaker"):
         model = {
@@ -213,6 +217,7 @@ def write_active_status(
         backtrack_status=(backtrack.get("status") if isinstance(backtrack, dict) and isinstance(backtrack.get("status"), str) else None),
         backtrack_items=(backtrack.get("items") if isinstance(backtrack, dict) and isinstance(backtrack.get("items"), list) else None),
         preflight_review=preflight_review,
+        ownership_counts=ownership_counts,
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(status_text, encoding="utf-8")

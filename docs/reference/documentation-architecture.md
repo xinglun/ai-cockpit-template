@@ -12,6 +12,17 @@ keywords:
 
 # Documentation Architecture
 
+## Authoritative entry points
+
+| Need | Authoritative page |
+| --- | --- |
+| Runtime/component facts | [Architecture](../architecture.md) |
+| Contract and Summary field semantics | [Contract Fields](../contract-fields.md) |
+| Reviewer interpretation of generated state | [How to Read Cockpit Status](how-to-read-cockpit-status.md) |
+| Agent execution and lifecycle rules | [Cockpit runtime guide](../../.ai/cockpit/README.md) |
+
+The README files are entry points; these pages define the architecture facts, field semantics, status interpretation, and execution rules respectively.
+
 This page describes the stable documentation split for AI Cockpit. It keeps the guided adoption flow short, moves support material into reference pages, and gives the README a clear entry path for first-time readers.
 
 ## Page Roles

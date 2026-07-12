@@ -1,0 +1,434 @@
+{
+  "workItemId": "adoption-distribution-base-commit-fix",
+  "contractPath": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Installer now records the target repository HEAD as the adoption baseCommit."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Readiness output now distinguishes template-maintenance mode and fail-closed adopted-project behavior."
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "reason": "Doctor now surfaces readiness mode guidance."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "E2E adoption coverage now asserts the target repository baseCommit survives install, finish, and PR audit."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Readiness regression tests cover template-maintenance and fail-closed paths."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Make environment isolation regression test ignores ambient AI_PYTHON."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_doctor.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_makefile.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:46.398410+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "65a98cb7edfea4b45e299e4805b10cc743c31f247d584d21c372269c12c6345f",
+      "commandHash": "b5e8489b7e38add69860c77b98e943da9a08478dc5dc8995d65510111123e134",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json work item contract check passed: .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:46.682455+00:00",
+      "exitCode": 0,
+      "durationMs": 273,
+      "outputDigest": "a98a608327b7b33da07d19b2848dfc904054ffeb0601e0c475f6bc178e8c3573",
+      "commandHash": "4e4dd56c94c35472ddf15587575430b5b44ef66f2ce5dc300e2b03448ed9ef26",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:46.819139+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "d182696cd78984a6b457747af65bcf669faaf0457194e54c430456584050deaa",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.015769+00:00",
+      "exitCode": 0,
+      "durationMs": 186,
+      "outputDigest": "3fb6deeaffeb28550dce60ded1648c9b450523342ba4d28d5d5698d0298e0c11",
+      "commandHash": "4ff65ef6b4f845b9020809aec35c8f1de5973386704caa9a5bf328d834695225",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `adoption-distribution-base-commit-fix` - Contract Hash: `2b0aa9d345522fa9` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unkn"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.272624+00:00",
+      "exitCode": 0,
+      "durationMs": 248,
+      "outputDigest": "c1da8214c6735f3d1e4e65b5216eb069834f562c7520f4e8f51afdc3b8dffd7e",
+      "commandHash": "26d82e494c01d0253f6abdca7b70d48b6d5d3abe67c3cb1e57398b4613410e4e",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.397129+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.501623+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.557149+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "1beae210097d282b8c45f83da97cef6d4fc9c335ca2c42129486cdc9a93019a6",
+      "commandHash": "1ef98615284e3c9af09f19511c4d23aa414a64379dfd2a629c50c420a73069f4",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.618262+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "33d3315d0c419c0292e7e8219984c941392298435555294bc2307ff3b0ecf52d",
+      "commandHash": "b366c9919f1d24525006aeb483282c4a2bef4234b2ff4848b809cb61673f4ef4",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:15:47.758126+00:00",
+      "exitCode": 0,
+      "durationMs": 135,
+      "outputDigest": "b217fa361c2db7f888bcc555f48f6b6442485b95ab51d2b1cc341344812f9878",
+      "commandHash": "4704fae2926a78c737745d340a1bf61727d9551df27dd3d2f04ee2fcd237f850",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/install_ai_cockpit.py` — covered by Contract scope - [active_owned] `tests/test_adoption_e2e.p"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:16:30.373255+00:00",
+      "exitCode": 0,
+      "durationMs": 42609,
+      "outputDigest": "11b58fcb249fb398b810b9f6779758eec7df37743ab1e7ef82eb1aaebdc9147a",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 24%] ........................................................................ [ 48%] ........................................................................ [ 73%] ........................................................................ [ 97%] ....... "
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:16:31.136055+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "882a6c5170a3d7854450a005e163773aaf97accd18005053ea4b322217632ef4",
+      "commandHash": "db37928de7796ac9fe8b5caf3df3ceb5b3834884bda284eea08d7c184d65b020",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:16:31.268063+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "01e0264e271b998af542b3be7d7cf6f7b5ac22bff4b6d7d1a94aff242af463ea",
+      "commandHash": "0406488571bf95b3f5f6f3e01bc839975cf2ee05b4f2202a879e4f951e26a675",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:16:31.338796+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:16:31.539732+00:00",
+      "exitCode": 0,
+      "durationMs": 193,
+      "outputDigest": "3175a0c9bb140c1693a42d6c61af2641cc4b18bdbfde94f3df235d7a01ef262c",
+      "commandHash": "d872babeca00764dfe4c5104396cbb2ce9536d0956c4831bea7141d035939746",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json --summary .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/adoption-distribution-base-commit-fix.summary.json CONTRACT=.ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-11T13:16:31.738855+00:00",
+      "exitCode": 0,
+      "durationMs": 182,
+      "outputDigest": "d62ed2f97f6a23d44a8c0aa076a474023eb364c46fdedc6df5834ee4b3ec96a9",
+      "commandHash": "ab48d28f1d40ed32566eaf4117c682b68755045ee156c43dcab9d215188727cf",
+      "contractHash": "2b0aa9d345522fa908271fb5fcc0a4eeca3e720b6b3a5f5de1b8349378f5204d",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption-distribution-base-commit-fix.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json --contract .ai/work-items/active/adoption-distribution-base-commit-fix.contract.json ai summary check passed: .ai/work-items/active/adoption-distribution-base-commit-fix.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public API surface was added; behavior changes are covered by tests."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The fix stays within installer, adoption readiness, and test modules already in scope."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Bounded installer/baseCommit fix and environment isolation regression coverage."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Fresh adoption repos previously inherited the template source commit as baseCommit.",
+    "Make default-python testing was polluted by ambient AI_PYTHON in the environment."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "adoption bootstrap",
+      "detail": "Further installer changes should preserve target-repository baseCommit semantics.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "low",
+      "area": "test isolation",
+      "detail": "Environment-dependent make tests should continue to strip ambient AI_PYTHON.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Targeted tests and full quality have passed; only archive/PR evidence remains to be generated.",
+    "expectedReviewFocus": [
+      "adoption baseCommit provenance",
+      "template-maintenance fail-closed behavior",
+      "make environment isolation"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified",
+    "userVisibleOutput": "verified",
+    "persistence": "verified",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "Use the target repository initial commit as adoption baseCommit.",
+    "Treat template-maintenance mode as an explicit runtime mode, not a silent role-field shortcut.",
+    "Ignore ambient AI_PYTHON in the make environment isolation test."
+  ],
+  "userCorrectionSolidification": [
+    "Installer baseCommit should come from the target repository HEAD at installation time.",
+    "Doctor/readiness should stay fail-closed unless template-maintenance mode is explicitly set.",
+    "Make default python selection tests must run in a cleaned environment without AI_PYTHON."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "2b0aa9d345522fa9",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "2b0aa9d345522fa9",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Ran ai-checkpoint and reviewed scope, acceptance, unknowns, verification, and next action before finishing."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "All listed verification results were observed in the current workspace before finishing the Work Item.",
+  "scenarioCoverage": [
+    {
+      "scenario": "fresh target repository adoption writes target HEAD baseCommit",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_e2e.py::test_first_adoption_finishes_and_passes_complete_pr_check"
+      ]
+    },
+    {
+      "scenario": "readiness stays fail-closed without template-maintenance mode",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_ready.py"
+      ]
+    },
+    {
+      "scenario": "template-maintenance mode passes explicit readiness",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_ready.py"
+      ]
+    },
+    {
+      "scenario": "make default python selection ignores ambient AI_PYTHON",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_makefile.py::test_make_prefers_project_venv_and_allows_explicit_python_override"
+      ]
+    }
+  ],
+  "checkpointReview": {
+    "before_edit": "recorded",
+    "before_finish": "recorded"
+  }
+}

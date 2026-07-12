@@ -1,0 +1,673 @@
+{
+  "workItemId": "governance_control_plane_hardening",
+  "contractPath": ".ai/work-items/archive/2026/governance_control_plane_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/governance_control_plane_hardening.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_control_plane_hardening.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "reason": "Align the Japanese runtime guide with the current governance loop."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Align the main workflow guide with the current governance loop."
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "Register governance checks used by the batch."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerate Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Align glossary terms with the current governance model."
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "reason": "Teach coverage policy about the updated governance scenarios."
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "Tune file ownership rules for diff ownership and PR audit coverage."
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "reason": "Declare template-maintenance readiness for the template role."
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Keep the contract example aligned with the updated verification set."
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "reason": "Keep the summary example aligned with the updated verification set."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Add local ownership and pre-merge command entrypoints."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Document the updated governance loop for Japanese readers."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Document the updated governance loop for Chinese readers."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "Explain the updated governance and lifecycle architecture."
+    },
+    {
+      "path": "docs/configuration.md",
+      "reason": "Clarify compatibility and calibration guidance."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Align contract field guidance with the current workflow."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Clarify installation and upgrade prerequisites."
+    },
+    {
+      "path": "docs/reference/documentation-architecture.md",
+      "reason": "Explain the updated documentation architecture."
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "reason": "Teach readers how to interpret the generated Cockpit status."
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "reason": "Update troubleshooting guidance for calibration and install failures."
+    },
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Record the current governance roadmap capability."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Strengthen public installer trust-root verification."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Make adoption readiness explicit and fail-closed."
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "Implement local and PR diff ownership preview."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Make PR ownership validation deterministic for archive claims."
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "Keep generated status validation aligned with the new ownership model."
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "Tighten lifecycle consistency checks for no-active and active states."
+    },
+    {
+      "path": "scripts/ai_checkpoint.py",
+      "reason": "Show ownership preview at checkpoints."
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "reason": "Surface readiness role diagnostics."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Block archive when task-era paths lack ownership and record sanitized output evidence."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Generate ownership counts and stable no-active guidance."
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Render governance signals without overclaiming readiness."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Show pre-existing ownership findings at Work Item start."
+    },
+    {
+      "path": "scripts/check_system_invariants.py",
+      "reason": "Validate release distribution invariants and installer digest alignment."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Install the new governance scripts and trust-root handling."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Distribute the new governance entrypoints to adopted repositories."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Cover end-to-end adoption and release distribution behavior."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Cover readiness gating for template and adopted roles."
+    },
+    {
+      "path": "tests/test_ai_checkpoint.py",
+      "reason": "Cover checkpoint presentation of unresolved ownership findings."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Cover finish evidence, ownership, and lifecycle gates."
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "reason": "Cover readiness role visibility."
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "reason": "Cover finish lifecycle and archive behavior."
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "reason": "Cover guards and generated status consistency."
+    },
+    {
+      "path": "tests/test_install_sh.py",
+      "reason": "Cover public installer verification."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Cover Makefile entrypoint isolation."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Cover aggregated PR ownership behavior."
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "reason": "Cover the configured governance journey end to end."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Cover lifecycle startup and archive state behavior."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_chain_hardening.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_chain_hardening.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-preview-aggregate-alignment.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-preview-aggregate-alignment.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pre-merge-environment-isolation.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pre-merge-environment-isolation.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/template-adoption-readiness-hardening.contract.json",
+      "reason": "Archive a completed governance work item record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/template-adoption-readiness-hardening.summary.json",
+      "reason": "Archive a completed governance work item summary."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Cover local diff ownership reporting behavior."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_finish.py",
+    "scripts/install_ai_cockpit.py"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "local diff ownership preview and PR ownership audit agree on active, archived, unowned, ambiguous, out-of-scope, and restricted paths",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_diff_ownership.py",
+        "tests/test_pr_aggregate.py"
+      ]
+    },
+    {
+      "scenario": "template-maintenance and adopted-project readiness remain explicit and fail-closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_ready.py",
+        "tests/test_doctor.py",
+        "tests/test_project_governance_journey.py"
+      ]
+    },
+    {
+      "scenario": "install, status, and finish lifecycle checks keep baseCommit, ownership, and status evidence aligned",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_adoption_e2e.py",
+        "tests/test_finish_e2e.py",
+        "tests/test_start_and_archive.py",
+        "tests/test_guards_and_status.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:06.892194+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "20bfe04130da79821542186b34a6755a49fe3f600844804e81d75b1e928e003f",
+      "commandHash": "032e2fe3132801774790e5aa7d0e3b5e52c70df8ac46c702a07347d9dc878445",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/governance_control_plane_hardening.contract.json work item contract check passed: .ai/work-items/active/governance_control_plane_hardening.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:07.068833+00:00",
+      "exitCode": 0,
+      "durationMs": 152,
+      "outputDigest": "4decc891e48ade865f226c68f32d2940851d7a8dd6ec7aaadc507b6a6790a873",
+      "commandHash": "c36c4a4ac5c3574dbf30f2e0f0b78bbdfd3a65548db0588d8a9ea8206f6a9666",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/governance_control_plane_hardening.contract.json scope guard passed: 63 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:07.219482+00:00",
+      "exitCode": 0,
+      "durationMs": 137,
+      "outputDigest": "869e36fa25e87a40e75c495a5d89c2b83a5662ef83e3f09c7ef34d8f0005a609",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/governance_control_plane_hardening.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:07.484006+00:00",
+      "exitCode": 0,
+      "durationMs": 250,
+      "outputDigest": "657ea6a5060cc88d3abaa66762b466b0e8db53b79681708d6733c553d05ac27e",
+      "commandHash": "68e4ab147b00e2ea70df96ebeef5772b890f4ad7a5f6ecaa1e4f06dd3d4569d8",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/governance_control_plane_hardening.contract.json --summary .ai/work-items/active/governance_control_plane_hardening.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `governance_control_plane_hardening` - Contract Hash: `95aade0f8e020441` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:07.606101+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "7799c5b57cc5d333f695e5052f4b0b60c5ca7f1c0f6ad34b5b062eb6cbe3c0ea",
+      "commandHash": "b3a096b4e63783b2aadcff065b6cbe08a6abdbdd2157fac4e29d18de7e0c750f",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/governance_control_plane_hardening.summary.json review policy matched 26 path(s) [review] .ai/work-items/archive/2026/adoption-distribution-base-commit-fix.contract.json [review] .ai/work-items/archive/2026/archive_preview_parity.contract.json [review] .ai/work-items/archive/2026/diff-ownership-documentation.contract.json [review] .ai/work-items/archive/2026/diff-ownership-preview.contrac"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:07.721461+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:07.843671+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:08.012261+00:00",
+      "exitCode": 0,
+      "durationMs": 155,
+      "outputDigest": "f33a31c47c012e709331593482597486a8fcb77d600ea7fc610c379dcbec104b",
+      "commandHash": "2f045c50c4533debdd00c4079330a9e0bf0b862abfc743d5222e3e9260d667e8",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/governance_control_plane_hardening.contract.json --summary .ai/work-items/active/governance_control_plane_hardening.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:08.111248+00:00",
+      "exitCode": 0,
+      "durationMs": 84,
+      "outputDigest": "3bf9cc5f114fe23d296a379bb64179f52d09a5a966185a88a81c954ea0cc05e7",
+      "commandHash": "24b7adfa7a800c4a62b93fedb79f4fff31f98653f97e94703d546692b42b20de",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/governance_control_plane_hardening.contract.json --summary .ai/work-items/active/governance_control_plane_hardening.summary.json guidelines compliance check passed: 0 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:17:08.333040+00:00",
+      "exitCode": 0,
+      "durationMs": 215,
+      "outputDigest": "b28bd42a37d442a5ec30897cd57b2ac986214276469f660429de14e70de21ae8",
+      "commandHash": "9b0a740f208bbb126ea1519350eaff0c1c539cac386b6675614b9bdb9ff2046b",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/governance_control_plane_hardening.contract.json ## Diff Ownership Preview - active_owned: `41`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/_templates/work_item_contract.example.json` — covered by Contract scope - [active_owned] "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:18:04.224142+00:00",
+      "exitCode": 0,
+      "durationMs": 55881,
+      "outputDigest": "d182e2480c0339316cd14c056a650a8293a1e7d48bf176ff8c536b1d69ccaa28",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 24%] ........................................................................ [ 48%] ........................................................................ [ 72%] ........................................................................ [ 96%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:18:05.199045+00:00",
+      "exitCode": 0,
+      "durationMs": 221,
+      "outputDigest": "9345a9cd4ced047ce7dbc9f72dbd5aff8254e7ec529635aa674a19d662f1d420",
+      "commandHash": "8c483e1b923a9d1a3a758f63468417b669254d98f1470bd00750f5b8360d1d1a",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/governance_control_plane_hardening.contract.json --summary .ai/work-items/active/governance_control_plane_hardening.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:18:05.449270+00:00",
+      "exitCode": 0,
+      "durationMs": 239,
+      "outputDigest": "31d1042cb2ba28fb868c9f9d34660e8ca8973e072639f70cae19f56d1e86a01e",
+      "commandHash": "82eeefbe7424641eaa171f9fc2db6c3f8e498e3f53ee544edcf70656fc303299",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/governance_control_plane_hardening.contract.json --summary .ai/work-items/active/governance_control_plane_hardening.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:18:05.578609+00:00",
+      "exitCode": 0,
+      "durationMs": 106,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:18:05.683205+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "9a36cabd8790420c82f435e7dda78c5da48475cbbf5231f1b0955ef98673e354",
+      "commandHash": "28d643b7ccf2a574f4fd0758252f2cf7802197ce263b3764650236be30d915d7",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/governance_control_plane_hardening.contract.json --summary .ai/work-items/active/governance_control_plane_hardening.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/governance_control_plane_hardening.summary.json CONTRACT=.ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T02:18:05.867820+00:00",
+      "exitCode": 0,
+      "durationMs": 178,
+      "outputDigest": "98fb5232adfd0e0b91acbe768b1b7918b069eafe9fb4302762319675ea08c238",
+      "commandHash": "4eb58f310f13d34d14d6809a9d3e8622d705afbb885b1e2015deedfe631c67c8",
+      "contractHash": "95aade0f8e020441457f5569dafdae3c46a73bcd03c8a2af890aeeec9dba88be",
+      "commitSha": "1158a4adf33c76b328beb3df34f398376b93d46b",
+      "executionContractPath": ".ai/work-items/active/governance_control_plane_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_control_plane_hardening.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/governance_control_plane_hardening.summary.json --contract .ai/work-items/active/governance_control_plane_hardening.contract.json ai summary check passed: .ai/work-items/active/governance_control_plane_hardening.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public API surface was added without documentation."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The batch keeps imports within the AI Cockpit governance layer."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The batch spans docs, scripts, tests, and generated status, so review must cover lifecycle and release semantics together."
+  },
+  "generatedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    }
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review",
+      "detail": "The batch intentionally spans several governance surfaces and should be reviewed end to end.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Run the required checks and fill checkpoint evidence before marking the summary ready.",
+    "expectedReviewFocus": [
+      "Lifecycle and release semantics.",
+      "Ownership and archive evidence."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "95aade0f8e020441",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "95aade0f8e020441",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Ran ai-checkpoint and reviewed scope, acceptance, unknowns, verification, and next action before finishing."
+    }
+  ],
+  "knownGaps": [
+    "Checkpoint and finish verification still need to be recorded before archive."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

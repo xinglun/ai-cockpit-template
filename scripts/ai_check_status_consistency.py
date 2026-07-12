@@ -10,7 +10,6 @@ import sys
 from pathlib import Path
 
 from ai_common import PROJECT_ROOT
-from ai_generate_status import repository_changes_for_status
 
 
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
@@ -51,6 +50,30 @@ def no_active_changed_files(text: str) -> list[str]:
     )
 
 
+def no_active_worktree_count(text: str) -> int | None:
+    match = re.search(r"- Worktree Change Count: `(\d+)`", text)
+    return int(match.group(1)) if match else None
+
+
+def live_no_active_changed_files(status_path: Path) -> list[str]:
+    try:
+        relative_status = relative(status_path)
+    except ValueError:
+        relative_status = status_path.as_posix()
+    head = subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    if head.returncode != 0:
+        return []
+    changed: set[str] = set()
+    diff = subprocess.run(["git", "diff", "--name-only", "HEAD"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    if diff.returncode == 0:
+        changed.update(line.strip() for line in getattr(diff, "stdout", "").splitlines() if line.strip())
+    untracked = subprocess.run(["git", "ls-files", "--others", "--exclude-standard"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    if untracked.returncode == 0:
+        changed.update(line.strip() for line in getattr(untracked, "stdout", "").splitlines() if line.strip())
+    changed.discard(relative_status)
+    return sorted(changed)
+
+
 def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]:
     issues: list[str] = []
     contracts = active_contracts()
@@ -75,16 +98,10 @@ def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]
     if not contract_ids and not summary_ids:
         if "- State: `no_active_work_item`" not in text:
             issues.append("cockpit status is not no_active_work_item while no active Work Item exists; run `make repair-ai-status`")
-        try:
-            expected_changes = repository_changes_for_status(status_path)
-        except RuntimeError as exc:
-            issues.append(f"cannot compare cockpit status to repository changes: {exc}")
-        else:
-            listed_changes = no_active_changed_files(text)
-            if listed_changes != expected_changes:
-                issues.append(
-                    "cockpit status Changed Files do not match current Git changes; run `make repair-ai-status`"
-                )
+        recorded = no_active_worktree_count(text)
+        live = len(live_no_active_changed_files(status_path))
+        if no_active_changed_files(text) or (recorded is None and live > 0) or (recorded is not None and live != recorded):
+            issues.append("cockpit status no-active state must not persist changed files; run `make repair-ai-status`")
         return issues
 
     if len(contract_ids) == 1 and len(summary_ids) == 1 and contract_ids == summary_ids:

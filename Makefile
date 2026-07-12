@@ -19,9 +19,20 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	check-release-distribution \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	ai-doctor check-ai-adoption-ready \
-	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy \
+	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy template-adoption-ready \
 	check-ai-scenario-coverage generate-ai-preflight-review check-ai-preflight-review ai-preflight \
-	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item check-ai-pr
+	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item check-ai-pr check-ai-diff-ownership ai-pre-merge
+
+check-ai-diff-ownership:
+	$(AI_PYTHON) scripts/ai_check_diff_ownership.py $(if $(AI_BASE_COMMIT),--base $(AI_BASE_COMMIT),) $(if $(CONTRACT),--contract $(CONTRACT),)
+
+ai-pre-merge:
+	@set -e; \
+		echo 'Content quality:'; env -u AI_BASE_COMMIT -u AI_COCKPIT_EXECUTION_MODE -u MAKEFLAGS -u MAKEOVERRIDES $(shell command -v make) quality || { echo 'ALLOW COMMIT / MERGE: no (content quality failed)'; exit 1; }; \
+		echo 'Lifecycle evidence:'; env -u AI_BASE_COMMIT -u AI_COCKPIT_EXECUTION_MODE -u MAKEFLAGS -u MAKEOVERRIDES $(shell command -v make) check-ai-status-consistency || { echo 'ALLOW COMMIT / MERGE: no (lifecycle evidence failed)'; exit 1; }; \
+		echo 'Diff ownership preview:'; $(shell command -v make) check-ai-diff-ownership AI_BASE_COMMIT="$(AI_BASE_COMMIT)" || { echo 'ALLOW COMMIT / MERGE: no (diff ownership failed)'; exit 1; }; \
+		echo 'PR ownership:'; $(shell command -v make) check-ai-pr AI_BASE_COMMIT="$(AI_BASE_COMMIT)" || { echo 'ALLOW COMMIT / MERGE: no (PR ownership failed)'; exit 1; }; \
+		echo 'ALLOW COMMIT / MERGE: yes'
 
 help:
 	@printf '%s\n' 'AI Cockpit template commands:'
@@ -29,6 +40,7 @@ help:
 	@printf '%s\n' '  make ai-onboard [PHASE=1|2|3]'
 	@printf '%s\n' '  make ai-doctor'
 	@printf '%s\n' '  make check-ai-adoption-ready'
+	@printf '%s\n' '  make template-adoption-ready  # explicit template-maintenance readiness mode'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-guards'
@@ -127,6 +139,9 @@ ai-doctor:
 check-ai-adoption-ready:
 	$(AI_PYTHON) scripts/ai_check_adoption_ready.py --root .
 
+template-adoption-ready:
+	AI_COCKPIT_EXECUTION_MODE=template_maintenance $(shell command -v make) check-ai-adoption-ready
+
 check-ai-contract check-ai-work-item:
 	$(AI_PYTHON) scripts/ai_check_work_item.py $(CONTRACT)
 
@@ -201,7 +216,6 @@ check-ai:
 		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-status-consistency; \
 	else \
-		$(AI_PYTHON) scripts/ai_generate_status.py --no-active && \
 		"$${MAKE:-make}" check-ai-status-consistency && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-agent-risk && \

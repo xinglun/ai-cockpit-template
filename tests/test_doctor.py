@@ -13,7 +13,7 @@ def test_doctor_passes_hard_prerequisites_for_repository():
     assert not failures
     assert passed
     assert any("Coverage Guard" in warning for warning in warnings)
-    assert any("check-ai-adoption-ready" in warning for warning in warnings)
+    assert any("role=adopted or unconfirmed template" in warning for warning in warnings)
 
 
 def test_doctor_fails_without_git_repository_or_initial_commit(tmp_path):

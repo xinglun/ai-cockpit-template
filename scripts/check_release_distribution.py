@@ -12,7 +12,6 @@ import sys
 import tarfile
 import tempfile
 from pathlib import Path
-from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,50 +55,6 @@ def highest_semver_tag(refs: str) -> str:
     if not tags:
         raise RuntimeError("public repository has no semantic-version tags")
     return max(tags, key=lambda tag: tuple(int(part) for part in tag[1:].split(".")))
-
-
-def git_extraheader_args(repository_url: str) -> list[str]:
-    """Return `git -c` overrides for any checkout-auth header on the current repo."""
-    host = urlsplit(repository_url).netloc
-    if not host:
-        return []
-    config_key = f"http.https://{host}/.extraheader"
-    result = run_command(
-        ["git", "config", "--get-all", config_key],
-        cwd=ROOT,
-        env=clean_git_environment(),
-    )
-    if result.returncode != 0:
-        return []
-    args: list[str] = []
-    for header in result.stdout.splitlines():
-        header = header.strip()
-        if header:
-            args.extend(["-c", f"{config_key}={header}"])
-    return args
-
-
-def git_extraheader_env(repository_url: str) -> dict[str, str]:
-    """Return environment variables that re-encode checkout auth for child Git processes."""
-    host = urlsplit(repository_url).netloc
-    if not host:
-        return {}
-    config_key = f"http.https://{host}/.extraheader"
-    result = run_command(
-        ["git", "config", "--get-all", config_key],
-        cwd=ROOT,
-        env=clean_git_environment(),
-    )
-    if result.returncode != 0:
-        return {}
-    headers = [header.strip() for header in result.stdout.splitlines() if header.strip()]
-    if not headers:
-        return {}
-    env = {"GIT_CONFIG_COUNT": str(len(headers))}
-    for index, header in enumerate(headers):
-        env[f"GIT_CONFIG_KEY_{index}"] = config_key
-        env[f"GIT_CONFIG_VALUE_{index}"] = header
-    return env
 
 
 def fixture_archive(path: Path) -> None:
@@ -175,7 +130,6 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
             }
         )
         env.pop("AI_COCKPIT_TEMPLATE_SOURCE", None)
-        env.update(git_extraheader_env(PUBLIC_REPOSITORY))
         result = subprocess.run(
             [str(installer), "--stack", "generic"], cwd=target, env=env,
             text=True, capture_output=True, check=False,
@@ -322,7 +276,6 @@ def fetch_tagged_installer(tag: str) -> bytes:
         clone = run_command(
             [
                 "git",
-                *git_extraheader_args(PUBLIC_REPOSITORY),
                 "clone",
                 "--depth",
                 "1",
@@ -346,7 +299,7 @@ def fetch_tagged_installer(tag: str) -> bytes:
 def list_remote_tags(repository_url: str) -> str:
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-public-release-query-") as raw:
         query = run_command(
-            ["git", *git_extraheader_args(repository_url), "ls-remote", "--tags", "--refs", repository_url],
+            ["git", "ls-remote", "--tags", "--refs", repository_url],
             cwd=Path(raw),
             env=clone_git_environment(),
         )

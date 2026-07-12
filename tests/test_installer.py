@@ -10,6 +10,20 @@ from install_ai_cockpit import Installer
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def run(cwd: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(args, cwd=cwd, text=True, capture_output=True, check=False)
+
+
+def init_git_repo(path: Path, filename: str, content: str, message: str) -> str:
+    run(path, "git", "init", "-q")
+    run(path, "git", "config", "user.email", "test@example.invalid")
+    run(path, "git", "config", "user.name", "Test")
+    (path / filename).write_text(content, encoding="utf-8")
+    run(path, "git", "add", filename)
+    run(path, "git", "commit", "-qm", message)
+    return run(path, "git", "rev-parse", "HEAD").stdout.strip()
+
+
 def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     installer = Installer(
         source=ROOT,
@@ -83,14 +97,9 @@ def test_installed_cursor_rule_defaults_to_opt_in_apply(tmp_path):
 
 
 def test_create_adoption_warns_on_dirty_worktree_and_tracked_hygiene(tmp_path, capsys):
-    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
-    (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
+    init_git_repo(tmp_path, "README.md", "# Project\n", "initial")
     (tmp_path / ".DS_Store").write_text("noise\n", encoding="utf-8")
-    subprocess.run(["git", "add", "README.md"], cwd=tmp_path, check=True)
     subprocess.run(["git", "add", "-f", ".DS_Store"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "commit", "-qm", "initial"], cwd=tmp_path, check=True)
     (tmp_path / "dirty.txt").write_text("pending\n", encoding="utf-8")
 
     installer = Installer(
@@ -110,6 +119,38 @@ def test_create_adoption_warns_on_dirty_worktree_and_tracked_hygiene(tmp_path, c
     assert "WARN: Tracked files commonly ignored locally (.DS_Store" in error
     assert "ERROR: --create-adoption requires a clean Git worktree before installation." in error
     assert not (tmp_path / ".ai").exists()
+
+
+def test_create_adoption_ignores_ambient_git_dir_and_work_tree(tmp_path, monkeypatch):
+    ambient = tmp_path / "ambient"
+    target = tmp_path / "target"
+    ambient.mkdir()
+    target.mkdir()
+
+    ambient_base = init_git_repo(ambient, "ambient.txt", "ambient\n", "ambient initial")
+    target_base = init_git_repo(target, "target.txt", "target\n", "target initial")
+    monkeypatch.setenv("GIT_DIR", str(ambient / ".git"))
+    monkeypatch.setenv("GIT_WORK_TREE", str(ambient))
+
+    installer = Installer(
+        source=ROOT,
+        target=target,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        create_adoption=True,
+    )
+
+    assert installer.install() == 0
+    contract = json.loads(
+        (target / ".ai" / "work-items" / "active" / "adopt_ai_cockpit.contract.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert contract["baseCommit"] == target_base
+    assert contract["baseCommit"] != ambient_base
 
 
 def test_fresh_install_rejects_all_conflicting_managed_files_before_writing(tmp_path, capsys):

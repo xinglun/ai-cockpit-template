@@ -38,10 +38,12 @@ def test_ai_start_default_contains_agent_risk_gate(tmp_path, monkeypatch):
     assert "aiAgentRisk" in checks
     assert "aiCheckpoint" in checks
     assert "aiReviewPolicy" in checks
+    assert "aiDiffOwnership" in checks
     assert contract["contractVersion"] == 2
     assert contract["notCodable"] is False
     assert contract["baseCommit"] == "a" * 40
     assert contract["checkpointPolicy"]["requiredStages"] == ["before_edit", "before_finish"]
+    assert ".ai/cockpit/current_status.md" in contract["scope"]
 
 
 def test_ai_start_requires_initial_commit(tmp_path, monkeypatch):

@@ -27,11 +27,15 @@ graph TD
     Cockpit --> Human["Human Decision"]
 
     subgraph ライフサイクル
-        Start["ai-start"] --> Dev["開発/実装フェーズ"]
-        Dev --> Check["check-ai"]
-        Check --> Finish["ai-finish"]
+        Start["ai-start MODE=code"] --> Preflight["Preflight Review"]
+        Preflight -->|ready| Dev["開発/実装フェーズ"]
+        Preflight -->|needs_human_confirmation / not_ready| Pause["pause and report to human"]
+        Pause --> Dev
+        Dev --> Check["checks and status refresh"]
+        Check --> Finish["ai-finish stabilization"]
         Finish --> Archive["Archive"]
-        Archive --> PR["check-ai-pr"]
+        Archive --> NoActive["no_active_work_item"]
+        Archive --> PR["check-ai-pr: archive evidence + complete PR diff"]
     end
 
     subgraph 状態とガバナンス
@@ -40,21 +44,31 @@ graph TD
         Status["current_status.md"]
     end
 
-    Start -->|生成| Contract
-    Start -->|生成| Summary
+    Start -->|生成・更新| Contract
+    Start -->|生成・更新| Summary
+    Start -->|状態生成| Status
     Check -->|ポリシーチェック| Guards
     Check -->|状態更新| Status
-    Finish -->|検証完了| Summary
-    ScenarioPolicy -->|Scenario Coverage の方針| Cockpit
+    Finish -->|検証完了・状態更新| Summary
+    Archive -->|状態更新| Status
+    ScenarioPolicy -->|Scenario Coverage check| Check
+    ScenarioPolicy -->|Scenario Coverage signal| Cockpit
 ```
 
+
+以下のツリーは、追跡対象の主要な実行時・ガバナンス構成要素を網羅する管理対象一覧であり、単なる例示ではありません。
 
 ```text
 .ai/                                   # AI Cockpit の管理ディレクトリ
   cockpit/
     README.md                          # Cockpit の概要・利用方法
+    README.ja.md                       # Cockpit の日本語実行時ガイド
+    adoption.md                        # 導入・採用ガイド
+    adoption.ja.md                     # 導入・採用ガイド（日本語）
     checks.yaml                        # Cockpit のチェック設定
     current_status.md                  # 現在のガバナンス状態（人向けサマリー）
+    system_invariants.json             # 配布・CI・文書の不変条件
+    version.json                       # Cockpit バージョン情報
   guards/                              # ガードポリシー定義
     agent_risk_policy.yaml             # AI 実装リスク判定ポリシー
     ai_review_policy.yaml              # AI レビュー判定ポリシー
@@ -63,6 +77,7 @@ graph TD
     coverage_policy.yaml               # カバレッジ検証ポリシー
     file_boundary.yaml                 # 編集可能ファイル境界ポリシー
     file_ownership.yaml                # ファイル責任範囲ポリシー
+    preflight_review_policy.yaml       # Preflight ゲートポリシー
     scenario_coverage_policy.yaml      # Scenario Coverage 判定ポリシー
     scope_policy.yaml                  # Work Item のスコープ制御ポリシー
     summary_policy.yaml                # Summary 生成・検証ポリシー
@@ -72,6 +87,9 @@ graph TD
       work_item_summary.example.json   # Summary テンプレート
     active/                            # 作業中の Work Item
     archive/                           # 完了済み Work Item
+  project_profile.yaml                 # 確認済みプロジェクト境界
+  glossary.md                          # リポジトリ内用語集
+  README.md                            # AI ガバナンス作業領域の入口
 
 .cursor/
   rules/
@@ -114,12 +132,36 @@ scripts/                               # AI Cockpit のコアスクリプト
   ai_observability.py                  # 実行ログ・監査情報出力
   ai_start.py                          # Work Item 開始処理
   install_ai_cockpit.py                # AI Cockpit インストーラー
+  ai_acceptance_policy.py              # Acceptance シグナルポリシー
+  ai_calibrate.py                      # Project Profile の校正
+  ai_check_adoption_ready.py           # 採用済みプロジェクトの準備検証
+  ai_check_guard_calibration.py        # Profile/Guard 校正検証
+  ai_check_guidelines.py               # ガイドライン準拠検証
+  ai_check_pr.py                       # 完全 PR 差分のアーカイブ所有権監査
+  ai_check_scenario_coverage.py        # Scenario Coverage 検証
+  ai_doctor.py                         # ローカルガバナンス診断
+  ai_intent_policy.py                  # Intent Alignment シグナルポリシー
+  ai_onboard.py                        # インストール後オンボーディング
+  ai_preflight_review.py               # 実装前 readiness review
+  ai_project_doctor.py                 # プロジェクト事実の検出
+  ai_project_profile.py                # Project Profile 検証
+  ai_readiness_policy.py               # 明示的 Preflight blocker ポリシー
+  ai_review_readiness_policy.py        # レビュー準備状態シグナルポリシー
+  ai_risk_policy.py                    # 残存リスク シグナルポリシー
+  ai_scenario_policy.py                # Scenario Coverage ポリシーヘルパー
+  ai_verification_policy.py            # Verification シグナルポリシー
+  check_critical_coverage.py           # ファイル単位カバレッジ下限
+  check_docs_metadata.py               # 文書メタデータ検証
+  check_release_distribution.py        # 公開配布契約検証
+  check_system_invariants.py           # 横断的不変条件検証
 
 target/                                # 実行時生成ファイル（監査・ログ）
   ai_observability.jsonl               # Observability ログ
   ai_*.json                            # 実行結果・中間生成ファイル
 
 templates/                             # テンプレート群
+  agents/                               # Managed agent rule sections
+  glossary.md                           # 導入先プロジェクト用語集テンプレート
   make/
     Makefile.ai                        # 共通 Make タスク
   stacks/
@@ -127,6 +169,13 @@ templates/                             # テンプレート群
 
 install.sh                             # インストールエントリーポイント
 Makefile                               # プロジェクト共通タスク
+release.json                           # Release/public-distribution metadata
+requirements-dev.txt                   # Development quality dependencies
+
+.github/workflows/                     # push/PR 用 CI
+  smoke.yml                            # テンプレート smoke CI
+  compatibility.yml                    # 実スタック互換性 CI
+tests/                                 # 単体・ライフサイクル・インストーラー・配布の回帰テスト
 
 AGENTS.md                              # AI Agent 向けガイド
 CLAUDE.md                              # Claude 向けガイド

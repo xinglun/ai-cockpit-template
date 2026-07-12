@@ -48,6 +48,10 @@ checks:
     commandTemplate: make check-ai-scope CONTRACT={contractPath}
     purpose: Verify the actual diff is covered by scope and not covered by outOfScope.
 
+  aiDiffOwnership:
+    commandTemplate: make check-ai-diff-ownership CONTRACT={contractPath}
+    purpose: Preview active, archived, unowned, ambiguous, out-of-scope, and approval-required ownership for changed paths.
+
   aiGuards:
     command: make check-ai-guards
     purpose: Validate file ownership and boundary guard manifests.

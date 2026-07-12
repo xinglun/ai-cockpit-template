@@ -1,0 +1,413 @@
+{
+  "contractVersion": 2,
+  "workItemId": "template-adoption-readiness-hardening",
+  "mode": "code",
+  "title": "Tighten template repository Adoption Readiness exemption",
+  "baseCommit": "1158a4adf33c76b328beb3df34f398376b93d46b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "status": "M",
+      "fingerprint": "3b1f3f8b4b614aee66d146cb4a8e8568141d82a3a9c6a7db369e672cac600804"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "da35e35bce7b9af91113f144a8cc00a45c3589f4025dcf41e38b4c5133ce8b62"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "status": "M",
+      "fingerprint": "15553f91d8c0469ab8036c1db2f1e400a5e196515bd73a87e9cc3e64d4167757"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "9f6487174b0bc91c81b65d8972f213d2e1bb70b3456a97b473e34dc6166cf46e"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "M",
+      "fingerprint": "533b7ee1addf4cb4570be7819fc63b25205541cbf98cb89b7b29f66f893bf4a7"
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "fa181d5ef3009bc81baf9beb67f80ac94f48416585c4f6a9df9dd012d197352f"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "status": "M",
+      "fingerprint": "84c4a8198aba2ead9f36871dba5c979c858a103d3b2bdc93c8cf92b50e696b19"
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "status": "M",
+      "fingerprint": "2e2209b7fafe2ec314c0ce6c916124b284347e9a01c5cef97c0d845edcdc1e2c"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "status": "M",
+      "fingerprint": "4439f93abeb5460448131dfe588a3c44e8926e489c99e212170884bcfa788c93"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "status": "M",
+      "fingerprint": "9f3f19d6cffa6b0d8f67c109e811952108f1e6108e1aee586b1c39c60e5782fc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.contract.json",
+      "status": "A",
+      "fingerprint": "9e31eea1ace6a9d1efc8f40662bcaf0cc5dc29c39242c48ddf39cf94dbd64aff"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.summary.json",
+      "status": "A",
+      "fingerprint": "5308a5a446e5b73d7cdc3efda8a8ab6654272fa48c7b0480e9d78f64fd5a10aa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.contract.json",
+      "status": "A",
+      "fingerprint": "49874fcc67961522d4c9972b68c9edf837ac707ed552ab425b420d1bb85856a0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.summary.json",
+      "status": "A",
+      "fingerprint": "895621f5e657e8ecba46c8bcea1947a61aa17297ecbff1ecd8792a895c346438"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.contract.json",
+      "status": "A",
+      "fingerprint": "361b9456debe81af934b8765f3239ca3d8afda1c68d9bb44c8e15d23d75e31e5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "status": "A",
+      "fingerprint": "9993e894e8a516a5b3e8dbaf87127b7228c9e261e58227c77c1381f3706bccb0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.contract.json",
+      "status": "A",
+      "fingerprint": "dae2f39c888f9652cd0956b64b01d3ad577caecfe2d57a76caa26c8d988a4f89"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.summary.json",
+      "status": "A",
+      "fingerprint": "7e4ff5152c4d58e1f54eea5bf92b14c0154c6128d12433f805a6df7510f2867a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.contract.json",
+      "status": "A",
+      "fingerprint": "bd9c2d0a2419c974a0d7ce87af07368f879c4cac0941ac4508cbe33629a1f2fb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.summary.json",
+      "status": "A",
+      "fingerprint": "a15078467388636920782531162e819b03bc9c6f15023cb83777040eb081ab5c"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "46756fb68a71637b203d7a2579c11bb4c209f8261c798c18b78d98f07fd97701"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "e4b65c05546f52e26aaaded5118afa6faed39f182d867de7437dcb299863a092"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "5b4a7b1a833f0585aca0b2ee2c21f1e56ab1612b272991c9ff663bfd9bd257ea"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "3911bdd22cd39b972a5ec9e49b452be957554a7bbc1f56ca2fd17b1ca01c49af"
+    },
+    {
+      "path": "docs/configuration.md",
+      "status": "M",
+      "fingerprint": "d7f3e8aac3e1928a3c63e06b8dd6f63ee26dde9ba1e1c5b776f2e39a2efda140"
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "status": "M",
+      "fingerprint": "f75d40c002d4e8d42f3d97de417df1463705e96bc9b33bee0ef2257d35d893c0"
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "status": "M",
+      "fingerprint": "fbcfdee3737366202162201c04fc92c172990ac0adfce075429bb346454c8bf8"
+    },
+    {
+      "path": "docs/reference/documentation-architecture.md",
+      "status": "M",
+      "fingerprint": "c4d37a1c5500992cc2110252a8e09c16331aee28aff6df5c1f31a1a9d17b9e6d"
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "status": "M",
+      "fingerprint": "8bf2b6333d386ce9d8d6d9a13ad041cae149a72ec9d578688c27f4658af1e2f8"
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "status": "M",
+      "fingerprint": "5c0f2a3cf3e0fd05c650cf930d6d430ecd354733a7c0db3cdddc83eac0cb24ea"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "status": "M",
+      "fingerprint": "77fe222d2419f6111d5ce04124bc830916ca9afba49223d201c81c20f32dbaa2"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "99e6889ce7594b0cf61b72d793651ffc4cc5241e37b788b5c7e45be7ca27f6d0"
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "99c6bb1d462d3f0adf6ec0e9464cb1df530edca15d560137d1720869c78b90ce"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "71778da5a503add1b5ee7b1aeef2dd6dc223690f44c8cacc307c4bf858075010"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "status": "M",
+      "fingerprint": "a965ecf92600b1c3e0e6113dc63e05710c1538e9a7350ab5f487d6283c04c4fe"
+    },
+    {
+      "path": "scripts/ai_checkpoint.py",
+      "status": "M",
+      "fingerprint": "0697473e7c3203f8d84458f58f38cc814593caa7d0f52ecdb8e1b65adadd32b1"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "status": "M",
+      "fingerprint": "70c99fe9f4fb1f21162b0279c6157c94f562f5669c5b4364f526d4fe3ed2dc3e"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "86349c93933722ca959eeda56b31266e5fa9fbff71348120e2139991513f0f90"
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "status": "M",
+      "fingerprint": "eaefbc1793653449323f4ffeaa2bbdd89b2bba40f907aa9a88adb5e5975a20b4"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "b8fa952443abbbe364f27b66b4c0cb1a8078d7e5aa29471b57eb6bc9ff6f9d7b"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "c3cbd249321c05632cc37c12e2e5f6318d5d4000a26480e07d604f70d4ea0c59"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "M",
+      "fingerprint": "b3c631957eb65aa4393f45880c1c6651b0e4dbbcb7a7b84c860dd41ba4f93bf2"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "d570876b24575699bda6db6641e6fd0503920990144832062459c07f78e6b7e9"
+    },
+    {
+      "path": "tests/test_ai_checkpoint.py",
+      "status": "M",
+      "fingerprint": "f00b70e85624182e08bb4f09ac6e162b7a16aea260f188f55568cb04a66ee080"
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "status": "M",
+      "fingerprint": "5ee11ab63077a34be87fde7eb08a982614ae1011e6362aadcf29e9d01123a99c"
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "c6820a815eb22652031550e90f3e7495ba3805eb741089ff0870c25d5ff36aa7"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "M",
+      "fingerprint": "45cb4036c9ee284e8c39ac32070d2f8d21ee981a061912d9a1ac26480b5ada53"
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "status": "M",
+      "fingerprint": "6e06c3bf6c509a1a95fd001a996ec339cf6939b1daea686967c289da8016a8db"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "0b376be8f88205d3c050cb80a5452341e834345e61b25752d625fed5b7902b9c"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "39c19e3fad3d4b850facf6324911f6b432a8798455bcf50fce39ae97d8df47d3"
+    }
+  ],
+  "scope": [
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_doctor.py",
+    "scripts/ai_calibrate.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_doctor.py",
+    "tests/test_project_governance_journey.py",
+    ".ai/project_profile.yaml",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/template-adoption-readiness-hardening.contract.json",
+    ".ai/work-items/active/template-adoption-readiness-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Current readiness exemption behavior."
+    },
+    {"path":"scripts/ai_project_doctor.py","reason":"Doctor output must explain role and exemptions."},
+    {"path":"tests/test_adoption_ready.py","reason":"Existing readiness regression coverage."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["governance", "ci"],
+    "reason": "A role-only exemption could silently bypass fail-closed adoption readiness."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user provided explicit role, exemption, migration, and test acceptance criteria."
+  },
+  "preReviewWarnings": [
+    "Review role evidence, exemption visibility, and adopted-project fail-closed migration."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Template exemption requires verifiable template evidence or an explicit template execution mode, not only repositoryRole.",
+    "Adopted projects with template role, missing role, or incomplete migration remain fail-closed.",
+    "Doctor and readiness output visibly explain role, exemptions, and required migration calibration.",
+    "Tests cover template, adopted, erroneous role, missing role, migration, and local/CI modes."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "A mutable repositoryRole: template field can silently skip adopted-project readiness.",
+    "constraints": ["Repository fields are not identity authentication.", "Do not weaken adopted-project fail-closed readiness.", "Keep template quality verification and a visible migration path."],
+    "rationale": "Multiple observable template signals or explicit execution mode distinguish template maintenance from production adoption without trusting a single editable field."
+  },
+  "scenarioCoverage": [
+    {"scenario":"template repository","required":true,"status":"unverified","evidence":["tests/test_adoption_ready.py"]},
+    {"scenario":"normal adopted project","required":true,"status":"unverified","evidence":["tests/test_adoption_ready.py"]},
+    {"scenario":"template role retained by an adopted project","required":true,"status":"unverified","evidence":["tests/test_adoption_ready.py"]},
+    {"scenario":"missing role","required":true,"status":"unverified","evidence":["tests/test_adoption_ready.py"]},
+    {"scenario":"role migration","required":true,"status":"unverified","evidence":["tests/test_adoption_ready.py"]},
+    {"scenario":"local and CI execution modes","required":true,"status":"unverified","evidence":["tests/test_doctor.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "repository maintainer",
+    "reason": "User explicitly authorized template-role, adoption-readiness, Doctor, calibration, test, and Profile policy hardening for Work Item B."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

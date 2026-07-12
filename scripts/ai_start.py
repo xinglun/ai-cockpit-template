@@ -9,6 +9,7 @@ import subprocess
 import sys
 from ai_common import PROJECT_ROOT, capture_dirty_baseline, current_head, save_json
 from ai_check_status_consistency import DEFAULT_STATUS, validate_status_consistency
+from ai_check_diff_ownership import format_preview, preview
 from ai_generate_status import write_active_status, write_no_active_status
 from ai_observability import create_observability
 
@@ -20,7 +21,7 @@ DEFAULT_CHECKPOINT_STAGES = ["before_edit", "before_finish"]
 DEFAULT_VERIFICATION_CHECKS = [
     "aiWorkItem", "aiScope", "aiGuards", "aiCheckpoint", "aiAgentRisk",
     "aiReviewPolicy", "aiBacktrack", "aiCoverage", "aiScenarioCoverage", "aiGuidelines", "aiSummary",
-    "aiStatus", "aiStatusCheck", "aiStatusConsistency", "quality",
+    "aiStatus", "aiStatusCheck", "aiStatusConsistency", "aiDiffOwnership", "quality",
 ]
 
 
@@ -163,7 +164,7 @@ def main() -> int:
         "title": title,
         "baseCommit": base_commit,
         "baselineDirtyPaths": baseline_dirty_paths,
-        "scope": [contract_rel, summary_rel, ".ai/work-items/archive/**"],
+        "scope": [contract_rel, summary_rel, ".ai/cockpit/current_status.md", ".ai/work-items/archive/**"],
         "outOfScope": out_of_scope_list,
         "sources": [{"path": contract_rel, "reason": "Initial Work Item skeleton."}],
         "unknowns": ["Replace this with concrete open questions, or clear it before mode code."],
@@ -272,6 +273,10 @@ def main() -> int:
         return 1
 
     create_observability(work_item_id=task).work_item_started(fields={"mode": args.mode, "title": title})
+
+    # This deliberately uses the complete local diff, not the Contract-aware
+    # task delta: files dirty before ai-start are not adopted by the new task.
+    print("\n".join(format_preview(preview())))
 
     if args.mode == "code":
         code, output = run_make("ai-preflight", contract=contract_rel)

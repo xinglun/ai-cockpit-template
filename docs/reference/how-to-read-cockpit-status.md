@@ -42,6 +42,14 @@ Start with these fields in order:
 
 The review is an advisory view, not an AI confidence statement. It is derived from existing Contract evidence such as `intent`, `unknowns`, `sources`, `acceptance`, `scope`, `outOfScope`, `riskAssessment`, `scenarioCoverage`, and `verification`.
 
+### Explicit blockers
+
+The report is `not_ready` immediately when `notCodable` is `true`; when `executionDecision.status` is `block`, `defer`, or `needs_human_decision`; or when a declared `agentCapability` cannot implement, cannot verify, or needs a human decision. For example, `{"notCodable": true}` is not a request for more confidence: implementation must pause until the Contract changes.
+
+## No Active Work Item
+
+`no_active_work_item` means no Contract/Summary pair is active. It does **not** mean the worktree is unchanged: the generated no-active status intentionally omits the file list, but it now surfaces a compressed `Worktree Changes` signal, a count, and an `Ownership Preview` state so dirty trees do not read as `none`. Use `make check-ai-diff-ownership` for a local ownership preview and `make check-ai-pr AI_BASE_COMMIT=<merge-base>` for final PR audit. In PR mode the audit resolves overlapping archive claims deterministically, with the latest matching archive pair winning.
+
 ## What the Recommendation Means
 
 | Recommendation | Meaning |

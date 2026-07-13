@@ -1,0 +1,231 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_r1_git_trust_root_isolation",
+  "mode": "code",
+  "title": "隔离公共 Git 入口的外部信任根",
+  "baseCommit": "af37f8e45f40294f076741383043668d2bae5cad",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "3b61cbfe79a5f5c446eb6bc42ab4ae5f4a97d790805817f6c37be116d3e6e7c6"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_r1_git_trust_root_isolation.contract.json",
+    ".ai/work-items/active/review_r1_git_trust_root_isolation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_common.py",
+    "scripts/ai_check_status_consistency.py",
+    "scripts/ai_doctor.py",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_onboard.py",
+    "scripts/check_supply_chain.py",
+    "scripts/check_release_distribution.py",
+    "scripts/check_system_invariants.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_baseline_diff.py",
+    "tests/test_supply_chain.py",
+    "tests/test_release_distribution.py",
+    "tests/test_installer.py",
+    "tests/test_adoption_e2e.py",
+    "tests/**"
+  ],
+  "outOfScope": [
+    "Changing Git repository selection semantics outside public project entry points",
+    "Changing SBOM/provenance content or release policy covered by R2",
+    "R2-R11 remediation"
+  ],
+  "sources": [
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "R1 objective and acceptance boundary."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Shared Git wrapper used by governance entry points."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Direct Git calls used by supply-chain verification."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Direct Git calls used by distribution verification."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Adoption and installer Git entry points."
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "reason": "Ambient Git environment regression coverage."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Supply-chain Git environment regression coverage."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Distribution Git environment regression coverage."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Installer Git environment regression coverage."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "End-to-end adoption trust-root coverage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "trust_boundary",
+      "verification"
+    ],
+    "reason": "A missed direct Git call could allow ambient repository selection to contaminate governance evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contract is complete; proceed with audit, minimal fixes, and regression verification."
+  },
+  "preReviewWarnings": [
+    "Review every direct subprocess Git invocation for explicit removal of ambient GIT_* variables.",
+    "Confirm target repository and recorded baseCommit remain stable under a foreign Git environment."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All public Git entry points remove ambient GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, and related GIT_* variables before invoking Git.",
+    "With external Git environment variables pointing to another repository, current_head, diff, scope, status, PR, archive evidence, supply-chain, distribution, and adoption checks remain bound to the target repository.",
+    "Regression tests cover foreign Git environment contamination for shared governance, supply-chain, distribution, and adoption paths.",
+    "The Work Item passes all required AI/project checks, is archived, and is committed locally without pushing."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Ambient GIT_DIR, GIT_WORK_TREE, or GIT_INDEX_FILE can redirect Git commands to an unrelated repository, corrupting current-head, diff, scope, status, PR, archive, and adoption trust evidence.",
+    "constraints": [
+      "Keep target repository selection anchored to PROJECT_ROOT or the explicit target path.",
+      "Do not broaden the fix into R2 supply-chain evidence semantics.",
+      "Preserve existing command output and clean-worktree behavior."
+    ],
+    "rationale": "Centralizing environment scrubbing at shared and direct Git entry points prevents ambient trust-root contamination while preserving existing workflows."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Foreign GIT_DIR, GIT_WORK_TREE, and GIT_INDEX_FILE variables point to another repository while shared governance Git operations remain target-bound.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_baseline_diff.py", "scripts/ai_common.py"]
+    },
+    {
+      "scenario": "Supply-chain and distribution Git checks remain target-bound under ambient Git variables.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_supply_chain.py", "tests/test_release_distribution.py"]
+    },
+    {
+      "scenario": "Adoption records the target repository HEAD and preserves preflight rejection under foreign Git variables.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_installer.py", "tests/test_adoption_e2e.py"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

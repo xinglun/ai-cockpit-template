@@ -9,7 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from ai_common import PROJECT_ROOT
+from ai_common import PROJECT_ROOT, clean_git_environment
 
 
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
@@ -67,6 +67,7 @@ def live_no_active_changed_files(status_path: Path) -> list[str]:
     head = subprocess.run(
         ["git", "rev-parse", "--verify", "HEAD"],
         cwd=PROJECT_ROOT,
+        env=clean_git_environment(),
         text=True,
         capture_output=True,
         check=False,
@@ -77,6 +78,7 @@ def live_no_active_changed_files(status_path: Path) -> list[str]:
     diff = subprocess.run(
         ["git", "diff", "--name-only", "-z", "HEAD"],
         cwd=PROJECT_ROOT,
+        env=clean_git_environment(),
         text=True,
         capture_output=True,
         check=False,
@@ -88,6 +90,7 @@ def live_no_active_changed_files(status_path: Path) -> list[str]:
     untracked = subprocess.run(
         ["git", "ls-files", "--others", "--exclude-standard", "-z"],
         cwd=PROJECT_ROOT,
+        env=clean_git_environment(),
         text=True,
         capture_output=True,
         check=False,
@@ -193,7 +196,7 @@ def repair_status(status_path: Path = DEFAULT_STATUS) -> int:
         )
     if status_path != DEFAULT_STATUS:
         command.extend(["--output", str(status_path)])
-    result = subprocess.run(command, cwd=PROJECT_ROOT, check=False)
+    result = subprocess.run(command, cwd=PROJECT_ROOT, env=clean_git_environment(), check=False)
     if result.returncode != 0:
         return result.returncode
 

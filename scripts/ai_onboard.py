@@ -9,6 +9,7 @@ import subprocess
 from pathlib import Path
 
 from ai_check_adoption_ready import readiness_failures
+from ai_common import clean_git_environment
 from ai_doctor import diagnose
 
 
@@ -122,6 +123,7 @@ def run_make(root: Path, target: str) -> tuple[int, str]:
         result = subprocess.run(
             ["make", target],
             cwd=root,
+            env=clean_git_environment(),
             text=True,
             capture_output=True,
             check=False,

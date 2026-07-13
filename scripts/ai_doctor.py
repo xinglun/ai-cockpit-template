@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 from ai_check_adoption_ready import readiness_failures, readiness_role_message
+from ai_common import clean_git_environment
 
 
 def command_ok(root: Path, *command: str) -> bool:
@@ -22,6 +23,7 @@ def command_ok(root: Path, *command: str) -> bool:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
                 check=False,
+                env=clean_git_environment(),
             ).returncode
             == 0
         )
@@ -68,6 +70,7 @@ def diagnose(root: Path) -> tuple[list[str], list[str], list[str]]:
             text=True,
             capture_output=True,
             check=False,
+            env=clean_git_environment(),
         ).stdout
     except OSError:
         dirty = ""

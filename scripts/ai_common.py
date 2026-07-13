@@ -19,6 +19,11 @@ SCENARIO_COVERAGE_STATUSES = {"verified", "unverified", "not_applicable"}
 GIT_ENV_PREFIX = "GIT_"
 
 
+def clean_git_environment() -> dict[str, str]:
+    """Return the process environment without ambient Git repository overrides."""
+    return {key: value for key, value in os.environ.items() if not key.startswith(GIT_ENV_PREFIX)}
+
+
 def _reject_duplicate_keys(path: Path) -> Any:
     def hook(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         data: dict[str, Any] = {}
@@ -46,11 +51,10 @@ def save_json(path: Path, data: dict[str, Any]) -> None:
 
 
 def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
-    env = {key: value for key, value in os.environ.items() if not key.startswith(GIT_ENV_PREFIX)}
     return subprocess.run(
         ["git", *args],
         cwd=PROJECT_ROOT,
-        env=env,
+        env=clean_git_environment(),
         text=True,
         capture_output=True,
         check=False,

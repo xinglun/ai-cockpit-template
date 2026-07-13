@@ -14,6 +14,7 @@ from typing import Any
 from check_docs_metadata import README_FILES, check_repository
 from check_release_distribution import exercise_installer
 from install_ai_cockpit import STACKS
+from ai_common import clean_git_environment
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -99,6 +100,7 @@ def release_archive_digest(root: Path, ref: str) -> str:
     result = subprocess.run(
         ["git", "archive", "--format=tar.gz", "--prefix=ai-cockpit/", ref],
         cwd=root,
+        env=clean_git_environment(),
         text=False,
         capture_output=True,
         check=False,

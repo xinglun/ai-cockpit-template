@@ -16,6 +16,7 @@ from ai_check_work_item import validate_contract
 from ai_common import (
     PROJECT_ROOT,
     changed_paths,
+    clean_git_environment,
     load_json,
     non_empty_string,
     path_fingerprint,
@@ -46,7 +47,7 @@ def _restore_files(files_to_move: list[tuple[Path, Path]]) -> None:
 
 
 def _generate_status(command: list[str]) -> None:
-    subprocess.run(command, cwd=PROJECT_ROOT, check=True)
+    subprocess.run(command, cwd=PROJECT_ROOT, env=clean_git_environment(), check=True)
 
 
 def _worktree_digest(paths: list[str]) -> str:

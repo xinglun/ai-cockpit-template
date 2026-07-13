@@ -14,7 +14,13 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Iterator
-from ai_common import PROJECT_ROOT, capture_dirty_baseline, current_head, save_json
+from ai_common import (
+    PROJECT_ROOT,
+    capture_dirty_baseline,
+    clean_git_environment,
+    current_head,
+    save_json,
+)
 from ai_check_status_consistency import DEFAULT_STATUS, validate_status_consistency
 from ai_check_diff_ownership import format_preview, preview
 from ai_generate_status import write_active_status, write_no_active_status
@@ -122,7 +128,12 @@ def run_make(target: str, *, contract: str | None = None) -> tuple[int, str]:
         command.append(f"CONTRACT={contract}")
     try:
         result = subprocess.run(
-            command, cwd=PROJECT_ROOT, text=True, capture_output=True, check=False
+            command,
+            cwd=PROJECT_ROOT,
+            env=clean_git_environment(),
+            text=True,
+            capture_output=True,
+            check=False,
         )
     except OSError as exc:
         return 127, str(exc)

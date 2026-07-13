@@ -15,6 +15,7 @@ from typing import Any
 from ai_common import (
     PROJECT_ROOT,
     changed_paths,
+    clean_git_environment,
     current_head,
     load_json,
     path_fingerprint,
@@ -45,6 +46,7 @@ def run(command: list[str]) -> tuple[int, int, str]:
     result = subprocess.run(
         command,
         cwd=PROJECT_ROOT,
+        env=clean_git_environment(),
         check=False,
         text=True,
         stdout=subprocess.PIPE,

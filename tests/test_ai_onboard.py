@@ -3,9 +3,14 @@ import sys
 from pathlib import Path
 
 import ai_onboard
+import ai_common
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_onboard_git_environment_helper_excludes_git_overrides():
+    assert all(not key.startswith("GIT_") for key in ai_common.clean_git_environment())
 
 
 def test_onboard_profile_status_detects_confirmed_and_proposed(tmp_path):

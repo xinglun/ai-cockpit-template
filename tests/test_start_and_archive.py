@@ -3,7 +3,12 @@ import sys
 import subprocess
 import fcntl
 import ai_archive_work_item
+import ai_common
 import ai_start
+
+
+def test_start_and_archive_use_clean_git_environment():
+    assert all(not key.startswith("GIT_") for key in ai_common.clean_git_environment())
 
 
 def archive_contract(mode: str = "review") -> dict[str, object]:
@@ -222,7 +227,7 @@ def test_archive_dry_run_and_successful_review_item(tmp_path, monkeypatch):
 
     calls = []
 
-    def fake_run(cmd, cwd=None, check=False):
+    def fake_run(cmd, cwd=None, check=False, **kwargs):
         calls.append(cmd)
         return None
 

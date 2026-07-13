@@ -5,9 +5,14 @@ import sys
 from pathlib import Path
 
 from install_ai_cockpit import Installer
+import ai_common
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_finish_git_environment_helper_excludes_git_overrides():
+    assert all(not key.startswith("GIT_") for key in ai_common.clean_git_environment())
 
 
 def run(root: Path, *args: str, env=None):

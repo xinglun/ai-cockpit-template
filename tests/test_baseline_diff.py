@@ -30,6 +30,7 @@ def test_git_helpers_ignore_ambient_git_dir_and_work_tree(tmp_path, monkeypatch)
     monkeypatch.setattr(ai_common, "PROJECT_ROOT", repo)
     monkeypatch.setenv("GIT_DIR", str(other / ".git"))
     monkeypatch.setenv("GIT_WORK_TREE", str(other))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(other / "index"))
     monkeypatch.setenv("GIT_CONFIG_GLOBAL", str(other / "global.gitconfig"))
 
     (repo / "tracked.txt").write_text("task\n", encoding="utf-8")
@@ -38,6 +39,7 @@ def test_git_helpers_ignore_ambient_git_dir_and_work_tree(tmp_path, monkeypatch)
     assert ai_common.changed_paths({"baseCommit": base, "baselineDirtyPaths": []}) == [
         "tracked.txt"
     ]
+    assert all(not key.startswith("GIT_") for key in ai_common.clean_git_environment())
 
 
 def test_committed_changes_since_base_remain_visible(tmp_path, monkeypatch):

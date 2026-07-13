@@ -5,6 +5,7 @@ from types import SimpleNamespace
 import pytest
 
 import ai_check_review_policy
+import ai_common
 import ai_check_scope
 import ai_check_status
 import ai_check_status_consistency
@@ -12,6 +13,10 @@ import ai_checkpoint
 import ai_finish
 import ai_generate_status
 import ai_governance_compression
+
+
+def test_governance_entrypoints_can_clean_ambient_git_environment():
+    assert all(not key.startswith("GIT_") for key in ai_common.clean_git_environment())
 
 
 @pytest.fixture(autouse=True)

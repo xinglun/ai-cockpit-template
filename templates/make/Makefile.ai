@@ -190,7 +190,10 @@ check-ai:
 		"$${MAKE:-make}" check-ai-agent-risk && \
 		"$${MAKE:-make}" check-ai-review-policy && \
 		"$${MAKE:-make}" check-ai-backtrack && \
-		"$${MAKE:-make}" check-ai-coverage-guard; \
+		"$${MAKE:-make}" check-ai-coverage-guard && \
+		"$${MAKE:-make}" check-ai-diff-ownership && \
+		test -n "$(AI_BASE_COMMIT)" && \
+		"$${MAKE:-make}" check-ai-pr AI_BASE_COMMIT="$(AI_BASE_COMMIT)"; \
 	fi
 
 check-ai-pr:

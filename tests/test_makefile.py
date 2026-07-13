@@ -166,7 +166,7 @@ def test_check_ai_no_active_branch_is_read_only(tmp_path):
     (tmp_path / "Makefile").write_text(makefile_content, encoding="utf-8")
 
     result = subprocess.run(
-        ["make", "-n", "check-ai"],
+        ["make", "-n", "check-ai", "AI_BASE_COMMIT=abc123"],
         cwd=tmp_path,
         text=True,
         capture_output=True,
@@ -176,3 +176,13 @@ def test_check_ai_no_active_branch_is_read_only(tmp_path):
     assert result.returncode == 0, result.stdout + result.stderr
     assert "ai_generate_status.py --no-active" not in result.stdout
     assert "check-ai-status-consistency" in result.stdout
+    assert "check-ai-diff-ownership" in result.stdout
+    assert 'check-ai-pr AI_BASE_COMMIT="abc123"' in result.stdout
+
+
+def test_distributed_makefile_no_active_branch_requires_pr_gate():
+    template = (ROOT / "templates" / "make" / "Makefile.ai").read_text(encoding="utf-8")
+
+    assert "check-ai-diff-ownership" in template
+    assert 'test -n "$(AI_BASE_COMMIT)"' in template
+    assert 'check-ai-pr AI_BASE_COMMIT="$(AI_BASE_COMMIT)"' in template

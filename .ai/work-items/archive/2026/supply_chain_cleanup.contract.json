@@ -1,0 +1,1619 @@
+{
+  "contractVersion": 2,
+  "workItemId": "supply_chain_cleanup",
+  "mode": "code",
+  "title": "Converge supply-chain helper coverage",
+  "baseCommit": "4a157f9e3299bd141892df81e3efe8154564d351",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/bandit_low_risk_baseline.json",
+      "status": "A",
+      "fingerprint": "bad182fc8b900e52e8c886a8ff8c6b74a59a0e273d4b9655c5052602c479a2ea"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "628c30e6ecd0094069aa614166801cf585d51f9f08616f7950d93c412621a0dc"
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "status": "A",
+      "fingerprint": "47366ec9b72bf5045243dfdcde4a081660d27fac64a3ed0963eed8b45565eb0b"
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "status": "A",
+      "fingerprint": "72b0bccfc8f60d4a2c1620e24255022b608595978adbbfaa70bb6e6ecf7151af"
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "9d33c2dbb914c117662a130b994b7e308474ee06cc06d6955d7bfc3c1484d22b"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_summary.example.json",
+      "status": "M",
+      "fingerprint": "19faf46e6f485945406a70977d6f2e841a291b1c05f80464f65b6682fcef4598"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/address-repository-review.summary.json",
+      "status": "M",
+      "fingerprint": "b79dfea53e6cbdf470e8e9ddfc7e2dc3dbf33a64d73773b93c89f58e8ea4f4e5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/address_adoption_review.summary.json",
+      "status": "M",
+      "fingerprint": "6d8fb1df73390fbe584f34510fabddd72365cf0307f3fbbbb6d69d18754c4aca"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption-distribution-base-commit-fix.summary.json",
+      "status": "M",
+      "fingerprint": "d0938f164a4f5db812cfe3e5a9b7cad6dd98c43ec40c5634bbf9cd997e3f8bfe"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_git_env_isolation.summary.json",
+      "status": "M",
+      "fingerprint": "018367d3f57c98dfda2f940045826b862ae01020f47db0539b7c5c7ca2643b09"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_alignment.summary.json",
+      "status": "M",
+      "fingerprint": "9e3d559e382949a3ec594c0cdb57307f4f0a6387e7edd17b3f7efddea4e79bd4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_ready_template_exemption_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "8ff997418b4115c78d3d220ce7e72566962ce04ddb5baf5e73bdce975652ade7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_ready_template_exemption_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "44aa96078edcd796b79cdacde039c89b05aa8f6791603741657ec6e990a5fe32"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_cockpit_docs_and_rules.summary.json",
+      "status": "M",
+      "fingerprint": "2ba73f95b49eccc78ffec497ee2dd6295411a932465c504e583aa233b2292216"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_cockpit_runtime_guide_ja.summary.json",
+      "status": "M",
+      "fingerprint": "a67f32e725832894cc387d080c776d3abf2b13d95e2e62b4d49462cc3c364289"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_release_documentation.summary.json",
+      "status": "M",
+      "fingerprint": "7b5adab2f72e8726319a04ed4fb054ef3391812e2e0590df2727e0480ea756b5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_v26_docs_and_status.summary.json",
+      "status": "M",
+      "fingerprint": "f2d56868e0114507d01f2041c6d4b36fb11c6a7fa7ae5d9ea174bd181263e708"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/align_v2_5_docs_and_status.summary.json",
+      "status": "M",
+      "fingerprint": "cb64aa0d9d002426092f9c2e26418f0ff217ebdf4962ce317e7cf26fa9e3ac01"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive-evidence-consistency-fix.summary.json",
+      "status": "M",
+      "fingerprint": "e54590d78261d08b88591763b3877a27febe0dfd621d35b6c4f8afccce869977"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive-upgrade-integrity.summary.json",
+      "status": "M",
+      "fingerprint": "e08fb6b9c8e826dac7e7cbc0f0011f4a58f8a2bd041c8a38ef492c3f47a20843"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_preview_parity.summary.json",
+      "status": "M",
+      "fingerprint": "c68d44aa5fdabb30181423d34504bc38ba0510bf40132f566c98def8876562f2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_requires_validation_before_move.contract.json",
+      "status": "A",
+      "fingerprint": "da9201528dc2a453ac0b0c2da034f8b74ef452e3e6fd71dabc89a7e927e8d227"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_requires_validation_before_move.summary.json",
+      "status": "A",
+      "fingerprint": "dfa14d383524cce888f2f0a8ee7fb5fbfc753376cab1b4613d0b4246c63a32f3"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_summary_version_compatibility.contract.json",
+      "status": "A",
+      "fingerprint": "b0a57bdf3fbd7b989443e51ec5b51337363b05b0c7afe91d951f9f2dd90b6895"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_summary_version_compatibility.summary.json",
+      "status": "A",
+      "fingerprint": "79295af0b7941676c3d8fdea84fb74a6739740e2456a8695e071a7afc9313187"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_work_item_integrity.contract.json",
+      "status": "A",
+      "fingerprint": "bf14fbf171f6bc2b8b7e6f02215ab70f6f7d627c7947f04a04b7d89beb27ba7c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_work_item_integrity.summary.json",
+      "status": "A",
+      "fingerprint": "5e1e793d0e594d0455a1e6f0f69d2e67ed9b7e009bf2251b0baffe0569bdbd08"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/bootstrap_adoption_flow.summary.json",
+      "status": "M",
+      "fingerprint": "1e74596256b3d29f43e0b25863a0ad24c159543ff447f52f446c1d4cc06f6327"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ci-base-env-isolation.summary.json",
+      "status": "M",
+      "fingerprint": "b5025d24ae6208a7c611ab769f1c48d442e4c8cbeec53a78423d3d34ad2e3c21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ci-heredoc-fix.summary.json",
+      "status": "M",
+      "fingerprint": "9dd77e1ae3cda5837839010872d4b6773fae983e0604e220aa064f55499ee111"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ci-temp-baseline-isolation.summary.json",
+      "status": "M",
+      "fingerprint": "4b49ada31648bd80beef49bd399b9c006b81bbb5adfd97c7aead7e38aee33745"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/collaborative_environment_positioning.summary.json",
+      "status": "M",
+      "fingerprint": "0f176821f1c4dfef3577a8c20b0083daf997d4aca660d8ac9f6ede3290fb1a12"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/configure_android_java_calibration.summary.json",
+      "status": "M",
+      "fingerprint": "542a38f4d2055d7a90ef81d697125e7111e801f527ea76af6f7169d7ad7e972d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/coverage_association_and_onboarding.summary.json",
+      "status": "M",
+      "fingerprint": "887ca0f70c7ad142c0bf9132e0d2ee54d0f885181fb92f3f9b2c20a197c40676"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-documentation.summary.json",
+      "status": "M",
+      "fingerprint": "15ec8f11258ea8b1118c9772dac4b1e240a06e169ec98aa9967f23eb083af2a7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff-ownership-preview.summary.json",
+      "status": "M",
+      "fingerprint": "c2e2f6aecd21a8a590d95574561fdd18d762a3bee0d8002d96d31811a3e520c2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff_ownership_forbidden_boundary.summary.json",
+      "status": "M",
+      "fingerprint": "cb3482c087693df5ee1988fa6a1cb01ae20a1d284bf7c2500c758684c04e7b4e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff_ownership_forbidden_boundary_fix.contract.json",
+      "status": "A",
+      "fingerprint": "d2c8adab102fb5844faed72a0fdecd5eacf1e5ba64b6f82b25d2339da925628e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff_ownership_forbidden_boundary_fix.summary.json",
+      "status": "A",
+      "fingerprint": "be9e5072899389d7503696646e9309e31b3875a1cd323de6c0cc80460071e5b4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/distribution_parity_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "29089159d8a38834eeaaccaee1dc42174f2f52a7e70ecedd07631627ec637a2a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/doc_info_architecture_split.summary.json",
+      "status": "M",
+      "fingerprint": "0412470b80c9960fdeab06ce39c105c7a041de2a7664e928d0bb110a6e24b22c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/doc_installation_tidy.summary.json",
+      "status": "M",
+      "fingerprint": "a5a2ebff89dc763498ce110cbf2363e14980aed04d14ff401d7cf701955bd121"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/doc_terminology_final_polish.contract.json",
+      "status": "A",
+      "fingerprint": "58d18be247fa604b5a66cfedbacdc7436d3e628ed2cd0e86f87915e2a7ec555c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/doc_terminology_final_polish.summary.json",
+      "status": "A",
+      "fingerprint": "ac76c37aded2ca5517cf65fd1d88af88cb9080f2345053380cf5f4aa0593e92e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/docs_architecture_ja_comments.summary.json",
+      "status": "M",
+      "fingerprint": "fdd65a26f5e5ca0a4e65671adc6297d609ab73a2fb11d232423fda9ecfebec76"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/docs_relayout_getting_started_reference_philosophy.summary.json",
+      "status": "M",
+      "fingerprint": "e07e27596f2f8eb81f73edf2fbe3979d69d0ee585d1aaae598d1c3c6ecf23aad"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/establish_work_item_policy_and_add_lightweight_problem_intent.summary.json",
+      "status": "M",
+      "fingerprint": "cdc5404e4d729d073e8cafbbc85ba5fff8dc3ae9b510c2cb8e0b513934c8be7f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/executable_drift_cleanup.contract.json",
+      "status": "A",
+      "fingerprint": "bda51876b8888aae2598733cb69cd9ab6c9354866013acec1b6f5f7f2af8582e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/executable_drift_cleanup.summary.json",
+      "status": "A",
+      "fingerprint": "8d2991e70440693de95a375e4f1c112433b813d7fb78394269c32bf90b54bf56"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fail_closed_coverage_readiness.summary.json",
+      "status": "M",
+      "fingerprint": "a3c8311dd5cfd5a24c92029e3bcb559d271c3c7f7fb94d9aa52f23111d790292"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_archive_result_targeting.contract.json",
+      "status": "A",
+      "fingerprint": "e2ecd09d9f1830c1a1dc7a7e4eddb41ef40386c15d6d6f4ba1f7d0e5d861e8cc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_archive_result_targeting.summary.json",
+      "status": "A",
+      "fingerprint": "56a22c2835cce70b718d9fac3f374bdc2d03b59b8e558fdbb2947cae6efa5cc7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_output_redaction_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "8864d0037eae1e253cb247313a64b76ac97c5df108898c4070221cf0872e0b7e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_output_redaction_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "85c00df7970ce1f3ece858ada739398fb2d5f80a45e51b8f8299a3cc424b21ff"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_sensitive_output_redaction.summary.json",
+      "status": "M",
+      "fingerprint": "460cd3f834bd459a4cd2d165984dd8fa497cb06a0728c554747c640126cb8f73"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_ai_check_summary_portable_archive_path.summary.json",
+      "status": "M",
+      "fingerprint": "c980736d040ce00081423f6b8871112bb11f7c7a8ae9f62897742041e22efffc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_archive_pr_no_op_restore.summary.json",
+      "status": "M",
+      "fingerprint": "19c98d6012365e0cdaebeeee025840ad665dc52de3058b63377197d9063da643"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_archive_scope_sync.summary.json",
+      "status": "M",
+      "fingerprint": "de3553caba90d5cfe6869e3efd0c9b961e779bd18466b36dc934002720fe14a2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_bugs_and_improve_examples_and_visibility.summary.json",
+      "status": "M",
+      "fingerprint": "22e077be1310e6874949af13aac303a0e1b293b4f2c3bc143fd523db2690eb07"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_cockpit_bugs_and_polish.summary.json",
+      "status": "M",
+      "fingerprint": "2d0fbee9b3cd139760d6635181a8c4beed18ebcffaf7491b53d64c85ac8117fc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_compatibility_ci_regression.summary.json",
+      "status": "M",
+      "fingerprint": "2ef13621680c8b2e28029e162bd29b4363fad3115ede3936c2af05bacdab6229"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_doc_structure_and_jp_compliance.summary.json",
+      "status": "M",
+      "fingerprint": "c8fca2722314018f268c18e5122b75b63d4665acab11477ba079acc1d607bb27"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_glossary_observability_and_checks_guidelines.summary.json",
+      "status": "M",
+      "fingerprint": "562381f8f442b7501c5005d2eeda91fb6313b2921616cab1705c800fd7c5d9c6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_install_smoke_evidence.summary.json",
+      "status": "M",
+      "fingerprint": "af88ddb98e04d3a33379def666b6b0e0b61aac1d74352d52757495e8d9e8ce0c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_intent_alignment_legacy_compatibility.summary.json",
+      "status": "M",
+      "fingerprint": "b3d4d962b84f169f28dd4bd8537a4f847de0130da40c75b5b1d6d81aa1f3f7a3"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_localized_version_narrative_and_status.summary.json",
+      "status": "M",
+      "fingerprint": "dec8b843e02e5422d84bd33b833f3bbb1eab457bdc0f3b2581dc1d679d07944b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_pr_paired_ownership.summary.json",
+      "status": "M",
+      "fingerprint": "cc2cfa8af6b029261666ffcb420fc286e6446b3a86c29bfff2c454f6725b1856"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_release_compatibility_ci.summary.json",
+      "status": "M",
+      "fingerprint": "70d364df532a183bf3bc5b2b237834debaa28b2f708a3e4657b55323a991266d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_release_distribution_git_isolation.summary.json",
+      "status": "M",
+      "fingerprint": "fd099430f7513b8281ac6716366cbe0d3dd03cac5015a0908a1094972d698311"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_remaining_docs_and_front_matter_bugs.summary.json",
+      "status": "M",
+      "fingerprint": "54f131e5abe5834d304ab52ac6f14ee9954290333695dbaac753e58d75297d21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_ruby_fixture_lint.summary.json",
+      "status": "M",
+      "fingerprint": "aa78e704fc999ea77c5ca109d813af4eb414bf3aa74cd6676c31689333f6c997"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_ruby_heredoc_alignment.summary.json",
+      "status": "M",
+      "fingerprint": "d5df36e93f77a7840836cddaf017c3a35194e065a19faf3e6e2afc8a1cd83df4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/git_trust_root_isolation.contract.json",
+      "status": "A",
+      "fingerprint": "8c1ab7048c1b2e23df1570f042b233bd367c57b376988d634185567ec776d1c0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/git_trust_root_isolation.summary.json",
+      "status": "A",
+      "fingerprint": "957441cdbe63bfbdaef147385be35316d3d1e246817b9ac4606d1b9cdbc22aab"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-compression-legacy-cleanup.summary.json",
+      "status": "M",
+      "fingerprint": "44ee203f80775934269ea093eed9cecb8ee5d701d1948f6b167eb0ab5382e360"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance-documentation-alignment.summary.json",
+      "status": "M",
+      "fingerprint": "541a236a0690fc4f120cb0cbbedaf80eb22430d89bf85cb0fc0a4b00767fa6c6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_archive_ownership_integrity.contract.json",
+      "status": "A",
+      "fingerprint": "4dab49aaeab63aabf04b7081a9c54c2fb7d3ce30c4fb23c24281f532b66500ef"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_archive_ownership_integrity.summary.json",
+      "status": "A",
+      "fingerprint": "a60999ea42f7265b27a9d349ec5bbc0b2b251e692bb63568b40e0431aa795f94"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_chain_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "b2a07c27fc9599475ffb12aadb7cce73799acfd402e554fdc749766b50d736e9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_control_plane_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "0536d48cf873d8585c6f69e8e7c4c1765b7a7251761f54c31511ca34f5626e21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_installation_docs.summary.json",
+      "status": "M",
+      "fingerprint": "fd50a6e1c27f530977802ac943e0cda92975488089079001b4fb4c5a707d9a2a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/improve_cockpit_docs_and_examples.summary.json",
+      "status": "M",
+      "fingerprint": "18ecc3e6b96d8e33d125f003c760a98201c7e5b4fa99fbc5ef96eb7d0cbaaaa2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/improve_lang_stacks_and_coverage_policy_defaults.summary.json",
+      "status": "M",
+      "fingerprint": "959d74df1b849d97455bc871c0ec6a7a35e67ceaed30c11602d03378d5517b01"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/improve_yaml_parser_and_docs.summary.json",
+      "status": "M",
+      "fingerprint": "a97719fbcac405b08d26fc701e0cee84c8d6fd305b0e2cb21268e89da5eddfc4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/install_integrity_release_docs.summary.json",
+      "status": "M",
+      "fingerprint": "c827bddc76cab9f3e0b6fe823a2de441c2cb5572776c9a8aed2da35626b9be3d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installation_readiness_flow.summary.json",
+      "status": "M",
+      "fingerprint": "330d2ad051bd55bdebf63beaac65f56b47883c8f93b7c0af8f5f84b96a5b3e8a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_supply_chain_baseline_exclusion.contract.json",
+      "status": "A",
+      "fingerprint": "aa4bfd2622d645b391cf5fe46808e5e41878895a910653cbf2cd9b4423e3bab7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_supply_chain_baseline_exclusion.summary.json",
+      "status": "A",
+      "fingerprint": "13edb999121f81dc34fd6694125e43025ae40f4bb88f082abcb5990e25a6e0e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_target_isolation.contract.json",
+      "status": "A",
+      "fingerprint": "9f3bfe5cec7c6b774c76bb504bbd8f838fe209f2876ddba989fce1f3eecb94ec"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_target_isolation.summary.json",
+      "status": "A",
+      "fingerprint": "064cb2aebc4f7e03b03cbdf748bdbd3797f92fdd1ee707970fdfa813652586ca"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/isolate_release_ai_base_commit.summary.json",
+      "status": "M",
+      "fingerprint": "63c4f17403043b9e27898aa5432b045e4ebe460aa31eeb3ea7d36fa51d20ac14"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/link_work_item_style_guide_from_stable_entrypoint.summary.json",
+      "status": "M",
+      "fingerprint": "ea8d2b9f0d7cd60d6e79a1994ec3ff4d596294079dd97ee7e64ef7ff317234da"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_phase_a_docs.summary.json",
+      "status": "M",
+      "fingerprint": "6d461b5fa151c47feef1938c0a72267dc7f66b3fc4b2cefcaef2010c7cdbdc49"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_phase_b_doctor.summary.json",
+      "status": "M",
+      "fingerprint": "467f37f908be0550ff9e11aef8675f5b839f6267d83bee1e2acc57b85cd7be2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_phase_c_examples.summary.json",
+      "status": "M",
+      "fingerprint": "2b4730ac409d6094add2266afc957b8500711f57f63e16a501f8dac04742a541"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_phase_d_optional.summary.json",
+      "status": "M",
+      "fingerprint": "ceb0acb8d165533dbf90f86790708c9743bbb29c53a5a1d87342c6c1d1834e4e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/local_calibration_review_followup.summary.json",
+      "status": "M",
+      "fingerprint": "9602a6ee379a8383efce4f949ca78c3387354d85b2d9100e53967e97d29e23da"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/make_namespace_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "a098a9d8c4d32844a8baf83978b4489b7fd136b49ffc159a2dd81bee9aa3e9f5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no-active-status-stability.summary.json",
+      "status": "M",
+      "fingerprint": "8f4d8e1913ab931290a6e2548ef9f25ecaee542178616c4f0eb3ad346d84f885"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/no_active_status_live_changes.summary.json",
+      "status": "M",
+      "fingerprint": "9531088ae0557a1b3b6640a8d6249668bdf19545461667fdd3178de5d13b5f73"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.contract.json",
+      "status": "A",
+      "fingerprint": "fcd299a5c6eb3d1004dffcc415b2b73ca7d74d196ac9429c1a0d46cd9a80abda"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.summary.json",
+      "status": "A",
+      "fingerprint": "7fcc8a23918cec3fa770fe0bd9af730cbb40df0c45b89ed7fc6f9cc3ac1fba79"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pin_extended_gradle.summary.json",
+      "status": "M",
+      "fingerprint": "59f65d83f67ac28844b76ff58bdbeb92e15a1f51e5dc3e38aabfe108af6d4ba2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_stack_onboarding.summary.json",
+      "status": "M",
+      "fingerprint": "2dfd4243167e831608bf118b4ecad182d06a5b3595424fdd6600b773ded22000"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-preview-aggregate-alignment.summary.json",
+      "status": "M",
+      "fingerprint": "fc4a3cf153705c1b10b0328c44faf9cb344f8827743b295db68c483816869c32"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_owner_order.summary.json",
+      "status": "M",
+      "fingerprint": "de5991c86bba9dd0431e3539b01889661594df4e5e60230af282dfb9fc9ea73d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_owner_order_determinism.contract.json",
+      "status": "A",
+      "fingerprint": "fca22f9d5db6d995ae996bdaf6d601082ff624d3d44059dcb19b85878f6174da"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_owner_order_determinism.summary.json",
+      "status": "A",
+      "fingerprint": "a5e8101e9e0eb599738280319efb4c0d0652e4c69001064b727519c72547107a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_determinism.contract.json",
+      "status": "A",
+      "fingerprint": "49a76aac4ab9928e372598686dd165f2e385e3516505682d77fa277e081677fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_determinism.summary.json",
+      "status": "A",
+      "fingerprint": "4f533b62f08f6dd15c012309efcb1b102791cf624555ea4566483a69145b1e6b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_input_order.contract.json",
+      "status": "A",
+      "fingerprint": "68e1da905d0c7338bc8e222911da9c6cfbd37c0cd7ff9cf1e880db21644aa33e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_input_order.summary.json",
+      "status": "A",
+      "fingerprint": "c3b2ed9af87eb07e9fb4e492c6a295d9af404c182e74b941ebc96561b96f2f41"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_no_op_restore_current_worktree.contract.json",
+      "status": "A",
+      "fingerprint": "9755f084c21a79a5581a4e6c488c1af69c34ff92e0f65cd6fc7a7149c024f8d8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_no_op_restore_current_worktree.summary.json",
+      "status": "A",
+      "fingerprint": "c06fb658063ee13cf4478fa3d0dbda29d23eb78424e0919e59e3703a40fc63ff"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_ready_cleanup.summary.json",
+      "status": "M",
+      "fingerprint": "15ff5727df9bf2a5c34567f725765cd80ef414fde7c5a1ea8a202efa576d4b5e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pre-merge-environment-isolation.summary.json",
+      "status": "M",
+      "fingerprint": "1c0fdfde826af27fe31939decb508b613c61c8e91af678e26334f0d21a815c9a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preflight-flow-summary-fix.summary.json",
+      "status": "M",
+      "fingerprint": "abccd18fc24d4ab424a5bdc5d067e1d4f305dbcacb3d1326f554bb30b8c66242"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preflight-flow.summary.json",
+      "status": "M",
+      "fingerprint": "4d6d3986efe37beeb9461123a36435ff4b63296deed5e2e9305c504f3ab07ce8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preflight-report-consistency-cleanup.summary.json",
+      "status": "M",
+      "fingerprint": "e3c384041c7e09e6739a55d39b4a4c4cda0a5e59167f594142837d8f0e450f8c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preflight-review-visibility-pause.summary.json",
+      "status": "M",
+      "fingerprint": "1615c404ab07bedc9cd25e59d2228c881ab674ff9d93047ce0a834a66f2d8af3"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preflight-review.summary.json",
+      "status": "M",
+      "fingerprint": "c244071ba6d2c0fb5440f70a2fb375cf1a30119181249ba0f4a2d0d2af5ed537"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/preserve_project_glossary.summary.json",
+      "status": "M",
+      "fingerprint": "e51f596aebbee6bfebcfa4914172e8d1c114462ff1342b51650c13d2148b4896"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/private_repo_release_auth.summary.json",
+      "status": "M",
+      "fingerprint": "c1033e5d68830ebfc05e39f4ae925f77d3848acd8a1718feefdaf5ac087812d6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/project_governance_v1.summary.json",
+      "status": "M",
+      "fingerprint": "b1d0f65b4c3cbab4f74184a32fd8f7416eb49bd81eb040226a46d6542abb8960"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/public_release_distribution_no_auth.summary.json",
+      "status": "M",
+      "fingerprint": "c514552bf54d603855ab19166a8e24f6903f7e5fe8eb7925de79620404495488"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/realign_ai_cockpit_v2.summary.json",
+      "status": "M",
+      "fingerprint": "90985da319da26bb4be78daa948ab8e1b61b6430f10399b781a142b7030c055e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_053_and_configure_adoption.summary.json",
+      "status": "M",
+      "fingerprint": "85427aa713d4156e86c2ae64c7cdd069ecd9122311b319430c0525d4e42453cf"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_candidate_readiness.summary.json",
+      "status": "M",
+      "fingerprint": "52282197070ea0f0187185ab419a8c9007ac69b7a7b0fd55ea1f2c49cdeca7e4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_contract_alignment.summary.json",
+      "status": "M",
+      "fingerprint": "601f994f17283a0f445f895e16d54c34c2bf9fb7b28f8f62e5bb4bbe45abd3dc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_anonymous_check_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "d0cc8ce5614814ef3de71d540e00db62bff9aac8cc832fbbe879ce197a21a849"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_anonymous_check_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "12176d78de1421a64f515136d0b59214d090ddba8a54e36ca3eab5b38e21a4fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_duplicate_auth.summary.json",
+      "status": "M",
+      "fingerprint": "bfdbdf1b86a78bc568a504623b4d11f0f32887434e661593b3a4c5529fc3c4c9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_git_isolation.summary.json",
+      "status": "M",
+      "fingerprint": "96b00da5d6daf3b0730c4ee68d58a1b7f781adc3306c87644d222b8d2df565d2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_installer_auth.summary.json",
+      "status": "M",
+      "fingerprint": "28a62beb8b8e0736f2db49b0ff55faad4b9afb2ae99f31e01d09c465c95e4468"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_entrypoint_quality.summary.json",
+      "status": "M",
+      "fingerprint": "b4fc1640795ccc768caa8756ae8d9ea78fceb31dca2e2c51f4d5ea9acc4bd110"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_gate_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "c9339c811d237fc3b526aefc7c758622f71857236eb5b5434edf5582cb93725c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_hardening_v050.summary.json",
+      "status": "M",
+      "fingerprint": "90f148dab73d69f46f4f093290d660f1eb9bf263c0973162cdacf424b08a73a9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_private_repo.summary.json",
+      "status": "M",
+      "fingerprint": "d3a026d44d5cc9b441bebe71a73d763fa3704e470826b1639819d6eb7f6e8309"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v052.summary.json",
+      "status": "M",
+      "fingerprint": "2b1323ba27b47ec43ddd8141e9ecffdb6fd70f4db8dc2d81fb80719b1ace6b7b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_0.summary.json",
+      "status": "M",
+      "fingerprint": "96a460c734c41c866f1da20e2204f9a0df1023579dbdef7d72f4f9ffb15d3a00"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_11.summary.json",
+      "status": "M",
+      "fingerprint": "4e15dbea01c804e46cac0adcf55038b8b60ef1f8f9de54a597c7092be6f08f9b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_12.summary.json",
+      "status": "M",
+      "fingerprint": "d48ce1db6def3250e177b8382a21f37ff559e2b040d0edf5c96dc091a8e529ca"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_13.summary.json",
+      "status": "M",
+      "fingerprint": "f92ec066e278376d06282c40afc5cdc3c6fa26a67b45be2d9aa41e7ad3bce9a9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_14.summary.json",
+      "status": "M",
+      "fingerprint": "6a77449eed9ee8060a4b17779d023f3ed68072031e365658acae6a5cffd8bf57"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_16.summary.json",
+      "status": "M",
+      "fingerprint": "46372122779482e53f41a5881ce8a3c59a9661ef133dfb5c5cc4bb9f5ed8d72c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_17.summary.json",
+      "status": "M",
+      "fingerprint": "f1e07c3a9b44737b95e804196488d5c9af7d1ad06541289e87f98817c35e7651"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_19.summary.json",
+      "status": "M",
+      "fingerprint": "cadcedf6b52f4d900b751cd08c0c399ac72350f351a9c1be9a6db5ed23091d69"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_20.summary.json",
+      "status": "M",
+      "fingerprint": "8d821897b231490f87d0fad76a606222088b5326f5fa4ad8521e40e4496ffe5a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_v0_5_22.summary.json",
+      "status": "M",
+      "fingerprint": "9b4ead7ee30eba736af3d922d618619a8f6820861fd6598c23c6561cb55c8e69"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/remove_launch_topics_docs.summary.json",
+      "status": "M",
+      "fingerprint": "9eb93c93c852d543ff59bd59adc39e75fcf41c516f1358eb37f57d0f0efbafd8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_improvements.summary.json",
+      "status": "M",
+      "fingerprint": "9e1357c3d74cd69485c771217411c43aaf2834e8ac0b5d93ef87abccd0e9cb64"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_truth_and_python.summary.json",
+      "status": "M",
+      "fingerprint": "84e1b8feb6061a6dff0ff1f69aa591a6fe5b77bada9a1d785065cc29012762ef"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/scenario_coverage_v26.summary.json",
+      "status": "M",
+      "fingerprint": "872604c6b2df234d2de11472baa6f3d8a55137f174ab2b688bda8890c09c6faa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/security-trust-root-hardening.summary.json",
+      "status": "M",
+      "fingerprint": "9274673dfbe1d31f75101500f6c7873fb43ecb4463303dbb6894ad59c4aeac80"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.contract.json",
+      "status": "A",
+      "fingerprint": "1ae6fa53e960ba71b6838f37140db9e56ed68ebeb5dec68f491c6b7e0334808e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.summary.json",
+      "status": "A",
+      "fingerprint": "696a5d1f7a83ad1775b696234c94ecab6bd9aea2e7f0ddc7b15ff90ea72f6a2a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_model_parity.contract.json",
+      "status": "A",
+      "fingerprint": "53f67545916936888207ea1c8a47577d20a8e7264bc1e82384a468b8ca44a3cd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_model_parity.summary.json",
+      "status": "A",
+      "fingerprint": "7d2ad82ca29a24379b639e14b6e9129b045b77390089d6acefb99492c9bd7eed"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_ownership_reconciliation.contract.json",
+      "status": "A",
+      "fingerprint": "54ce242661bedc87e6e57dd8b522648628ae34211f20377526a90d41293f287b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_ownership_reconciliation.summary.json",
+      "status": "A",
+      "fingerprint": "0b608a844f74c45cfbaf1951793ffa1ad41af210ee8cfd8282be043c1d51fbe8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/summary_filename_workitem_consistency.contract.json",
+      "status": "A",
+      "fingerprint": "afa6dbab07cebc501ec085a502ed2f870683566b63137a3921aaf24ac238bbdb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/summary_filename_workitem_consistency.summary.json",
+      "status": "A",
+      "fingerprint": "c3adee8dcb1db65d44223a845ebd685de46279d25f94c8fd62b56ced9a0c21b0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_action_discovery.contract.json",
+      "status": "A",
+      "fingerprint": "f71c0d619aea56f9dd4e36d3b17bbc42b9e71edfc16b02a625d76e97b75bc118"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_action_discovery.summary.json",
+      "status": "A",
+      "fingerprint": "94838789ba4b56ba8c45d84ecbfd18ab29791ea0c2d807f660d4160b76dc7801"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_baseline_self_reference.contract.json",
+      "status": "A",
+      "fingerprint": "4d8bff8dd3d6507b65f7cc239a5d6d24b096e1392625b111be157b3307eb1185"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_baseline_self_reference.summary.json",
+      "status": "A",
+      "fingerprint": "30f2cf567550b12ae93b7d93f3aadc49e2390a1756b50746026cd17a4d3be620"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_secret_scan_untracked.contract.json",
+      "status": "A",
+      "fingerprint": "a738ef19e2efe2214d1bd1aea252786275a2b9c16de3f9114b3f1b7a60c1b651"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_secret_scan_untracked.summary.json",
+      "status": "A",
+      "fingerprint": "ba4712ec6688e3be86f932db00d81bea25f10fa2b179cb5edf113b31da493bd9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sync_release_metadata.summary.json",
+      "status": "M",
+      "fingerprint": "72033d2ed14859f3041be0cf2cd6f8bcfb0f630a0f4bfc079acaf8d210ec2390"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/template-adoption-readiness-hardening.summary.json",
+      "status": "M",
+      "fingerprint": "4e4d6ce7f04c0a602c7fb57023ac3f747b49399f6aa7f2e7eccfdc394a6433b2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trust_boundary_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "280ad10dd12593d905d74864ba3990e500d5dec141798c12e8b1dd10c580d980"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v1_to_v2_audit_migration.summary.json",
+      "status": "M",
+      "fingerprint": "be36b687d28517737a6bf2295bc5216bd5b12d941b5a0f5d36d7d88dbd13e73f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v25_stabilization_release_hardening.summary.json",
+      "status": "M",
+      "fingerprint": "96eaafa0f8ca107f02d27e8e32f649c2b26046b514d0dbbb901a1c94cc81f096"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v265-preflight-docs.summary.json",
+      "status": "M",
+      "fingerprint": "1655ed16400b3543dd41f1565a00bbea2261fc234574d706039f6f02b489f0b7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v2_5_governance_compression.summary.json",
+      "status": "M",
+      "fingerprint": "370b703c49fe52a36c298901f4d77988e17d10e2b22198cb00df9b70926c342c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v2_5_governance_compression_plan.summary.json",
+      "status": "M",
+      "fingerprint": "9e629873c29951d1163ce897d0cf4a509130c6b3c2193ac29f04bb668c72f0f6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/v2_intent_aware_development.summary.json",
+      "status": "M",
+      "fingerprint": "751a300fa968c8b01d45dee2c583fbc1e2e2342b4f937bbc4ecd9d4ee748b994"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "status": "A",
+      "fingerprint": "9aed938d55601616ff71f9206c9339d04a105667ff938994698be1cf288689ef"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "status": "A",
+      "fingerprint": "6cabdec8d11b5fb7d80ec0470693c9b3c98ec4e71ccd2a4fd6dbad22d077207a"
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "status": "M",
+      "fingerprint": "a7c8634efee654be3fad91702f89207c9359e7bf93bf66a194a91a8e5bc49972"
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "status": "M",
+      "fingerprint": "ed74444143db97415b77e7ea4330249c6bf0d5e293474266f952705fcff984a1"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "status": "A",
+      "fingerprint": "efad870190a71f889bc985e6770f34af80f0399d5f7b23084c1535f9aa7ab56b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "223193fec7d3c28129b7b9dd9704546d072f8054d299807e01b880a4168fca55"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "0d59b361c2cd3c8b30cd9998fc149dea483896276089c8eecec365c2c38446ef"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "70b09c631e6a3000a9a365f0d97255c3019abae886102bca5c188dbceb189937"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "433029da028e43f3a175fb4364beca90ddd890e86338188ec96fe31116f98bd3"
+    },
+    {
+      "path": "SECURITY.md",
+      "status": "A",
+      "fingerprint": "3040722a0a305f9ac80733a5d056ac5ee248ce09eecfbe8e81f59ff744ece5b5"
+    },
+    {
+      "path": "docs/architecture.md",
+      "status": "M",
+      "fingerprint": "0178111f9005025160b0f2e2524d45f477eb9c46f4f0fc74dc17762461193d11"
+    },
+    {
+      "path": "docs/configuration.md",
+      "status": "M",
+      "fingerprint": "d24ac73dc8ba56f76dbb8c2083a9ec2bbeb41fa3da9c1b927544f09b28f9b459"
+    },
+    {
+      "path": "docs/getting-started/first-work-item.md",
+      "status": "M",
+      "fingerprint": "04cb03e99782f76a5e044e34968e01ea2b330308f8d40acebc9dd7cb3d004304"
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "status": "M",
+      "fingerprint": "a723119d7a16e5e9481d0007d18243f1c7197402674455d288c42ff316316ae6"
+    },
+    {
+      "path": "docs/non-make-adaptation.ja.md",
+      "status": "M",
+      "fingerprint": "43d638b072365096605569633cfe751af3b018f613ef5ba3496710ecfe5b3168"
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "status": "M",
+      "fingerprint": "e08935150aada1e486125e389b4005c831e69a552045df6047bb54573af86ad4"
+    },
+    {
+      "path": "docs/reference/troubleshooting.md",
+      "status": "M",
+      "fingerprint": "888a7d265ee884def721a6788e472c1fd951ccd5542c5a68fbf0253ce665f6ab"
+    },
+    {
+      "path": "docs/reference/upgrade.md",
+      "status": "M",
+      "fingerprint": "cdc38213a792dfa2c867837d0a0b8da5612b3eb3abe235139063452e7eaf0dda"
+    },
+    {
+      "path": "docs/reference/v2-implementation-plan.md",
+      "status": "M",
+      "fingerprint": "83365a9318b61ead3f99779fe02f3179953a2276960f7b2e0e70af53a40228bf"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "status": "M",
+      "fingerprint": "07497aa6894bdea0a284718591b0b901de85ca917bdcbc50799f7af56648a668"
+    },
+    {
+      "path": "examples/csharp/README.md",
+      "status": "M",
+      "fingerprint": "e0ef061272c18dee533ec0cb4c59b15d149afaa5a5a30282a7767919723fec3f"
+    },
+    {
+      "path": "examples/flutter/README.md",
+      "status": "M",
+      "fingerprint": "1034cd429817b20dd2d5e00833a59a5f153b49e95468ac7b6a8b0efc3771864d"
+    },
+    {
+      "path": "examples/go/README.md",
+      "status": "M",
+      "fingerprint": "f1794c77917cb410c39da18a364b53e5eb7a7ad2ca7cce116f4133a75aa63866"
+    },
+    {
+      "path": "examples/java/README.md",
+      "status": "M",
+      "fingerprint": "7bfe3a390cdd3f69fef4a1822cadb7d1ff1298294ffa1b6f605cc44ba0f2bf8d"
+    },
+    {
+      "path": "examples/kotlin/README.md",
+      "status": "M",
+      "fingerprint": "b08ce6081f609daf621e8e2620014157661becccc8db5a1616be5583c53c3e4f"
+    },
+    {
+      "path": "examples/php/README.md",
+      "status": "M",
+      "fingerprint": "7a23873889e8c415aa8eeaea6fb42cf1fb0927f4d0a42c3dfd348f1e801bec6f"
+    },
+    {
+      "path": "examples/python/README.md",
+      "status": "M",
+      "fingerprint": "6680820f9009d0c66ca2a8e1745543f56154c0fc814667749e2edb1cffa24d2d"
+    },
+    {
+      "path": "examples/ruby/README.md",
+      "status": "M",
+      "fingerprint": "2c34c3133d1297d29ae9e66db9d45fee818235d1c6c0d8e62df6f591dde22dc1"
+    },
+    {
+      "path": "examples/rust/README.md",
+      "status": "M",
+      "fingerprint": "6693ca1739c7029c1e0095a6859c7b1ae4faeddc4226e84ad20e4756ae2351e0"
+    },
+    {
+      "path": "examples/swift/README.md",
+      "status": "M",
+      "fingerprint": "a11109be21d3a425204d8747047fcf69674ab2d5f3c22d9aa35fb03aa542c27c"
+    },
+    {
+      "path": "examples/typescript/README.md",
+      "status": "M",
+      "fingerprint": "99a2ab2215089eb5b8d7d7571c8cf056988644a1397f0cb04820eed7b51fbaa7"
+    },
+    {
+      "path": "pyproject.toml",
+      "status": "M",
+      "fingerprint": "2fe94a5835818f27c72aaa4cf6b147b242e04d75e354136e0cace84ff78447f0"
+    },
+    {
+      "path": "release.json",
+      "status": "M",
+      "fingerprint": "eebe55f5e494be324f1e8347f716447b60d3714327acf91b8485e2f19f7c80dc"
+    },
+    {
+      "path": "requirements-dev.lock",
+      "status": "A",
+      "fingerprint": "49ac312227463109637c6013cf8dd8ef348f71fdd9b2a46d47408f2f4eadaa69"
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "status": "M",
+      "fingerprint": "964457a59693796ebd6f38d0925b4ae4ea15b6239c312472d5ab50d484874c2a"
+    },
+    {
+      "path": "scripts/ai_calibrate.py",
+      "status": "M",
+      "fingerprint": "ac64ee8e0b62efd22dd28298e6c16c0dc23211cad42d8121b52780d2077b3951"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "01ed01670174561e81905701f26ae7c8bee3c65188eb3e7d90b97af87fb63e7d"
+    },
+    {
+      "path": "scripts/ai_check_agent_risk.py",
+      "status": "M",
+      "fingerprint": "ab1b1b4cbb2eb02947e132289f755a0824ae3f8010fc94eaa3da04501a08dac8"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "status": "M",
+      "fingerprint": "bc2c3d4b89c5202065d59b173a727ce7b1393d0f41ab732a68a10a366a264a68"
+    },
+    {
+      "path": "scripts/ai_check_coverage_guard.py",
+      "status": "M",
+      "fingerprint": "81e095838a9ad4233efb8fd65ec905aca1f1451db177219add36fee24c4901bb"
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "status": "M",
+      "fingerprint": "32b44f9665009ffec578cd7110c28e9c2af7c3730b235a94de4b63a8dc32d41e"
+    },
+    {
+      "path": "scripts/ai_check_guard_calibration.py",
+      "status": "M",
+      "fingerprint": "7f7830a92c44dcbd4a2cddbbdf30146ed881cf781d4196f292e49f820dde7954"
+    },
+    {
+      "path": "scripts/ai_check_guards.py",
+      "status": "M",
+      "fingerprint": "82d98df99af0f8fd756e46a3e32e806915f171536104025fd3cd99d689cb594a"
+    },
+    {
+      "path": "scripts/ai_check_guidelines.py",
+      "status": "M",
+      "fingerprint": "3eb35b89210e9a97f86089af6656563e479d6b5b303166ed700a0394aab40f54"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "5c18f9bbe7722652078fe5b7ece3d55d69a14e1330299c3ca563b47aab685dcc"
+    },
+    {
+      "path": "scripts/ai_check_review_policy.py",
+      "status": "M",
+      "fingerprint": "682cf837d92935bdd24ee64c3de9c8ea6a0827b50690e6d11b838eb29fcfaf24"
+    },
+    {
+      "path": "scripts/ai_check_scenario_coverage.py",
+      "status": "M",
+      "fingerprint": "f60067d32d17817f6d913f1d97631e0562395308ae39e95a350cb4fde1d026b2"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "status": "M",
+      "fingerprint": "d1024d1683d59db3744eea3b0391800c1a7e3601b64ed8554e0c976b2d0ce060"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "6ce20071f9907a821abd5f0d62933a6f047af2cdf4177b30b6e146c7a1d3c9b3"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "status": "M",
+      "fingerprint": "9210c93c8626d37127348f5628b65480474faa391f46905e9549989e3807ae1a"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "status": "M",
+      "fingerprint": "da2bb57a97f313e8e6a00e9d33a5e80532e73e8a3561373be47910f4a8a60fc5"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "36f1ddabacdebf9b82ca935d43306af3f23730ed4fab87d6d440f5b67b6063b3"
+    },
+    {
+      "path": "scripts/ai_checkpoint.py",
+      "status": "M",
+      "fingerprint": "6c691fa10c07ead83eee6dfcf3a5fbc43caff6cbe5373d7a0548675e6a77a6c8"
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "status": "M",
+      "fingerprint": "833e3fa8df4d2cd98898bba2e8cef3f4c43744a44c9921dbbadd97f6090d1e4c"
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "status": "M",
+      "fingerprint": "bcfd11cfc47e34f68f41f670bea9a9fa2d6635f2d0d84c87ec82e47d1cb8778b"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "status": "M",
+      "fingerprint": "362c8532e9b5b29891b61be6cc0677bcb93550be736e70ba51fe9b2a4292b483"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "284830dd9d9313db43037b8ee877d77b2d8870104d354e307485a050991fa88a"
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "status": "M",
+      "fingerprint": "e78000f3054d10bb5453a21701fc61ef50e1b555f870fd549e60d6789dbca450"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "status": "M",
+      "fingerprint": "4e7fcfdfc6f50cdd7509c2402d894042c1965c3d4a278c029c2a4fd7b58c493c"
+    },
+    {
+      "path": "scripts/ai_onboard.py",
+      "status": "M",
+      "fingerprint": "d75b358219183ccb01dbf1c870204745bc90ccfacb7d53ecf056723058133419"
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "status": "M",
+      "fingerprint": "25636fb8296fb7831713646c27437446aa6242f9b3902c59452230f36aa37546"
+    },
+    {
+      "path": "scripts/ai_project_doctor.py",
+      "status": "M",
+      "fingerprint": "cc6f84d94a34a473b04ee7550194f01d05dfd2ea6c1c0eabb0503730b58dad06"
+    },
+    {
+      "path": "scripts/ai_project_profile.py",
+      "status": "M",
+      "fingerprint": "eec68d7085c489044f5d33b993a82a01bb2a95804984d855af0a793a1e12d5cf"
+    },
+    {
+      "path": "scripts/ai_readiness_policy.py",
+      "status": "M",
+      "fingerprint": "6d909ac0d3721ce2ebf11ba4cef155bbb685ee674e21d322be1e0bbfaa1de5a0"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "f3ee529780ff2b23d72b3ed8ec84ea204cfb71497d32b4406cd7ff5573fecd82"
+    },
+    {
+      "path": "scripts/check_bandit_baseline.py",
+      "status": "A",
+      "fingerprint": "65b595db80ee08fd6807a5521d789ecebb70adee9ed85bfcae10fdbeb09060e8"
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "d78f0b56560f9a56c13c83ecebe6282229d98a920c947648e2358bc574c7d041"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "M",
+      "fingerprint": "8e1e9ddc186abfeda074a3df56193699f869b151125e4714ef9b8e2b3bba1add"
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "status": "A",
+      "fingerprint": "562708f750437c448aef057cda59d5585ec6f725c44b2bffef52f9ac35d5cb3e"
+    },
+    {
+      "path": "scripts/check_system_invariants.py",
+      "status": "M",
+      "fingerprint": "0bd6c7370d81a4eedac9b5421592e5d12c802872c520d1a85f1d9deef3991fcb"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "6267756b219c21ba7d15a6e080a9de0c3ffd555573b442eef5e52c10416c0300"
+    },
+    {
+      "path": "tests/test_acceptance_policy.py",
+      "status": "M",
+      "fingerprint": "cfa9d5f8f8b3bf4cdc92d8beda2d57a1cd7bd4578851a9eb1d9a78a8a2eb1a38"
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "status": "M",
+      "fingerprint": "1f40df704f5f67527ee62e9dbff487fa380693d4c1c241ffc79350d7c0e6576e"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "73e975c837ead606d2792fa2623a30ca0cd8fb5c12462ecd3edd73d0e1f5f23e"
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "status": "A",
+      "fingerprint": "59551512e4d7ced0aebcd22562f0d8dca0c7d2fc2cd36506d6ba04178abb867a"
+    },
+    {
+      "path": "tests/test_ai_check_summary.py",
+      "status": "M",
+      "fingerprint": "69f0fc487e127710b8eb9513a64873d7288800277821b3f007c9264a1cbc780b"
+    },
+    {
+      "path": "tests/test_ai_check_work_item.py",
+      "status": "M",
+      "fingerprint": "4c6a8382ec69b3d7fe4c84a0eed834eadda8204295c201d2f226f5e635931b05"
+    },
+    {
+      "path": "tests/test_ai_checkpoint.py",
+      "status": "M",
+      "fingerprint": "045dc4bc9734e81b9def4d8c55749bfb89715026bcf68a1159e1a4079745c237"
+    },
+    {
+      "path": "tests/test_ai_onboard.py",
+      "status": "M",
+      "fingerprint": "aa0f7fdb5f4fbf8ac4bae4c83859ab15553c98cf82b4ddcb60887f1d5af29e23"
+    },
+    {
+      "path": "tests/test_ai_project_doctor.py",
+      "status": "M",
+      "fingerprint": "a9abb592b47485b35f798e9e69dddc192be9205252394f83179d370ddb51eb35"
+    },
+    {
+      "path": "tests/test_bandit_baseline.py",
+      "status": "A",
+      "fingerprint": "e943d59650160c01b8335745be9fc8641cbaeb199d9502ae49a8e775a61650ff"
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "status": "M",
+      "fingerprint": "8d0369c6a427fc1897ebfb73a3325d9389153f66766bdefc97d363e708846674"
+    },
+    {
+      "path": "tests/test_checkpoint_intent.py",
+      "status": "M",
+      "fingerprint": "8ba84bad3f29e0e948d7db55c8dbdb42052e3439aebf2143ce56629478d3c024"
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "status": "M",
+      "fingerprint": "9ef97f757081b1e41bceddc870b06c81b1a24b801fa51c82e88d9fe613dd67c4"
+    },
+    {
+      "path": "tests/test_contract_examples.py",
+      "status": "M",
+      "fingerprint": "be5fdb7341bcec86cf7c9317d334b18b161e025cfc5b68d52b241fcdc85dad30"
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "status": "M",
+      "fingerprint": "77a08a98cf5613200571710b321efe63f0d554d23fcde83c1b14c45bd14b018b"
+    },
+    {
+      "path": "tests/test_critical_coverage.py",
+      "status": "M",
+      "fingerprint": "48fa1c34f4235792e454622e4b22defcb9ebd038b2df6580eb9a734151a910ee"
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "86ee4019f2e8d709c3cf3b4096554b92b6a57e3688fe101dc797579c8730eb6d"
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "status": "M",
+      "fingerprint": "e1960e07fbaed553a7ecda1c429fecf1b4e6dec38e41c94ee2137f3abe04529c"
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "status": "M",
+      "fingerprint": "b2ed6197a218f480df496a7c54583026ff0539e63ec9c5b4e105ff78d415654c"
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "status": "M",
+      "fingerprint": "a464e4ec47ccd08ad9fbde9f13d024e1492cd95adf9feaa5decb4fc054859891"
+    },
+    {
+      "path": "tests/test_governance_compression.py",
+      "status": "M",
+      "fingerprint": "c55c5ab1f8d318c45506540d1a102091e5d279046066dd83148200f365bcf34a"
+    },
+    {
+      "path": "tests/test_guard_failure_paths.py",
+      "status": "M",
+      "fingerprint": "c9343f209e4b5136bc738dc60f6acf2cefa9d5c9b16429aaca239b22b3e04bf9"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "d7a4b634933d6109c5998a8ec70c6a35b7b2a6a4d8f632c026046fbdecea2328"
+    },
+    {
+      "path": "tests/test_guidelines.py",
+      "status": "M",
+      "fingerprint": "3196539e03419c51bd2bada60e1e55f100ec9620820a523186efd89d6716a779"
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "status": "M",
+      "fingerprint": "8d3f29ada51e149eb839027230f5559c3d74d32d3794fc7e4b8bb5160dd70913"
+    },
+    {
+      "path": "tests/test_install_sh.py",
+      "status": "M",
+      "fingerprint": "91855404e3b59db6b889e1758cdfd38a5787940fb0fe40d433275da1904ebc10"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "1502d8654da37405bc2468afc0010a36344acd2816d1938157f457be746999dc"
+    },
+    {
+      "path": "tests/test_intent_policy.py",
+      "status": "M",
+      "fingerprint": "dca9cc48baa540bfad86a59b967624066644b4af529d73b68be5918271b25ada"
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "status": "M",
+      "fingerprint": "d1d09e0442e9597c8584792346e031aa2af8ae94e34ab95b69755e82f9f9fa3c"
+    },
+    {
+      "path": "tests/test_onboard_e2e.py",
+      "status": "M",
+      "fingerprint": "f1057c4aea4f2a291d7bdda48b4aeca14fc8ee1192a9364d2982b6081686df73"
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "status": "M",
+      "fingerprint": "b15872cc657a578f32009e1fe7cc798e900206a28b7e484c4f9ac4b4e0d2e114"
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "status": "M",
+      "fingerprint": "065448413adac1b8da62f99639125dd99426b21a43c93120503fe159371f6365"
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "status": "M",
+      "fingerprint": "f2c7727652bfa7acb16b2db455d6725df29b302ceb0a57880d90bcd228013b58"
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "status": "M",
+      "fingerprint": "00794a851c6c4cad4712a24a7f017aaf0140168f4635037aac9d7e810dd8c4f6"
+    },
+    {
+      "path": "tests/test_readiness_policy.py",
+      "status": "M",
+      "fingerprint": "b62eaa86ec93d18df44cdcba0684f32bd9613984f174f95c66f23ac034dc1a8b"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "M",
+      "fingerprint": "b45cd277db30650be663396f14ec31c92a6f2b383ff9c0dc52a603b7af4eaba2"
+    },
+    {
+      "path": "tests/test_scenario_coverage_gate.py",
+      "status": "M",
+      "fingerprint": "7ec413aed604c30f95304bcd8d80da7cabfc88c401a7db3a808c4f8c1a0687d8"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "e9a013dbea05ee54ab74883925c7621e8c7ddedb285cd12feb7fa7053e2f1647"
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "status": "A",
+      "fingerprint": "82adcde71075421bfa618d71df335802fcc5db2180b60109b97741c08e8c039e"
+    },
+    {
+      "path": "tests/test_system_invariants.py",
+      "status": "M",
+      "fingerprint": "527bb1d932b7d65fc71e3eb9beb6384efee98358d6d737d77f2b621f14fd6ccf"
+    },
+    {
+      "path": "tests/test_verification_evidence.py",
+      "status": "M",
+      "fingerprint": "d70d9587b0ea390aa97b8933d1ec28d6f9e8b902c0a7e6688e0ce4dcf8abb527"
+    },
+    {
+      "path": "tests/test_verification_policy.py",
+      "status": "M",
+      "fingerprint": "8409bdcb12f8f5821b8bca1a056dd629431ea69fc331163748ea318d71cc8c83"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/supply_chain_cleanup.contract.json",
+    ".ai/work-items/active/supply_chain_cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    "tests/test_makefile.py"
+  ],
+  "outOfScope": [
+    "docs/**",
+    "examples/**",
+    ".github/**",
+    "pyproject.toml",
+    "release.json",
+    ".ai/guards/**",
+    ".ai/work-items/_templates/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/supply_chain_cleanup.contract.json",
+      "reason": "Work Item boundary and lifecycle metadata."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Defines the Cockpit workflow and required checks."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Implements the supply-chain helper being validated."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Exercises the helper behavior and baseline checks."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Confirms the Make targets continue to route to the helper commands."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "test_coverage_gap"
+    ],
+    "reason": "The lane is limited to executable helper coverage and existing Makefile exposure."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit enough to implement safely."
+  },
+  "preReviewWarnings": [
+    "Keep the lane limited to executable helper coverage and Makefile routing."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_finish"
+    ],
+    "reason": "Record a checkpoint before finishing the executable cleanup lane."
+  },
+  "acceptance": [
+    "tests/test_supply_chain.py covers the helper behavior in scripts/check_supply_chain.py.",
+    "tests/test_makefile.py verifies the supply-chain Make targets still route to scripts/check_supply_chain.py.",
+    "python3 scripts/check_supply_chain.py sbom, provenance, secrets, and vulnerabilities exits successfully against the repository baseline."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The supply-chain helper and its regression tests already exist in the worktree, but the cleanup lane needs to capture them under a narrow contract so the helper behavior and Makefile exposure stay locked in.",
+    "constraints": [
+      "Keep the cleanup limited to the supply-chain helper and its tests.",
+      "Do not broaden this lane into docs, release notes, or unrelated workflow metadata.",
+      "Preserve the current supply-chain behavior while adding regression coverage."
+    ],
+    "rationale": "A small executable cleanup can lock in the supply-chain baseline checks without mixing in unrelated repository governance changes."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

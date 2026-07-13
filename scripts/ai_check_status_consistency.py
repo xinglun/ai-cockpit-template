@@ -44,9 +44,7 @@ def no_active_changed_files(text: str) -> list[str]:
     except IndexError:
         return []
     return sorted(
-        match.group(1)
-        for line in block.splitlines()
-        if (match := re.match(r"^- `([^`]+)`$", line))
+        match.group(1) for line in block.splitlines() if (match := re.match(r"^- `([^`]+)`$", line))
     )
 
 
@@ -55,21 +53,49 @@ def no_active_worktree_count(text: str) -> int | None:
     return int(match.group(1)) if match else None
 
 
+def git_records(text: str) -> list[str]:
+    if "\0" in text:
+        return [item for item in text.split("\0") if item]
+    return [line for line in text.splitlines() if line]
+
+
 def live_no_active_changed_files(status_path: Path) -> list[str]:
     try:
         relative_status = relative(status_path)
     except ValueError:
         relative_status = status_path.as_posix()
-    head = subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    head = subprocess.run(
+        ["git", "rev-parse", "--verify", "HEAD"],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
     if head.returncode != 0:
         return []
     changed: set[str] = set()
-    diff = subprocess.run(["git", "diff", "--name-only", "HEAD"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    diff = subprocess.run(
+        ["git", "diff", "--name-only", "-z", "HEAD"],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
     if diff.returncode == 0:
-        changed.update(line.strip() for line in getattr(diff, "stdout", "").splitlines() if line.strip())
-    untracked = subprocess.run(["git", "ls-files", "--others", "--exclude-standard"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+        changed.update(
+            line.strip() for line in git_records(getattr(diff, "stdout", "")) if line.strip()
+        )
+    untracked = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", "-z"],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
     if untracked.returncode == 0:
-        changed.update(line.strip() for line in getattr(untracked, "stdout", "").splitlines() if line.strip())
+        changed.update(
+            line.strip() for line in git_records(getattr(untracked, "stdout", "")) if line.strip()
+        )
     changed.discard(relative_status)
     return sorted(changed)
 
@@ -84,12 +110,18 @@ def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]
 
     if contract_ids != summary_ids:
         for item in sorted(contract_ids - summary_ids):
-            issues.append(f"active Contract has no matching Summary: {item}; create the missing Summary or archive/remove the Contract")
+            issues.append(
+                f"active Contract has no matching Summary: {item}; create the missing Summary or archive/remove the Contract"
+            )
         for item in sorted(summary_ids - contract_ids):
-            issues.append(f"active Summary has no matching Contract: {item}; create the missing Contract or archive/remove the Summary")
+            issues.append(
+                f"active Summary has no matching Contract: {item}; create the missing Contract or archive/remove the Summary"
+            )
 
     if len(contract_ids) > 1:
-        issues.append(f"multiple active Work Items found: {', '.join(sorted(contract_ids))}; keep only one active Work Item")
+        issues.append(
+            f"multiple active Work Items found: {', '.join(sorted(contract_ids))}; keep only one active Work Item"
+        )
 
     if not text:
         issues.append(f"cockpit status is missing: {relative(status_path)}")
@@ -97,11 +129,19 @@ def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]
 
     if not contract_ids and not summary_ids:
         if "- State: `no_active_work_item`" not in text:
-            issues.append("cockpit status is not no_active_work_item while no active Work Item exists; run `make repair-ai-status`")
+            issues.append(
+                "cockpit status is not no_active_work_item while no active Work Item exists; run `make repair-ai-status`"
+            )
         recorded = no_active_worktree_count(text)
         live = len(live_no_active_changed_files(status_path))
-        if no_active_changed_files(text) or (recorded is None and live > 0) or (recorded is not None and live != recorded):
-            issues.append("cockpit status no-active state must not persist changed files; run `make repair-ai-status`")
+        if (
+            no_active_changed_files(text)
+            or (recorded is None and live > 0)
+            or (recorded is not None and live != recorded)
+        ):
+            issues.append(
+                "cockpit status no-active state must not persist changed files; run `make repair-ai-status`"
+            )
         return issues
 
     if len(contract_ids) == 1 and len(summary_ids) == 1 and contract_ids == summary_ids:
@@ -109,13 +149,21 @@ def validate_status_consistency(status_path: Path = DEFAULT_STATUS) -> list[str]
         contract_path = relative(ACTIVE_DIR / f"{task}.contract.json")
         summary_path = relative(ACTIVE_DIR / f"{task}.summary.json")
         if "- State: `no_active_work_item`" in text:
-            issues.append("cockpit status is no_active_work_item while an active Work Item exists; run `make repair-ai-status`")
+            issues.append(
+                "cockpit status is no_active_work_item while an active Work Item exists; run `make repair-ai-status`"
+            )
         if f"- Task: `{task}`" not in text:
-            issues.append(f"cockpit status Task does not match active Work Item: {task}; run `make repair-ai-status`")
+            issues.append(
+                f"cockpit status Task does not match active Work Item: {task}; run `make repair-ai-status`"
+            )
         if f"- Contract Path: `{contract_path}`" not in text:
-            issues.append(f"cockpit status Contract Path does not match active Contract: {contract_path}; run `make repair-ai-status`")
+            issues.append(
+                f"cockpit status Contract Path does not match active Contract: {contract_path}; run `make repair-ai-status`"
+            )
         if f"- Summary Path: `{summary_path}`" not in text:
-            issues.append(f"cockpit status Summary Path does not match active Summary: {summary_path}; run `make repair-ai-status`")
+            issues.append(
+                f"cockpit status Summary Path does not match active Summary: {summary_path}; run `make repair-ai-status`"
+            )
 
     return issues
 
@@ -161,7 +209,11 @@ def repair_status(status_path: Path = DEFAULT_STATUS) -> int:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate AI Cockpit active/status consistency.")
     parser.add_argument("--status", default=str(DEFAULT_STATUS), help="Path to current_status.md.")
-    parser.add_argument("--repair", action="store_true", help="Regenerate current_status.md when the active state is repairable.")
+    parser.add_argument(
+        "--repair",
+        action="store_true",
+        help="Regenerate current_status.md when the active state is repairable.",
+    )
     return parser.parse_args()
 
 

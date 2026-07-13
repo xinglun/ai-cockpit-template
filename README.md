@@ -97,14 +97,19 @@ Review starts from context.
 ## Quick Install
 
 Use this when you want the shortest path to a fresh adoption install. For the full lifecycle and page map, read [Installation](docs/getting-started/installation.md) and [Documentation Architecture](docs/reference/documentation-architecture.md).
+The quick-install flow resolves the documented release metadata from the public release source first. `AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY` and `AI_COCKPIT_TEMPLATE_RAW_BASE` are used only to resolve the release tag and fetch the installer; the installer itself still honors `AI_COCKPIT_TEMPLATE_REPO` and `AI_COCKPIT_TEMPLATE_SOURCE` for its own clone or source selection. If your repository or release artifacts are private, use a local clone or configured source instead of relying on the quick-install bootstrap path.
 
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
 STACK="${STACK:-generic}" # generic, python, go, rust, typescript, java, android, kotlin, flutter, swift, ruby, php, or csharp
-RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
+: "${AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY:?set AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY to the public Git remote for this release}"
+: "${AI_COCKPIT_TEMPLATE_RAW_BASE:?set AI_COCKPIT_TEMPLATE_RAW_BASE to the matching raw-content base}"
+PUBLIC_REPOSITORY="$AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY"
+RAW_BASE="$AI_COCKPIT_TEMPLATE_RAW_BASE"
+RELEASE_TAG="$(curl -fsSL "${RAW_BASE}/main/release.json" 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs "$PUBLIC_REPOSITORY" 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
-curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
+curl -fsSL "${RAW_BASE}/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
 make ai-finish TASK=adopt_ai_cockpit
 git add .
@@ -229,14 +234,15 @@ Prefer explicit `not provided` over inferred explanations.
 - Contracts reference registered check IDs; they cannot supply executable command strings. Registered checks resolve through `.ai/cockpit/checks.yaml` to explicit Make targets.
 - `ai-finish` records the resolved check ID, exit code, duration, timestamp, execution commit, Contract hash, normalized command hash, output digest, and redacted output summary.
 - These fields are structured execution records, not cryptographic or tamper-proof attestations. CI revalidates every changed archive pair and the complete PR diff.
+- CI also runs supply-chain evidence checks for the dev dependency lockfile, SBOM/provenance baselines, and secret scanning so release metadata drift is visible before publication.
 - Restricted/destructive approval fields are self-declared workflow records. Trusted human approval must come from an external boundary such as CODEOWNERS review, a protected CI environment, or platform identity events.
 - Active records stay local; successfully archived records are versionable audit artifacts under `.ai/work-items/archive/`.
-- The installer ships the same PR validator and Make targets as this template. CI runs `make check-ai-pr AI_BASE_COMMIT=<merge-base>` after Work Items are archived.
+- The installer ships the same PR validator and Make targets as the installed AI Cockpit runtime. CI runs `make check-ai-pr AI_BASE_COMMIT=<merge-base>` after Work Items are archived.
 - Every non-exempt PR path must be both scoped and reported by the same archived Contract/Summary pair.
 
 The generic stack intentionally fails `quality` until its formatter, test, and lint commands are configured. A no-op quality gate is not a gate.
 
-Template contributors can install the regression-test dependency with `python3 -m pip install -r requirements-dev.txt`. Runtime governance scripts still use only the Python standard library.
+Template contributors can install the regression-test dependency with `python3 -m pip install -r requirements-dev.lock`. Runtime governance scripts still use only the Python standard library.
 
 AI Cockpit reduces accidental scope drift and makes review evidence explicit; it is not a security sandbox for a malicious agent that can modify repository policy. For the public release selected above, run project tests or `make ai-cockpit-quality` as an independent required CI check in addition to `check-ai-pr`.
 
@@ -277,7 +283,7 @@ Compatibility levels:
 - **Preset only:** `generic` intentionally fails closed until its formatter, test, and lint commands are configured.
 - **Unsupported runtime/platform:** native Windows shells. Use WSL or another POSIX environment.
 
-Stack presets are customizable starting points, not dependency installers. The selected project's formatter, test runner, SDK, and build plugins must already be available; for example, the Java and Android presets expect a Gradle wrapper and Spotless configuration, while Python expects Ruff and pytest. The examples directory covers selected stacks and does not currently include every preset.
+Stack presets are calibration starting points, not dependency installers. Install the selected project's formatter, test runner, SDK, and build plugins first; for example, the Java and Android presets expect a Gradle wrapper and Spotless configuration, while Python expects Ruff and pytest. The examples directory covers selected stacks and does not include every preset.
 
 The governance runtime is language-agnostic, but stack presets and default guard paths are not universal framework support. Review `Makefile.ai.stack` and `.ai/guards/coverage_policy.yaml` against the target repository before making them required CI gates.
 
@@ -286,7 +292,7 @@ Installation deploys the runtime; it does not complete production adaptation. Th
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. The release-distribution check runs anonymously and fails closed if the tagged source is not publicly reachable. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
+The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. The release-distribution check fails closed if the tagged source is not reachable through the configured public release metadata. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
 
 ## Runtime Requirements
 
@@ -295,7 +301,7 @@ The current public release includes auditable first-adoption bootstrap and calle
 - POSIX-compliant shell and GNU Make execution environment.
 - Linux and macOS are officially supported for local execution and CI. Native Windows shells are not supported; please run inside WSL (Windows Subsystem for Linux) or another POSIX terminal.
 
-Repository `make quality` runs the full test suite with a 60% overall script coverage floor and per-file regression floors for lifecycle-critical scripts, Ruff over `scripts/` and `tests/`, Mypy over all governance scripts, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency.
+Repository `make quality` runs the full test suite with an 80% overall script coverage floor and per-file regression floors for lifecycle-critical scripts, Ruff over `scripts/` and `tests/`, Mypy over all governance scripts, Bandit for medium/high findings, Python compilation, diff checks, and documentation consistency.
 
 ## Advanced Docs
 

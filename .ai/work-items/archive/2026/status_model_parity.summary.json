@@ -1,0 +1,329 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "status_model_parity",
+  "contractPath": ".ai/work-items/archive/2026/status_model_parity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/status_model_parity.contract.json",
+      "reason": "Retargeted the active work item to the status model parity bugfix."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_model_parity.summary.json",
+      "reason": "Recorded the parity work item summary and evidence trail."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated Cockpit status after aligning the checker with the generator."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Shared the ownership reconciliation path used by Cockpit status generation."
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "Applied the same ownership reconciliation before comparing status models."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Added a regression test for unresolved ownership parity."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/status_model_parity.contract.json",
+    ".ai/work-items/active/status_model_parity.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    "tests/test_core_gates.py",
+    "scripts/ai_governance_compression.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/status_model_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:37.761900+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "52829672e8797204faff3a83f5ed88d618996cc2a9388d273eabc1c0efcc53cc",
+      "commandHash": "2bd29ffce2be5de7a9eeb568ea08858a2a5de5f3bbce4da00e0763f0afb4daa6",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/status_model_parity.contract.json work item contract check passed: .ai/work-items/active/status_model_parity.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/status_model_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:37.897958+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "76c735b2da86cce57c9f47b12c9d2fb536fa0a134f5cbbc5f7ec2ab51ee89cf9",
+      "commandHash": "895c21b57a2471934fd8a32b7fd278afe159de31953f6f9b5a3db5fdbd9e3d2e",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/status_model_parity.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:38.036422+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "9eb0db5868adf496c35a2b45bb2099637bbefc9c5c0eae1fc3a8e42018d93f5a",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/status_model_parity.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/status_model_parity.contract.json SUMMARY=.ai/work-items/active/status_model_parity.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:39.104032+00:00",
+      "exitCode": 0,
+      "durationMs": 981,
+      "outputDigest": "b0f195538fb4354ebe6bd1048b56b75eeb2913a82525b559bdac79ceb3381fb7",
+      "commandHash": "d1c6b0710488a2cafca3c51dfd7eab9f44e06729b91301095d7b5eaedc14bd95",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/status_model_parity.contract.json --summary .ai/work-items/active/status_model_parity.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `status_model_parity` - Contract Hash: `32358cd942deafc7` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `13` - Required Chec"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/status_model_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:39.248813+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "0fdd5d535f262858a3c77851fec4f991e406e9da4e9d5ef35be4fd954d739968",
+      "commandHash": "bb94c8a9914217f39cfa77108c9847d834ecfb8c0fb7ff118df1042f99cdb2ce",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/status_model_parity.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_check_status.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:39.407458+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:39.558495+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/status_model_parity.contract.json SUMMARY=.ai/work-items/active/status_model_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:39.862720+00:00",
+      "exitCode": 0,
+      "durationMs": 70,
+      "outputDigest": "c2851c2758fdf12b8e23ee63c65719ed4665924cbf57f7f68f4e67c781deab28",
+      "commandHash": "e352d97779571a9e0c93855ec679a784ec6d49afc0f04b0b1752718b16e923fa",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "3bf21c47e5b824eac26ee56a4835a816c7f51838270d23dfa88f1917b6c33c75",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/status_model_parity.contract.json --summary .ai/work-items/active/status_model_parity.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/status_model_parity.contract.json SUMMARY=.ai/work-items/active/status_model_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:43.622526+00:00",
+      "exitCode": 0,
+      "durationMs": 964,
+      "outputDigest": "2d5a302db5c1bfcf65cff937facbf4a09a1c0fbe98fe71f77189ea57eba04edf",
+      "commandHash": "da461664675c176cf7353f6537fb82c9691d2b779e21e4b6fddc5a008a54801c",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "4482bfd9490d668912537f49e2d4b0841582f30a479bd988ef5b061a8842d98b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/status_model_parity.contract.json --summary .ai/work-items/active/status_model_parity.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/status_model_parity.contract.json SUMMARY=.ai/work-items/active/status_model_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:44.665165+00:00",
+      "exitCode": 0,
+      "durationMs": 967,
+      "outputDigest": "0a97fce41c2aa928e619175ddd875489d4f70d3d83cb584ee0a4d681ff823cd7",
+      "commandHash": "147d7ec67b5c4d046f0dbac2ef00b520c36668dc42fa2fa3d948d60044658a5a",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "4482bfd9490d668912537f49e2d4b0841582f30a479bd988ef5b061a8842d98b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/status_model_parity.contract.json --summary .ai/work-items/active/status_model_parity.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:44.813696+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "4482bfd9490d668912537f49e2d4b0841582f30a479bd988ef5b061a8842d98b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/status_model_parity.contract.json SUMMARY=.ai/work-items/active/status_model_parity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:44.915373+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "e7e017372db296307676c38b209f332e627c18cc1f8aa2caeaf5ba69710a76e6",
+      "commandHash": "3fc758ba1da29aa8bc27dcbf9f008ae6daebca0610a4e09caddfcf4e5fd8e519",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "4482bfd9490d668912537f49e2d4b0841582f30a479bd988ef5b061a8842d98b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/status_model_parity.contract.json --summary .ai/work-items/active/status_model_parity.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/status_model_parity.summary.json CONTRACT=.ai/work-items/active/status_model_parity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:14:45.073581+00:00",
+      "exitCode": 0,
+      "durationMs": 96,
+      "outputDigest": "ddf2660b72bd1316838838cb50a45f6630768daf235385d966676c8e5626cde1",
+      "commandHash": "39b64873a136e81dac55c34dd2a40b7c7f3e2058307730b37366819d97483296",
+      "contractHash": "32358cd942deafc785ddaf02f41e043ac6388714c566ae33f02a62764b4b8d9b",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_model_parity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_model_parity.summary.json",
+      "worktreeDigest": "4482bfd9490d668912537f49e2d4b0841582f30a479bd988ef5b061a8842d98b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/status_model_parity.summary.json --contract .ai/work-items/active/status_model_parity.contract.json ai summary check passed: .ai/work-items/active/status_model_parity.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The parity fix only changes existing internal status logic and the regression test; it does not add a new public API."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The fix stays within the status generator/checker pair and the core gate regression test."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Low-risk parity fix between generated Cockpit status rendering and status checking."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make check-ai-status initially failed because ai_generate_status.py and ai_check_status.py diverged on unresolved ownership reconciliation; the checker now shares the generator's reconciliation path."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "status parity",
+      "detail": "The remaining declared ai-* checks and ai-finish still need to run before archiving.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "The parity fix is in place, but the full declared verification set has not been completed yet.",
+    "expectedReviewFocus": [
+      "confirm the checker uses the same unresolved ownership reconciliation as the generator",
+      "confirm the regression test fails before the fix and passes after it"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "32358cd942deafc7",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0,
+      "detail": "Captured before_finish checkpoint before the remaining verification gates run."
+    }
+  ],
+  "knownGaps": [
+    "The remaining declared ai-* checks have not been run yet.",
+    "ai-finish is still pending after the remaining verification commands succeed."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

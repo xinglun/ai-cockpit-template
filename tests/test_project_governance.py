@@ -4,6 +4,7 @@ from pathlib import Path
 
 import ai_calibrate
 import ai_project_doctor
+import check_bandit_baseline
 import check_system_invariants
 from ai_check_guard_calibration import calibration_issues
 from ai_project_profile import load_profile, validate_profile
@@ -20,7 +21,9 @@ def fact_values(report, category):
 def test_doctor_detects_flutter_with_evidence_and_confidence(tmp_path):
     (tmp_path / "lib").mkdir()
     (tmp_path / "test").mkdir()
-    (tmp_path / "pubspec.yaml").write_text("dependencies:\n  flutter:\n    sdk: flutter\n  flutter_bloc: any\n", encoding="utf-8")
+    (tmp_path / "pubspec.yaml").write_text(
+        "dependencies:\n  flutter:\n    sdk: flutter\n  flutter_bloc: any\n", encoding="utf-8"
+    )
     (tmp_path / "lib" / "main.dart").write_text("void main() {}\n", encoding="utf-8")
 
     report = ai_project_doctor.scan_project(tmp_path)
@@ -29,14 +32,19 @@ def test_doctor_detects_flutter_with_evidence_and_confidence(tmp_path):
     assert "flutter" in fact_values(report, "frameworks")
     assert report["suggestedBoundaries"]["productionRoots"][0]["evidence"] == "lib"
     assert report["projectSignals"]["stateManagement"][0]["value"] in {"bloc", "flutter_bloc"}
-    assert all(item["confidence"] in {"high", "medium", "low"} for item in report["detectedFacts"]["languages"])
+    assert all(
+        item["confidence"] in {"high", "medium", "low"}
+        for item in report["detectedFacts"]["languages"]
+    )
 
 
 def test_doctor_detects_spring_boot_and_infrastructure(tmp_path):
     (tmp_path / "src").mkdir()
     (tmp_path / "tests").mkdir()
     (tmp_path / ".github" / "workflows").mkdir(parents=True)
-    (tmp_path / "build.gradle").write_text("plugins { id 'org.springframework.boot' version '3.4.0' }\n", encoding="utf-8")
+    (tmp_path / "build.gradle").write_text(
+        "plugins { id 'org.springframework.boot' version '3.4.0' }\n", encoding="utf-8"
+    )
     (tmp_path / "src" / "App.java").write_text("class App {}\n", encoding="utf-8")
     (tmp_path / ".github" / "workflows" / "ci.yml").write_text("name: ci\n", encoding="utf-8")
 
@@ -49,7 +57,9 @@ def test_doctor_detects_spring_boot_and_infrastructure(tmp_path):
 
 
 def test_doctor_detects_python_ai_and_keeps_unknown_boundaries(tmp_path):
-    (tmp_path / "pyproject.toml").write_text("dependencies = ['fastapi', 'torch']\n", encoding="utf-8")
+    (tmp_path / "pyproject.toml").write_text(
+        "dependencies = ['fastapi', 'torch']\n", encoding="utf-8"
+    )
     report = ai_project_doctor.scan_project(tmp_path)
     assert "python" in fact_values(report, "languages")
     assert "fastapi" in fact_values(report, "frameworks")
@@ -75,6 +85,7 @@ def test_calibration_generates_proposal_without_approval_or_overwrite(tmp_path):
     assert ai_calibrate.generate(tmp_path, report_path, output) == 0
     profile, issues = load_profile(output, require_approval=False)
     assert issues == []
+    assert profile["repositoryRole"] == "template"
     assert profile["approval"]["reviewed"] == "false"
     assert profile["approvedBoundaries"]["productionRoots"] == []
     original = output.read_text(encoding="utf-8")
@@ -85,16 +96,34 @@ def test_calibration_generates_proposal_without_approval_or_overwrite(tmp_path):
 def test_profile_strictly_separates_confirmation_and_blocking_unknowns():
     profile = {
         "version": 1,
-        "detectedFacts": {key: [] for key in ("languages", "frameworks", "buildSystems", "infrastructure")},
-        "suggestedBoundaries": {key: [] for key in ("productionRoots", "featureRoots", "testRoots", "generatedPaths", "criticalPaths")},
-        "approvedBoundaries": {
-            "productionRoots": ["src/**"], "featureRoots": [], "testRoots": ["tests/**"],
-            "generatedPaths": [], "criticalPaths": [],
+        "detectedFacts": {
+            key: [] for key in ("languages", "frameworks", "buildSystems", "infrastructure")
         },
-        "reviewRequirements": [], "unknowns": ["blocking: owner decision"], "evidence": [],
+        "suggestedBoundaries": {
+            key: []
+            for key in (
+                "productionRoots",
+                "featureRoots",
+                "testRoots",
+                "generatedPaths",
+                "criticalPaths",
+            )
+        },
+        "approvedBoundaries": {
+            "productionRoots": ["src/**"],
+            "featureRoots": [],
+            "testRoots": ["tests/**"],
+            "generatedPaths": [],
+            "criticalPaths": [],
+        },
+        "reviewRequirements": [],
+        "unknowns": ["blocking: owner decision"],
+        "evidence": [],
         "approval": {"reviewed": True, "reviewedBy": "owner", "reason": "reviewed"},
     }
-    assert any("blocking unknowns" in issue for issue in validate_profile(profile, require_approval=True))
+    assert any(
+        "blocking unknowns" in issue for issue in validate_profile(profile, require_approval=True)
+    )
     profile["unknowns"] = []
     assert validate_profile(profile, require_approval=True) == []
 
@@ -111,12 +140,116 @@ def test_repository_system_invariants_are_consistent():
     assert invariant_issues(ROOT) == []
 
 
+def test_system_invariants_reject_missing_dev_lock(tmp_path, monkeypatch):
+    copy = tmp_path / "repository"
+    shutil.copytree(
+        ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "target", "__pycache__")
+    )
+    (copy / "requirements-dev.lock").unlink()
+    monkeypatch.setattr(
+        check_system_invariants, "exercise_installer", lambda *_args, **_kwargs: None
+    )
+    issues = check_system_invariants.invariant_issues(copy)
+    assert any("requirements-dev.lock is missing" in issue for issue in issues)
+
+
+def test_system_invariants_reject_missing_governance_docs(tmp_path, monkeypatch):
+    copy = tmp_path / "repository"
+    shutil.copytree(
+        ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "target", "__pycache__")
+    )
+    (copy / "SECURITY.md").unlink()
+    (copy / "CONTRIBUTING.md").unlink()
+    (copy / ".github" / "CODEOWNERS").unlink()
+    (copy / ".github" / "dependabot.yml").unlink()
+    monkeypatch.setattr(
+        check_system_invariants, "exercise_installer", lambda *_args, **_kwargs: None
+    )
+    issues = check_system_invariants.invariant_issues(copy)
+    assert any("SECURITY.md is missing" in issue for issue in issues)
+    assert any("CONTRIBUTING.md is missing" in issue for issue in issues)
+    assert any("CODEOWNERS is missing" in issue for issue in issues)
+    assert any("dependabot.yml is missing" in issue for issue in issues)
+
+
+def test_system_invariants_allow_missing_archive_summary_version(tmp_path, monkeypatch):
+    copy = tmp_path / "repository"
+    shutil.copytree(
+        ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "target", "__pycache__")
+    )
+    archive_summary = next((copy / ".ai" / "work-items" / "archive").rglob("*.summary.json"))
+    data = json.loads(archive_summary.read_text(encoding="utf-8"))
+    data.pop("summaryVersion", None)
+    archive_summary.write_text(json.dumps(data), encoding="utf-8")
+    monkeypatch.setattr(
+        check_system_invariants, "exercise_installer", lambda *_args, **_kwargs: None
+    )
+    issues = check_system_invariants.invariant_issues(copy)
+    assert all(
+        "archived Summary summaryVersion must be absent or 1/2 when present" not in issue
+        for issue in issues
+    )
+
+
+def test_bandit_baseline_matches_repository_low_risk_findings():
+    assert check_bandit_baseline.main() == 0
+
+
 def test_system_invariants_reject_manifest_stack_drift(tmp_path, monkeypatch):
     copy = tmp_path / "repository"
-    shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "target", "__pycache__"))
+    shutil.copytree(
+        ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "target", "__pycache__")
+    )
     manifest = copy / ".ai" / "cockpit" / "system_invariants.json"
     data = json.loads(manifest.read_text(encoding="utf-8"))
     data["stacks"].remove("python")
     manifest.write_text(json.dumps(data), encoding="utf-8")
-    monkeypatch.setattr(check_system_invariants, "exercise_installer", lambda *_args, **_kwargs: None)
-    assert any("manifest stack list" in issue for issue in check_system_invariants.invariant_issues(copy))
+    monkeypatch.setattr(
+        check_system_invariants, "exercise_installer", lambda *_args, **_kwargs: None
+    )
+    assert any(
+        "manifest stack list" in issue for issue in check_system_invariants.invariant_issues(copy)
+    )
+
+
+def test_system_invariants_reject_unpinned_workflow_actions(tmp_path, monkeypatch):
+    copy = tmp_path / "repository"
+    shutil.copytree(
+        ROOT, copy, ignore=shutil.ignore_patterns(".git", ".venv", "target", "__pycache__")
+    )
+    workflow = copy / ".github" / "workflows" / "smoke.yml"
+    workflow.write_text(
+        workflow.read_text(encoding="utf-8").replace(
+            "@df4cb1c069e1874edd31b4311f1884172cec0e10", "@v6"
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        check_system_invariants, "exercise_installer", lambda *_args, **_kwargs: None
+    )
+    issues = check_system_invariants.invariant_issues(copy)
+    assert any(
+        "workflow action references must be pinned to a commit SHA" in issue for issue in issues
+    )
+
+
+def test_governance_hardening_modules_remain_importable():
+    import ai_calibrate
+    import ai_check_agent_risk
+    import ai_check_backtrack
+    import ai_check_guard_calibration
+    import ai_check_guards
+    import ai_check_review_policy
+    import ai_check_scope
+    import ai_observability
+    import ai_project_profile
+
+    assert ai_calibrate.__name__ == "ai_calibrate"
+    assert ai_check_agent_risk.__name__ == "ai_check_agent_risk"
+    assert ai_check_backtrack.__name__ == "ai_check_backtrack"
+    assert ai_check_guard_calibration.__name__ == "ai_check_guard_calibration"
+    assert ai_check_guards.__name__ == "ai_check_guards"
+    assert ai_check_review_policy.__name__ == "ai_check_review_policy"
+    assert ai_check_scope.__name__ == "ai_check_scope"
+    assert ai_observability.__name__ == "ai_observability"
+    assert ai_project_profile.__name__ == "ai_project_profile"

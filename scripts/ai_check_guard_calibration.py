@@ -23,7 +23,11 @@ def calibration_issues(root: Path, profile: dict[str, Any]) -> list[str]:
     checks = simple_yaml_scalars(root / ".ai" / "cockpit" / "checks.yaml")
     issues: list[str] = []
     mappings = (
-        ("productionRoots", coverage.get("production.include", []), "coverage_policy production.include"),
+        (
+            "productionRoots",
+            coverage.get("production.include", []),
+            "coverage_policy production.include",
+        ),
         ("testRoots", coverage.get("tests.include", []), "coverage_policy tests.include"),
     )
     for key, configured, label in mappings:

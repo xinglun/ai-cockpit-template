@@ -24,13 +24,18 @@ def valid_contract():
         "notCodable": False,
         "acceptance": ["works"],
         "verification": [{"command": "python3 -m pytest", "required": True}],
-        "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
+        "destructiveChangePolicy": {
+            "allowed": False,
+            "requiresHumanApproval": True,
+            "allowPatterns": [],
+        },
         "rollbackNote": "revert",
     }
 
 
 def valid_summary():
     return {
+        "summaryVersion": 2,
         "workItemId": "task",
         "contractPath": ".ai/work-items/active/task.contract.json",
         "changedFiles": [{"path": "scripts/app.py", "reason": "Fixture change."}],
@@ -61,26 +66,35 @@ def test_destructive_allow_patterns_require_policy_and_approval():
     issues = ai_check_work_item.validate_contract(contract)
     assert "destructiveChangePolicy.allowPatterns require allowed true" in issues
 
-    contract["destructiveChangePolicy"].update({"allowed": True, "approvalEvidence": {"approved": False}})
+    contract["destructiveChangePolicy"].update(
+        {"allowed": True, "approvalEvidence": {"approved": False}}
+    )
     issues = ai_check_work_item.validate_contract(contract)
     assert "destructive changes require approvalEvidence.approved true" in issues
 
 
 def test_restricted_guard_is_hard_without_approval(tmp_path, monkeypatch):
     ownership = tmp_path / "ownership.yaml"
-    ownership.write_text('policy/**:\n  aiWrite: restricted\n  reason: protected\n', encoding="utf-8")
+    ownership.write_text(
+        "policy/**:\n  aiWrite: restricted\n  reason: protected\n", encoding="utf-8"
+    )
     boundary = tmp_path / "boundary.yaml"
     boundary.write_text("", encoding="utf-8")
     monkeypatch.setattr(ai_check_guards, "OWNERSHIP", ownership)
     monkeypatch.setattr(ai_check_guards, "BOUNDARY", boundary)
 
     assert ai_check_guards.detect(["policy/rule.yaml"])[0].severity == "error"
-    assert ai_check_guards.detect(["policy/rule.yaml"], restricted_approved=True)[0].severity == "warning"
+    assert (
+        ai_check_guards.detect(["policy/rule.yaml"], restricted_approved=True)[0].severity
+        == "warning"
+    )
 
 
 def test_dependency_scope_rules_are_parsed(tmp_path):
     policy = tmp_path / "scope.yaml"
-    policy.write_text('dependencyScopeRules:\n  "scripts/ai_*.py":\n    - "tests/**"\n', encoding="utf-8")
+    policy.write_text(
+        'dependencyScopeRules:\n  "scripts/ai_*.py":\n    - "tests/**"\n', encoding="utf-8"
+    )
     lists = ai_check_scope.simple_yaml_lists(policy)
     assert lists["dependencyScopeRules.scripts/ai_*.py"] == ["tests/**"]
 
@@ -111,17 +125,35 @@ def test_problem_statement_is_optional_but_must_not_be_empty():
     assert "problemStatement must be a non-empty string" in issues
 
 
+def test_contract_validator_rejects_filename_mismatch():
+    contract = valid_contract()
+    issues = ai_check_work_item.validate_contract(contract, contract_path="wrong.contract.json")
+    assert "workItemId does not match the Contract filename" in issues
+
+
 def test_stale_checkpoint_hash_is_rejected():
     contract = valid_contract()
-    contract["checkpointPolicy"] = {"requiredBeforeFinish": True, "requiredStages": ["before_finish"]}
+    contract["checkpointPolicy"] = {
+        "requiredBeforeFinish": True,
+        "requiredStages": ["before_finish"],
+    }
     summary = {
-        "checkpointEvidence": [{
-            "stage": "before_finish", "recorded": True, "contractHash": "old",
-            "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": 1, "requiredChecksPassed": 0,
-        }],
+        "checkpointEvidence": [
+            {
+                "stage": "before_finish",
+                "recorded": True,
+                "contractHash": "old",
+                "acceptanceCount": 1,
+                "unknownCount": 0,
+                "requiredChecks": 1,
+                "requiredChecksPassed": 0,
+            }
+        ],
         "verification": [],
     }
-    issues = ai_check_agent_risk.validate_agent_risks(contract, summary, expected_contract_hash="new")
+    issues = ai_check_agent_risk.validate_agent_risks(
+        contract, summary, expected_contract_hash="new"
+    )
     assert "checkpointEvidence[before_finish] contractHash is stale" in issues
 
 
@@ -130,7 +162,10 @@ def test_stale_checkpoint_hash_is_rejected():
     [
         ('{"intent":{"problem":"a","problem":"b"}}', "problem"),
         ('{"verification":[{"check":"quality","required":true,"check":"quality-2"}]}', "check"),
-        ('{"scenarioCoverage":[{"scenario":"a","required":true,"status":"verified","evidence":[],"scenario":"b"}]}', "scenario"),
+        (
+            '{"scenarioCoverage":[{"scenario":"a","required":true,"status":"verified","evidence":[],"scenario":"b"}]}',
+            "scenario",
+        ),
     ],
 )
 def test_duplicate_keys_in_governance_json_fail(tmp_path, content, duplicate_key):
@@ -159,27 +194,31 @@ def test_scenario_coverage_validation_rejects_invalid_contract_entries():
     ]
 
     issues = ai_check_work_item.validate_contract(contract)
-    assert "scenarioCoverage[0].evidence must contain at least one item when status is verified" in issues
+    assert (
+        "scenarioCoverage[0].evidence must contain at least one item when status is verified"
+        in issues
+    )
     assert "scenarioCoverage[1].reason is required when status is not_applicable" in issues
 
 
 def test_parse_yaml_invalid_syntax(tmp_path):
     import pytest
     from ai_common import parse_yaml
+
     policy = tmp_path / "invalid_yaml.yaml"
 
     # 1. Invalid indentation (odd number of spaces)
-    policy.write_text('risks:\n   promptIsAdvice:\n     control: hard_gate', encoding="utf-8")
+    policy.write_text("risks:\n   promptIsAdvice:\n     control: hard_gate", encoding="utf-8")
     with pytest.raises(ValueError, match="Indentation must be a multiple of 2 spaces"):
         parse_yaml(policy)
 
     # 2. Key-value without colon
-    policy.write_text('risks:\n  promptIsAdvice\n    control: hard_gate', encoding="utf-8")
+    policy.write_text("risks:\n  promptIsAdvice\n    control: hard_gate", encoding="utf-8")
     with pytest.raises(ValueError, match="Expected key-value pair or key ending in"):
         parse_yaml(policy)
 
     # 3. Invalid list item format
-    policy.write_text('risks:\n  -invalid_list_item', encoding="utf-8")
+    policy.write_text("risks:\n  -invalid_list_item", encoding="utf-8")
     with pytest.raises(ValueError, match="Invalid list item format"):
         parse_yaml(policy)
 
@@ -187,6 +226,7 @@ def test_parse_yaml_invalid_syntax(tmp_path):
 # ---------------------------------------------------------------------------
 # intent フィールドのバリデーションテスト（V2）
 # ---------------------------------------------------------------------------
+
 
 def test_intent_absent_is_fully_backward_compatible():
     """intent なしの既存 Contract は引き続きパスする。"""
@@ -212,7 +252,9 @@ def test_intent_empty_object_is_valid():
 def test_intent_with_problem_only_is_valid():
     """最小構成: problem のみ記入でもパスする。"""
     contract = valid_contract()
-    contract["intent"] = {"problem": "Existing contract validator silently rejects unknown schema fields."}
+    contract["intent"] = {
+        "problem": "Existing contract validator silently rejects unknown schema fields."
+    }
     assert ai_check_work_item.validate_contract(contract) == []
 
 
@@ -252,8 +294,9 @@ def test_intent_string_field_empty_string_is_rejected():
         contract = valid_contract()
         contract["intent"] = {key: ""}
         issues = ai_check_work_item.validate_contract(contract)
-        assert f"intent.{key} must be a non-empty string when provided" in issues, \
+        assert f"intent.{key} must be a non-empty string when provided" in issues, (
             f"Expected error for empty intent.{key}"
+        )
 
 
 def test_intent_list_field_wrong_type_is_rejected():
@@ -262,8 +305,9 @@ def test_intent_list_field_wrong_type_is_rejected():
         contract = valid_contract()
         contract["intent"] = {key: "should be a list"}
         issues = ai_check_work_item.validate_contract(contract)
-        assert f"intent.{key} must be a list of non-empty strings when provided" in issues, \
+        assert f"intent.{key} must be a list of non-empty strings when provided" in issues, (
             f"Expected error for non-list intent.{key}"
+        )
 
 
 def test_intent_list_field_with_empty_string_item_is_rejected():
@@ -272,8 +316,9 @@ def test_intent_list_field_with_empty_string_item_is_rejected():
         contract = valid_contract()
         contract["intent"] = {key: ["valid constraint", ""]}
         issues = ai_check_work_item.validate_contract(contract)
-        assert f"intent.{key} must be a list of non-empty strings when provided" in issues, \
+        assert f"intent.{key} must be a list of non-empty strings when provided" in issues, (
             f"Expected error for empty string in intent.{key}"
+        )
 
 
 def test_intent_list_field_empty_list_is_valid():

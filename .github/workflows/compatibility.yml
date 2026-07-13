@@ -4,11 +4,19 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: compatibility-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   shellcheck:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
       - run: sudo apt-get update && sudo apt-get install -y shellcheck
       - run: shellcheck install.sh
 
@@ -19,12 +27,13 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python: ["3.10", "3.11", "3.14"]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: ${{ matrix.python }}
-      - run: python -m pip install --disable-pip-version-check -r requirements-dev.txt
+      - run: python -m pip install --disable-pip-version-check -r requirements-dev.lock
       - run: make quality
 
   real-stack-quality:
@@ -33,20 +42,21 @@ jobs:
       matrix:
         stack: [python, go, rust, typescript]
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.14"
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         if: matrix.stack == 'go'
         with:
           go-version: stable
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@e97e2d8cc328f1b50210efc529dca0028893a2d9
         if: matrix.stack == 'rust'
         with:
           components: rustfmt, clippy
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         if: matrix.stack == 'typescript'
         with:
           node-version: 24
@@ -105,30 +115,31 @@ jobs:
       matrix:
         stack: [java, kotlin, ruby, php, csharp]
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.14"
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a
         if: contains(fromJSON('["java", "kotlin"]'), matrix.stack)
         with:
           distribution: temurin
           java-version: "21"
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c
         if: contains(fromJSON('["java", "kotlin"]'), matrix.stack)
         with:
           gradle-version: "8.12"
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@d45b1a4e94b71acab930e56e79c6aa188764e7f9
         if: matrix.stack == 'ruby'
         with:
           ruby-version: "3.4"
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         if: matrix.stack == 'php'
         with:
           php-version: "8.4"
           tools: composer
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         if: matrix.stack == 'csharp'
         with:
           dotnet-version: "9.0.x"
@@ -252,24 +263,25 @@ jobs:
           - stack: swift
             os: macos-latest
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.14"
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         if: matrix.stack == 'flutter'
         with:
           channel: stable
           cache: true
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a
         if: matrix.stack == 'android'
         with:
           distribution: temurin
           java-version: "17"
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
         if: matrix.stack == 'android'
-      - uses: gradle/actions/setup-gradle@v5
+      - uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c
         if: matrix.stack == 'android'
         with:
           gradle-version: "8.12"

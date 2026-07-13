@@ -84,8 +84,12 @@ def run_remote_install(tmp_path: Path, expected_sha256: str) -> subprocess.Compl
         }
     )
     return subprocess.run(
-        [str(script), "--stack", "generic"], cwd=target, env=env,
-        text=True, capture_output=True, check=False,
+        [str(script), "--stack", "generic"],
+        cwd=target,
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
     )
 
 

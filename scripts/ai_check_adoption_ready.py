@@ -15,6 +15,27 @@ from ai_project_profile import load_profile
 PLACEHOLDER_MARKERS = ("configure PROJECT_", "No project")
 QUALITY_VARIABLES = ("PROJECT_FORMAT_CHECK", "PROJECT_TEST", "PROJECT_LINT")
 TRIVIAL_COMMANDS = {":", "true", "/bin/true"}
+TEMPLATE_EVIDENCE_FILES = (
+    "templates/agents/AI_COCKPIT_RULES.md",
+    "templates/glossary.md",
+    "templates/make/Makefile.ai",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/_templates/work_item_summary.example.json",
+)
+
+
+def template_distribution_evidence(root: Path) -> list[str]:
+    evidence: list[str] = []
+    for relative in TEMPLATE_EVIDENCE_FILES:
+        path = root / relative
+        if not path.is_file():
+            continue
+        try:
+            if path.read_text(encoding="utf-8").strip():
+                evidence.append(relative)
+        except OSError:
+            continue
+    return evidence
 
 
 def template_exemption(profile: dict[str, object], root: Path) -> tuple[bool, list[str]]:
@@ -28,8 +49,9 @@ def template_exemption(profile: dict[str, object], root: Path) -> tuple[bool, li
         evidence.append("repositoryRole=template")
     if os.environ.get("AI_COCKPIT_EXECUTION_MODE") == "template_maintenance":
         evidence.append("AI_COCKPIT_EXECUTION_MODE=template_maintenance")
-    if (root / "templates").is_dir() and (root / ".ai" / "work-items" / "_templates").is_dir():
-        evidence.append("template distribution and Work Item templates present")
+    distribution = template_distribution_evidence(root)
+    if len(distribution) == len(TEMPLATE_EVIDENCE_FILES):
+        evidence.append("template distribution evidence present")
     return len(evidence) == 3, evidence
 
 
@@ -39,7 +61,10 @@ def readiness_role_message(root: Path) -> str:
         return "role=unknown; no exemption; fix Project Profile then calibrate adopted-project readiness"
     exempt, evidence = template_exemption(profile, root)
     if exempt:
-        return "role=template maintenance; exemption=project calibration only; evidence=" + "; ".join(evidence)
+        return (
+            "role=template maintenance; exemption=project calibration only; evidence="
+            + "; ".join(evidence)
+        )
     return "role=adopted or unconfirmed template; exemption=none; migrate with Profile, Guards, quality commands, Coverage, and CI calibration"
 
 
@@ -54,7 +79,9 @@ def quality_commands(text: str) -> dict[str, str]:
 
 def readiness_failures(root: Path) -> list[str]:
     failures: list[str] = []
-    profile, profile_issues = load_profile(root / ".ai" / "project_profile.yaml", require_approval=True)
+    profile, profile_issues = load_profile(
+        root / ".ai" / "project_profile.yaml", require_approval=True
+    )
     role = profile.get("repositoryRole") if not profile_issues else None
     if not profile_issues and role not in {"template", "adopted"}:
         failures.append(
@@ -75,7 +102,9 @@ def readiness_failures(root: Path) -> list[str]:
     else:
         text = stack.read_text(encoding="utf-8")
         commands = quality_commands(text)
-        if any(marker in text for marker in PLACEHOLDER_MARKERS) or len(commands) != len(QUALITY_VARIABLES):
+        if any(marker in text for marker in PLACEHOLDER_MARKERS) or len(commands) != len(
+            QUALITY_VARIABLES
+        ):
             failures.append("replace all Makefile.ai.stack project quality placeholders")
         elif any(command in TRIVIAL_COMMANDS for command in commands.values()):
             failures.append("replace trivial no-op project quality commands such as true or :")
@@ -89,7 +118,9 @@ def readiness_failures(root: Path) -> list[str]:
 
     failures.extend(f"fix Project Profile: {issue}" for issue in profile_issues)
     if not profile_issues:
-        failures.extend(f"calibrate Guard policies: {issue}" for issue in calibration_issues(root, profile))
+        failures.extend(
+            f"calibrate Guard policies: {issue}" for issue in calibration_issues(root, profile)
+        )
 
     ci_files = list((root / ".github" / "workflows").glob("*.y*ml"))
     gitlab = root / ".gitlab-ci.yml"
@@ -98,10 +129,23 @@ def readiness_failures(root: Path) -> list[str]:
     ci_text = "\n".join(path.read_text(encoding="utf-8") for path in ci_files)
     for target in ("ai-cockpit-quality", "check-ai-pr"):
         if not any(
-            not line.lstrip().startswith("#") and re.search(rf"\bmake\s+{re.escape(target)}\b", line)
+            not line.lstrip().startswith("#")
+            and re.search(rf"\bmake\s+{re.escape(target)}\b", line)
             for line in ci_text.splitlines()
         ):
             failures.append(f"configure {target} in GitHub Actions or GitLab CI")
+
+    codeowners = root / ".github" / "CODEOWNERS"
+    if codeowners.is_file():
+        codeowners_text = codeowners.read_text(encoding="utf-8")
+        if "@owner" in codeowners_text:
+            failures.append("replace placeholder CODEOWNERS owners before adoption readiness")
+
+    security = root / "SECURITY.md"
+    if role == "adopted" and security.is_file():
+        security_text = security.read_text(encoding="utf-8")
+        if "Replace this document with your own security reporting process." in security_text:
+            failures.append("replace template SECURITY.md instructions before adoption readiness")
     return failures
 
 
@@ -117,7 +161,9 @@ def main() -> int:
             print(f"[FAIL] {failure}")
         return 1
     print("AI Cockpit static adoption configuration check passed")
-    print("This does not prove command effectiveness; require make ai-cockpit-quality and check-ai-pr in CI.")
+    print(
+        "This does not prove command effectiveness; require make ai-cockpit-quality and check-ai-pr in CI."
+    )
     return 0
 
 

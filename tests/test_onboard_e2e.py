@@ -9,7 +9,9 @@ from install_ai_cockpit import Installer
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def run(cwd: Path, *args: str, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+def run(
+    cwd: Path, *args: str, env: dict[str, str] | None = None
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(args, cwd=cwd, text=True, capture_output=True, check=False, env=env)
 
 
@@ -25,7 +27,7 @@ def bootstrap_python_project(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     (tmp_path / "pyproject.toml").write_text(
-        "[tool.pytest.ini_options]\ntestpaths = [\"tests\"]\n",
+        '[tool.pytest.ini_options]\ntestpaths = ["tests"]\n',
         encoding="utf-8",
     )
     assert run(tmp_path, "git", "add", ".").returncode == 0

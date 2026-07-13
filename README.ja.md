@@ -99,10 +99,12 @@ Cockpit が更新される。
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
 STACK="${STACK:-generic}" # generic、python、go、rust、typescript、java、android、kotlin、flutter、swift、ruby、php、csharp
-RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
+PUBLIC_REPOSITORY="${AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY:-https://github.com/<owner>/<repo>.git}"
+RAW_BASE="${AI_COCKPIT_TEMPLATE_RAW_BASE:-https://raw.githubusercontent.com/<owner>/<repo>}"
+RELEASE_TAG="$(curl -fsSL "${RAW_BASE}/main/release.json" 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs "$PUBLIC_REPOSITORY" 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
-curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
+curl -fsSL "${RAW_BASE}/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
 make ai-finish TASK=adopt_ai_cockpit
 git add .
@@ -113,6 +115,7 @@ make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this pro
 ```
 
 このコマンドは公開済みの `release.json` を優先し、メタデータ移行中にファイルが存在しない場合は、公開済みのセマンティックバージョンタグから最新のものを選びます。その後、解決したタグのインストーラーのみをダウンロードして実行します。公開版の機能はソースツリーより遅れる場合があるため、初回導入 PR を作成する前に[インストール手順](docs/getting-started/installation.md)を確認してください。
+リリース元の metadata や tagged installer が公開されていない場合、この quick install を匿名導入の前提として扱わないでください。`AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY` と `AI_COCKPIT_TEMPLATE_RAW_BASE` は release tag の解決と installer の取得にだけ使われ、installer 自体は `AI_COCKPIT_TEMPLATE_REPO` と `AI_COCKPIT_TEMPLATE_SOURCE` で clone / source の選択を行います。その場合はローカル clone か、明示的に設定した source を使ってください。
 
 生成された設定用 Contract の変更範囲を確認・拡張してから、Project Profile、Guard、品質コマンド、CI を変更します。その後、ブロッキングゲートを有効にする前に実行系を対象プロジェクトへ適合させます。
 
@@ -234,7 +237,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - POSIX 準拠のシェルおよび GNU Make 実行環境。
 - Linux および macOS は、ローカル実行および CI 用として公式にサポートされています。ネイティブの Windows シェルはサポートされていないため、WSL (Windows Subsystem for Linux) または他の POSIX ターミナルで実行してください。
 
-リポジトリの `make quality` は、スクリプトカバレッジ全体の下限 60% とライフサイクル上重要な各スクリプトの回帰防止下限、`scripts/` と `tests/` への Ruff、すべてのガバナンススクリプトへの Mypy、中・高重要度を対象とする Bandit、Python コンパイル、差分検査、ドキュメント整合性検査を実行します。
+リポジトリの `make quality` は、スクリプトカバレッジ全体の下限 80% とライフサイクル上重要な各スクリプトの回帰防止下限、`scripts/` と `tests/` への Ruff、すべてのガバナンススクリプトへの Mypy、中・高重要度を対象とする Bandit、Python コンパイル、差分検査、ドキュメント整合性検査を実行します。
 
 ## 詳細ドキュメント
 

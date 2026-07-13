@@ -13,7 +13,15 @@ from typing import Any
 
 from ai_common import load_json, verification_key
 from ai_observability import create_observability, elapsed_ms
-from ai_generate_status import BACKTRACK_REPORT, DEFAULT_LOG_PATH, DEFAULT_RETRY_THRESHOLD, load_preflight_review, project_relative, status_for
+from ai_generate_status import (
+    BACKTRACK_REPORT,
+    DEFAULT_LOG_PATH,
+    DEFAULT_RETRY_THRESHOLD,
+    apply_ownership_reconciliation,
+    load_preflight_review,
+    project_relative,
+    status_for,
+)
 from ai_governance_compression import derive_governance_status, render_active_status
 from ai_check_diff_ownership import counts as ownership_counts_for, preview as ownership_preview
 
@@ -68,10 +76,18 @@ def main() -> int:
         retry_threshold=DEFAULT_RETRY_THRESHOLD,
         observability_log=DEFAULT_LOG_PATH,
     )
-    model = derive_governance_status(contract, summary)
     backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     preflight_review = load_preflight_review(contract, Path(args.contract))
-    ownership_counts = ownership_counts_for(ownership_preview(contract=contract))
+    status_path = Path(args.status)
+    ownership_preview_items = [
+        item
+        for item in ownership_preview(contract=contract)
+        if item.path != project_relative(status_path)
+    ]
+    ownership_counts = ownership_counts_for(ownership_preview_items)
+    model = apply_ownership_reconciliation(
+        derive_governance_status(contract, summary), ownership_counts
+    )
     if state == "blocked" and blockers and blockers[0].startswith("retry circuit breaker"):
         model = {
             **model,
@@ -89,9 +105,19 @@ def main() -> int:
         contract_path=args.contract,
         summary_path=args.summary,
         generated_at="<timestamp>",
-        backtrack_report=project_relative(BACKTRACK_REPORT) if isinstance(backtrack, dict) else None,
-        backtrack_status=(backtrack.get("status") if isinstance(backtrack, dict) and isinstance(backtrack.get("status"), str) else None),
-        backtrack_items=(backtrack.get("items") if isinstance(backtrack, dict) and isinstance(backtrack.get("items"), list) else None),
+        backtrack_report=project_relative(BACKTRACK_REPORT)
+        if isinstance(backtrack, dict)
+        else None,
+        backtrack_status=(
+            backtrack.get("status")
+            if isinstance(backtrack, dict) and isinstance(backtrack.get("status"), str)
+            else None
+        ),
+        backtrack_items=(
+            backtrack.get("items")
+            if isinstance(backtrack, dict) and isinstance(backtrack.get("items"), list)
+            else None
+        ),
         preflight_review=preflight_review,
         ownership_counts=ownership_counts,
     )
@@ -103,7 +129,9 @@ def main() -> int:
     if issues:
         for issue in issues:
             print(f"[ERROR] {issue}", file=sys.stderr)
-        obs.check_failed(check_id="aiStatusCheck", duration_ms=duration, detail=f"{len(issues)} issue(s)")
+        obs.check_failed(
+            check_id="aiStatusCheck", duration_ms=duration, detail=f"{len(issues)} issue(s)"
+        )
         return 1
     print(f"cockpit status check passed: {args.status}")
     obs.check_passed(check_id="aiStatusCheck", duration_ms=duration)

@@ -1,0 +1,395 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "output_redaction_fragment_hardening",
+  "contractPath": ".ai/work-items/archive/2026/output_redaction_fragment_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/output_redaction_fragment_hardening.contract.json",
+      "reason": "Defined the output-redaction hardening scope, acceptance, and verification."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/output_redaction_fragment_hardening.summary.json",
+      "reason": "Recorded the execution summary and verification record for the hardening task."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated cockpit status after creating the active Work Item."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Hardened shared output redaction against truncated private-key fragments."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Added regression coverage for truncated and complete private-key redaction."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+    "scripts/ai_common.py",
+    "tests/test_core_gates.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:23.911570+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "fe8b1aeee9dc0f3581eb8e5b9b8819eaa68ffea0588db285f67d1eec448e7fb1",
+      "commandHash": "ae0c7b315900c2baf789672524f7c45ff758facf8a47d66abe281d8a9dd2b182",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/output_redaction_fragment_hardening.contract.json work item contract check passed: .ai/work-items/active/output_redaction_fragment_hardening.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:24.113141+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "a20bfa8bc677504f921ba4d7d265da4ac4351826bd3e7123ea0bd3c51b68e840",
+      "commandHash": "9599eeb3f817e34e1ba93f8605ee77644b698fee75a30ddf510d9dc807f64ab9",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/output_redaction_fragment_hardening.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:24.323534+00:00",
+      "exitCode": 0,
+      "durationMs": 137,
+      "outputDigest": "9133db33643b065cfa7daaea4c3916ef479ad87dfa56c8216d3a8d4310640718",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:26.202049+00:00",
+      "exitCode": 0,
+      "durationMs": 1725,
+      "outputDigest": "265fd19fc9f580f52ec1f74569069bdd0d377b8a3dcac9ab83d44a09aa1ab9e9",
+      "commandHash": "88f6cf8ec8694305df1d778020dbe1cf001eb731a2d3171516c053b94d1447d1",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `output_redaction_fragment_hardening` - Contract Hash: `354c23d9dd1a403b` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:26.412103+00:00",
+      "exitCode": 0,
+      "durationMs": 135,
+      "outputDigest": "6828e1cea97564cf0b7c428944b92237e84fd5258c8ab440a617a10d25d8819c",
+      "commandHash": "a051ffee9423395939c8445bfdf6448d782b485436fc847b7977f9c7239bfc94",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_common.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:26.608458+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:26.802669+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:26.930721+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "9bacd8f313788f69455a360e841bdad05f5d321a0bfc29f5ac5783816afa1894",
+      "commandHash": "b561705b0ddf3454508fa93c9cce2fa89d46fe6a47fd960fda4e223659c6e671",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:27.058590+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "5cc7e332e0b33dfe2a91b4ea2308bf2c8c4a2aeae28128e50c84da4b94a5d799",
+      "commandHash": "0fc116d32712ba61144c76cbfffb4bf0b03ed6fd1a21afedf48062b83633f0a5",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:05:28.927473+00:00",
+      "exitCode": 0,
+      "durationMs": 1780,
+      "outputDigest": "d9ccd2ada437884d5ab0de82146c0f07e382f99aeb75a261738e275697561ec1",
+      "commandHash": "28d97e7c1c670569235e2362352e5b0010772cf74f4154fd24f1e2eeca9db658",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_common.py` — covered by Contract scope - [active_owned] `tests/test_core_gates.py` — covered "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:06:36.522253+00:00",
+      "exitCode": 0,
+      "durationMs": 67482,
+      "outputDigest": "6d56b32af21ea1a63f1183722669e96ce96b7cd5f758e9af8391b42559dcdfef",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "1617dce95f9fb7df7c11a3b6d415258a7bc22b6b596ebb6f0a339f142faf0a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 87 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 19%] ........................................................................ [ 39%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:06:42.650587+00:00",
+      "exitCode": 0,
+      "durationMs": 1790,
+      "outputDigest": "959408fab2a00b1caa0b0b822e4a828a499c7fc6fd1a8d1e7c20280d67774e4f",
+      "commandHash": "dab53901260e4e212afa372081dc243520a96298dec0a9d16a8163c6f172a9cd",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "c5c9d3915579757d3d88aa22a633e8da2fdec851c8da84e18f9075bc60288e9a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/output_redaction_fragment_hardening.contract.json --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:06:44.483674+00:00",
+      "exitCode": 0,
+      "durationMs": 1761,
+      "outputDigest": "81351933f3aec5b341c20b48df686280219e4a478bdccd19f953f18aec3dbdc9",
+      "commandHash": "4936446f5ec9aa004febdb29bc1af6686bc8ac6e42adbef1a2b3f42701a3b3af",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "c5c9d3915579757d3d88aa22a633e8da2fdec851c8da84e18f9075bc60288e9a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:06:44.609068+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "c5c9d3915579757d3d88aa22a633e8da2fdec851c8da84e18f9075bc60288e9a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:06:44.734679+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "88c67270bf17d9a37ea4161c5c99ce4b80dd3c8ca271438b6377771a383e0479",
+      "commandHash": "c39c6a4c11ddeb916f3bff7d93705e0da25f33c11216b2efa1289352e941250f",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "c5c9d3915579757d3d88aa22a633e8da2fdec851c8da84e18f9075bc60288e9a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json --summary .ai/work-items/active/output_redaction_fragment_hardening.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/output_redaction_fragment_hardening.summary.json CONTRACT=.ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T08:06:44.931320+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "1a3fba9c345ee25d32e68a20eb17472b3c47e5a9c4734f4bbd98232ddf42b72c",
+      "commandHash": "d4447b6d76c6f8805a37ce6e501e6111f4f23f601f9e9df3de3d4559d8f998ff",
+      "contractHash": "354c23d9dd1a403b86ac926901283c3fac008000d200ae64369c0f4f22e5c7ba",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/output_redaction_fragment_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/output_redaction_fragment_hardening.summary.json",
+      "worktreeDigest": "c5c9d3915579757d3d88aa22a633e8da2fdec851c8da84e18f9075bc60288e9a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/output_redaction_fragment_hardening.summary.json --contract .ai/work-items/active/output_redaction_fragment_hardening.contract.json ai summary check passed: .ai/work-items/active/output_redaction_fragment_hardening.summary.json"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A truncated private-key header fragment is redacted from captured output.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py::test_finish_record_result_requires_active_summary"
+      ]
+    },
+    {
+      "scenario": "A complete private-key block remains redacted.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py::test_finish_record_result_requires_active_summary"
+      ]
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public APIs were added; the change is limited to shared redaction behavior and regression coverage."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The change only touches ai_common.py and its local regression test."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Narrow output-redaction hardening with direct regression coverage."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "redaction",
+      "detail": "The helper intentionally redacts from a truncated private-key marker to end-of-output to avoid leaking partial secret material.",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Implementation and verification are still in progress.",
+    "expectedReviewFocus": [
+      "Confirm truncated private-key fragments are redacted without weakening the existing full-key redaction.",
+      "Confirm the regression coverage in tests/test_core_gates.py covers both fragment and full-key cases."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "354c23d9dd1a403b",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "354c23d9dd1a403b",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Will record the final checkpoint after implementation and verification."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

@@ -6,6 +6,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import hashlib
 import re
 import subprocess
 import sys
@@ -20,6 +21,11 @@ PUBLIC_REPOSITORY = os.environ.get(
     "AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY",
     "https://github.com/xinglun/ai-cockpit-template.git",
 )
+SUPPLY_CHAIN_FILES = {
+    "requirementsLockDigest": ROOT / "requirements-dev.lock",
+    "sbomDigest": ROOT / ".ai" / "cockpit" / "sbom.json",
+    "provenanceDigest": ROOT / ".ai" / "cockpit" / "provenance.json",
+}
 
 
 def clean_git_environment() -> dict[str, str]:
@@ -32,7 +38,7 @@ def clean_git_environment() -> dict[str, str]:
 
 
 def clone_git_environment() -> dict[str, str]:
-    """Return an environment suitable for cloning without ambient repo state."""
+    """Return an environment suitable for anonymous Git network operations."""
     env = dict(os.environ)
     for key in (
         "GIT_DIR",
@@ -41,9 +47,39 @@ def clone_git_environment() -> dict[str, str]:
         "GIT_PREFIX",
         "GIT_CEILING_DIRECTORIES",
         "AI_BASE_COMMIT",
+        "GIT_CONFIG_COUNT",
+        "GIT_CONFIG_KEY_0",
+        "GIT_CONFIG_VALUE_0",
+        "GIT_CONFIG_GLOBAL",
+        "GIT_CONFIG_SYSTEM",
+        "GIT_ASKPASS",
+        "SSH_ASKPASS",
+        "SSH_AUTH_SOCK",
+        "SSH_AGENT_PID",
+        "GITHUB_TOKEN",
+        "GH_TOKEN",
+        "GH_ENTERPRISE_TOKEN",
     ):
         env.pop(key, None)
+    env["GIT_CONFIG_NOSYSTEM"] = "1"
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    env["GIT_CONFIG_GLOBAL"] = os.devnull
+    env["GIT_CONFIG_SYSTEM"] = os.devnull
     return env
+
+
+def anonymous_git_command(*args: str) -> list[str]:
+    """Build a Git command that refuses to inherit credential helpers or auth headers."""
+    return [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "core.askPass=",
+        *args,
+    ]
 
 
 def highest_semver_tag(refs: str) -> str:
@@ -55,6 +91,36 @@ def highest_semver_tag(refs: str) -> str:
     if not tags:
         raise RuntimeError("public repository has no semantic-version tags")
     return max(tags, key=lambda tag: tuple(int(part) for part in tag[1:].split(".")))
+
+
+def file_digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def supply_chain_issues(metadata: dict[str, object]) -> list[str]:
+    issues: list[str] = []
+    supply_chain = metadata.get("supplyChain")
+    if not isinstance(supply_chain, dict):
+        return ["release.json is missing supplyChain release evidence"]
+    for key, path in SUPPLY_CHAIN_FILES.items():
+        expected = supply_chain.get(key)
+        if not isinstance(expected, str) or not expected:
+            issues.append(f"release.json supplyChain.{key} is missing")
+            continue
+        if not path.is_file():
+            issues.append(
+                f"release.json supplyChain.{key} source file is missing: {path.relative_to(ROOT)}"
+            )
+            continue
+        actual = file_digest(path)
+        if actual != expected:
+            issues.append(
+                f"release.json supplyChain.{key} differs from {path.relative_to(ROOT)} "
+                f"(expected={expected}, actual={actual})"
+            )
+    if supply_chain.get("secretScanning") is not True:
+        issues.append("release.json supplyChain.secretScanning must be true")
+    return issues
 
 
 def fixture_archive(path: Path) -> None:
@@ -131,8 +197,12 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
         )
         env.pop("AI_COCKPIT_TEMPLATE_SOURCE", None)
         result = subprocess.run(
-            [str(installer), "--stack", "generic"], cwd=target, env=env,
-            text=True, capture_output=True, check=False,
+            [str(installer), "--stack", "generic"],
+            cwd=target,
+            env=env,
+            text=True,
+            capture_output=True,
+            check=False,
         )
     rejected_digest = result.returncode != 0 and "SHA256 mismatch" in result.stderr
     if rejected_digest != sha256_supported:
@@ -142,7 +212,9 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
         )
 
 
-def run_command(command: list[str], *, cwd: Path, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+def run_command(
+    command: list[str], *, cwd: Path, env: dict[str, str] | None = None
+) -> subprocess.CompletedProcess[str]:
     if env is None:
         env = dict(os.environ)
     return subprocess.run(command, cwd=cwd, env=env, text=True, capture_output=True, check=False)
@@ -165,19 +237,39 @@ def exercise_public_distribution(
         init_env["GIT_CEILING_DIRECTORIES"] = str(project.parent.resolve())
         init_result = run_command(["git", "init", "-q"], cwd=project, env=init_env)
         if init_result.returncode != 0:
-            raise RuntimeError(f"{tag}: failed to initialize git repository: {init_result.stderr.strip()}")
+            raise RuntimeError(
+                f"{tag}: failed to initialize git repository: {init_result.stderr.strip()}"
+            )
         isolated_env = init_env
         (project / "README.md").write_text("# Release contract fixture\n", encoding="utf-8")
         run_command(["git", "add", "README.md"], cwd=project, env=isolated_env)
         initial = run_command(
-            ["git", "-c", "user.name=AI Cockpit", "-c", "user.email=release@example.invalid", "commit", "-qm", "initial"],
+            [
+                "git",
+                "-c",
+                "user.name=AI Cockpit",
+                "-c",
+                "user.email=release@example.invalid",
+                "commit",
+                "-qm",
+                "initial",
+            ],
             cwd=project,
             env=isolated_env,
         )
         if initial.returncode != 0:
-            raise RuntimeError(f"{tag}: failed to create installation fixture: {initial.stderr.strip()}")
-        base = run_command(["git", "rev-parse", "HEAD"], cwd=project, env=isolated_env).stdout.strip()
-        if run_command(["git", "cat-file", "-e", f"{base}^{{commit}}"], cwd=project, env=isolated_env).returncode != 0:
+            raise RuntimeError(
+                f"{tag}: failed to create installation fixture: {initial.stderr.strip()}"
+            )
+        base = run_command(
+            ["git", "rev-parse", "HEAD"], cwd=project, env=isolated_env
+        ).stdout.strip()
+        if (
+            run_command(
+                ["git", "cat-file", "-e", f"{base}^{{commit}}"], cwd=project, env=isolated_env
+            ).returncode
+            != 0
+        ):
             raise RuntimeError(f"{tag}: fixture initial commit is not available: {base}")
         installer = project.parent / "install.sh"
         installer.write_bytes(script)
@@ -198,9 +290,18 @@ def exercise_public_distribution(
                 f"--- STDOUT ---\n{installed.stdout}\n"
                 f"--- STDERR ---\n{installed.stderr}"
             )
-        if run_command(["git", "cat-file", "-e", f"{base}^{{commit}}"], cwd=project, env=isolated_env).returncode != 0:
-            raise RuntimeError(f"{tag}: fixture initial commit disappeared after installation: {base}")
-        adoption_contract = project / ".ai" / "work-items" / "active" / "adopt_ai_cockpit.contract.json"
+        if (
+            run_command(
+                ["git", "cat-file", "-e", f"{base}^{{commit}}"], cwd=project, env=isolated_env
+            ).returncode
+            != 0
+        ):
+            raise RuntimeError(
+                f"{tag}: fixture initial commit disappeared after installation: {base}"
+            )
+        adoption_contract = (
+            project / ".ai" / "work-items" / "active" / "adopt_ai_cockpit.contract.json"
+        )
         try:
             recorded_base = json.loads(adoption_contract.read_text(encoding="utf-8"))["baseCommit"]
         except (OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
@@ -223,7 +324,9 @@ def exercise_public_distribution(
         readiness = run_command(["make", "check-ai-adoption-ready"], cwd=project, env=isolated_env)
         if readiness.returncode == 0:
             raise RuntimeError(f"{tag}: adoption readiness must fail before project calibration")
-        finished = run_command(["make", "ai-finish", "TASK=adopt_ai_cockpit"], cwd=project, env=isolated_env)
+        finished = run_command(
+            ["make", "ai-finish", "TASK=adopt_ai_cockpit"], cwd=project, env=isolated_env
+        )
         if finished.returncode != 0:
             raise RuntimeError(
                 f"{tag}: adoption finish failed:\n"
@@ -232,7 +335,16 @@ def exercise_public_distribution(
             )
         run_command(["git", "add", "."], cwd=project, env=isolated_env)
         committed = run_command(
-            ["git", "-c", "user.name=AI Cockpit", "-c", "user.email=release@example.invalid", "commit", "-qm", "adopt"],
+            [
+                "git",
+                "-c",
+                "user.name=AI Cockpit",
+                "-c",
+                "user.email=release@example.invalid",
+                "commit",
+                "-qm",
+                "adopt",
+            ],
             cwd=project,
             env=isolated_env,
         )
@@ -242,7 +354,9 @@ def exercise_public_distribution(
                 f"--- STDOUT ---\n{committed.stdout}\n"
                 f"--- STDERR ---\n{committed.stderr}"
             )
-        audited = run_command(["make", "check-ai-pr", f"AI_BASE_COMMIT={base}"], cwd=project, env=isolated_env)
+        audited = run_command(
+            ["make", "check-ai-pr", f"AI_BASE_COMMIT={base}"], cwd=project, env=isolated_env
+        )
         if audited.returncode != 0:
             raise RuntimeError(
                 f"{tag}: adoption PR audit failed:\n"
@@ -251,8 +365,11 @@ def exercise_public_distribution(
             )
         configured = run_command(
             [
-                "make", "ai-start", "TASK=configure_ai_cockpit",
-                "TITLE=Configure AI Cockpit for this project", "MODE=code",
+                "make",
+                "ai-start",
+                "TASK=configure_ai_cockpit",
+                "TITLE=Configure AI Cockpit for this project",
+                "MODE=code",
             ],
             cwd=project,
             env=isolated_env,
@@ -264,9 +381,10 @@ def exercise_public_distribution(
                 f"--- STDERR ---\n{configured.stderr}"
             )
         active = project / ".ai" / "work-items" / "active"
-        if not (active / "configure_ai_cockpit.contract.json").is_file() or not (
-            active / "configure_ai_cockpit.summary.json"
-        ).is_file():
+        if (
+            not (active / "configure_ai_cockpit.contract.json").is_file()
+            or not (active / "configure_ai_cockpit.summary.json").is_file()
+        ):
             raise RuntimeError(f"{tag}: configuration Work Item pair is missing")
 
 
@@ -275,15 +393,16 @@ def fetch_tagged_installer(tag: str) -> bytes:
         clone_dir = Path(raw) / "repo"
         clone = run_command(
             [
-                "git",
-                "clone",
-                "--depth",
-                "1",
-                "--branch",
-                tag,
-                "--single-branch",
-                PUBLIC_REPOSITORY,
-                str(clone_dir),
+                *anonymous_git_command(
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    tag,
+                    "--single-branch",
+                    PUBLIC_REPOSITORY,
+                    str(clone_dir),
+                )
             ],
             cwd=Path(raw),
             env=clone_git_environment(),
@@ -299,7 +418,7 @@ def fetch_tagged_installer(tag: str) -> bytes:
 def list_remote_tags(repository_url: str) -> str:
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-public-release-query-") as raw:
         query = run_command(
-            ["git", "ls-remote", "--tags", "--refs", repository_url],
+            [*anonymous_git_command("ls-remote", "--tags", "--refs", repository_url)],
             cwd=Path(raw),
             env=clone_git_environment(),
         )
@@ -315,12 +434,19 @@ def main() -> int:
     quality_target = metadata["publicContract"]["projectQualityTarget"]
     local_source = os.environ.get("AI_COCKPIT_TEMPLATE_SOURCE")
     try:
+        issues = supply_chain_issues(metadata)
+        if issues:
+            raise RuntimeError("; ".join(issues))
         latest_tag = highest_semver_tag(list_remote_tags(PUBLIC_REPOSITORY))
         if tag != latest_tag:
-            raise RuntimeError(f"release.json points to {tag}, but highest public tag is {latest_tag}")
+            raise RuntimeError(
+                f"release.json points to {tag}, but highest public tag is {latest_tag}"
+            )
         script = fetch_tagged_installer(tag)
         exercise_installer(script, tag=tag, sha256_supported=supported)
-        exercise_public_distribution(script, tag=tag, quality_target=quality_target, source_path=local_source)
+        exercise_public_distribution(
+            script, tag=tag, quality_target=quality_target, source_path=local_source
+        )
     except (OSError, KeyError, TypeError, ValueError, RuntimeError) as exc:
         print(f"release distribution check failed: {exc}", file=sys.stderr)
         return 1

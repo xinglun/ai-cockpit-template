@@ -44,7 +44,7 @@ Compatibility evidence is tiered:
 
 CI verification proves the documented minimal project only. It does not guarantee compatibility with every framework version, plugin set, monorepo layout, SDK, or generated-code policy.
 
-Stack presets configure these variables:
+Stack presets populate these variables:
 
 ```make
 PROJECT_FORMAT_CHECK = printf '%s\n' 'No formatter configured.'
@@ -54,7 +54,7 @@ PROJECT_LINT = printf '%s\n' 'No linter configured.'
 
 Those lines illustrate variable names only. The shipped generic preset fails closed until all three commands are configured; it does not treat placeholder output as a successful quality gate.
 
-Presets are editable starting points rather than dependency installers or universal compatibility guarantees. Before using one, make sure its formatter, test runner, SDK, and build plugins are configured in the target repository. Compatibility CI uses JDK 21 for Java and JDK 17 for the Android smoke project; neither value is a universal project requirement. The template does not install, switch, or version-manage JDKs: use the version required by the project's Gradle Wrapper and Android Gradle Plugin (AGP). For Android projects, the preset task names are calibration starting points: replace `testDebugUnitTest`, `spotlessCheck`, and `lint` with the actual `test<Flavor><BuildType>UnitTest` and `lint<Variant>` commands exposed by the Gradle wrapper. The Python preset expects Ruff and pytest. `examples/` demonstrates selected stacks and does not mirror every available preset.
+Presets are editable starting points rather than dependency installers or universal compatibility guarantees. Before using one, make sure its formatter, test runner, SDK, and build plugins are configured in the target repository. Compatibility CI uses JDK 21 for Java and JDK 17 for the Android smoke project; neither value is a universal project requirement. AI Cockpit does not install, switch, or version-manage JDKs: use the version required by the project's Gradle Wrapper and Android Gradle Plugin (AGP). For Android projects, the preset task names are calibration starting points: replace `testDebugUnitTest`, `spotlessCheck`, and `lint` with the actual `test<Flavor><BuildType>UnitTest` and `lint<Variant>` commands exposed by the Gradle wrapper. The Python preset expects Ruff and pytest. `examples/` demonstrates selected stacks and does not mirror every available preset.
 
 Stack selection changes quality commands only; it does not install a stack-specific guard policy. The default Coverage Guard includes several common layouts (`src/`, `lib/`, Android `app/src/main/`, Swift `Sources/`, and C# files), but repositories must review production/test patterns and `associations` in `.ai/guards/coverage_policy.yaml` before treating the gate as complete framework coverage. Android adopters should keep that policy report-only at first, then narrow module and flavor boundaries after the real source-set layout is confirmed.
 
@@ -104,7 +104,7 @@ Restricted paths are hard failures unless the active Contract contains an explic
 
 These approval objects are explicit workflow records, not trusted identity assertions: an agent that can edit the Contract can also edit those fields. Organizations that require trustworthy approval must enforce it outside the repository-controlled Contract through CODEOWNERS/required reviews, protected environments, or CI checks backed by platform identity.
 
-`scope_policy.yaml` `dependencyScopeRules` maps a changed source pattern to required companion change patterns. The default template requires governance script changes to include tests.
+`scope_policy.yaml` `dependencyScopeRules` maps a changed source pattern to required companion change patterns. The default policy requires governance script changes to include tests.
 
 For pull-request CI, set `AI_BASE_COMMIT` to `git merge-base HEAD <target-branch>`. This makes every diff-aware guard inspect committed PR changes in a clean checkout.
 

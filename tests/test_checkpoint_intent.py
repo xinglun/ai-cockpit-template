@@ -7,6 +7,7 @@ import ai_checkpoint
 # ヘルパー
 # ---------------------------------------------------------------------------
 
+
 def _contract_with_intent(intent):
     """intent フィールドを持つ最小 Contract を返す。"""
     return {"intent": intent}
@@ -29,6 +30,7 @@ def _missing_intent_lines():
 # intent セクション自体が欠落・不正な場合
 # ---------------------------------------------------------------------------
 
+
 def test_intent_absent_returns_empty():
     """intent フィールドがない Contract は既定の未提供表示を返す。"""
     assert ai_checkpoint.intent_context(_contract_without_intent()) == _missing_intent_lines()
@@ -47,6 +49,7 @@ def test_intent_empty_dict_returns_empty():
 # ---------------------------------------------------------------------------
 # None・空文字列のスキップ
 # ---------------------------------------------------------------------------
+
 
 def test_problem_none_is_skipped():
     """intent.problem が None の場合は not provided が表示される。"""
@@ -82,6 +85,7 @@ def test_rationale_empty_string_is_skipped():
 # constraints のスキップ
 # ---------------------------------------------------------------------------
 
+
 def test_constraints_none_is_skipped():
     """intent.constraints が None の場合は not provided が表示される。"""
     result = ai_checkpoint.intent_context(_contract_with_intent({"constraints": None}))
@@ -115,6 +119,7 @@ def test_constraints_non_list_is_skipped():
 # ---------------------------------------------------------------------------
 # 値が記入済みのフィールドの出力確認
 # ---------------------------------------------------------------------------
+
 
 def test_problem_is_included_when_filled():
     """intent.problem が記入済みの場合は 'problem: ...' の形式で出力される。"""
@@ -155,7 +160,9 @@ def test_rationale_is_included_when_filled():
 def test_constraints_are_included_when_filled():
     """constraints の各要素が 'constraint: ...' の形式で出力される。"""
     result = ai_checkpoint.intent_context(
-        _contract_with_intent({"constraints": ["Must remain backward compatible.", "No new required fields."]})
+        _contract_with_intent(
+            {"constraints": ["Must remain backward compatible.", "No new required fields."]}
+        )
     )
     assert result == [
         "problem: not provided",
@@ -169,14 +176,17 @@ def test_constraints_are_included_when_filled():
 # 複合ケース
 # ---------------------------------------------------------------------------
 
+
 def test_all_filled_fields_appear_in_order():
     """problem → constraints → rationale の順に出力される。"""
     result = ai_checkpoint.intent_context(
-        _contract_with_intent({
-            "problem": "Agents solve the wrong problem.",
-            "constraints": ["Must remain backward compatible.", "No new required fields."],
-            "rationale": "Optional fields allow gradual adoption.",
-        })
+        _contract_with_intent(
+            {
+                "problem": "Agents solve the wrong problem.",
+                "constraints": ["Must remain backward compatible.", "No new required fields."],
+                "rationale": "Optional fields allow gradual adoption.",
+            }
+        )
     )
     assert result == [
         "problem: Agents solve the wrong problem.",
@@ -189,11 +199,13 @@ def test_all_filled_fields_appear_in_order():
 def test_partial_intent_only_filled_fields_appear():
     """記入済みのフィールドのみが実値になり、未記入は not provided になる。"""
     result = ai_checkpoint.intent_context(
-        _contract_with_intent({
-            "problem": "Intent section is not displayed at checkpoint.",
-            "constraints": [],
-            "rationale": None,
-        })
+        _contract_with_intent(
+            {
+                "problem": "Intent section is not displayed at checkpoint.",
+                "constraints": [],
+                "rationale": None,
+            }
+        )
     )
     assert result == [
         "problem: Intent section is not displayed at checkpoint.",
@@ -205,10 +217,12 @@ def test_partial_intent_only_filled_fields_appear():
 def test_unknown_intent_keys_do_not_raise():
     """intent に未知のキーがあっても例外を起こさない（validator が別途検出する）。"""
     result = ai_checkpoint.intent_context(
-        _contract_with_intent({
-            "problem": "Known problem.",
-            "unknownKey": "ignored by intent_context",
-        })
+        _contract_with_intent(
+            {
+                "problem": "Known problem.",
+                "unknownKey": "ignored by intent_context",
+            }
+        )
     )
     # unknownKey は表示されず、problem のみ実値になる
     assert result == [

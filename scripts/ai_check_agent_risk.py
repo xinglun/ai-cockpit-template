@@ -41,7 +41,11 @@ def summary_status(summary: dict[str, Any] | None) -> dict[str, str]:
         return {}
     statuses: dict[str, str] = {}
     for item in summary.get("verification", []):
-        if isinstance(item, dict) and verification_key(item) and isinstance(item.get("result"), str):
+        if (
+            isinstance(item, dict)
+            and verification_key(item)
+            and isinstance(item.get("result"), str)
+        ):
             statuses[verification_key(item)] = str(item["result"])
     return statuses
 
@@ -68,7 +72,11 @@ def validate_agent_risks(
             issues.append(f"missing required AI hard gate verification: {required}")
             continue
         if isinstance(summary, dict) and required != "aiAgentRisk":
-            passed = [command for command in matching_required_commands(commands, required) if statuses.get(command) == "passed"]
+            passed = [
+                command
+                for command in matching_required_commands(commands, required)
+                if statuses.get(command) == "passed"
+            ]
             if not passed:
                 issues.append(f"required AI hard gate is not passed in Summary: {required}")
 
@@ -81,14 +89,20 @@ def validate_agent_risks(
     capability: dict[str, Any] = raw_capability if isinstance(raw_capability, dict) else {}
 
     if mode == "code" and (has_unknowns or not_codable):
-        issues.append("mode code cannot proceed with unknowns or notCodable; use investigate/author_todo/review/cleanup or clear blockers")
+        issues.append(
+            "mode code cannot proceed with unknowns or notCodable; use investigate/author_todo/review/cleanup or clear blockers"
+        )
     if has_unknowns or not_codable:
         if decision_status not in NON_CODING_STATUSES:
-            issues.append("unknowns/notCodable require executionDecision.status to be defer, needs_human_decision, or block")
+            issues.append(
+                "unknowns/notCodable require executionDecision.status to be defer, needs_human_decision, or block"
+            )
         if capability.get("canImplement") is True:
             issues.append("unknowns/notCodable require agentCapability.canImplement false")
     if decision_status == "continue" and capability.get("needsHumanDecision") is True:
-        issues.append("executionDecision continue conflicts with agentCapability.needsHumanDecision true")
+        issues.append(
+            "executionDecision continue conflicts with agentCapability.needsHumanDecision true"
+        )
 
     policy = contract.get("checkpointPolicy")
     if isinstance(policy, dict) and policy.get("requiredBeforeFinish") is True:
@@ -108,15 +122,28 @@ def validate_agent_risks(
         for item in checkpoint_evidence(summary):
             if item.get("stage") in required_stages and item.get("recorded") is True:
                 if not non_empty_string(item.get("contractHash")):
-                    issues.append(f"checkpointEvidence[{item.get('stage')}].contractHash is required")
-                for key in ("acceptanceCount", "unknownCount", "requiredChecks", "requiredChecksPassed"):
+                    issues.append(
+                        f"checkpointEvidence[{item.get('stage')}].contractHash is required"
+                    )
+                for key in (
+                    "acceptanceCount",
+                    "unknownCount",
+                    "requiredChecks",
+                    "requiredChecksPassed",
+                ):
                     if not isinstance(item.get(key), int):
-                        issues.append(f"checkpointEvidence[{item.get('stage')}].{key} must be integer")
+                        issues.append(
+                            f"checkpointEvidence[{item.get('stage')}].{key} must be integer"
+                        )
                 if expected_contract_hash and item.get("contractHash") != expected_contract_hash:
                     issues.append(f"checkpointEvidence[{item.get('stage')}] contractHash is stale")
                 expected_counts = {
-                    "acceptanceCount": len(contract.get("acceptance", [])) if isinstance(contract.get("acceptance"), list) else 0,
-                    "unknownCount": len(contract.get("unknowns", [])) if isinstance(contract.get("unknowns"), list) else 0,
+                    "acceptanceCount": len(contract.get("acceptance", []))
+                    if isinstance(contract.get("acceptance"), list)
+                    else 0,
+                    "unknownCount": len(contract.get("unknowns", []))
+                    if isinstance(contract.get("unknowns"), list)
+                    else 0,
                     "requiredChecks": len(commands),
                 }
                 for key, expected in expected_counts.items():
@@ -141,7 +168,9 @@ def main() -> int:
     start = time.time()
     try:
         contract = load_json(Path(args.contract))
-        summary = load_json(Path(args.summary)) if args.summary and Path(args.summary).exists() else None
+        summary = (
+            load_json(Path(args.summary)) if args.summary and Path(args.summary).exists() else None
+        )
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Failed to run agent risk check: {exc}", file=sys.stderr)
         return 1
@@ -171,7 +200,9 @@ def main() -> int:
         for issue in issues:
             print(f"[ERROR] {issue}", file=sys.stderr)
         print(f"report: {REPORT.relative_to(PROJECT_ROOT)}")
-        obs.check_failed(check_id="aiAgentRisk", duration_ms=duration, detail=f"{len(issues)} issue(s)")
+        obs.check_failed(
+            check_id="aiAgentRisk", duration_ms=duration, detail=f"{len(issues)} issue(s)"
+        )
         return 1
     print("agent risk check passed")
     print(f"report: {REPORT.relative_to(PROJECT_ROOT)}")

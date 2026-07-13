@@ -13,15 +13,29 @@ from pathlib import Path
 from typing import Any
 
 from ai_check_summary import changed_file_paths
-from ai_check_pr import archive_evidence_changes
-from ai_common import PROJECT_ROOT, changed_name_status, first_match, included, load_json, parse_simple_manifest
+from ai_check_pr import archive_evidence_changes, archive_pair_rank
+from ai_common import (
+    PROJECT_ROOT,
+    changed_name_status,
+    first_match,
+    included,
+    load_json,
+    parse_simple_manifest,
+)
 
 
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
 ARCHIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "archive"
 OWNERSHIP_POLICY = PROJECT_ROOT / ".ai" / "guards" / "file_ownership.yaml"
 REPORT = PROJECT_ROOT / "target" / "ai_diff_ownership_report.json"
-STATES = {"active_owned", "archived_owned", "unowned", "ambiguous", "out_of_scope", "approval_required"}
+STATES = {
+    "active_owned",
+    "archived_owned",
+    "unowned",
+    "ambiguous",
+    "out_of_scope",
+    "approval_required",
+}
 
 
 @dataclass(frozen=True)
@@ -75,7 +89,12 @@ def owners(*, base: str = "", active_contract: dict[str, Any] | None = None) -> 
         # scopes create false ambiguity for a path that this PR already owns.
         from ai_check_pr import archived_contract_paths
 
-        archive_paths = archived_contract_paths(base)
+        archive_paths = sorted(
+            archived_contract_paths(base),
+            key=lambda contract_path: archive_pair_rank(
+                contract_path, Path(str(contract_path).replace(".contract.json", ".summary.json"))
+            ),
+        )
     else:
         archive_paths = sorted(ARCHIVE_DIR.rglob("*.contract.json"))
     for path in archive_paths:
@@ -90,7 +109,9 @@ def covers(owner: Owner, path: str) -> tuple[bool, bool]:
     excluded = included(path, string_list(owner.contract.get("outOfScope")))
     if not scoped or excluded:
         return False, excluded
-    if owner.kind == "archived" and (owner.summary is None or path not in changed_file_paths(owner.summary)):
+    if owner.kind == "archived" and (
+        owner.summary is None or path not in changed_file_paths(owner.summary)
+    ):
         return False, False
     return True, False
 
@@ -123,7 +144,13 @@ def is_unchanged_active_baseline(owner: Owner, path: str) -> bool:
     return False
 
 
-def classify(path: str, candidates: list[Owner], ownership: dict[str, dict[str, str]], *, pr_mode: bool = False) -> Ownership:
+def classify(
+    path: str,
+    candidates: list[Owner],
+    ownership: dict[str, dict[str, str]],
+    *,
+    pr_mode: bool = False,
+) -> Ownership:
     covering: list[Owner] = []
     excluded: list[Owner] = []
     for owner in candidates:
@@ -153,7 +180,12 @@ def classify(path: str, candidates: list[Owner], ownership: dict[str, dict[str, 
         return Ownership(path, "ambiguous", labels, "multiple Work Items cover this path")
     if not covering:
         if excluded:
-            return Ownership(path, "out_of_scope", [f"{o.kind}:{o.work_item_id}" for o in excluded], "covered by owner scope but excluded by outOfScope")
+            return Ownership(
+                path,
+                "out_of_scope",
+                [f"{o.kind}:{o.work_item_id}" for o in excluded],
+                "covered by owner scope but excluded by outOfScope",
+            )
         return Ownership(path, "unowned", [], "no active or archived evidence covers this path")
     owner = covering[0]
     match = first_match(path, ownership)
@@ -169,7 +201,14 @@ def classify(path: str, candidates: list[Owner], ownership: dict[str, dict[str, 
         if extras:
             detail += "; " + "; ".join(extras)
         return Ownership(path, "approval_required", labels, detail)
-    return Ownership(path, f"{owner.kind}_owned", labels, "covered by Contract scope" if owner.kind == "active" else "covered by Contract scope and Summary changedFiles")
+    return Ownership(
+        path,
+        f"{owner.kind}_owned",
+        labels,
+        "covered by Contract scope"
+        if owner.kind == "active"
+        else "covered by Contract scope and Summary changedFiles",
+    )
 
 
 def preview(*, base: str = "", contract: dict[str, Any] | None = None) -> list[Ownership]:
@@ -197,10 +236,17 @@ def preview(*, base: str = "", contract: dict[str, Any] | None = None) -> list[O
     candidates = owners(base=base, active_contract=contract)
     values: list[Ownership] = []
     for status, path in changed:
-        if path in audit_paths:
-            continue
         if path.startswith(".ai/work-items/archive/") and status != "A":
-            values.append(Ownership(path, "unowned", [], "archived evidence is append-only; create new evidence instead of modifying it"))
+            values.append(
+                Ownership(
+                    path,
+                    "unowned",
+                    [],
+                    "archived evidence is append-only; create new evidence instead of modifying it",
+                )
+            )
+        elif path in audit_paths:
+            continue
         else:
             values.append(classify(path, candidates, policy, pr_mode=bool(base)))
     return sorted(values, key=lambda item: item.path)
@@ -225,7 +271,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", default=os.environ.get("AI_BASE_COMMIT", ""))
     parser.add_argument("--contract")
-    parser.add_argument("--json", action="store_true", help="Print JSON in addition to writing the report.")
+    parser.add_argument(
+        "--json", action="store_true", help="Print JSON in addition to writing the report."
+    )
     args = parser.parse_args()
     try:
         contract = load_json(Path(args.contract)) if args.contract else None

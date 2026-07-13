@@ -61,6 +61,8 @@ Use the Quick Install entry in [README.md](../../README.md) and choose the stack
 | `php` | PHP projects. |
 | `csharp` | C# and .NET projects. |
 
+The quick-install path resolves release metadata from the public release source first, then lets the installer use its own repo or source selection knobs. If the release metadata or tagged installer is not publicly reachable, use a local clone or configured source instead of treating quick install as the default path for private or mirrored releases.
+
 After installation, confirm that the target repository gained the expected files or updates:
 
 - `.ai/`
@@ -70,7 +72,7 @@ After installation, confirm that the target repository gained the expected files
 - AI Cockpit sections in `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` when those files already exist
 - `examples/` when `--with-examples` is used
 
-You should not expect `templates/` to be copied into the target repository. That tree stays in the source template.
+You should not expect `templates/` to be copied into the target repository. That tree stays in the source repository.
 
 ### Phase 3. Adoption
 
@@ -84,11 +86,11 @@ git commit -m "adopt AI Cockpit governance"
 make check-ai-pr AI_BASE_COMMIT='<pre-adoption-commit>'
 ```
 
-The installer-generated Work Item owns every file actually written or appended by installation. It keeps project quality configuration as an explicit follow-up rather than recording generic placeholder commands as passed. `--create-adoption` fails before writing unless the repository has an initial commit, a clean worktree, and no active Work Item. `make check-ai-status` should report no active adoption Work Item before you move on.
+The installer-generated Work Item owns every file actually written or appended by installation. It keeps project quality configuration as an explicit follow-up rather than recording temporary stand-in commands as passed. `--create-adoption` fails before writing unless the repository has an initial commit, a clean worktree, and no active Work Item. `make check-ai-status` should report no active adoption Work Item before you move on.
 
 ### Local Calibration Checklist
 
-AI Cockpit fits a **generic template plus local calibration** model. Installation deploys governance runtime and fail-closed defaults; it does not complete production adaptation. Use this checklist after Phase 3 Adoption and before treating the repository as production-ready:
+AI Cockpit fits a **governance runtime plus local calibration** model. Installation deploys the runtime and fail-closed defaults; it does not complete production adaptation. Use this checklist after Phase 3 Adoption and before treating the repository as production-ready:
 
 1. **Two Work Items, two commits:** finish `adopt_ai_cockpit` in its own commit, then start `configure_ai_cockpit` for Profile, Guard, quality-command, and CI changes.
 2. **Doctor facts, human approval:** review `target/ai_project_doctor_report.json` and resolve every `blocking:` unknown in `.ai/project_profile.yaml`. Doctor reports facts only; it does not auto-approve boundaries or generate `xcodebuild` commands.
@@ -96,7 +98,7 @@ AI Cockpit fits a **generic template plus local calibration** model. Installatio
 4. **Staged CI:** start with **L1** governance only—full Git history plus `make check-ai-pr`. After L1 is stable, add **L2** `make ai-cockpit-quality` as a separate required job. For Android/Java, keep L2 non-blocking until the actual Gradle variant tasks and coverage boundaries are calibrated.
 5. **Pilot Work Item:** run one governed task with quality optional if needed, then promote quality and Coverage to blocking gates.
 
-For Java and Android repositories, treat the host JDK as a prerequisite before the flow above starts. The installer does not install, switch, or manage JDK versions. Java compatibility CI uses JDK 21 and the Android smoke uses JDK 17, but an adopted project must use the version required by its Gradle Wrapper and AGP. Verify that `./gradlew` runs with that project-required JDK, then replace preset task names with the actual variant-aware Gradle commands it exposes.
+For Java and Android repositories, treat the host JDK as a prerequisite before the flow above starts. AI Cockpit does not install, switch, or manage JDK versions. Java compatibility CI uses JDK 21 and the Android smoke uses JDK 17, but an adopted project must use the version required by its Gradle Wrapper and AGP. Verify that `./gradlew` runs with that project-required JDK, then replace preset task names with the actual variant-aware Gradle commands it exposes.
 
 The installed [Adoption Readiness](../../.ai/cockpit/adoption.md) checklist mirrors these steps for day-to-day use.
 
@@ -124,7 +126,7 @@ Include `.gitlab-ci.yml` when the repository uses GitLab CI; include `.github/wo
 
 Also replace skeleton unknowns, capability, execution decision, acceptance, and guideline fields before the `before_edit` checkpoint. The second Contract owns all Project Profile, Guard, quality-command, and CI changes; the archived installation Contract does not.
 
-Do not treat `make ai-onboard` as an unattended acceptance step. The generated proposal and the stack preset both require human review, especially `target/ai_project_doctor_report.json`, `.ai/project_profile.proposed.yaml`, `Makefile.ai.stack`, and any `blocking:` unknowns that the calibration step surfaces.
+Do not treat `make ai-onboard` as an unattended acceptance step. The generated proposal and the stack calibration both require human review, especially `target/ai_project_doctor_report.json`, `.ai/project_profile.proposed.yaml`, `Makefile.ai.stack`, and any `blocking:` unknowns that the calibration step surfaces.
 
 Then calibrate the runtime before starting normal development:
 
@@ -147,7 +149,7 @@ git commit -m "configure AI Cockpit for this project"
 make check-ai-pr AI_BASE_COMMIT="$CONFIG_BASE"
 ```
 
-`cockpit-doctor` runs the existing environment checks and writes a read-only project-fact report to `target/ai_project_doctor_report.json`. `cockpit-calibrate` consumes that report and creates `.ai/project_profile.proposed.yaml`; it refuses to overwrite an existing proposal and never modifies Guard files. Human confirmation creates `.ai/project_profile.yaml` with explicit `approvedBoundaries` and approval metadata. Keep unresolved decisions in `unknowns`; entries prefixed with `blocking:` prevent readiness. For Android/Java, the main calibration question is not whether the preset exists, but whether the repo's module, flavor, and variant commands match the host Gradle wrapper.
+`cockpit-doctor` runs the existing environment checks and writes a read-only project-fact report to `target/ai_project_doctor_report.json`. `cockpit-calibrate` consumes that report and creates `.ai/project_profile.proposed.yaml`; it refuses to overwrite an existing proposal and never modifies Guard files. Human confirmation creates `.ai/project_profile.yaml` with explicit `approvedBoundaries` and approval metadata. Keep unresolved decisions in `unknowns`; entries prefixed with `blocking:` prevent readiness. For Android/Java, the main calibration question is not whether a preset exists, but whether the repo's module, flavor, and variant commands match the host Gradle wrapper.
 
 ### Phase 5. Validation
 
@@ -190,14 +192,14 @@ Installation is complete when validation succeeds and the first Work Item walkth
 The installed `.ai/cockpit/version.json` records the distribution and Contract schema version. Use `--upgrade` for an existing installation:
 
 ```sh
-CURRENT_VERSION=v0.5.22
-TARGET_VERSION='<release-tag-newer-than-current>'
+CURRENT_VERSION="${CURRENT_VERSION:?set CURRENT_VERSION to the installed release tag}"
+TARGET_VERSION="${TARGET_VERSION:?set TARGET_VERSION to a newer release tag}"
 test "$TARGET_VERSION" != "$CURRENT_VERSION"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
-curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/$TARGET_VERSION/install.sh" -o "$INSTALLER"
+curl -fsSL "${AI_COCKPIT_TEMPLATE_RAW_BASE:?set AI_COCKPIT_TEMPLATE_RAW_BASE to the matching raw-content base}/$TARGET_VERSION/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$TARGET_VERSION" \
-AI_COCKPIT_TEMPLATE_SHA256="<release-archive-sha256>" \
+AI_COCKPIT_TEMPLATE_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:?set AI_COCKPIT_TEMPLATE_SHA256 to the published archive digest}" \
   sh "$INSTALLER" --upgrade --stack rust
 ```
 

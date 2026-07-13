@@ -12,8 +12,14 @@ from ai_common import non_empty_string, parse_yaml
 FACT_KEYS = ("languages", "frameworks", "buildSystems", "infrastructure")
 BOUNDARY_KEYS = ("productionRoots", "featureRoots", "testRoots", "generatedPaths", "criticalPaths")
 REQUIRED_KEYS = {
-    "version", "detectedFacts", "suggestedBoundaries", "approvedBoundaries",
-    "reviewRequirements", "unknowns", "evidence", "approval",
+    "version",
+    "detectedFacts",
+    "suggestedBoundaries",
+    "approvedBoundaries",
+    "reviewRequirements",
+    "unknowns",
+    "evidence",
+    "approval",
 }
 
 
@@ -75,7 +81,9 @@ def validate_profile(data: dict[str, Any], *, require_approval: bool) -> list[st
             if not string_list(approved, "testRoots"):
                 issues.append("approvedBoundaries.testRoots must not be empty")
         unknowns = data.get("unknowns")
-        if isinstance(unknowns, list) and any(str(item).lower().startswith("blocking:") for item in unknowns):
+        if isinstance(unknowns, list) and any(
+            str(item).lower().startswith("blocking:") for item in unknowns
+        ):
             issues.append("blocking unknowns must be resolved before Profile approval")
     return issues
 

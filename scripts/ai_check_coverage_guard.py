@@ -67,10 +67,14 @@ def associated_test_exists(
 def detect(paths: list[str]) -> list[CoverageGuardItem]:
     policy = simple_yaml_lists(POLICY)
     prod_include = policy.get("production.include", ["src/**", "lib/**"])
-    prod_exclude = policy.get("production.exclude", ["tests/**", "test/**", "**/*test*", "**/*spec*"])
+    prod_exclude = policy.get(
+        "production.exclude", ["tests/**", "test/**", "**/*test*", "**/*spec*"]
+    )
     test_include = policy.get("tests.include", ["tests/**", "test/**", "**/*test*", "**/*spec*"])
 
-    production_changes = [path for path in paths if included(path, prod_include) and not included(path, prod_exclude)]
+    production_changes = [
+        path for path in paths if included(path, prod_include) and not included(path, prod_exclude)
+    ]
     test_changes = [path for path in paths if included(path, test_include)]
     if not production_changes:
         return []
@@ -85,12 +89,14 @@ def detect(paths: list[str]) -> list[CoverageGuardItem]:
             if not configured
             else "Production code changed, but the diff has no test path matched by its configured association."
         )
-        items.append(CoverageGuardItem(
-            "warning",
-            "missing_test_diff_for_production_change",
-            path,
-            detail,
-        ))
+        items.append(
+            CoverageGuardItem(
+                "warning",
+                "missing_test_diff_for_production_change",
+                path,
+                detail,
+            )
+        )
     return items
 
 
@@ -112,7 +118,9 @@ def main() -> int:
         "changedPaths": paths,
         "items": [asdict(item) for item in items],
     }
-    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REPORT_PATH.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
     obs = create_observability()
     duration = elapsed_ms(start)
@@ -121,14 +129,25 @@ def main() -> int:
         print(f"coverage guard {mode}: {len(items)}")
         for item in items:
             print(f"[{item.severity}] {item.kind}: {item.path} - {item.detail}")
-            obs.guard_violation(check_id="aiCoverageGuard", severity=item.severity, path=item.path, detail=f"{item.kind}: {item.detail}")
+            obs.guard_violation(
+                check_id="aiCoverageGuard",
+                severity=item.severity,
+                path=item.path,
+                detail=f"{item.kind}: {item.detail}",
+            )
     else:
         print("coverage guard: no issues")
     print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
     if items and not report_only:
-        obs.check_failed(check_id="aiCoverageGuard", duration_ms=duration, detail="production changes lack test changes")
+        obs.check_failed(
+            check_id="aiCoverageGuard",
+            duration_ms=duration,
+            detail="production changes lack test changes",
+        )
         return 1
-    obs.check_passed(check_id="aiCoverageGuard", duration_ms=duration, fields={"warnings": len(items)})
+    obs.check_passed(
+        check_id="aiCoverageGuard", duration_ms=duration, fields={"warnings": len(items)}
+    )
     return 0
 
 

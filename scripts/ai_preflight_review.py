@@ -12,7 +12,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from ai_common import PROJECT_ROOT, load_json, simple_yaml_lists, simple_yaml_scalars, validate_scenario_coverage
+from ai_common import (
+    PROJECT_ROOT,
+    load_json,
+    simple_yaml_lists,
+    simple_yaml_scalars,
+    validate_scenario_coverage,
+)
 from ai_readiness_policy import has_explicit_blocker
 
 
@@ -507,13 +513,17 @@ def scenario_coverage_signal(contract: dict[str, Any]) -> Signal:
             ["contract.scenarioCoverage", "contract.riskAssessment"],
         )
 
-    required_items = [item for item in coverage if isinstance(item, dict) and item.get("required") is True]
+    required_items = [
+        item for item in coverage if isinstance(item, dict) and item.get("required") is True
+    ]
     if not required_items:
         if level == "low":
             return Signal(
                 "Scenario Coverage",
                 "Not Applicable",
-                ["scenario coverage is optional for low-risk Work Items without required scenarios"],
+                [
+                    "scenario coverage is optional for low-risk Work Items without required scenarios"
+                ],
                 ["contract.scenarioCoverage", "contract.riskAssessment"],
             )
         return Signal(
@@ -528,7 +538,9 @@ def scenario_coverage_signal(contract: dict[str, Any]) -> Signal:
         return Signal(
             "Scenario Coverage",
             "Partial",
-            [f"{len([item for item in required_items if item.get('status') == 'unverified'])} required scenario(s) remain unverified"],
+            [
+                f"{len([item for item in required_items if item.get('status') == 'unverified'])} required scenario(s) remain unverified"
+            ],
             ["contract.scenarioCoverage", "contract.riskAssessment"],
         )
     if statuses <= {"verified", "not_applicable"}:
@@ -570,7 +582,9 @@ def overall_status(signals: list[Signal], context: dict[str, Any]) -> str:
         return "not_ready"
     if "Inconsistent" in values:
         return "not_ready"
-    if all(value in {"Ready", "Not Applicable"} for value in values) and context["scope"]["value"] in {"Ready", "Not Applicable"}:
+    if all(value in {"Ready", "Not Applicable"} for value in values) and context["scope"][
+        "value"
+    ] in {"Ready", "Not Applicable"}:
         return "ready"
     return "needs_human_confirmation"
 
@@ -606,7 +620,9 @@ def build_context(contract: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def derive_report(contract: dict[str, Any], *, contract_path: Path, policy_path: Path) -> dict[str, Any]:
+def derive_report(
+    contract: dict[str, Any], *, contract_path: Path, policy_path: Path
+) -> dict[str, Any]:
     signals = [
         intent_signal(contract),
         unknowns_signal(contract),
@@ -673,13 +689,15 @@ def render_markdown(report: dict[str, Any]) -> str:
                 "",
             ]
         )
-    lines.extend([
-        "Status:",
-        f"{report['status']}",
-        "",
-        "Signals:",
-        "",
-    ])
+    lines.extend(
+        [
+            "Status:",
+            f"{report['status']}",
+            "",
+            "Signals:",
+            "",
+        ]
+    )
     for signal in report["signals"]:
         lines.append(f"{signal['name']}:")
         lines.append(f"{signal['value']}")
@@ -729,7 +747,21 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 def validate_report_structure(report: dict[str, Any]) -> list[str]:
     issues: list[str] = []
-    for field in ("generatedAt", "workItemId", "contractPath", "contractHash", "policyPath", "policyHash", "policyVersion", "gate", "status", "signals", "context", "decisionDrivers", "recommendation"):
+    for field in (
+        "generatedAt",
+        "workItemId",
+        "contractPath",
+        "contractHash",
+        "policyPath",
+        "policyHash",
+        "policyVersion",
+        "gate",
+        "status",
+        "signals",
+        "context",
+        "decisionDrivers",
+        "recommendation",
+    ):
         if field not in report:
             issues.append(f"missing field: {field}")
     if report.get("status") not in ALLOWED_STATUSES:
@@ -753,13 +785,26 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
             if not isinstance(signal, dict):
                 issues.append(f"signals[{index}] must be an object")
                 continue
-            if signal.get("name") not in {"Intent", "Unknowns", "Acceptance", "Sources", "Scenario Coverage", "Verification"}:
+            if signal.get("name") not in {
+                "Intent",
+                "Unknowns",
+                "Acceptance",
+                "Sources",
+                "Scenario Coverage",
+                "Verification",
+            }:
                 issues.append(f"signals[{index}].name is invalid")
             if signal.get("value") not in ALLOWED_SIGNAL_VALUES:
-                issues.append(f"signals[{index}].value must be one of {sorted(ALLOWED_SIGNAL_VALUES)}")
-            if not isinstance(signal.get("evidence"), list) or not all(non_empty_string(item) for item in signal.get("evidence", [])):
+                issues.append(
+                    f"signals[{index}].value must be one of {sorted(ALLOWED_SIGNAL_VALUES)}"
+                )
+            if not isinstance(signal.get("evidence"), list) or not all(
+                non_empty_string(item) for item in signal.get("evidence", [])
+            ):
                 issues.append(f"signals[{index}].evidence must be a list of non-empty strings")
-            if not isinstance(signal.get("sources"), list) or not all(non_empty_string(item) for item in signal.get("sources", [])):
+            if not isinstance(signal.get("sources"), list) or not all(
+                non_empty_string(item) for item in signal.get("sources", [])
+            ):
                 issues.append(f"signals[{index}].sources must be a list of non-empty strings")
     context = report.get("context")
     if not isinstance(context, dict):
@@ -770,11 +815,17 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
             if not isinstance(section, dict):
                 issues.append(f"context.{key} must be an object")
                 continue
-            if section.get("value") not in ALLOWED_SIGNAL_VALUES and not (key == "risk" and section.get("value") in {"low", "medium", "high", "unknown"}):
+            if section.get("value") not in ALLOWED_SIGNAL_VALUES and not (
+                key == "risk" and section.get("value") in {"low", "medium", "high", "unknown"}
+            ):
                 issues.append(f"context.{key}.value is invalid")
-            if not isinstance(section.get("evidence"), list) or not all(non_empty_string(item) for item in section.get("evidence", [])):
+            if not isinstance(section.get("evidence"), list) or not all(
+                non_empty_string(item) for item in section.get("evidence", [])
+            ):
                 issues.append(f"context.{key}.evidence must be a list of non-empty strings")
-            if not isinstance(section.get("sources"), list) or not all(non_empty_string(item) for item in section.get("sources", [])):
+            if not isinstance(section.get("sources"), list) or not all(
+                non_empty_string(item) for item in section.get("sources", [])
+            ):
                 issues.append(f"context.{key}.sources must be a list of non-empty strings")
     if not isinstance(report.get("decisionDrivers"), list):
         issues.append("decisionDrivers must be a list")
@@ -819,7 +870,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--contract")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     parser.add_argument("--policy", default=str(DEFAULT_POLICY))
-    parser.add_argument("--check", action="store_true", help="Validate an existing report instead of generating one.")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Validate an existing report instead of generating one.",
+    )
     return parser.parse_args()
 
 
@@ -875,7 +930,9 @@ def main() -> int:
         return 1
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output_path.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(render_markdown(report), end="")
     print(f"preflight review generated: {output_path}")
     return 0

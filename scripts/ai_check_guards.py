@@ -40,15 +40,21 @@ def detect(paths: list[str], *, restricted_approved: bool = False) -> list[Guard
             pattern, data = owner_match
             ai_write = data.get("aiWrite", "")
             if ai_write in FORBIDDEN_WRITES:
-                items.append(GuardItem("error", "forbidden_write", path, pattern, data.get("reason", "")))
+                items.append(
+                    GuardItem("error", "forbidden_write", path, pattern, data.get("reason", ""))
+                )
             elif ai_write == "restricted":
                 severity = "warning" if restricted_approved else "error"
-                items.append(GuardItem(severity, "restricted_write", path, pattern, data.get("reason", "")))
+                items.append(
+                    GuardItem(severity, "restricted_write", path, pattern, data.get("reason", ""))
+                )
         boundary_match = first_match(path, boundary)
         if boundary_match:
             pattern, data = boundary_match
             if data.get("boundary", "") in FORBIDDEN_BOUNDARIES:
-                items.append(GuardItem("error", "forbidden_boundary", path, pattern, data.get("reason", "")))
+                items.append(
+                    GuardItem("error", "forbidden_boundary", path, pattern, data.get("reason", ""))
+                )
     return items
 
 
@@ -68,15 +74,37 @@ def main() -> int:
         return 1
 
     REPORT.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.write_text(json.dumps({"status": "error" if any(i.severity == "error" for i in items) else ("warning" if items else "none"), "items": [asdict(i) for i in items]}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REPORT.write_text(
+        json.dumps(
+            {
+                "status": "error"
+                if any(i.severity == "error" for i in items)
+                else ("warning" if items else "none"),
+                "items": [asdict(i) for i in items],
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
     obs = create_observability()
     duration = elapsed_ms(start)
     for item in items:
         print(f"[{item.severity}] {item.kind}: {item.path} ({item.pattern}) - {item.detail}")
-        obs.guard_violation(check_id="aiGuards", severity=item.severity, path=item.path, detail=f"{item.kind}: {item.detail}")
+        obs.guard_violation(
+            check_id="aiGuards",
+            severity=item.severity,
+            path=item.path,
+            detail=f"{item.kind}: {item.detail}",
+        )
     if any(item.severity == "error" for item in items):
-        obs.check_failed(check_id="aiGuards", duration_ms=duration, detail="forbidden write or boundary violation")
+        obs.check_failed(
+            check_id="aiGuards",
+            duration_ms=duration,
+            detail="forbidden write or boundary violation",
+        )
         return 1
     print(f"guard check completed: {len(items)} warning(s)")
     print(f"report: {REPORT.relative_to(PROJECT_ROOT)}")

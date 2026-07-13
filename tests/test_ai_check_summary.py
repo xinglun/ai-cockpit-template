@@ -4,26 +4,40 @@ import ai_check_summary
 from ai_common import PROJECT_ROOT
 
 
-ARCHIVE_SUMMARY = PROJECT_ROOT / ".ai" / "work-items" / "archive" / "2026" / "realign_ai_cockpit_v2.summary.json"
+ARCHIVE_SUMMARY = (
+    PROJECT_ROOT / ".ai" / "work-items" / "archive" / "2026" / "realign_ai_cockpit_v2.summary.json"
+)
 
 
 def test_intent_alignment_validator_accepts_empty_and_partial_payloads():
     assert ai_check_summary.validate_intent_alignment({"intentAlignment": {}}) == []
     assert ai_check_summary.validate_intent_alignment({"intentAlignment": None}) == []
-    assert ai_check_summary.validate_intent_alignment({"intentAlignment": {"problemResolved": True}}) == []
-    assert ai_check_summary.validate_intent_alignment(
-        {"intentAlignment": {"problemResolutionEvidence": "legacy evidence text"}}
-    ) == []
-    assert ai_check_summary.validate_intent_alignment(
-        {"intentAlignment": {"constraintsRespectEvidence": "legacy evidence text"}}
-    ) == []
+    assert (
+        ai_check_summary.validate_intent_alignment({"intentAlignment": {"problemResolved": True}})
+        == []
+    )
+    assert (
+        ai_check_summary.validate_intent_alignment(
+            {"intentAlignment": {"problemResolutionEvidence": "legacy evidence text"}}
+        )
+        == []
+    )
+    assert (
+        ai_check_summary.validate_intent_alignment(
+            {"intentAlignment": {"constraintsRespectEvidence": "legacy evidence text"}}
+        )
+        == []
+    )
 
 
 def test_intent_alignment_validator_accepts_legacy_archive_payload():
     archive_summary = json.loads(ARCHIVE_SUMMARY.read_text(encoding="utf-8"))
-    assert ai_check_summary.validate_intent_alignment(
-        {"intentAlignment": archive_summary["intentAlignment"]}
-    ) == []
+    assert (
+        ai_check_summary.validate_intent_alignment(
+            {"intentAlignment": archive_summary["intentAlignment"]}
+        )
+        == []
+    )
 
 
 def test_intent_alignment_validator_rejects_unknown_keys():
@@ -35,6 +49,7 @@ def test_intent_alignment_validator_rejects_unknown_keys():
 
 def test_scenario_coverage_validator_accepts_valid_payload():
     summary = {
+        "summaryVersion": 2,
         "workItemId": "task",
         "contractPath": ".ai/work-items/active/task.contract.json",
         "changedFiles": [{"path": "src/app.py", "reason": "fixture"}],
@@ -80,11 +95,15 @@ def test_scenario_coverage_validator_accepts_valid_payload():
         "overclaimPrevention": "fixture",
     }
 
-    assert ai_check_summary.validate_summary(summary, {"workItemId": "task", "contractVersion": 2}) == []
+    assert (
+        ai_check_summary.validate_summary(summary, {"workItemId": "task", "contractVersion": 2})
+        == []
+    )
 
 
 def test_scenario_coverage_validator_rejects_invalid_required_entries():
     summary = {
+        "summaryVersion": 2,
         "workItemId": "task",
         "contractPath": ".ai/work-items/active/task.contract.json",
         "changedFiles": [{"path": "src/app.py", "reason": "fixture"}],
@@ -122,6 +141,97 @@ def test_scenario_coverage_validator_rejects_invalid_required_entries():
         "overclaimPrevention": "fixture",
     }
 
-    issues = ai_check_summary.validate_summary(summary, {"workItemId": "task", "contractVersion": 2})
-    assert "scenarioCoverage[0].evidence must contain at least one item when status is verified" in issues
+    issues = ai_check_summary.validate_summary(
+        summary, {"workItemId": "task", "contractVersion": 2}
+    )
+    assert (
+        "scenarioCoverage[0].evidence must contain at least one item when status is verified"
+        in issues
+    )
     assert "scenarioCoverage[1].reason is required when status is not_applicable" in issues
+
+
+def test_summary_validator_rejects_summary_filename_mismatch():
+    summary = {
+        "summaryVersion": 2,
+        "workItemId": "wrong",
+        "contractPath": ".ai/work-items/active/task.contract.json",
+        "changedFiles": [{"path": "scripts/app.py", "reason": "changed"}],
+        "sourcesUsed": ["spec"],
+        "verification": [{"check": "quality", "result": "passed"}],
+        "unknownsRemaining": [],
+        "risk": {"level": "low", "detail": "fixture"},
+        "generatedFiles": [],
+        "destructiveChanges": [],
+        "observedIssues": [],
+    }
+
+    issues = ai_check_summary.validate_summary(
+        summary,
+        {
+            "contractVersion": 2,
+            "workItemId": "wrong",
+            "verification": [{"check": "quality", "required": True}],
+        },
+        summary_path=".ai/work-items/active/right.summary.json",
+    )
+
+    assert "workItemId does not match the Summary filename" in issues
+
+
+def test_summary_validator_rejects_contract_path_mismatch():
+    summary = {
+        "summaryVersion": 2,
+        "workItemId": "task",
+        "contractPath": ".ai/work-items/archive/2026/task.contract.json",
+        "changedFiles": [{"path": "scripts/app.py", "reason": "changed"}],
+        "sourcesUsed": ["spec"],
+        "verification": [{"check": "quality", "result": "passed"}],
+        "unknownsRemaining": [],
+        "risk": {"level": "low", "detail": "fixture"},
+        "generatedFiles": [],
+        "destructiveChanges": [],
+        "observedIssues": [],
+    }
+
+    issues = ai_check_summary.validate_summary(
+        summary,
+        {
+            "contractVersion": 2,
+            "workItemId": "task",
+            "verification": [{"check": "quality", "required": True}],
+        },
+        contract_path=".ai/work-items/active/task.contract.json",
+        summary_path=".ai/work-items/active/task.summary.json",
+    )
+
+    assert "contractPath does not match the Contract path" in issues
+
+
+def test_summary_validator_rejects_unknown_active_fields():
+    summary = {
+        "summaryVersion": 2,
+        "workItemId": "task",
+        "contractPath": ".ai/work-items/active/task.contract.json",
+        "changedFiles": [{"path": "scripts/app.py", "reason": "changed"}],
+        "sourcesUsed": ["spec"],
+        "verification": [{"check": "quality", "result": "passed"}],
+        "unknownsRemaining": [],
+        "risk": {"level": "low", "detail": "fixture"},
+        "generatedFiles": [],
+        "destructiveChanges": [],
+        "observedIssues": [],
+    }
+    summary["unexpectedField"] = True
+
+    issues = ai_check_summary.validate_summary(
+        summary,
+        {
+            "contractVersion": 2,
+            "workItemId": "task",
+            "verification": [{"check": "quality", "required": True}],
+        },
+        summary_path=".ai/work-items/active/task.summary.json",
+    )
+
+    assert "unknown field: unexpectedField" in issues

@@ -13,7 +13,9 @@ from ai_observability import create_observability, elapsed_ms
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate that guidelines declared in the Contract are complied with in the Summary.")
+    parser = argparse.ArgumentParser(
+        description="Validate that guidelines declared in the Contract are complied with in the Summary."
+    )
     parser.add_argument("--contract", required=True, help="Path to the Contract file")
     parser.add_argument("--summary", required=True, help="Path to the Summary file")
     return parser.parse_args()
@@ -71,20 +73,24 @@ def main() -> int:
 
         compliance = compliance_map.get(guideline)
         if not compliance:
-            issues.append(f"Missing compliance details in Summary for guideline: \"{guideline}\"")
+            issues.append(f'Missing compliance details in Summary for guideline: "{guideline}"')
             continue
 
         if compliance.get("compliant") is not True:
-            issues.append(f"Guideline compliance not confirmed (compliant is not true): \"{guideline}\"")
+            issues.append(
+                f'Guideline compliance not confirmed (compliant is not true): "{guideline}"'
+            )
 
         if not non_empty_string(compliance.get("evidence")):
-            issues.append(f"Empty compliance evidence for guideline: \"{guideline}\"")
+            issues.append(f'Empty compliance evidence for guideline: "{guideline}"')
 
     duration = elapsed_ms(start_time)
     if issues:
         for issue in issues:
             print(f"[ERROR] {issue}", file=sys.stderr)
-        obs.check_failed(check_id="aiGuidelines", duration_ms=duration, detail=f"{len(issues)} issue(s)")
+        obs.check_failed(
+            check_id="aiGuidelines", duration_ms=duration, detail=f"{len(issues)} issue(s)"
+        )
         return 1
 
     print(f"guidelines compliance check passed: {len(guidelines)} guideline(s) verified")

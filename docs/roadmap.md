@@ -170,7 +170,7 @@ The V2 Contract introduces an `intent` section as a top-level node:
 
 - **All fields are optional**: Repositories should not be forced to fill every field
 - **Fully backward-compatible**: V1 Contracts remain valid
-- **Natural adoption**: Fields most naturally used in current AI workflows (`problem`, `constraints`, `rationale`) will be adopted first; other fields enable future workflow evolution without schema changes
+- **Common adoption**: Fields most often used in current AI workflows (`problem`, `constraints`, `rationale`) are expected to be filled first; other fields keep room for workflow evolution without schema changes
 - **Intent as Concept, not File**: Intent is a governance object within the Contract, not a separate file format
 
 ### Summary Enhancement
@@ -200,7 +200,7 @@ The existing `problemStatement` field remains:
 
 Both coexist. Future versions may deprecate `problemStatement` if `intent.problem` proves sufficient, but V2 preserves both for compatibility.
 
-### Future Direction
+### Next Consideration
 
 **Checker (V3 consideration)**: Future versions may validate implementation against declared intent automatically. Example:
 

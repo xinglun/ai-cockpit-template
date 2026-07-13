@@ -19,7 +19,9 @@ def test_doctor_passes_hard_prerequisites_for_repository():
 def test_doctor_fails_without_git_repository_or_initial_commit(tmp_path):
     result = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "ai_doctor.py"), "--root", str(tmp_path)],
-        text=True, capture_output=True, check=False,
+        text=True,
+        capture_output=True,
+        check=False,
     )
 
     assert result.returncode == 1
@@ -29,11 +31,14 @@ def test_doctor_fails_without_git_repository_or_initial_commit(tmp_path):
 
 def test_doctor_warns_for_unconfigured_project_quality(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True
+    )
     subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
     (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
     (tmp_path / "Makefile.ai.stack").write_text(
-        "PROJECT_TEST = printf 'ERROR: configure PROJECT_TEST' >&2; false\n", encoding="utf-8",
+        "PROJECT_TEST = printf 'ERROR: configure PROJECT_TEST' >&2; false\n",
+        encoding="utf-8",
     )
     subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
     subprocess.run(["git", "commit", "-qm", "initial"], cwd=tmp_path, check=True)
@@ -45,13 +50,17 @@ def test_doctor_warns_for_unconfigured_project_quality(tmp_path):
 
 def test_doctor_reports_adoption_ready_when_configuration_complete(tmp_path, monkeypatch):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True
+    )
     subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
     (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
     (tmp_path / "Makefile.ai.stack").write_text("PROJECT_TEST = true\n", encoding="utf-8")
     (tmp_path / ".github" / "workflows").mkdir(parents=True)
     (tmp_path / ".ai" / "guards").mkdir(parents=True)
-    (tmp_path / ".ai" / "guards" / "coverage_policy.yaml").write_text("adoptionReviewed: true\n", encoding="utf-8")
+    (tmp_path / ".ai" / "guards" / "coverage_policy.yaml").write_text(
+        "adoptionReviewed: true\n", encoding="utf-8"
+    )
     subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
     subprocess.run(["git", "commit", "-qm", "initial"], cwd=tmp_path, check=True)
     monkeypatch.setattr(ai_doctor, "readiness_failures", lambda _root: [])
@@ -64,7 +73,9 @@ def test_doctor_reports_adoption_ready_when_configuration_complete(tmp_path, mon
 
 def test_doctor_warns_when_worktree_is_dirty(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True
+    )
     subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
     (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
     subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
@@ -78,7 +89,9 @@ def test_doctor_warns_when_worktree_is_dirty(tmp_path):
 
 def test_doctor_warns_when_stack_file_is_missing(tmp_path):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True
+    )
     subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
     (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
     subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
@@ -99,7 +112,9 @@ def test_doctor_command_ok_handles_os_error(monkeypatch):
 
 def test_doctor_diagnose_handles_git_status_os_error(tmp_path, monkeypatch):
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True
+    )
     subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
     (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
     subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
@@ -118,6 +133,32 @@ def test_doctor_diagnose_handles_git_status_os_error(tmp_path, monkeypatch):
     assert any("Git worktree is clean" in item for item in passed)
 
 
+def test_doctor_detects_nul_delimited_dirty_status_records(tmp_path, monkeypatch):
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True
+    )
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=tmp_path, check=True)
+    (tmp_path / "README.md").write_text("# Project\n", encoding="utf-8")
+    subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "initial"], cwd=tmp_path, check=True)
+
+    original_run = ai_doctor.subprocess.run
+
+    def selective_run(command, **kwargs):
+        if command[:3] == ["git", "status", "--porcelain"]:
+            return subprocess.CompletedProcess(
+                command, 0, stdout=" M plain.txt\0 M dir/line1\nline2.txt\0", stderr=""
+            )
+        return original_run(command, **kwargs)
+
+    monkeypatch.setattr(ai_doctor.subprocess, "run", selective_run)
+    _, warnings, failures = ai_doctor.diagnose(tmp_path)
+    assert not failures
+    assert any("worktree is dirty" in warning for warning in warnings)
+    assert all("line2.txt" not in warning or "dirty" in warning for warning in warnings)
+
+
 def test_doctor_main_prints_warnings_without_failure(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(
         ai_doctor,
@@ -132,7 +173,9 @@ def test_doctor_main_prints_warnings_without_failure(tmp_path, monkeypatch, caps
 
 
 def test_doctor_main_returns_nonzero_on_failure(tmp_path, monkeypatch, capsys):
-    monkeypatch.setattr(ai_doctor, "diagnose", lambda _root: ([], [], ["Run inside a Git repository"]))
+    monkeypatch.setattr(
+        ai_doctor, "diagnose", lambda _root: ([], [], ["Run inside a Git repository"])
+    )
     monkeypatch.setattr(sys, "argv", ["ai_doctor.py", "--root", str(tmp_path)])
     assert ai_doctor.main() == 1
     assert "[FAIL]" in capsys.readouterr().out

@@ -4,10 +4,7 @@ import check_critical_coverage
 
 def report_with(percent: float) -> dict:
     return {
-        "files": {
-            path: {"summary": {"percent_covered": percent}}
-            for path in CRITICAL_MINIMUMS
-        }
+        "files": {path: {"summary": {"percent_covered": percent}} for path in CRITICAL_MINIMUMS}
     }
 
 

@@ -1,9 +1,11 @@
-import subprocess
 import json
+import re
+import subprocess
 from pathlib import Path
 
 import pytest
 
+import install_ai_cockpit as installer_mod
 from install_ai_cockpit import Installer
 
 
@@ -43,6 +45,9 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     assert (tmp_path / "scripts" / "ai_check_adoption_ready.py").is_file()
     assert (tmp_path / ".ai" / "cockpit" / "README.ja.md").is_file()
     assert (tmp_path / ".ai" / "cockpit" / "adoption.ja.md").is_file()
+    assert not (tmp_path / ".ai" / "cockpit" / "bandit_low_risk_baseline.json").exists()
+    assert not (tmp_path / ".ai" / "cockpit" / "provenance.json").exists()
+    assert not (tmp_path / ".ai" / "cockpit" / "sbom.json").exists()
     assert "<!-- AI_COCKPIT_SECTION -->" in (tmp_path / "AGENTS.md").read_text(encoding="utf-8")
     managed = (tmp_path / "AGENTS.md").read_text(encoding="utf-8")
     assert "\n---\n" not in managed
@@ -52,15 +57,19 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     assert "- State: `no_active_work_item`" in (
         tmp_path / ".ai" / "cockpit" / "current_status.md"
     ).read_text(encoding="utf-8")
-    assert ".ai/work-items/active/*.contract.json" in (tmp_path / ".gitignore").read_text(encoding="utf-8")
-    assert ".ai/work-items/active/*.review.json" in (tmp_path / ".gitignore").read_text(encoding="utf-8")
+    assert ".ai/work-items/active/*.contract.json" in (tmp_path / ".gitignore").read_text(
+        encoding="utf-8"
+    )
+    assert ".ai/work-items/active/*.review.json" in (tmp_path / ".gitignore").read_text(
+        encoding="utf-8"
+    )
     assert ".ai/cockpit/upgrade-backups/" in (tmp_path / ".gitignore").read_text(encoding="utf-8")
     makefile_ai = (tmp_path / "Makefile.ai").read_text(encoding="utf-8")
     assert "check-ai-pr:" in makefile_ai
     assert "ai-doctor:" in makefile_ai
     assert "check-ai-adoption-ready:" in makefile_ai
     assert "scripts/ai_check_pr.py" in makefile_ai
-    assert 'scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))' in makefile_ai
+    assert "scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))" in makefile_ai
     assert (tmp_path / ".ai" / "glossary.md").read_text(encoding="utf-8") == (
         ROOT / "templates" / "glossary.md"
     ).read_text(encoding="utf-8")
@@ -121,6 +130,35 @@ def test_create_adoption_warns_on_dirty_worktree_and_tracked_hygiene(tmp_path, c
     assert not (tmp_path / ".ai").exists()
 
 
+def test_create_adoption_warnings_parse_nul_delimited_status_records(tmp_path, monkeypatch):
+    calls = []
+
+    def fake_run(command, *, cwd, text, capture_output, check, env):
+        calls.append(command)
+        if command[:3] == [
+            "git",
+            f"--git-dir={tmp_path / '.git'}",
+            f"--work-tree={tmp_path}",
+        ] and command[3:] == ["status", "--porcelain", "-z"]:
+            return subprocess.CompletedProcess(
+                command, 0, stdout=" M plain.txt\0 M dir/line1\nline2.txt\0", stderr=""
+            )
+        if command[:3] == [
+            "git",
+            f"--git-dir={tmp_path / '.git'}",
+            f"--work-tree={tmp_path}",
+        ] and command[3:] == ["ls-files", "-z"]:
+            return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+        raise AssertionError(f"unexpected command: {command!r}")
+
+    monkeypatch.setattr(installer_mod.subprocess, "run", fake_run)
+    warnings = installer_mod.adoption_preflight_warnings(tmp_path)
+
+    assert any("plain.txt" in warning for warning in warnings)
+    assert any("dir/line1\nline2.txt" in warning for warning in warnings)
+    assert all("line2.txt; --create-adoption" not in warning for warning in warnings)
+
+
 def test_create_adoption_ignores_ambient_git_dir_and_work_tree(tmp_path, monkeypatch):
     ambient = tmp_path / "ambient"
     target = tmp_path / "target"
@@ -160,8 +198,13 @@ def test_fresh_install_rejects_all_conflicting_managed_files_before_writing(tmp_
     common.write_text("KEEP-COMMON\n", encoding="utf-8")
     doctor.write_text("KEEP-DOCTOR\n", encoding="utf-8")
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
 
     assert installer.install() == 2
@@ -176,8 +219,13 @@ def test_fresh_install_rejects_all_conflicting_managed_files_before_writing(tmp_
 
 def test_managed_installation_validation_checks_imports_and_make_entrypoint(tmp_path, monkeypatch):
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert installer.install() == 0
     monkeypatch.setattr(installer, "managed_copy_pairs", lambda: [])
@@ -189,15 +237,81 @@ def test_managed_installation_validation_checks_imports_and_make_entrypoint(tmp_
         installer.validate_managed_installation()
 
     doctor.write_text(original_doctor, encoding="utf-8")
-    (tmp_path / "Makefile.ai").write_text("broken make syntax:\n\tunterminated ' quote\n", encoding="utf-8")
+    (tmp_path / "Makefile.ai").write_text(
+        "broken make syntax:\n\tunterminated ' quote\n", encoding="utf-8"
+    )
     with pytest.raises(ValueError, match="Makefile.ai validation failed"):
         installer.validate_managed_installation()
 
 
+def test_managed_installation_validation_ignores_host_scripts(tmp_path):
+    rogue = tmp_path / "scripts" / "ai_rogue.py"
+    rogue.parent.mkdir(parents=True)
+    rogue.write_text("this is invalid python !!!\n", encoding="utf-8")
+
+    installer = Installer(
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+    )
+    assert installer.install() == 0
+    assert rogue.read_text(encoding="utf-8") == "this is invalid python !!!\n"
+
+
+def test_initial_status_uses_target_repository_changes(tmp_path):
+    clean_target = tmp_path / "clean"
+    dirty_target = tmp_path / "dirty"
+    clean_target.mkdir()
+    dirty_target.mkdir()
+    init_git_repo(clean_target, "README.md", "# Target project\n", "initial")
+    init_git_repo(dirty_target, "README.md", "# Target project\n", "initial")
+    (dirty_target / "target_only.txt").write_text("target-only\n", encoding="utf-8")
+
+    clean_installer = Installer(
+        source=ROOT,
+        target=clean_target,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+    )
+    dirty_installer = Installer(
+        source=ROOT,
+        target=dirty_target,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+    )
+
+    assert clean_installer.install() == 0
+    assert dirty_installer.install() == 0
+    clean_status = (clean_target / ".ai" / "cockpit" / "current_status.md").read_text(
+        encoding="utf-8"
+    )
+    dirty_status = (dirty_target / ".ai" / "cockpit" / "current_status.md").read_text(
+        encoding="utf-8"
+    )
+    clean_count = int(re.search(r"- Worktree Change Count: `(\d+)`", clean_status).group(1))
+    dirty_count = int(re.search(r"- Worktree Change Count: `(\d+)`", dirty_status).group(1))
+    assert dirty_count == clean_count + 1
+
+
 def test_missing_stack_file_project_quality_targets_fail_closed(tmp_path):
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert installer.install() == 0
     (tmp_path / "Makefile.ai.stack").unlink()
@@ -208,25 +322,41 @@ def test_missing_stack_file_project_quality_targets_fail_closed(tmp_path):
         ("ai-cockpit-project-lint", "ERROR: no project linter configured"),
     ):
         result = subprocess.run(
-            ["make", target], cwd=tmp_path, text=True, capture_output=True, check=False,
+            ["make", target],
+            cwd=tmp_path,
+            text=True,
+            capture_output=True,
+            check=False,
         )
         assert result.returncode != 0
         assert message in result.stderr
 
     quality = subprocess.run(
-        ["make", "quality"], cwd=tmp_path, text=True, capture_output=True, check=False,
+        ["make", "quality"],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        check=False,
     )
     assert quality.returncode != 0
 
 
 def test_upgrade_backs_up_policies_and_replaces_agent_marker_section(tmp_path):
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     agents = tmp_path / "AGENTS.md"
-    agents.write_text(agents.read_text(encoding="utf-8").replace("## AI Cockpit Rules", "## OLD RULES"), encoding="utf-8")
+    agents.write_text(
+        agents.read_text(encoding="utf-8").replace("## AI Cockpit Rules", "## OLD RULES"),
+        encoding="utf-8",
+    )
     checks = tmp_path / ".ai" / "cockpit" / "checks.yaml"
     checks.write_text("# LOCAL CUSTOM CHECKS\n", encoding="utf-8")
     gitignore = tmp_path / ".gitignore"
@@ -238,8 +368,14 @@ def test_upgrade_backs_up_policies_and_replaces_agent_marker_section(tmp_path):
     )
 
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
     )
     assert upgrade.install() == 0
 
@@ -247,7 +383,9 @@ def test_upgrade_backs_up_policies_and_replaces_agent_marker_section(tmp_path):
     assert "## OLD RULES" not in upgraded_agents
     assert "## AI Cockpit Rules" in upgraded_agents
     assert (tmp_path / ".ai" / "cockpit" / "version.json").is_file()
-    backups = list((tmp_path / ".ai" / "cockpit" / "upgrade-backups").glob("*/.ai/cockpit/checks.yaml"))
+    backups = list(
+        (tmp_path / ".ai" / "cockpit" / "upgrade-backups").glob("*/.ai/cockpit/checks.yaml")
+    )
     assert len(backups) == 1
     assert backups[0].read_text(encoding="utf-8") == "# LOCAL CUSTOM CHECKS\n"
     upgraded_ignore = gitignore.read_text(encoding="utf-8")
@@ -271,8 +409,14 @@ def test_upgrade_preserves_unmarked_agent_rules(tmp_path, name):
     (tmp_path / name).write_text(custom_rules, encoding="utf-8")
 
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
     )
 
     assert upgrade.install() == 0
@@ -287,8 +431,13 @@ def test_commented_makefile_include_does_not_suppress_active_include(tmp_path):
     makefile = tmp_path / "Makefile"
     makefile.write_text("# include Makefile.ai\n", encoding="utf-8")
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
 
     assert installer.install() == 0
@@ -303,16 +452,27 @@ def test_commented_makefile_include_does_not_suppress_active_include(tmp_path):
 )
 def test_reinstall_preserves_project_glossary_by_default(tmp_path, force, upgrade):
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     glossary = tmp_path / ".ai" / "glossary.md"
     glossary.write_text("# PROJECT GLOSSARY\n\nKEEP-ME\n", encoding="utf-8")
 
     reinstall = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=force, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=upgrade,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=force,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=upgrade,
     )
 
     assert reinstall.install() == 0
@@ -324,12 +484,20 @@ def test_replace_glossary_is_explicit_and_backed_up(tmp_path):
     custom.parent.mkdir(parents=True)
     custom.write_text("# PROJECT GLOSSARY\n\nKEEP-ME\n", encoding="utf-8")
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, replace_glossary=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        replace_glossary=True,
     )
 
     assert installer.install() == 0
-    assert custom.read_text(encoding="utf-8") == (ROOT / "templates" / "glossary.md").read_text(encoding="utf-8")
+    assert custom.read_text(encoding="utf-8") == (ROOT / "templates" / "glossary.md").read_text(
+        encoding="utf-8"
+    )
     backups = list((tmp_path / ".ai" / "cockpit" / "upgrade-backups").glob("*/.ai/glossary.md"))
     assert len(backups) == 1
     assert backups[0].read_text(encoding="utf-8") == "# PROJECT GLOSSARY\n\nKEEP-ME\n"
@@ -337,8 +505,13 @@ def test_replace_glossary_is_explicit_and_backed_up(tmp_path):
 
 def test_install_warns_when_repository_has_no_initial_commit(tmp_path, capsys):
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
 
     assert installer.install() == 0
@@ -359,8 +532,14 @@ def test_malformed_agent_markers_fail_before_writing(tmp_path, mode, malformed):
     agents = tmp_path / "AGENTS.md"
     agents.write_text(malformed, encoding="utf-8")
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=mode == "force", dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=mode == "upgrade",
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=mode == "force",
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=mode == "upgrade",
     )
 
     assert installer.install() == 2
@@ -372,17 +551,30 @@ def test_existing_common_make_target_is_preserved_without_override(tmp_path):
     makefile = tmp_path / "Makefile"
     makefile.write_text("project-test:\n\t@printf 'HOST TEST\\n'\n", encoding="utf-8")
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert installer.install() == 0
     result = subprocess.run(
-        ["make", "project-test"], cwd=tmp_path, text=True, capture_output=True, check=False,
+        ["make", "project-test"],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        check=False,
     )
     assert result.returncode == 0
     clean_stdout = "\n".join(
-        line for line in result.stdout.splitlines()
-        if not (line.startswith("make[") and ("Entering directory" in line or "Leaving directory" in line))
+        line
+        for line in result.stdout.splitlines()
+        if not (
+            line.startswith("make[")
+            and ("Entering directory" in line or "Leaving directory" in line)
+        )
     ).strip()
     assert clean_stdout == "HOST TEST"
     assert "overriding commands" not in result.stderr
@@ -393,8 +585,13 @@ def test_reserved_make_target_conflict_fails_before_writing(tmp_path):
     original = "ai-cockpit-quality:\n\t@echo host\n"
     makefile.write_text(original, encoding="utf-8")
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert installer.install() == 2
     assert makefile.read_text(encoding="utf-8") == original
@@ -403,8 +600,13 @@ def test_reserved_make_target_conflict_fails_before_writing(tmp_path):
 
 def test_upgrade_refuses_active_work_item_before_writing(tmp_path):
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     checks = tmp_path / ".ai" / "cockpit" / "checks.yaml"
@@ -413,8 +615,14 @@ def test_upgrade_refuses_active_work_item_before_writing(tmp_path):
     active.write_text("{}\n", encoding="utf-8")
 
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
     )
 
     assert upgrade.install() == 2
@@ -424,16 +632,28 @@ def test_upgrade_refuses_active_work_item_before_writing(tmp_path):
 
 def test_upgrade_with_active_requires_explicit_override(tmp_path):
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     active = tmp_path / ".ai" / "work-items" / "active" / "open.summary.json"
     active.write_text("{}\n", encoding="utf-8")
 
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True, upgrade_with_active=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
+        upgrade_with_active=True,
     )
 
     assert upgrade.install() == 0
@@ -453,8 +673,14 @@ def test_upgrade_rejects_distribution_downgrade_before_writing(tmp_path):
     )
 
     upgrade = Installer(
-        source=source, target=target, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=False, upgrade=True,
+        source=source,
+        target=target,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=False,
+        upgrade=True,
     )
 
     assert upgrade.install() == 2
@@ -471,8 +697,14 @@ def test_upgrade_rejects_malformed_source_version_before_writing(tmp_path):
     )
 
     upgrade = Installer(
-        source=source, target=target, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=False, upgrade=True,
+        source=source,
+        target=target,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=False,
+        upgrade=True,
     )
 
     assert upgrade.install() == 2
@@ -481,16 +713,27 @@ def test_upgrade_rejects_malformed_source_version_before_writing(tmp_path):
 
 def test_upgrade_rolls_back_when_post_copy_validation_fails(tmp_path, monkeypatch):
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     checks = tmp_path / ".ai" / "cockpit" / "checks.yaml"
     checks.write_text("# CUSTOM BEFORE UPGRADE\n", encoding="utf-8")
 
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
     )
     monkeypatch.setattr(
         upgrade,
@@ -509,16 +752,27 @@ def test_install_and_upgrade_preserve_project_owned_profiles(tmp_path):
     profile.write_text("version: 1\n# KEEP PROJECT BOUNDARY\n", encoding="utf-8")
     proposal.write_text("version: 1\n# KEEP PROPOSAL\n", encoding="utf-8")
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     assert "KEEP PROJECT BOUNDARY" in profile.read_text(encoding="utf-8")
     assert "KEEP PROPOSAL" in proposal.read_text(encoding="utf-8")
 
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
     )
     assert upgrade.install() == 0
     assert "KEEP PROJECT BOUNDARY" in profile.read_text(encoding="utf-8")
@@ -527,14 +781,25 @@ def test_install_and_upgrade_preserve_project_owned_profiles(tmp_path):
 
 def test_failed_upgrade_removes_new_gitignore(tmp_path, monkeypatch):
     initial = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     assert initial.install() == 0
     (tmp_path / ".gitignore").unlink()
     upgrade = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True, upgrade=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        upgrade=True,
     )
     monkeypatch.setattr(
         upgrade,
@@ -551,8 +816,13 @@ def test_failed_initial_install_restores_original_tree(tmp_path, monkeypatch):
     preserved_empty = tmp_path / "preserved-empty"
     preserved_empty.mkdir()
     installer = Installer(
-        source=ROOT, target=tmp_path, stack="generic", force=False, dry_run=False,
-        with_examples=False, update_makefile=True,
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
     )
     monkeypatch.setattr(
         installer,
@@ -563,4 +833,6 @@ def test_failed_initial_install_restores_original_tree(tmp_path, monkeypatch):
     assert installer.install() == 2
     assert (tmp_path / "README.md").read_text(encoding="utf-8") == "# Existing\n"
     assert preserved_empty.is_dir()
-    assert sorted(path.relative_to(tmp_path).as_posix() for path in tmp_path.rglob("*") if path.is_file()) == ["README.md"]
+    assert sorted(
+        path.relative_to(tmp_path).as_posix() for path in tmp_path.rglob("*") if path.is_file()
+    ) == ["README.md"]

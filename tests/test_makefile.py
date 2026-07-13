@@ -18,6 +18,55 @@ def test_check_ai_pr_uses_aggregate_validator():
     assert 'scripts/ai_check_pr.py --base "abc123"' in result.stdout
 
 
+def test_project_format_check_runs_ruff_format_check():
+    result = subprocess.run(
+        ["make", "-n", "project-format-check"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "ruff format --check scripts tests" in result.stdout
+    assert "git diff --check" in result.stdout
+
+
+def test_supply_chain_checks_are_exposed_as_make_targets():
+    result = subprocess.run(
+        [
+            "make",
+            "-n",
+            "check-sbom",
+            "check-provenance",
+            "check-secret-scanning",
+            "check-dependency-vulnerabilities",
+            "check-bandit-baseline",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "scripts/check_bandit_baseline.py" in result.stdout
+    assert "scripts/check_supply_chain.py sbom" in result.stdout
+    assert "scripts/check_supply_chain.py provenance" in result.stdout
+    assert "scripts/check_supply_chain.py secrets" in result.stdout
+    assert "scripts/check_supply_chain.py vulnerabilities" in result.stdout
+
+
+def test_project_test_uses_stricter_coverage_floor():
+    result = subprocess.run(
+        ["make", "-n", "project-test"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "--cov-fail-under=80" in result.stdout
+
+
 def test_project_governance_make_targets_are_public():
     result = subprocess.run(
         [
@@ -31,7 +80,9 @@ def test_project_governance_make_targets_are_public():
             "PHASE=2",
             "ai-preflight",
         ],
-        text=True, capture_output=True, check=False,
+        text=True,
+        capture_output=True,
+        check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
     assert "ai_project_doctor.py" in result.stdout
@@ -48,7 +99,12 @@ def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path)
 
     # When no .venv exists, defaults to python3
     automatic_no_venv = subprocess.run(
-        ["make", "-n", "test"], cwd=tmp_path, text=True, capture_output=True, check=False, env=clean_env,
+        ["make", "-n", "test"],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        check=False,
+        env=clean_env,
     )
     assert automatic_no_venv.returncode == 0
     assert "python3 -m pytest" in automatic_no_venv.stdout
@@ -59,7 +115,12 @@ def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path)
     venv_python.touch()
 
     automatic_with_venv = subprocess.run(
-        ["make", "-n", "test"], cwd=tmp_path, text=True, capture_output=True, check=False, env=clean_env,
+        ["make", "-n", "test"],
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        check=False,
+        env=clean_env,
     )
     assert automatic_with_venv.returncode == 0
     assert ".venv/bin/python -m pytest" in automatic_with_venv.stdout
@@ -67,7 +128,11 @@ def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path)
     # Explicit override works regardless
     explicit = subprocess.run(
         ["make", "-n", "test", "PYTHON=/custom/python"],
-        cwd=tmp_path, text=True, capture_output=True, check=False, env=clean_env,
+        cwd=tmp_path,
+        text=True,
+        capture_output=True,
+        check=False,
+        env=clean_env,
     )
     assert explicit.returncode == 0
     assert "/custom/python -m pytest" in explicit.stdout
@@ -75,7 +140,9 @@ def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path)
 
 def test_ai_pre_merge_clears_base_commit_for_quality_steps():
     env = {**os.environ, "AI_BASE_COMMIT": "abc123"}
-    template_makefile_content = (ROOT / "templates" / "make" / "Makefile.ai").read_text(encoding="utf-8")
+    template_makefile_content = (ROOT / "templates" / "make" / "Makefile.ai").read_text(
+        encoding="utf-8"
+    )
     assert "env -u AI_BASE_COMMIT" in template_makefile_content
     result = subprocess.run(
         ["make", "-n", "ai-pre-merge", "AI_BASE_COMMIT=abc123"],
@@ -86,9 +153,12 @@ def test_ai_pre_merge_clears_base_commit_for_quality_steps():
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "env -u AI_BASE_COMMIT -u AI_COCKPIT_EXECUTION_MODE -u MAKEFLAGS -u MAKEOVERRIDES" in result.stdout
-    assert "check-ai-diff-ownership AI_BASE_COMMIT=\"abc123\"" in result.stdout
-    assert "check-ai-pr AI_BASE_COMMIT=\"abc123\"" in result.stdout
+    assert (
+        "env -u AI_BASE_COMMIT -u AI_COCKPIT_EXECUTION_MODE -u MAKEFLAGS -u MAKEOVERRIDES"
+        in result.stdout
+    )
+    assert 'check-ai-diff-ownership AI_BASE_COMMIT="abc123"' in result.stdout
+    assert 'check-ai-pr AI_BASE_COMMIT="abc123"' in result.stdout
 
 
 def test_check_ai_no_active_branch_is_read_only(tmp_path):

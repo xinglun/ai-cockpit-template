@@ -34,11 +34,34 @@ def detect_items(changes: list[tuple[str, str]]) -> list[BacktrackItem]:
     items: list[BacktrackItem] = []
     for status, path in changes:
         if status.startswith("D") and is_test_path(path):
-            items.append(BacktrackItem("warning", "deleted_test", path, "A test file or test-like path was deleted. Record the reason in destructiveChanges if intentional."))
-        if status.startswith("D") and included(path, ["**/snapshots/**", "**/*.snap", "**/*.snapshot"]):
-            items.append(BacktrackItem("warning", "deleted_snapshot", path, "A snapshot was deleted. Confirm this is not an output contract regression."))
+            items.append(
+                BacktrackItem(
+                    "warning",
+                    "deleted_test",
+                    path,
+                    "A test file or test-like path was deleted. Record the reason in destructiveChanges if intentional.",
+                )
+            )
+        if status.startswith("D") and included(
+            path, ["**/snapshots/**", "**/*.snap", "**/*.snapshot"]
+        ):
+            items.append(
+                BacktrackItem(
+                    "warning",
+                    "deleted_snapshot",
+                    path,
+                    "A snapshot was deleted. Confirm this is not an output contract regression.",
+                )
+            )
         if status.startswith("D") and included(path, [".ai/work-items/**"]):
-            items.append(BacktrackItem("warning", "removed_work_item_record", path, "A Work Item record was deleted. Record cleanup intent in the Summary."))
+            items.append(
+                BacktrackItem(
+                    "warning",
+                    "removed_work_item_record",
+                    path,
+                    "A Work Item record was deleted. Record cleanup intent in the Summary.",
+                )
+            )
     return items
 
 
@@ -70,7 +93,9 @@ def main() -> int:
         "reportOnly": report_only,
         "items": [asdict(item) for item in items],
     }
-    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REPORT_PATH.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
     obs = create_observability()
     duration = elapsed_ms(start)
@@ -79,12 +104,19 @@ def main() -> int:
         print(f"backtrack guard {mode}: {len(items)}")
         for item in items:
             print(f"[{item.severity}] {item.kind}: {item.path} - {item.detail}")
-            obs.guard_violation(check_id="aiBacktrack", severity=item.severity, path=item.path, detail=f"{item.kind}: {item.detail}")
+            obs.guard_violation(
+                check_id="aiBacktrack",
+                severity=item.severity,
+                path=item.path,
+                detail=f"{item.kind}: {item.detail}",
+            )
     else:
         print("backtrack guard: no issues")
     print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
     if items and not report_only:
-        obs.check_failed(check_id="aiBacktrack", duration_ms=duration, detail="protected evidence removal")
+        obs.check_failed(
+            check_id="aiBacktrack", duration_ms=duration, detail="protected evidence removal"
+        )
         return 1
     obs.check_passed(check_id="aiBacktrack", duration_ms=duration, fields={"warnings": len(items)})
     return 0

@@ -1,0 +1,441 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "supply_chain_action_discovery",
+  "contractPath": ".ai/work-items/archive/2026/supply_chain_action_discovery.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_action_discovery.contract.json",
+      "reason": "Refined the Work Item Contract to cover workflow action discovery, baseline refresh, and restricted-write approval."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply_chain_action_discovery.summary.json",
+      "reason": "Tracked the implementation record and verification evidence for this Work Item."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated Cockpit status during preflight and checkpoint runs."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Expanded workflow action discovery so list-item '- uses:' entries are counted in the SBOM."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Added regression coverage for list-item workflow actions and fail-closed baseline drift."
+    },
+    {
+      "path": "release.json",
+      "reason": "Updated supply-chain digests after the SBOM and provenance baselines changed."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated the committed SBOM baseline after parser coverage changed."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated the committed provenance baseline to stay aligned with the updated SBOM."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    "release.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:01.630338+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "4edfbf34047843bf3371f343aaab5025a86bb4d66bf4c075acac1b244f7d7704",
+      "commandHash": "656d7a347d75711caf45b02eddc117d39e89d347f981dc31f52eb0869f8f5f3b",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/supply_chain_action_discovery.contract.json work item contract check passed: .ai/work-items/active/supply_chain_action_discovery.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:01.786138+00:00",
+      "exitCode": 0,
+      "durationMs": 109,
+      "outputDigest": "af864ee027661f48f153193c159855337c8738e346b77a13b7841c9bece21f00",
+      "commandHash": "52d3b3ca19c301076b8b5092437ee0472596555dcff747e7256e7ae515e489fe",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/supply_chain_action_discovery.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:01.948537+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "a63d360541fdce917a28ec3441da95bcabae1fa061ba30f8d0151ea25f47a991",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/supply_chain_action_discovery.contract.json [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai/**) - AI governance configuration. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:03.086463+00:00",
+      "exitCode": 0,
+      "durationMs": 1058,
+      "outputDigest": "7a9d10a3fb22dbea08aea09ca700df9b2e1b0acc7ff15845effabda20d86b249",
+      "commandHash": "d329596d3bbdd23d8eb2dd6d4e8f4745f3f7e9bbc8c496e94e461cb29b163048",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/supply_chain_action_discovery.contract.json --summary .ai/work-items/active/supply_chain_action_discovery.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `supply_chain_action_discovery` - Contract Hash: `522b304da496f582` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:03.239630+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "69fe5809a90f29a79f9e7c12ecd7f4b2007c8f4ac6a911b4354de941053e5216",
+      "commandHash": "8e1290d7c852a27b86649b78e8f2ae37a9b813f983982e1493f2df6341f8eb70",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/supply_chain_action_discovery.summary.json review policy matched 3 path(s) [review] .ai/cockpit/provenance.json [review] .ai/cockpit/sbom.json [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:03.381003+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:03.525065+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:03.687596+00:00",
+      "exitCode": 0,
+      "durationMs": 72,
+      "outputDigest": "57ffd92b3ff830965c9100059275cb61a75959d2c0e39918e452d0c77594ea41",
+      "commandHash": "06f4c33e9a11b2a280b632e42a73ca3940fa0cc422113141657835b60f20fb84",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/supply_chain_action_discovery.contract.json --summary .ai/work-items/active/supply_chain_action_discovery.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:03.784116+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "2d0f100e4b8f8e3c26a98d06d63225e48e8780accf06ce6b814a9a9478162e9b",
+      "commandHash": "cdcd79886d4298f7272a87fb48eed88539feef8072ff8a0bc68fe53a18140fb0",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/supply_chain_action_discovery.contract.json --summary .ai/work-items/active/supply_chain_action_discovery.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:41:04.925684+00:00",
+      "exitCode": 0,
+      "durationMs": 1058,
+      "outputDigest": "83db2aa0e7db14593d1bdf057c534791cc54f1818e9db1ac35f3719bc7988308",
+      "commandHash": "2940c8e2199305ae67b837ad74976699794133d9fe49de85179defe04bf20d0c",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/supply_chain_action_discovery.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/sbom.json` — covered by"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:42:19.204352+00:00",
+      "exitCode": 0,
+      "durationMs": 74180,
+      "outputDigest": "017930b54611d4d297d948a4c04cb6cf85030c4cebca4b477e26a5d9f57374fe",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "7000be3e1c48d8f8705769c6a4d13d3be34296abc6fc760ddfdf3d0d49e56ea7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 86 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 20%] ........................................................................ [ 40%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:42:23.471527+00:00",
+      "exitCode": 0,
+      "durationMs": 1073,
+      "outputDigest": "ae2e649a2889acbb98cdad244abd92b0440c382df3190e689f8012760dede73a",
+      "commandHash": "20e307b0488ec8a5e6303d00584ea4a42a269fd545272e402c9545cf18d9e834",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "77827d98f5cfb870837a8b7c93c11131f3ec7736a1efa0495401370545d07ee1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/supply_chain_action_discovery.contract.json --summary .ai/work-items/active/supply_chain_action_discovery.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:42:24.773426+00:00",
+      "exitCode": 0,
+      "durationMs": 1222,
+      "outputDigest": "a526844a4ea3a07c9d9ee8fbadf0ea075e4553ec5779025db59a2d12037f977e",
+      "commandHash": "620f264464e5c5ee619baacb5250be5de5d399b6ce3582e5f8b4d0b05dca4936",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "77827d98f5cfb870837a8b7c93c11131f3ec7736a1efa0495401370545d07ee1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/supply_chain_action_discovery.contract.json --summary .ai/work-items/active/supply_chain_action_discovery.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:42:24.898486+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "77827d98f5cfb870837a8b7c93c11131f3ec7736a1efa0495401370545d07ee1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:42:25.028489+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "68d6e01ee683e51e2ff1fe63145b5f201db939fae3fc2a5f5ec17f7f0345a27f",
+      "commandHash": "b87ef93c071fa6ac7098b87248bcfb806fcafe7625091bbb13f8a40c3b4cfbee",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "77827d98f5cfb870837a8b7c93c11131f3ec7736a1efa0495401370545d07ee1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/supply_chain_action_discovery.contract.json --summary .ai/work-items/active/supply_chain_action_discovery.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/supply_chain_action_discovery.summary.json CONTRACT=.ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T02:42:25.169833+00:00",
+      "exitCode": 0,
+      "durationMs": 96,
+      "outputDigest": "a0782031b1bcbbe881942d8f3af9e32c53c0faec90dc0cc411db4476ed4d8f1b",
+      "commandHash": "fbd47914f6bd9d53ef24726ada5ae9ae509e4fcb8796f21b1f757e581339b49c",
+      "contractHash": "522b304da496f582613f75b2e05db0d00a2d4672005f3fcad4fdd1aa626f3041",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/supply_chain_action_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply_chain_action_discovery.summary.json",
+      "worktreeDigest": "77827d98f5cfb870837a8b7c93c11131f3ec7736a1efa0495401370545d07ee1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/supply_chain_action_discovery.summary.json --contract .ai/work-items/active/supply_chain_action_discovery.contract.json ai summary check passed: .ai/work-items/active/supply_chain_action_discovery.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public API surface was added; the change is internal to supply-chain parsing and regression coverage."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The implementation stayed within scripts/check_supply_chain.py and tests/test_supply_chain.py."
+    }
+  ],
+  "unknownsRemaining": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "List-item workflow actions are included in the SBOM component inventory",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py::test_workflow_action_discovery_includes_list_item_uses"
+      ]
+    },
+    {
+      "scenario": "Regenerated SBOM and provenance stay aligned with the same repository state",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "python3 scripts/check_supply_chain.py sbom --write",
+        "python3 scripts/check_supply_chain.py provenance --write",
+        "python3 scripts/check_supply_chain.py sbom",
+        "python3 scripts/check_supply_chain.py provenance"
+      ]
+    },
+    {
+      "scenario": "Supply-chain drift still fails closed when committed evidence does not match computed evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py::test_supply_chain_compare_or_write_reports_drift"
+      ]
+    }
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "Parser coverage changed the committed SBOM/provenance evidence and required a baseline refresh."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "python3 scripts/check_release_distribution.py requires anonymous GitHub access and failed in this environment with terminal prompts disabled."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "workflow-action-discovery",
+      "detail": "The parser now covers top-level and list-item uses entries but still assumes standard GitHub Actions workflow syntax.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "low",
+      "area": "release-distribution-validation",
+      "detail": "Anonymous release distribution validation could not be completed in this environment because public GitHub access was unavailable.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The parser change, baseline refresh, and targeted regression tests passed; external anonymous release validation was blocked by the environment.",
+    "expectedReviewFocus": [
+      "workflow action coverage",
+      "baseline regeneration",
+      "fail-closed drift behavior"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "522b304da496f582",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Ran ai-checkpoint before implementation and reviewed scope, acceptance, unknowns, and required verification."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "522b304da496f582",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10,
+      "detail": "Ran ai-checkpoint before finish and confirmed the current verification status, review focus, and next action."
+    }
+  ],
+  "checkpointReview": {
+    "before_edit": "recorded",
+    "before_finish": "recorded"
+  },
+  "knownGaps": [
+    "Anonymous release distribution validation could not be completed in this environment because public GitHub access was unavailable."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

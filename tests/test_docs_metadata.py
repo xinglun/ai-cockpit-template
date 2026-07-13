@@ -29,7 +29,9 @@ def test_check_rejects_supported_stack_drift(tmp_path):
     readme = tmp_path / "README.md"
     readme.write_text(readme.read_text(encoding="utf-8").replace(", android", ""), encoding="utf-8")
 
-    assert "README.md: supported-stack list does not match installer STACKS" in check_repository(tmp_path)
+    assert "README.md: supported-stack list does not match installer STACKS" in check_repository(
+        tmp_path
+    )
 
 
 def test_check_rejects_stack_tier_drift(tmp_path):
@@ -43,7 +45,10 @@ def test_check_rejects_stack_tier_drift(tmp_path):
         encoding="utf-8",
     )
 
-    assert "README.zh-CN.md: stack compatibility tiers do not match executable CI evidence" in check_repository(tmp_path)
+    assert (
+        "README.zh-CN.md: stack compatibility tiers do not match executable CI evidence"
+        in check_repository(tmp_path)
+    )
 
 
 def test_check_rejects_configuration_stack_tier_drift(tmp_path):
@@ -74,7 +79,9 @@ def test_check_rejects_release_capability_drift(tmp_path):
         encoding="utf-8",
     )
 
-    assert "README.ja.md: release capability marker is missing or inconsistent" in check_repository(tmp_path)
+    assert "README.ja.md: release capability marker is missing or inconsistent" in check_repository(
+        tmp_path
+    )
 
 
 def test_check_rejects_public_quality_target_drift(tmp_path):
@@ -88,7 +95,9 @@ def test_check_rejects_public_quality_target_drift(tmp_path):
         encoding="utf-8",
     )
 
-    assert "README.zh-CN.md: public quality target differs from release.json" in check_repository(tmp_path)
+    assert "README.zh-CN.md: public quality target differs from release.json" in check_repository(
+        tmp_path
+    )
 
 
 def test_check_rejects_public_quality_command_drift(tmp_path):
@@ -112,15 +121,23 @@ def test_check_rejects_public_quality_command_drift(tmp_path):
 
     errors = check_repository(tmp_path)
     assert "README.md: readiness guidance does not use the public quality target" in errors
-    assert "docs/getting-started/installation.md: readiness commands do not use the public quality target" in errors
+    assert (
+        "docs/getting-started/installation.md: readiness commands do not use the public quality target"
+        in errors
+    )
 
 
 def test_check_rejects_missing_front_matter_field(tmp_path):
     copy_documentation(tmp_path)
     readme = tmp_path / "README.ja.md"
-    readme.write_text(readme.read_text(encoding="utf-8").replace("author: Ray\n", ""), encoding="utf-8")
+    readme.write_text(
+        readme.read_text(encoding="utf-8").replace("author: Ray\n", ""), encoding="utf-8"
+    )
 
-    assert any(error.endswith("README.ja.md: front matter missing author") for error in check_repository(tmp_path))
+    assert any(
+        error.endswith("README.ja.md: front matter missing author")
+        for error in check_repository(tmp_path)
+    )
 
 
 def test_check_rejects_prerequisites_after_install_command(tmp_path):
@@ -130,7 +147,10 @@ def test_check_rejects_prerequisites_after_install_command(tmp_path):
     text = readme.read_text(encoding="utf-8").replace(marker, "") + f"\n{marker}\n"
     readme.write_text(text, encoding="utf-8")
 
-    assert "README.md: installation prerequisites must precede the primary install command" in check_repository(tmp_path)
+    assert (
+        "README.md: installation prerequisites must precede the primary install command"
+        in check_repository(tmp_path)
+    )
 
 
 def test_check_rejects_mutable_or_incomplete_install_commands(tmp_path):
@@ -144,19 +164,28 @@ def test_check_rejects_mutable_or_incomplete_install_commands(tmp_path):
 
     errors = check_repository(tmp_path)
     assert any("remote installer must use a fixed tag or commit" in error for error in errors)
-    assert any("install command with --stack requires --update-makefile" in error for error in errors)
+    assert any(
+        "install command with --stack requires --update-makefile" in error for error in errors
+    )
 
 
 def test_check_rejects_install_commands_without_adoption_evidence(tmp_path):
     copy_documentation(tmp_path)
     readme = tmp_path / "README.ja.md"
-    readme.write_text(readme.read_text(encoding="utf-8").replace(" --create-adoption", "", 1), encoding="utf-8")
+    readme.write_text(
+        readme.read_text(encoding="utf-8").replace(" --create-adoption", "", 1), encoding="utf-8"
+    )
     example = tmp_path / "examples" / "python" / "README.md"
-    example.write_text(example.read_text(encoding="utf-8").replace(" --create-adoption", ""), encoding="utf-8")
+    example.write_text(
+        example.read_text(encoding="utf-8").replace(" --create-adoption", ""), encoding="utf-8"
+    )
 
     errors = check_repository(tmp_path)
     assert "README.ja.md: primary install command must create auditable adoption evidence" in errors
-    assert any("example install command must create auditable adoption evidence" in error for error in errors)
+    assert any(
+        "example install command must create auditable adoption evidence" in error
+        for error in errors
+    )
 
 
 def test_check_rejects_readme_that_calibrates_before_finishing_adoption(tmp_path):
@@ -178,7 +207,10 @@ def test_check_rejects_language_specific_default_stack(tmp_path):
         encoding="utf-8",
     )
 
-    assert "README.ja.md: primary install command must use an explicit generic-default STACK variable" in check_repository(tmp_path)
+    assert (
+        "README.ja.md: primary install command must use an explicit generic-default STACK variable"
+        in check_repository(tmp_path)
+    )
 
 
 def test_check_rejects_unpublished_sha256_claim(tmp_path):
@@ -193,7 +225,9 @@ def test_check_rejects_unpublished_sha256_claim(tmp_path):
         encoding="utf-8",
     )
 
-    assert any("SHA256 verification is not published" in error for error in check_repository(tmp_path))
+    assert any(
+        "SHA256 verification is not published" in error for error in check_repository(tmp_path)
+    )
 
 
 def test_check_rejects_concrete_or_missing_readme_release_resolution(tmp_path):
@@ -208,7 +242,10 @@ def test_check_rejects_concrete_or_missing_readme_release_resolution(tmp_path):
 
     errors = check_repository(tmp_path)
     assert "README.md: primary README must not hardcode a concrete release version" in errors
-    assert "README.md: primary install command must resolve the tagged installer from release.json" in errors
+    assert (
+        "README.md: primary install command must resolve the tagged installer from release.json"
+        in errors
+    )
 
 
 def test_check_rejects_known_japanese_style_regressions(tmp_path):

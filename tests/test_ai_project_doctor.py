@@ -17,7 +17,9 @@ def test_doctor_detects_ios_layout_signals_without_auto_approval(tmp_path):
     assert "cocoapods" in fact_values(report, "buildSystems")
     assert "xcode-project" in fact_values(report, "buildSystems")
     assert report["suggestedBoundaries"]["testRoots"][0]["evidence"] == "MyAppTests"
-    assert report["suggestedBoundaries"]["productionRoots"][0]["evidence"] == "MyApp.xcodeproj:MyApp"
+    assert (
+        report["suggestedBoundaries"]["productionRoots"][0]["evidence"] == "MyApp.xcodeproj:MyApp"
+    )
     assert report["disclaimer"].endswith("not approval decisions.")
     assert not any(item.startswith("blocking:") for item in report["unknowns"])
 
@@ -41,5 +43,7 @@ def test_doctor_detects_swift_package_manager_without_regression(tmp_path):
 
     assert "swift-package-manager" in fact_values(report, "buildSystems")
     assert report["suggestedBoundaries"]["productionRoots"][0]["evidence"] == "Sources"
-    assert any(item["path"].lower() == "tests/**" for item in report["suggestedBoundaries"]["testRoots"])
+    assert any(
+        item["path"].lower() == "tests/**" for item in report["suggestedBoundaries"]["testRoots"]
+    )
     assert report["unknowns"] == []

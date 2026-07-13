@@ -30,10 +30,12 @@ def test_onboard_profile_status_detects_confirmed_and_proposed(tmp_path):
 def test_onboard_readiness_actions_flags_placeholders_and_coverage(tmp_path):
     (tmp_path / ".ai" / "guards").mkdir(parents=True)
     (tmp_path / ".ai" / "guards" / "coverage_policy.yaml").write_text(
-        "adoptionReviewed: false\n", encoding="utf-8",
+        "adoptionReviewed: false\n",
+        encoding="utf-8",
     )
     (tmp_path / "Makefile.ai.stack").write_text(
-        "PROJECT_TEST = printf 'ERROR: configure PROJECT_TEST' >&2; false\n", encoding="utf-8",
+        "PROJECT_TEST = printf 'ERROR: configure PROJECT_TEST' >&2; false\n",
+        encoding="utf-8",
     )
     passed, actions = ai_onboard.readiness_actions(tmp_path, "en")
     assert any("Makefile.ai.stack" in action for action in actions)
@@ -61,13 +63,25 @@ def test_onboard_phase_one_runs_in_repository(capsys):
 
 def test_onboard_main_single_phase_three(tmp_path, monkeypatch):
     monkeypatch.setattr(ai_onboard, "phase_readiness", lambda *_args, **_kwargs: 0)
-    monkeypatch.setattr(sys, "argv", ["ai_onboard.py", "--root", str(tmp_path), "--phase", "3", "--skip-readiness-checks"])
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["ai_onboard.py", "--root", str(tmp_path), "--phase", "3", "--skip-readiness-checks"],
+    )
     assert ai_onboard.main() == 0
 
 
 def test_onboard_cli_entrypoint(tmp_path):
     result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "ai_onboard.py"), "--root", str(tmp_path), "--phase", "3", "--skip-readiness-checks"],
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "ai_onboard.py"),
+            "--root",
+            str(tmp_path),
+            "--phase",
+            "3",
+            "--skip-readiness-checks",
+        ],
         text=True,
         capture_output=True,
         check=False,

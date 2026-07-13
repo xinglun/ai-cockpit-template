@@ -10,7 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def load(name: str):
-    return json.loads((ROOT / ".ai" / "work-items" / "_templates" / name).read_text(encoding="utf-8"))
+    return json.loads(
+        (ROOT / ".ai" / "work-items" / "_templates" / name).read_text(encoding="utf-8")
+    )
 
 
 def test_static_examples_match_ai_start_defaults():
@@ -24,15 +26,22 @@ def test_static_examples_match_ai_start_defaults():
         "example not applicable scenario",
     ]
     assert contract["checkpointPolicy"]["requiredStages"] == ai_start.DEFAULT_CHECKPOINT_STAGES
-    assert [item["check"] for item in summary["verification"]] == ai_start.DEFAULT_VERIFICATION_CHECKS
+    assert [
+        item["check"] for item in summary["verification"]
+    ] == ai_start.DEFAULT_VERIFICATION_CHECKS
     assert [item["scenario"] for item in summary["scenarioCoverage"]] == [
         "example verified scenario",
         "example unverified scenario",
         "example not applicable scenario",
     ]
-    assert summary["followUps"] == ["Verify the unverified scenario after the external system run completes."]
+    assert summary["summaryVersion"] == 2
+    assert summary["followUps"] == [
+        "Verify the unverified scenario after the external system run completes."
+    ]
     assert summary["unverifiedScenarios"] == ["example unverified scenario"]
-    assert [item["stage"] for item in summary["checkpointEvidence"]] == ai_start.DEFAULT_CHECKPOINT_STAGES
+    assert [
+        item["stage"] for item in summary["checkpointEvidence"]
+    ] == ai_start.DEFAULT_CHECKPOINT_STAGES
     assert summary["intentAlignment"] == {}
 
 
@@ -52,3 +61,14 @@ def test_example_contract_includes_problem_statement():
 
     assert contract["problemStatement"]
     assert "task solves" in contract["problemStatement"]
+
+
+def test_language_example_readmes_include_default_verification_checks():
+    readmes = sorted((ROOT / "examples").glob("*/README.md"))
+    required = [f'"check": "{check}"' for check in ai_start.DEFAULT_VERIFICATION_CHECKS]
+
+    assert len(readmes) == 11
+    for path in readmes:
+        text = path.read_text(encoding="utf-8")
+        for check in required:
+            assert check in text, f"{path.relative_to(ROOT)} is missing {check}"

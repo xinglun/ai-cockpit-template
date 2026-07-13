@@ -1,0 +1,192 @@
+{
+  "contractVersion": 2,
+  "workItemId": "path_matching_and_baseline_fingerprint",
+  "mode": "code",
+  "title": "Tighten path matching and baseline fingerprints",
+  "baseCommit": "4a157f9e3299bd141892df81e3efe8154564d351",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+    ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_common.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_start.py",
+    "tests/test_baseline_diff.py",
+    "tests/test_diff_ownership.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_start_and_archive.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Shared matching and fingerprint helpers used by scope and baseline checks."
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "reason": "Regression coverage for changed-path baseline behavior."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Regression coverage for policy matching behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "matching_semantics"
+    ],
+    "reason": "Scope and baseline checks must use path semantics that do not overmatch nested files and must distinguish type or mode-only changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The matching and fingerprint semantics can be tightened locally and regression-tested."
+  },
+  "preReviewWarnings": [
+    "Keep path matching glob semantics narrow and preserve baseline dirty detection for mode or type changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_finish"
+    ],
+    "reason": "Record a finish-time checkpoint before archiving the matching and baseline fingerprint fix."
+  },
+  "acceptance": [
+    "Path matching no longer lets single-star patterns overmatch deeper nested files.",
+    "Baseline dirty fingerprints detect mode or file-type-only differences instead of treating them as unchanged.",
+    "Regression tests prove the tightened semantics for scope and baseline comparisons."
+  ],
+  "guidelines": [],
+  "intent": {
+    "problem": "The shared matching helper uses fnmatch semantics that can overmatch nested paths, and the baseline fingerprint only hashes file contents, so mode or type-only changes can be missed by scope and dirty-baseline checks.",
+    "constraints": [
+      "Keep the fix local to the shared helper and regression tests.",
+      "Do not widen scope matching beyond the documented glob behavior.",
+      "Preserve existing callers and contract shapes."
+    ],
+    "rationale": "Shared matching and baseline identity must reflect the real path and file identity so governance checks do not silently miss changes."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "single-star patterns do not match nested descendant files",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_common.py",
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "baseline fingerprints change when file mode or type changes even if file bytes stay the same",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_common.py",
+        "tests/test_baseline_diff.py"
+      ]
+    },
+    {
+      "scenario": "existing exact and recursive patterns still behave as expected",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_common.py",
+        "tests/test_baseline_diff.py",
+        "tests/test_diff_ownership.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -15,11 +15,24 @@ from ai_check_adoption_ready import readiness_failures, readiness_role_message
 
 def command_ok(root: Path, *command: str) -> bool:
     try:
-        return subprocess.run(
-            command, cwd=root, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
-        ).returncode == 0
+        return (
+            subprocess.run(
+                command,
+                cwd=root,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            ).returncode
+            == 0
+        )
     except OSError:
         return False
+
+
+def git_records(output: str) -> list[str]:
+    if "\0" in output:
+        return [item for item in output.split("\0") if item]
+    return [line for line in output.splitlines() if line]
 
 
 def diagnose(root: Path) -> tuple[list[str], list[str], list[str]]:
@@ -50,12 +63,15 @@ def diagnose(root: Path) -> tuple[list[str], list[str], list[str]]:
         failures.append("Create an initial Git commit before ai-start or --create-adoption")
     try:
         dirty = subprocess.run(
-            ["git", "status", "--porcelain"], cwd=root, text=True,
-            capture_output=True, check=False,
-        ).stdout.strip()
+            ["git", "status", "--porcelain", "-z"],
+            cwd=root,
+            text=True,
+            capture_output=True,
+            check=False,
+        ).stdout
     except OSError:
         dirty = ""
-    if dirty:
+    if git_records(dirty):
         warnings.append("Git worktree is dirty; --create-adoption requires a clean worktree")
     else:
         passed.append("Git worktree is clean")
@@ -99,7 +115,9 @@ def main() -> int:
         print(f"[WARN] {item}")
     for item in failures:
         print(f"[FAIL] {item}")
-    print(f"doctor summary: {len(passed)} passed, {len(warnings)} warning(s), {len(failures)} failure(s)")
+    print(
+        f"doctor summary: {len(passed)} passed, {len(warnings)} warning(s), {len(failures)} failure(s)"
+    )
     return 1 if failures else 0
 
 

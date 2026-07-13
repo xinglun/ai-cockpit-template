@@ -1,0 +1,405 @@
+{
+  "workItemId": "installer_target_isolation",
+  "contractPath": ".ai/work-items/archive/2026/installer_target_isolation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/installer_target_isolation.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_target_isolation.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Scoped managed-script validation to the template boundary and made initial status generation target-aware."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Added regressions for host-script isolation and target-repository status generation."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Inherited baseline dirty path from the prior active Work Item archive and kept it in scope."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Inherited baseline dirty path from the prior active Work Item archive and kept it in scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.contract.json",
+      "reason": "Archived evidence retained in the worktree from the previous Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.summary.json",
+      "reason": "Archived evidence retained in the worktree from the previous Work Item."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Refreshed cockpit status while creating the Work Item."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer.py",
+    "scripts/ai_generate_status.py"
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public APIs were introduced."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The change only touches installer internals and installer-focused tests."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "installer ignores host repo ai_*.py files that are not template-managed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_installer.py"
+      ]
+    },
+    {
+      "scenario": "initial no-active status is generated from the target repository context",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_installer.py"
+      ]
+    },
+    {
+      "scenario": "normal installation still writes the managed installer files",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_installer.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:23.299045+00:00",
+      "exitCode": 0,
+      "durationMs": 146,
+      "outputDigest": "9ffc0b0a541ca22d75cdd5b634b5c594a0889474aee589ed8c5115143403824c",
+      "commandHash": "9fb44c9acf73fa87db829da1a146a40debcbfedae65bbb5be911951428d7f39c",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/installer_target_isolation.contract.json work item contract check passed: .ai/work-items/active/installer_target_isolation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:23.473190+00:00",
+      "exitCode": 0,
+      "durationMs": 165,
+      "outputDigest": "459b3debba9193031dfd9d2b772db534d71bf3b293c2019791317aba9931825c",
+      "commandHash": "8b3d0ef3870379d39c626dc49fe49f89c905b7054b2afa6431341d0786e309dc",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/installer_target_isolation.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:23.737279+00:00",
+      "exitCode": 0,
+      "durationMs": 259,
+      "outputDigest": "c3a54fb5955652314026721a1ae91b6ec053f0a17685ba84020175adb73bd20f",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/installer_target_isolation.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:24.062442+00:00",
+      "exitCode": 0,
+      "durationMs": 307,
+      "outputDigest": "aabbc477b8a9970be900c2331d46d86e2fe8066a09b2de96b7e8b7a113c8414f",
+      "commandHash": "980eab9ddedd08b46ade6c7bd4f2948b91c37444a2b17de07c58c5bca4f85f15",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/installer_target_isolation.contract.json --summary .ai/work-items/active/installer_target_isolation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `installer_target_isolation` - Contract Hash: `3abe121100373765` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:24.338361+00:00",
+      "exitCode": 0,
+      "durationMs": 262,
+      "outputDigest": "a7dbd2e259353ae4eb8c3fc8ea1f4c07fdafb0171c62222ba8d596d954482daa",
+      "commandHash": "01d501812a5e05849590209c1e066fe6abe4046052bb688f5ff60d73e3b31d3b",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/installer_target_isolation.summary.json review policy matched 3 path(s) [review] .ai/work-items/archive/2026/single_active_work_item_guard.contract.json [review] .ai/cockpit/current_status.md [review] scripts/ai_start.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:24.492653+00:00",
+      "exitCode": 0,
+      "durationMs": 141,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:24.635430+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:24.837480+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "b759a6ce81f91339e03ad51adc3fe02b1b1e4055a3e7a9d525b276f26a603417",
+      "commandHash": "354ec005848918afdd09b38d0a9407b514a62988155f3a2ebe877487f0a23d86",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/installer_target_isolation.contract.json --summary .ai/work-items/active/installer_target_isolation.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:24.946640+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "02f24bc615ddf621ebacb34afd1f11fa6fb1409480f8726cc87cdc266a5ab94e",
+      "commandHash": "cd5c02ac08e02accb1ef2a685149d7d06b902822462757ba4a87fdf8fe9e8fda",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/installer_target_isolation.contract.json --summary .ai/work-items/active/installer_target_isolation.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:25:25.288640+00:00",
+      "exitCode": 0,
+      "durationMs": 314,
+      "outputDigest": "f4e1ff1626cd96c8bd60e7e7a51078ce561e8a95dc8aa53c39043db60bf79ea2",
+      "commandHash": "eb5ae10958f5800c76f411e3c929823947ff717c6983e0e90acc1a5fc93cd777",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/installer_target_isolation.contract.json ## Diff Ownership Preview - active_owned: `5`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_start.py` — covered by Contract scope - [active_owned] `scripts/install_ai_cockpit.py` — covered by Co"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:26:42.429126+00:00",
+      "exitCode": 0,
+      "durationMs": 77124,
+      "outputDigest": "96100529588541f0adcc2fb368dc03d318a4c399fce335b62c3e44d61666bf2e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 23%] ........................................................................ [ 46%] ........................................................................ [ 69%] ........................................................................ [ 93%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:26:44.390601+00:00",
+      "exitCode": 0,
+      "durationMs": 607,
+      "outputDigest": "3f8d6bf29c42c4d539bfb6378b631287c7f2977a128bfa8fa4f87091c39f875f",
+      "commandHash": "3d733eeee42e9961ad8c53bd4c932bf58f56eac41bae6cbeaf0a66a95e472a38",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/installer_target_isolation.contract.json --summary .ai/work-items/active/installer_target_isolation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:26:44.789988+00:00",
+      "exitCode": 0,
+      "durationMs": 391,
+      "outputDigest": "345e784b4d728ef65373c2799c301c37f6ecee7326fb0be280d33208f00b86b3",
+      "commandHash": "7108f7aaebfcc008f397a59c072499c841361b824bc19c909b50ca63bf110ecc",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/installer_target_isolation.contract.json --summary .ai/work-items/active/installer_target_isolation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:26:44.868758+00:00",
+      "exitCode": 0,
+      "durationMs": 70,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:26:44.963712+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "1a0438a3fa7ce9b306562264159a2ffd5920c1176b8b1efe01846ec2c34ba206",
+      "commandHash": "972c5c2f3e4400b0976acc3c96f6d62ff9a4a8a62ce714f2397b586fe301511f",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/installer_target_isolation.contract.json --summary .ai/work-items/active/installer_target_isolation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/installer_target_isolation.summary.json CONTRACT=.ai/work-items/active/installer_target_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T04:26:45.213876+00:00",
+      "exitCode": 0,
+      "durationMs": 242,
+      "outputDigest": "645f979d2e9be6a45cfb40101469a38eb76de555b9ae44255980ad945e3731a0",
+      "commandHash": "0f9a07caa91779cb1b511800cee4bfdd63e706936f6b6a8010ab3e9a98d62cea",
+      "contractHash": "3abe121100373765a51e493a9c3ffb962236e213a1b93aed90b0c6dbd5d8ff64",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/installer_target_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installer_target_isolation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/installer_target_isolation.summary.json --contract .ai/work-items/active/installer_target_isolation.contract.json ai summary check passed: .ai/work-items/active/installer_target_isolation.summary.json"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Installer isolation change is narrow and covered by specific regression tests."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "followUps": [],
+  "unverifiedScenarios": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review",
+      "detail": "Review the installer boundary together with the generated initial status behavior.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Run the required checks after implementation.",
+    "expectedReviewFocus": [
+      "Managed-script validation boundary",
+      "Target repository status generation"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before editing.",
+      "contractHash": "3abe121100373765",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before finishing.",
+      "contractHash": "3abe121100373765",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "summaryVersion": 2
+}

@@ -1,0 +1,403 @@
+{
+  "workItemId": "path_matching_and_baseline_fingerprint",
+  "contractPath": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Tighten path matching and baseline fingerprint semantics."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Exclude the generated status file from active ownership counts."
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "Keep current-status ownership verification aligned with generation."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Refresh stale no-active status before creating a new Work Item."
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "reason": "Cover baseline fingerprint mode changes and segment glob matching."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Cover path matching behavior used by diff ownership."
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "reason": "Cover active status ownership-count alignment."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Cover no-active status refresh during ai-start."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated Cockpit status for the active Work Item."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+    "scripts/ai_common.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_start.py",
+    "tests/test_baseline_diff.py",
+    "tests/test_diff_ownership.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_start_and_archive.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:35.819146+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "2e37cbfdb1416b0cb829a4e6c4ce1d708d2a3de29ca5a7c17a211da5aa5ca504",
+      "commandHash": "44d8b8fc8121c3ab4b25f0f71373e8ff2f26c5e51b653ccc8ceb13213382ad48",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json work item contract check passed: .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:35.977960+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "08803599a1bf83414158f25a86fec98b6e906d636de5c4bedecff2f6733c5713",
+      "commandHash": "14d6be5b7fbc11596e754d70bc51836c501d2a2d5334b0e9f6e00b2214cdecc5",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:36.247019+00:00",
+      "exitCode": 0,
+      "durationMs": 246,
+      "outputDigest": "14fa732cdcbc456be5414daa2dee9a2b43e7c361c835a82ba5cb049b02c17f65",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:36.570099+00:00",
+      "exitCode": 0,
+      "durationMs": 309,
+      "outputDigest": "a6e12b9a8e25cb41ae20827a39786cb0dfcdb68c355d73b81404a5fa4dc92090",
+      "commandHash": "a3c58eb29d505bc1f6371b8ff2d8599381efbdaee96008c5025e9eed4abdf0e2",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `path_matching_and_baseline_fingerprint` - Contract Hash: `447a03575647f2e4` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - U"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:36.835008+00:00",
+      "exitCode": 0,
+      "durationMs": 251,
+      "outputDigest": "d2d59e97de9acc6c20cfbdfee6a60fdbc33c60ab51ed245ad319ca8a58e645f7",
+      "commandHash": "9b2b78a493f20c07db26f4c9baece4b99b933b309c6df957d90022a18cbbc4f2",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json review policy matched 5 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_check_status.py [review] scripts/ai_common.py [review] scripts/ai_generate_status.py [review] scripts/ai_start.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:37.024793+00:00",
+      "exitCode": 0,
+      "durationMs": 160,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:37.180095+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:37.265861+00:00",
+      "exitCode": 0,
+      "durationMs": 72,
+      "outputDigest": "7af569f9cf9f9c4c58cf13b72840364717ce3e783467ca0cead283875a5dc12a",
+      "commandHash": "6bc0f09d3bca6f72d5d60bca5cd864b57eeb6ad3e1e1eb74df6c71a44fcf1195",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:37.354732+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "3358cb30672c99502f6c0fa5f8b0b123de0477edfed0482633029773aa35fbb4",
+      "commandHash": "fd8d20cd82b43a86742296d7d2de5b4ae3ac5f4dcd1eb63721efb782ce852ffa",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json guidelines compliance check passed: 0 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:56:37.625797+00:00",
+      "exitCode": 0,
+      "durationMs": 255,
+      "outputDigest": "dc7ed0ddd0a36099617ac79e2ccea769af1670bc001125fd986c469979e6999f",
+      "commandHash": "5741ad5a7ef40587ec4bb0837c5934461d107c949df23f3377643f2706c7b882",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_check_status.py` — covered by Contract scope - [active_owned] `scripts/ai_common.py` — cov"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:57:48.394394+00:00",
+      "exitCode": 0,
+      "durationMs": 70744,
+      "outputDigest": "dcbcef5963b7abffefc76a52b878d55a16853c5dab5a94721f75a0885fd4bc24",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 23%] ........................................................................ [ 47%] ........................................................................ [ 70%] ........................................................................ [ 94%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:57:49.734956+00:00",
+      "exitCode": 0,
+      "durationMs": 376,
+      "outputDigest": "327c37a1a1c9e2f08383ccc0a1a0dfb66539897ae1a1e9c9ce297dd5be5677c0",
+      "commandHash": "432868fda2d7674b4f5560591189963e8ed55953e49e32c569190e94dd5f3577",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:57:49.997296+00:00",
+      "exitCode": 0,
+      "durationMs": 255,
+      "outputDigest": "1e5dc0545fedb46cfe00b7b55244ddafa7da322f26fe9ebe741ab17d23abbd86",
+      "commandHash": "6636979135c4b197be0dedcf0e006c95c389875d3cdef2531129c7d11c8ccf92",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:57:50.161214+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:57:50.261092+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "b900024f72bffb0fc83a243b477436a9f45b1fc69ab2a12df963e132235ee790",
+      "commandHash": "86e49cc7df3eaecf60d9d45c8cb262b74230bdf871d40a859e535500e4423ece",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json --summary .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json CONTRACT=.ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T03:57:50.477400+00:00",
+      "exitCode": 0,
+      "durationMs": 202,
+      "outputDigest": "7ca427c4cfc296d5d4a26d6684d1f4601363de5fde4964e3568d49c543c5f6a1",
+      "commandHash": "34a8c78acc353fc45c451cf9125a4a8ecea850de7b3ff18dba4206aad8642b43",
+      "contractHash": "447a03575647f2e48946fd46bb23a5bb371e67f5b18f8d9fdd7bd4ea27eb0869",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json --contract .ai/work-items/active/path_matching_and_baseline_fingerprint.contract.json ai summary check passed: .ai/work-items/active/path_matching_and_baseline_fingerprint.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Shared path matching and baseline fingerprints must not overmatch nested files or miss mode-only changes."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "shared_matching",
+      "detail": "Path matching semantics are shared across scope, ownership, and baseline checks, so future policy patterns still need careful review.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The path matching and baseline fingerprint fix is implemented and regression-tested; finish checks remain to record the final verification trail.",
+    "expectedReviewFocus": [
+      "Single-star path matching boundaries",
+      "Baseline fingerprint mode/type sensitivity"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "single-star patterns do not match nested descendant files",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_common.py",
+        "tests/test_baseline_diff.py",
+        "tests/test_diff_ownership.py"
+      ]
+    },
+    {
+      "scenario": "baseline fingerprints change when file mode or type changes even if file bytes stay the same",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_common.py",
+        "tests/test_baseline_diff.py"
+      ]
+    },
+    {
+      "scenario": "existing exact and recursive patterns still behave as expected",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_common.py",
+        "tests/test_baseline_diff.py",
+        "tests/test_diff_ownership.py"
+      ]
+    }
+  ],
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "447a03575647f2e4",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Recorded the matching-and-baseline fingerprint checkpoint before finish checks."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "summaryVersion": 2
+}

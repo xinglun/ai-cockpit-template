@@ -10,6 +10,7 @@ import ai_check_status
 import ai_check_status_consistency
 import ai_checkpoint
 import ai_finish
+import ai_generate_status
 import ai_governance_compression
 
 
@@ -50,29 +51,45 @@ def test_review_policy_helpers_parse_focus_and_paths(tmp_path, monkeypatch):
         exclude=exclude,
     ) == [".ai/guards/scope.yaml"]
     assert ai_check_review_policy.review_focus(None) == []
-    assert ai_check_review_policy.review_focus({"reviewReadiness": {"expectedReviewFocus": ["CI", ""]}}) == ["CI"]
+    assert ai_check_review_policy.review_focus(
+        {"reviewReadiness": {"expectedReviewFocus": ["CI", ""]}}
+    ) == ["CI"]
 
 
 def test_status_check_main_accepts_matching_ready_status(tmp_path, monkeypatch):
     contract = tmp_path / "task.contract.json"
     summary = tmp_path / "task.summary.json"
     status = tmp_path / "status.md"
-    contract.write_text(json.dumps({
-        "workItemId": "task",
-        "mode": "code",
-        "acceptance": ["done"],
-        "riskAssessment": {"level": "low", "riskTypes": [], "reason": "fixture"},
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
-    summary.write_text(json.dumps({
-        "verification": [{"check": "quality", "result": "passed"}],
-        "reviewReadiness": {"status": "ready", "reason": "fixture", "expectedReviewFocus": []},
-        "unknownsRemaining": [],
-        "risk": {"level": "low", "detail": "fixture"},
-        "guidelinesCompliance": [],
-        "checkpointEvidence": [],
-        "residualRisks": [],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "workItemId": "task",
+                "mode": "code",
+                "acceptance": ["done"],
+                "riskAssessment": {"level": "low", "riskTypes": [], "reason": "fixture"},
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    summary.write_text(
+        json.dumps(
+            {
+                "verification": [{"check": "quality", "result": "passed"}],
+                "reviewReadiness": {
+                    "status": "ready",
+                    "reason": "fixture",
+                    "expectedReviewFocus": [],
+                },
+                "unknownsRemaining": [],
+                "risk": {"level": "low", "detail": "fixture"},
+                "guidelinesCompliance": [],
+                "checkpointEvidence": [],
+                "residualRisks": [],
+            }
+        ),
+        encoding="utf-8",
+    )
     model = ai_governance_compression.derive_governance_status(
         json.loads(contract.read_text(encoding="utf-8")),
         json.loads(summary.read_text(encoding="utf-8")),
@@ -89,13 +106,100 @@ def test_status_check_main_accepts_matching_ready_status(tmp_path, monkeypatch):
         ),
         encoding="utf-8",
     )
-    monkeypatch.setattr(ai_check_status, "create_observability", lambda **kwargs: ObservabilityStub())
+    monkeypatch.setattr(
+        ai_check_status, "create_observability", lambda **kwargs: ObservabilityStub()
+    )
     monkeypatch.setattr(ai_check_status, "BACKTRACK_REPORT", tmp_path / "backtrack.json")
     monkeypatch.setattr(ai_check_status, "ownership_preview", lambda **_kwargs: [])
-    monkeypatch.setattr(sys, "argv", ["ai_check_status.py", str(status), "--contract", str(contract), "--summary", str(summary)])
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["ai_check_status.py", str(status), "--contract", str(contract), "--summary", str(summary)],
+    )
 
     assert ai_check_status.main() == 0
-    assert ai_check_status.required_commands(json.loads(contract.read_text(encoding="utf-8"))) == ["quality"]
+    assert ai_check_status.required_commands(json.loads(contract.read_text(encoding="utf-8"))) == [
+        "quality"
+    ]
+
+
+def test_status_check_main_accepts_generated_status_with_unresolved_ownership(
+    tmp_path, monkeypatch
+):
+    contract = tmp_path / "task.contract.json"
+    summary = tmp_path / "task.summary.json"
+    status = tmp_path / "status.md"
+    contract.write_text(
+        json.dumps(
+            {
+                "workItemId": "task",
+                "mode": "code",
+                "acceptance": ["done"],
+                "riskAssessment": {"level": "low", "riskTypes": [], "reason": "fixture"},
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    summary.write_text(
+        json.dumps(
+            {
+                "verification": [{"check": "quality", "result": "passed"}],
+                "reviewReadiness": {
+                    "status": "ready",
+                    "reason": "fixture",
+                    "expectedReviewFocus": [],
+                },
+                "unknownsRemaining": [],
+                "risk": {"level": "low", "detail": "fixture"},
+                "guidelinesCompliance": [],
+                "checkpointEvidence": [],
+                "residualRisks": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    unresolved_preview = [
+        SimpleNamespace(path="src/app.py", state="unowned"),
+    ]
+
+    monkeypatch.setattr(ai_generate_status, "PROJECT_ROOT", tmp_path)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(
+        ai_generate_status, "ownership_preview", lambda **_kwargs: unresolved_preview
+    )
+    monkeypatch.setattr(ai_check_status, "ownership_preview", lambda **_kwargs: unresolved_preview)
+    monkeypatch.setattr(
+        ai_generate_status,
+        "create_observability",
+        lambda **_kwargs: type("Obs", (), {"status_generated": lambda *_args, **_kwargs: None})(),
+    )
+    monkeypatch.setattr(
+        ai_check_status,
+        "create_observability",
+        lambda **_kwargs: ObservabilityStub(),
+    )
+
+    ai_generate_status.write_active_status(
+        contract, summary, output=status, observability_log=tmp_path / "events.jsonl"
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "ai_check_status.py",
+            "status.md",
+            "--contract",
+            "task.contract.json",
+            "--summary",
+            "task.summary.json",
+        ],
+    )
+
+    assert ai_check_status.main() == 0
+    text = status.read_text(encoding="utf-8")
+    assert "Recommendation: `needs_investigation`" in text
+    assert "diff ownership unresolved: 1" in text
 
 
 def test_status_consistency_covers_empty_paired_and_unpaired_states(tmp_path, monkeypatch):
@@ -148,31 +252,52 @@ def test_status_consistency_rejects_live_no_active_changes(tmp_path, monkeypatch
 
     issues = ai_check_status_consistency.validate_status_consistency(status)
 
-    assert "cockpit status no-active state must not persist changed files; run `make repair-ai-status`" in issues
+    assert (
+        "cockpit status no-active state must not persist changed files; run `make repair-ai-status`"
+        in issues
+    )
 
 
 def test_checkpoint_main_reports_required_state(tmp_path, monkeypatch, capsys):
     contract = tmp_path / "task.contract.json"
     summary = tmp_path / "task.summary.json"
-    contract.write_text(json.dumps({
-        "workItemId": "task",
-        "mode": "code",
-        "notCodable": False,
-        "executionDecision": {"status": "continue"},
-        "scope": ["src/**"],
-        "outOfScope": [],
-        "unknowns": [],
-        "acceptance": ["done"],
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
-    summary.write_text(json.dumps({
-        "verification": [{"check": "quality", "result": "passed"}],
-        "reviewReadiness": {"expectedReviewFocus": ["quality"]},
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "workItemId": "task",
+                "mode": "code",
+                "notCodable": False,
+                "executionDecision": {"status": "continue"},
+                "scope": ["src/**"],
+                "outOfScope": [],
+                "unknowns": [],
+                "acceptance": ["done"],
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    summary.write_text(
+        json.dumps(
+            {
+                "verification": [{"check": "quality", "result": "passed"}],
+                "reviewReadiness": {"expectedReviewFocus": ["quality"]},
+            }
+        ),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(
         sys,
         "argv",
-        ["ai_checkpoint.py", "--contract", str(contract), "--summary", str(summary), "--stage", "before_finish"],
+        [
+            "ai_checkpoint.py",
+            "--contract",
+            str(contract),
+            "--summary",
+            str(summary),
+            "--stage",
+            "before_finish",
+        ],
     )
 
     assert ai_checkpoint.main() == 0
@@ -186,9 +311,14 @@ def test_checkpoint_main_reports_required_state(tmp_path, monkeypatch, capsys):
 
 def test_finish_evidence_redacts_and_replaces_existing_result(tmp_path, monkeypatch):
     summary = tmp_path / "task.summary.json"
-    summary.write_text(json.dumps({
-        "verification": [{"check": "quality", "result": "not_run"}],
-    }), encoding="utf-8")
+    summary.write_text(
+        json.dumps(
+            {
+                "verification": [{"check": "quality", "result": "not_run"}],
+            }
+        ),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     item = ai_finish.evidence(
         "quality",
@@ -200,6 +330,7 @@ def test_finish_evidence_redacts_and_replaces_existing_result(tmp_path, monkeypa
         commit_sha="b" * 40,
         execution_contract_path=".ai/work-items/active/task.contract.json",
         execution_summary_path=".ai/work-items/active/task.summary.json",
+        worktree_digest="c" * 64,
     )
     ai_finish.record_result(summary, item)
 
@@ -207,7 +338,34 @@ def test_finish_evidence_redacts_and_replaces_existing_result(tmp_path, monkeypa
     assert recorded == [item]
     assert "secret-value" not in item["outputSummary"]
     assert "<LOCAL_PATH>" in item["outputSummary"]
-    long_private_key = "-----BEGIN PRIVATE KEY-----\n" + ("A" * 800) + "\n-----END PRIVATE KEY-----"
+    truncated_private_key = "".join(["-" * 5, "BEGIN PRIVATE KEY", "-" * 5, "\n", "A" * 40])
+    truncated_item = ai_finish.evidence(
+        "quality",
+        "make quality",
+        0,
+        12,
+        f"prefix {truncated_private_key}",
+        contract_hash="a" * 64,
+        commit_sha="b" * 40,
+        execution_contract_path=".ai/work-items/active/task.contract.json",
+        execution_summary_path=".ai/work-items/active/task.summary.json",
+        worktree_digest="c" * 64,
+    )
+    assert "[PRIVATE_KEY_REDACTED]" in truncated_item["outputSummary"]
+    assert "BEGIN PRIVATE KEY" not in truncated_item["outputSummary"]
+    long_private_key = "".join(
+        [
+            "-" * 5,
+            "BEGIN PRIVATE KEY",
+            "-" * 5,
+            "\n",
+            "A" * 800,
+            "\n",
+            "-" * 5,
+            "END PRIVATE KEY",
+            "-" * 5,
+        ]
+    )
     long_item = ai_finish.evidence(
         "quality",
         "make quality",
@@ -218,17 +376,53 @@ def test_finish_evidence_redacts_and_replaces_existing_result(tmp_path, monkeypa
         commit_sha="b" * 40,
         execution_contract_path=".ai/work-items/active/task.contract.json",
         execution_summary_path=".ai/work-items/active/task.summary.json",
+        worktree_digest="c" * 64,
     )
     assert "[PRIVATE_KEY_REDACTED]" in long_item["outputSummary"]
     assert "BEGIN PRIVATE KEY" not in long_item["outputSummary"]
-    assert ai_finish.pending_evidence(
+    assert (
+        ai_finish.pending_evidence(
+            "quality",
+            "make quality",
+            contract_hash="a" * 64,
+            commit_sha="b" * 40,
+            execution_contract_path="contract.json",
+            execution_summary_path="summary.json",
+            worktree_digest="c" * 64,
+        )["runner"]
+        == "ai_finish_pending"
+    )
+
+
+def test_finish_record_result_requires_active_summary(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    summary = active / "task.summary.json"
+    archived_summary = archive / summary.name
+    archived_summary.write_text(
+        json.dumps({"verification": [{"check": "quality", "result": "not_run"}]}), encoding="utf-8"
+    )
+    monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
+
+    item = ai_finish.evidence(
         "quality",
         "make quality",
+        0,
+        1,
+        "passed",
         contract_hash="a" * 64,
         commit_sha="b" * 40,
-        execution_contract_path="contract.json",
-        execution_summary_path="summary.json",
-    )["runner"] == "ai_finish_pending"
+        execution_contract_path=".ai/work-items/active/task.contract.json",
+        execution_summary_path=".ai/work-items/active/task.summary.json",
+        worktree_digest="c" * 64,
+    )
+    with pytest.raises(FileNotFoundError, match="summary not found"):
+        ai_finish.record_result(summary, item)
+
+    recorded = json.loads(archived_summary.read_text(encoding="utf-8"))["verification"]
+    assert recorded == [{"check": "quality", "result": "not_run"}]
+    assert not summary.exists()
 
 
 def test_finish_main_fails_when_contract_is_missing(tmp_path, monkeypatch):
@@ -246,16 +440,25 @@ def test_finish_main_records_required_check_failure(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
     monkeypatch.setattr(ai_finish, "current_head", lambda: "a" * 40)
-    monkeypatch.setattr(ai_finish, "render_check_command", lambda *_args, **_kwargs: ("make quality", ["make", "quality"]))
+    monkeypatch.setattr(
+        ai_finish,
+        "render_check_command",
+        lambda *_args, **_kwargs: ("make quality", ["make", "quality"]),
+    )
     monkeypatch.setattr(ai_finish, "run", lambda _command: (3, 7, "quality failed"))
     monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
@@ -271,11 +474,16 @@ def test_finish_main_stabilizes_successful_work_item(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -286,7 +494,9 @@ def test_finish_main_stabilizes_successful_work_item(tmp_path, monkeypatch):
         lambda check, **_kwargs: (f"make {check}", ["make", check]),
     )
     executed = []
-    monkeypatch.setattr(ai_finish, "run", lambda command: (executed.append(command) or (0, 2, "passed")))
+    monkeypatch.setattr(
+        ai_finish, "run", lambda command: executed.append(command) or (0, 2, "passed")
+    )
     monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
 
@@ -301,7 +511,10 @@ def test_finish_main_fails_when_summary_is_missing(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
-    contract.write_text(json.dumps({"contractVersion": 2, "workItemId": "task", "verification": []}), encoding="utf-8")
+    contract.write_text(
+        json.dumps({"contractVersion": 2, "workItemId": "task", "verification": []}),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task"])
@@ -314,7 +527,10 @@ def test_finish_main_rejects_invalid_verification_list(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({"contractVersion": 2, "workItemId": "task", "verification": "bad"}), encoding="utf-8")
+    contract.write_text(
+        json.dumps({"contractVersion": 2, "workItemId": "task", "verification": "bad"}),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -328,15 +544,22 @@ def test_finish_main_rejects_skip_quality_for_required_check(tmp_path, monkeypat
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
-    monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--skip-quality", "--no-archive"])
+    monkeypatch.setattr(
+        sys, "argv", ["ai_finish.py", "--task", "task", "--skip-quality", "--no-archive"]
+    )
 
     assert ai_finish.main() == 2
 
@@ -346,11 +569,16 @@ def test_finish_main_reports_unknown_check_id(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "missingCheck", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "missingCheck", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -370,11 +598,16 @@ def test_finish_main_fails_when_archive_step_fails(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -402,11 +635,16 @@ def test_finish_main_fails_when_stabilization_check_fails(tmp_path, monkeypatch)
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -434,14 +672,19 @@ def test_finish_main_allows_optional_check_failure(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [
-            {"check": "quality", "required": True},
-            {"check": "aiReviewPolicy", "required": False},
-        ],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [
+                    {"check": "quality", "required": True},
+                    {"check": "aiReviewPolicy", "required": False},
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -472,7 +715,10 @@ def test_finish_main_rejects_contract_version_one(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({"contractVersion": 1, "workItemId": "task", "verification": []}), encoding="utf-8")
+    contract.write_text(
+        json.dumps({"contractVersion": 1, "workItemId": "task", "verification": []}),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -486,11 +732,16 @@ def test_finish_main_rejects_inline_command_verification(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"command": "make evil", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"command": "make evil", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -504,11 +755,16 @@ def test_finish_main_archives_on_success(tmp_path, monkeypatch):
     active.mkdir(parents=True)
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
-    contract.write_text(json.dumps({
-        "contractVersion": 2,
-        "workItemId": "task",
-        "verification": [{"check": "quality", "required": True}],
-    }), encoding="utf-8")
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
     summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
     monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
@@ -546,19 +802,28 @@ def test_finish_record_result_replaces_non_list_verification(tmp_path, monkeypat
 
 def test_scope_main_reports_out_of_scope_and_dependency_failures(tmp_path, monkeypatch, capsys):
     contract = tmp_path / "task.contract.json"
-    contract.write_text(json.dumps({
-        "workItemId": "task",
-        "scope": ["src/**"],
-        "outOfScope": ["src/private/**"],
-        "destructiveChangePolicy": {"allowed": False},
-    }), encoding="utf-8")
-    monkeypatch.setattr(ai_check_scope, "changed_paths", lambda _contract: ["src/private/key.py", "README.md"])
+    contract.write_text(
+        json.dumps(
+            {
+                "workItemId": "task",
+                "scope": ["src/**"],
+                "outOfScope": ["src/private/**"],
+                "destructiveChangePolicy": {"allowed": False},
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        ai_check_scope, "changed_paths", lambda _contract: ["src/private/key.py", "README.md"]
+    )
     monkeypatch.setattr(
         ai_check_scope,
         "simple_yaml_lists",
         lambda _path: {"dependencyScopeRules.src/**": ["tests/**"]},
     )
-    monkeypatch.setattr(ai_check_scope, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(
+        ai_check_scope, "create_observability", lambda **_kwargs: ObservabilityStub()
+    )
     monkeypatch.setattr(sys, "argv", ["ai_check_scope.py", str(contract)])
 
     assert ai_check_scope.main() == 1
@@ -572,12 +837,17 @@ def test_review_policy_main_writes_warning_report(tmp_path, monkeypatch):
     policy.parent.mkdir(parents=True)
     policy.write_text("requiredReviewChecklist:\n  include:\n    - .ai/**\n", encoding="utf-8")
     summary = tmp_path / "summary.json"
-    summary.write_text(json.dumps({"workItemId": "task", "reviewReadiness": {"expectedReviewFocus": []}}), encoding="utf-8")
+    summary.write_text(
+        json.dumps({"workItemId": "task", "reviewReadiness": {"expectedReviewFocus": []}}),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(ai_check_review_policy, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_check_review_policy, "POLICY", policy)
     monkeypatch.setattr(ai_check_review_policy, "REPORT", tmp_path / "target" / "review.json")
     monkeypatch.setattr(ai_check_review_policy, "changed_paths", lambda: [".ai/guards/scope.yaml"])
-    monkeypatch.setattr(ai_check_review_policy, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(
+        ai_check_review_policy, "create_observability", lambda **_kwargs: ObservabilityStub()
+    )
     monkeypatch.setattr(sys, "argv", ["ai_check_review_policy.py", "--summary", str(summary)])
 
     assert ai_check_review_policy.main() == 0

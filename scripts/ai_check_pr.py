@@ -41,6 +41,18 @@ def _git_blob_hash(revision: str, path: str) -> str:
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
+def _worktree_blob_hash(path: str) -> str:
+    """Return the git blob hash for the current worktree copy of *path*."""
+    result = run_git(["hash-object", "--no-filters", path])
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def _git_records(output: str) -> list[str]:
+    if "\0" in output:
+        return [item for item in output.split("\0") if item]
+    return [line for line in output.splitlines() if line]
+
+
 def _is_no_op_restore(base: str, path: str) -> bool:
     """Return True if *path* was changed at *base* but HEAD restores it to the pre-base state.
 
@@ -48,30 +60,61 @@ def _is_no_op_restore(base: str, path: str) -> bool:
     and a subsequent commit restores it to its original content.  The archive
     integrity is fully preserved so the append-only policy should not flag it.
     """
-    head_blob = _git_blob_hash("HEAD", path)
-    if not head_blob:
+    worktree_blob = _worktree_blob_hash(path)
+    if not worktree_blob:
         return False
-    # Walk backwards from base^ to find the most recent ancestor that had the
-    # same blob.  If base^ already has the same blob, the restore is clean.
     parent_blob = _git_blob_hash(f"{base}^", path)
-    return bool(parent_blob) and parent_blob == head_blob
+    return bool(parent_blob) and parent_blob == worktree_blob
 
 
 def archive_evidence_changes(base: str) -> dict[str, str]:
-    changes = changed_name_status(
-        {"baseCommit": base, "baselineDirtyPaths": []}, ignore_baseline_dirty=True
-    )
     result: dict[str, str] = {}
-    for status, path in changes:
+    diff = run_git(["diff", "--name-status", "-z", f"{base}...HEAD"])
+    saw_archive_evidence = False
+    if diff.returncode == 0:
+        ordered_changes: list[tuple[str, str]] = []
+        records = _git_records(diff.stdout)
+        if records and "\t" in records[0]:
+            for line in records:
+                parts = line.split("\t")
+                if len(parts) < 2:
+                    continue
+                status = parts[0]
+                if status.startswith(("R", "C")) and len(parts) >= 3:
+                    ordered_changes.extend([("D", parts[1]), (parts[0], parts[2])])
+                else:
+                    ordered_changes.append((status, parts[-1]))
+        else:
+            i = 0
+            while i < len(records):
+                status = records[i]
+                i += 1
+                if status.startswith(("R", "C")):
+                    if i + 1 >= len(records):
+                        break
+                    ordered_changes.extend([("D", records[i]), (status, records[i + 1])])
+                    i += 2
+                    continue
+                if i >= len(records):
+                    break
+                ordered_changes.append((status, records[i]))
+                i += 1
+    else:
+        ordered_changes = changed_name_status(
+            {"baseCommit": base, "baselineDirtyPaths": []}, ignore_baseline_dirty=True
+        )
+    for status, path in ordered_changes:
         if not (path.startswith(ARCHIVE_PREFIX) and path.endswith(ARCHIVE_SUFFIXES)):
             continue
-        # A no-op restoration: M-status file whose blob at HEAD matches the blob
-        # at base^ (i.e., the file was accidentally changed at base and the
-        # current HEAD restores it to the pre-base state).  Archive integrity is
-        # fully preserved, so exclude it from the evidence map.
-        if status == "M" and _is_no_op_restore(base, path):
-            continue
+        saw_archive_evidence = True
         result[path] = status
+    if not saw_archive_evidence:
+        for status, path in changed_name_status(
+            {"baseCommit": base, "baselineDirtyPaths": []}, ignore_baseline_dirty=True
+        ):
+            if not (path.startswith(ARCHIVE_PREFIX) and path.endswith(ARCHIVE_SUFFIXES)):
+                continue
+            result[path] = status
     return result
 
 
@@ -85,6 +128,22 @@ def archive_stem(path: str) -> str:
 def archived_contract_paths(base: str) -> list[Path]:
     stems = dict.fromkeys(archive_stem(path) for path in archive_evidence_changes(base))
     return [PROJECT_ROOT / f"{stem}.contract.json" for stem in stems]
+
+
+def archive_pair_rank(contract_path: Path, summary_path: Path) -> tuple[int, str, str]:
+    try:
+        contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
+        summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        return 0, contract_path.as_posix(), summary_path.as_posix()
+    result = run_git(["log", "-1", "--format=%ct", "--", contract_rel, summary_rel])
+    if result.returncode != 0:
+        return 0, contract_rel, summary_rel
+    try:
+        timestamp = int(result.stdout.strip())
+    except ValueError:
+        timestamp = 0
+    return timestamp, contract_rel, summary_rel
 
 
 def machine_path_issues(value: Any, location: str = "root") -> list[str]:
@@ -141,10 +200,9 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
     if not contract_paths:
         return ["PR diff must contain at least one archived Work Item Contract"]
 
-    contracts: list[dict[str, Any]] = []
-    summaries: list[dict[str, Any]] = []
+    archive_entries: list[tuple[Path, dict[str, Any], dict[str, Any], tuple[int, str, str]]] = []
     audit_paths: set[str] = set()
-    for contract_path in sorted(set(contract_paths)):
+    for contract_path in list(dict.fromkeys(contract_paths)):
         summary_path = Path(str(contract_path).replace(".contract.json", ".summary.json"))
         if not contract_path.exists():
             issues.append(
@@ -152,7 +210,9 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
             )
             continue
         if not summary_path.exists():
-            issues.append(f"archived Contract is missing Summary: {summary_path.relative_to(PROJECT_ROOT)}")
+            issues.append(
+                f"archived Contract is missing Summary: {summary_path.relative_to(PROJECT_ROOT)}"
+            )
             continue
         try:
             contract = load_json(contract_path)
@@ -160,8 +220,9 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
         except (OSError, json.JSONDecodeError, ValueError) as exc:
             issues.append(f"failed to load archive pair {contract_path}: {exc}")
             continue
-        contracts.append(contract)
-        summaries.append(summary)
+        archive_entries.append(
+            (contract_path, contract, summary, archive_pair_rank(contract_path, summary_path))
+        )
         contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
         summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
         audit_paths.update({contract_rel, summary_rel})
@@ -187,17 +248,21 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
     policy = simple_yaml_lists(SCOPE_POLICY)
     ownership = parse_simple_manifest(OWNERSHIP_POLICY)
     exempt = policy.get("allowAlways", [])
-    pairs = list(zip(contracts, summaries, strict=True))
 
     for path in all_paths:
         if path in audit_paths or included(path, exempt) or path in no_op_restore_paths:
             continue
         owners = [
-            (contract, summary)
-            for contract, summary in pairs
-            if included(path, [pattern for pattern in contract.get("scope", []) if isinstance(pattern, str)])
-            and not included(path, [pattern for pattern in contract.get("outOfScope", []) if isinstance(pattern, str)])
-            and path in changed_file_paths(summary)
+            entry
+            for entry in archive_entries
+            if included(
+                path, [pattern for pattern in entry[1].get("scope", []) if isinstance(pattern, str)]
+            )
+            and not included(
+                path,
+                [pattern for pattern in entry[1].get("outOfScope", []) if isinstance(pattern, str)],
+            )
+            and path in changed_file_paths(entry[2])
         ]
         if not owners:
             issues.append(
@@ -205,8 +270,8 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
             )
             continue
         # The PR audit resolves overlapping archive claims deterministically:
-        # the latest matching archive pair in the PR wins for a given path.
-        effective_contract, _ = owners[-1]
+        # the last matching archive pair in PR input order wins for a given path.
+        _, effective_contract, _, _ = owners[-1]
         owner_match = first_match(path, ownership)
         if owner_match:
             _, owner = owner_match
@@ -216,7 +281,9 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
                 isinstance(effective_contract.get("restrictedWriteApproval"), dict)
                 and effective_contract["restrictedWriteApproval"].get("approved") is True
             ):
-                issues.append(f"complete PR diff restricted path lacks approval in a covering Contract: {path}")
+                issues.append(
+                    f"complete PR diff restricted path lacks approval in a covering Contract: {path}"
+                )
     return issues
 
 
@@ -232,7 +299,9 @@ def main() -> int:
     if not args.base:
         print("ERROR: --base or AI_BASE_COMMIT is required", file=sys.stderr)
         return 2
-    contract_paths = [Path(path).resolve() for path in args.contracts] or archived_contract_paths(args.base)
+    contract_paths = [Path(path).resolve() for path in args.contracts] or archived_contract_paths(
+        args.base
+    )
     issues = validate_pr_bundle(args.base, contract_paths)
     if issues:
         for issue in issues:

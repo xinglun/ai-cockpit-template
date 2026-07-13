@@ -29,7 +29,7 @@ Edit the generated Contract:
 .ai/work-items/active/example_change.contract.json
 ```
 
-Before changing project files, replace the skeleton placeholders and confirm this minimum checklist:
+Before changing project files, replace the starter placeholders and confirm this minimum checklist:
 
 - `scope` contains every file or path pattern the task may change, and `outOfScope` states explicit boundaries.
 - `sources`, `acceptance`, and `verification` describe the evidence, done conditions, and registered checks.

@@ -7,13 +7,21 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: smoke-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   template-smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 0
 
@@ -30,7 +38,7 @@ jobs:
           printf 'AI_BASE_COMMIT=%s\n' "$base" >> "$GITHUB_ENV"
 
       - name: Install development quality tools
-        run: python3 -m pip install --disable-pip-version-check -r requirements-dev.txt
+        run: python3 -m pip install --disable-pip-version-check -r requirements-dev.lock
 
       - name: Run repository quality gates
         run: make quality
@@ -40,6 +48,9 @@ jobs:
 
       - name: Verify documented public release contract
         run: make check-release-distribution
+
+      - name: Verify supply-chain evidence
+        run: make check-sbom check-provenance check-secret-scanning
 
       - name: Run template AI checks
         run: |

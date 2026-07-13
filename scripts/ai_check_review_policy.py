@@ -10,7 +10,14 @@ import time
 from pathlib import Path
 from typing import Any
 
-from ai_common import PROJECT_ROOT, changed_paths, included, load_json, non_empty_string, simple_yaml_lists
+from ai_common import (
+    PROJECT_ROOT,
+    changed_paths,
+    included,
+    load_json,
+    non_empty_string,
+    simple_yaml_lists,
+)
 from ai_observability import create_observability, elapsed_ms
 
 
@@ -39,16 +46,14 @@ def review_focus(summary: dict[str, Any] | None) -> list[str]:
 
 
 def detect(paths: list[str], *, include: list[str], exclude: list[str]) -> list[str]:
-    return [
-        path
-        for path in paths
-        if included(path, include) and not included(path, exclude)
-    ]
+    return [path for path in paths if included(path, include) and not included(path, exclude)]
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Report AI review policy matches.")
-    parser.add_argument("--summary", help="Optional AI Change Summary used to inspect reviewReadiness.")
+    parser.add_argument(
+        "--summary", help="Optional AI Change Summary used to inspect reviewReadiness."
+    )
     return parser.parse_args()
 
 
@@ -65,7 +70,11 @@ def main() -> int:
 
     matched = detect(paths, include=include, exclude=exclude)
     focus = review_focus(summary)
-    status = "warning" if matched and args.summary and not focus else ("review_recommended" if matched else "none")
+    status = (
+        "warning"
+        if matched and args.summary and not focus
+        else ("review_recommended" if matched else "none")
+    )
     report = {
         "status": status,
         "matchedPaths": matched,
@@ -76,7 +85,9 @@ def main() -> int:
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    obs = create_observability(work_item_id=summary.get("workItemId", "") if isinstance(summary, dict) else "")
+    obs = create_observability(
+        work_item_id=summary.get("workItemId", "") if isinstance(summary, dict) else ""
+    )
     duration = elapsed_ms(start)
     if matched:
         print(f"review policy matched {len(matched)} path(s)")
@@ -85,11 +96,17 @@ def main() -> int:
         if focus:
             print(f"review focus recorded: {len(focus)} item(s)")
         elif args.summary:
-            print("[warning] review policy matched paths, but Summary reviewReadiness.expectedReviewFocus is empty")
+            print(
+                "[warning] review policy matched paths, but Summary reviewReadiness.expectedReviewFocus is empty"
+            )
     else:
         print("review policy: no matched paths")
     print(f"report: {REPORT.relative_to(PROJECT_ROOT)}")
-    obs.check_passed(check_id="aiReviewPolicy", duration_ms=duration, fields={"matchedPaths": len(matched), "reviewFocus": len(focus)})
+    obs.check_passed(
+        check_id="aiReviewPolicy",
+        duration_ms=duration,
+        fields={"matchedPaths": len(matched), "reviewFocus": len(focus)},
+    )
     return 0
 
 

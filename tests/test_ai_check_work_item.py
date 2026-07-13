@@ -17,7 +17,11 @@ def valid_contract():
         "notCodable": False,
         "acceptance": ["works"],
         "verification": [{"command": "python3 -m pytest", "required": True}],
-        "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
+        "destructiveChangePolicy": {
+            "allowed": False,
+            "requiresHumanApproval": True,
+            "allowPatterns": [],
+        },
         "rollbackNote": "revert",
     }
 

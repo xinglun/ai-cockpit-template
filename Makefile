@@ -16,6 +16,7 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	check-docs-metadata \
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
+	check-bandit-baseline check-sbom check-provenance check-secret-scanning \
 	check-release-distribution \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	ai-doctor check-ai-adoption-ready \
@@ -73,10 +74,11 @@ help:
 	@printf '%s\n' 'Customize project-format-check, project-test, and project-lint for your stack.'
 
 project-format-check:
+	$(AI_PYTHON) -m ruff format --check scripts tests
 	git diff --check
 
 project-test:
-	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60
+	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80
 	$(AI_PYTHON) scripts/check_critical_coverage.py
 
 test: project-test
@@ -85,6 +87,8 @@ project-lint:
 	$(AI_PYTHON) -m ruff check scripts tests
 	$(AI_PYTHON) -m mypy scripts/*.py
 	$(AI_PYTHON) -m bandit -q -r scripts -ll
+	$(AI_PYTHON) scripts/check_bandit_baseline.py
+	$(AI_PYTHON) scripts/check_supply_chain.py secrets
 	$(AI_PYTHON) -m py_compile scripts/*.py tests/*.py
 
 diff-check:
@@ -98,6 +102,21 @@ check-release-distribution:
 
 check-ai-system-invariants:
 	$(AI_PYTHON) scripts/check_system_invariants.py
+
+check-bandit-baseline:
+	$(AI_PYTHON) scripts/check_bandit_baseline.py
+
+check-sbom:
+	$(AI_PYTHON) scripts/check_supply_chain.py sbom
+
+check-provenance:
+	$(AI_PYTHON) scripts/check_supply_chain.py provenance
+
+check-secret-scanning:
+	$(AI_PYTHON) scripts/check_supply_chain.py secrets
+
+check-dependency-vulnerabilities:
+	$(AI_PYTHON) scripts/check_supply_chain.py vulnerabilities
 
 cockpit-doctor:
 	$(AI_PYTHON) scripts/ai_doctor.py --root .
@@ -115,7 +134,7 @@ check-ai-project-profile:
 check-ai-guard-calibration: check-ai-project-profile
 	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
 
-quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency
+quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-secret-scanning check-dependency-vulnerabilities
 
 ai-cockpit-project-format-check: project-format-check
 

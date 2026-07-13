@@ -1,0 +1,412 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "git_trust_root_isolation",
+  "contractPath": ".ai/work-items/archive/2026/git_trust_root_isolation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/git_trust_root_isolation.contract.json",
+      "reason": "Defined the Git trust-root hardening scope, acceptance, and verification."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/git_trust_root_isolation.summary.json",
+      "reason": "Recorded the implementation evidence, verification results, and review readiness."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Hardened shared Git subprocess helpers against ambient Git environment pollution."
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "reason": "Added regression coverage for polluted Git environment isolation and baseline diff behavior."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/git_trust_root_isolation.contract.json",
+    ".ai/glossary.md",
+    "scripts/ai_common.py",
+    "tests/test_baseline_diff.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:10.322274+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "c7fb11716967f82c5db55680f54d379979f084cb9a2f9b4fb623da7f2b5ae39f",
+      "commandHash": "f160776ecc88ab7c7d0b879b5958e3ba7c235606673ec7e9cc67fcc14d86da4d",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/git_trust_root_isolation.contract.json work item contract check passed: .ai/work-items/active/git_trust_root_isolation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:11.069062+00:00",
+      "exitCode": 0,
+      "durationMs": 665,
+      "outputDigest": "52834547553c788538a1ddc4e660c465ada2b0df882d0701d95a3c3e7f1fcb21",
+      "commandHash": "002935fb290a2ab08b71a4b1d74a5f269abc70d54c2625e39caf25a71298c32c",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/git_trust_root_isolation.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:11.237018+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "6214da7bd6d13a76365cd7f934d6c47c4efd4baabbc019498c2dd4c9f38c9898",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/git_trust_root_isolation.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:12.636797+00:00",
+      "exitCode": 0,
+      "durationMs": 1134,
+      "outputDigest": "7d859c03e6264eea263ad66ebd8b870400fc791c030a4dd9f970957c7b111916",
+      "commandHash": "a09082d3a8fc70c630269d7ab394a6ac7cbec1c4c32a760248fe8d9e09b9bb7d",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/git_trust_root_isolation.contract.json --summary .ai/work-items/active/git_trust_root_isolation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `git_trust_root_isolation` - Contract Hash: `ccbf2381498de523` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:12.806687+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "17d11f9b7946319f51455b265530829b1a2cbe5a16dd38e0f4b004b82e2c2d2a",
+      "commandHash": "5a96f87e3ea66f4ca5439420baef4d179b3677740eb0324c740240a6f3623b64",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/git_trust_root_isolation.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_common.py review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:12.953560+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:13.095444+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:13.197638+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "d609c55001463feb6f42213516659be22cd50ab8f604b8af52d2e3aece0a67f6",
+      "commandHash": "5b210a5a2e24605583bed821d04adee900ebfa45ff605c669727488a5bd9be71",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/git_trust_root_isolation.contract.json --summary .ai/work-items/active/git_trust_root_isolation.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:13.294187+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "a5f5b4acd2bf572d3b7c1ed10e06d099cf456cc04c438b5777d943e97f64abd8",
+      "commandHash": "d8cc381afd577083e3f6f5bce7ed5cb8fae0c6f79a5814570669fa95b95b7e73",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/git_trust_root_isolation.contract.json --summary .ai/work-items/active/git_trust_root_isolation.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:23:14.503028+00:00",
+      "exitCode": 0,
+      "durationMs": 1122,
+      "outputDigest": "e8254e9748b43dd1c99125512bb613c7cc027e5ae285f590edef18dd8a5af9c2",
+      "commandHash": "93dbb9271b385aca10c72eae348c800ddf4f5bcf855d96ece197d1d3f1cad2b4",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/git_trust_root_isolation.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_common.py` — covered by Contract scope - [active_owned] `tests/test_baseline_diff.py` — covered by Contr"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:24:41.757498+00:00",
+      "exitCode": 0,
+      "durationMs": 87171,
+      "outputDigest": "437cb24ff08fa5de1f97032d2af5428d4f4467eab37d24444d33d75bce22fdb0",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "e9d9f05bc4e2743d1f687a91b7eb58c2320c862bcf86a60af4c292f5dad930f5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 86 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 20%] ........................................................................ [ 40%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:24:46.165629+00:00",
+      "exitCode": 0,
+      "durationMs": 1237,
+      "outputDigest": "a4030222b8cc1c2b9c76779f5fe6bb83468019fb101ec08694d35701d9a8e726",
+      "commandHash": "0147129597ecf0ba81e471f250e054e35dbe86cec434a6e0d1591b8e65bda8dd",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "dcbd5647f459f200f56f14eb256835cca7bc886613744b1f58826bc4d59698e6",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/git_trust_root_isolation.contract.json --summary .ai/work-items/active/git_trust_root_isolation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:24:47.609402+00:00",
+      "exitCode": 0,
+      "durationMs": 1229,
+      "outputDigest": "0d1f2628b7e64bec284ea5dadec4d8a84c06e750a75fd11fb9ece8782ddbd694",
+      "commandHash": "7269e677f6593788761f82ac54821bf4dbf27fb1e961a7298dea87213fbc6cf6",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "dcbd5647f459f200f56f14eb256835cca7bc886613744b1f58826bc4d59698e6",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/git_trust_root_isolation.contract.json --summary .ai/work-items/active/git_trust_root_isolation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:24:47.739205+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "dcbd5647f459f200f56f14eb256835cca7bc886613744b1f58826bc4d59698e6",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:24:47.841705+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "01a8715c7d707619d2254edf14c09dc977ae4a267605614feafef9e96fd4f0bc",
+      "commandHash": "b47504c16288e0fc47674a132ff910ff2189d32f56d2f049ed94bc65df74576b",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "dcbd5647f459f200f56f14eb256835cca7bc886613744b1f58826bc4d59698e6",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/git_trust_root_isolation.contract.json --summary .ai/work-items/active/git_trust_root_isolation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/git_trust_root_isolation.summary.json CONTRACT=.ai/work-items/active/git_trust_root_isolation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T03:24:48.055023+00:00",
+      "exitCode": 0,
+      "durationMs": 146,
+      "outputDigest": "0f94a9296f35920d834d450e071a5279d188d73c979bff1363594a581feff861",
+      "commandHash": "c8ad6efe160af07dabdb6686f67b36870deb2ef7a21982de7c67a402d3336732",
+      "contractHash": "ccbf2381498de523b64bba4927941e1117233216d1e807539e5793251de4e964",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/git_trust_root_isolation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/git_trust_root_isolation.summary.json",
+      "worktreeDigest": "dcbd5647f459f200f56f14eb256835cca7bc886613744b1f58826bc4d59698e6",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/git_trust_root_isolation.summary.json --contract .ai/work-items/active/git_trust_root_isolation.contract.json ai summary check passed: .ai/work-items/active/git_trust_root_isolation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public API surface was added; the change is limited to internal Git helper logic and regression tests."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The updated code keeps imports local to the Git helper and test module."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Git subprocess helpers are shared across core governance commands, so the change must preserve baseline behavior while removing ambient trust-root leakage."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "git_trust_root_isolation",
+      "detail": "The hardening changes shared Git helpers, so any overlooked call site would still need follow-up review.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The trust-root hardening is narrow, locally testable, and covered by regression checks, but shared Git helpers warrant reviewer attention.",
+    "expectedReviewFocus": [
+      "Verify Git subprocess helpers strip ambient environment variables before invoking git.",
+      "Confirm current_head() still resolves the repository under polluted env vars.",
+      "Check that changed_paths() and dirty-baseline capture still behave the same on a clean repo."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "ccbf2381498de523",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed scope, acceptance, unknowns, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "ccbf2381498de523",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Confirmed the Work Item is ready to finish after implementation and verification."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "scenarioCoverage": [
+    {
+      "scenario": "current_head() ignores polluted GIT_DIR and GIT_WORK_TREE bindings",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "python3 -m pytest tests/test_baseline_diff.py -q"
+      ]
+    },
+    {
+      "scenario": "changed_paths() remains anchored to the repository root when Git environment variables are polluted",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "python3 -m pytest tests/test_baseline_diff.py -q"
+      ]
+    },
+    {
+      "scenario": "Baseline-diff behavior stays unchanged under a clean repository environment",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "python3 -m pytest tests/test_baseline_diff.py -q"
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Git helper subprocesses now ignore ambient trust-root variables while keeping the repository-local behavior intact."
+  },
+  "followUps": [
+    "Watch for any Git helper call sites added later that bypass the shared environment cleanup."
+  ]
+}

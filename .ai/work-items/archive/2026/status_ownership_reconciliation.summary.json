@@ -1,0 +1,356 @@
+{
+  "workItemId": "status_ownership_reconciliation",
+  "contractPath": ".ai/work-items/archive/2026/status_ownership_reconciliation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/status_ownership_reconciliation.contract.json",
+      "reason": "Expanded the Contract to cover the ownership/status reconciliation fix and its regression scenarios."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_ownership_reconciliation.summary.json",
+      "reason": "Replaced the skeleton summary with the task-specific change record."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Reconciled Cockpit status recommendation with unresolved Diff Ownership counts."
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "reason": "Added regression coverage for unresolved-ownership and clean-ownership status rendering."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Will be regenerated to reflect the reconciled recommendation and ownership drivers."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+    ".ai/glossary.md",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_governance_compression.py",
+    "scripts/ai_check_diff_ownership.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_governance_compression.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:06.328556+00:00",
+      "exitCode": 0,
+      "durationMs": 105,
+      "outputDigest": "13674ec8682c03606fc0549a99bcf777728003211d00061fa45a7d8a8f09e666",
+      "commandHash": "969e9a3f82fa87d35c302ef0c2a3247d3c57054112bc1c1d1d197605955af5b3",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/status_ownership_reconciliation.contract.json work item contract check passed: .ai/work-items/active/status_ownership_reconciliation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:06.521365+00:00",
+      "exitCode": 0,
+      "durationMs": 180,
+      "outputDigest": "131d0dd46f60a4bd4007b0559c42efc66a960690522965e2d75c7ec530242de4",
+      "commandHash": "1f659cadc457ec24d1d74d2c29d50722c98fa3f1a218d7c19a5e34cef0345794",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/status_ownership_reconciliation.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:06.773772+00:00",
+      "exitCode": 0,
+      "durationMs": 214,
+      "outputDigest": "d541ed1bcbd3e2892fd859933ce8e4af88dd94e06f8068d352244eaa08ca7d1c",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/status_ownership_reconciliation.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:07.097907+00:00",
+      "exitCode": 0,
+      "durationMs": 311,
+      "outputDigest": "6a962444216a7aff1625ed2cc35774b4e46b5c8b607b3ea6a67a6879c829c823",
+      "commandHash": "6f348f65e6b60c6b1efb1ddeb87c1b253eb14baa98c9408b1fbe239cc7362cbe",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/status_ownership_reconciliation.contract.json --summary .ai/work-items/active/status_ownership_reconciliation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `status_ownership_reconciliation` - Contract Hash: `98d006ac26dc58ef` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:07.351291+00:00",
+      "exitCode": 0,
+      "durationMs": 245,
+      "outputDigest": "9f8b2372335f038b18735069d845b69f4361a385e7e8a93b350b7ea4cb6a8970",
+      "commandHash": "576180df7178f7a10bde49976eddc6fbc0011e4b2377822aac0d4dd4a4b51f7a",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/status_ownership_reconciliation.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_generate_status.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:07.518941+00:00",
+      "exitCode": 0,
+      "durationMs": 156,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:07.669185+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:07.775884+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "350ee2ac90284e4c51f5fe5718954f9fb6aafa03897d012460790dfa7e201b92",
+      "commandHash": "f40c850cf1dea26bc06a8960b0b920525111380da35d62f0159a2c4f8beca8c9",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/status_ownership_reconciliation.contract.json --summary .ai/work-items/active/status_ownership_reconciliation.summary.json [warning] missing_scenario_coverage: - scenario coverage is missing for medium/high risk report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:07.873939+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "a2c6341a95a1d60607ef47f1f250676258fe8dfbce415bafd508905fa611e3ba",
+      "commandHash": "d73bce7a27657565927543a783672b15ce25f937e1eefb160d9800b2b16d1253",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/status_ownership_reconciliation.contract.json --summary .ai/work-items/active/status_ownership_reconciliation.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:55:08.166022+00:00",
+      "exitCode": 0,
+      "durationMs": 285,
+      "outputDigest": "1227524397f189e24192c192ee77ee960bbb82a3be0eb2ec78a853915274b28c",
+      "commandHash": "6598ea9b002d92205fdc196c76be6a59fdf81fe4abd4f88c2c498babdff7d503",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/status_ownership_reconciliation.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_generate_status.py` — covered by Contract scope - [active_owned] `tests/test_guards_and_status.py"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:56:28.443503+00:00",
+      "exitCode": 0,
+      "durationMs": 80127,
+      "outputDigest": "c2f7da408f84256fcd92d792bc84f5149adff7a451f319618f21472a37a92b3c",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 22%] ........................................................................ [ 45%] ........................................................................ [ 67%] ........................................................................ [ 90%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:56:29.881102+00:00",
+      "exitCode": 0,
+      "durationMs": 293,
+      "outputDigest": "5ed07088e861ef7cf288e86a02c0dbe57cab1bf57fab0efe70a1ae557ac56e57",
+      "commandHash": "694f7837c5910c25e7b20ed7b6bc63409671c5e535e0169a2bca3af6f07f80ec",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/status_ownership_reconciliation.contract.json --summary .ai/work-items/active/status_ownership_reconciliation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:56:30.289360+00:00",
+      "exitCode": 0,
+      "durationMs": 389,
+      "outputDigest": "2c725118ffe0958e56791d368eed4714538f8ed0fbab32b5372467f2310f87f7",
+      "commandHash": "e7dd56be9d2d4cd3d1ff7ba192acc6c1726665f5871877982465e0a7d9fc8824",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/status_ownership_reconciliation.contract.json --summary .ai/work-items/active/status_ownership_reconciliation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:56:30.392051+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:56:30.504472+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "f01ba8dc3aa78b3e908f3e63a7d91f3f16a75b157f3e533faa8cafb788adf0bc",
+      "commandHash": "3acc746fb8010f06ec05032bee9e05ba358c3baf3cffc1f21ffaeaeecc7c2d41",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/status_ownership_reconciliation.contract.json --summary .ai/work-items/active/status_ownership_reconciliation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/status_ownership_reconciliation.summary.json CONTRACT=.ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:56:30.654542+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "a2073e462c25fcedb599eabcc43cd49eaad27085add9001984afe359d83d61f3",
+      "commandHash": "0dcfb51b4e1824ad60cef82288797ca550d3fa529bb1f67b031f2e7a64564361",
+      "contractHash": "98d006ac26dc58efeae8a185c35509d68b516fb17b91ba5bc3972e54fdb36acb",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/status_ownership_reconciliation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/status_ownership_reconciliation.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/status_ownership_reconciliation.summary.json --contract .ai/work-items/active/status_ownership_reconciliation.contract.json ai summary check passed: .ai/work-items/active/status_ownership_reconciliation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep the change localized to status derivation/rendering and its tests.",
+      "compliant": true,
+      "evidence": "The fix only touched `scripts/ai_generate_status.py` and `tests/test_guards_and_status.py`."
+    },
+    {
+      "guideline": "Do not change the ownership classification rules themselves.",
+      "compliant": true,
+      "evidence": "Diff Ownership classification stayed in `scripts/ai_check_diff_ownership.py`; the new logic only post-processes Cockpit status."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The status recommendation now honors unresolved ownership counts without changing ownership classification semantics."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "status-reconciliation",
+      "detail": "If the ownership policy later changes, the reconciliation helper and its tests should be revisited.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "The unresolved-ownership guard is implemented and regression tested.",
+    "expectedReviewFocus": [
+      "Cockpit Status now downgrades ready states when unresolved Diff Ownership remains.",
+      "The rendered Decision Drivers now include the unresolved ownership count."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "98d006ac26dc58ef",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report final completion until the finish workflow has recorded the required verification checks.",
+  "summaryVersion": 2
+}

@@ -13,6 +13,7 @@ keywords:
 # Distribution
 
 AI Cockpit distribution is versioned through the published installer and release metadata. Use this page when you need installer flags, integrity capabilities, or local-install details that do not belong in the main adoption flow.
+The documented quick-install path resolves public release metadata first and then lets the installer use its own repo or source selection knobs. Public network access to the release metadata is required for that bootstrap step. Private or internally mirrored deployments should use the local-install or configured-source flow instead.
 
 ## Published Capabilities
 
@@ -21,6 +22,7 @@ The documented release is defined in `release.json`.
 - Public releases can verify the installer archive when `AI_COCKPIT_TEMPLATE_SHA256` is provided and supported by the published release metadata.
 - `make check-release-distribution` validates the documented distribution contract against the real installer.
 - Worktree capabilities are only public when the installed release passes the published distribution check.
+- The repository also maintains supply-chain evidence checks for the dev dependency lockfile, SBOM/provenance baselines, and secret scanning.
 
 The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations. Treat caller-provided SHA256 comparison as an additional check, not as a published trust root.
 

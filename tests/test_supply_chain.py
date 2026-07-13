@@ -1,0 +1,227 @@
+import json
+import subprocess
+from pathlib import Path
+
+import check_supply_chain
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_secret_scanning_detects_github_token(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    token = "".join(["ghp_", "abcdefghijklmnopqrstuvwxyz1234567890", "\n"])
+    (repo / "secrets.txt").write_text(token, encoding="utf-8")
+    subprocess.run(["git", "add", "secrets.txt"], cwd=repo, check=True)
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+
+    assert check_supply_chain.scan_secrets() == ["secrets.txt:github_token:1"]
+
+
+def test_secret_scanning_detects_untracked_github_token(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    token = "".join(["ghp_", "abcdefghijklmnopqrstuvwxyz1234567890", "\n"])
+    (repo / "untracked.txt").write_text(token, encoding="utf-8")
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+
+    assert check_supply_chain.scan_secrets() == ["untracked.txt:github_token:1"]
+
+
+def test_secret_scanning_ignores_ambient_git_repository_state(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    other = tmp_path / "other"
+    repo.mkdir()
+    other.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    subprocess.run(["git", "init", "-q"], cwd=other, check=True)
+    token = "".join(["ghp_", "abcdefghijklmnopqrstuvwxyz1234567890", "\n"])
+    (repo / "tracked.txt").write_text(token, encoding="utf-8")
+    subprocess.run(["git", "add", "tracked.txt"], cwd=repo, check=True)
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+    monkeypatch.setenv("GIT_DIR", str(other / ".git"))
+    monkeypatch.setenv("GIT_WORK_TREE", str(other))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(other / "index"))
+
+    assert check_supply_chain.scan_secrets() == ["tracked.txt:github_token:1"]
+
+
+def test_secret_scanning_ignores_binary_files(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    binary = repo / "image.png"
+    binary.write_bytes(b"ghp_" + b"abcdefghijklmnopqrstuvwxyz1234567890")
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+
+    assert check_supply_chain.scan_secrets() == []
+
+
+def test_secret_scanning_detects_truncated_private_key_material(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    fragment = "".join(["-----", "BEGIN PRIVATE KEY", "-----\n", "abc\n"])
+    (repo / "key.txt").write_text(fragment, encoding="utf-8")
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+
+    assert check_supply_chain.scan_secrets() == ["key.txt:private_key_fragment:1"]
+
+
+def test_secret_scanning_keeps_private_key_fixture_exemption(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
+    fixture = repo / "tests" / "test_core_gates.py"
+    fixture.parent.mkdir(parents=True)
+    fixture.write_text(
+        "".join(
+            [
+                "-----",
+                "BEGIN PRIVATE KEY",
+                "-----\n",
+                "abc\n",
+                "-----",
+                "END PRIVATE KEY",
+                "-----\n",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    subprocess.run(["git", "add", "tests/test_core_gates.py"], cwd=repo, check=True)
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+
+    assert check_supply_chain.scan_secrets() == []
+
+
+def test_dependency_vulnerability_scan_parses_pip_audit_output(monkeypatch):
+    payload = {
+        "dependencies": [
+            {
+                "name": "demo",
+                "version": "1.0.0",
+                "vulns": [{"id": "CVE-2024-0001", "fix_versions": ["1.0.1"]}],
+            }
+        ]
+    }
+
+    def fake_run(*_args, **_kwargs):
+        return subprocess.CompletedProcess(
+            args=["python3", "-m", "pip_audit"],
+            returncode=1,
+            stdout=json.dumps(payload),
+            stderr="",
+        )
+
+    monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+
+    assert check_supply_chain.scan_vulnerabilities() == ["demo==1.0.0:CVE-2024-0001 fix=1.0.1"]
+
+
+def test_workflow_action_discovery_includes_list_item_uses(tmp_path, monkeypatch):
+    workflows = tmp_path / ".github" / "workflows"
+    workflows.mkdir(parents=True)
+    (workflows / "ci.yml").write_text(
+        """
+name: CI
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+      - run: python -m pytest
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(check_supply_chain, "WORKFLOW_DIR", workflows)
+
+    assert check_supply_chain.parse_workflow_actions(workflows) == [
+        {"type": "action", "name": "actions/checkout", "version": "v4"},
+        {"type": "action", "name": "actions/setup-python", "version": "v5"},
+    ]
+
+
+def test_supply_chain_compare_or_write_reports_drift(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    baseline = repo / "sbom.json"
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+
+    assert check_supply_chain.compare_or_write(baseline, {"kind": "expected"}, write=True) == []
+    assert check_supply_chain.compare_or_write(baseline, {"kind": "different"}, write=False) == [
+        "sbom.json differs from the computed supply-chain evidence"
+    ]
+
+
+def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
+    commands = []
+    seen_envs = []
+    monkeypatch.setenv("GIT_DIR", "/tmp/ambient.git")
+    monkeypatch.setenv("GIT_WORK_TREE", "/tmp/ambient")
+    monkeypatch.setenv("AI_BASE_COMMIT", "f" * 40)
+
+    def fake_run(command, *, cwd, env, text, capture_output, check):
+        commands.append(command)
+        seen_envs.append(env)
+        if command == ["git", "rev-parse", "v0.5.22^{commit}"]:
+            return subprocess.CompletedProcess(
+                command, 0, stdout="eee1d4ad835a1d33cb70f26103536f77b593d2ce\n", stderr=""
+            )
+        raise AssertionError(f"unexpected command: {command}")
+
+    monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+
+    sbom = check_supply_chain.build_sbom()
+    provenance = check_supply_chain.build_provenance(sbom)
+
+    assert sbom["metadata"]["component"]["version"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
+    assert provenance["commitSha"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
+    assert commands == [
+        ["git", "rev-parse", "v0.5.22^{commit}"],
+        ["git", "rev-parse", "v0.5.22^{commit}"],
+    ]
+    assert len(seen_envs) == 2
+    for env in seen_envs:
+        assert env is not None
+        assert "GIT_DIR" not in env
+        assert "GIT_WORK_TREE" not in env
+        assert "AI_BASE_COMMIT" not in env
+
+
+def test_supply_chain_baselines_match_repository_state():
+    assert (
+        subprocess.run(
+            ["python3", str(ROOT / "scripts" / "check_supply_chain.py"), "sbom"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        ).returncode
+        == 0
+    )
+    assert (
+        subprocess.run(
+            ["python3", str(ROOT / "scripts" / "check_supply_chain.py"), "provenance"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        ).returncode
+        == 0
+    )
+    assert (
+        subprocess.run(
+            ["python3", str(ROOT / "scripts" / "check_supply_chain.py"), "secrets"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        ).returncode
+        == 0
+    )

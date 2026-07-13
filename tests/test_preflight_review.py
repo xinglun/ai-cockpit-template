@@ -63,7 +63,11 @@ def conservative_contract() -> dict:
         "acceptance": ["Implement the feature."],
         "sources": [{"path": "docs/spec.md", "reason": "Single source of evidence."}],
         "verification": [],
-        "riskAssessment": {"level": "medium", "riskTypes": ["governance_change"], "reason": "fixture"},
+        "riskAssessment": {
+            "level": "medium",
+            "riskTypes": ["governance_change"],
+            "reason": "fixture",
+        },
     }
 
 

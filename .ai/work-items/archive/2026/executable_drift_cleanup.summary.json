@@ -1,0 +1,361 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "executable_drift_cleanup",
+  "contractPath": ".ai/work-items/archive/2026/executable_drift_cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/executable_drift_cleanup.contract.json",
+      "reason": "Narrowed the cleanup lane to the bandit baseline helper and its tests."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/executable_drift_cleanup.summary.json",
+      "reason": "Captured the executable cleanup summary skeleton."
+    },
+    {
+      "path": "scripts/check_bandit_baseline.py",
+      "reason": "Kept the executable helper aligned with the repository baseline check."
+    },
+    {
+      "path": "tests/test_bandit_baseline.py",
+      "reason": "Added direct regression coverage for the helper behavior."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Extended Makefile coverage for the check-bandit-baseline target."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Normalized existing test formatting drift discovered during quality verification."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/executable_drift_cleanup.contract.json",
+    ".ai/cockpit/README.md",
+    "scripts/check_bandit_baseline.py",
+    "tests/test_bandit_baseline.py",
+    "tests/test_core_gates.py",
+    "tests/test_makefile.py",
+    "tests/test_supply_chain.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:03.905812+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "06820ab07ffb23df8b58bf3abe6f45ccf668dac6732c55f4c85e2897a6a8214a",
+      "commandHash": "dea565350c7c2df6b7930511adddc9516f744e105784c069b84194b58b875aa4",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/executable_drift_cleanup.contract.json work item contract check passed: .ai/work-items/active/executable_drift_cleanup.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:04.122667+00:00",
+      "exitCode": 0,
+      "durationMs": 138,
+      "outputDigest": "f6b4df974a4c2899b022402d9c9700fb1bb894cbe71c6927fff322340afabdfe",
+      "commandHash": "1adc36ddef248ad23a293dd8a5156a1ef1adce9eab3d05ee1c3d00c8ed875dbc",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/executable_drift_cleanup.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:04.303989+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "fafd41fa95ea22dcc6ebc8d4783303b1d6d82cc67f0adf3c1bf4e9833cf425ed",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/executable_drift_cleanup.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:05.643236+00:00",
+      "exitCode": 0,
+      "durationMs": 1273,
+      "outputDigest": "26aadf6f7bb62f22c4d45add662910848dab2e1c652db550dc8aff64c098d0cf",
+      "commandHash": "f80c9c8c6b865a1cc09204bb06d979cebef7215b629bc2f01ffe63ab73f20aa2",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/executable_drift_cleanup.contract.json --summary .ai/work-items/active/executable_drift_cleanup.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `executable_drift_cleanup` - Contract Hash: `fbfa897f6fa47b73` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `15` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:05.817613+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "6640d98e192888fb46521dd61843ba4a3870fd47092e848eaf84c623b09de6f3",
+      "commandHash": "0268a6d96f403c792b8a01fb92b3cec3bdca6e543fc3aaf60e81c69cdcfe9546",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/executable_drift_cleanup.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:05.993806+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:06.196056+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:06.304579+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "e56b6a3aa688daeeb45c10b1a991332eaa89ec0129b345008951de353580a2d0",
+      "commandHash": "a6aaf608330ac048c1ad167748c4a5b5eddef6704a475a2ecc2c1883a50dad67",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/executable_drift_cleanup.contract.json --summary .ai/work-items/active/executable_drift_cleanup.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:47:07.650986+00:00",
+      "exitCode": 0,
+      "durationMs": 1263,
+      "outputDigest": "924360f9ee7d2af9675aa73e7c555abff27e6f7571f48354e9fb55c469533b51",
+      "commandHash": "5faee5ca1accb50642020489c282614b3225ddbbb917821fa8cb73170f305f59",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/executable_drift_cleanup.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `tests/test_bandit_baseline.py` — covered by Contract scope - [active_owned] `tests/test_core_gates.py` — covered by"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:48:05.468327+00:00",
+      "exitCode": 0,
+      "durationMs": 57726,
+      "outputDigest": "2857c764e3a4a71021328860c93f8d86cc7380c67088878764518e51bd7c63be",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "966780c6c9c1a50bacb56a85015ee0f054d446f756c52dae28c773399c7509ee",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 87 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 19%] ........................................................................ [ 39%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:48:10.922798+00:00",
+      "exitCode": 0,
+      "durationMs": 1365,
+      "outputDigest": "e3d1a6a7b45754625f6e7118d4c0172cea2474f831d6b12e4dbc9203ebd8a4a4",
+      "commandHash": "649739c80268bc4b1e50fd95840b4da5679eded438bb56ffacd340282728c8be",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "47ddba12675e5ad3b74f236f65ae0e5eaa663ffedbdacc36a43c285d9b55b3c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/executable_drift_cleanup.contract.json --summary .ai/work-items/active/executable_drift_cleanup.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:48:12.451457+00:00",
+      "exitCode": 0,
+      "durationMs": 1466,
+      "outputDigest": "1101191e65a1cb0ef73cb10b64baad75a96d628df0cba35ef2fc18b4dfdd6cad",
+      "commandHash": "e687b95c9d0958beda12ca0b4a05bfd3b5e390c816d58df40e353a57f0fae0ae",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "47ddba12675e5ad3b74f236f65ae0e5eaa663ffedbdacc36a43c285d9b55b3c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/executable_drift_cleanup.contract.json --summary .ai/work-items/active/executable_drift_cleanup.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:48:12.553218+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "47ddba12675e5ad3b74f236f65ae0e5eaa663ffedbdacc36a43c285d9b55b3c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:48:12.656868+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "e3b101f54e461a431e87a14f7cca98d0910eeaf6f926495d00d4afbd68e2453b",
+      "commandHash": "641118ac798218a48102936028be35e2cdb4c2b8b69b949fa88c83e6d04c7b77",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "47ddba12675e5ad3b74f236f65ae0e5eaa663ffedbdacc36a43c285d9b55b3c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/executable_drift_cleanup.contract.json --summary .ai/work-items/active/executable_drift_cleanup.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/executable_drift_cleanup.summary.json CONTRACT=.ai/work-items/active/executable_drift_cleanup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T06:48:12.824506+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "7a08f5d684e6fea1aa00de990f9eb84f5b5b4f5e69402de77f2af8fb4f0b36bf",
+      "commandHash": "9e1ddbd2668465c5371e43b571c58eda0371de84e8daafe3d7bce7614f206ab5",
+      "contractHash": "fbfa897f6fa47b73c93ef63dbc0c1109958f90a75923be1b220c665e8c19cce4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/executable_drift_cleanup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/executable_drift_cleanup.summary.json",
+      "worktreeDigest": "47ddba12675e5ad3b74f236f65ae0e5eaa663ffedbdacc36a43c285d9b55b3c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/executable_drift_cleanup.summary.json --contract .ai/work-items/active/executable_drift_cleanup.contract.json ai summary check passed: .ai/work-items/active/executable_drift_cleanup.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The cleanup only adds or updates tests around an existing executable helper."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The cleanup stays within the bandit helper and existing executable tests."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Narrow executable cleanup around the bandit baseline helper."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "coverage",
+      "detail": "Coverage should stay aligned with the Makefile target exposure and helper behavior.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Implementation is complete, but the required Cockpit and project checks still need to be recorded through finish.",
+    "expectedReviewFocus": [
+      "confirm the bandit baseline helper stays executable from the repo root",
+      "confirm the Makefile target continues to route to the helper script"
+    ]
+  },
+  "intentAlignment": {},
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "fbfa897f6fa47b73",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 14,
+      "detail": "Ran ai-checkpoint and reviewed scope, acceptance, unknowns, required verification, and next action before finishing."
+    }
+  ],
+  "knownGaps": [
+    "Record the required before_finish checkpoint and finish the declared Cockpit checks."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

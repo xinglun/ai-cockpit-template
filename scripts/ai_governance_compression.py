@@ -123,7 +123,11 @@ def _verification_index(summary: dict[str, Any]) -> dict[str, str]:
 def _guidelines_index(summary: dict[str, Any]) -> dict[str, bool]:
     index: dict[str, bool] = {}
     for item in summary.get("guidelinesCompliance", []):
-        if isinstance(item, dict) and non_empty_string(item.get("guideline")) and isinstance(item.get("compliant"), bool):
+        if (
+            isinstance(item, dict)
+            and non_empty_string(item.get("guideline"))
+            and isinstance(item.get("compliant"), bool)
+        ):
             index[str(item["guideline"])] = bool(item["compliant"])
     return index
 
@@ -131,7 +135,11 @@ def _guidelines_index(summary: dict[str, Any]) -> dict[str, bool]:
 def _checkpoint_stages(summary: dict[str, Any]) -> set[str]:
     stages: set[str] = set()
     for item in summary.get("checkpointEvidence", []):
-        if isinstance(item, dict) and non_empty_string(item.get("stage")) and item.get("recorded") is True:
+        if (
+            isinstance(item, dict)
+            and non_empty_string(item.get("stage"))
+            and item.get("recorded") is True
+        ):
             stages.add(str(item["stage"]))
     return stages
 
@@ -166,7 +174,9 @@ def _scenario_coverage_explicit_risk_ack(summary: dict[str, Any] | None) -> bool
     return has_risk_ack(summary)
 
 
-def _scenario_coverage_signal(contract: dict[str, Any], summary: dict[str, Any] | None) -> dict[str, Any]:
+def _scenario_coverage_signal(
+    contract: dict[str, Any], summary: dict[str, Any] | None
+) -> dict[str, Any]:
     risk = _dict(contract.get("riskAssessment"))
     level = risk.get("level")
     if summary is None:
@@ -244,7 +254,11 @@ def _scenario_coverage_signal(contract: dict[str, Any], summary: dict[str, Any] 
         return {
             "value": "incomplete",
             "evidence": [f"scenario coverage has invalid required item(s): {', '.join(invalid)}"],
-            "sources": ["contract.riskAssessment", "summary.scenarioCoverage", "summary.reviewReadiness"],
+            "sources": [
+                "contract.riskAssessment",
+                "summary.scenarioCoverage",
+                "summary.reviewReadiness",
+            ],
             "required": required,
             "verified": verified,
             "unverified": unverified,
@@ -256,7 +270,9 @@ def _scenario_coverage_signal(contract: dict[str, Any], summary: dict[str, Any] 
         if level == "low":
             return {
                 "value": "not_required",
-                "evidence": ["scenario coverage is optional because no required scenarios were declared"],
+                "evidence": [
+                    "scenario coverage is optional because no required scenarios were declared"
+                ],
                 "sources": ["contract.riskAssessment", "summary.scenarioCoverage"],
                 "required": [],
                 "verified": [],
@@ -266,7 +282,9 @@ def _scenario_coverage_signal(contract: dict[str, Any], summary: dict[str, Any] 
             }
         return {
             "value": "incomplete",
-            "evidence": ["scenario coverage has no required scenarios declared for medium/high risk"],
+            "evidence": [
+                "scenario coverage has no required scenarios declared for medium/high risk"
+            ],
             "sources": ["contract.riskAssessment", "summary.scenarioCoverage"],
             "required": [],
             "verified": verified,
@@ -279,7 +297,12 @@ def _scenario_coverage_signal(contract: dict[str, Any], summary: dict[str, Any] 
         return {
             "value": "incomplete",
             "evidence": [f"required scenario unverified: {', '.join(unverified)}"],
-            "sources": ["contract.riskAssessment", "summary.scenarioCoverage", "summary.followUps", "summary.unverifiedScenarios"],
+            "sources": [
+                "contract.riskAssessment",
+                "summary.scenarioCoverage",
+                "summary.followUps",
+                "summary.unverifiedScenarios",
+            ],
             "required": required,
             "verified": verified,
             "unverified": unverified,
@@ -289,7 +312,9 @@ def _scenario_coverage_signal(contract: dict[str, Any], summary: dict[str, Any] 
 
     return {
         "value": "complete",
-        "evidence": [f"scenario coverage complete: {len(verified)} verified, {len(not_applicable)} not_applicable"],
+        "evidence": [
+            f"scenario coverage complete: {len(verified)} verified, {len(not_applicable)} not_applicable"
+        ],
         "sources": ["contract.riskAssessment", "summary.scenarioCoverage"],
         "required": required,
         "verified": verified,
@@ -342,7 +367,9 @@ def _guidelines_signal(contract: dict[str, Any], summary: dict[str, Any] | None)
 
     index = _guidelines_index(summary)
     missing = [item for item in guidelines if item not in index]
-    violated = [item for item, compliant in index.items() if item in guidelines and compliant is False]
+    violated = [
+        item for item, compliant in index.items() if item in guidelines and compliant is False
+    ]
     if violated:
         return {
             "value": "violated",
@@ -401,7 +428,9 @@ def _destructive_change_violation(contract: dict[str, Any], summary: dict[str, A
     return bool(_string_list(_summary_or_empty(summary).get("destructiveChanges")))
 
 
-def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] | None) -> dict[str, Any]:
+def derive_governance_status(
+    contract: dict[str, Any], summary: dict[str, Any] | None
+) -> dict[str, Any]:
     """Return a structured, recommendation-oriented status model."""
 
     contract = contract if isinstance(contract, dict) else {}
@@ -409,7 +438,9 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
 
     signals = {}
     signals["Intent"] = intent_alignment_signal(contract, _summary_or_empty(summary_dict))
-    verification = verification_signal(_required_checks(contract), _verification_index(_summary_or_empty(summary_dict)))
+    verification = verification_signal(
+        _required_checks(contract), _verification_index(_summary_or_empty(summary_dict))
+    )
     signals["Verification"] = {
         "value": verification["value"],
         "evidence": verification["evidence"],
@@ -465,7 +496,8 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
     if any(
         reason
         for reason in decision_drivers
-        if reason in {
+        if reason
+        in {
             "notCodable is true",
             "executionDecision is block",
             "executionDecision is blocked",
@@ -476,17 +508,28 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
         recommendation = "blocked"
     elif execution_status in {"defer", "needs_human_decision"}:
         recommendation = "needs_investigation"
-    elif signals["Verification"]["value"] == "failed" or signals["Guidelines"]["value"] == "violated":
+    elif (
+        signals["Verification"]["value"] == "failed" or signals["Guidelines"]["value"] == "violated"
+    ):
         recommendation = "blocked"
     elif any(
         signal["value"] in {"incomplete", "unknown", "open"}
         for name, signal in signals.items()
-        if name in {"Acceptance", "Unknowns", "Verification", "Checkpoints", "Residual Risk", "Intent"}
+        if name
+        in {"Acceptance", "Unknowns", "Verification", "Checkpoints", "Residual Risk", "Intent"}
     ) or review["status"] in {"unknown", "not_ready"}:
         recommendation = "needs_investigation"
-    elif signals["Scenario Coverage"]["value"] == "incomplete" and _scenario_coverage_hard_risk(contract) and not _scenario_coverage_explicit_risk_ack(summary_dict):
+    elif (
+        signals["Scenario Coverage"]["value"] == "incomplete"
+        and _scenario_coverage_hard_risk(contract)
+        and not _scenario_coverage_explicit_risk_ack(summary_dict)
+    ):
         recommendation = "needs_investigation"
-    elif signals["Scenario Coverage"]["value"] == "incomplete" or signals["Residual Risk"]["value"] in {"medium", "high"} or review["status"] == "ready_with_risks":
+    elif (
+        signals["Scenario Coverage"]["value"] == "incomplete"
+        or signals["Residual Risk"]["value"] in {"medium", "high"}
+        or review["status"] == "ready_with_risks"
+    ):
         recommendation = "ready_with_risks"
     else:
         recommendation = "ready_for_review"
@@ -511,7 +554,10 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
         f"residualRisk={signals['Residual Risk']['value']}",
     ]
     verification_index = _verification_index(_summary_or_empty(summary_dict))
-    verification_evidence = [f"{check}: {verification_index.get(check, verification['value'])}" for check in verification["required"]]
+    verification_evidence = [
+        f"{check}: {verification_index.get(check, verification['value'])}"
+        for check in verification["required"]
+    ]
     intent_alignment_evidence = signals["Intent"]["evidence"]
     scenario_coverage_evidence = scenario_coverage["evidence"]
     checkpoint_evidence = signals["Checkpoints"]["evidence"]
@@ -533,13 +579,33 @@ def derive_governance_status(contract: dict[str, Any], summary: dict[str, Any] |
             "guidelines": guideline_evidence,
             "checkpoints": checkpoint_evidence,
             "residualRisk": risk_evidence,
-            "reviewReadiness": [f"status={review['status']}"] + ([f"focus={', '.join(review['focus'])}"] if review["focus"] else []),
+            "reviewReadiness": [f"status={review['status']}"]
+            + ([f"focus={', '.join(review['focus'])}"] if review["focus"] else []),
         },
         "decisionDrivers": decision_drivers,
         "reviewReadiness": review,
         "sources": {
-            "contract": ["contract.intent", "contract.acceptance", "contract.unknowns", "contract.guidelines", "contract.checkpointPolicy", "contract.riskAssessment"],
-            "summary": ["summary.intentAlignment", "summary.verification", "summary.scenarioCoverage", "summary.followUps", "summary.unverifiedScenarios", "summary.unknownsRemaining", "summary.guidelinesCompliance", "summary.checkpointEvidence", "summary.risk", "summary.residualRisks", "summary.reviewReadiness"],
+            "contract": [
+                "contract.intent",
+                "contract.acceptance",
+                "contract.unknowns",
+                "contract.guidelines",
+                "contract.checkpointPolicy",
+                "contract.riskAssessment",
+            ],
+            "summary": [
+                "summary.intentAlignment",
+                "summary.verification",
+                "summary.scenarioCoverage",
+                "summary.followUps",
+                "summary.unverifiedScenarios",
+                "summary.unknownsRemaining",
+                "summary.guidelinesCompliance",
+                "summary.checkpointEvidence",
+                "summary.risk",
+                "summary.residualRisks",
+                "summary.reviewReadiness",
+            ],
         },
     }
 
@@ -584,14 +650,20 @@ def render_active_status(
         lines.append(f"- {signal['name']}: {signal['value']}")
 
     review_status = preflight_review.get("status") if isinstance(preflight_review, dict) else None
-    review_recommendation = preflight_review.get("recommendation") if isinstance(preflight_review, dict) else None
-    review_drivers = preflight_review.get("decisionDrivers") if isinstance(preflight_review, dict) else None
+    review_recommendation = (
+        preflight_review.get("recommendation") if isinstance(preflight_review, dict) else None
+    )
+    review_drivers = (
+        preflight_review.get("decisionDrivers") if isinstance(preflight_review, dict) else None
+    )
     if non_empty_string(review_status) and non_empty_string(review_recommendation):
         lines.extend(["", "## Preflight Review", ""])
         lines.append(f"- Status: `{review_status}`")
         lines.append(f"- Recommendation: `{review_recommendation}`")
         lines.append("- Decision Drivers:")
-        if isinstance(review_drivers, list) and any(non_empty_string(item) for item in review_drivers):
+        if isinstance(review_drivers, list) and any(
+            non_empty_string(item) for item in review_drivers
+        ):
             lines.extend(f"  - {item}" for item in review_drivers if non_empty_string(item))
         else:
             lines.append("  - none")
@@ -603,13 +675,33 @@ def render_active_status(
     if ownership_counts is None:
         lines.append("- Status: `not_generated`")
     else:
-        for state in ("active_owned", "archived_owned", "unowned", "ambiguous", "out_of_scope", "approval_required"):
+        for state in (
+            "active_owned",
+            "archived_owned",
+            "unowned",
+            "ambiguous",
+            "out_of_scope",
+            "approval_required",
+        ):
             lines.append(f"- {state}: `{ownership_counts.get(state, 0)}`")
-        unresolved = sum(ownership_counts.get(state, 0) for state in ("unowned", "ambiguous", "out_of_scope", "approval_required"))
+        unresolved = sum(
+            ownership_counts.get(state, 0)
+            for state in ("unowned", "ambiguous", "out_of_scope", "approval_required")
+        )
         lines.append(f"- Unresolved: `{unresolved}`")
 
     lines.extend(["", "## Evidence", ""])
-    for key in ("contract", "summary", "verification", "intentAlignment", "scenarioCoverage", "guidelines", "checkpoints", "residualRisk", "reviewReadiness"):
+    for key in (
+        "contract",
+        "summary",
+        "verification",
+        "intentAlignment",
+        "scenarioCoverage",
+        "guidelines",
+        "checkpoints",
+        "residualRisk",
+        "reviewReadiness",
+    ):
         entries = model["evidence"].get(key, [])
         if not entries:
             lines.append(f"- {EVIDENCE_LABELS.get(key, key)}: none")
@@ -641,5 +733,12 @@ def render_active_status(
     elif backtrack_report:
         lines.append("- Items: none")
 
-    lines.extend(["", "## Next Action", "", "- resolve Diff Ownership Preview findings, then complete human review / commit decision"])
+    lines.extend(
+        [
+            "",
+            "## Next Action",
+            "",
+            "- resolve Diff Ownership Preview findings, then complete human review / commit decision",
+        ]
+    )
     return "\n".join(lines) + "\n"

@@ -9,7 +9,13 @@ import time
 from pathlib import Path
 from typing import Any
 
-from ai_common import contains_machine_path, load_check_registry, load_json, non_empty_string, validate_scenario_coverage
+from ai_common import (
+    contains_machine_path,
+    load_check_registry,
+    load_json,
+    non_empty_string,
+    validate_scenario_coverage,
+)
 from ai_observability import create_observability, elapsed_ms
 
 
@@ -128,7 +134,9 @@ def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
             if risk.get("level") not in RISK_LEVELS:
                 issues.append(f"riskAssessment.level must be one of {sorted(RISK_LEVELS)}")
             risk_types = risk.get("riskTypes")
-            if not isinstance(risk_types, list) or any(not non_empty_string(item) for item in risk_types):
+            if not isinstance(risk_types, list) or any(
+                not non_empty_string(item) for item in risk_types
+            ):
                 issues.append("riskAssessment.riskTypes must be a list of non-empty strings")
             if not non_empty_string(risk.get("reason")):
                 issues.append("riskAssessment.reason is required")
@@ -141,7 +149,9 @@ def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
             for key in ("canImplement", "canVerify", "needsHumanDecision"):
                 if not isinstance(capability.get(key), bool):
                     issues.append(f"agentCapability.{key} must be boolean")
-            if "blockedReason" in capability and not isinstance(capability.get("blockedReason"), str):
+            if "blockedReason" in capability and not isinstance(
+                capability.get("blockedReason"), str
+            ):
                 issues.append("agentCapability.blockedReason must be a string")
 
     decision = data.get("executionDecision")
@@ -150,7 +160,9 @@ def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
             issues.append("executionDecision must be an object")
         else:
             if decision.get("status") not in EXECUTION_STATUSES:
-                issues.append(f"executionDecision.status must be one of {sorted(EXECUTION_STATUSES)}")
+                issues.append(
+                    f"executionDecision.status must be one of {sorted(EXECUTION_STATUSES)}"
+                )
             if not non_empty_string(decision.get("reason")):
                 issues.append("executionDecision.reason is required")
 
@@ -164,10 +176,14 @@ def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
         if not isinstance(checkpoint, dict):
             issues.append("checkpointPolicy must be an object")
         else:
-            if "requiredBeforeFinish" in checkpoint and not isinstance(checkpoint.get("requiredBeforeFinish"), bool):
+            if "requiredBeforeFinish" in checkpoint and not isinstance(
+                checkpoint.get("requiredBeforeFinish"), bool
+            ):
                 issues.append("checkpointPolicy.requiredBeforeFinish must be boolean")
             stages = checkpoint.get("requiredStages")
-            if stages is not None and (not isinstance(stages, list) or any(not non_empty_string(item) for item in stages)):
+            if stages is not None and (
+                not isinstance(stages, list) or any(not non_empty_string(item) for item in stages)
+            ):
                 issues.append("checkpointPolicy.requiredStages must be a list of non-empty strings")
             if "reason" in checkpoint and not non_empty_string(checkpoint.get("reason")):
                 issues.append("checkpointPolicy.reason must be a non-empty string")
@@ -199,7 +215,11 @@ def validate_baseline_and_approvals(data: dict[str, Any]) -> list[str]:
     if bootstrap is not None:
         if data.get("workItemId") != "adopt_ai_cockpit":
             issues.append("adoptionBootstrapPaths is only allowed for workItemId adopt_ai_cockpit")
-        if not isinstance(bootstrap, list) or not bootstrap or any(not non_empty_string(item) for item in bootstrap):
+        if (
+            not isinstance(bootstrap, list)
+            or not bootstrap
+            or any(not non_empty_string(item) for item in bootstrap)
+        ):
             issues.append("adoptionBootstrapPaths must be a non-empty list of path patterns")
 
     destructive = data.get("destructiveChangePolicy")
@@ -211,14 +231,18 @@ def validate_baseline_and_approvals(data: dict[str, Any]) -> list[str]:
                 issues.append(f"destructiveChangePolicy.{key} must be boolean")
         patterns = destructive.get("allowPatterns")
         if not isinstance(patterns, list) or any(not non_empty_string(item) for item in patterns):
-            issues.append("destructiveChangePolicy.allowPatterns must be a list of non-empty strings")
+            issues.append(
+                "destructiveChangePolicy.allowPatterns must be a list of non-empty strings"
+            )
         if patterns and destructive.get("allowed") is not True:
             issues.append("destructiveChangePolicy.allowPatterns require allowed true")
         evidence = destructive.get("approvalEvidence")
         if destructive.get("allowed") is True and destructive.get("requiresHumanApproval") is True:
             if not isinstance(evidence, dict) or evidence.get("approved") is not True:
                 issues.append("destructive changes require approvalEvidence.approved true")
-            elif not non_empty_string(evidence.get("approvedBy")) or not non_empty_string(evidence.get("reason")):
+            elif not non_empty_string(evidence.get("approvedBy")) or not non_empty_string(
+                evidence.get("reason")
+            ):
                 issues.append("destructive approvalEvidence requires approvedBy and reason")
 
     approval = data.get("restrictedWriteApproval")
@@ -229,7 +253,8 @@ def validate_baseline_and_approvals(data: dict[str, Any]) -> list[str]:
             if not isinstance(approval.get("approved"), bool):
                 issues.append("restrictedWriteApproval.approved must be boolean")
             if approval.get("approved") is True and (
-                not non_empty_string(approval.get("approvedBy")) or not non_empty_string(approval.get("reason"))
+                not non_empty_string(approval.get("approvedBy"))
+                or not non_empty_string(approval.get("reason"))
             ):
                 issues.append("approved restrictedWriteApproval requires approvedBy and reason")
     return issues
@@ -265,7 +290,7 @@ def validate_intent(data: dict[str, Any]) -> list[str]:
     return issues
 
 
-def validate_contract(data: dict[str, Any]) -> list[str]:
+def validate_contract(data: dict[str, Any], contract_path: str = "") -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
         if key not in data:
@@ -278,6 +303,10 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
         issues.append("contractVersion must be 1 or 2")
     if data.get("mode") not in MODES:
         issues.append(f"mode must be one of {sorted(MODES)}")
+    if contract_path:
+        stem = Path(contract_path).name.removesuffix(".contract.json")
+        if stem and data.get("workItemId") != stem:
+            issues.append("workItemId does not match the Contract filename")
     for key in ("workItemId", "title", "rollbackNote"):
         if key in data and not non_empty_string(data.get(key)):
             issues.append(f"{key} must be a non-empty string")
@@ -306,7 +335,10 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
         decision = data.get("executionDecision")
         status = decision.get("status") if isinstance(decision, dict) else ""
         if status == "continue":
-            issues.append("unknowns or notCodable require executionDecision.status other than continue")
+            issues.append(
+                "unknowns or notCodable require executionDecision.status other than continue"
+            )
+
     def scan_machine_paths(value: Any, location: str) -> None:
         if isinstance(value, str) and contains_machine_path(value):
             issues.append(f"{location} contains a machine-specific path")
@@ -334,12 +366,14 @@ def main() -> int:
         return 1
 
     obs = create_observability(work_item_id=data.get("workItemId", ""))
-    issues = validate_contract(data)
+    issues = validate_contract(data, contract_path=path.as_posix())
     duration = elapsed_ms(start)
     if issues:
         for issue in issues:
             print(f"[ERROR] {issue}", file=sys.stderr)
-        obs.check_failed(check_id="aiWorkItem", duration_ms=duration, detail=f"{len(issues)} issue(s)")
+        obs.check_failed(
+            check_id="aiWorkItem", duration_ms=duration, detail=f"{len(issues)} issue(s)"
+        )
         return 1
     print(f"work item contract check passed: {path}")
     obs.check_passed(check_id="aiWorkItem", duration_ms=duration)

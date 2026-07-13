@@ -103,10 +103,12 @@ Review 从上下文开始。
 ```sh
 ADOPTION_BASE="$(git rev-parse HEAD)"
 STACK="${STACK:-generic}" # generic、python、go、rust、typescript、java、android、kotlin、flutter、swift、ruby、php 或 csharp
-RELEASE_TAG="$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/release.json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs https://github.com/xinglun/ai-cockpit-template.git 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
+PUBLIC_REPOSITORY="${AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY:-https://github.com/<owner>/<repo>.git}"
+RAW_BASE="${AI_COCKPIT_TEMPLATE_RAW_BASE:-https://raw.githubusercontent.com/<owner>/<repo>}"
+RELEASE_TAG="$(curl -fsSL "${RAW_BASE}/main/release.json" 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["releaseTag"])' 2>/dev/null || git ls-remote --tags --refs "$PUBLIC_REPOSITORY" 'v*' | python3 -c 'import re,sys; tags=[m.group(1) for line in sys.stdin for m in [re.search(r"refs/tags/(v\d+\.\d+\.\d+)$", line)] if m]; print(max(tags, key=lambda tag: tuple(map(int, tag[1:].split(".")))))')"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
-curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
+curl -fsSL "${RAW_BASE}/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
 make ai-finish TASK=adopt_ai_cockpit
 git add .
@@ -117,6 +119,7 @@ make ai-start TASK=configure_ai_cockpit TITLE="Configure AI Cockpit for this pro
 ```
 
 该命令优先读取公开的 `release.json`；在发布元数据尚未上线的过渡期，则从公开的语义化版本标签中选择最高版本。随后只下载并执行解析出的固定标签安装器。公开版本的能力可能落后于源码树；创建首次采用 PR 前请先阅读[安装文档](docs/getting-started/installation.md)。
+如果发布元数据或标签并非公开可访问，就不要把这条快速安装流程当成匿名安装路径。`AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY` 和 `AI_COCKPIT_TEMPLATE_RAW_BASE` 只用于解析 release tag 和获取安装器，而安装器本身仍会通过 `AI_COCKPIT_TEMPLATE_REPO` 和 `AI_COCKPIT_TEMPLATE_SOURCE` 选择 clone / source。此时应改用本地克隆或显式配置的源码来源。
 
 先审阅并扩展生成的配置 Contract scope，再修改 Project Profile、Guard、质量命令和 CI。然后在启用阻断型门禁前，根据目标工程校准治理运行时：
 
@@ -236,7 +239,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - 兼容 POSIX shell 和 GNU Make 的命令执行环境。
 - 官方支持 Linux 和 macOS 运行和 CI。原生 Windows shell 暂不支持，请在 WSL (Windows Subsystem for Linux) 或其他 POSIX 终端中运行。
 
-仓库的 `make quality` 会运行全部测试，要求脚本总覆盖率不低于 60%，并对生命周期关键脚本设置分文件回归下限；同时对 `scripts/` 和 `tests/` 执行 Ruff，对全部治理脚本执行 Mypy，并执行中高等级 Bandit 扫描、Python 编译、差分检查和文档一致性检查。
+仓库的 `make quality` 会运行全部测试，要求脚本总覆盖率不低于 80%，并对生命周期关键脚本设置分文件回归下限；同时对 `scripts/` 和 `tests/` 执行 Ruff，对全部治理脚本执行 Mypy，并执行中高等级 Bandit 扫描、Python 编译、差分检查和文档一致性检查。
 
 ## 迁移与兼容性
 

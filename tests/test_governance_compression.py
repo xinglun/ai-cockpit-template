@@ -7,8 +7,12 @@ import ai_governance_compression
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ARCHIVE_CONTRACT = ROOT / ".ai" / "work-items" / "archive" / "2026" / "realign_ai_cockpit_v2.contract.json"
-ARCHIVE_SUMMARY = ROOT / ".ai" / "work-items" / "archive" / "2026" / "realign_ai_cockpit_v2.summary.json"
+ARCHIVE_CONTRACT = (
+    ROOT / ".ai" / "work-items" / "archive" / "2026" / "realign_ai_cockpit_v2.contract.json"
+)
+ARCHIVE_SUMMARY = (
+    ROOT / ".ai" / "work-items" / "archive" / "2026" / "realign_ai_cockpit_v2.summary.json"
+)
 
 
 def complete_contract() -> dict:
@@ -23,13 +27,20 @@ def complete_contract() -> dict:
             "rationale": "A conservative compression layer is enough.",
         },
         "guidelines": ["Keep portable"],
-        "checkpointPolicy": {"requiredBeforeFinish": True, "requiredStages": ["before_edit", "before_finish"]},
+        "checkpointPolicy": {
+            "requiredBeforeFinish": True,
+            "requiredStages": ["before_edit", "before_finish"],
+        },
         "riskAssessment": {"level": "low", "riskTypes": [], "reason": "fixture"},
         "verification": [{"check": "quality", "required": True}],
         "unknowns": [],
         "notCodable": False,
         "executionDecision": {"status": "continue"},
-        "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
+        "destructiveChangePolicy": {
+            "allowed": False,
+            "requiresHumanApproval": True,
+            "allowPatterns": [],
+        },
     }
 
 
@@ -38,10 +49,28 @@ def complete_summary() -> dict:
         "verification": [{"check": "quality", "result": "passed"}],
         "reviewReadiness": {"status": "ready", "reason": "fixture", "expectedReviewFocus": []},
         "unknownsRemaining": [],
-        "guidelinesCompliance": [{"guideline": "Keep portable", "compliant": True, "evidence": "fixture"}],
+        "guidelinesCompliance": [
+            {"guideline": "Keep portable", "compliant": True, "evidence": "fixture"}
+        ],
         "checkpointEvidence": [
-            {"stage": "before_edit", "recorded": True, "contractHash": "a" * 16, "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": 1, "requiredChecksPassed": 1},
-            {"stage": "before_finish", "recorded": True, "contractHash": "a" * 16, "acceptanceCount": 1, "unknownCount": 0, "requiredChecks": 1, "requiredChecksPassed": 1},
+            {
+                "stage": "before_edit",
+                "recorded": True,
+                "contractHash": "a" * 16,
+                "acceptanceCount": 1,
+                "unknownCount": 0,
+                "requiredChecks": 1,
+                "requiredChecksPassed": 1,
+            },
+            {
+                "stage": "before_finish",
+                "recorded": True,
+                "contractHash": "a" * 16,
+                "acceptanceCount": 1,
+                "unknownCount": 0,
+                "requiredChecks": 1,
+                "requiredChecksPassed": 1,
+            },
         ],
         "risk": {"level": "low", "detail": "fixture"},
         "residualRisks": [],
@@ -63,7 +92,9 @@ def signal_map(model: dict) -> dict[str, str]:
 
 
 def test_complete_low_risk_recommends_ready_for_review():
-    model = ai_governance_compression.derive_governance_status(complete_contract(), complete_summary())
+    model = ai_governance_compression.derive_governance_status(
+        complete_contract(), complete_summary()
+    )
 
     assert model["recommendation"] == "ready_for_review"
     assert signal_map(model) == {
@@ -202,7 +233,13 @@ def test_scenario_coverage_unverified_can_be_ready_with_risks_when_explicitly_ac
     summary = complete_summary()
     summary["reviewReadiness"]["status"] = "ready_with_risks"
     summary["residualRisks"] = [
-        {"level": "medium", "area": "ci", "detail": "fixture", "reviewRecommended": True, "followUpCandidate": False}
+        {
+            "level": "medium",
+            "area": "ci",
+            "detail": "fixture",
+            "reviewRecommended": True,
+            "followUpCandidate": False,
+        }
     ]
     summary["followUps"] = ["Verify checkout extraheader reuse in CI."]
     summary["unverifiedScenarios"] = ["GitHub Actions checkout extraheader reuse"]
@@ -229,5 +266,10 @@ def test_legacy_archive_summary_remains_readable():
 
     model = ai_governance_compression.derive_governance_status(contract, summary)
 
-    assert model["recommendation"] in {"ready_for_review", "ready_with_risks", "needs_investigation", "blocked"}
+    assert model["recommendation"] in {
+        "ready_for_review",
+        "ready_with_risks",
+        "needs_investigation",
+        "blocked",
+    }
     assert signal_map(model)["Intent"] in {"resolved", "unknown", "unresolved"}

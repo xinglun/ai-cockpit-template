@@ -97,7 +97,9 @@ def detect(contract: dict[str, Any], summary: dict[str, Any] | None) -> list[Sce
         items.append(ScenarioCoverageItem("error", "invalid_scenario_coverage", "", issue))
 
     if summary is None:
-        return [ScenarioCoverageItem("warning", "missing_summary", "", "summary is missing")] + items
+        return [
+            ScenarioCoverageItem("warning", "missing_summary", "", "summary is missing")
+        ] + items
 
     if not coverage:
         if level in {"medium", "high"}:
@@ -122,20 +124,48 @@ def detect(contract: dict[str, Any], summary: dict[str, Any] | None) -> list[Sce
             continue
 
         if status == "verified":
-            items.append(ScenarioCoverageItem("error", "missing_evidence", scenario, "required verified scenario has no evidence"))
+            items.append(
+                ScenarioCoverageItem(
+                    "error",
+                    "missing_evidence",
+                    scenario,
+                    "required verified scenario has no evidence",
+                )
+            )
             continue
 
         if status == "not_applicable":
             if not isinstance(reason, str) or not reason.strip():
-                items.append(ScenarioCoverageItem("error", "missing_reason", scenario, "required not_applicable scenario is missing reason"))
+                items.append(
+                    ScenarioCoverageItem(
+                        "error",
+                        "missing_reason",
+                        scenario,
+                        "required not_applicable scenario is missing reason",
+                    )
+                )
             continue
 
         if status == "unverified":
             severity = "warning" if level == "low" or explicit_risk_ack(summary) else "error"
-            items.append(ScenarioCoverageItem(severity, "required_scenario_unverified", scenario, "required scenario remains unverified"))
+            items.append(
+                ScenarioCoverageItem(
+                    severity,
+                    "required_scenario_unverified",
+                    scenario,
+                    "required scenario remains unverified",
+                )
+            )
             continue
 
-        items.append(ScenarioCoverageItem("error", "invalid_status", scenario, f"unsupported scenarioCoverage status: {status}"))
+        items.append(
+            ScenarioCoverageItem(
+                "error",
+                "invalid_status",
+                scenario,
+                f"unsupported scenarioCoverage status: {status}",
+            )
+        )
 
     if not required_seen and level in {"medium", "high"}:
         severity = "error" if hard else "warning"
@@ -167,7 +197,9 @@ def main() -> int:
     start = time.time()
     try:
         contract = load_json(Path(args.contract))
-        summary = load_json(Path(args.summary)) if args.summary and Path(args.summary).exists() else None
+        summary = (
+            load_json(Path(args.summary)) if args.summary and Path(args.summary).exists() else None
+        )
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Failed to run scenario coverage check: {exc}", file=sys.stderr)
         return 1
@@ -176,14 +208,18 @@ def main() -> int:
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     report = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "status": "error" if any(item.severity == "error" for item in findings) else ("warning" if findings else "none"),
+        "status": "error"
+        if any(item.severity == "error" for item in findings)
+        else ("warning" if findings else "none"),
         "contractPath": args.contract,
         "summaryPath": args.summary or "",
         "riskLevel": risk_level(contract),
         "hardRiskTypes": sorted(hard_risk_types()),
         "items": [asdict(item) for item in findings],
     }
-    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REPORT_PATH.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
 
     obs = create_observability(work_item_id=contract.get("workItemId", ""))
     duration = elapsed_ms(start)
@@ -192,13 +228,17 @@ def main() -> int:
             if item.severity == "error":
                 print(f"[ERROR] {item.kind}: {item.scenario} - {item.detail}", file=sys.stderr)
         print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
-        obs.check_failed(check_id="aiScenarioCoverage", duration_ms=duration, detail="scenario coverage findings")
+        obs.check_failed(
+            check_id="aiScenarioCoverage", duration_ms=duration, detail="scenario coverage findings"
+        )
         return 1
 
     for item in findings:
         print(f"[warning] {item.kind}: {item.scenario} - {item.detail}")
     print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
-    obs.check_passed(check_id="aiScenarioCoverage", duration_ms=duration, fields={"warnings": len(findings)})
+    obs.check_passed(
+        check_id="aiScenarioCoverage", duration_ms=duration, fields={"warnings": len(findings)}
+    )
     return 0
 
 

@@ -15,7 +15,9 @@ keywords:
 ## 1. インストール
 
 ```sh
-AI_COCKPIT_TEMPLATE_REF=v0.5.22 sh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/v0.5.22/install.sh)" -- --stack flutter --update-makefile --create-adoption
+: "${AI_COCKPIT_TEMPLATE_REF:?set AI_COCKPIT_TEMPLATE_REF to the release tag}"
+: "${AI_COCKPIT_TEMPLATE_RAW_BASE:?set AI_COCKPIT_TEMPLATE_RAW_BASE to the matching raw-content base}"
+sh -c "$(curl -fsSL "${AI_COCKPIT_TEMPLATE_RAW_BASE}/${AI_COCKPIT_TEMPLATE_REF}/install.sh")" -- --stack flutter --update-makefile --create-adoption
 ```
 
 ## 2. 品質ゲート設定
@@ -69,7 +71,19 @@ tests:
   "verification": [
     { "check": "aiWorkItem", "required": true },
     { "check": "aiScope", "required": true },
+    { "check": "aiGuards", "required": true },
+    { "check": "aiCheckpoint", "required": true },
+    { "check": "aiAgentRisk", "required": true },
+    { "check": "aiReviewPolicy", "required": true },
+    { "check": "aiBacktrack", "required": true },
+    { "check": "aiCoverage", "required": true },
+    { "check": "aiScenarioCoverage", "required": true },
     { "check": "aiGuidelines", "required": true },
+    { "check": "aiSummary", "required": true },
+    { "check": "aiStatus", "required": true },
+    { "check": "aiStatusCheck", "required": true },
+    { "check": "aiStatusConsistency", "required": true },
+    { "check": "aiDiffOwnership", "required": true },
     { "check": "quality", "required": true }
   ]
 }

@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import fnmatch
 import hashlib
 import json
 import os
@@ -17,6 +16,7 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CHECKS_PATH = PROJECT_ROOT / ".ai" / "cockpit" / "checks.yaml"
 SCENARIO_COVERAGE_STATUSES = {"verified", "unverified", "not_applicable"}
+GIT_ENV_PREFIX = "GIT_"
 
 
 def _reject_duplicate_keys(path: Path) -> Any:
@@ -32,7 +32,9 @@ def _reject_duplicate_keys(path: Path) -> Any:
 
 
 def load_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_reject_duplicate_keys(path))
+    data = json.loads(
+        path.read_text(encoding="utf-8"), object_pairs_hook=_reject_duplicate_keys(path)
+    )
     if not isinstance(data, dict):
         raise ValueError("root must be a JSON object")
     return data
@@ -44,7 +46,15 @@ def save_json(path: Path, data: dict[str, Any]) -> None:
 
 
 def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(["git", *args], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    env = {key: value for key, value in os.environ.items() if not key.startswith(GIT_ENV_PREFIX)}
+    return subprocess.run(
+        ["git", *args],
+        cwd=PROJECT_ROOT,
+        env=env,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
 
 
 def current_head() -> str:
@@ -56,40 +66,73 @@ def current_head() -> str:
 
 def path_fingerprint(path: str) -> str:
     candidate = PROJECT_ROOT / path
-    if not candidate.exists():
+    try:
+        stat_result = candidate.lstat()
+    except FileNotFoundError:
         return "deleted"
+    if candidate.is_symlink():
+        target = os.readlink(candidate)
+        payload = f"symlink:{stat_result.st_mode}:{target}".encode("utf-8")
+        return hashlib.sha256(payload).hexdigest()
     if not candidate.is_file():
-        return "non_file"
-    return hashlib.sha256(candidate.read_bytes()).hexdigest()
+        return f"non_file:{stat_result.st_mode}"
+    payload = f"mode={stat_result.st_mode}\n".encode("utf-8") + candidate.read_bytes()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _git_records(output: str) -> list[str]:
+    if "\0" in output:
+        return [item for item in output.split("\0") if item]
+    return [line for line in output.splitlines() if line]
 
 
 def _raw_worktree_changes() -> dict[str, str]:
     changes: dict[str, str] = {}
     if current_head():
-        result = run_git(["diff", "--name-status", "HEAD"])
+        result = run_git(["diff", "--name-status", "-z", "HEAD"])
         if result.returncode != 0:
             raise RuntimeError(result.stderr.strip())
         _merge_name_status(changes, result.stdout)
-    untracked = run_git(["ls-files", "--others", "--exclude-standard"])
+    untracked = run_git(["ls-files", "--others", "--exclude-standard", "-z"])
     if untracked.returncode != 0:
         raise RuntimeError(untracked.stderr.strip())
-    for path in untracked.stdout.splitlines():
-        if path.strip():
-            changes[path.strip()] = "A"
+    for path in _git_records(untracked.stdout):
+        changes[path.strip()] = "A"
     return changes
 
 
 def _merge_name_status(changes: dict[str, str], output: str) -> None:
-    for line in output.splitlines():
-        parts = line.split("\t")
-        if len(parts) < 2:
+    records = _git_records(output)
+    if records and "\t" in records[0]:
+        for line in records:
+            parts = line.split("\t")
+            if len(parts) < 2:
+                continue
+            status = parts[0]
+            if status.startswith(("R", "C")) and len(parts) >= 3:
+                changes[parts[1]] = "D" if status.startswith("R") else status
+                changes[parts[2]] = "A"
+            else:
+                changes[parts[-1]] = status
+        return
+
+    i = 0
+    while i < len(records):
+        status = records[i]
+        i += 1
+        if status.startswith(("R", "C")):
+            if i + 1 >= len(records):
+                break
+            old_path = records[i]
+            new_path = records[i + 1]
+            i += 2
+            changes[old_path] = "D" if status.startswith("R") else status
+            changes[new_path] = "A"
             continue
-        status = parts[0]
-        if status.startswith(("R", "C")) and len(parts) >= 3:
-            changes[parts[1]] = "D" if status.startswith("R") else status
-            changes[parts[2]] = "A"
-        else:
-            changes[parts[-1]] = status
+        if i >= len(records):
+            break
+        changes[records[i]] = status
+        i += 1
 
 
 def capture_dirty_baseline() -> list[dict[str, str]]:
@@ -113,7 +156,9 @@ def _baseline(contract: dict[str, Any] | None = None) -> tuple[str, list[dict[st
     data = contract if contract is not None else active_contract() or {}
     base = os.environ.get("AI_BASE_COMMIT", "").strip() or str(data.get("baseCommit", "")).strip()
     dirty = data.get("baselineDirtyPaths", [])
-    return base, [item for item in dirty if isinstance(item, dict)] if isinstance(dirty, list) else []
+    return base, [item for item in dirty if isinstance(item, dict)] if isinstance(
+        dirty, list
+    ) else []
 
 
 def changed_name_status(
@@ -127,12 +172,12 @@ def changed_name_status(
         if valid.returncode != 0:
             raise RuntimeError(f"baseCommit is not a valid commit: {base}")
         if head:
-            result = run_git(["diff", "--name-status", f"{base}...HEAD"])
+            result = run_git(["diff", "--name-status", "-z", f"{base}...HEAD"])
             if result.returncode != 0:
                 raise RuntimeError(result.stderr.strip())
             _merge_name_status(changes, result.stdout)
     elif head:
-        result = run_git(["diff", "--name-status", "HEAD"])
+        result = run_git(["diff", "--name-status", "-z", "HEAD"])
         if result.returncode != 0:
             raise RuntimeError(result.stderr.strip())
         _merge_name_status(changes, result.stdout)
@@ -145,11 +190,15 @@ def changed_name_status(
             if path_fingerprint(path) == fingerprint:
                 changes.pop(path, None)
             elif path not in changes:
-                changes[path] = "D" if not (PROJECT_ROOT / path).exists() else str(item.get("status", "M"))
+                changes[path] = (
+                    "D" if not (PROJECT_ROOT / path).exists() else str(item.get("status", "M"))
+                )
     return sorted((status, path) for path, status in changes.items())
 
 
-def changed_paths(contract: dict[str, Any] | None = None, *, ignore_baseline_dirty: bool = False) -> list[str]:
+def changed_paths(
+    contract: dict[str, Any] | None = None, *, ignore_baseline_dirty: bool = False
+) -> list[str]:
     return [
         path
         for _, path in changed_name_status(contract, ignore_baseline_dirty=ignore_baseline_dirty)
@@ -158,12 +207,46 @@ def changed_paths(contract: dict[str, Any] | None = None, *, ignore_baseline_dir
 
 def matches(pattern: str, path: str) -> bool:
     normalized = pattern.rstrip("/")
-    if normalized.endswith("/**"):
-        prefix = normalized[:-3]
-        return path == prefix or path.startswith(f"{prefix}/")
-    if any(ch in normalized for ch in "*?["):
-        return fnmatch.fnmatch(path, normalized)
-    return path == normalized
+    if not normalized:
+        return not path
+    pattern_parts = normalized.split("/")
+    path_parts = path.split("/")
+
+    def segment_match(pattern_index: int, path_index: int) -> bool:
+        while pattern_index < len(pattern_parts):
+            token = pattern_parts[pattern_index]
+            if token == "**":
+                if pattern_index == len(pattern_parts) - 1:
+                    return True
+                for candidate in range(path_index, len(path_parts) + 1):
+                    if segment_match(pattern_index + 1, candidate):
+                        return True
+                return False
+            if path_index >= len(path_parts):
+                return False
+            if not re.fullmatch(fnmatch_translate(token), path_parts[path_index]):
+                return False
+            pattern_index += 1
+            path_index += 1
+        return path_index == len(path_parts)
+
+    return segment_match(0, 0)
+
+
+def fnmatch_translate(pattern: str) -> str:
+    """Translate a single path segment glob into a regex string."""
+    translated: list[str] = []
+    i = 0
+    while i < len(pattern):
+        char = pattern[i]
+        if char == "*":
+            translated.append("[^/]*")
+        elif char == "?":
+            translated.append("[^/]")
+        else:
+            translated.append(re.escape(char))
+        i += 1
+    return "".join(translated)
 
 
 def included(path: str, patterns: list[str]) -> bool:
@@ -181,7 +264,9 @@ def parse_simple_manifest(path: Path) -> dict[str, dict[str, str]]:
     return manifest
 
 
-def first_match(path: str, manifest: dict[str, dict[str, str]]) -> tuple[str, dict[str, str]] | None:
+def first_match(
+    path: str, manifest: dict[str, dict[str, str]]
+) -> tuple[str, dict[str, str]] | None:
     found = [(pattern, data) for pattern, data in manifest.items() if matches(pattern, path)]
     if not found:
         return None
@@ -206,7 +291,9 @@ def parse_yaml(path: Path) -> dict[str, Any]:
 
         indent = len(raw_line) - len(raw_line.lstrip(" "))
         if indent % 2 != 0:
-            raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Indentation must be a multiple of 2 spaces.")
+            raise ValueError(
+                f"Syntax Error in {path.name}:{line_idx}: Indentation must be a multiple of 2 spaces."
+            )
 
         while len(stack) > 1 and stack[-1][0] >= indent:
             stack.pop()
@@ -215,12 +302,16 @@ def parse_yaml(path: Path) -> dict[str, Any]:
 
         if stripped.startswith("-"):
             if stripped != "-" and not stripped.startswith("- "):
-                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Invalid list item format.")
+                raise ValueError(
+                    f"Syntax Error in {path.name}:{line_idx}: Invalid list item format."
+                )
             val = stripped[1:].strip().strip('"')
 
             if isinstance(parent_container, dict):
                 if len(stack) < 2:
-                    raise ValueError(f"Syntax Error in {path.name}:{line_idx}: List item without a parent key.")
+                    raise ValueError(
+                        f"Syntax Error in {path.name}:{line_idx}: List item without a parent key."
+                    )
                 gp_container = stack[-2][2]
                 new_list: list[Any] = []
                 gp_container[parent_key] = new_list
@@ -228,18 +319,24 @@ def parse_yaml(path: Path) -> dict[str, Any]:
                 parent_container = new_list
 
             if not isinstance(parent_container, list):
-                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: List item at invalid indentation level.")
+                raise ValueError(
+                    f"Syntax Error in {path.name}:{line_idx}: List item at invalid indentation level."
+                )
             parent_container.append(val)
         else:
             if ":" not in stripped:
-                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Expected key-value pair or key ending in ':'.")
+                raise ValueError(
+                    f"Syntax Error in {path.name}:{line_idx}: Expected key-value pair or key ending in ':'."
+                )
 
             key, val = stripped.split(":", 1)
             key = key.strip().strip('"')
             val = val.strip().strip('"')
 
             if not isinstance(parent_container, dict):
-                raise ValueError(f"Syntax Error in {path.name}:{line_idx}: Cannot define key-value pair under a list.")
+                raise ValueError(
+                    f"Syntax Error in {path.name}:{line_idx}: Cannot define key-value pair under a list."
+                )
 
             if key in parent_container:
                 raise ValueError(f"Duplicate key in {path.name}:{line_idx}: {key}")
@@ -254,7 +351,9 @@ def parse_yaml(path: Path) -> dict[str, Any]:
     return root
 
 
-def _flatten_lists(obj: Any, prefix: str = "", result: dict[str, list[str]] | None = None) -> dict[str, list[str]]:
+def _flatten_lists(
+    obj: Any, prefix: str = "", result: dict[str, list[str]] | None = None
+) -> dict[str, list[str]]:
     if result is None:
         result = {}
     if isinstance(obj, dict):
@@ -267,7 +366,9 @@ def _flatten_lists(obj: Any, prefix: str = "", result: dict[str, list[str]] | No
     return result
 
 
-def _flatten_scalars(obj: Any, prefix: str = "", result: dict[str, str] | None = None) -> dict[str, str]:
+def _flatten_scalars(
+    obj: Any, prefix: str = "", result: dict[str, str] | None = None
+) -> dict[str, str]:
     if result is None:
         result = {}
     if isinstance(obj, dict):
@@ -324,11 +425,17 @@ def validate_scenario_coverage(values: Any, *, field_name: str = "scenarioCovera
         elif any(not non_empty_string(entry) for entry in evidence):
             issues.append(f"{prefix}.evidence must be a list of non-empty strings")
         if status == "verified" and isinstance(evidence, list) and not evidence:
-            issues.append(f"{prefix}.evidence must contain at least one item when status is verified")
+            issues.append(
+                f"{prefix}.evidence must contain at least one item when status is verified"
+            )
         if status == "not_applicable":
             if not non_empty_string(item.get("reason")):
                 issues.append(f"{prefix}.reason is required when status is not_applicable")
-        elif "reason" in item and item.get("reason") is not None and not isinstance(item.get("reason"), str):
+        elif (
+            "reason" in item
+            and item.get("reason") is not None
+            and not isinstance(item.get("reason"), str)
+        ):
             issues.append(f"{prefix}.reason must be a string when provided")
     return issues
 
@@ -362,7 +469,9 @@ def render_check_command(
     template = definition.get("commandTemplate") or definition.get("command")
     if not template:
         raise ValueError(f"registered check has no command: {check_id}")
-    command = template.replace("{contractPath}", contract_path).replace("{summaryPath}", summary_path)
+    command = template.replace("{contractPath}", contract_path).replace(
+        "{summaryPath}", summary_path
+    )
     argv = shlex.split(command)
     if not argv or Path(argv[0]).name not in {"make", "gmake"}:
         raise ValueError(f"registered check must invoke an explicit Make target: {check_id}")
@@ -394,10 +503,16 @@ def redact_sensitive_output(value: str) -> str:
         (r"\bAKIA[0-9A-Z]{16}\b", "[AWS_KEY_REDACTED]"),
         (r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b", "[GITHUB_TOKEN_REDACTED]"),
         (r"-----BEGIN [^-]+-----.*?-----END [^-]+-----", "[PRIVATE_KEY_REDACTED]"),
-        (r"(?i)\b(api[_-]?key|token|password|secret|credential)\b(\s*[:=]\s*)[^\s,;]+", r"\1\2[REDACTED]"),
+        (r"-" * 5 + r"BEGIN PRIVATE KEY" + r"-" * 5 + r".*\Z", "[PRIVATE_KEY_REDACTED]"),
+        (
+            r"(?i)\b(api[_-]?key|token|password|secret|credential)\b(\s*[:=]\s*)[^\s,;]+",
+            r"\1\2[REDACTED]",
+        ),
     ]
     for pattern, replacement in patterns:
-        redacted = re.sub(pattern, replacement, redacted, flags=re.DOTALL if "BEGIN" in pattern else 0)
+        redacted = re.sub(
+            pattern, replacement, redacted, flags=re.DOTALL if "BEGIN" in pattern else 0
+        )
     return redacted
 
 

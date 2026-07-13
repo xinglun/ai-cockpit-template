@@ -14,15 +14,17 @@ keywords:
 Use `--upgrade` when the target repository already contains AI Cockpit files and you want the managed runtime, policy, and marker files replaced in a controlled way.
 
 ```sh
-CURRENT_VERSION=v0.5.22
-TARGET_VERSION='<release-tag-newer-than-current>'
+CURRENT_VERSION="${CURRENT_VERSION:?set CURRENT_VERSION to the installed release tag}"
+TARGET_VERSION="${TARGET_VERSION:?set TARGET_VERSION to a newer release tag}"
 test "$TARGET_VERSION" != "$CURRENT_VERSION"
 INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
-curl -fsSL "https://raw.githubusercontent.com/xinglun/ai-cockpit-template/$TARGET_VERSION/install.sh" -o "$INSTALLER"
+curl -fsSL "${AI_COCKPIT_TEMPLATE_RAW_BASE:?set AI_COCKPIT_TEMPLATE_RAW_BASE to the matching raw-content base}/$TARGET_VERSION/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$TARGET_VERSION" \
   sh "$INSTALLER" --upgrade --stack rust
 ```
+
+Replace the example repository with the real release source for your installation. If you are upgrading a mirrored or private deployment, point the installer at that configured source instead of the public example.
 
 The installer rejects distribution or Contract-schema downgrades. Never set `TARGET_VERSION` lower than the version recorded in the installed `.ai/cockpit/version.json`.
 
@@ -42,4 +44,4 @@ Use [Distribution](distribution.md) for installer options and release capability
 
 New installations ship `.cursor/rules/ai-cockpit.mdc` with `alwaysApply: false`. Read-only investigation no longer forces a Work Item by default. Teams that want stricter enforcement can enable **Always Apply** in Cursor rule settings or set `alwaysApply: true` after reviewing local workflow impact.
 
-Existing installations keep their current rule file until you upgrade or merge the managed `.cursor` tree from a newer template release.
+Existing installations keep their current rule file until you upgrade or merge the managed `.cursor` tree from a newer AI Cockpit release.

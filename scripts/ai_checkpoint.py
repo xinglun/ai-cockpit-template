@@ -31,7 +31,11 @@ def verification_status(summary: dict[str, Any] | None) -> dict[str, str]:
         return {}
     statuses: dict[str, str] = {}
     for item in summary.get("verification", []):
-        if isinstance(item, dict) and verification_key(item) and isinstance(item.get("result"), str):
+        if (
+            isinstance(item, dict)
+            and verification_key(item)
+            and isinstance(item.get("result"), str)
+        ):
             statuses[verification_key(item)] = str(item["result"])
     return statuses
 
@@ -115,7 +119,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Print an AI Work Item checkpoint.")
     parser.add_argument("--contract", required=True)
     parser.add_argument("--summary")
-    parser.add_argument("--stage", default="manual", help="Checkpoint stage, for example before_edit or before_finish.")
+    parser.add_argument(
+        "--stage",
+        default="manual",
+        help="Checkpoint stage, for example before_edit or before_finish.",
+    )
     return parser.parse_args()
 
 
@@ -123,7 +131,9 @@ def main() -> int:
     args = parse_args()
     try:
         contract = load_json(Path(args.contract))
-        summary = load_json(Path(args.summary)) if args.summary and Path(args.summary).exists() else None
+        summary = (
+            load_json(Path(args.summary)) if args.summary and Path(args.summary).exists() else None
+        )
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Failed to load checkpoint inputs: {exc}", file=sys.stderr)
         return 1
@@ -135,7 +145,9 @@ def main() -> int:
     print(f"- Mode: `{contract.get('mode', '')}`")
     print(f"- notCodable: `{contract.get('notCodable')}`")
     print(f"- Execution Decision: `{contract.get('executionDecision', {}).get('status', '')}`")
-    acceptance = contract.get("acceptance", []) if isinstance(contract.get("acceptance"), list) else []
+    acceptance = (
+        contract.get("acceptance", []) if isinstance(contract.get("acceptance"), list) else []
+    )
     unknowns = contract.get("unknowns", []) if isinstance(contract.get("unknowns"), list) else []
     required = required_verification(contract)
     status = verification_status(summary)
@@ -146,8 +158,13 @@ def main() -> int:
     print(f"- Required Checks Passed: `{len(passed_required)}`")
 
     print_list("Intent Context", intent_context(contract))
-    print_list("Scope", contract.get("scope", []) if isinstance(contract.get("scope"), list) else [])
-    print_list("Out Of Scope", contract.get("outOfScope", []) if isinstance(contract.get("outOfScope"), list) else [])
+    print_list(
+        "Scope", contract.get("scope", []) if isinstance(contract.get("scope"), list) else []
+    )
+    print_list(
+        "Out Of Scope",
+        contract.get("outOfScope", []) if isinstance(contract.get("outOfScope"), list) else [],
+    )
     print_list("Unknowns", unknowns)
     print_list("Acceptance", acceptance)
 

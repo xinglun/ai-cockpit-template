@@ -12,7 +12,7 @@ keywords:
 
 # V2 Implementation Plan
 
-This document defines the incremental implementation phases for AI Cockpit V2: Intent-aware Development.
+This document records the incremental implementation phases for AI Cockpit V2: Intent-aware Development.
 
 ## Overview
 
@@ -29,7 +29,7 @@ V2 introduces Intent as a first-class governance object. The implementation is d
 - Update `.ai/glossary.md` with Intent-related terminology
 - Create this implementation plan document
 
-**Goal**: Establish clear architectural foundation before any implementation work.
+**Goal**: Establish a clear architectural foundation before implementation work.
 
 **Key Deliverables**:
 - Four design principles clearly documented: Model Agnostic, Stable Schema, Governance Over Workflow, Intent-driven Development
@@ -113,7 +113,7 @@ V2 introduces Intent as a first-class governance object. The implementation is d
 - Update examples to demonstrate intent usage patterns
 - Add steering guidance for agents to leverage intent fields naturally
 
-**Goal**: Make intent fields easily discoverable and naturally usable by AI agents.
+**Goal**: Make intent fields easy to discover and naturally usable by AI agents.
 
 **Key Deliverables**:
 - Contract template shows clear intent field examples
@@ -139,7 +139,7 @@ Each phase is validated independently:
 
 1. **Phase 1 (Documentation)**: Manual review for clarity, consistency, and accuracy
 2. **Phase 2 (Schema)**: Automated validator tests with intent fields present/missing/null
-3. **Phase 3 (Summary)**: Automated validator tests for intentAlignment section
+3. **Phase 3 (Summary)**: Automated validator tests for the intentAlignment section
 4. **Phase 4 (Integration)**: End-to-end workflow tests with intent-aware Contracts
 
 All phases must preserve backward compatibility. Existing V1 Contracts and workflows continue to function without modification.

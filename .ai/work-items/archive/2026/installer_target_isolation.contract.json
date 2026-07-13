@@ -1,0 +1,254 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installer_target_isolation",
+  "mode": "code",
+  "title": "Isolate installer validation to target repo",
+  "baseCommit": "4a157f9e3299bd141892df81e3efe8154564d351",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "1eb44b1d2706882cdaa1e320143325e258a3fcaedbecbce1cfd79ec07381abb7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.contract.json",
+      "status": "A",
+      "fingerprint": "fcd299a5c6eb3d1004dffcc415b2b73ca7d74d196ac9429c1a0d46cd9a80abda"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.summary.json",
+      "status": "A",
+      "fingerprint": "7be70ca3497004375e96b6ef7c2b78f347137466fefaea19e455c6b9f68ee9c2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.contract.json",
+      "status": "A",
+      "fingerprint": "d0ec0a70f27d5c81805f2bc7b2b4f58d4b8d2f1c420fa2d0e43cfb4c4e31fe0d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.summary.json",
+      "status": "A",
+      "fingerprint": "7c9fdc61c7f5ca48d2fcd26c8b5dd9d5c1d8cfb9572d31a3d3bc0f5b5dcb7d0a"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "97810e39611f2fcb68a4492fe2e19397a79a61e029ba0210644b4e4e8b3672aa"
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "status": "M",
+      "fingerprint": "8cd76c921d635cda2dd374c80e9b6dc039030b3362350f77e4a60fbf991d0ae2"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "06e9f22c2b9224afef279df12ad65579e031048897386dee9c67e499d16d7a84"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "f9f51ea7293cf7a0d8f4bf4a0a69f736ab56d6c3b0a3164f9a2a84c2b22e4d63"
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "status": "M",
+      "fingerprint": "c45da7d23de9ab43b36437e1b43fbed90d3bb2b1f1861143c0ee14b432e9f1f3"
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "1e5d39411b61d1568d73c6a5dce617587b7e6e1c9b57f47d1302af3cb5e0d172"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "6fc6758454432d3c41cf100501427ab5c8700b078f367c830641454881eb6e0e"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "4e5e8a819c3c8b8d7a1e9a90d7f55f7c7f7ddf73d8c2b0c2c8e3ce0c84d5a1d6"
+    }
+  ],
+  "scope": [
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer.py",
+    "scripts/ai_start.py",
+    "tests/test_start_and_archive.py",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/installer_target_isolation.contract.json",
+    ".ai/work-items/active/installer_target_isolation.summary.json"
+  ],
+  "outOfScope": [
+    "Release distribution checks",
+    "Active Work Item lifecycle behavior",
+    "Non-installer governance scripts"
+  ],
+  "sources": [
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Installer validation still imports target scripts broadly and generates the initial status through source-repo context."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Existing installer regression coverage is the right place to verify target-repo isolation."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "The initial no-active status helper currently derives worktree evidence from the module's repository root."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "scenarioCoverage": [
+    {
+      "scenario": "installer ignores host repo ai_*.py files that are not template-managed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_installer.py"
+      ]
+    },
+    {
+      "scenario": "initial no-active status is generated from the target repository context",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_installer.py"
+      ]
+    },
+    {
+      "scenario": "normal installation still writes the managed installer files",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_installer.py"
+      ]
+    }
+  ],
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "installer",
+      "governance_state"
+    ],
+    "reason": "The change only narrows installer validation and fixes status generation context, both with direct regression tests."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The installer isolation fix is narrow and can be validated locally."
+  },
+  "preReviewWarnings": [
+    "Verify installer validation does not execute host repo scripts and that the initial status reflects the target repository."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record checkpoints so installer validation and status generation changes stay visible during the fix."
+  },
+  "acceptance": [
+    "Installer validation ignores non-template host scripts under scripts/ai_*.py.",
+    "Initial no-active status is derived from the target repository, not the source template repository.",
+    "Regression tests cover both installer isolation behaviors."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The installer still imports every target scripts/ai_*.py module during validation and can generate the initial no-active status from the source template repository context.",
+    "constraints": [
+      "Do not execute host-specific scripts while validating the installed managed runtime.",
+      "Generate the initial no-active status using the target repository's Git state."
+    ],
+    "rationale": "Installer verification must stay inside the managed template boundary and must record the target repo's own adoption state."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

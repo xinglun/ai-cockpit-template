@@ -50,7 +50,7 @@ MESSAGES = {
         "ci_missing": "Configure CI for make ai-cockpit-quality and make check-ai-pr",
         "ci_detected": "CI configuration detected; verify merge-base wiring for check-ai-pr",
         "done": "Adoption onboarding complete. Start governed development with:",
-        "done_cmd": "  make ai-start TASK=<task> TITLE=\"...\" MODE=code",
+        "done_cmd": '  make ai-start TASK=<task> TITLE="..." MODE=code',
         "remaining": "Remaining steps before production gates:",
         "remaining_steps": [
             "  1. Confirm .ai/project_profile.yaml",
@@ -84,7 +84,7 @@ MESSAGES = {
         "ci_missing": "make ai-cockpit-quality と make check-ai-pr 用の CI を設定してください",
         "ci_detected": "CI 設定を検出しました。check-ai-pr の merge-base 配線を確認してください",
         "done": "導入 onboarding が完了しました。ガバナンス開発を開始:",
-        "done_cmd": "  make ai-start TASK=<task> TITLE=\"...\" MODE=code",
+        "done_cmd": '  make ai-start TASK=<task> TITLE="..." MODE=code',
         "remaining": "本番ゲート前の残タスク:",
         "remaining_steps": [
             "  1. .ai/project_profile.yaml を確定する",
@@ -198,7 +198,15 @@ def phase_environment(root: Path, locale: str) -> int:
         print(f"[WARN] {item}")
     for item in failures:
         print(f"[FAIL] {item}")
-    print(msg(locale, "doctor_summary", passed=len(passed), warnings=len(warnings), failures=len(failures)))
+    print(
+        msg(
+            locale,
+            "doctor_summary",
+            passed=len(passed),
+            warnings=len(warnings),
+            failures=len(failures),
+        )
+    )
     code, output = run_make(root, "cockpit-doctor")
     if output.strip():
         print(output.rstrip())
@@ -285,7 +293,9 @@ def run_all(root: Path, locale: str, *, run_calibrate: bool, run_checks: bool) -
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=".", help="Repository root to inspect.")
-    parser.add_argument("--phase", type=int, choices=(1, 2, 3), help="Run a single onboarding phase.")
+    parser.add_argument(
+        "--phase", type=int, choices=(1, 2, 3), help="Run a single onboarding phase."
+    )
     parser.add_argument(
         "--locale",
         choices=("en", "ja"),

@@ -1,0 +1,415 @@
+{
+  "contractVersion": 2,
+  "workItemId": "pr_archive_owner_order_determinism",
+  "mode": "code",
+  "title": "Deterministic PR archive owner order",
+  "baseCommit": "4a157f9e3299bd141892df81e3efe8154564d351",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "status": "M",
+      "fingerprint": "2abeaaf733e189e38e07210a0e5f2b675171a1e472e0f49991a1415d84086eaa"
+    },
+    {
+      "path": "README.ja.md",
+      "status": "M",
+      "fingerprint": "5d5e3b74bcd7000fa8446b0668a1d3bb1bc34e147203dcc0c79e3a9fa2d21adb"
+    },
+    {
+      "path": "README.md",
+      "status": "M",
+      "fingerprint": "78a7c1a34203e2804128dc83b412656a0c3697705a877bf33ebea5e1abcdb6c9"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "status": "M",
+      "fingerprint": "dbb097aff2173daf8fdd0040d67fdf8a500915741b26f7f4da7216b7233f15f0"
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "status": "M",
+      "fingerprint": "b16fd7b2e25ec01f89f499c85726c9b84251a55035d01c4856c4f3f150146448"
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "status": "M",
+      "fingerprint": "1211069b7529b77337fcae83162fe56f6a459aabecb2cb65915319f2c5d636cb"
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "cfacd9537dcc7a1d28216aca1cda18d1d4e307c64d7bdb4921528d35e19c8838"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "97810e39611f2fcb68a4492fe2e19397a79a61e029ba0210644b4e4e8b3672aa"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "status": "M",
+      "fingerprint": "34a88d44296295897990387aa6fb98813f913d526ac029cf9b0903daf7a6946b"
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "status": "M",
+      "fingerprint": "8cd76c921d635cda2dd374c80e9b6dc039030b3362350f77e4a60fbf991d0ae2"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "7a7d1e713b931c33a2fd51c1330aee4376522becb0536d55a86a876f6ea5e93e"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "569326e44e56f598d8956423a9d1b7be2de2ba8e3745ff4d6b61c32ac62e3901"
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "status": "M",
+      "fingerprint": "95c434958152854dbc4187e276b31e30b4469987fef09c54522fdf1092658a03"
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "status": "M",
+      "fingerprint": "46f5eaf7dfcf702ad4c148b537b5031a58cda4aeef81e8f35903a32e4c1edebc"
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "status": "M",
+      "fingerprint": "04f3e813a1daecc0a8b5f8b3ed3452174cffe09f8e5bcaa75ceae31cd79d6515"
+    },
+    {
+      "path": "tests/test_ai_check_summary.py",
+      "status": "M",
+      "fingerprint": "919fa4faf9645ca5ecf0686e74f227085c8a8af524c01b21f3c7c4eb71baad07"
+    },
+    {
+      "path": "tests/test_baseline_diff.py",
+      "status": "M",
+      "fingerprint": "c45da7d23de9ab43b36437e1b43fbed90d3bb2b1f1861143c0ee14b432e9f1f3"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "cb437f7c703afe26e6ffa2589791b9b90a75de218bddb6923db238c09eb65c18"
+    },
+    {
+      "path": "tests/test_installer.py",
+      "status": "M",
+      "fingerprint": "74b3f13ce26e8df42d4f11423fa0c6c930273f8a33a9ed3f25578eda6a464d47"
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "status": "M",
+      "fingerprint": "2e85d12672176b965eac9ecb440198ade4d34a257d9c97c66a4f89a71498607e"
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "status": "M",
+      "fingerprint": "b395cbbca9fec3fe982ad970e948a4bb2d4f2d39597a894c43ecca5c75f07d40"
+    },
+    {
+      "path": "tests/test_verification_evidence.py",
+      "status": "M",
+      "fingerprint": "0fac9e48551a0dccfb69662620d3208ee9552273d3fa016b8e6ea723a01ced9e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_ready_template_exemption_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "8ff997418b4115c78d3d220ce7e72566962ce04ddb5baf5e73bdce975652ade7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_ready_template_exemption_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "cfefebc4142ea304ac02b67bcb5c17b6d3f64006e979ff19c79223214e66112d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_requires_validation_before_move.contract.json",
+      "status": "A",
+      "fingerprint": "da9201528dc2a453ac0b0c2da034f8b74ef452e3e6fd71dabc89a7e927e8d227"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_requires_validation_before_move.summary.json",
+      "status": "A",
+      "fingerprint": "5daea7b6197eddd4400962ededde8075e8ce61d0b724ee87c53e797ee58374a8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_work_item_integrity.contract.json",
+      "status": "A",
+      "fingerprint": "bf14fbf171f6bc2b8b7e6f02215ab70f6f7d627c7947f04a04b7d89beb27ba7c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_work_item_integrity.summary.json",
+      "status": "A",
+      "fingerprint": "ca64aa200ef03547969a7c244398d99541e5475d53b2a12f5fef69eaf596fcf4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff_ownership_forbidden_boundary_fix.contract.json",
+      "status": "A",
+      "fingerprint": "d2c8adab102fb5844faed72a0fdecd5eacf1e5ba64b6f82b25d2339da925628e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/diff_ownership_forbidden_boundary_fix.summary.json",
+      "status": "A",
+      "fingerprint": "78cb4ddf25d95ffd8565f8fe67fcd618feac326e1a99e99424cb901fd0496dd0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_output_redaction_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "8864d0037eae1e253cb247313a64b76ac97c5df108898c4070221cf0872e0b7e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/finish_output_redaction_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "fef3e470fe0b05458f457abb928fc803c37a33c81d9edd66abae6f3361611a05"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_target_isolation.contract.json",
+      "status": "A",
+      "fingerprint": "9f3bfe5cec7c6b774c76bb504bbd8f838fe209f2876ddba989fce1f3eecb94ec"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installer_target_isolation.summary.json",
+      "status": "A",
+      "fingerprint": "38cfac5b4daaadbb0e7181cab9be3c1cb26302c3c1fd873e8554869cfc728741"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.contract.json",
+      "status": "A",
+      "fingerprint": "fcd299a5c6eb3d1004dffcc415b2b73ca7d74d196ac9429c1a0d46cd9a80abda"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/path_matching_and_baseline_fingerprint.summary.json",
+      "status": "A",
+      "fingerprint": "7be70ca3497004375e96b6ef7c2b78f347137466fefaea19e455c6b9f68ee9c2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_determinism.contract.json",
+      "status": "A",
+      "fingerprint": "e3ab1f43b7c2bb1822882858e9d705854d7552472b4925ed67fd9fe4cb6b17e4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_determinism.summary.json",
+      "status": "A",
+      "fingerprint": "57296c10274ba68d0ee4dbb177d99bac9aaf59bcaeab7a13633df9b08e0cfad4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_anonymous_check_hardening.contract.json",
+      "status": "A",
+      "fingerprint": "d0cc8ce5614814ef3de71d540e00db62bff9aac8cc832fbbe879ce197a21a849"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_distribution_anonymous_check_hardening.summary.json",
+      "status": "A",
+      "fingerprint": "6ae1feb063f607538fa94e4581fe82fe1ab75224957915134337725222d53800"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.contract.json",
+      "status": "A",
+      "fingerprint": "1ae6fa53e960ba71b6838f37140db9e56ed68ebeb5dec68f491c6b7e0334808e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/single_active_work_item_guard.summary.json",
+      "status": "A",
+      "fingerprint": "3bf558f3867880db1628177fd908f127da8bb1bb4bf44e3d08649254ae5a9690"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_ownership_reconciliation.contract.json",
+      "status": "A",
+      "fingerprint": "54ce242661bedc87e6e57dd8b522648628ae34211f20377526a90d41293f287b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/status_ownership_reconciliation.summary.json",
+      "status": "A",
+      "fingerprint": "ad4250ace9b3260af2023ab3ad13e54a5d20c0b5268e1d8175fa1388dba1715b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/summary_filename_workitem_consistency.contract.json",
+      "status": "A",
+      "fingerprint": "afa6dbab07cebc501ec085a502ed2f870683566b63137a3921aaf24ac238bbdb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/summary_filename_workitem_consistency.summary.json",
+      "status": "A",
+      "fingerprint": "7a27f8155a165b5a8808f78b9169b6d1caee4a868f68e51719ba3f28522c15e5"
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "status": "A",
+      "fingerprint": "2094bac0e0370f65d57e2b8dc336207b26c426006432f712b4727967dd0e03a7"
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "status": "A",
+      "fingerprint": "1e5d39411b61d1568d73c6a5dce617587b7e6e1c9b57f47d1302af3cb5e0d172"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/pr_archive_owner_order_determinism.contract.json",
+    ".ai/work-items/active/pr_archive_owner_order_determinism.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_pr.py",
+    "tests/test_pr_aggregate.py"
+  ],
+  "outOfScope": [
+    "Other archive validation rules",
+    "Diff Ownership classification"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Determines how overlapping archived Work Item claims are resolved for PR validation."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Holds regression coverage for archive claim resolution and PR ownership validation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "determinism"
+    ],
+    "reason": "Using input order to resolve overlapping archive claims makes PR validation depend on incidental discovery order."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The fix is localized to archive-claim selection logic and PR aggregate tests."
+  },
+  "preReviewWarnings": [
+    "PR aggregate validation should resolve overlapping archive claims by deterministic recency instead of input order."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_finish"
+    ],
+    "reason": "Capture a finish checkpoint after the PR archive owner ordering fix."
+  },
+  "acceptance": [
+    "PR archive validation resolves overlapping archive claims deterministically from archive recency, not path order.",
+    "A newer unapproved archive claim can override an older approved one when both cover the same path.",
+    "Regression tests cover deterministic recency selection and the existing append-only rules remain intact."
+  ],
+  "guidelines": [
+    "Keep the change localized to PR archive claim resolution and tests.",
+    "Do not weaken append-only or ownership validation rules."
+  ],
+  "intent": {
+    "problem": "PR archive validation currently picks the effective overlapping archive claim from input order, which can vary with discovery order and misstate approval coverage.",
+    "constraints": [
+      "Keep append-only and summary validation behavior unchanged.",
+      "Resolve overlapping archive claims deterministically.",
+      "Preserve the existing ownership and approval rules."
+    ],
+    "rationale": "Archive validation should not change because of incidental path ordering."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "newer archive claim wins over older overlapping claim",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_check_pr.py",
+        "tests/test_pr_aggregate.py"
+      ]
+    },
+    {
+      "scenario": "append-only archive rules still reject modified evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_check_pr.py",
+        "tests/test_pr_aggregate.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

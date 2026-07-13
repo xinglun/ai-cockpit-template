@@ -1,11 +1,17 @@
 import importlib
 import os
+import json
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
 import check_release_distribution as release_distribution
-from check_release_distribution import exercise_installer, exercise_public_distribution, highest_semver_tag
+from check_release_distribution import (
+    exercise_installer,
+    exercise_public_distribution,
+    highest_semver_tag,
+)
 
 
 IGNORES_SHA = b"""#!/bin/sh
@@ -74,7 +80,9 @@ def test_exercise_public_distribution_validates_documented_journey():
     exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="quality")
 
 
-def test_exercise_public_distribution_ignores_hostile_ambient_git_environment(tmp_path, monkeypatch):
+def test_exercise_public_distribution_ignores_hostile_ambient_git_environment(
+    tmp_path, monkeypatch
+):
     parent_git = tmp_path / "parent.git"
     parent_git.mkdir()
     for key, value in {
@@ -95,18 +103,123 @@ def test_exercise_public_distribution_ignores_hostile_ambient_git_environment(tm
     assert os.environ["AI_BASE_COMMIT"] == "f" * 40
 
 
+def test_release_network_commands_strip_ambient_git_auth(monkeypatch, tmp_path):
+    monkeypatch.setenv("GITHUB_TOKEN", "token")
+    monkeypatch.setenv("GH_TOKEN", "token")
+    monkeypatch.setenv("GIT_ASKPASS", "askpass")
+    monkeypatch.setenv("SSH_ASKPASS", "ssh-askpass")
+    monkeypatch.setenv("SSH_AUTH_SOCK", "/tmp/agent.sock")
+    monkeypatch.setenv("GIT_CONFIG_GLOBAL", "/tmp/global.gitconfig")
+    monkeypatch.setenv("GIT_CONFIG_SYSTEM", "/tmp/system.gitconfig")
+    seen: list[tuple[list[str], dict[str, str] | None]] = []
+
+    def fake_run_command(command, *, cwd, env=None):
+        seen.append((command, env))
+        if command[:5] == ["git", "-c", "credential.helper=", "-c", "http.extraHeader="]:
+            if command[5] != "-c" or command[6] != "core.askPass=":
+                raise AssertionError(f"unexpected git hardening prefix: {command!r}")
+            if command[7] == "ls-remote":
+                return SimpleNamespace(returncode=0, stdout="a refs/tags/v0.5.22\n", stderr="")
+            if command[7] == "clone":
+                repo = Path(command[-1])
+                repo.mkdir(parents=True, exist_ok=True)
+                (repo / "install.sh").parent.mkdir(parents=True, exist_ok=True)
+                (repo / "install.sh").write_bytes(b"#!/bin/sh\nexit 0\n")
+                return SimpleNamespace(returncode=0, stdout="", stderr="")
+        raise AssertionError(f"unexpected command: {command!r}")
+
+    monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
+    assert (
+        release_distribution.list_remote_tags("https://github.com/xinglun/ai-cockpit-template.git")
+        == "a refs/tags/v0.5.22\n"
+    )
+    assert release_distribution.fetch_tagged_installer("v0.5.22") == b"#!/bin/sh\nexit 0\n"
+
+    commands = [command for command, _env in seen]
+    assert commands[0][:7] == [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "core.askPass=",
+    ]
+    assert commands[1][:7] == [
+        "git",
+        "-c",
+        "credential.helper=",
+        "-c",
+        "http.extraHeader=",
+        "-c",
+        "core.askPass=",
+    ]
+
+    for _command, env in seen:
+        assert env is not None
+        assert env["GIT_CONFIG_NOSYSTEM"] == "1"
+        assert env["GIT_TERMINAL_PROMPT"] == "0"
+        assert env["GIT_CONFIG_GLOBAL"] == os.devnull
+        assert env["GIT_CONFIG_SYSTEM"] == os.devnull
+        for key in ("GITHUB_TOKEN", "GH_TOKEN", "GIT_ASKPASS", "SSH_ASKPASS", "SSH_AUTH_SOCK"):
+            assert key not in env
+
+
+def test_release_json_supply_chain_matches_repository_files():
+    metadata = json.loads(release_distribution.RELEASE.read_text(encoding="utf-8"))
+    assert release_distribution.supply_chain_issues(metadata) == []
+
+
+def test_release_distribution_fails_closed_on_supply_chain_drift(monkeypatch, tmp_path, capsys):
+    release_json = tmp_path / "release.json"
+    release_json.write_text(
+        json.dumps(
+            {
+                "releaseTag": "v0.5.22",
+                "publicContract": {"projectQualityTarget": "quality"},
+                "capabilities": {"sha256ArchiveVerification": True},
+                "supplyChain": {
+                    "requirementsLockDigest": "0" * 64,
+                    "sbomDigest": "0" * 64,
+                    "provenanceDigest": "0" * 64,
+                    "secretScanning": False,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(release_distribution, "RELEASE", release_json)
+
+    def fail_if_called(*_args, **_kwargs):
+        raise AssertionError(
+            "public network call must not happen when supply chain evidence is invalid"
+        )
+
+    monkeypatch.setattr(release_distribution, "list_remote_tags", fail_if_called)
+    monkeypatch.setattr(release_distribution, "fetch_tagged_installer", fail_if_called)
+
+    assert release_distribution.main() == 1
+    assert "supplyChain" in capsys.readouterr().err
+
+
 def test_exercise_public_distribution_rejects_missing_documented_target():
     with pytest.raises(RuntimeError, match="documented Make target is missing"):
-        exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="ai-cockpit-quality")
+        exercise_public_distribution(
+            PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="ai-cockpit-quality"
+        )
 
 
 def test_exercise_public_distribution_rejects_invalid_target():
     with pytest.raises(RuntimeError, match="invalid public quality target"):
-        exercise_public_distribution(PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="--version")
+        exercise_public_distribution(
+            PUBLIC_CONTRACT_FIXTURE, tag="v-test", quality_target="--version"
+        )
 
 
 def test_public_repository_override_is_honored(monkeypatch):
-    monkeypatch.setenv("AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY", "https://example.invalid/private.git")
+    monkeypatch.setenv(
+        "AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY", "https://example.invalid/private.git"
+    )
     try:
         reloaded = importlib.reload(release_distribution)
         assert reloaded.PUBLIC_REPOSITORY == "https://example.invalid/private.git"
@@ -121,12 +234,29 @@ def test_list_remote_tags_runs_outside_repo_root(monkeypatch):
     def fake_run_command(command, *, cwd, env=None):
         seen["command"] = command
         seen["cwd"] = cwd
-        if command == ["git", "ls-remote", "--tags", "--refs", "https://github.com/xinglun/ai-cockpit-template.git"]:
-            return SimpleNamespace(returncode=0, stdout="a refs/tags/v0.5.22\n", stderr="")
+        if command[:7] == [
+            "git",
+            "-c",
+            "credential.helper=",
+            "-c",
+            "http.extraHeader=",
+            "-c",
+            "core.askPass=",
+        ]:
+            if command[7:] == [
+                "ls-remote",
+                "--tags",
+                "--refs",
+                "https://github.com/xinglun/ai-cockpit-template.git",
+            ]:
+                return SimpleNamespace(returncode=0, stdout="a refs/tags/v0.5.22\n", stderr="")
         raise AssertionError(f"unexpected command: {command!r}")
 
     monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
-    assert release_distribution.list_remote_tags("https://github.com/xinglun/ai-cockpit-template.git") == "a refs/tags/v0.5.22\n"
+    assert (
+        release_distribution.list_remote_tags("https://github.com/xinglun/ai-cockpit-template.git")
+        == "a refs/tags/v0.5.22\n"
+    )
     assert seen["cwd"] != release_distribution.ROOT
 
 
@@ -136,21 +266,29 @@ def test_fetch_tagged_installer_uses_plain_git_without_checkout_auth(monkeypatch
     def fake_run_command(command, *, cwd, env=None):
         seen["command"] = command
         seen["cwd"] = cwd
-        if command == [
+        if command[:7] == [
             "git",
-            "clone",
-            "--depth",
-            "1",
-            "--branch",
-            "v0.5.22",
-            "--single-branch",
-            release_distribution.PUBLIC_REPOSITORY,
-            str(cwd / "repo"),
+            "-c",
+            "credential.helper=",
+            "-c",
+            "http.extraHeader=",
+            "-c",
+            "core.askPass=",
         ]:
-            installer = cwd / "repo" / "install.sh"
-            installer.parent.mkdir(parents=True, exist_ok=True)
-            installer.write_bytes(b"#!/bin/sh\nexit 0\n")
-            return SimpleNamespace(returncode=0, stdout="", stderr="")
+            if command[7:] == [
+                "clone",
+                "--depth",
+                "1",
+                "--branch",
+                "v0.5.22",
+                "--single-branch",
+                release_distribution.PUBLIC_REPOSITORY,
+                str(cwd / "repo"),
+            ]:
+                installer = cwd / "repo" / "install.sh"
+                installer.parent.mkdir(parents=True, exist_ok=True)
+                installer.write_bytes(b"#!/bin/sh\nexit 0\n")
+                return SimpleNamespace(returncode=0, stdout="", stderr="")
         raise AssertionError(f"unexpected command: {command!r}")
 
     monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
@@ -160,11 +298,13 @@ def test_fetch_tagged_installer_uses_plain_git_without_checkout_auth(monkeypatch
 
 
 def test_highest_semver_tag_uses_numeric_version_order():
-    refs = "\n".join([
-        "a refs/tags/v0.5.9",
-        "b refs/tags/v0.5.10",
-        "c refs/tags/not-a-release",
-    ])
+    refs = "\n".join(
+        [
+            "a refs/tags/v0.5.9",
+            "b refs/tags/v0.5.10",
+            "c refs/tags/not-a-release",
+        ]
+    )
     assert highest_semver_tag(refs) == "v0.5.10"
 
 

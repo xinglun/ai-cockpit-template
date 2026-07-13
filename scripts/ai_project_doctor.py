@@ -26,19 +26,28 @@ LANGUAGE_SIGNALS = {
 }
 BUILD_SIGNALS = {
     "gradle": ("build.gradle", "build.gradle.kts", "gradlew"),
-    "maven": ("pom.xml",), "flutter": ("pubspec.yaml",), "npm": ("package.json",),
-    "python-packaging": ("pyproject.toml", "setup.py"), "cargo": ("Cargo.toml",),
-    "go-modules": ("go.mod",), "bundler": ("Gemfile",), "composer": ("composer.json",),
-    "dotnet": ("**/*.sln", "**/*.csproj"), "swift-package-manager": ("Package.swift",),
+    "maven": ("pom.xml",),
+    "flutter": ("pubspec.yaml",),
+    "npm": ("package.json",),
+    "python-packaging": ("pyproject.toml", "setup.py"),
+    "cargo": ("Cargo.toml",),
+    "go-modules": ("go.mod",),
+    "bundler": ("Gemfile",),
+    "composer": ("composer.json",),
+    "dotnet": ("**/*.sln", "**/*.csproj"),
+    "swift-package-manager": ("Package.swift",),
     "cocoapods": ("Podfile",),
     "xcode-project": ("*.xcodeproj",),
     "xcode-workspace": ("*.xcworkspace",),
 }
 INFRA_SIGNALS = {
     "github-actions": (".github/workflows/*.yml", ".github/workflows/*.yaml"),
-    "gitlab-ci": (".gitlab-ci.yml",), "docker": ("Dockerfile", "docker-compose.yml", "compose.yaml"),
-    "kubernetes": ("k8s/**", "kubernetes/**", "helm/**"), "terraform": ("**/*.tf",),
-    "fastlane": ("fastlane/Fastfile",), "database-migrations": ("migrations/**", "db/migrate/**"),
+    "gitlab-ci": (".gitlab-ci.yml",),
+    "docker": ("Dockerfile", "docker-compose.yml", "compose.yaml"),
+    "kubernetes": ("k8s/**", "kubernetes/**", "helm/**"),
+    "terraform": ("**/*.tf",),
+    "fastlane": ("fastlane/Fastfile",),
+    "database-migrations": ("migrations/**", "db/migrate/**"),
     "code-generation": ("build_runner.yaml", "openapi.yaml", "**/*.g.dart", "**/*.generated.*"),
 }
 STATE_MANAGEMENT_TERMS = ("riverpod", "provider", "flutter_bloc", "bloc", "redux", "mobx")
@@ -47,10 +56,7 @@ NATIVE_ROOTS = ("android", "ios", "macos", "windows", "linux")
 
 def first_evidence(root: Path, patterns: tuple[str, ...]) -> str | None:
     for pattern in patterns:
-        matches = sorted(
-            path for path in root.glob(pattern)
-            if path.is_file() or path.is_dir()
-        )
+        matches = sorted(path for path in root.glob(pattern) if path.is_file() or path.is_dir())
         if matches:
             return matches[0].relative_to(root).as_posix()
     return None
@@ -69,13 +75,21 @@ def framework_findings(root: Path) -> list[dict[str, str]]:
     result: list[dict[str, str]] = []
     pubspec = root / "pubspec.yaml"
     if pubspec.is_file() and "flutter:" in pubspec.read_text(encoding="utf-8", errors="ignore"):
-        result.append({"value": "flutter", "confidence": "high", "evidence": "pubspec.yaml:flutter"})
+        result.append(
+            {"value": "flutter", "confidence": "high", "evidence": "pubspec.yaml:flutter"}
+        )
     for build in (root / "build.gradle", root / "build.gradle.kts", root / "pom.xml"):
-        if build.is_file() and "spring" in build.read_text(encoding="utf-8", errors="ignore").lower():
+        if (
+            build.is_file()
+            and "spring" in build.read_text(encoding="utf-8", errors="ignore").lower()
+        ):
             result.append({"value": "spring-boot", "confidence": "high", "evidence": build.name})
             break
     gemfile = root / "Gemfile"
-    if gemfile.is_file() and "rails" in gemfile.read_text(encoding="utf-8", errors="ignore").lower():
+    if (
+        gemfile.is_file()
+        and "rails" in gemfile.read_text(encoding="utf-8", errors="ignore").lower()
+    ):
         result.append({"value": "rails", "confidence": "high", "evidence": "Gemfile"})
     pyproject_text = ""
     for path in (root / "pyproject.toml", root / "requirements.txt"):
@@ -83,7 +97,9 @@ def framework_findings(root: Path) -> list[dict[str, str]]:
             pyproject_text += path.read_text(encoding="utf-8", errors="ignore").lower()
     for name in ("django", "fastapi", "pytorch", "tensorflow"):
         if name in pyproject_text:
-            result.append({"value": name, "confidence": "medium", "evidence": "Python dependency manifest"})
+            result.append(
+                {"value": name, "confidence": "medium", "evidence": "Python dependency manifest"}
+            )
     return result
 
 
@@ -92,7 +108,9 @@ def directory_candidates(root: Path, names: tuple[str, ...], kind: str) -> list[
     for name in names:
         path = root / name
         if path.exists():
-            result.append({"path": f"{name}/**", "kind": kind, "confidence": "medium", "evidence": name})
+            result.append(
+                {"path": f"{name}/**", "kind": kind, "confidence": "medium", "evidence": name}
+            )
     return result
 
 
@@ -165,7 +183,9 @@ def merge_boundary_candidates(*groups: list[dict[str, str]]) -> list[dict[str, s
     return merged
 
 
-def project_signals(root: Path, infrastructure: list[dict[str, str]]) -> dict[str, list[dict[str, str]]]:
+def project_signals(
+    root: Path, infrastructure: list[dict[str, str]]
+) -> dict[str, list[dict[str, str]]]:
     dependency_text = ""
     for name in ("pubspec.yaml", "package.json", "Gemfile", "pyproject.toml"):
         path = root / name
@@ -173,57 +193,95 @@ def project_signals(root: Path, infrastructure: list[dict[str, str]]) -> dict[st
             dependency_text += path.read_text(encoding="utf-8", errors="ignore").lower()
     state = [
         {"value": term, "confidence": "medium", "evidence": "dependency manifest"}
-        for term in STATE_MANAGEMENT_TERMS if term in dependency_text
+        for term in STATE_MANAGEMENT_TERMS
+        if term in dependency_text
     ]
     by_value = {item["value"]: item for item in infrastructure}
     native = [
         {"value": name, "confidence": "medium", "evidence": name}
-        for name in NATIVE_ROOTS if (root / name).is_dir()
+        for name in NATIVE_ROOTS
+        if (root / name).is_dir()
     ]
     return {
         "stateManagement": state,
         "codeGeneration": [by_value["code-generation"]] if "code-generation" in by_value else [],
-        "databaseMigrations": [by_value["database-migrations"]] if "database-migrations" in by_value else [],
-        "ciReleaseDeployment": [item for item in infrastructure if item["value"] in {"github-actions", "gitlab-ci", "fastlane", "docker", "kubernetes", "terraform"}],
+        "databaseMigrations": [by_value["database-migrations"]]
+        if "database-migrations" in by_value
+        else [],
+        "ciReleaseDeployment": [
+            item
+            for item in infrastructure
+            if item["value"]
+            in {"github-actions", "gitlab-ci", "fastlane", "docker", "kubernetes", "terraform"}
+        ],
         "native": native,
     }
 
 
 def scan_project(root: Path) -> dict[str, Any]:
     production = merge_boundary_candidates(
-        directory_candidates(root, ("src", "lib", "app", "Sources", "cmd", "pkg", "internal"), "production"),
+        directory_candidates(
+            root, ("src", "lib", "app", "Sources", "cmd", "pkg", "internal"), "production"
+        ),
         xcode_production_candidates(root),
     )
     tests = merge_boundary_candidates(
         directory_candidates(root, ("tests", "test", "Tests", "spec"), "test"),
         suffix_directory_candidates(root, "Tests", "test"),
     )
-    generated = directory_candidates(root, ("build", "dist", "generated", ".dart_tool"), "generated")
+    generated = directory_candidates(
+        root, ("build", "dist", "generated", ".dart_tool"), "generated"
+    )
     critical = directory_candidates(
-        root, (".github", "fastlane", "migrations", "db", "infra", "deploy", "release", "security", "android", "ios"), "critical"
+        root,
+        (
+            ".github",
+            "fastlane",
+            "migrations",
+            "db",
+            "infra",
+            "deploy",
+            "release",
+            "security",
+            "android",
+            "ios",
+        ),
+        "critical",
     )
     unknowns = []
     if not production:
-        unknowns.append("blocking: production roots could not be determined from common directory signals")
+        unknowns.append(
+            "blocking: production roots could not be determined from common directory signals"
+        )
     if not tests:
-        unknowns.append("blocking: test roots could not be determined from common directory signals")
+        unknowns.append(
+            "blocking: test roots could not be determined from common directory signals"
+        )
     coverage = simple_yaml_lists(root / ".ai" / "guards" / "coverage_policy.yaml")
     boundary = simple_yaml_scalars(root / ".ai" / "guards" / "file_boundary.yaml")
     review = simple_yaml_lists(root / ".ai" / "guards" / "ai_review_policy.yaml")
     guard_mismatches = []
     for item in production:
         if item["path"] not in coverage.get("production.include", []):
-            guard_mismatches.append({"kind": "production", "path": item["path"], "evidence": item["evidence"]})
+            guard_mismatches.append(
+                {"kind": "production", "path": item["path"], "evidence": item["evidence"]}
+            )
     for item in tests:
         if item["path"] not in coverage.get("tests.include", []):
-            guard_mismatches.append({"kind": "test", "path": item["path"], "evidence": item["evidence"]})
+            guard_mismatches.append(
+                {"kind": "test", "path": item["path"], "evidence": item["evidence"]}
+            )
     for item in generated:
         if f"{item['path']}.boundary" not in boundary:
-            guard_mismatches.append({"kind": "generated", "path": item["path"], "evidence": item["evidence"]})
+            guard_mismatches.append(
+                {"kind": "generated", "path": item["path"], "evidence": item["evidence"]}
+            )
     review_patterns = review.get("requiredReviewChecklist.include", [])
     for item in critical:
         if item["path"] not in review_patterns:
-            guard_mismatches.append({"kind": "critical", "path": item["path"], "evidence": item["evidence"]})
+            guard_mismatches.append(
+                {"kind": "critical", "path": item["path"], "evidence": item["evidence"]}
+            )
     infrastructure = findings(root, INFRA_SIGNALS)
     return {
         "reportVersion": 1,

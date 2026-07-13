@@ -85,6 +85,19 @@ associations:
     tests:
       - "tests/test_guards_and_status.py"
       - "tests/test_guard_failure_paths.py"
+  remainingGovernanceHardening:
+    production:
+      - "scripts/ai_calibrate.py"
+      - "scripts/ai_check_agent_risk.py"
+      - "scripts/ai_check_backtrack.py"
+      - "scripts/ai_check_guard_calibration.py"
+      - "scripts/ai_check_guards.py"
+      - "scripts/ai_check_review_policy.py"
+      - "scripts/ai_check_scope.py"
+      - "scripts/ai_observability.py"
+      - "scripts/ai_project_profile.py"
+    tests:
+      - "tests/test_project_governance.py"
   scenarioCoverageCheck:
     production:
       - "scripts/ai_check_scenario_coverage.py"
@@ -165,6 +178,12 @@ associations:
     tests:
       - "tests/test_start_and_archive.py"
       - "tests/test_finish_e2e.py"
+  archiveWorkItem:
+    production:
+      - "scripts/ai_archive_work_item.py"
+    tests:
+      - "tests/test_start_and_archive.py"
+      - "tests/test_ai_archive_work_item.py"
   checkpointOwnership:
     production:
       - "scripts/ai_checkpoint.py"

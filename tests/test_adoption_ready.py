@@ -18,16 +18,24 @@ def write_ready_configuration(root: Path) -> None:
     )
     shutil.copytree(ROOT / ".ai", root / ".ai")
     profile = root / ".ai" / "project_profile.yaml"
-    profile.write_text(profile.read_text(encoding="utf-8").replace("repositoryRole: template\n", "repositoryRole: adopted\n"), encoding="utf-8")
+    profile.write_text(
+        profile.read_text(encoding="utf-8").replace(
+            "repositoryRole: template\n", "repositoryRole: adopted\n"
+        ),
+        encoding="utf-8",
+    )
     guards = root / ".ai" / "guards"
     (guards / "coverage_policy.yaml").write_text(
-        (ROOT / ".ai" / "guards" / "coverage_policy.yaml").read_text(encoding="utf-8").replace(
-            "adoptionReviewed: false", "adoptionReviewed: true"
-        ), encoding="utf-8",
+        (ROOT / ".ai" / "guards" / "coverage_policy.yaml")
+        .read_text(encoding="utf-8")
+        .replace("adoptionReviewed: false", "adoptionReviewed: true"),
+        encoding="utf-8",
     )
     workflows = root / ".github" / "workflows"
     workflows.mkdir(parents=True)
-    (workflows / "ai.yml").write_text("run: make ai-cockpit-quality && make check-ai-pr\n", encoding="utf-8")
+    (workflows / "ai.yml").write_text(
+        "run: make ai-cockpit-quality && make check-ai-pr\n", encoding="utf-8"
+    )
 
 
 def test_readiness_fails_with_all_actionable_configuration_gaps(tmp_path):
@@ -45,8 +53,15 @@ def test_readiness_passes_only_after_explicit_configuration(tmp_path):
 
     assert readiness_failures(tmp_path) == []
     result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "ai_check_adoption_ready.py"), "--root", str(tmp_path)],
-        text=True, capture_output=True, check=False,
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "ai_check_adoption_ready.py"),
+            "--root",
+            str(tmp_path),
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
     )
     assert result.returncode == 0
     assert "static adoption configuration check passed" in result.stdout
@@ -54,9 +69,11 @@ def test_readiness_passes_only_after_explicit_configuration(tmp_path):
     assert "make ai-cockpit-quality and check-ai-pr" in result.stdout
 
 
-def test_confirmed_template_profile_is_exempt_only_in_explicit_maintenance_mode(tmp_path, monkeypatch):
+def test_confirmed_template_profile_is_exempt_only_in_explicit_maintenance_mode(
+    tmp_path, monkeypatch
+):
     shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
-    (tmp_path / "templates").mkdir()
+    shutil.copytree(ROOT / "templates", tmp_path / "templates")
     monkeypatch.setenv("AI_COCKPIT_EXECUTION_MODE", "template_maintenance")
     assert readiness_failures(tmp_path) == []
 
@@ -68,10 +85,39 @@ def test_template_role_without_maintenance_evidence_remains_fail_closed(tmp_path
     assert any("template role is not enough" in item for item in readiness_failures(tmp_path))
 
 
+def test_template_role_with_empty_template_dirs_remains_fail_closed(tmp_path, monkeypatch):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    (tmp_path / "templates").mkdir()
+    (tmp_path / ".ai" / "work-items" / "_templates").mkdir(parents=True, exist_ok=True)
+    monkeypatch.setenv("AI_COCKPIT_EXECUTION_MODE", "template_maintenance")
+
+    assert any("template role is not enough" in item for item in readiness_failures(tmp_path))
+
+
+def test_template_role_with_empty_template_evidence_remains_fail_closed(tmp_path, monkeypatch):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    shutil.copytree(ROOT / "templates", tmp_path / "templates")
+    monkeypatch.setenv("AI_COCKPIT_EXECUTION_MODE", "template_maintenance")
+
+    for relative in (
+        "templates/agents/AI_COCKPIT_RULES.md",
+        "templates/glossary.md",
+        "templates/make/Makefile.ai",
+        ".ai/work-items/_templates/work_item_contract.example.json",
+        ".ai/work-items/_templates/work_item_summary.example.json",
+    ):
+        (tmp_path / relative).write_text("", encoding="utf-8")
+
+    assert any("template role is not enough" in item for item in readiness_failures(tmp_path))
+
+
 def test_missing_role_is_fail_closed(tmp_path):
     write_ready_configuration(tmp_path)
     profile = tmp_path / ".ai" / "project_profile.yaml"
-    profile.write_text(profile.read_text(encoding="utf-8").replace("repositoryRole: adopted\n", ""), encoding="utf-8")
+    profile.write_text(
+        profile.read_text(encoding="utf-8").replace("repositoryRole: adopted\n", ""),
+        encoding="utf-8",
+    )
     assert any("missing role is fail-closed" in item for item in readiness_failures(tmp_path))
 
 
@@ -88,10 +134,28 @@ def test_generic_fail_closed_stack_is_not_adoption_ready(tmp_path):
 def test_ci_comment_does_not_satisfy_readiness(tmp_path):
     write_ready_configuration(tmp_path)
     (tmp_path / ".github" / "workflows" / "ai.yml").write_text(
-        "# Later: make check-ai-pr\nrun: echo not-configured\n", encoding="utf-8",
+        "# Later: make check-ai-pr\nrun: echo not-configured\n",
+        encoding="utf-8",
     )
 
     assert any("check-ai-pr" in failure for failure in readiness_failures(tmp_path))
+
+
+def test_placeholder_codeowners_remains_fail_closed(tmp_path):
+    write_ready_configuration(tmp_path)
+    (tmp_path / ".github" / "CODEOWNERS").write_text("* @owner\n", encoding="utf-8")
+
+    assert any("CODEOWNERS" in failure for failure in readiness_failures(tmp_path))
+
+
+def test_template_security_doc_remains_fail_closed_after_adoption(tmp_path):
+    write_ready_configuration(tmp_path)
+    (tmp_path / "SECURITY.md").write_text(
+        "# Security Policy\n\nReplace this document with your own security reporting process.\n",
+        encoding="utf-8",
+    )
+
+    assert any("SECURITY.md" in failure for failure in readiness_failures(tmp_path))
 
 
 def test_trivial_quality_commands_do_not_satisfy_static_readiness(tmp_path):

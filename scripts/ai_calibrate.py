@@ -33,17 +33,35 @@ def render_key_list(lines: list[str], indent: str, key: str, items: list[str]) -
 def proposed_profile(report: dict[str, Any]) -> str:
     facts = report.get("detectedFacts", {})
     suggestions = report.get("suggestedBoundaries", {})
-    lines = ["# Generated proposal. Review facts and suggestions; do not treat this file as approved.", "version: 1", "", "detectedFacts:"]
+    lines = [
+        "# Generated proposal. Review facts and suggestions; do not treat this file as approved.",
+        "version: 1",
+        "repositoryRole: template",
+        "",
+        "detectedFacts:",
+    ]
     for key in FACT_KEYS:
-        render_key_list(lines, "  ", key, values(facts.get(key, []) if isinstance(facts, dict) else [], "value"))
+        render_key_list(
+            lines, "  ", key, values(facts.get(key, []) if isinstance(facts, dict) else [], "value")
+        )
     lines.extend(["", "suggestedBoundaries:"])
     for key in BOUNDARY_KEYS:
-        render_key_list(lines, "  ", key, values(suggestions.get(key, []) if isinstance(suggestions, dict) else [], "path"))
+        render_key_list(
+            lines,
+            "  ",
+            key,
+            values(suggestions.get(key, []) if isinstance(suggestions, dict) else [], "path"),
+        )
     lines.extend(["", "approvedBoundaries:"])
     for key in BOUNDARY_KEYS:
         render_key_list(lines, "  ", key, [])
     lines.extend(["", "reviewRequirements: []", ""])
-    render_key_list(lines, "", "unknowns", [str(item) for item in report.get("unknowns", []) if isinstance(item, str)])
+    render_key_list(
+        lines,
+        "",
+        "unknowns",
+        [str(item) for item in report.get("unknowns", []) if isinstance(item, str)],
+    )
     evidence = []
     if isinstance(facts, dict):
         for category in FACT_KEYS:
@@ -73,7 +91,9 @@ def generate(root: Path, report_path: Path, output: Path) -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(proposed_profile(report), encoding="utf-8")
     print(f"calibration proposal: {output.relative_to(root)}")
-    print("Review and copy approved values into .ai/project_profile.yaml; this command does not modify Guards.")
+    print(
+        "Review and copy approved values into .ai/project_profile.yaml; this command does not modify Guards."
+    )
     return 0
 
 

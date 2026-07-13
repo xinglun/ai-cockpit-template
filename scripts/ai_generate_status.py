@@ -63,10 +63,42 @@ def status_for(
     if isinstance(work_item_id, str) and retry_threshold > 0:
         failures = consecutive_failure_count(work_item_id, observability_log)
         if failures >= retry_threshold:
-            return "blocked", [f"retry circuit breaker: consecutive check failures {failures}/{retry_threshold}"]
+            return "blocked", [
+                f"retry circuit breaker: consecutive check failures {failures}/{retry_threshold}"
+            ]
 
     model = derive_governance_status(contract, summary)
     return model["recommendation"], model["decisionDrivers"]
+
+
+def unresolved_ownership_count(ownership_counts: dict[str, int] | None) -> int:
+    if not isinstance(ownership_counts, dict):
+        return 0
+    return sum(
+        int(ownership_counts.get(state, 0))
+        for state in ("unowned", "ambiguous", "out_of_scope", "approval_required")
+    )
+
+
+def apply_ownership_reconciliation(
+    model: dict[str, Any],
+    ownership_counts: dict[str, int] | None,
+) -> dict[str, Any]:
+    unresolved = unresolved_ownership_count(ownership_counts)
+    if unresolved <= 0:
+        return model
+
+    updated_model = dict(model)
+    decision_drivers = [
+        driver for driver in model.get("decisionDrivers", []) if isinstance(driver, str)
+    ]
+    ownership_driver = f"diff ownership unresolved: {unresolved}"
+    if ownership_driver not in decision_drivers:
+        decision_drivers.append(ownership_driver)
+    if updated_model.get("recommendation") in {"ready_for_review", "ready_with_risks"}:
+        updated_model["recommendation"] = "needs_investigation"
+    updated_model["decisionDrivers"] = decision_drivers
+    return updated_model
 
 
 def parse_args() -> argparse.Namespace:
@@ -76,7 +108,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     parser.add_argument("--observability-log", default=str(DEFAULT_LOG_PATH))
     parser.add_argument("--retry-threshold", type=int, default=DEFAULT_RETRY_THRESHOLD)
-    parser.add_argument("--no-active", action="store_true", help="Generate a no-active-work-item status.")
+    parser.add_argument(
+        "--no-active", action="store_true", help="Generate a no-active-work-item status."
+    )
     return parser.parse_args()
 
 
@@ -116,7 +150,9 @@ def load_preflight_review(
     expected_hash = hashlib.sha256(contract_path.read_bytes()).hexdigest()[:16]
     if report.get("contractHash") != expected_hash:
         return None
-    if not isinstance(report.get("status"), str) or not isinstance(report.get("recommendation"), str):
+    if not isinstance(report.get("status"), str) or not isinstance(
+        report.get("recommendation"), str
+    ):
         return None
     return report
 
@@ -193,13 +229,24 @@ def write_active_status(
     )
     backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     preflight_review = load_preflight_review(contract, contract_path)
-    ownership_counts = ownership_counts_for(ownership_preview(contract=contract))
-    model = derive_governance_status(contract, summary)
+    ownership_preview_items = [
+        item
+        for item in ownership_preview(contract=contract)
+        if item.path != project_relative(output)
+    ]
+    ownership_counts = ownership_counts_for(ownership_preview_items)
+    model = apply_ownership_reconciliation(
+        derive_governance_status(contract, summary), ownership_counts
+    )
     if state == "blocked" and blockers and blockers[0].startswith("retry circuit breaker"):
+        decision_drivers = list(model.get("decisionDrivers", []))
+        for blocker in blockers:
+            if blocker not in decision_drivers:
+                decision_drivers.append(blocker)
         model = {
             **model,
             "recommendation": "blocked",
-            "decisionDrivers": blockers,
+            "decisionDrivers": decision_drivers,
             "evidence": {
                 **model["evidence"],
                 "summary": model["evidence"].get("summary", []) + [blockers[0]],
@@ -214,8 +261,16 @@ def write_active_status(
         summary_path=project_relative(summary_path) if summary_path else "",
         generated_at=datetime.now(timezone.utc).isoformat(),
         backtrack_report=project_relative(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None,
-        backtrack_status=(backtrack.get("status") if isinstance(backtrack, dict) and isinstance(backtrack.get("status"), str) else None),
-        backtrack_items=(backtrack.get("items") if isinstance(backtrack, dict) and isinstance(backtrack.get("items"), list) else None),
+        backtrack_status=(
+            backtrack.get("status")
+            if isinstance(backtrack, dict) and isinstance(backtrack.get("status"), str)
+            else None
+        ),
+        backtrack_items=(
+            backtrack.get("items")
+            if isinstance(backtrack, dict) and isinstance(backtrack.get("items"), list)
+            else None
+        ),
         preflight_review=preflight_review,
         ownership_counts=ownership_counts,
     )
@@ -227,7 +282,12 @@ def write_active_status(
     create_observability(work_item_id=contract.get("workItemId", "")).status_generated(
         state=state,
         output_path=project_relative(output),
-        fields={"blockers": len(blockers), "changedFiles": len(summary.get("changedFiles", [])) if isinstance(summary, dict) else 0},
+        fields={
+            "blockers": len(blockers),
+            "changedFiles": len(summary.get("changedFiles", []))
+            if isinstance(summary, dict)
+            else 0,
+        },
     )
 
 

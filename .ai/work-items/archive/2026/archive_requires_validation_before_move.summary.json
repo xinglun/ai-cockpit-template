@@ -1,0 +1,366 @@
+{
+  "workItemId": "archive_requires_validation_before_move",
+  "contractPath": ".ai/work-items/archive/2026/archive_requires_validation_before_move.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/archive_requires_validation_before_move.contract.json",
+      "reason": "Updated the Work Item Contract for archive validation."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_requires_validation_before_move.summary.json",
+      "reason": "Initialized the AI Change Summary for archive validation."
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Reject invalid archive inputs before moving files."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Cover invalid archive inputs and preserve the success/rollback paths."
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "reason": "Add an explicit archive-entrypoint association for the regression tests."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+    "scripts/ai_archive_work_item.py",
+    "tests/test_start_and_archive.py",
+    ".ai/guards/coverage_policy.yaml"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:03.820061+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "ec8eac1d6293d95e92b91bcf7c6a8b01c9b0a6689e5ce9c4e99cf0456428495a",
+      "commandHash": "2019868db633c2209d1f9191e7b7a39bf12ead8ee87fdeae9f1015921308ff78",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/archive_requires_validation_before_move.contract.json work item contract check passed: .ai/work-items/active/archive_requires_validation_before_move.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:03.961027+00:00",
+      "exitCode": 0,
+      "durationMs": 132,
+      "outputDigest": "244b37e18ca4e8d02528bcf5538fd5074fa1ade6f9b2eee01a26f6831cc114c2",
+      "commandHash": "61bb2e2d4e5ba100176acc169983a47f3af57a0ca1e0b597b5a3144dde694a53",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/archive_requires_validation_before_move.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:04.194344+00:00",
+      "exitCode": 0,
+      "durationMs": 206,
+      "outputDigest": "a1b2e2fa449e58ac55cb5bc8894abc2c1fa2a033258ba87fbbb5d131280fbe8f",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json [warning] restricted_write: .ai/guards/coverage_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:04.499178+00:00",
+      "exitCode": 0,
+      "durationMs": 295,
+      "outputDigest": "4ffe2debe8a718f5122c09f3973e76a41ba382a33c74286d03a86ff77e6ac3c7",
+      "commandHash": "d13e9186c1d69deb0f01ad27d6416dd88ec41917e4f0b1fd0d1f356360f3ba01",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `archive_requires_validation_before_move` - Contract Hash: `c18a80d4a34b85c4` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:04.871614+00:00",
+      "exitCode": 0,
+      "durationMs": 218,
+      "outputDigest": "18f4fd067ddd725d8c789d60ff260caf648073ea93e0c7ac829d802b5e6fd4f0",
+      "commandHash": "47209bf690c7c87fbf73566bc1571a620c4f0b937b6b6068caef1c9e287ba4ea",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json review policy matched 3 path(s) [review] .ai/cockpit/current_status.md [review] .ai/guards/coverage_policy.yaml [review] scripts/ai_archive_work_item.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:05.007473+00:00",
+      "exitCode": 0,
+      "durationMs": 128,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:05.146850+00:00",
+      "exitCode": 0,
+      "durationMs": 128,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:05.230765+00:00",
+      "exitCode": 0,
+      "durationMs": 72,
+      "outputDigest": "832746022b01df0c8b4347a154d0cc4ab7ca80f4a3a312f8fa42e68318b360d9",
+      "commandHash": "bf506824a0f0b9751c33fd41fa088cfafd09b43aa151fb4039b694181e996e70",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json [warning] missing_scenario_coverage: - scenario coverage is missing for medium/high risk report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:05.305697+00:00",
+      "exitCode": 0,
+      "durationMs": 68,
+      "outputDigest": "6f828fd301b3e984df3fb9d6379bd365a591e4c054987a4526569431cc4a8643",
+      "commandHash": "490c9a7a44959c18fa2c75da14d9eb69f225cbca8544777778fdc25c4019079e",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:04:05.560526+00:00",
+      "exitCode": 0,
+      "durationMs": 244,
+      "outputDigest": "3cbab4c2b529c8f702488e71f373e4b4f55bb936bb5d9247ae7418f6fbb95e06",
+      "commandHash": "b606e574f67eb15bbc09b44483ef18bf70c1d61ca1e62b5cce38892b5e3ae570",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/coverage_policy.yaml` — covered by Contract scope - [active_owned] `scripts/ai_archive_wo"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:05:12.486423+00:00",
+      "exitCode": 0,
+      "durationMs": 66916,
+      "outputDigest": "c50e56b50bb2bdae28029e454f246885113d41312cf9d803b591cdf0cc866301",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=60 ........................................................................ [ 22%] ........................................................................ [ 45%] ........................................................................ [ 68%] ........................................................................ [ 91%] ........"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:05:14.056315+00:00",
+      "exitCode": 0,
+      "durationMs": 549,
+      "outputDigest": "fa1482cba2f170471444cce4ad6718aa08ac42d7f87a28371243ff38bcb274d0",
+      "commandHash": "f81813a33220558943090c480b39b2d9f33432fafc2ca1fde52bf43322f292e6",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/archive_requires_validation_before_move.contract.json --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:05:14.427573+00:00",
+      "exitCode": 0,
+      "durationMs": 365,
+      "outputDigest": "85c515763ae2c78a66b2521ac45cd23f2535ec9521d1ed6dfe369501d38957a1",
+      "commandHash": "6f42f89704e7f799575c7fda037b892b51ffc9491a1b944550821270db94c03c",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:05:14.527433+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:05:14.620857+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "8fc45db867e3e7be27683b4b9cbbd3a76da93650da87e0a8774033899d26e854",
+      "commandHash": "63371e871ca63ff38fbefbce0cbabcb83eb30c8897e26c3c82bb015161957353",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json --summary .ai/work-items/active/archive_requires_validation_before_move.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/archive_requires_validation_before_move.summary.json CONTRACT=.ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-12T07:05:14.757076+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "901926bc62528d5645d10be0df42f3b5a846575f28796d01d67d7af58fc5c0aa",
+      "commandHash": "63e967f4ce1e52e768f3d5b3e1202c6db8844bee9a2eb991bf120635076667e3",
+      "contractHash": "c18a80d4a34b85c4aac64ba8b80b5b53f6052369b6e52ed40f7a1b7ad8b0b387",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/archive_requires_validation_before_move.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_requires_validation_before_move.summary.json",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/archive_requires_validation_before_move.summary.json --contract .ai/work-items/active/archive_requires_validation_before_move.contract.json ai summary check passed: .ai/work-items/active/archive_requires_validation_before_move.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep the validation change localized to the archive entrypoint and tests.",
+      "compliant": true,
+      "evidence": "The fix is limited to the archive script and regression tests."
+    },
+    {
+      "guideline": "Do not relax existing rollback behavior.",
+      "compliant": true,
+      "evidence": "Rollback behavior remains unchanged."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The archive entrypoint must keep rolling back cleanly if status generation fails."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "rollback",
+      "detail": "The archive flow still depends on status regeneration after files move, so rollback behavior must remain covered by tests.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Archive validation can be tightened without changing the rollback contract.",
+    "expectedReviewFocus": [
+      "Invalid archive inputs are rejected before file moves",
+      "Successful archive and rollback paths still behave as expected"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract and Summary were updated before implementing archive validation.",
+      "contractHash": "c18a80d4a34b85c4",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Archive validation was implemented and regression tests passed before finish.",
+      "contractHash": "c18a80d4a34b85c4",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "Add regression coverage for invalid archive inputs and validate the updated script behavior."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "summaryVersion": 2
+}

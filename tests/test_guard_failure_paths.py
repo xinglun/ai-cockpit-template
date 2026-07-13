@@ -26,7 +26,9 @@ def test_backtrack_main_blocks_deleted_evidence(tmp_path, monkeypatch):
     monkeypatch.setattr(ai_check_backtrack, "POLICY_PATH", policy)
     monkeypatch.setattr(ai_check_backtrack, "REPORT_PATH", report)
     monkeypatch.setattr(ai_check_backtrack, "PROJECT_ROOT", tmp_path)
-    monkeypatch.setattr(ai_check_backtrack, "changed_name_status", lambda: [("D", "tests/test_service.py")])
+    monkeypatch.setattr(
+        ai_check_backtrack, "changed_name_status", lambda: [("D", "tests/test_service.py")]
+    )
     monkeypatch.setattr(ai_check_backtrack, "create_observability", lambda: Observer())
     monkeypatch.setattr(sys, "argv", ["ai_check_backtrack.py", "--verbose"])
 
@@ -54,8 +56,12 @@ def test_coverage_guard_main_blocks_production_without_test(tmp_path, monkeypatc
 def test_guard_main_blocks_forbidden_boundary(tmp_path, monkeypatch):
     ownership = tmp_path / "ownership.yaml"
     boundary = tmp_path / "boundary.yaml"
-    ownership.write_text("target/**:\n  aiWrite: forbidden\n  reason: generated\n", encoding="utf-8")
-    boundary.write_text("target/**:\n  boundary: generated_local\n  reason: generated\n", encoding="utf-8")
+    ownership.write_text(
+        "target/**:\n  aiWrite: forbidden\n  reason: generated\n", encoding="utf-8"
+    )
+    boundary.write_text(
+        "target/**:\n  boundary: generated_local\n  reason: generated\n", encoding="utf-8"
+    )
     monkeypatch.setattr(ai_check_guards, "OWNERSHIP", ownership)
     monkeypatch.setattr(ai_check_guards, "BOUNDARY", boundary)
     monkeypatch.setattr(ai_check_guards, "REPORT", tmp_path / "guard.json")
@@ -74,7 +80,9 @@ def test_status_consistency_main_fails_for_missing_status(tmp_path, monkeypatch)
     monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
     monkeypatch.setattr(ai_check_status_consistency, "DEFAULT_STATUS", tmp_path / "missing.md")
-    monkeypatch.setattr(sys, "argv", ["ai_check_status_consistency.py", "--status", str(tmp_path / "missing.md")])
+    monkeypatch.setattr(
+        sys, "argv", ["ai_check_status_consistency.py", "--status", str(tmp_path / "missing.md")]
+    )
 
     assert ai_check_status_consistency.main() == 1
 
@@ -100,7 +108,11 @@ def test_contract_validator_reports_multiple_invalid_governance_fields():
         "acceptance": [],
         "guidelines": [],
         "verification": [{"command": "rm -rf .", "required": True}],
-        "destructiveChangePolicy": {"allowed": True, "requiresHumanApproval": True, "allowPatterns": "all"},
+        "destructiveChangePolicy": {
+            "allowed": True,
+            "requiresHumanApproval": True,
+            "allowPatterns": "all",
+        },
         "restrictedWriteApproval": {"approved": True, "approvedBy": "", "reason": ""},
         "rollbackNote": "",
     }

@@ -1,0 +1,416 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "pr_archive_selection_input_order",
+  "contractPath": ".ai/work-items/archive/2026/pr_archive_selection_input_order.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_input_order.contract.json",
+      "reason": "Updated the Work Item Contract from skeleton to code-ready form."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_input_order.summary.json",
+      "reason": "Recorded the active AI Change Summary for the PR archive selection fix."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated cockpit status during preflight and checkpoint flow."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Changed archive winner selection to use deterministic PR input order."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Added regression tests for input-order selection and restricted approval behavior."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_determinism.contract.json",
+      "reason": "Restored the archived determinism evidence pair while renaming the active work item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr_archive_selection_determinism.summary.json",
+      "reason": "Restored the archived determinism evidence pair while renaming the active work item."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+    "scripts/ai_check_pr.py",
+    "tests/test_pr_aggregate.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:03.997570+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "3af2325494543ce9593d07c5327dd99e13417f26a6822a3cacc49ab11b381e3a",
+      "commandHash": "890446ed81b2081345e99c17ba5e26f9e62a674f44d713caad416e17bd8cc27d",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/pr_archive_selection_input_order.contract.json work item contract check passed: .ai/work-items/active/pr_archive_selection_input_order.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:04.149813+00:00",
+      "exitCode": 0,
+      "durationMs": 105,
+      "outputDigest": "828737ffeb40c31e4c3c645b6debbca4a64d734f827fdbe1e14a0a2428b82c08",
+      "commandHash": "e532c98669fec7c49aa5bb27db690a4d7f3947b51d6d953081a43cb12313a1c0",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/pr_archive_selection_input_order.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:04.334622+00:00",
+      "exitCode": 0,
+      "durationMs": 132,
+      "outputDigest": "31a7abbc7fe9f361ca861dfce7d25955b3f8b2a6adb62046532fdd88bd6fec15",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:05.491400+00:00",
+      "exitCode": 0,
+      "durationMs": 1062,
+      "outputDigest": "bd6bf3e68d81618c1753b9e7bbd305993e39610e5962f1f60ff3bcfdeefb88fb",
+      "commandHash": "99d1d4ee21e510e5a47b0f2bf5249f778d91ed093056b701ee613909950ec715",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `pr_archive_selection_input_order` - Contract Hash: `e0e86198311cbccf` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:05.663848+00:00",
+      "exitCode": 0,
+      "durationMs": 105,
+      "outputDigest": "eaf030e77b1e2c1ed9991ae7b41baab2a7f4bde2cdca2cf7a9cb5ce746e910bc",
+      "commandHash": "4f21ce05140c55951ee925a9fd95877c8436cba5211945de66393d335533a0b1",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json review policy matched 3 path(s) [review] .ai/work-items/archive/2026/pr_archive_selection_determinism.contract.json [review] .ai/cockpit/current_status.md [review] scripts/ai_check_pr.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:05.807234+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:05.935727+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:06.048112+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "b0d11d930075f8ebdecc16305df4d607432639e9a4c04a406809d2a1633b7073",
+      "commandHash": "623c4cc5f83f1c3a42db2d4ff01f999e80f225a340ac412f68cdcf71fc34f7dd",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:06.149806+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "6a454c5d4a991df6117690725731ad4b9a3e7c755811d851280ac2bfffaf15e5",
+      "commandHash": "b753efac6121e6e7a40ca5c7d0b6908f9d94ac2c590ef87d6bed378955fe6ad6",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:52:07.298631+00:00",
+      "exitCode": 0,
+      "durationMs": 1091,
+      "outputDigest": "ac84e5daf4966ae8444c227850a67de859eb14549116827c53374979dbfb40b0",
+      "commandHash": "a563ee9feb8a659a2c88fcc1164fcc44e57c8ba39055848729ba7e79da639879",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_check_pr.py` — covered by Contract scope - [active_owned] `tests/test_pr_aggregate.py` — covered"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:53:20.968684+00:00",
+      "exitCode": 0,
+      "durationMs": 73576,
+      "outputDigest": "800e05ecb466f7d3a65c8d0f71ae6f5952e49f73fe881aa3fa0bb8cba4e14440",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "7fda36c181a252a8bbb970a053e81519548cc8ee25314e667f3db11539f6a4a2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 86 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 19%] ........................................................................ [ 39%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:53:25.303137+00:00",
+      "exitCode": 0,
+      "durationMs": 1252,
+      "outputDigest": "636bb01d2a8b4f8920291d65f47b21c8df8f2e70a6faacc253e2b84c1762e38d",
+      "commandHash": "dc6f29762552350cbc1f960c6442264ed6953415471fb17cae4b264ee5610fbc",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "cd568985884edc8f3c5acdd82cdef2cd8ccfe18714b0816f30b12dc99e81d735",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/pr_archive_selection_input_order.contract.json --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:53:26.551793+00:00",
+      "exitCode": 0,
+      "durationMs": 1167,
+      "outputDigest": "94cfa8a118513fb79c47612cbeb1f70df63c91b4f5284bcd0d8c4c98333de010",
+      "commandHash": "f829e6f6a0a4b1f7f781bb407e28b6b5b4a6ad4356e1b1ec65e0a1a9bc21df05",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "cd568985884edc8f3c5acdd82cdef2cd8ccfe18714b0816f30b12dc99e81d735",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:53:26.661036+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "cd568985884edc8f3c5acdd82cdef2cd8ccfe18714b0816f30b12dc99e81d735",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:53:26.806679+00:00",
+      "exitCode": 0,
+      "durationMs": 62,
+      "outputDigest": "9524d140dba0d89c9b9c980bfefcfa191e55f63aac8eef628b36e3e8833402f9",
+      "commandHash": "1cb6da6849c4f686a65e82e358c28efc14b167f83dbc367af3d67f9cfe146394",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "cd568985884edc8f3c5acdd82cdef2cd8ccfe18714b0816f30b12dc99e81d735",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json --summary .ai/work-items/active/pr_archive_selection_input_order.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr_archive_selection_input_order.summary.json CONTRACT=.ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T04:53:26.959077+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "fa16ee2bc369df0c1af6ea7e0a2467a05fa3c5f9d1e34c980497571fda408291",
+      "commandHash": "8b5ace5f195eb1104d9facf119a95c3c372e760e20ac0a21c3cc642b7cfc3e30",
+      "contractHash": "e0e86198311cbccf0edfb929721243c32eca5d7854a006ef6e9842fb650150b4",
+      "commitSha": "4a157f9e3299bd141892df81e3efe8154564d351",
+      "executionContractPath": ".ai/work-items/active/pr_archive_selection_input_order.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/pr_archive_selection_input_order.summary.json",
+      "worktreeDigest": "cd568985884edc8f3c5acdd82cdef2cd8ccfe18714b0816f30b12dc99e81d735",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/pr_archive_selection_input_order.summary.json --contract .ai/work-items/active/pr_archive_selection_input_order.contract.json ai summary check passed: .ai/work-items/active/pr_archive_selection_input_order.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The change stays inside the existing PR checker and test file; no new public API was added."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The change only uses existing helpers from the same checker module and the PR aggregate test harness."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Archive winner selection affects which evidence pair is authoritative, so the fix needs deterministic regression coverage."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "overlapping archive claims pick the PR's last matching contract in deterministic input order",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_pr_aggregate.py",
+        "python3 -m pytest tests/test_pr_aggregate.py -q"
+      ]
+    },
+    {
+      "scenario": "restricted archive paths are approved or rejected according to the deterministic winner",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_pr_aggregate.py",
+        "python3 -m pytest tests/test_pr_aggregate.py -q"
+      ]
+    },
+    {
+      "scenario": "non-overlapping archive aggregation behavior remains unchanged",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_pr_aggregate.py",
+        "python3 -m pytest tests/test_pr_aggregate.py -q"
+      ]
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "PR archive selection",
+      "detail": "The checker now uses PR input order for overlapping owners; coverage is focused on the deterministic winner and restricted-path behavior.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "The remaining governance checks and finish-time status generation still need to run.",
+    "expectedReviewFocus": [
+      "confirm overlapping archive claims use deterministic input order",
+      "confirm restricted-path approval checks follow the same winner selection"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "e0e86198311cbccf",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Captured the first checkpoint before finalizing the implementation changes."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "e0e86198311cbccf",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 1,
+      "detail": "Captured the pre-finish checkpoint after the implementation and regression tests were in place."
+    }
+  ],
+  "knownGaps": [
+    "Remaining governance checks and finish-time status generation still need to run."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

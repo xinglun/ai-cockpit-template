@@ -216,6 +216,7 @@ def test_status_consistency_covers_empty_paired_and_unpaired_states(tmp_path, mo
 
     status.write_text("- State: `no_active_work_item`\n", encoding="utf-8")
     assert ai_check_status_consistency.validate_status_consistency(status) == []
+    assert ai_check_status_consistency.live_no_active_changed_files(status) == []
 
     contract = active / "task.contract.json"
     summary = active / "task.summary.json"
@@ -261,6 +262,34 @@ def test_status_consistency_rejects_live_no_active_changes(tmp_path, monkeypatch
         "cockpit status no-active state must not persist changed files; run `make repair-ai-status`"
         in issues
     )
+
+
+def test_status_consistency_ignores_uncommitted_archive_evidence(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    status = tmp_path / "current_status.md"
+    status.write_text(
+        "- State: `no_active_work_item`\n\n## Changed Files\n\n- none\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(ai_check_status_consistency, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_status_consistency, "ACTIVE_DIR", active)
+
+    def fake_run(command, **kwargs):
+        if command[:3] == ["git", "rev-parse", "--verify"]:
+            return SimpleNamespace(returncode=0, stdout="head\n")
+        if command[:3] == ["git", "diff", "--name-only"]:
+            return SimpleNamespace(
+                returncode=0,
+                stdout=".ai/work-items/archive/2026/task.summary.json\n",
+            )
+        if command[:3] == ["git", "ls-files", "--others"]:
+            return SimpleNamespace(returncode=0, stdout="")
+        return SimpleNamespace(returncode=0, stdout="")
+
+    monkeypatch.setattr(ai_check_status_consistency.subprocess, "run", fake_run)
+
+    assert ai_check_status_consistency.validate_status_consistency(status) == []
 
 
 def test_checkpoint_main_reports_required_state(tmp_path, monkeypatch, capsys):

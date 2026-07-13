@@ -116,7 +116,11 @@ def parse_args() -> argparse.Namespace:
 
 def repository_changes_for_status(output: Path) -> list[str]:
     status_path = project_relative(output)
-    return sorted(path for path in changed_paths() if path != status_path)
+    return sorted(
+        path
+        for path in changed_paths()
+        if path != status_path and not path.startswith(".ai/work-items/archive/")
+    )
 
 
 def default_preflight_report_path() -> Path:

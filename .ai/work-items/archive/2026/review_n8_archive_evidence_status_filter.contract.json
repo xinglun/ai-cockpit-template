@@ -1,0 +1,188 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n8_archive_evidence_status_filter",
+  "mode": "code",
+  "title": "修复归档证据导致的 no-active 状态漂移",
+  "baseCommit": "9e987867560a1a06b45b7f6f2d78aa7752c242ba",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "fa39856b76e8fba20eda4a32c4ea3028c351c4899899e9a1a8ee8c4e8b5b54bf"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "status": "M",
+      "fingerprint": "d4d2878f8c9cab0f81acef6d2383998fa8f2618b78fb076744308b4905bb6406"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "83bbe541cf1f0c0970e4b0ad7ecf2ac4a7b5a4c38a954665bb145409f21be8d5"
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "status": "M",
+      "fingerprint": "4513b61aabb1dd66d90957fb7934e4de8fe1da0567ba880096d7f50953e98a21"
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "status": "M",
+      "fingerprint": "24c3329313e35d2fec94e4a7726ac895c64eaf4002cbb525ff270ce9dc997724"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n8_archive_evidence_status_filter.contract.json",
+    ".ai/work-items/active/review_n8_archive_evidence_status_filter.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/review_n8_archive_evidence_status_filter.*",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status_consistency.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_core_gates.py"
+  ],
+  "outOfScope": ["Changing archived evidence", "Release publication"],
+  "sources": [
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "No-active status generation incorrectly counted uncommitted archive evidence."
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "No-active consistency must apply the same archive-evidence exclusion."
+    },
+    {
+      "path": "tests/test_guards_and_status.py",
+      "reason": "Regression coverage for generated status filtering."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Regression coverage for consistency filtering."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_status"
+    ],
+    "reason": "Generation and validation must use the same explicit exclusion for uncommitted archive evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The fix is deterministic and covered by regression tests."
+  },
+  "preReviewWarnings": [
+    "Do not hide ordinary source changes; exclude only .ai/work-items/archive evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "No-active status generation ignores only uncommitted archive evidence.",
+    "Status consistency and ownership checks use the same rule and regressions are covered by tests.",
+    "Full project and AI checks pass and the Work Item is archived."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Archiving creates uncommitted evidence files before commit, causing no-active status to report a false ambiguous worktree.",
+    "constraints": ["Use the same filter in generator and checker.", "Continue auditing archive paths through ownership and PR gates."],
+    "rationale": "This resolves the lifecycle contradiction without weakening ordinary no-active change detection."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Uncommitted archive Contract/Summary evidence does not make no-active status ambiguous before commit.", "required": true, "status": "verified", "evidence": ["scripts/ai_generate_status.py", "tests/test_guards_and_status.py"]},
+    {"scenario": "Ordinary uncommitted source changes still fail no-active consistency.", "required": true, "status": "verified", "evidence": ["scripts/ai_check_status_consistency.py", "tests/test_core_gates.py"]}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

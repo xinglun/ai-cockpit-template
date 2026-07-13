@@ -100,6 +100,7 @@ def live_no_active_changed_files(status_path: Path) -> list[str]:
             line.strip() for line in git_records(getattr(untracked, "stdout", "")) if line.strip()
         )
     changed.discard(relative_status)
+    changed = {path for path in changed if not path.startswith(".ai/work-items/archive/")}
     return sorted(changed)
 
 

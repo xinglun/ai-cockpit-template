@@ -547,7 +547,12 @@ def test_no_active_status_excludes_repository_changes(tmp_path, monkeypatch):
     monkeypatch.setattr(
         ai_generate_status,
         "changed_paths",
-        lambda: [".ai/cockpit/current_status.md", "src/app.py", "tests/test_app.py"],
+        lambda: [
+            ".ai/cockpit/current_status.md",
+            ".ai/work-items/archive/2026/task.summary.json",
+            "src/app.py",
+            "tests/test_app.py",
+        ],
     )
     monkeypatch.setattr(
         ai_generate_status, "project_relative", lambda _path: ".ai/cockpit/current_status.md"
@@ -556,6 +561,7 @@ def test_no_active_status_excludes_repository_changes(tmp_path, monkeypatch):
     ai_generate_status.write_no_active_status(output)
 
     text = output.read_text(encoding="utf-8")
+    assert "review_n8_archive_evidence_status_filter" not in text
     assert "`src/app.py`" not in text
     assert "`.ai/cockpit/current_status.md`" not in text
     assert "Worktree Changes: `present`" in text

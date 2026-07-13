@@ -1,0 +1,378 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "review_r6_public_release_anonymous_install",
+  "contractPath": ".ai/work-items/archive/2026/review_r6_public_release_anonymous_install.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Verified public anonymous release and installer checks."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Verified public distribution and fail-closed drift paths."
+    },
+    {
+      "path": "release.json",
+      "reason": "Verified declared release and supply-chain contract."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_r6_public_release_anonymous_install.contract.json",
+      "reason": "Defined R6 scope and acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_r6_public_release_anonymous_install.summary.json",
+      "reason": "Recorded R6 verification evidence."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/review-remediation-backlog.md",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    "release.json",
+    "make check-release-distribution"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:48.720054+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "2eb3af5af3c58ac443491c25b9919ca44007b4c5432150d9e7268fcdcb6fbc69",
+      "commandHash": "5c00d931259fe1d24390417c7ec49301c68741247af80eddd3007ee94ce33087",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json work item contract check passed: .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:48.870865+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "ddbacc9fb82f433329088bc0046c792b49adffe44e328fb19e6663aad81e7696",
+      "commandHash": "d3237a0a7cf40f91561a1133e9e606f5c6a2d262f37404250fa0169d57e65f13",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json scope guard passed: 1 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:49.042161+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "17b848c512ceab2dc1901000dc76b066a8295f043b201e8946544a066c2cdd79",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:49.342294+00:00",
+      "exitCode": 0,
+      "durationMs": 250,
+      "outputDigest": "39b892002acecc15e7a18ac6868e5abdffba4cd44c4dae8c7bd70cd5c50a7e7c",
+      "commandHash": "5079a44cbe20aa6c063803067f9f027a252930677635220d88bcfbf8087df977",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `review_r6_public_release_anonymous_install` - Contract Hash: `5f1ea24ae3eb1c7a` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:49.520007+00:00",
+      "exitCode": 0,
+      "durationMs": 115,
+      "outputDigest": "582e0d18f0f601b87338867a97a2ace2b2d80669d43a104588efb91c8d64aedb",
+      "commandHash": "b66d758de7fd2b52fbc0fd99d23e222011c097b90d6132920472595e5beb4c8c",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:49.689085+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:49.834949+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:49.939756+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "9d76161962cea656492d13c96bfa81085daa7a43fe7f466e90a988a67407bbbc",
+      "commandHash": "3c3a1925d326dad3cb6f3af7e3a0aff56ff999700adf1b44695ea5eade5b11fb",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json [warning] missing_scenario_coverage: - scenario coverage is missing for medium/high risk report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:50.042897+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "7cc13796583b6b890f82153c3f099a4ba3e76358df0878886e93178922fdd3bd",
+      "commandHash": "12e8c1ce9bb4e54bebcdcefb213b50c7fa0b81b4d6611889299297a65ecacda2",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:43:50.346363+00:00",
+      "exitCode": 0,
+      "durationMs": 244,
+      "outputDigest": "f3e2b29182aacc5ef9cf169219a1ec902c5bfc51b6fc8b334945dd188c6bc9f9",
+      "commandHash": "ec5ab0625919dda263787f7fe7332fc6fc9d9d2fd089c2b093886c0358b0659c",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json ## Diff Ownership Preview - active_owned: `1`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:44:52.031768+00:00",
+      "exitCode": 0,
+      "durationMs": 61625,
+      "outputDigest": "242a52686b78cec0f7dd9a6ea6d3fdd9b219d1d9d5d91bd3a36654cf9df8df92",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "40f42d482e8d2bc6fcbf54cd739af9fbc1270cfae39fc5f9e366bd7aac0be6c9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 87 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 18%] ........................................................................ [ 37%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:44:53.457033+00:00",
+      "exitCode": 0,
+      "durationMs": 218,
+      "outputDigest": "47cc524c71d657cabe23dcc23db4595bd091b1dbae5d17c4b45f0da97fb0a37c",
+      "commandHash": "0bb1849cb87888270fa7887dc2ea06be823b7b1af954e3170871376fef1ee6ca",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "bfbc6f58e49c13b49eba5fa503e3a064d38a736e5800c7b09bb33a94e062946a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:44:53.752743+00:00",
+      "exitCode": 0,
+      "durationMs": 246,
+      "outputDigest": "e0b20c424cc882e90e49eac3c0911b6b58a1f2007a63a3e8ee46a9289e747040",
+      "commandHash": "084a018f43809ec7ea92ec4ab3a6adf6a23d7f664dcf205e9a4f12641d00b9b5",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "bfbc6f58e49c13b49eba5fa503e3a064d38a736e5800c7b09bb33a94e062946a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:44:53.848470+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "bfbc6f58e49c13b49eba5fa503e3a064d38a736e5800c7b09bb33a94e062946a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:44:53.953264+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "d46c78804e7c11332a8d8d934a38c541f52cb02c3c2ba6aa4e8dd046a5dc0cac",
+      "commandHash": "ac34ee06876c052636293f54ecc23bb2eeb6d05a5ade75875f1e3fb2972d32ac",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "bfbc6f58e49c13b49eba5fa503e3a064d38a736e5800c7b09bb33a94e062946a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json --summary .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review_r6_public_release_anonymous_install.summary.json CONTRACT=.ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T12:44:54.115525+00:00",
+      "exitCode": 0,
+      "durationMs": 109,
+      "outputDigest": "a0289ac504a93b981a0d709e91ddeb49aae889d5391ea5fad04eefea549d82c9",
+      "commandHash": "2b8788858b596a4fa047173a530bec714248018a519b97255edb1e918db7559b",
+      "contractHash": "5f1ea24ae3eb1c7a32a98ca030b97c739865a0830dca2b832f3c6734e15d5037",
+      "commitSha": "01a864623f4811613d4ff3792f2a8d28b7147768",
+      "executionContractPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+      "worktreeDigest": "bfbc6f58e49c13b49eba5fa503e3a064d38a736e5800c7b09bb33a94e062946a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json --contract .ai/work-items/active/review_r6_public_release_anonymous_install.contract.json ai summary check passed: .ai/work-items/active/review_r6_public_release_anonymous_install.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public API added."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "No cross-feature internal imports added."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Public tag v0.5.22 and anonymous release distribution check passed after repository visibility was restored."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "public_release_availability",
+      "detail": "Future release checks require the repository and tag to remain anonymously accessible.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Real anonymous release check passed; full AI/project verification is being recorded.",
+    "expectedReviewFocus": [
+      "Confirm the check used the public network path rather than a local fixture."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "5f1ea24ae3eb1c7a",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed public anonymous release boundary before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "5f1ea24ae3eb1c7a",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Real anonymous release distribution check passed before finish."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

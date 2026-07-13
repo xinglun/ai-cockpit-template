@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_r6_public_release_anonymous_install",
+  "mode": "code",
+  "title": "闭环公开发布与匿名安装验证",
+  "baseCommit": "01a864623f4811613d4ff3792f2a8d28b7147768",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "a70bfa035f71eaec4e8a5acde7c0128acbb7711e3ca0d9831128aa9d08c49dd5"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_r6_public_release_anonymous_install.contract.json",
+    ".ai/work-items/active/review_r6_public_release_anonymous_install.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    "install.sh",
+    "release.json",
+    "docs/reference/distribution.md",
+    "tests/**"
+  ],
+  "outOfScope": ["Changing R7/R8 governance resilience", "R9-R11 remediation"],
+  "sources": [
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "R6 objective and acceptance boundary."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Anonymous public release verification implementation."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Public distribution and installer regression coverage."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published release contract and supply-chain references."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["public_release", "anonymous_install"],
+    "reason": "Public release claims must be verified against the actual anonymous network path."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Public repository access is restored and the real release check passes."
+  },
+  "preReviewWarnings": ["Keep the verification genuinely anonymous and do not substitute local source fixtures for the public path."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Anonymous public release verification passes for the declared tag and installer.",
+    "Fresh installation, upgrade, adoption, archive integrity, release metadata, SBOM, provenance, lock, and script checks agree.",
+    "Regression tests cover public distribution behavior and fail closed on release evidence drift.",
+    "The Work Item is fully verified, archived, and committed without pushing."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The release gate must prove that the public tag and anonymous installation path are real and consistent, not merely validate local fixtures.",
+    "constraints": ["Use the public repository and tag for the real check.", "Do not weaken fail-closed release evidence validation."],
+    "rationale": "A real anonymous check closes the gap between repository-local tests and the artifact users can actually obtain."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Anonymous public tag discovery and installer fetch succeed.", "required": true, "status": "verified", "evidence": ["scripts/check_release_distribution.py", "make check-release-distribution"]},
+    {"scenario": "Fresh installation, adoption, and upgrade behavior pass against the public release contract.", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py"]},
+    {"scenario": "Release metadata and supply-chain drift fail closed before network installation.", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

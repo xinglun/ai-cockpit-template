@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_r11_final_go_no_go",
+  "mode": "code",
+  "title": "最终复验与 GO NO-GO 证据包",
+  "baseCommit": "7f288fb294d5e5e21ee2fd46c8dbfeb124795773",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "4cec12541408f20779dedcad3ad5398d31e5dfef23eac60f2bcc904e7bdd6185"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_r11_final_go_no_go.contract.json",
+    ".ai/work-items/active/review_r11_final_go_no_go.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/review-remediation-backlog.md",
+    "docs/review-final-evidence.md",
+    "Makefile",
+    "scripts/check_release_distribution.py",
+    "scripts/check_supply_chain.py",
+    "tests/**"
+  ],
+  "outOfScope": ["Post-R11 feature work", "Pushing or publishing commits"],
+  "sources": [
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "R0-R11 remediation checklist."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Declared final verification entry points."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Public release verification entry point."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Supply-chain verification entry point."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_decision", "verification"],
+    "reason": "GO/NO-GO must reflect actual final verification and unresolved external evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Run final verification and record evidence without changing product behavior."
+  },
+  "preReviewWarnings": ["Do not declare GO when any required final check or public release evidence remains unavailable."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All R0-R10 Work Items have archived Contract/Summary evidence and local commits.",
+    "Full project, AI governance, supply-chain, public release, and PR checks are executed and recorded.",
+    "Final GO/NO-GO decision is based on evidence, with residual risks explicitly listed.",
+    "The final evidence document and R11 Work Item are archived and committed without pushing."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The remediation program needs one evidence-backed final decision rather than inferring completion from an empty active directory.",
+    "constraints": ["Do not suppress failed checks.", "Do not push or alter public release state."],
+    "rationale": "A final evidence package makes remaining risks and the delivery decision reviewable."
+  },
+  "scenarioCoverage": [
+    {"scenario": "All required local AI and project checks pass.", "required": true, "status": "verified", "evidence": ["Makefile", "make ai-finish"]},
+    {"scenario": "Public release and supply-chain checks pass from the clean committed baseline.", "required": true, "status": "verified", "evidence": ["scripts/check_release_distribution.py", "scripts/check_supply_chain.py"]},
+    {"scenario": "Final decision records residual risks instead of inferring GO from active-task count.", "required": true, "status": "verified", "evidence": ["docs/review-final-evidence.md"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

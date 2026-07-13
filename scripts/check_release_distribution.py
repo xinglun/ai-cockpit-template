@@ -97,30 +97,39 @@ def file_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def supply_chain_issues(metadata: dict[str, object]) -> list[str]:
+def supply_chain_issues(metadata: dict[str, object], *, root: Path = ROOT) -> list[str]:
     issues: list[str] = []
     supply_chain = metadata.get("supplyChain")
     if not isinstance(supply_chain, dict):
         return ["release.json is missing supplyChain release evidence"]
-    for key, path in SUPPLY_CHAIN_FILES.items():
+    files = {key: root / path.relative_to(ROOT) for key, path in SUPPLY_CHAIN_FILES.items()}
+    for key, path in files.items():
         expected = supply_chain.get(key)
         if not isinstance(expected, str) or not expected:
             issues.append(f"release.json supplyChain.{key} is missing")
             continue
         if not path.is_file():
             issues.append(
-                f"release.json supplyChain.{key} source file is missing: {path.relative_to(ROOT)}"
+                f"release.json supplyChain.{key} source file is missing: {path.relative_to(root)}"
             )
             continue
         actual = file_digest(path)
         if actual != expected:
             issues.append(
-                f"release.json supplyChain.{key} differs from {path.relative_to(ROOT)} "
+                f"release.json supplyChain.{key} differs from {path.relative_to(root)} "
                 f"(expected={expected}, actual={actual})"
             )
     if supply_chain.get("secretScanning") is not True:
         issues.append("release.json supplyChain.secretScanning must be true")
     return issues
+
+
+def release_claims(metadata: dict[str, object]) -> dict[str, object]:
+    """Return the release fields that must describe one immutable unit."""
+    return {
+        key: metadata.get(key)
+        for key in ("releaseTag", "publicContract", "capabilities", "supplyChain")
+    }
 
 
 def fixture_archive(path: Path) -> None:
@@ -388,8 +397,48 @@ def exercise_public_distribution(
             raise RuntimeError(f"{tag}: configuration Work Item pair is missing")
 
 
-def fetch_tagged_installer(tag: str) -> bytes:
+def inspect_tagged_release(tag: str) -> tuple[dict[str, object], bytes, list[str]]:
+    """Read release metadata, evidence, and installer exclusively from *tag*."""
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-public-release-clone-") as raw:
+        clone_dir = Path(raw) / "repo"
+        clone = run_command(
+            [
+                *anonymous_git_command(
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--branch",
+                    tag,
+                    "--single-branch",
+                    PUBLIC_REPOSITORY,
+                    str(clone_dir),
+                )
+            ],
+            cwd=Path(raw),
+            env=clone_git_environment(),
+        )
+        if clone.returncode != 0:
+            raise RuntimeError(f"failed to clone public release tag {tag}: {clone.stderr.strip()}")
+        release_path = clone_dir / "release.json"
+        if not release_path.is_file():
+            raise RuntimeError(f"{tag}: cloned release is missing release.json")
+        try:
+            metadata = json.loads(release_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise RuntimeError(f"{tag}: invalid release.json: {exc}") from exc
+        if not isinstance(metadata, dict):
+            raise RuntimeError(f"{tag}: release.json must contain an object")
+        if metadata.get("releaseTag") != tag:
+            raise RuntimeError(f"{tag}: tag release.json declares {metadata.get('releaseTag')!r}")
+        installer = clone_dir / "install.sh"
+        if not installer.is_file():
+            raise RuntimeError(f"{tag}: cloned release is missing install.sh")
+        return metadata, installer.read_bytes(), supply_chain_issues(metadata, root=clone_dir)
+
+
+def fetch_tagged_installer(tag: str) -> bytes:
+    """Fetch the installer from an immutable public release tag."""
+    with tempfile.TemporaryDirectory(prefix="ai-cockpit-public-release-installer-") as raw:
         clone_dir = Path(raw) / "repo"
         clone = run_command(
             [
@@ -434,15 +483,18 @@ def main() -> int:
     quality_target = metadata["publicContract"]["projectQualityTarget"]
     local_source = os.environ.get("AI_COCKPIT_TEMPLATE_SOURCE")
     try:
-        issues = supply_chain_issues(metadata)
-        if issues:
-            raise RuntimeError("; ".join(issues))
         latest_tag = highest_semver_tag(list_remote_tags(PUBLIC_REPOSITORY))
         if tag != latest_tag:
             raise RuntimeError(
                 f"release.json points to {tag}, but highest public tag is {latest_tag}"
             )
-        script = fetch_tagged_installer(tag)
+        tag_metadata, script, issues = inspect_tagged_release(tag)
+        if release_claims(tag_metadata) != release_claims(metadata):
+            raise RuntimeError(
+                f"{tag}: release.json claims differ between the worktree and the inspected tag"
+            )
+        if issues:
+            raise RuntimeError(f"{tag}: tag release evidence is invalid: {'; '.join(issues)}")
         exercise_installer(script, tag=tag, sha256_supported=supported)
         exercise_public_distribution(
             script, tag=tag, quality_target=quality_target, source_path=local_source

@@ -1,0 +1,189 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n15_release_tag_evidence",
+  "mode": "code",
+  "title": "修复发布证据与 release tag 一致性",
+  "baseCommit": "9b7b989b587e1bb30835dff1e8b20e903998b52a",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "31ac8b263d29d70c8c7668ebf0994d168eef74891925d9012a5fa85bac62085d"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n15_release_tag_evidence.contract.json",
+    ".ai/work-items/active/review_n15_release_tag_evidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    "release.json"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Current distribution check validates supply-chain digests from the mutable worktree instead of the inspected release tag."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Existing release distribution tests and fake Git fixtures."
+    },
+    {
+      "path": "release.json",
+      "reason": "Declares the release tag and supply-chain evidence digests that must describe the same immutable unit."
+    },
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "Defines the public distribution and release evidence consistency acceptance requirements."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity",
+      "supply_chain_evidence"
+    ],
+    "reason": "The checker must fail closed when release metadata claims evidence that is absent or different in the inspected tag, without accepting mutable worktree files as substitutes."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "A tag containing release.json and all claimed evidence files passes digest validation from the tag checkout.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "A tag missing a claimed lock, SBOM, or provenance file fails even when the current worktree contains that file.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "Tag-scoped anonymous distribution validation remains independent of ambient Git credentials and repository state.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The reported mismatch is reproducible from the current checker design and can be corrected with tag-scoped fixture validation."
+  },
+  "preReviewWarnings": [
+    "Verify that the checker reads every claimed release evidence file from the inspected tag and never falls back to the current worktree."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A release tag checkout is the sole source for release.json, requirements-dev.lock, SBOM, and provenance validation.",
+    "The checker fails closed when any claimed evidence file is absent from the inspected tag or its digest disagrees with tag release.json.",
+    "Regression tests prove current-worktree evidence cannot satisfy a tag missing the same evidence.",
+    "The release evidence and tag consistency result is recorded without rewriting historical tags."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "release.json currently claims supply-chain evidence from the current worktree even when the inspected public release tag does not contain those files, allowing a mutable checkout to masquerade as historical release evidence.",
+    "constraints": [
+      "Historical tags remain immutable and are not rewritten by this Work Item.",
+      "The public distribution check must remain anonymous and fail closed.",
+      "Current-worktree evidence must never satisfy a tag-scoped release assertion."
+    ],
+    "rationale": "Reading all release claims and evidence from one tag checkout makes the release unit auditable and prevents branch-local files from being reported as properties of an older published tag."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly requested the remediation loop to continue until all listed review blockers are completed."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -190,16 +190,46 @@ def test_release_distribution_fails_closed_on_supply_chain_drift(monkeypatch, tm
     )
     monkeypatch.setattr(release_distribution, "RELEASE", release_json)
 
-    def fail_if_called(*_args, **_kwargs):
-        raise AssertionError(
-            "public network call must not happen when supply chain evidence is invalid"
-        )
-
-    monkeypatch.setattr(release_distribution, "list_remote_tags", fail_if_called)
-    monkeypatch.setattr(release_distribution, "fetch_tagged_installer", fail_if_called)
+    monkeypatch.setattr(
+        release_distribution,
+        "list_remote_tags",
+        lambda _repository: "a refs/tags/v0.5.22\n",
+    )
+    monkeypatch.setattr(
+        release_distribution,
+        "inspect_tagged_release",
+        lambda _tag: (
+            json.loads(release_json.read_text(encoding="utf-8")),
+            b"",
+            ["supplyChain drift"],
+        ),
+    )
 
     assert release_distribution.main() == 1
-    assert "supplyChain" in capsys.readouterr().err
+    assert "tag release evidence is invalid" in capsys.readouterr().err
+
+
+def test_main_rejects_tag_missing_evidence_even_when_worktree_has_it(monkeypatch, capsys):
+    metadata = json.loads(release_distribution.RELEASE.read_text(encoding="utf-8"))
+    monkeypatch.setattr(
+        release_distribution,
+        "list_remote_tags",
+        lambda _repository: "a refs/tags/v0.5.22\n",
+    )
+    monkeypatch.setattr(
+        release_distribution,
+        "inspect_tagged_release",
+        lambda _tag: (
+            metadata,
+            b"#!/bin/sh\nexit 0\n",
+            [
+                "release.json supplyChain.provenanceDigest source file is missing: .ai/cockpit/provenance.json"
+            ],
+        ),
+    )
+
+    assert release_distribution.main() == 1
+    assert "tag release evidence is invalid" in capsys.readouterr().err
 
 
 def test_exercise_public_distribution_rejects_missing_documented_target():
@@ -288,6 +318,14 @@ def test_fetch_tagged_installer_uses_plain_git_without_checkout_auth(monkeypatch
                 installer = cwd / "repo" / "install.sh"
                 installer.parent.mkdir(parents=True, exist_ok=True)
                 installer.write_bytes(b"#!/bin/sh\nexit 0\n")
+                source_root = release_distribution.ROOT
+                (cwd / "repo" / "release.json").write_bytes(
+                    (source_root / "release.json").read_bytes()
+                )
+                for source in release_distribution.SUPPLY_CHAIN_FILES.values():
+                    target = cwd / "repo" / source.relative_to(source_root)
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(source.read_bytes())
                 return SimpleNamespace(returncode=0, stdout="", stderr="")
         raise AssertionError(f"unexpected command: {command!r}")
 

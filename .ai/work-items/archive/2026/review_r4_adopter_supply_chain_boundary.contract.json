@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_r4_adopter_supply_chain_boundary",
+  "mode": "code",
+  "title": "隔离采用方供应链证据边界",
+  "baseCommit": "32fb35a7621f545f6842c9ccc45c28eb465eaf73",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "afbdc9fa60d409119ebba5ae92b3bc59a93ae999d8d956008c6b29529b1f7853"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_r4_adopter_supply_chain_boundary.contract.json",
+    ".ai/work-items/active/review_r4_adopter_supply_chain_boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer.py",
+    "tests/test_adoption_e2e.py",
+    "docs/reference/distribution.md",
+    "tests/**"
+  ],
+  "outOfScope": [
+    "Changing template SBOM/provenance generation covered by R2/R3",
+    "Changing secret scanning coverage covered by R5",
+    "R5-R11 remediation"
+  ],
+  "sources": [
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "R4 objective and acceptance boundary."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Managed installer copy and adoption evidence behavior."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Installer evidence exclusion tests."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Adoption evidence generation tests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["evidence_boundary", "adoption"],
+    "reason": "Copying template evidence into an adopter repository can create false provenance."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contract defines adopter evidence exclusions and verification."
+  },
+  "preReviewWarnings": [
+    "Confirm all template-owned evidence files are excluded from managed copies and upgrades.",
+    "Confirm adopter evidence is generated only after adoption, not copied from template."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Installer and upgrade managed-copy sets exclude template SBOM, provenance, and Bandit baseline evidence.",
+    "Adoption creates adopter-owned evidence instead of accepting template evidence as project evidence.",
+    "Regression tests cover fresh install, upgrade, and adoption behavior.",
+    "The evidence boundary is documented and the Work Item is archived and committed."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "A template repository's supply-chain artifacts describe the template, not the adopter project, and must not cross the installation boundary as if they were adopter evidence.",
+    "constraints": ["Preserve template documentation and checks.", "Do not weaken adoption readiness or upgrade rollback behavior."],
+    "rationale": "Excluding template-owned evidence at the managed-copy boundary prevents provenance confusion while allowing adopters to generate their own evidence."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Fresh install excludes template SBOM, provenance, and Bandit baseline.", "required": true, "status": "verified", "evidence": ["tests/test_installer.py"]},
+    {"scenario": "Upgrade does not reintroduce template evidence into adopter paths.", "required": true, "status": "verified", "evidence": ["tests/test_installer.py"]},
+    {"scenario": "Adoption generates adopter-owned records without copying template evidence.", "required": true, "status": "verified", "evidence": ["tests/test_adoption_e2e.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

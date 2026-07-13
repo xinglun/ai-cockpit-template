@@ -23,6 +23,8 @@ The SBOM reports workflow Action occurrences and direct version-pinned lock entr
 
 The documented release is defined in `release.json`.
 
+Installer and upgrade flows intentionally exclude the template's `sbom.json`, `provenance.json`, and `bandit_low_risk_baseline.json`. Those files describe the template release; an adopter must generate and verify project-owned evidence after adoption.
+
 - Public releases can verify the installer archive when `AI_COCKPIT_TEMPLATE_SHA256` is provided and supported by the published release metadata.
 - `make check-release-distribution` validates the documented distribution contract against the real installer.
 - Worktree capabilities are only public when the installed release passes the published distribution check.

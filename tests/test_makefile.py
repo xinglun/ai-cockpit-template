@@ -174,10 +174,14 @@ def test_check_ai_no_active_branch_is_read_only(tmp_path):
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "ai_generate_status.py --no-active" not in result.stdout
-    assert "check-ai-status-consistency" in result.stdout
-    assert "check-ai-diff-ownership" in result.stdout
-    assert 'check-ai-pr AI_BASE_COMMIT="abc123"' in result.stdout
+    no_active_branch = result.stdout.split("\n\telse", 1)[1]
+    assert "ai_generate_status.py --no-active" not in no_active_branch
+    assert "check-ai-status-consistency" in no_active_branch
+    assert "check-ai-guards" not in no_active_branch
+    assert "check-ai-agent-risk" not in no_active_branch
+    assert "check-ai-review-policy" not in no_active_branch
+    assert "check-ai-diff-ownership" in no_active_branch
+    assert 'check-ai-pr AI_BASE_COMMIT="abc123"' in no_active_branch
 
 
 def test_distributed_makefile_no_active_branch_requires_pr_gate():

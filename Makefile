@@ -236,9 +236,6 @@ check-ai:
 		"$${MAKE:-make}" check-ai-status-consistency; \
 	else \
 		"$${MAKE:-make}" check-ai-status-consistency && \
-		"$${MAKE:-make}" check-ai-guards && \
-		"$${MAKE:-make}" check-ai-agent-risk && \
-		"$${MAKE:-make}" check-ai-review-policy && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard && \
 		"$${MAKE:-make}" check-ai-diff-ownership && \

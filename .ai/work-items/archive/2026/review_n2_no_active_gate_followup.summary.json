@@ -1,0 +1,376 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "review_n2_no_active_gate_followup",
+  "contractPath": ".ai/work-items/archive/2026/review_n2_no_active_gate_followup.contract.json",
+  "changedFiles": [
+    {
+      "path": "Makefile",
+      "reason": "Removed Contract-dependent checks from the no-active branch and retained repository-state gates."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Aligned distributed no-active gate composition."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Added no-active gate composition regression coverage."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_n2_no_active_gate_followup.contract.json",
+      "reason": "Recorded follow-up scope and acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_n2_no_active_gate_followup.summary.json",
+      "reason": "Recorded follow-up verification evidence."
+    }
+  ],
+  "sourcesUsed": [
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "tests/test_makefile.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:11.397472+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "b0bce208718a2024a47acb1d56d5db942be0e20288237a51cf2bd582b6b1058b",
+      "commandHash": "f0fe5483403af3a31b4b197998f8df92bfa452e13ea61f3a90073b2e5bb82486",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/review_n2_no_active_gate_followup.contract.json work item contract check passed: .ai/work-items/active/review_n2_no_active_gate_followup.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:11.571756+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "0cdf177f4e91efdf7cc7ab69518952b0b12b70c9355a51db1fb6a53b0af3bdc1",
+      "commandHash": "dea38829961020acd1016256937d915548201e4d16cd185b21fae220438cd475",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/review_n2_no_active_gate_followup.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:11.763865+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "6480295330a98d9071f62d28a13fa99cb079839a0e4d240127c192d4172435fb",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json [warning] restricted_write: Makefile (Makefile) - Shared local and CI command entrypoint. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:12.085493+00:00",
+      "exitCode": 0,
+      "durationMs": 257,
+      "outputDigest": "bf78f49baee301b3c5ee5bfed435d055cdff16c431b6673b2db23494d7449e6c",
+      "commandHash": "14af6be9ebe55eeca3ae87297b9289698a143f90c62e80c56b22085c66380e07",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `review_n2_no_active_gate_followup` - Contract Hash: `545589c2ddbc4b2a` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:12.258563+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "baf91d6bda2ddc4098a82f671f06101d37f90c4ae901a23bdb97be44c6af74bb",
+      "commandHash": "a27ffe4673f864aedf33813f66ebdfe46a2c24dee29a50f62bc1895d30035add",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json review policy matched 3 path(s) [review] .ai/cockpit/current_status.md [review] Makefile [review] templates/make/Makefile.ai review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:12.403892+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:12.555732+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:12.661302+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "e444fe321f73b715e30e5003d711d8182ccd37a410ab03fb1e3698782bde6bd9",
+      "commandHash": "8c4d676489a43e96a4f6866fe71d0e7ac5dee7f77d6886967070e577445f9a7a",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:12.762881+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "591cb875c7744299f135198c2eedb5b50a52c160c51ab2ae67738e464f447db0",
+      "commandHash": "478f6180bcfda8faf38a4ac108785bcddbbddb5c49e1ceed53b7d760cdf4c50d",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:38:13.072770+00:00",
+      "exitCode": 0,
+      "durationMs": 247,
+      "outputDigest": "91f464e4c1d0fe1bbf098c861b09c6df4e04395f8b3b5e6ecf90693aef4e1df6",
+      "commandHash": "8d007d5ace33c05f6f4f163251c1ccbe6362b9cddb0eddc5eb26d9c027cabb27",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `Makefile` — covered by Contract scope - [active_owned] `templates/make/Makefile.ai` — covered by Contract "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:39:16.589188+00:00",
+      "exitCode": 0,
+      "durationMs": 63462,
+      "outputDigest": "2feb36122bf1e0c8bcf9755acbb5bf8a97e77871e6fa189757c703ed8e4386f2",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "dc2a6cbf04384a9b0325938f616b9db53df3af30f2d62d0ade9ae325f8b1d76c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 87 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 18%] ........................................................................ [ 37%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:39:17.968513+00:00",
+      "exitCode": 0,
+      "durationMs": 223,
+      "outputDigest": "63194933e65ca691fdfad4b06506876f210081a3a710ff9d6c05c1b5e6f48b65",
+      "commandHash": "469375978a7806648c186bd1071f529f8ced95639574e055ffdb1e93f8941b9b",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "393d17d380252c1859295854b447b2e12e87bbe7f8a727582599786cf44e4d06",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/review_n2_no_active_gate_followup.contract.json --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:39:18.236992+00:00",
+      "exitCode": 0,
+      "durationMs": 214,
+      "outputDigest": "da19b342a5c376573019aa82ddcda6b59750e21da946cdc35c6a94c14c824eab",
+      "commandHash": "573261f38447daf5219d8df46166e56b117b1f70f09acdc1aec6e86dceace338",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "393d17d380252c1859295854b447b2e12e87bbe7f8a727582599786cf44e4d06",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:39:18.353807+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "393d17d380252c1859295854b447b2e12e87bbe7f8a727582599786cf44e4d06",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:39:18.452469+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "02dfba1146d20f4f2cc73f9e8b0d3b387f9925111254ee2c7dcdfe86446d3e36",
+      "commandHash": "e6d284cf77e6040b8f421bbedf278da9e46de29646eec9f9a5f476c7291bd50c",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "393d17d380252c1859295854b447b2e12e87bbe7f8a727582599786cf44e4d06",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json --summary .ai/work-items/active/review_n2_no_active_gate_followup.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review_n2_no_active_gate_followup.summary.json CONTRACT=.ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-13T13:39:18.609143+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "393267868a0de0a00a98afb3cae38c3dbb5bcf88d241d43c851815efe1bd11bf",
+      "commandHash": "4866a5becb1216d576c8e7adb047143f87c0a1051ce962c327c4bbf8c8e2d627",
+      "contractHash": "545589c2ddbc4b2a847203e011489ebfacbc246cf2f86a1f1d48e2e5fd9ee1bc",
+      "commitSha": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+      "executionContractPath": ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+      "worktreeDigest": "393d17d380252c1859295854b447b2e12e87bbe7f8a727582599786cf44e4d06",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/review_n2_no_active_gate_followup.summary.json --contract .ai/work-items/active/review_n2_no_active_gate_followup.contract.json ai summary check passed: .ai/work-items/active/review_n2_no_active_gate_followup.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public API was added."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "No imports or feature boundaries changed."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The no-active gate now uses only repository-state and PR evidence checks; future Makefile parity remains the residual risk."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Future host/template Makefile divergence could weaken the no-active gate if parity tests are bypassed.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Follow-up behavior is covered by focused tests and full finish checks.",
+    "expectedReviewFocus": [
+      "Confirm no-active mode does not invoke Contract-dependent checks and remains fail-closed on missing PR baseline."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "545589c2ddbc4b2a",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Confirmed the follow-up is limited to no-active Contract-less gate composition before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "545589c2ddbc4b2a",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Recorded after no-active gate tests and full project/governance verification passed."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+}

@@ -1,0 +1,160 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n2_no_active_gate_followup",
+  "mode": "code",
+  "title": "修正无 active 分支的 Contract-less 门禁组合",
+  "baseCommit": "f3eded248fa49e31f646019b43fd28c5ef0f661b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "d4a57b33a99b2778b137f9425ebee066cdbcaf3fb4b9e16cdeb345ff4d49ec27"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n2_no_active_gate_followup.contract.json",
+    ".ai/work-items/active/review_n2_no_active_gate_followup.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/review_n2_no_active_gate_followup.*",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "tests/test_makefile.py"
+  ],
+  "outOfScope": ["Active Work Item gate sequence", "Archive owner ranking", "Public release tag or push"],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "No-active branch currently invokes Contract-dependent checks without a Contract."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Distributed no-active branch must match the host gate composition."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Regression coverage for no-active gate composition."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_gate"],
+    "reason": "Only the no-active orchestration is changed; active Work Item behavior remains untouched."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Correct no-active gate composition and verify it against the archived N2 behavior."
+  },
+  "preReviewWarnings": ["Do not alter active Work Item checks or archive evidence."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The no-active branch does not invoke Contract-dependent checks without a Contract.",
+    "The no-active branch runs status consistency, backtrack, coverage, ownership, and PR checks.",
+    "Host and distributed Makefile tests pass and the active branch remains unchanged.",
+    "Full project quality and Work Item finish checks pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "After N2 added ownership and PR gates, make check-ai still failed in no-active mode because check-ai-guards requires a Contract and treated an archived restricted change as unapproved.",
+    "constraints": ["Do not modify active Work Item behavior.", "Do not edit archived N2 evidence.", "Do not publish or push."],
+    "rationale": "No-active mode must use checks that operate on repository state and PR evidence, while Contract-dependent checks belong to the active branch."
+  },
+  "scenarioCoverage": [
+    {"scenario": "No-active check-ai with an archived restricted change passes when ownership and PR evidence pass.", "required": true, "status": "verified", "evidence": ["Makefile", "tests/test_makefile.py"]},
+    {"scenario": "Active check-ai retains Contract-dependent checks.", "required": true, "status": "verified", "evidence": ["Makefile", "templates/make/Makefile.ai"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the automated remediation loop, including the restricted Makefile gate change."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

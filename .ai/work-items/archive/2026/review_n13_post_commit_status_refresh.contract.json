@@ -1,0 +1,154 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n13_post_commit_status_refresh",
+  "mode": "cleanup",
+  "title": "收敛 N12 提交后的 no-active 状态",
+  "baseCommit": "a28ff96f56976b84a6af02605411a243d6e7b58a",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "9cb4e97b0387d1e0aca8490e3ed37c30bbff5b7b12839aab0269f8df79a9ee9f"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n13_post_commit_status_refresh.contract.json",
+    ".ai/work-items/active/review_n13_post_commit_status_refresh.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines no_active_work_item and generated status semantics."
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "Defines the repair command for stale post-commit no-active status."
+    }
+  ],
+  "problemStatement": "The no-active Cockpit status generated before the N12 commit retains transient changes until repaired after commit.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["generated_artifact"],
+    "reason": "Only the generated no-active status is refreshed; runtime behavior is unchanged."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The generated artifact is repaired by the existing command and verified by status and ownership checks."
+  },
+  "preReviewWarnings": [
+    "Confirm the committed no-active status reports no transient worktree changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Generated no-active status reports absent worktree changes after the N12 commit.",
+    "Status consistency and ownership checks pass on the clean worktree.",
+    "The generated status refresh is archived with its Summary evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The no-active Cockpit status generated before the N12 commit retains transient changes until repaired after commit.",
+    "constraints": [
+      "Use the existing status repair generator; do not hand-edit generated output.",
+      "Do not modify archived evidence or rewrite history."
+    ],
+    "rationale": "A clean committed baseline needs a truthful no-active status for the next ownership check."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly requested the readiness fix and continuation through generated-state cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

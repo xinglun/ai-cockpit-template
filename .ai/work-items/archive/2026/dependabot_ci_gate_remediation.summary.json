@@ -1,0 +1,444 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "dependabot_ci_gate_remediation",
+  "contractPath": ".ai/work-items/archive/2026/dependabot_ci_gate_remediation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/dependabot_ci_gate_remediation.contract.json",
+      "reason": "Declared the bounded CI, dependency, workflow, and supply-chain remediation scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/dependabot_ci_gate_remediation.summary.json",
+      "reason": "Records the remediation evidence and verification results."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Consolidated the three requested commit-pinned Action upgrades."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Updated the checkout Action to the same pinned version as the compatibility workflow."
+    },
+    {
+      "path": "requirements-dev.lock",
+      "reason": "Regenerated the hash-locked dependency set under Python 3.10, including conditional exceptiongroup and stevedore 5.8.0."
+    },
+    {
+      "path": "requirements-dev.in",
+      "reason": "Changed the direct stevedore pin to the latest release compatible with Python 3.10."
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "reason": "Made the unpinned workflow-action regression test independent of a historical checkout SHA."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated the SBOM for the updated workflow actions and lock file."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated provenance for the updated SBOM and lock digest."
+    },
+    {
+      "path": "release.json",
+      "reason": "Updated the release evidence digests to match the regenerated immutable evidence files."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    }
+  ],
+  "sourcesUsed": [
+    "https://github.com/xinglun/ai-cockpit-template/pull/5",
+    "https://github.com/xinglun/ai-cockpit-template/pull/6",
+    "https://github.com/xinglun/ai-cockpit-template/pull/7",
+    ".github/workflows/compatibility.yml",
+    ".github/workflows/smoke.yml",
+    "requirements-dev.lock",
+    "requirements-dev.in",
+    "scripts/check_supply_chain.py",
+    "scripts/check_system_invariants.py",
+    "tests/test_project_governance.py",
+    "tests/test_release_distribution.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:37.630549+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "9474b2ed755647261a6dcfb0dc68375ffb5fac9f8d37fb1f69fab5bbd8277f9a",
+      "commandHash": "b101c07cd850270384f63453f78e1ac10ac47a0b0a1769f6a6ecc3c5e546d062",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/dependabot_ci_gate_remediation.contract.json work item contract check passed: .ai/work-items/active/dependabot_ci_gate_remediation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:37.790148+00:00",
+      "exitCode": 0,
+      "durationMs": 105,
+      "outputDigest": "56cbfc9f40773cffe31145febece573d19f902289c25843f5e5bb12ce5df3ee9",
+      "commandHash": "2039579eefa3f8ffc420e4aaa54772ade9675b23b132f5121b0e6daf684b21d9",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/dependabot_ci_gate_remediation.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:37.968313+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "04efb3d8ba9a7361ffb66cb093bdacca901d10aeeda7fea5ae7d46d09ec6a5a9",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai/**) - AI governance configuration. [warning] restricted_write: .github/workflows/compatibility.yml (.github/workflows/**) - CI workflow configuration. [warning] restricted_write: .github/workflows/smok"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:38.263629+00:00",
+      "exitCode": 0,
+      "durationMs": 232,
+      "outputDigest": "e852a41ac5fff7388b0b1e38d8b71c2194c250d957632fb766b3fdc90ac686ae",
+      "commandHash": "3ffde5ec16ee97023b03ee17d5e01f34df50879c90b390b8594b5656857f335d",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `dependabot_ci_gate_remediation` - Contract Hash: `5b11bc76ceff2547` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Requ"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:38.425825+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "0044576c65d32f3c1ae235c15a181852d48e957fa1a0bd1cb7e992e6b82c001a",
+      "commandHash": "1ee17863f62bd3afd58bc57ad66f8b8544a87fb5b9cfd1063022d62fde64a008",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json review policy matched 5 path(s) [review] .ai/cockpit/current_status.md [review] .ai/cockpit/provenance.json [review] .ai/cockpit/sbom.json [review] .github/workflows/compatibility.yml [review] .github/workflows/smoke.yml review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:38.590786+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:38.746197+00:00",
+      "exitCode": 0,
+      "durationMs": 100,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:38.857690+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "82e37b547bee780ed4f72759df3e301574f93a1abd0c3013480693aa54819ceb",
+      "commandHash": "7a96958f37845561cb53f549de60d0654b9b0ba6444362e340f0263e795343a2",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:38.963497+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "c561a4f032ce1c7fd1fb13a0a6dc4065633b6852556d0ac524b05db7b072b26e",
+      "commandHash": "cd9629a46b7d300ab2b7c6b1ba54f452136d52983e3bcff40be82447fb4dcb64",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:03:39.250215+00:00",
+      "exitCode": 0,
+      "durationMs": 231,
+      "outputDigest": "86b7a9d3ae2a4ba03fb217c5da87820a322a9610b28670501fbfabaaf2e736c4",
+      "commandHash": "a7620839be092b93ae405bc5206d8cc12c49f9c0ff4ebc58715cfddca3772e77",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/sbom.json` — covered b"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:04:38.242948+00:00",
+      "exitCode": 0,
+      "durationMs": 58935,
+      "outputDigest": "6dd555dff22d8996903d6910ff909e5eb01df684aad89cc8bc09ce9be3bb87c5",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "b6fca1353656d4c8dd9c8fdc1fc5329edc8bc2fc2171c3512f9fd1d1e8ff0967",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 88 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 18%] ........................................................................ [ 36%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:04:39.600143+00:00",
+      "exitCode": 0,
+      "durationMs": 243,
+      "outputDigest": "668f3243bec4ecac4972a1a34670c3ce6ac9fbc06ac87adeeced3b9d3bab95d8",
+      "commandHash": "8357bd0ed3421f53f5e9e41d1aab009cad83e996eda5f3824b51661bb20fe1df",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "cd7dc7e9b9d2a211b36fe5a2b41ad97d78e958256826d2f672b8d65f631f237e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/dependabot_ci_gate_remediation.contract.json --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:04:39.882240+00:00",
+      "exitCode": 0,
+      "durationMs": 232,
+      "outputDigest": "af28683199a606a396717474e95695df3c2aa18036e9483c874ffe14bf8c32b9",
+      "commandHash": "bd1e1bd3f7d6ca1d5506903ce00f0a7e7a6c31c1e687e1f432b58cc3e283ac6b",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "cd7dc7e9b9d2a211b36fe5a2b41ad97d78e958256826d2f672b8d65f631f237e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:04:39.981861+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "cd7dc7e9b9d2a211b36fe5a2b41ad97d78e958256826d2f672b8d65f631f237e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:04:40.087891+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "ec01d15ee3dc8339eb95ca097ab2d4b3c3c3f4bce4640c16907b30d16d309b48",
+      "commandHash": "faf386fc85eb020ca9115dd144b440b030a4d7d9c50b290d2afab4530695ea8f",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "cd7dc7e9b9d2a211b36fe5a2b41ad97d78e958256826d2f672b8d65f631f237e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json --summary .ai/work-items/active/dependabot_ci_gate_remediation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/dependabot_ci_gate_remediation.summary.json CONTRACT=.ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T03:04:40.255077+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "2b1fd5d99337f36ffdc1924958814282f3e8dff6607e9d6f9a07e1c9da28bcbf",
+      "commandHash": "f034bb30f590b6f703ba67bbc3ac094fcf3c448675f96d9e5d568ab5599fdc98",
+      "contractHash": "5b11bc76ceff2547ab8d328ef30329eca4190b19808fa4171093a5dac978d4ff",
+      "commitSha": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+      "executionContractPath": ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+      "worktreeDigest": "cd7dc7e9b9d2a211b36fe5a2b41ad97d78e958256826d2f672b8d65f631f237e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/dependabot_ci_gate_remediation.summary.json --contract .ai/work-items/active/dependabot_ci_gate_remediation.contract.json ai summary check passed: .ai/work-items/active/dependabot_ci_gate_remediation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Do not weaken or bypass existing CI, supply-chain, or workflow-pinning gates.",
+      "compliant": true,
+      "evidence": "All existing checks remain enabled; the Action references remain full commit SHAs and the generated evidence checks pass locally."
+    },
+    {
+      "guideline": "Keep the change limited to dependency compatibility and generated supply-chain evidence.",
+      "compliant": true,
+      "evidence": "The diff is limited to workflow dependency pins, the Python lock, a regression test fixture, release evidence, and governance records; no runtime production code changed."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Python 3.10 locked dependency installation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "A fresh Python 3.10.14 virtual environment installed requirements-dev.lock with --require-hashes, including exceptiongroup and stevedore 5.8.0."
+      ]
+    },
+    {
+      "scenario": "Python 3.11 and 3.14 locked dependency installation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Fresh virtual environments installed requirements-dev.lock with --require-hashes on both interpreters."
+      ]
+    },
+    {
+      "scenario": "Workflow Action pinning and supply-chain evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Targeted governance tests, system invariants, SBOM, provenance, and release digest checks pass locally."
+      ]
+    }
+  ],
+  "unknownsRemaining": [
+    "The updated Dependabot PR checks remain to be re-run after the mainline remediation is pushed."
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "Remote Dependabot PR checks remain to be re-run after the local remediation is committed."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Dependabot CI initially failed because stevedore 5.9.0 requires Python >=3.11.",
+    "Dependabot CI initially failed because updated workflow Action SHAs were not reflected in SBOM/provenance evidence.",
+    "The workflow pinning regression test depended on the historical checkout SHA and was updated to match the behavior under test."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "The updated Dependabot PR checks are pending after push; local Python 3.10, 3.11, and 3.14 lock installs pass.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Required verification or known-unknown evidence is incomplete.",
+    "expectedReviewFocus": [
+      "Confirm the three Action SHAs and generated supply-chain digests form one consistent release unit.",
+      "Confirm the updated Dependabot PR checks pass against the consolidated mainline remediation."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "5b11bc76ceff2547",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Confirmed the shared CI failure roots, bounded scope, and non-runtime dependency remediation before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "5b11bc76ceff2547",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Local quality, all supported Python lock-install scenarios, governance checks, and evidence consistency are verified; remote PR rechecks remain operational follow-up."
+    }
+  ],
+  "knownGaps": [
+    "The three open Dependabot PRs still need to be rechecked against the updated mainline."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 14
+}

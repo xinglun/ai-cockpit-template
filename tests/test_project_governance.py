@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -219,8 +220,11 @@ def test_system_invariants_reject_unpinned_workflow_actions(tmp_path, monkeypatc
     )
     workflow = copy / ".github" / "workflows" / "smoke.yml"
     workflow.write_text(
-        workflow.read_text(encoding="utf-8").replace(
-            "@df4cb1c069e1874edd31b4311f1884172cec0e10", "@v6"
+        re.sub(
+            r"(uses:\s*actions/checkout)@[^\s]+",
+            r"\1@v6",
+            workflow.read_text(encoding="utf-8"),
+            count=1,
         ),
         encoding="utf-8",
     )

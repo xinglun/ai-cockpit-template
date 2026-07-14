@@ -1,0 +1,174 @@
+{
+  "contractVersion": 2,
+  "workItemId": "dependabot_ci_gate_remediation",
+  "mode": "code",
+  "title": "修复 Dependabot PR 共同 CI 门禁阻断",
+  "baseCommit": "bbc3bf92c6163438253a9a9f79c7b4db802d23fb",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/dependabot_ci_gate_remediation.contract.json",
+    ".ai/work-items/active/dependabot_ci_gate_remediation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".github/workflows/compatibility.yml",
+    ".github/workflows/smoke.yml",
+    "tests/test_project_governance.py",
+    "requirements-dev.lock",
+    "requirements-dev.in",
+    "release.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["scripts/**", "install.sh", "docs/**"],
+  "sources": [
+    {
+      "path": "https://github.com/xinglun/ai-cockpit-template/pull/5",
+      "reason": "Checkout Action upgrade and its failed compatibility/smoke checks."
+    },
+    {
+      "path": "https://github.com/xinglun/ai-cockpit-template/pull/6",
+      "reason": "Gradle Action upgrade and its failed compatibility/smoke checks."
+    },
+    {
+      "path": "https://github.com/xinglun/ai-cockpit-template/pull/7",
+      "reason": "Android setup Action upgrade and its failed compatibility/smoke checks."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Defines pinned workflow Actions and the Python version matrix."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Supply-chain baseline must match workflow Action references and lock contents."
+    },
+    {
+      "path": "requirements-dev.lock",
+      "reason": "The CI failure shows stevedore 5.9.0 cannot install on Python 3.10."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["ci_gate", "supply_chain", "dependency_compatibility"],
+    "reason": "The change updates CI dependencies and immutable supply-chain evidence, but does not alter runtime product behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failure evidence identifies a bounded CI dependency and evidence-baseline remediation."
+  },
+  "preReviewWarnings": [
+    "Verify that all Action references remain commit-pinned and that generated evidence is tied to the intended release source."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All three requested Dependabot Action upgrades are represented on main with commit-pinned references.",
+    "requirements-dev.lock installs successfully with --require-hashes on Python 3.10, 3.11, and 3.14.",
+    "SBOM and provenance checks pass after the workflow and lock changes, with no stale evidence drift.",
+    "The relevant local quality and governance checks pass without weakening existing gates."
+  ],
+  "guidelines": [
+    "Do not weaken or bypass existing CI, supply-chain, or workflow-pinning gates.",
+    "Keep the change limited to dependency compatibility and generated supply-chain evidence."
+  ],
+  "intent": {
+    "problem": "The three Dependabot PRs fail the same CI gates after updating workflow Action SHAs: the checked-in SBOM drifts from the workflow, and the locked development dependency stevedore 5.9.0 cannot install on the supported Python 3.10 matrix.",
+    "constraints": ["Preserve commit-pinned workflow Actions.", "Do not weaken governance or supply-chain checks.", "Do not change runtime product behavior.", "Keep release evidence internally consistent."],
+    "rationale": "Consolidating the compatible dependency updates and regenerating the evidence in one controlled mainline Work Item avoids merging three independently failing branches and leaves a reproducible CI baseline."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Python 3.10 locked dependency installation", "required": true, "status": "unverified", "evidence": ["Dependabot CI log reports stevedore 5.9.0 has Requires-Python >=3.11."]},
+    {"scenario": "Python 3.11 and 3.14 locked dependency installation", "required": true, "status": "unverified", "evidence": ["Both versions are part of the compatibility matrix and currently reach quality checks after installation."]},
+    {"scenario": "Workflow Action pinning and supply-chain evidence", "required": true, "status": "unverified", "evidence": ["PR checks report workflow invariant and SBOM baseline failures after Action SHA changes."]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized remediation of the shared CI blockers."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

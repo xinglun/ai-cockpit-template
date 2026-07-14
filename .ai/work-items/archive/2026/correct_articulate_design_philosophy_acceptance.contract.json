@@ -1,0 +1,206 @@
+{
+  "contractVersion": 2,
+  "workItemId": "correct_articulate_design_philosophy_acceptance",
+  "mode": "code",
+  "title": "Correct AI Cockpit design philosophy acceptance findings",
+  "baseCommit": "9487e22dc6aa3cc3c94847371f527a03e72558e3",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/philosophy/design-philosophy.md",
+    ".ai/work-items/active/correct_articulate_design_philosophy_acceptance.contract.json",
+    ".ai/work-items/active/correct_articulate_design_philosophy_acceptance.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/2026/articulate_design_philosophy.summary.json",
+    ".ai/work-items/archive/2026/articulate_design_philosophy.contract.json",
+    ".ai/work-items/archive/**",
+    "docs/design-philosophy.md",
+    ".github/workflows/**",
+    "tests/**",
+    "schemas/**",
+    "scripts/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository rules requiring a new correction Work Item for post-archive corrections and complete verification evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/articulate_design_philosophy.summary.json",
+      "reason": "Archived evidence containing the template residual-risk placeholder that must be corrected through a new Work Item rather than edited in place."
+    },
+    {
+      "path": "docs/philosophy/design-philosophy.md",
+      "reason": "Authoritative page containing the two language-consistency findings to correct."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Terminology source for human-agent collaboration, calibrated trust, and governance boundaries."
+    }
+  ],
+  "problemStatement": "Acceptance identified three correctable defects in the prior Work Item: a template residual-risk placeholder in the archived Summary, a stale PR baseline that included unrelated release changes, and two unmarked Chinese passages in the authoritative Japanese philosophy page.",
+  "scenarioCoverage": [
+    {
+      "scenario": "The authoritative philosophy page uses coherent Japanese prose while retaining the requested English headings and source quotation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Manual review of docs/philosophy/design-philosophy.md",
+        "Targeted language and terminology search"
+      ]
+    },
+    {
+      "scenario": "The correction Work Item records the actual residual risk without modifying the prior archived Summary.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "New Work Item Contract/Summary",
+        "Scope check excluding prior archive records"
+      ]
+    },
+    {
+      "scenario": "The PR diff is based on the latest origin/main and contains no unrelated release workflow or test changes.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "git merge-base HEAD origin/main",
+        "make check-ai-pr AI_BASE_COMMIT=<latest origin/main merge-base>"
+      ]
+    },
+    {
+      "scenario": "Runtime behavior, schemas, compatibility redirects, and product capabilities remain unchanged.",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This is a documentation and governance-record correction only."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Documentation-only correction; risks are limited to language consistency, archive immutability, and PR ownership evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The reviewer findings, correction scope, archive immutability boundary, and verification evidence are explicit."
+  },
+  "preReviewWarnings": [
+    "Review that the prior archive is unchanged, the Japanese page contains no unmarked Chinese prose, and the PR base excludes unrelated release changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The authoritative philosophy page replaces the mixed-language collaboration phrase with coherent Japanese and replaces the Chinese architect translation with the requested Japanese translation.",
+    "The correction Summary records actual residual risks and does not contain template placeholder text; the prior archived Summary and Contract remain byte-for-byte unchanged.",
+    "The branch is rebased onto the latest origin/main, and the PR aggregate identifies only this correction Work Item and its intended files.",
+    "No runtime behavior, schema, compatibility redirect, release workflow, or test file is changed."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "验收发现上一项文档修改的交接证据仍有模板占位内容，权威日文页面有未标注中文混入，且 PR 基线落后于最新 origin/main，导致治理聚合包含无关 release 变更。需要在不修改旧归档的前提下，用新的纠正 Work Item 固化真实风险并收敛 PR 差分。",
+    "constraints": [
+      "不得直接修改 .ai/work-items/archive/2026/articulate_design_philosophy.summary.json 或其 Contract；旧归档必须保持不变。",
+      "docs/philosophy/design-philosophy.md 使用日文正文，可保留英文标题和英文原文；不得将中文翻译直接混入日文正文。",
+      "只修正文案与本次纠正 Work Item 证据；不修改运行时、Schema、兼容入口、release workflow、测试或产品能力。"
+    ],
+    "rationale": "将归档缺陷作为新的可审计纠正项记录，既保留原始历史，又让实际残余风险和语言决策成为后续评审可验证的 Repository Truth；同步最新主线则确保 PR 只表达本任务。"
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

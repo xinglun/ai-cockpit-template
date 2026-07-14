@@ -1,0 +1,192 @@
+{
+  "contractVersion": 2,
+  "workItemId": "align_archive_index_ownership_guard",
+  "mode": "code",
+  "title": "Align archive index ownership guard with PR audit",
+  "baseCommit": "c81d97249d178f3530e3fc77da295cdb8b5d5317",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_check_diff_ownership.py",
+    "tests/test_diff_ownership.py",
+    ".ai/work-items/active/align_archive_index_ownership_guard.contract.json",
+    ".ai/work-items/active/align_archive_index_ownership_guard.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/**",
+    "docs/**",
+    ".github/workflows/**",
+    "schemas/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository workflow and scope rules."
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "Ownership guard containing the unconditional archive-index modification rejection."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Existing PR audit behavior that accepts a generated archive index when Summary changedFiles declares it."
+    },
+    {
+      "path": "tests/test_diff_ownership.py",
+      "reason": "Regression-test location for ownership preview behavior."
+    }
+  ],
+  "problemStatement": "The local ownership guard rejects every modified archive index even when the associated archived Summary explicitly declares the index as a generated changed file. This contradicts the PR audit and blocks valid archive evidence diffs.",
+  "scenarioCoverage": [
+    {
+      "scenario": "A generated archive index declared by an archived Summary is excluded from unowned-path failures.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Focused regression test",
+        "make check-ai AI_BASE_COMMIT=origin/main"
+      ]
+    },
+    {
+      "scenario": "Existing archive immutability behavior still rejects modifications to archived Contract/Summary files.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Existing archive append-only regression test",
+        "make ai-cockpit-quality"
+      ]
+    },
+    {
+      "scenario": "No product documentation, archive evidence, schema, release, or runtime behavior changes.",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This is a governance ownership-check correction only."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Narrow governance-check correction with focused regression coverage."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Root cause, minimal fix, regression test, scope, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Review that only generated archive index metadata is exempted, while archived Contract/Summary modifications remain append-only failures."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A regression test proves a Summary-declared generated archive index is not reported as unowned by the local ownership guard.",
+    "The guard continues to reject modified archived evidence files and all existing tests pass.",
+    "make check-ai AI_BASE_COMMIT=origin/main and make check-ai-pr AI_BASE_COMMIT=origin/main both pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The archive index is valid generated metadata when a Work Item Summary declares it, but the local diff ownership guard handles it differently from the PR audit and rejects it unconditionally.",
+    "constraints": [
+      "Do not weaken the append-only rejection for archived Contract/Summary files.",
+      "Keep the change limited to the ownership guard and its regression test."
+    ],
+    "rationale": "The local guard and PR audit should apply the same evidence-based rule so valid generated index diffs can be retained without creating unowned-path false positives."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

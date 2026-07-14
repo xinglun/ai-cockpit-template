@@ -1,0 +1,197 @@
+{
+  "contractVersion": 2,
+  "workItemId": "restore_archive_index_consistency",
+  "mode": "code",
+  "title": "Restore archive index consistency and paragraph formatting",
+  "baseCommit": "016e672ea14d913cf34fb720d5b23afdceafe79b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/archive/index.json",
+    "docs/philosophy/design-philosophy.md",
+    ".ai/work-items/active/restore_archive_index_consistency.contract.json",
+    ".ai/work-items/active/restore_archive_index_consistency.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/2026/**",
+    ".ai/glossary.md",
+    "docs/design-philosophy.md",
+    ".github/workflows/**",
+    "tests/**",
+    "schemas/**",
+    "scripts/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository rules for Work Item evidence, generated status, and append-only archive records."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Archive discovery index missing the entries corresponding to already archived Work Items 37–39."
+    },
+    {
+      "path": "docs/philosophy/design-philosophy.md",
+      "reason": "Authoritative page containing the English sentence that needs paragraph separation."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/repair_archive_index_ownership.contract.json",
+      "reason": "Prior correction Contract that explicitly requires preserving the generated archive index update."
+    }
+  ],
+  "problemStatement": "The prior correction removed archive index entries 37–39 to satisfy ownership checks, creating a contradiction between the archived evidence and the discovery index. The philosophy page also needs one remaining English sentence separated into its own paragraph.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Archive index entries 37, 38, and 39 match the immutable archived Contract/Summary records.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Index entry hashes compared with archived Contract/Summary files",
+        "JSON validation"
+      ]
+    },
+    {
+      "scenario": "The English sentence following the Japanese Convergence paragraph is rendered as a separate paragraph.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Manual Markdown structure review"
+      ]
+    },
+    {
+      "scenario": "Prior archived Work Item Contract/Summary files remain unchanged.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Scope excludes .ai/work-items/archive/2026/**",
+        "Git comparison against prior correction commit"
+      ]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Documentation and generated-index consistency correction; immutable archive evidence is out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The index contradiction, language-formatting correction, immutable archive boundary, and verification evidence are explicit."
+  },
+  "preReviewWarnings": [
+    "Review index entry hashes and paragraph boundaries; confirm no archived evidence files were edited."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Archive index entries 37, 38, and 39 are restored with paths, sequences, and hashes matching the immutable archived records.",
+    "The English sentence beginning 'We choose the direction' is a separate Markdown paragraph after the Japanese translation.",
+    "No file under .ai/work-items/archive/2026/** is modified, and no runtime, schema, release workflow, or test file changes."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The prior ownership workaround deleted generated archive index entries 37–39, so the discovery index no longer reflects the authoritative archived Contract/Summary records. The remaining document formatting issue is independent but belongs to the same acceptance correction.",
+    "constraints": [
+      "Restore index metadata without changing any archived Contract or Summary file.",
+      "Keep Japanese body prose coherent and place English source sentences in standalone paragraphs.",
+      "Do not modify runtime, schema, release workflow, tests, or compatibility entry points."
+    ],
+    "rationale": "The archive index is discovery metadata, while archived Contract/Summary files remain authoritative. Restoring matching entries removes the contradiction without rewriting history."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -29,6 +29,7 @@ ARCHIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "archive"
 OWNERSHIP_POLICY = PROJECT_ROOT / ".ai" / "guards" / "file_ownership.yaml"
 CURRENT_STATUS = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
 REPORT = PROJECT_ROOT / "target" / "ai_diff_ownership_report.json"
+GENERATED_ARCHIVE_INDEX = ".ai/work-items/archive/index.json"
 STATES = {
     "active_owned",
     "archived_owned",
@@ -120,6 +121,20 @@ def covers(owner: Owner, path: str) -> tuple[bool, bool]:
 def approved(owner: Owner) -> bool:
     approval = owner.contract.get("restrictedWriteApproval")
     return isinstance(approval, dict) and approval.get("approved") is True
+
+
+def generated_archive_index_claimed(base: str) -> bool:
+    """Return whether PR archive evidence declares the generated index change."""
+    for path, status in archive_evidence_changes(base).items():
+        if status != "A" or not path.endswith(".summary.json"):
+            continue
+        try:
+            summary = load_json(PROJECT_ROOT / path)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        if GENERATED_ARCHIVE_INDEX in changed_file_paths(summary):
+            return True
+    return False
 
 
 def is_unchanged_active_baseline(owner: Owner, path: str) -> bool:
@@ -260,6 +275,8 @@ def preview(*, base: str = "", contract: dict[str, Any] | None = None) -> list[O
     values: list[Ownership] = []
     for status, path in changed:
         if is_generated_no_active_status(path):
+            continue
+        if path == GENERATED_ARCHIVE_INDEX and base and generated_archive_index_claimed(base):
             continue
         if path.startswith(".ai/work-items/archive/") and status != "A":
             restore_base = f"{base}^" if not explicit_base else base

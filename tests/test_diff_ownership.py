@@ -146,6 +146,36 @@ def test_preview_rejects_modification_of_existing_archive_evidence(monkeypatch):
     assert "append-only" in old.detail
 
 
+def test_pr_preview_accepts_generated_archive_index_declared_by_summary(monkeypatch):
+    index_path = ".ai/work-items/archive/index.json"
+    monkeypatch.setattr(
+        ownership,
+        "changed_name_status",
+        lambda *_args, **_kwargs: [("M", index_path)],
+    )
+    monkeypatch.setattr(
+        ownership,
+        "archive_evidence_changes",
+        lambda _base: {
+            ".ai/work-items/archive/2026/task.contract.json": "A",
+            ".ai/work-items/archive/2026/task.summary.json": "A",
+        },
+    )
+    monkeypatch.setattr(
+        ownership,
+        "load_json",
+        lambda path: (
+            {"changedFiles": [{"path": index_path}]}
+            if str(path).endswith("task.summary.json")
+            else {}
+        ),
+    )
+    monkeypatch.setattr(ownership, "owners", lambda **_kwargs: [])
+    monkeypatch.setattr(ownership, "parse_simple_manifest", lambda _path: {})
+
+    assert ownership.preview(base="merge-base") == []
+
+
 def test_preview_skips_generated_no_active_status(monkeypatch, tmp_path):
     status_path = tmp_path / "current_status.md"
     status_path.write_text(

@@ -1,0 +1,189 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n19_final_acceptance",
+  "mode": "code",
+  "title": "完成评审整改最终验收与发布证据闭环",
+  "baseCommit": "1d47d4631361a669bff2bb340acdf497780b7e38",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "d7d503a4b35bb09bd7c81fcb32db0a161cccad2f17fafebaa91fcd6f31034248"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n19_final_acceptance.contract.json",
+    ".ai/work-items/active/review_n19_final_acceptance.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "Review-backed remediation inventory and completion criteria."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Release distribution gate that validates immutable tag evidence."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR aggregate gate for archived Work Item evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/**",
+      "reason": "Archived Work Item contracts and summaries used for remediation traceability."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Canonical project and governance verification commands."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_evidence"
+    ],
+    "reason": "The local release evidence and the already published immutable tag may represent different release units; the gate must preserve that distinction."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The acceptance scope and external release evidence boundary are explicit."
+  },
+  "preReviewWarnings": [
+    "Confirm the final verdict distinguishes current-branch verification from immutable published-tag verification."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All review remediation Work Items through N18 are archived with valid Contract/Summary evidence and no unowned active changes remain after this Work Item is archived.",
+    "The target-base PR aggregate gate and the complete project quality/governance suite are executed and their results are recorded in the Summary.",
+    "Release distribution verification checks immutable tag contents for release.json, installer, lock, SBOM, and provenance without accepting worktree evidence as tag evidence.",
+    "Any remaining failure is classified as an actionable external release-publication prerequisite, with no false ready or complete verdict."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The review requires a final self-check after the remediation sequence. Local code and governance checks can pass while an already published immutable tag still lacks the evidence claimed by the current release metadata.",
+    "constraints": [
+      "Do not rewrite historical Work Item archives.",
+      "Do not weaken release or PR gates to make an external tag mismatch disappear.",
+      "Do not push or mutate the public repository from this Work Item."
+    ],
+    "rationale": "A final evidence-only Work Item closes the remediation loop and leaves a precise release prerequisite when repository state outside the local worktree still prevents GO."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "All prior remediation Work Items are archived and the current target-base PR gate passes.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The complete local quality and governance suite passes from the current commit.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "Release distribution verification either passes against the immutable tag or records the tag-publication prerequisite without accepting worktree evidence.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

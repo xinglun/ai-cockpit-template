@@ -110,7 +110,7 @@ jobs:
             make ai-finish TASK=adopt_ai_cockpit
             git add .
             git commit -m 'install template'
-            make check-ai AI_BASE_COMMIT="$base"
+            make check-ai AI_BASE_COMMIT=HEAD
             make check-ai-pr AI_BASE_COMMIT="$base"
             make ai-start TASK=ci_smoke TITLE="CI smoke" MODE=investigate
             python3 -c 'import json; from pathlib import Path; path = Path(".ai/work-items/active/ci_smoke.contract.json"); contract = json.loads(path.read_text()); contract["scope"].append(".ai/guards/scope_policy.yaml"); contract["restrictedWriteApproval"] = {"approved": True, "approvedBy": "CI smoke", "reason": "Verify installed Makefile.ai passes Contract approval to the guard."}; path.write_text(json.dumps(contract, indent=2) + "\n")'

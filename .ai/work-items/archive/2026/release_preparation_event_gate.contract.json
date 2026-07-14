@@ -1,0 +1,157 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_preparation_event_gate",
+  "mode": "code",
+  "title": "让发布前门禁按版本状态生效",
+  "baseCommit": "af5a442cd0d7bbc1a536040e805ea7dbf0905e6f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_preparation_event_gate.contract.json",
+    ".ai/work-items/active/release_preparation_event_gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/smoke.yml",
+    "tests/test_workflows.py"
+  ],
+  "outOfScope": ["release.json", "scripts/**", "release workflow publication", "product code"],
+  "sources": [
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "The preparation-mode signal is currently limited to release branch names, but follow-up release fixes also need the same narrow version-state gate."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Regression coverage for the preparation-mode event signal."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository workflow and verification rules."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_preparation_detection"
+    ],
+    "reason": "The event signal must allow release-related PRs to validate the next patch without making arbitrary future versions acceptable."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The narrow version-state check remains in the distribution checker; this change only corrects which CI events enable it."
+  },
+  "preReviewWarnings": [
+    "Review that preparation mode is enabled only for pull requests/main pushes and the checker still enforces the exact next patch."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Pull request and main push smoke runs enable preparation mode for the pending next patch release.",
+    "The distribution checker remains responsible for rejecting non-next versions and strict mode remains available for workflow_dispatch.",
+    "Workflow regression tests and project quality checks pass."
+  ],
+  "guidelines": [
+    "Keep preparation mode narrow and let the checker enforce the exact next-patch rule.",
+    "Keep workflow_dispatch strict for post-publication verification."
+  ],
+  "intent": {
+    "problem": "The release workflow authentication fix PR still fails smoke because its branch is not named codex/release-v*, even though release.json is the exact next pending patch.",
+    "constraints": ["Only change smoke event signaling and its regression test.", "Do not change release metadata or strict checker behavior."],
+    "rationale": "Preparation eligibility should be based on the release event state, while the checker remains the authority for exact version sequencing."
+  },
+  "scenarioCoverage": [
+    {"scenario": "pull request and main push smoke runs enable preparation mode", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "workflow dispatch remains strict", "required": true, "status": "verified", "evidence": [".github/workflows/smoke.yml", "scripts/check_release_distribution.py"]},
+    {"scenario": "workflow regression and quality checks pass", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User accepted the release gate workflow adjustment; this change corrects the preparation event signal without weakening version validation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

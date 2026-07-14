@@ -48,7 +48,7 @@ jobs:
 
       - name: Verify documented public release contract
         env:
-          AI_RELEASE_PREPARATION: ${{ ((github.event_name == 'pull_request' && startsWith(github.head_ref, 'codex/release-v')) || (github.event_name == 'push' && github.ref == 'refs/heads/main')) && '1' || '0' }}
+          AI_RELEASE_PREPARATION: ${{ (github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')) && '1' || '0' }}
         run: make check-release-distribution
 
       - name: Verify supply-chain evidence

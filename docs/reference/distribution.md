@@ -19,9 +19,9 @@ SBOM and provenance release evidence must be generated with an explicit source c
 
 ## PR-first release sequence
 
-Changes enter `main` through a pull request. Both `smoke` and `compatibility` also run on `main` pushes, so the commit selected for release has fresh repository-level and cross-platform evidence. Maintainers start the manually dispatched `release` workflow with a new `vMAJOR.MINOR.PATCH` tag; it refuses an existing tag, verifies that the requested commit is the workflow commit, requires successful `smoke` and `compatibility` runs for that exact SHA, runs `make check-release-distribution`, and only then creates the tag and GitHub Release.
+Changes enter `main` through a pull request. Both `smoke` and `compatibility` also run on `main` pushes, so the commit selected for release has fresh repository-level and cross-platform evidence. A fail-closed, manually dispatched `release` workflow is planned but is not yet present in this repository; until it exists, maintainers must perform the tag and release steps manually only after recording the exact successful commit evidence.
 
-The historical `v0.5.24` tag is immutable evidence and is not rewritten. A future release must be created from a commit that has completed the full required checks before the release workflow is dispatched.
+The historical `v0.5.24` tag is immutable evidence and is not rewritten. A future release must be created from a commit that has completed the full required checks. Do not claim that a tag passed an automated release workflow until that workflow is implemented and its exact-SHA gate is green.
 
 ## Archive evidence index
 

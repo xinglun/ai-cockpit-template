@@ -22,3 +22,5 @@ def test_release_documentation_requires_one_verified_commit():
 
     assert "Both `smoke` and `compatibility`" in documentation
     assert "historical `v0.5.24` tag is immutable" in documentation
+    assert "workflow is planned but is not yet present" in documentation
+    assert "Do not claim that a tag passed an automated release workflow" in documentation

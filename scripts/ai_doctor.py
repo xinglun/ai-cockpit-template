@@ -10,8 +10,13 @@ import subprocess
 import sys
 from pathlib import Path
 
-from ai_check_adoption_ready import readiness_failures, readiness_role_message
+from ai_check_adoption_ready import (
+    readiness_failures,
+    readiness_role_message,
+    template_exemption,
+)
 from ai_common import clean_git_environment
+from ai_project_profile import load_profile
 
 
 def command_ok(root: Path, *command: str) -> bool:
@@ -97,11 +102,29 @@ def diagnose(root: Path) -> tuple[list[str], list[str], list[str]]:
         passed.append("CI configuration detected; verify merge-base wiring manually")
     else:
         warnings.append("No GitHub Actions or GitLab CI configuration detected for check-ai-pr")
-    if readiness_failures(root):
-        warnings.append(readiness_role_message(root))
+    profile, profile_issues = load_profile(
+        root / ".ai" / "project_profile.yaml", require_approval=True
+    )
+    maintenance_mode = (
+        not profile_issues
+        and template_exemption(profile, root, execution_mode="template_maintenance")[0]
+    )
+    previous_mode = os.environ.get("AI_COCKPIT_EXECUTION_MODE")
+    if maintenance_mode:
+        os.environ["AI_COCKPIT_EXECUTION_MODE"] = "template_maintenance"
+    try:
+        readiness = readiness_failures(root)
+        role_message = readiness_role_message(root)
+    finally:
+        if previous_mode is None:
+            os.environ.pop("AI_COCKPIT_EXECUTION_MODE", None)
+        else:
+            os.environ["AI_COCKPIT_EXECUTION_MODE"] = previous_mode
+    if readiness:
+        warnings.append(role_message)
         warnings.append("Run make check-ai-adoption-ready before enabling production gates")
     else:
-        passed.append(readiness_role_message(root))
+        passed.append(role_message)
         passed.append("Adoption readiness configuration is complete")
     return passed, warnings, failures
 

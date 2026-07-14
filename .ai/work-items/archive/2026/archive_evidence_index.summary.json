@@ -1,0 +1,395 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "archive_evidence_index",
+  "contractPath": ".ai/work-items/archive/2026/archive_evidence_index.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/archive_evidence_index.contract.json",
+      "reason": "Scoped the archive index behavior and rollback boundaries."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_evidence_index.summary.json",
+      "reason": "Records implementation and verification evidence for the archive index."
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Maintains a versioned, atomically-written discovery index during archival."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Covers archive helper behavior within isolated fixtures."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Verifies index entries and rollback on index write failure."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Verifies sequence allocation uses an existing index."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documents index authority and rebuild semantics."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/archive_evidence_index.contract.json",
+    "scripts/ai_archive_work_item.py",
+    "tests/test_start_and_archive.py",
+    "docs/reference/distribution.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:44.348690+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "30e7500a00507983f380e87ec4ec29e42ea5f09a11426d459cbe5cf941094c25",
+      "commandHash": "b30c0f607e5759a18ff60a005c5203bd9eb6d914231251c96980aa830388c085",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/archive_evidence_index.contract.json work item contract check passed: .ai/work-items/active/archive_evidence_index.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:44.542975+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "216fe2be6a8463b15c58f83a426fe50c5b50a491da508baf229a71a24b91614f",
+      "commandHash": "a386d55f858e9341358b3d52144d1a3965732c006fc63eb3174103d11323264c",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/archive_evidence_index.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:44.772738+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "1ad0d619e805f3ab2f60e1104ef84ed0e740b88faf363fe4c4a98d15e3474193",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/archive_evidence_index.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:45.193309+00:00",
+      "exitCode": 0,
+      "durationMs": 334,
+      "outputDigest": "a6af514b13db073f5a727797a43dc1ff38f584519c8b1aca7bd3c3135e408373",
+      "commandHash": "c85caab8ca331e2ff1f430e803ff6f17d80ba3dcdc3d9fa01f91960d776c6a1d",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/archive_evidence_index.contract.json --summary .ai/work-items/active/archive_evidence_index.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `archive_evidence_index` - Contract Hash: `cf84cb3cf0a8c6cd` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` - Required Chec"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:45.419691+00:00",
+      "exitCode": 0,
+      "durationMs": 141,
+      "outputDigest": "900493eec091e362c0777eb6eecbea51646ef82004abbe7d568102c3ad927d86",
+      "commandHash": "712f2dae7a276d30a826a9566adfd079c0205833778a61d8011866c5eead4e2f",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/archive_evidence_index.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_archive_work_item.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:45.617394+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:45.817025+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:45.956167+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "5a7e2a7862a81141a544a02f7062b25749c5ba8ff31c688a3beacfd34254161b",
+      "commandHash": "c718eb4fc8ca82aaeb8d30dbc7539351b7a0923adaeb709ff35ea87bb388045b",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/archive_evidence_index.contract.json --summary .ai/work-items/active/archive_evidence_index.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:46.092208+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "8df0f87c3db678ba24d4c8a98cc8552666aa9facda70684d1d64c781ebb40189",
+      "commandHash": "4ba498ca7d25f4d9d76d388adcef4e5138ab7e19eefcc4d2a1c31e1c825eb95a",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/archive_evidence_index.contract.json --summary .ai/work-items/active/archive_evidence_index.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:18:46.486169+00:00",
+      "exitCode": 0,
+      "durationMs": 321,
+      "outputDigest": "eb2bf8f09ca4c8730853553c4d5c1a89375823ee8154909b4ec964b1c43aee12",
+      "commandHash": "1e61b1eaa9552d0696dd496a840485186d3c489548c9fa0db37d9b7acf4b72ab",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/archive_evidence_index.contract.json ## Diff Ownership Preview - active_owned: `5`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `docs/reference/distribution.md` — covered by Contract scope - [active_owned] `scripts/ai_archive_work_item.py` — covered by Co"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:19:56.341670+00:00",
+      "exitCode": 0,
+      "durationMs": 69762,
+      "outputDigest": "36a39f8e8bf7decea090d4e2f2a4adbb637dbd55378fbabdd64fa8e8e7f8dab4",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "61cfd8f248c91a826abb7eb831efb3d79c98c88f4c0bd645a2653abf547ef43b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 17%] ........................................................................ [ 34%] ........................................................................ [ 51%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:19:58.243313+00:00",
+      "exitCode": 0,
+      "durationMs": 324,
+      "outputDigest": "c6d49c3e3dfaef21c00ceb4f1ca3d0080d54cd11ffd555cff44c17cfbfaa0793",
+      "commandHash": "0ab5ec9d7015435e78cc523266ff78a440edc9bfba4407c5aca93d639d4a4495",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "f072bd0ee6a367bff3ad0fbe2a75bc3157e6096c33e9df75037c7ef42e56c2d5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/archive_evidence_index.contract.json --summary .ai/work-items/active/archive_evidence_index.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:19:58.642739+00:00",
+      "exitCode": 0,
+      "durationMs": 324,
+      "outputDigest": "6679f61bdda7650806a4b0cf45144c7c5d49d97f6005240f2b8b6ee75cf94267",
+      "commandHash": "d5e2b3bacad10b5c162dac79fb0d3dcc2f1886e3fbee8b9a4306ed666b2b3d6d",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "f072bd0ee6a367bff3ad0fbe2a75bc3157e6096c33e9df75037c7ef42e56c2d5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/archive_evidence_index.contract.json --summary .ai/work-items/active/archive_evidence_index.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:19:58.764575+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "f072bd0ee6a367bff3ad0fbe2a75bc3157e6096c33e9df75037c7ef42e56c2d5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:19:58.891737+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "8c6279be9140cb68390cc603b0dd5166dee9c56e7b4c1949b0aa86a1bf366a2e",
+      "commandHash": "f153d56d0e85780c057aa4b42e55bbd6cfb8e70190d6be76319e1aa72c4d84d3",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "f072bd0ee6a367bff3ad0fbe2a75bc3157e6096c33e9df75037c7ef42e56c2d5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/archive_evidence_index.contract.json --summary .ai/work-items/active/archive_evidence_index.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/archive_evidence_index.summary.json CONTRACT=.ai/work-items/active/archive_evidence_index.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T05:19:59.152165+00:00",
+      "exitCode": 0,
+      "durationMs": 151,
+      "outputDigest": "d70a0a35d9eb79162ec3bc9e4e29cc4ffefeccc2fedadc05ddb7f06ee0efbca4",
+      "commandHash": "6451904d0269233fb0975993d40531db5daf7a00db68b73b9c33e93f8f06f584",
+      "contractHash": "cf84cb3cf0a8c6cd898d01e857c059c91f649245bfce25e9a350eb84a7a0de00",
+      "commitSha": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+      "executionContractPath": ".ai/work-items/active/archive_evidence_index.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_evidence_index.summary.json",
+      "worktreeDigest": "f072bd0ee6a367bff3ad0fbe2a75bc3157e6096c33e9df75037c7ef42e56c2d5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/archive_evidence_index.summary.json --contract .ai/work-items/active/archive_evidence_index.contract.json ai summary check passed: .ai/work-items/active/archive_evidence_index.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "The archive index must not replace the original Contract or Summary as authoritative evidence.",
+      "compliant": true,
+      "evidence": "The index description and documentation explicitly identify archived Contract and Summary files as authoritative."
+    },
+    {
+      "guideline": "Index writes must be atomic and must not leave partial generated state.",
+      "compliant": true,
+      "evidence": "The implementation writes a temporary JSON file then replaces the index; rollback tests cover write failure."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The index is additive metadata; existing Contract and Summary evidence remains authoritative."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "index",
+      "detail": "A stale or deleted index must be rebuilt from archived evidence before consumers rely on it.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm index entries remain portable and hashes match archived files.",
+      "Confirm rollback preserves active and archive files when index persistence fails."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "cf84cb3cf0a8c6cd",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "cf84cb3cf0a8c6cd",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [
+    "Index bootstrap scans legacy summaries only when index.json is first created; subsequent sequence allocation reads the index."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 20
+}

@@ -1,0 +1,156 @@
+{
+  "contractVersion": 2,
+  "workItemId": "refactor_governance_status",
+  "mode": "code",
+  "title": "Refactor governance status derivation",
+  "baseCommit": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_governance_compression.py",
+    "tests/test_governance_compression.py",
+    "tests/**",
+    ".ai/work-items/active/refactor_governance_status.contract.json",
+    ".ai/work-items/active/refactor_governance_status.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    ".github/**",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_finish.py"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Target for splitting governance status orchestration into focused helpers."
+    },
+    {
+      "path": "tests/test_governance_compression.py",
+      "reason": "Existing behavior regression coverage for status derivation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "refactor_only"
+    ],
+    "reason": "Behavior-preserving internal refactor with existing regression coverage."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contracted behavior-preserving refactor is ready for implementation."
+  },
+  "preReviewWarnings": [
+    "Confirm helper boundaries preserve recommendation, signals, evidence, and decision-driver output."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "derive_governance_status is decomposed into focused signal, recommendation, and evidence helpers without changing its output contract.",
+    "Existing governance compression tests pass and include an orchestration regression assertion.",
+    "Full AI Cockpit and project quality checks pass with no runtime behavior change."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "derive_governance_status combines signal collection, recommendation policy, evidence formatting, and decision-driver assembly in one large function, increasing maintenance risk.",
+    "constraints": [
+      "Preserve the returned model shape and recommendation semantics.",
+      "Do not change runtime governance policy or unrelated scripts."
+    ],
+    "rationale": "Separating stable responsibilities makes future governance changes easier to review while retaining existing behavior tests."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

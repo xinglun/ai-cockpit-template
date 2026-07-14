@@ -1,0 +1,187 @@
+{
+  "contractVersion": 2,
+  "workItemId": "refactor_summary_validation",
+  "mode": "code",
+  "title": "Split summary validation orchestration",
+  "baseCommit": "40b85fd7cb5fa36ec6ea3b6b2bbcf3e53ed4c5c7",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/refactor_summary_validation.contract.json",
+    ".ai/work-items/active/refactor_summary_validation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_check_summary.py",
+    "tests/test_ai_check_summary.py",
+    "tests/test_verification_evidence.py",
+    ".ai/work-items/active/refactor_summary_validation.contract.json",
+    ".ai/work-items/active/refactor_summary_validation.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "scripts/ai_check_pr.py",
+    ".github/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Current summary validation orchestration is the largest remaining governance function."
+    },
+    {
+      "path": "tests/test_ai_check_summary.py",
+      "reason": "Existing direct validator tests define behavior to preserve."
+    },
+    {
+      "path": "tests/test_verification_evidence.py",
+      "reason": "Existing verification evidence tests cover adjacent validation paths."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["behavior_preservation"],
+    "reason": "The refactor changes only private function decomposition; validator output and legacy compatibility remain guarded by the existing focused suite."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The existing tests and validator contract provide sufficient behavioral evidence for a behavior-preserving refactor."
+  },
+  "preReviewWarnings": [
+    "Review helper boundaries for accidental changes to v1 archive compatibility and contractVersion 2 evidence checks."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "validate_summary is reduced to orchestration while identity/shape, verification evidence, metadata, and required-verification checks are delegated to focused helpers.",
+    "Existing validator behavior and error messages remain unchanged for contractVersion 2, legacy archives, malformed verification evidence, and machine-path checks.",
+    "Focused tests cover the extracted helper boundaries and the full repository quality gate passes."
+  ],
+  "guidelines": [
+    "Keep extracted helpers private to ai_check_summary.py unless a stable public API is required.",
+    "Preserve validator error messages and legacy archive compatibility during decomposition."
+  ],
+  "intent": {
+    "problem": "The summary validator remains a large, branch-dense function that concentrates schema, evidence, risk, and policy decisions in one maintenance surface.",
+    "constraints": [
+      "Do not change validation semantics or user-visible error messages.",
+      "Do not rewrite archived evidence or expand the task into new policy behavior."
+    ],
+    "rationale": "Separating validation concerns reduces change coupling and makes future governance rule changes easier to test independently."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "contractVersion 2 summaries with valid and malformed verification evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_ai_check_summary.py",
+        "tests/test_verification_evidence.py"
+      ]
+    },
+    {
+      "scenario": "legacy archived summaries remain readable without changing compatibility rules",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_ai_check_summary.py"
+      ]
+    },
+    {
+      "scenario": "machine-specific paths and required verification failures remain fail-closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_verification_evidence.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

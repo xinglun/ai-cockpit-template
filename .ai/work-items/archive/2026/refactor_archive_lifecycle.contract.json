@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "refactor_archive_lifecycle",
+  "mode": "code",
+  "title": "Split archive lifecycle orchestration",
+  "baseCommit": "004cfa0a43e80bce17d3cebe1fe51451280a2963",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_start.py",
+    "tests/**",
+    "tests/test_start_and_archive.py",
+    "tests/test_core_gates.py",
+    ".ai/work-items/active/refactor_archive_lifecycle.contract.json",
+    ".ai/work-items/active/refactor_archive_lifecycle.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "Changing Work Item schema or lifecycle behavior",
+    "Changing public CLI arguments or generated status format"
+  ],
+  "sources": [
+    {"path": "scripts/ai_start.py", "reason": "Large lifecycle orchestration entrypoint."},
+    {"path": "tests/test_start_and_archive.py", "reason": "Lifecycle regression tests."},
+    {"path": "tests/test_core_gates.py", "reason": "Core Work Item gate integration tests."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["refactor", "lifecycle"],
+    "reason": "The entrypoint coordinates locks, persistence, status generation, and preflight; behavior-preserving extraction requires regression evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The change is a behavior-preserving extraction with existing lifecycle tests in scope."
+  },
+  "preReviewWarnings": [
+    "Review error rollback, lock release, and code-mode preflight paths for unchanged behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "ai_start.main is reduced to orchestration while extracted helpers preserve existing behavior.",
+    "Lifecycle tests cover review mode, code mode, lock failure, status failure, and rollback behavior.",
+    "No CLI argument, Contract field, status output, or lifecycle decision changes.",
+    "Project and AI governance checks pass."
+  ],
+  "guidelines": [
+    "Refactoring must not change externally visible lifecycle behavior.",
+    "Extracted helpers must remain within ai_start.py and introduce no dependencies."
+  ],
+  "intent": {
+    "problem": "ai_start.main combines input validation, lifecycle policy, Contract construction, Summary construction, persistence, status generation, observability, and preflight execution in one large function.",
+    "constraints": [
+      "Preserve all CLI behavior and generated JSON/status structures.",
+      "Do not change lifecycle policy or validation semantics.",
+      "Keep the extraction local to scripts/ai_start.py."
+    ],
+    "rationale": "Separating deterministic construction from orchestration lowers future branch coupling without expanding the public surface."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "review-mode start preserves Contract and Summary creation",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_start_and_archive.py"],
+      "reason": "Covered by existing start lifecycle tests."
+    },
+    {
+      "scenario": "code-mode preflight and status refresh preserve lifecycle behavior",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_core_gates.py"],
+      "reason": "Covered by existing governance journey tests."
+    },
+    {
+      "scenario": "status-generation failure rolls back newly created Work Item files",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_start_and_archive.py"],
+      "reason": "Covered by the atomicity regression path."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

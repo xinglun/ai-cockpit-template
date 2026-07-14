@@ -1,0 +1,156 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_index_pr_ownership",
+  "mode": "code",
+  "title": "Allow archived index ownership evidence",
+  "baseCommit": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+    ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_check_pr.py",
+    "tests/test_pr_aggregate.py"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/**",
+    ".github/**",
+    "scripts/ai_archive_work_item.py"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR aggregate ownership validation is the failing smoke gate."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Existing aggregate PR checker tests provide the regression boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_exact_sha_workflow.summary.json",
+      "reason": "Archived Summary records the generated archive index as evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_logic"],
+    "reason": "The change recognizes one generated evidence path without weakening ordinary paired ownership checks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, evidence, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A generated archive index is accepted by PR aggregate ownership validation only when an archived Summary lists the exact index path in changedFiles.",
+    "A generated archive index without Summary evidence, and ordinary changed paths without same-pair scope plus Summary ownership, continue to fail closed.",
+    "Focused regression tests cover both the accepted generated-index case and the rejected unclaimed-index case."
+  ],
+  "guidelines": [
+    "Preserve strict paired ownership for ordinary PR paths.",
+    "Treat archive index ownership as generated evidence only when an archived Summary names it."
+  ],
+  "intent": {
+    "problem": "The release workflow PR fails the smoke gate because the generated archive index is listed in archived Summaries but is not part of the historical Contract scopes.",
+    "constraints": [
+      "Do not rewrite archived Contracts or Summaries, because their hashes and audit evidence are immutable.",
+      "Do not weaken ownership validation for unrelated changed paths."
+    ],
+    "rationale": "Teach the PR aggregate checker the existing generated-evidence convention and lock it with focused tests."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

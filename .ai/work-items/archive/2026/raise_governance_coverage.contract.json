@@ -1,0 +1,165 @@
+{
+  "contractVersion": 2,
+  "workItemId": "raise_governance_coverage",
+  "mode": "code",
+  "title": "Raise governance decision path coverage",
+  "baseCommit": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/raise_governance_coverage.contract.json",
+    ".ai/work-items/active/raise_governance_coverage.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_critical_coverage.py",
+    "tests/test_ai_check_agent_risk.py",
+    "tests/test_scenario_coverage_gate.py",
+    "tests/test_project_governance.py",
+    ".ai/work-items/active/raise_governance_coverage.contract.json",
+    ".ai/work-items/active/raise_governance_coverage.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "scripts/ai_check_summary.py",
+    ".github/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_critical_coverage.py",
+      "reason": "Raises floors for governance decision modules after targeted coverage is added."
+    },
+    {
+      "path": "tests/test_ai_check_agent_risk.py",
+      "reason": "Covers checkpoint, capability, and required-gate rejection paths."
+    },
+    {
+      "path": "tests/test_scenario_coverage_gate.py",
+      "reason": "Covers scenario risk and explicit acknowledgment branches."
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "reason": "Contains guard calibration and governance integration fixtures."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["test_coverage"],
+    "reason": "Tests and coverage floors change only verification strength, not runtime behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Existing coverage reports and focused test modules define the implementation boundary."
+  },
+  "preReviewWarnings": [
+    "Review that raised floors correspond to meaningful decision and failure-path tests rather than incidental line coverage."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Focused tests cover the selected agent-risk, scenario-coverage, and guard-calibration decision and failure paths.",
+    "Critical coverage floors for ai_check_agent_risk, ai_check_guard_calibration, and ai_check_scenario_coverage are raised to at least 75%.",
+    "The full project quality gate and AI Cockpit checks pass without changing runtime governance behavior."
+  ],
+  "guidelines": [
+    "Raise floors only after targeted decision-path evidence exists.",
+    "Keep the change limited to tests and coverage policy; do not weaken existing gates."
+  ],
+  "intent": {
+    "problem": "Three governance decision modules remain only around 65%–69% covered despite their fail-closed role.",
+    "constraints": [
+      "Do not alter runtime behavior to improve coverage.",
+      "Do not lower any existing coverage threshold."
+    ],
+    "rationale": "More direct evidence on rejection and recovery paths reduces the risk of silent governance regressions."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

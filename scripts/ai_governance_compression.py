@@ -428,37 +428,43 @@ def _destructive_change_violation(contract: dict[str, Any], summary: dict[str, A
     return bool(_string_list(_summary_or_empty(summary).get("destructiveChanges")))
 
 
-def derive_governance_status(
+def _status_signals(
     contract: dict[str, Any], summary: dict[str, Any] | None
-) -> dict[str, Any]:
-    """Return a structured, recommendation-oriented status model."""
-
-    contract = contract if isinstance(contract, dict) else {}
-    summary_dict = summary if isinstance(summary, dict) else None
-
-    signals = {}
-    signals["Intent"] = intent_alignment_signal(contract, _summary_or_empty(summary_dict))
+) -> tuple[dict[str, dict[str, Any]], dict[str, Any], dict[str, Any]]:
+    summary_dict = _summary_or_empty(summary)
     verification = verification_signal(
-        _required_checks(contract), _verification_index(_summary_or_empty(summary_dict))
+        _required_checks(contract), _verification_index(summary_dict)
     )
-    signals["Verification"] = {
-        "value": verification["value"],
-        "evidence": verification["evidence"],
-        "sources": verification["sources"],
+    scenario_coverage = _scenario_coverage_signal(contract, summary)
+    signals: dict[str, dict[str, Any]] = {
+        "Intent": intent_alignment_signal(contract, summary_dict),
+        "Verification": {
+            "value": verification["value"],
+            "evidence": verification["evidence"],
+            "sources": verification["sources"],
+        },
+        "Scenario Coverage": {
+            "value": scenario_coverage["value"],
+            "evidence": scenario_coverage["evidence"],
+            "sources": scenario_coverage["sources"],
+        },
+        "Unknowns": _unknowns_signal(contract, summary),
+        "Acceptance": acceptance_signal(contract, summary, verification),
+        "Guidelines": _guidelines_signal(contract, summary),
+        "Checkpoints": _checkpoint_signal(contract, summary),
+        "Residual Risk": residual_risk_signal(summary),
     }
-    scenario_coverage = _scenario_coverage_signal(contract, summary_dict)
-    signals["Scenario Coverage"] = {
-        "value": scenario_coverage["value"],
-        "evidence": scenario_coverage["evidence"],
-        "sources": scenario_coverage["sources"],
-    }
-    signals["Unknowns"] = _unknowns_signal(contract, summary_dict)
-    signals["Acceptance"] = acceptance_signal(contract, summary_dict, verification)
-    signals["Guidelines"] = _guidelines_signal(contract, summary_dict)
-    signals["Checkpoints"] = _checkpoint_signal(contract, summary_dict)
-    signals["Residual Risk"] = residual_risk_signal(summary_dict)
+    return signals, verification, scenario_coverage
 
-    review = review_readiness_signal(summary_dict)
+
+def _decision_drivers(
+    contract: dict[str, Any],
+    summary: dict[str, Any] | None,
+    signals: dict[str, dict[str, Any]],
+    verification: dict[str, Any],
+    scenario_coverage: dict[str, Any],
+    review: dict[str, Any],
+) -> list[str]:
     decision_drivers: list[str] = []
 
     if contract.get("mode") == "code" and contract.get("notCodable") is True:
@@ -472,7 +478,7 @@ def derive_governance_status(
         decision_drivers.extend(verification["evidence"])
     if signals["Guidelines"]["value"] == "violated":
         decision_drivers.extend(signals["Guidelines"]["evidence"])
-    if _destructive_change_violation(contract, summary_dict):
+    if _destructive_change_violation(contract, summary):
         decision_drivers.append("destructive changes are not allowed by the Contract")
     if signals["Verification"]["value"] == "incomplete":
         decision_drivers.extend(verification["evidence"])
@@ -492,7 +498,18 @@ def derive_governance_status(
         decision_drivers.append("reviewReadiness.status is blocked")
     if review["status"] == "not_ready":
         decision_drivers.append("reviewReadiness.status is not_ready")
+    return decision_drivers
 
+
+def _recommendation(
+    contract: dict[str, Any],
+    summary: dict[str, Any] | None,
+    signals: dict[str, dict[str, Any]],
+    verification: dict[str, Any],
+    decision_drivers: list[str],
+    review: dict[str, Any],
+) -> str:
+    execution_status = _dict(contract.get("executionDecision")).get("status")
     if any(
         reason
         for reason in decision_drivers
@@ -522,7 +539,7 @@ def derive_governance_status(
     elif (
         signals["Scenario Coverage"]["value"] == "incomplete"
         and _scenario_coverage_hard_risk(contract)
-        and not _scenario_coverage_explicit_risk_ack(summary_dict)
+        and not _scenario_coverage_explicit_risk_ack(summary)
     ):
         recommendation = "needs_investigation"
     elif (
@@ -536,33 +553,70 @@ def derive_governance_status(
 
     if recommendation not in RECOMMENDATIONS:
         recommendation = "needs_investigation"
+    return recommendation
 
+
+def _status_evidence(
+    contract: dict[str, Any],
+    summary: dict[str, Any] | None,
+    signals: dict[str, dict[str, Any]],
+    verification: dict[str, Any],
+    scenario_coverage: dict[str, Any],
+    review: dict[str, Any],
+) -> dict[str, list[str]]:
     # Keep the evidence compact and explainable.
     contract_evidence = [
         f"intent={'present' if _has_meaningful_intent(contract) else 'absent'}",
         f"acceptance={len(_string_list(contract.get('acceptance')))}",
         f"unknowns={len(_string_list(contract.get('unknowns')))}",
         f"guidelines={len(_string_list(contract.get('guidelines')))}",
-        f"scenarioCoverage={'present' if scenario_items(_summary_or_empty(summary_dict)) else 'absent'}",
+        f"scenarioCoverage={'present' if scenario_items(_summary_or_empty(summary)) else 'absent'}",
         f"checkpointPolicy={'required' if _dict(contract.get('checkpointPolicy')).get('requiredBeforeFinish') else 'not_required'}",
     ]
     summary_evidence = [
         f"verification={len(verification['passed'])}/{len(verification['required'])} passed",
         f"scenarioCoverage={scenario_coverage['value']}; required={len(scenario_coverage['required'])}; unverified={len(scenario_coverage['unverified'])}",
-        f"unknownsRemaining={len(_string_list(_summary_or_empty(summary_dict).get('unknownsRemaining')))}",
+        f"unknownsRemaining={len(_string_list(_summary_or_empty(summary).get('unknownsRemaining')))}",
         f"reviewReadiness={review['status']}",
         f"residualRisk={signals['Residual Risk']['value']}",
     ]
-    verification_index = _verification_index(_summary_or_empty(summary_dict))
+    verification_index = _verification_index(_summary_or_empty(summary))
     verification_evidence = [
         f"{check}: {verification_index.get(check, verification['value'])}"
         for check in verification["required"]
     ]
-    intent_alignment_evidence = signals["Intent"]["evidence"]
-    scenario_coverage_evidence = scenario_coverage["evidence"]
-    checkpoint_evidence = signals["Checkpoints"]["evidence"]
-    guideline_evidence = signals["Guidelines"]["evidence"]
-    risk_evidence = signals["Residual Risk"]["evidence"]
+    return {
+        "contract": contract_evidence,
+        "summary": summary_evidence,
+        "verification": verification_evidence,
+        "intentAlignment": signals["Intent"]["evidence"],
+        "scenarioCoverage": scenario_coverage["evidence"],
+        "guidelines": signals["Guidelines"]["evidence"],
+        "checkpoints": signals["Checkpoints"]["evidence"],
+        "residualRisk": signals["Residual Risk"]["evidence"],
+        "reviewReadiness": [f"status={review['status']}"]
+        + ([f"focus={', '.join(review['focus'])}"] if review["focus"] else []),
+    }
+
+
+def derive_governance_status(
+    contract: dict[str, Any], summary: dict[str, Any] | None
+) -> dict[str, Any]:
+    """Return a structured, recommendation-oriented status model."""
+
+    contract = contract if isinstance(contract, dict) else {}
+    summary_dict = summary if isinstance(summary, dict) else None
+    signals, verification, scenario_coverage = _status_signals(contract, summary_dict)
+    review = review_readiness_signal(summary_dict)
+    decision_drivers = _decision_drivers(
+        contract, summary_dict, signals, verification, scenario_coverage, review
+    )
+    recommendation = _recommendation(
+        contract, summary_dict, signals, verification, decision_drivers, review
+    )
+    evidence = _status_evidence(
+        contract, summary_dict, signals, verification, scenario_coverage, review
+    )
 
     return {
         "recommendation": recommendation,
@@ -570,18 +624,7 @@ def derive_governance_status(
             {"name": name, "value": signals[name]["value"], "sources": signals[name]["sources"]}
             for name in SIGNAL_ORDER
         ],
-        "evidence": {
-            "contract": contract_evidence,
-            "summary": summary_evidence,
-            "verification": verification_evidence,
-            "intentAlignment": intent_alignment_evidence,
-            "scenarioCoverage": scenario_coverage_evidence,
-            "guidelines": guideline_evidence,
-            "checkpoints": checkpoint_evidence,
-            "residualRisk": risk_evidence,
-            "reviewReadiness": [f"status={review['status']}"]
-            + ([f"focus={', '.join(review['focus'])}"] if review["focus"] else []),
-        },
+        "evidence": evidence,
         "decisionDrivers": decision_drivers,
         "reviewReadiness": review,
         "sources": {

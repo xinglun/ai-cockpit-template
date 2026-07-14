@@ -1,6 +1,9 @@
 name: compatibility
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -17,6 +20,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
       - run: sudo apt-get update && sudo apt-get install -y shellcheck
       - run: shellcheck install.sh
 
@@ -30,6 +35,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: ${{ matrix.python }}
@@ -45,6 +52,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.14"
@@ -55,6 +64,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@e97e2d8cc328f1b50210efc529dca0028893a2d9
         if: matrix.stack == 'rust'
         with:
+          toolchain: stable
           components: rustfmt, clippy
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         if: matrix.stack == 'typescript'
@@ -118,6 +128,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.14"
@@ -266,6 +278,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.14"
@@ -383,3 +397,27 @@ jobs:
           git commit -qm initial
           "$GITHUB_WORKSPACE/install.sh" --stack "$STACK" --update-makefile
           make ai-cockpit-quality
+
+  compatibility-gate:
+    if: ${{ always() }}
+    needs:
+      - shellcheck
+      - python-platform-matrix
+      - real-stack-quality
+      - extended-real-stack-quality
+      - mobile-stack-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every compatibility lane to pass
+        env:
+          SHELLCHECK_RESULT: ${{ needs.shellcheck.result }}
+          PYTHON_RESULT: ${{ needs.python-platform-matrix.result }}
+          REAL_STACK_RESULT: ${{ needs.real-stack-quality.result }}
+          EXTENDED_STACK_RESULT: ${{ needs.extended-real-stack-quality.result }}
+          MOBILE_STACK_RESULT: ${{ needs.mobile-stack-quality.result }}
+        run: |
+          set -euo pipefail
+          for result in "$SHELLCHECK_RESULT" "$PYTHON_RESULT" "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"; do
+            test "$result" = success
+          done

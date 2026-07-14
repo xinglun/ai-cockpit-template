@@ -140,6 +140,164 @@ def run_make(target: str, *, contract: str | None = None) -> tuple[int, str]:
     return result.returncode, (result.stdout or "") + (result.stderr or "")
 
 
+def journey_policy(
+    journey: str,
+) -> tuple[list[str], list[str], list[str], dict[str, object]]:
+    """Return acceptance, guidelines, exclusions, and destructive policy for a journey."""
+    acceptance = ["The Work Item Contract is updated for the actual task."]
+    guidelines: list[str] = []
+    out_of_scope: list[str] = []
+    destructive_policy: dict[str, object] = {
+        "allowed": False,
+        "requiresHumanApproval": True,
+        "allowPatterns": [],
+    }
+    if journey == "feature":
+        acceptance.extend(
+            [
+                "The new feature is implemented according to requirements.",
+                "Unit tests are added to verify the new feature.",
+                "User documentation or comments are updated.",
+            ]
+        )
+        guidelines.extend(
+            [
+                "New public APIs must be documented.",
+                "Do not import internal modules from other features.",
+            ]
+        )
+    elif journey == "bugfix":
+        acceptance.extend(
+            [
+                "The bug is reproduced by a test case.",
+                "The fix resolves the bug and the test passes.",
+                "No regression is introduced in existing functionality.",
+            ]
+        )
+        guidelines.extend(
+            [
+                "Fix must target the root cause, not just the symptom.",
+                "Avoid side effects on other components.",
+            ]
+        )
+    elif journey == "refactor":
+        acceptance.extend(
+            [
+                "Code structural changes are completed without changing functional behavior.",
+                "All existing unit tests pass without modifications.",
+                "API backwards compatibility is maintained.",
+            ]
+        )
+        guidelines.extend(
+            [
+                "Zero functional changes allowed.",
+                "Do not add new dependencies.",
+                "Ensure clippy/linter produces zero warnings on changed code.",
+            ]
+        )
+        out_of_scope.extend(["Adding new features", "Modifying existing public API signatures"])
+    elif journey == "cleanup":
+        acceptance.extend(
+            [
+                "Unused code, assets, or dependencies are removed.",
+                "Documentation or formatting is cleaned up.",
+                "Existing tests still pass.",
+            ]
+        )
+        guidelines.extend(
+            [
+                "Do not modify active production code logic.",
+                "Only delete dead code that is verified to have no callers.",
+            ]
+        )
+        out_of_scope.extend(["Modifying business logic", "Adding new features"])
+    return acceptance, guidelines, out_of_scope, destructive_policy
+
+
+def persist_work_item(
+    contract_path: Path,
+    summary_path: Path,
+    contract: dict[str, object],
+    summary: dict[str, object],
+) -> bool:
+    """Persist a new Work Item and roll back if active status generation fails."""
+    status_path = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
+    previous_status = status_path.read_bytes() if status_path.exists() else None
+    save_json(contract_path, contract)
+    save_json(summary_path, summary)
+    try:
+        write_active_status(contract_path, summary_path)
+    except (OSError, RuntimeError, ValueError) as exc:
+        contract_path.unlink(missing_ok=True)
+        summary_path.unlink(missing_ok=True)
+        if previous_status is None:
+            status_path.unlink(missing_ok=True)
+        else:
+            status_path.parent.mkdir(parents=True, exist_ok=True)
+            status_path.write_bytes(previous_status)
+        print(
+            f"ERROR: failed to generate Cockpit status; Work Item creation rolled back: {exc}",
+            file=sys.stderr,
+        )
+        return False
+    return True
+
+
+def run_code_preflight(contract_path: Path, summary_path: Path, contract_rel: str) -> int:
+    """Run code-mode preflight and refresh status with its result."""
+    code, output = run_make("ai-preflight", contract=contract_rel)
+    if output.strip():
+        print(output.rstrip())
+    try:
+        write_active_status(contract_path, summary_path, announce=False)
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(
+            f"ERROR: failed to refresh Cockpit status after Preflight Review: {exc}",
+            file=sys.stderr,
+        )
+        return 1
+    return code
+
+
+def validate_start_state(task: str, *, force: bool) -> tuple[Path, Path, str] | None:
+    """Validate lifecycle state and return target paths plus trusted base commit."""
+    consistency_issues = refresh_stale_no_active_status(validate_status_consistency())
+    if consistency_issues:
+        for issue in consistency_issues:
+            print(f"[ERROR] {issue}", file=sys.stderr)
+        print(
+            "ERROR: fix Work Item lifecycle/status consistency before creating a new Work Item. "
+            "Run `make repair-ai-status` when the active files are paired; otherwise clean up active Work Item files manually.",
+            file=sys.stderr,
+        )
+        return None
+
+    active_paths = active_work_item_paths()
+    if active_paths:
+        active_items = ", ".join(path.stem for path in active_paths)
+        print(
+            "ERROR: an active Work Item already exists: "
+            f"{active_items}. Finish or archive it before creating a new Work Item.",
+            file=sys.stderr,
+        )
+        return None
+
+    contract_path = ACTIVE_DIR / f"{task}.contract.json"
+    summary_path = ACTIVE_DIR / f"{task}.summary.json"
+    if not force and (contract_path.exists() or summary_path.exists()):
+        print(f"ERROR: Work Item already exists: {task}", file=sys.stderr)
+        return None
+
+    base_commit = current_head()
+    if not base_commit:
+        print(
+            "ERROR: ai-start requires an initial Git commit so baseCommit is trustworthy.",
+            file=sys.stderr,
+        )
+        return None
+    return contract_path, summary_path, base_commit
+
+
 def main() -> int:
     args = parse_args()
     try:
@@ -156,122 +314,18 @@ def main() -> int:
         return 1
 
     try:
-        consistency_issues = refresh_stale_no_active_status(validate_status_consistency())
-        if consistency_issues:
-            for issue in consistency_issues:
-                print(f"[ERROR] {issue}", file=sys.stderr)
-            print(
-                "ERROR: fix Work Item lifecycle/status consistency before creating a new Work Item. "
-                "Run `make repair-ai-status` when the active files are paired; otherwise clean up active Work Item files manually.",
-                file=sys.stderr,
-            )
+        start_state = validate_start_state(task, force=args.force)
+        if start_state is None:
             return 1
-
-        active_paths = active_work_item_paths()
-        if active_paths:
-            active_items = ", ".join(path.stem for path in active_paths)
-            print(
-                "ERROR: an active Work Item already exists: "
-                f"{active_items}. Finish or archive it before creating a new Work Item.",
-                file=sys.stderr,
-            )
-            return 1
-
-        contract_path = ACTIVE_DIR / f"{task}.contract.json"
-        summary_path = ACTIVE_DIR / f"{task}.summary.json"
-        if not args.force and (contract_path.exists() or summary_path.exists()):
-            print(f"ERROR: Work Item already exists: {task}", file=sys.stderr)
-            return 1
-
+        contract_path, summary_path, base_commit = start_state
         title = args.title or task.replace("_", " ")
-        base_commit = current_head()
-        if not base_commit:
-            print(
-                "ERROR: ai-start requires an initial Git commit so baseCommit is trustworthy.",
-                file=sys.stderr,
-            )
-            return 1
         baseline_dirty_paths = capture_dirty_baseline()
         contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
         summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
 
-        # Journey configurations
-        journey = args.journey
-        acceptance_criteria = ["The Work Item Contract is updated for the actual task."]
-        guidelines_list = []
-        out_of_scope_list = []
-        destructive_change_policy = {
-            "allowed": False,
-            "requiresHumanApproval": True,
-            "allowPatterns": [],
-        }
-
-        if journey == "feature":
-            acceptance_criteria.extend(
-                [
-                    "The new feature is implemented according to requirements.",
-                    "Unit tests are added to verify the new feature.",
-                    "User documentation or comments are updated.",
-                ]
-            )
-            guidelines_list.extend(
-                [
-                    "New public APIs must be documented.",
-                    "Do not import internal modules from other features.",
-                ]
-            )
-        elif journey == "bugfix":
-            acceptance_criteria.extend(
-                [
-                    "The bug is reproduced by a test case.",
-                    "The fix resolves the bug and the test passes.",
-                    "No regression is introduced in existing functionality.",
-                ]
-            )
-            guidelines_list.extend(
-                [
-                    "Fix must target the root cause, not just the symptom.",
-                    "Avoid side effects on other components.",
-                ]
-            )
-        elif journey == "refactor":
-            acceptance_criteria.extend(
-                [
-                    "Code structural changes are completed without changing functional behavior.",
-                    "All existing unit tests pass without modifications.",
-                    "API backwards compatibility is maintained.",
-                ]
-            )
-            guidelines_list.extend(
-                [
-                    "Zero functional changes allowed.",
-                    "Do not add new dependencies.",
-                    "Ensure clippy/linter produces zero warnings on changed code.",
-                ]
-            )
-            out_of_scope_list.extend(
-                ["Adding new features", "Modifying existing public API signatures"]
-            )
-        elif journey == "cleanup":
-            acceptance_criteria.extend(
-                [
-                    "Unused code, assets, or dependencies are removed.",
-                    "Documentation or formatting is cleaned up.",
-                    "Existing tests still pass.",
-                ]
-            )
-            guidelines_list.extend(
-                [
-                    "Do not modify active production code logic.",
-                    "Only delete dead code that is verified to have no callers.",
-                ]
-            )
-            destructive_change_policy = {
-                "allowed": False,
-                "requiresHumanApproval": True,
-                "allowPatterns": [],
-            }
-            out_of_scope_list.extend(["Modifying business logic", "Adding new features"])
+        acceptance_criteria, guidelines_list, out_of_scope_list, destructive_change_policy = (
+            journey_policy(args.journey)
+        )
 
         contract = {
             "contractVersion": 2,
@@ -387,24 +441,7 @@ def main() -> int:
             "knownGaps": ["Replace this before finishing the Work Item."],
             "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
         }
-        status_path = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
-        previous_status = status_path.read_bytes() if status_path.exists() else None
-        save_json(contract_path, contract)
-        save_json(summary_path, summary)
-        try:
-            write_active_status(contract_path, summary_path)
-        except (OSError, RuntimeError, ValueError) as exc:
-            contract_path.unlink(missing_ok=True)
-            summary_path.unlink(missing_ok=True)
-            if previous_status is None:
-                status_path.unlink(missing_ok=True)
-            else:
-                status_path.parent.mkdir(parents=True, exist_ok=True)
-                status_path.write_bytes(previous_status)
-            print(
-                f"ERROR: failed to generate Cockpit status; Work Item creation rolled back: {exc}",
-                file=sys.stderr,
-            )
+        if not persist_work_item(contract_path, summary_path, contract, summary):
             return 1
         create_observability(work_item_id=task).work_item_started(
             fields={"mode": args.mode, "title": title}
@@ -415,17 +452,7 @@ def main() -> int:
         print("\n".join(format_preview(preview())))
 
         if args.mode == "code":
-            code, output = run_make("ai-preflight", contract=contract_rel)
-            if output.strip():
-                print(output.rstrip())
-            try:
-                write_active_status(contract_path, summary_path, announce=False)
-            except (OSError, RuntimeError, ValueError) as exc:
-                print(
-                    f"ERROR: failed to refresh Cockpit status after Preflight Review: {exc}",
-                    file=sys.stderr,
-                )
-                return 1
+            code = run_code_preflight(contract_path, summary_path, contract_rel)
             if code != 0:
                 return code
 

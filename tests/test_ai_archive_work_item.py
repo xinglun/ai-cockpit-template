@@ -4,6 +4,18 @@ from argparse import Namespace
 import ai_archive_work_item
 
 
+def test_next_archive_sequence_prefers_existing_index(tmp_path, monkeypatch):
+    archive = tmp_path / "archive"
+    archive.mkdir()
+    monkeypatch.setattr(ai_archive_work_item, "ARCHIVE_BASE_DIR", archive)
+    (archive / "index.json").write_text(
+        '{"indexVersion": 1, "entries": [{"archiveSequence": 41}]}',
+        encoding="utf-8",
+    )
+
+    assert ai_archive_work_item._next_archive_sequence() == 42
+
+
 def test_restore_files_moves_archive_inputs_back(tmp_path):
     active = tmp_path / ".ai" / "work-items" / "active"
     archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"

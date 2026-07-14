@@ -1,0 +1,382 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "archive_index_pr_ownership",
+  "contractPath": ".ai/work-items/archive/2026/archive_index_pr_ownership.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/archive_index_pr_ownership.contract.json",
+      "reason": "Declares the exact generated-evidence ownership rule and verification boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_index_pr_ownership.summary.json",
+      "reason": "Records implementation, verification, and review evidence."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Accepts the generated archive index only when archived Summary evidence names it."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Covers both generated-index acceptance and unclaimed-index rejection."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/archive_index_pr_ownership.contract.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:37.638496+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "a4b8af840cc8a96b49332da402430d0bfa97b63dd9a3e34e290a5dea602759f2",
+      "commandHash": "9f58cd6e709cb9472a03718725e3ff078897c8a9929fde324ad0c3b3230d6c88",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/archive_index_pr_ownership.contract.json work item contract check passed: .ai/work-items/active/archive_index_pr_ownership.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:37.841201+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "8918dc700d5703f644463d38cd28932b5a9a1f60ca12e931e1b19a220f6ecee6",
+      "commandHash": "9845f61764640ecf107e8b7e8f78fcf2d0b212f0b4efef7927110531500462d2",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/archive_index_pr_ownership.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:38.036788+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "41b3ad679b33816f00d228da131ddca38a6cbc261d3c256b4d7d5472a5e2b31c",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/archive_index_pr_ownership.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:38.402628+00:00",
+      "exitCode": 0,
+      "durationMs": 287,
+      "outputDigest": "2d49489c7e04b0b12d457b64f0493392cbca3ea53cca66cf388868c020ba3e05",
+      "commandHash": "dcc894ef25ed2a3fa8dbf50052d8f6d2d0978b0b03e916c64bccbd61c6088b64",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/archive_index_pr_ownership.contract.json --summary .ai/work-items/active/archive_index_pr_ownership.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `archive_index_pr_ownership` - Contract Hash: `ac024f6954d7262f` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `16` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:38.594759+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "0ecdc4165123e483d9ca09adcac4160fce628471651122c1143c01f723ef89c9",
+      "commandHash": "d15b7b3aa1f7d7a7b9f2d13aa519b9512f0e02b0d43b7ad26f2afac485b6cb38",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/archive_index_pr_ownership.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_check_pr.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:38.794640+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:38.980903+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:39.098373+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "c5296500cf6b5f4863cd444abb50f057626531bee50650dbd83f950fc219598f",
+      "commandHash": "36a9d4f4628284c325a0d10196802d17f0accfabd3d835455305384e9fe49704",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/archive_index_pr_ownership.contract.json --summary .ai/work-items/active/archive_index_pr_ownership.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:39.214582+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "78c5899309441ecb30752a9c3c5f7bbe6eafe79731d12bdaec76be1d2a7e38cf",
+      "commandHash": "cf9fe2f369e29698e81ef5ab4da0b3857c675d5a6836bfcff9daeb43e1e3a042",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/archive_index_pr_ownership.contract.json --summary .ai/work-items/active/archive_index_pr_ownership.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:29:39.597039+00:00",
+      "exitCode": 0,
+      "durationMs": 305,
+      "outputDigest": "308598e64a759286c36903ec333a6bd7d07eebabf01201f239ebccdf282a5df8",
+      "commandHash": "21a12ecd981c25ba70c40c1ffac2031470119ff7c9d3bb453cb166e4138b2362",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/archive_index_pr_ownership.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_check_pr.py` — covered by Contract scope - [active_owned] `tests/test_pr_aggregate.py` — covered by Contract sc"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:30:41.390615+00:00",
+      "exitCode": 0,
+      "durationMs": 61710,
+      "outputDigest": "b99077e668af58775b341893a8625305cea6cdd8be1063bf441b1df6c31122de",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "cb026e4ae0f72b665a0b6d563f9e206c91f0364d2be76f6becacc5069f3f9f1b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 16%] ........................................................................ [ 33%] ........................................................................ [ 50%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:30:43.169847+00:00",
+      "exitCode": 0,
+      "durationMs": 313,
+      "outputDigest": "6a2ca1f06748b138c42f91d9fdc8cbf5f6c5a46350e48b5f1dd8ba92e3a13016",
+      "commandHash": "39af909fb0cdc49a29e42f314e5b6225c94446ab4d73723a2d944122c44e19a7",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "0f637410a28c0725f8ecda87ddc87a426c511fb22999277006a11907645f405c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/archive_index_pr_ownership.contract.json --summary .ai/work-items/active/archive_index_pr_ownership.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:30:43.581763+00:00",
+      "exitCode": 0,
+      "durationMs": 320,
+      "outputDigest": "c9a4b3ce93722851467cc5c77fc9a0b254f03be4054639a6e505b4f13ff32c99",
+      "commandHash": "1004f65c5a246fc54d5158ba143042b6cce5574cc6c625908d5095988655c077",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "0f637410a28c0725f8ecda87ddc87a426c511fb22999277006a11907645f405c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/archive_index_pr_ownership.contract.json --summary .ai/work-items/active/archive_index_pr_ownership.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:30:43.708993+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "0f637410a28c0725f8ecda87ddc87a426c511fb22999277006a11907645f405c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:30:43.833761+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "b03d54ad753812b94d72755d3d7dceca45e5cef250b2d6124843845c595f8474",
+      "commandHash": "9bf0542e75c8fc81e29c6a40b33160c1897c5b093c038e36ffd3e4af084ccb1b",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "0f637410a28c0725f8ecda87ddc87a426c511fb22999277006a11907645f405c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/archive_index_pr_ownership.contract.json --summary .ai/work-items/active/archive_index_pr_ownership.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/archive_index_pr_ownership.summary.json CONTRACT=.ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T06:30:44.034868+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "7e3c46ea1c027aef45fc2c3ff40d96885253e6e21e68ca05c3b8c19fabdbfae7",
+      "commandHash": "028f9eca0942295bc86ca574d596853a120e001fb19a5e252f87feced6d50808",
+      "contractHash": "ac024f6954d7262fb4edb0688595f9b51310f1431a42334b2b1e7dac24f7c122",
+      "commitSha": "af55422feb3214d4671ce3b6733e0922b75b6af4",
+      "executionContractPath": ".ai/work-items/active/archive_index_pr_ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_index_pr_ownership.summary.json",
+      "worktreeDigest": "0f637410a28c0725f8ecda87ddc87a426c511fb22999277006a11907645f405c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/archive_index_pr_ownership.summary.json --contract .ai/work-items/active/archive_index_pr_ownership.contract.json ai summary check passed: .ai/work-items/active/archive_index_pr_ownership.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Preserve strict paired ownership for ordinary PR paths.",
+      "compliant": true,
+      "evidence": "The existing same-pair scope plus Summary changedFiles check remains unchanged; the regression suite retains uncovered-path rejection coverage."
+    },
+    {
+      "guideline": "Treat archive index ownership as generated evidence only when an archived Summary names it.",
+      "compliant": true,
+      "evidence": "scripts/ai_check_pr.py accepts only the exact generated archive index path when at least one archived Summary records it, with a regression test for unclaimed-index rejection."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Initial skeleton; scope and acceptance still need task-specific review."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "The generated-index exception is intentionally narrow; future generated archive artifacts need explicit evidence rules.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm the generated archive index exception remains exact-path and Summary-evidence gated.",
+      "Confirm ordinary unowned paths remain fail-closed."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "make ai-checkpoint TASK=archive_index_pr_ownership STAGE=before_edit confirmed explicit scope, acceptance, zero unknowns, and continue execution decision.",
+      "contractHash": "ac024f6954d7262f",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "make ai-checkpoint TASK=archive_index_pr_ownership STAGE=before_finish confirmed the implementation remained within scope and all completed checks were recorded.",
+      "contractHash": "ac024f6954d7262f",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [
+    "The existing PR #9 remote smoke run must be rerun after this fix."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 25
+}

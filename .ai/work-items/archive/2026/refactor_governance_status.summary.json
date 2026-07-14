@@ -1,0 +1,384 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "refactor_governance_status",
+  "contractPath": ".ai/work-items/archive/2026/refactor_governance_status.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/refactor_governance_status.contract.json",
+      "reason": "Defines the behavior-preserving refactor scope and acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/refactor_governance_status.summary.json",
+      "reason": "Records implementation and verification evidence."
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Splits governance status derivation into focused private helpers."
+    },
+    {
+      "path": "tests/test_governance_compression.py",
+      "reason": "Adds an orchestration regression assertion for evidence and decision drivers."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/refactor_governance_status.contract.json",
+    "scripts/ai_governance_compression.py",
+    "tests/test_governance_compression.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:12.190035+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "017d8673ffea8d2a2fa1ba8d620055991555a24ab0c43e15511b8458c837e029",
+      "commandHash": "3913d9c6a9f6504195471edd08b7d1b2ef51fbdba843df1b5090cd1d476237be",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/refactor_governance_status.contract.json work item contract check passed: .ai/work-items/active/refactor_governance_status.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:12.414118+00:00",
+      "exitCode": 0,
+      "durationMs": 135,
+      "outputDigest": "c6cfcfb559506f8bc8c2f8b42d9e8ecef10e571f4ff7854209813631d39b2026",
+      "commandHash": "d4e85240d1175d3d9c1bb0c17293fd3be6ea734255a21c197153ea8200ddd856",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/refactor_governance_status.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:12.670555+00:00",
+      "exitCode": 0,
+      "durationMs": 164,
+      "outputDigest": "9e93683553f8a65817f1a0022bcf5504916526377adffdb08689a59d8d93cf7f",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/refactor_governance_status.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:13.102842+00:00",
+      "exitCode": 0,
+      "durationMs": 355,
+      "outputDigest": "3a79887eac41f8ab60ce26647217b052caed765fb7945b54ad9fc281c0d725d3",
+      "commandHash": "fc3955398a7ca67725021d02eba4fd0c69aacac7bf827221ef9df690b6c625d7",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/refactor_governance_status.contract.json --summary .ai/work-items/active/refactor_governance_status.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `refactor_governance_status` - Contract Hash: `b0e7cb3823d87d4c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `16` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:13.318929+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "023ec71dc583830fff956b0081dd62327089c63169a51fb313ceeacdc40c83c0",
+      "commandHash": "1d809668f40cfdf8f2304cb31521da1d0223fbba8173013c3df4870ffda71141",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/refactor_governance_status.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_governance_compression.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:13.537062+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:13.771591+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:13.918399+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "f3204749968240490fd54d25d105c41bbed61556362f65c27b8fd59cd9a6bffb",
+      "commandHash": "b8d7acc4c46e2d2a8b0afba856ef8d9bf12870bc5f360d21de684be08478cd79",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/refactor_governance_status.contract.json --summary .ai/work-items/active/refactor_governance_status.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:14.062248+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "dbfd67fa1bb307cc381192a407a48ba1d5bfadf50ea06f2d38c11d7ab4ed8c51",
+      "commandHash": "44be7e552414790ab63f5b1c602c28f4f4ae29777bca1ee2e35d9c736fe0ddff",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/refactor_governance_status.contract.json --summary .ai/work-items/active/refactor_governance_status.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:28:14.465709+00:00",
+      "exitCode": 0,
+      "durationMs": 311,
+      "outputDigest": "504cec7dd2592fecad635536f4b0defd84ecd406dcdbd0ba7c0233b1f3f343d1",
+      "commandHash": "763dee0d0f9eb34384d34354cba411bc0be600e505dc0b9b2d1134a9fa62d156",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/refactor_governance_status.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_governance_compression.py` — covered by Contract scope - [active_owned] `tests/test_governance_compression.py` "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:29:23.623974+00:00",
+      "exitCode": 0,
+      "durationMs": 69055,
+      "outputDigest": "21fa624e5808300690035c6c581a169b1dec470ce32852b0bc445fdab2405c4e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "839c5b848ca0d89db99de1d1bacfb150bd992ac7d37a865b39e1692fcd1fb267",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 16%] ........................................................................ [ 32%] ........................................................................ [ 49%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:29:25.611571+00:00",
+      "exitCode": 0,
+      "durationMs": 311,
+      "outputDigest": "a54507c664783e56bab93e19e1d623be81ec9e15e5cc010519345d385c022f90",
+      "commandHash": "7c0fea22101937677d4bb78e9cd1e928fb44c82347a36bb61e3960b8c2bdcfba",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "3e7f9a46d19623fff522f6eb4875d1df58a2a0c95c33055dbfd7ba8ca4e4fce7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/refactor_governance_status.contract.json --summary .ai/work-items/active/refactor_governance_status.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:29:26.066177+00:00",
+      "exitCode": 0,
+      "durationMs": 352,
+      "outputDigest": "4abcf48211b7539e3e0df4e9e55b0383b84ac7317954eb0033826966c99226d6",
+      "commandHash": "99dd2d7ae3dd1d89447fcac8246fae6780493ff5a4d4cfa9ff07e83c51e70250",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "3e7f9a46d19623fff522f6eb4875d1df58a2a0c95c33055dbfd7ba8ca4e4fce7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/refactor_governance_status.contract.json --summary .ai/work-items/active/refactor_governance_status.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:29:26.212605+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "3e7f9a46d19623fff522f6eb4875d1df58a2a0c95c33055dbfd7ba8ca4e4fce7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:29:26.346578+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "2794f51f317efd69213bd1f2528f6a49a4b9def7d367ea961c0a96cb08e01906",
+      "commandHash": "ceb4d69bdaeed5a5656fa4f8b0e996abe8421b13306270ce6908e99363ed9afd",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "3e7f9a46d19623fff522f6eb4875d1df58a2a0c95c33055dbfd7ba8ca4e4fce7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/refactor_governance_status.contract.json --summary .ai/work-items/active/refactor_governance_status.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/refactor_governance_status.summary.json CONTRACT=.ai/work-items/active/refactor_governance_status.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:29:26.576970+00:00",
+      "exitCode": 0,
+      "durationMs": 144,
+      "outputDigest": "c1bec24b39fb38fe6e8cec16fcc03b7e9f9700346c5612b26095754f338cfe01",
+      "commandHash": "3bf3020626c4863ecf47f9d5d5db146054853955eab6252bdc5de7f0b174e129",
+      "contractHash": "b0e7cb3823d87d4cf8b416e5ef68e1f2d9e5030a75ee48bf7de554e771693531",
+      "commitSha": "502fcec01cc0a59d5a1220a8860028aea442b5d0",
+      "executionContractPath": ".ai/work-items/active/refactor_governance_status.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_governance_status.summary.json",
+      "worktreeDigest": "3e7f9a46d19623fff522f6eb4875d1df58a2a0c95c33055dbfd7ba8ca4e4fce7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/refactor_governance_status.summary.json --contract .ai/work-items/active/refactor_governance_status.contract.json ai summary check passed: .ai/work-items/active/refactor_governance_status.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public API is introduced; helpers remain private."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The refactor remains within ai_governance_compression.py and its tests."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Behavior-preserving internal refactor; review should focus on output equivalence."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm helper boundaries preserve recommendation and decision-driver semantics.",
+      "Confirm no runtime governance policy changed."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Preflight and checkpoint confirmed explicit scope, acceptance, and continue execution decision.",
+      "contractHash": "b0e7cb3823d87d4c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Full project quality checks and focused orchestration tests completed before finish.",
+      "contractHash": "b0e7cb3823d87d4c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "Other large maintenance functions remain for later cycles."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 28
+}

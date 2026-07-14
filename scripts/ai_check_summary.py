@@ -93,14 +93,13 @@ def summary_exempt_patterns() -> list[str]:
     return policy_lists.get("allowAlways", [])
 
 
-def validate_summary(
+def _validate_summary_structure(
     summary: dict[str, Any],
     contract: dict[str, Any] | None,
     *,
-    expected_contract_hash: str = "",
-    contract_path: str = "",
-    summary_path: str = "",
-    legacy_archive: bool = False,
+    contract_path: str,
+    summary_path: str,
+    legacy_archive: bool,
 ) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -147,6 +146,19 @@ def validate_summary(
     ):
         issues.append("archiveSequence must be a positive integer when present")
 
+    return issues
+
+
+def _validate_verification_entries(
+    summary: dict[str, Any],
+    contract: dict[str, Any] | None,
+    *,
+    expected_contract_hash: str,
+    contract_path: str,
+    summary_path: str,
+    legacy_archive: bool,
+) -> list[str]:
+    issues: list[str] = []
     verification = summary.get("verification")
     if not isinstance(verification, list) or not verification:
         issues.append("verification must contain at least one item")
@@ -245,6 +257,11 @@ def validate_summary(
                             f"verification[{index}].worktreeDigest must be a SHA-256 hex digest"
                         )
 
+    return issues
+
+
+def _validate_summary_metadata(summary: dict[str, Any]) -> list[str]:
+    issues: list[str] = []
     risk = summary.get("risk")
     if not isinstance(risk, dict):
         issues.append("risk must be an object")
@@ -369,6 +386,13 @@ def validate_summary(
 
     scan_machine_paths(summary, "summary")
 
+    return issues
+
+
+def _validate_required_verification(
+    summary: dict[str, Any], contract: dict[str, Any] | None
+) -> list[str]:
+    issues: list[str] = []
     if contract is not None:
         required = [
             verification_key(item)
@@ -386,6 +410,41 @@ def validate_summary(
             issues.append(f"Summary is missing required verification: {', '.join(missing)}")
         if non_passed:
             issues.append(f"required verification is not passed: {', '.join(non_passed)}")
+    return issues
+
+
+def validate_summary(
+    summary: dict[str, Any],
+    contract: dict[str, Any] | None,
+    *,
+    expected_contract_hash: str = "",
+    contract_path: str = "",
+    summary_path: str = "",
+    legacy_archive: bool = False,
+) -> list[str]:
+    """Validate a Summary by composing focused schema and evidence checks."""
+    issues: list[str] = []
+    issues.extend(
+        _validate_summary_structure(
+            summary,
+            contract,
+            contract_path=contract_path,
+            summary_path=summary_path,
+            legacy_archive=legacy_archive,
+        )
+    )
+    issues.extend(
+        _validate_verification_entries(
+            summary,
+            contract,
+            expected_contract_hash=expected_contract_hash,
+            contract_path=contract_path,
+            summary_path=summary_path,
+            legacy_archive=legacy_archive,
+        )
+    )
+    issues.extend(_validate_summary_metadata(summary))
+    issues.extend(_validate_required_verification(summary, contract))
     return issues
 
 

@@ -17,6 +17,16 @@ The documented quick-install path resolves public release metadata first and the
 
 SBOM and provenance release evidence must be generated with an explicit source commit (`--source-commit` or `SUPPLY_CHAIN_SOURCE_COMMIT`). The local release-tag fallback exists only for compatibility and never derives evidence identity from the current `HEAD`.
 
+## PR-first release sequence
+
+Changes enter `main` through a pull request. Both `smoke` and `compatibility` also run on `main` pushes, so the commit selected for release has fresh repository-level and cross-platform evidence. Maintainers dispatch `.github/workflows/release.yml` with a new tag and the exact verified `main` SHA. The workflow rejects existing tags, requires the source SHA to equal the workflow SHA, requires successful smoke and compatibility runs for that SHA, verifies `release.json`, and only then creates the tag and GitHub Release.
+
+The historical `v0.5.24` tag is immutable evidence and is not rewritten. A future release must be created from a commit that has completed the full required checks and must use a new metadata unit whose `release.json.releaseTag` matches the requested tag.
+
+## Archive evidence index
+
+`archive/index.json` is an additive discovery index maintained by `archive-work-item`. It records each Work Item's identity, archive sequence, relative Contract/Summary paths, and file hashes so tooling can discover historical evidence without parsing every Summary. The archived Contract and Summary remain authoritative; the index is disposable and may be rebuilt from them if needed.
+
 The development lock is generated from the committed `requirements-dev.in` input with `pip-compile --generate-hashes --allow-unsafe`. The SBOM reports workflow Action occurrences, all version-pinned lock entries, and the direct/transitive split recorded by pip-compile's `via` annotations. Every locked package must carry at least one SHA-256 artifact hash; CI installs with `pip install --require-hashes` so an unlisted artifact fails closed.
 The generated `.ai/cockpit/release-digests.json` manifest binds the lock, SBOM, provenance, installer, and release metadata to one source commit and records their SHA-256 digests. `make check-release-evidence` verifies that binding and fails on drift.
 

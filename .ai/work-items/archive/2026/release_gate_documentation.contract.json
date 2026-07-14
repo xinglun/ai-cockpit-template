@@ -1,0 +1,139 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_gate_documentation",
+  "mode": "code",
+  "title": "Clarify release gate implementation status",
+  "baseCommit": "5df83c42d1a77acb0a50dda8736af9617f5d03bd",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/reference/distribution.md",
+    "tests/test_workflows.py",
+    ".ai/work-items/active/release_gate_documentation.contract.json",
+    ".ai/work-items/active/release_gate_documentation.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": ["Implementing the release workflow itself", "Creating or moving a tag"],
+  "sources": [
+    {"path": "docs/reference/distribution.md", "reason": "Current release process documentation."},
+    {"path": "tests/test_workflows.py", "reason": "Documentation consistency tests."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["documentation"],
+    "reason": "This change only prevents documentation from overstating release automation availability."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The repository currently has no release workflow, so documentation must state that limitation."
+  },
+  "preReviewWarnings": [
+    "Review that the documented release gate matches the workflows actually present."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Distribution documentation states that the release workflow is a follow-up, not an available command today.",
+    "A workflow test prevents the documentation from claiming an absent release workflow is active.",
+    "All existing local and governance checks remain green."
+  ],
+  "guidelines": [
+    "Documentation must describe only capabilities present in the repository.",
+    "Tests must assert externally visible documentation facts."
+  ],
+  "intent": {
+    "problem": "The distribution page describes a manually dispatched release workflow, but the repository currently contains only smoke and compatibility workflows.",
+    "constraints": ["Do not implement or trigger release automation in this documentation correction."],
+    "rationale": "Accurate documentation prevents maintainers from assuming that tag creation is already fail-closed."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

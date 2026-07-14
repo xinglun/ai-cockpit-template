@@ -1,6 +1,7 @@
 import json
 import re
 import shutil
+import sys
 from pathlib import Path
 
 import ai_calibrate
@@ -135,6 +136,83 @@ def test_guard_calibration_fails_when_confirmed_path_is_missing(tmp_path):
     assert issues == []
     profile["approvedBoundaries"]["productionRoots"].append("service/**")
     assert any("service/**" in issue for issue in calibration_issues(tmp_path, profile))
+
+
+def test_guard_calibration_reports_missing_generated_boundary(tmp_path):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    profile, issues = load_profile(tmp_path / ".ai" / "project_profile.yaml", require_approval=True)
+    assert issues == []
+    profile["approvedBoundaries"]["generatedPaths"] = ["cache/**"]
+    assert any("generated path" in issue for issue in calibration_issues(tmp_path, profile))
+
+
+def test_guard_calibration_reports_missing_quality_check_id(tmp_path):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    profile, issues = load_profile(tmp_path / ".ai" / "project_profile.yaml", require_approval=True)
+    assert issues == []
+    profile["reviewRequirements"] = ["quality"]
+    (tmp_path / ".ai" / "cockpit" / "checks.yaml").write_text("checks: {}\n", encoding="utf-8")
+    assert any(
+        "quality review requirement" in issue for issue in calibration_issues(tmp_path, profile)
+    )
+
+
+def test_guard_calibration_rejects_non_object_approved_boundaries(tmp_path):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    assert calibration_issues(tmp_path, {"approvedBoundaries": []}) == [
+        "approvedBoundaries must be an object"
+    ]
+
+
+def test_guard_calibration_accepts_optional_boundary_lists(tmp_path):
+    shutil.copytree(ROOT / ".ai", tmp_path / ".ai")
+    profile, issues = load_profile(tmp_path / ".ai" / "project_profile.yaml", require_approval=True)
+    assert issues == []
+    profile["approvedBoundaries"]["featureRoots"] = ["src/**"]
+    profile["approvedBoundaries"]["criticalPaths"] = [".github/workflows/**"]
+    assert calibration_issues(tmp_path, profile) == []
+
+
+def test_guard_calibration_reports_missing_boundary_configuration(tmp_path):
+    profile = {
+        "approvedBoundaries": {
+            "productionRoots": ["src/**"],
+            "testRoots": ["tests/**"],
+            "generatedPaths": ["generated/**"],
+            "criticalPaths": ["src/critical.py"],
+        },
+        "reviewRequirements": ["quality"],
+    }
+    for path in (
+        ".ai/guards/coverage_policy.yaml",
+        ".ai/guards/file_ownership.yaml",
+        ".ai/guards/ai_review_policy.yaml",
+        ".ai/guards/file_boundary.yaml",
+        ".ai/cockpit/checks.yaml",
+    ):
+        target = tmp_path / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text("", encoding="utf-8")
+
+    issues = calibration_issues(tmp_path, profile)
+    assert any("productionRoots pattern" in issue for issue in issues)
+    assert any("testRoots pattern" in issue for issue in issues)
+    assert any("generated path" in issue for issue in issues)
+    assert any("critical path" in issue for issue in issues)
+    assert any("quality review requirement" in issue for issue in issues)
+
+
+def test_guard_calibration_main_reports_success_and_missing_profile(monkeypatch, tmp_path):
+    import ai_check_guard_calibration
+
+    monkeypatch.setattr(sys, "argv", ["ai_check_guard_calibration", "--root", str(ROOT)])
+    assert ai_check_guard_calibration.main() == 0
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["ai_check_guard_calibration", "--root", str(tmp_path), "--profile", "missing.yaml"],
+    )
+    assert ai_check_guard_calibration.main() == 1
 
 
 def test_repository_system_invariants_are_consistent():

@@ -1,0 +1,211 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project_doctor_tracked_scan",
+  "mode": "code",
+  "title": "Scan tracked project files without ignored environment noise",
+  "baseCommit": "da02bd3d07a2c6fc328fda5e3fa58697c0f17621",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_project_doctor.py",
+    "scripts/ai_doctor.py",
+    "scripts/ai_check_adoption_ready.py",
+    "tests/test_ai_project_doctor.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_doctor.py",
+    "tests/test_core_gates.py",
+    ".ai/cockpit/bandit_low_risk_baseline.json",
+    ".ai/work-items/active/project_doctor_tracked_scan.contract.json",
+    ".ai/work-items/active/project_doctor_tracked_scan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/ai_calibrate.py",
+    ".ai/project_profile.yaml",
+    ".ai/guards/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_project_doctor.py",
+      "reason": "The Doctor currently uses unrestricted Path.glob and can inspect ignored local environments."
+    },
+    {
+      "path": "scripts/ai_doctor.py",
+      "reason": "The cockpit doctor should infer template maintenance mode from the confirmed template profile."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Readiness helpers need an explicit execution-mode override that preserves environment behavior for existing callers."
+    },
+    {
+      "path": "tests/test_ai_project_doctor.py",
+      "reason": "Regression coverage for ignored environment exclusion and tracked evidence."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Regression coverage for explicit template maintenance execution mode."
+    },
+    {
+      "path": "tests/test_doctor.py",
+      "reason": "Regression coverage for automatic template maintenance context in cockpit-doctor."
+    },
+    {
+      "path": ".ai/cockpit/bandit_low_risk_baseline.json",
+      "reason": "Bandit low-risk evidence must be regenerated after adding subprocess-based repository scanning."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Regression coverage for cockpit-doctor template maintenance messaging."
+    },
+    {
+      "path": ".ai/work-items/active/project_doctor_tracked_scan.contract.json",
+      "reason": "This contract declares the Doctor scanning and role inference scope."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["fact_accuracy", "ignored_files"],
+    "reason": "The change narrows read-only evidence discovery and preserves non-mutating Doctor output."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Tracked-file scanning and template-role messaging are implementable with local regression tests."
+  },
+  "preReviewWarnings": [
+    "Review Git fallback behavior for non-repository fixtures and ensure ignored directories never become evidence in repository mode."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Project Doctor uses tracked files as its default evidence source inside Git repositories.",
+    "Ignored directories such as .venv, target, build, and caches do not create language or framework evidence.",
+    "Non-Git temporary fixtures retain a deterministic filesystem fallback for unit tests.",
+    "cockpit-doctor automatically uses template maintenance context when repositoryRole is template and template evidence is complete.",
+    "Regression tests cover ignored-file noise, tracked evidence, and template maintenance messaging."
+  ],
+  "guidelines": [
+    "Doctor remains read-only and does not modify project profile or Guard approvals.",
+    "Evidence scanning must be deterministic and independent of the agent's current virtual environment.",
+    "Existing non-Git fixture behavior remains supported by an explicit fallback."
+  ],
+  "intent": {
+    "problem": "Project Doctor scans the entire filesystem under the repository root, so ignored .venv site-packages can be misclassified as project languages and template repositories can receive adopted-project warnings.",
+    "constraints": [
+      "Keep Doctor read-only.",
+      "Do not make ignored local environments part of Repository Truth.",
+      "Preserve non-Git temporary fixture tests."
+    ],
+    "rationale": "Evidence discovery should reflect repository-owned facts while still allowing isolated unit fixtures that do not have a Git index."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "ignored .venv JavaScript does not become project language evidence",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["tests/test_ai_project_doctor.py"]
+    },
+    {
+      "scenario": "non-Git temporary fixture still detects explicit source files",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["tests/test_ai_project_doctor.py"]
+    },
+    {
+      "scenario": "confirmed template maintenance avoids adopted-project warning",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["tests/test_core_gates.py"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the accepted Doctor remediation; the Bandit baseline is regenerated by the repository check after the subprocess scanner change."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

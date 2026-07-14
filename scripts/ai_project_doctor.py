@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -54,18 +55,47 @@ STATE_MANAGEMENT_TERMS = ("riverpod", "provider", "flutter_bloc", "bloc", "redux
 NATIVE_ROOTS = ("android", "ios", "macos", "windows", "linux")
 
 
-def first_evidence(root: Path, patterns: tuple[str, ...]) -> str | None:
+def repository_entries(root: Path) -> list[Path]:
+    """Return repository-owned paths, falling back to filesystem fixtures outside Git."""
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "ls-files", "-z"],
+            capture_output=True,
+            check=False,
+        )
+    except OSError:
+        result = None
+    if result is not None and result.returncode == 0:
+        entries: set[Path] = set()
+        for raw in result.stdout.decode("utf-8", errors="replace").split("\0"):
+            if not raw:
+                continue
+            relative = Path(raw)
+            entries.add(relative)
+            entries.update(relative.parents)
+        return sorted(root / relative for relative in entries)
+    return sorted(path for path in root.rglob("*") if path.is_file() or path.is_dir())
+
+
+def first_evidence(root: Path, patterns: tuple[str, ...], entries: list[Path]) -> str | None:
     for pattern in patterns:
-        matches = sorted(path for path in root.glob(pattern) if path.is_file() or path.is_dir())
+        matches = sorted(
+            path
+            for path in entries
+            if path.is_file() or path.is_dir()
+            if path.relative_to(root).match(pattern)
+        )
         if matches:
             return matches[0].relative_to(root).as_posix()
     return None
 
 
-def findings(root: Path, signals: dict[str, tuple[str, ...]]) -> list[dict[str, str]]:
+def findings(
+    root: Path, signals: dict[str, tuple[str, ...]], entries: list[Path]
+) -> list[dict[str, str]]:
     result = []
     for value, patterns in signals.items():
-        evidence = first_evidence(root, patterns)
+        evidence = first_evidence(root, patterns, entries)
         if evidence:
             result.append({"value": value, "confidence": "high", "evidence": evidence})
     return result
@@ -141,11 +171,14 @@ def suffix_directory_candidates(
     return result
 
 
-def xcode_production_candidates(root: Path) -> list[dict[str, str]]:
+def xcode_production_candidates(root: Path, entries: list[Path]) -> list[dict[str, str]]:
     """*.xcodeproj 同階層の保守的なソースディレクトリ候補を提案する。"""
     result: list[dict[str, str]] = []
     seen: set[str] = set()
-    for project in sorted(root.glob("*.xcodeproj")):
+    projects = sorted(
+        path for path in entries if path.is_dir() and path.relative_to(root).match("*.xcodeproj")
+    )
+    for project in projects:
         if not project.is_dir():
             continue
         stem = project.stem
@@ -219,11 +252,12 @@ def project_signals(
 
 
 def scan_project(root: Path) -> dict[str, Any]:
+    entries = repository_entries(root)
     production = merge_boundary_candidates(
         directory_candidates(
             root, ("src", "lib", "app", "Sources", "cmd", "pkg", "internal"), "production"
         ),
-        xcode_production_candidates(root),
+        xcode_production_candidates(root, entries),
     )
     tests = merge_boundary_candidates(
         directory_candidates(root, ("tests", "test", "Tests", "spec"), "test"),
@@ -282,13 +316,13 @@ def scan_project(root: Path) -> dict[str, Any]:
             guard_mismatches.append(
                 {"kind": "critical", "path": item["path"], "evidence": item["evidence"]}
             )
-    infrastructure = findings(root, INFRA_SIGNALS)
+    infrastructure = findings(root, INFRA_SIGNALS, entries)
     return {
         "reportVersion": 1,
         "detectedFacts": {
-            "languages": findings(root, LANGUAGE_SIGNALS),
+            "languages": findings(root, LANGUAGE_SIGNALS, entries),
             "frameworks": framework_findings(root),
-            "buildSystems": findings(root, BUILD_SIGNALS),
+            "buildSystems": findings(root, BUILD_SIGNALS, entries),
             "infrastructure": infrastructure,
         },
         "projectSignals": project_signals(root, infrastructure),

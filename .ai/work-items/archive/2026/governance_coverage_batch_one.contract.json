@@ -1,0 +1,183 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance_coverage_batch_one",
+  "mode": "code",
+  "title": "Raise coverage for scenario guard and agent risk decisions",
+  "baseCommit": "0f56aec96036ae585a6162c8fa3f395114299e22",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_check_scenario_coverage.py",
+    "scripts/ai_check_guard_calibration.py",
+    "scripts/ai_check_agent_risk.py",
+    "scripts/check_critical_coverage.py",
+    "tests/test_scenario_coverage_gate.py",
+    "tests/test_project_governance.py",
+    "tests/test_ai_check_agent_risk.py",
+    ".ai/work-items/active/governance_coverage_batch_one.contract.json",
+    ".ai/work-items/active/governance_coverage_batch_one.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["scripts/ai_preflight_review.py", "scripts/ai_onboard.py", "scripts/ai_check_pr.py"],
+  "sources": [
+    {
+      "path": "scripts/ai_check_scenario_coverage.py",
+      "reason": "Current coverage is 61%; add decision and failure-path tests."
+    },
+    {
+      "path": "scripts/ai_check_guard_calibration.py",
+      "reason": "Current coverage is 62%; add malformed and missing-policy tests."
+    },
+    {
+      "path": "scripts/ai_check_agent_risk.py",
+      "reason": "Current coverage is 63%; add unknown, capability, and checkpoint rejection tests."
+    },
+    {
+      "path": "scripts/check_critical_coverage.py",
+      "reason": "Raise the regression floors after the new tests establish higher coverage."
+    },
+    {
+      "path": "tests/test_scenario_coverage_gate.py",
+      "reason": "Scenario coverage decision-path tests."
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "reason": "Guard calibration decision-path tests."
+    },
+    {
+      "path": "tests/test_ai_check_agent_risk.py",
+      "reason": "Agent risk decision-path tests."
+    },
+    {
+      "path": ".ai/work-items/active/governance_coverage_batch_one.contract.json",
+      "reason": "This contract declares the coverage uplift scope."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["coverage_regression"],
+    "reason": "The change adds tests and raises existing per-file floors without changing runtime behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Coverage tests and threshold changes are implementable within the declared scope."
+  },
+  "preReviewWarnings": [
+    "Review that tests exercise behavior and that raised floors do not mask missing branches."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Scenario coverage reaches at least 63%.",
+    "Guard calibration reaches at least 65%.",
+    "Agent risk validation reaches at least 65%.",
+    "Critical coverage floors are raised to at least 63% for the three modules.",
+    "All existing project and governance checks continue to pass."
+  ],
+  "guidelines": [
+    "Tests must assert externally visible decision results or error findings.",
+    "Coverage thresholds may only be raised after the corresponding coverage report passes.",
+    "No production behavior changes are included in this uplift."
+  ],
+  "intent": {
+    "problem": "Several fail-closed governance decision modules remain near the minimum coverage floor, leaving important rejection and recovery branches weakly protected.",
+    "constraints": ["Keep runtime behavior unchanged.", "Raise floors only after fresh coverage evidence."],
+    "rationale": "Add focused decision-path tests so future governance changes fail loudly in the modules that determine readiness and safety."
+  },
+  "scenarioCoverage": [
+    {"scenario": "invalid and unverified scenario decisions", "required": true, "status": "unverified", "evidence": ["tests/test_scenario_coverage_gate.py"]},
+    {"scenario": "guard calibration mismatch decisions", "required": true, "status": "unverified", "evidence": ["tests/test_project_governance.py"]},
+    {"scenario": "agent risk blocker decisions", "required": true, "status": "unverified", "evidence": ["tests/test_ai_check_agent_risk.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

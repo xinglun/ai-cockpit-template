@@ -1,0 +1,155 @@
+{
+  "contractVersion": 2,
+  "workItemId": "refactor_preflight_report",
+  "mode": "code",
+  "title": "Refactor finish orchestration",
+  "baseCommit": "74956dab88e89965eb2e637fbfe9bf800f76c370",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_finish.py",
+    "tests/test_core_gates.py",
+    "tests/**",
+    ".ai/work-items/active/refactor_preflight_report.contract.json",
+    ".ai/work-items/active/refactor_preflight_report.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    ".github/**",
+    "scripts/ai_preflight_review.py"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Target for splitting finish orchestration into focused lifecycle helpers."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Existing finish-path regression coverage and orchestration assertion."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "refactor_only"
+    ],
+    "reason": "Behavior-preserving internal orchestration refactor with existing regression tests."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contracted behavior-preserving refactor is ready for implementation."
+  },
+  "preReviewWarnings": [
+    "Confirm finish check ordering, transactional markers, stabilization, and archive behavior are unchanged."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "ai_finish.main is decomposed into focused validation, execution, stabilization, and archive helpers without changing its lifecycle behavior.",
+    "Existing finish-path tests pass with an orchestration regression assertion.",
+    "Full AI Cockpit and project quality checks pass with no governance policy change."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "ai_finish.main combines contract validation, check execution, transactional evidence, stabilization, and archive handling in one large function.",
+    "constraints": [
+      "Preserve check ordering and finish failure semantics.",
+      "Do not change governance policy or unrelated scripts."
+    ],
+    "rationale": "Separating lifecycle responsibilities reduces maintenance risk in the repository's final governance gate."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_evidence_index",
+  "mode": "code",
+  "title": "Add scalable archive evidence index",
+  "baseCommit": "e4ef3abdffdb1efe734e5824f5d900ea513bc27d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_archive_work_item.py",
+    "tests/test_ai_archive_work_item.py",
+    "tests/test_start_and_archive.py",
+    "docs/reference/distribution.md",
+    ".ai/work-items/active/archive_evidence_index.contract.json",
+    ".ai/work-items/active/archive_evidence_index.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Changing the archival evidence schema beyond adding an index entry",
+    "Deleting, compressing, or rewriting existing archived evidence"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Existing archive flow and sequence implementation."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Existing archive helper coverage."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Existing archive integration coverage."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Distribution and release evidence documentation boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity"
+    ],
+    "reason": "The index is additive metadata; existing Contract, Summary, and archive files remain authoritative."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The index is a backward-compatible additive archive optimization."
+  },
+  "preReviewWarnings": [
+    "Review index entries, sequence monotonicity, and rollback behavior when index writes fail."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Archiving appends a machine-readable index entry without changing existing evidence files.",
+    "Index entries include Work Item identity, archive sequence, relative evidence paths, and archive year.",
+    "Index updates are atomic and archive failures restore the pre-archive file set.",
+    "Unit tests cover new-index, existing-index, and index-write failure paths.",
+    "Documentation explains the index as an acceleration layer, not a source of truth."
+  ],
+  "guidelines": [
+    "The archive index must not replace the original Contract or Summary as authoritative evidence.",
+    "Index writes must be atomic and must not leave partial generated state."
+  ],
+  "intent": {
+    "problem": "The archive now contains hundreds of evidence files, so consumers that need a list of historical Work Items must repeatedly scan and parse the full archive.",
+    "constraints": [
+      "Preserve all existing archive files and their paths.",
+      "Keep Contract and Summary as the authoritative evidence sources.",
+      "Do not add machine-specific paths or secrets to generated index data."
+    ],
+    "rationale": "An append-oriented index provides fast discovery while retaining the existing immutable evidence model."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

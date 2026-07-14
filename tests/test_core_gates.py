@@ -552,6 +552,8 @@ def test_finish_main_stabilizes_successful_work_item(tmp_path, monkeypatch):
 
     assert ai_finish.main() == 0
     assert len(executed) == 6
+    assert executed[0] == ["make", "quality"]
+    assert executed[-1][:2] == ["make", "check-ai-change-summary"]
     recorded = json.loads(summary.read_text(encoding="utf-8"))["verification"]
     assert all(item["result"] == "passed" for item in recorded)
     assert {item["check"] for item in recorded} >= {"quality", "aiStatus", "aiSummary"}

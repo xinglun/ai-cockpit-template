@@ -31,6 +31,10 @@ ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
 ARCHIVE_BASE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "archive"
 
 
+def _archive_index_path() -> Path:
+    return ARCHIVE_BASE_DIR / "index.json"
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Archive a Work Item.")
     parser.add_argument("contract", help="Path to the active contract JSON.")
@@ -80,8 +84,18 @@ def _current_worktree_digest(contract: dict[str, object]) -> str:
 
 
 def _next_archive_sequence() -> int:
-    """Return the next monotonic sequence recorded in archived Summary evidence."""
+    """Return the next monotonic sequence, preferring the archive index."""
     highest = 0
+    try:
+        index = load_json(_archive_index_path())
+    except (OSError, ValueError):
+        index = None
+    if isinstance(index, dict) and isinstance(index.get("entries"), list):
+        for entry in index["entries"]:
+            if isinstance(entry, dict) and isinstance(entry.get("archiveSequence"), int):
+                highest = max(highest, int(entry["archiveSequence"]))
+        if highest:
+            return highest + 1
     for summary_path in ARCHIVE_BASE_DIR.rglob("*.summary.json"):
         try:
             summary = load_json(summary_path)
@@ -91,6 +105,89 @@ def _next_archive_sequence() -> int:
         if isinstance(value, int) and not isinstance(value, bool):
             highest = max(highest, value)
     return highest + 1
+
+
+def _archive_entry(
+    *,
+    contract_path: Path,
+    summary_path: Path | None,
+    target_dir: Path,
+    archive_sequence: int,
+) -> dict[str, object]:
+    """Build a portable discovery record for one archived Work Item."""
+    contract_target = target_dir / contract_path.name
+    contract = load_json(contract_target)
+    entry: dict[str, object] = {
+        "workItemId": contract.get("workItemId", contract_path.stem.replace(".contract", "")),
+        "archiveSequence": archive_sequence,
+        "archiveYear": target_dir.name,
+        "contractPath": contract_target.relative_to(PROJECT_ROOT).as_posix(),
+        "contractSha256": hashlib.sha256(contract_target.read_bytes()).hexdigest(),
+        "archivedAt": datetime.now().astimezone().isoformat(),
+    }
+    if summary_path is not None:
+        summary_target = target_dir / summary_path.name
+        entry["summaryPath"] = summary_target.relative_to(PROJECT_ROOT).as_posix()
+        entry["summarySha256"] = hashlib.sha256(summary_target.read_bytes()).hexdigest()
+    return entry
+
+
+def _archive_sequence_key(item: object) -> int:
+    if isinstance(item, dict) and isinstance(item.get("archiveSequence"), int):
+        return int(item["archiveSequence"])
+    return 0
+
+
+def _load_archive_index() -> dict[str, object]:
+    """Load the index, or return an empty versioned index for first use."""
+    try:
+        index = load_json(_archive_index_path())
+    except (OSError, ValueError):
+        index = None
+    if isinstance(index, dict) and isinstance(index.get("entries"), list):
+        return index
+    entries: list[dict[str, object]] = []
+    # Bootstrap once from existing evidence so the first index is complete.
+    for summary_path in ARCHIVE_BASE_DIR.rglob("*.summary.json"):
+        try:
+            summary = load_json(summary_path)
+            contract_path = PROJECT_ROOT / str(summary["contractPath"])
+            sequence = summary.get("archiveSequence")
+            if (
+                not isinstance(sequence, int)
+                or not contract_path.exists()
+                or not isinstance(summary.get("workItemId"), str)
+            ):
+                continue
+            entries.append(
+                {
+                    "workItemId": summary["workItemId"],
+                    "archiveSequence": sequence,
+                    "archiveYear": summary_path.parent.name,
+                    "contractPath": contract_path.relative_to(PROJECT_ROOT).as_posix(),
+                    "summaryPath": summary_path.relative_to(PROJECT_ROOT).as_posix(),
+                    "contractSha256": hashlib.sha256(contract_path.read_bytes()).hexdigest(),
+                    "summarySha256": hashlib.sha256(summary_path.read_bytes()).hexdigest(),
+                    "archivedAt": summary.get("archivedAt", "legacy"),
+                }
+            )
+        except (KeyError, OSError, ValueError):
+            continue
+    entries.sort(key=_archive_sequence_key)
+    return {
+        "indexVersion": 1,
+        "description": "Discovery index; archived Contract and Summary files remain authoritative.",
+        "entries": entries,
+    }
+
+
+def _write_archive_index(index: dict[str, object]) -> None:
+    """Atomically persist the discovery index."""
+    ARCHIVE_BASE_DIR.mkdir(parents=True, exist_ok=True)
+    index_path = _archive_index_path()
+    temporary = index_path.with_suffix(".json.tmp")
+    save_json(temporary, index)
+    temporary.replace(index_path)
 
 
 def _validate_archive_inputs(
@@ -204,6 +301,8 @@ def main() -> int:
 
     archive_sequence = _next_archive_sequence()
     target_dir.mkdir(parents=True, exist_ok=True)
+    index_path = _archive_index_path()
+    index_backup = index_path.read_bytes() if index_path.exists() else None
     try:
         for src, target in files_to_move:
             shutil.move(str(src), str(target))
@@ -247,13 +346,40 @@ def main() -> int:
                         changed.append(
                             {"path": archived_path, "reason": "Archived Work Item audit evidence."}
                         )
+                index_rel = _archive_index_path().relative_to(PROJECT_ROOT).as_posix()
+                if index_rel not in existing:
+                    changed.append(
+                        {
+                            "path": index_rel,
+                            "reason": "Generated archive discovery index.",
+                        }
+                    )
             summary_target = target_dir / summary_path.name
             assert summary_tmp is not None
             save_json(summary_tmp, summary)
             summary_tmp.replace(summary_target)
+
+        index = _load_archive_index()
+        entries = index.get("entries")
+        if not isinstance(entries, list):
+            raise ValueError("archive index entries must be a list")
+        entries.append(
+            _archive_entry(
+                contract_path=contract_path,
+                summary_path=summary_path if has_summary else None,
+                target_dir=target_dir,
+                archive_sequence=archive_sequence,
+            )
+        )
+        entries.sort(key=_archive_sequence_key)
+        _write_archive_index(index)
     except Exception as exc:
         if summary_tmp and summary_tmp.exists():
             summary_tmp.unlink()
+        if index_backup is None:
+            index_path.unlink(missing_ok=True)
+        else:
+            index_path.write_bytes(index_backup)
         try:
             _restore_files(files_to_move)
         except Exception as rollback_exc:

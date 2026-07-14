@@ -10,6 +10,36 @@ ARCHIVE_SUMMARY = (
 )
 
 
+def test_summary_validator_orchestrates_focused_validation_helpers(monkeypatch):
+    monkeypatch.setattr(
+        ai_check_summary,
+        "_validate_summary_structure",
+        lambda *_args, **_kwargs: ["structure"],
+    )
+    monkeypatch.setattr(
+        ai_check_summary,
+        "_validate_verification_entries",
+        lambda *_args, **_kwargs: ["verification"],
+    )
+    monkeypatch.setattr(
+        ai_check_summary,
+        "_validate_summary_metadata",
+        lambda *_args, **_kwargs: ["metadata"],
+    )
+    monkeypatch.setattr(
+        ai_check_summary,
+        "_validate_required_verification",
+        lambda *_args, **_kwargs: ["required"],
+    )
+
+    assert ai_check_summary.validate_summary({}, None) == [
+        "structure",
+        "verification",
+        "metadata",
+        "required",
+    ]
+
+
 def test_passed_v2_evidence_requires_worktree_digest():
     item = ai_finish.evidence(
         "projectTest",

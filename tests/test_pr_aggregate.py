@@ -112,6 +112,45 @@ def test_aggregate_pr_covers_earlier_and_later_work_items(tmp_path, monkeypatch)
     assert ai_check_pr.validate_pr_bundle("a" * 40, [first, second]) == []
 
 
+def test_aggregate_pr_accepts_generated_archive_index_named_by_summary(tmp_path, monkeypatch):
+    archive_index = ".ai/work-items/archive/index.json"
+    pair = write_pair(tmp_path, "generated_index", ["src/change.py"], [archive_index])
+    policy = tmp_path / "scope.yaml"
+    policy.write_text("allowAlways:\n", encoding="utf-8")
+    monkeypatch.setattr(ai_check_pr, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_pr, "SCOPE_POLICY", policy)
+    patch_changes(
+        monkeypatch,
+        [
+            archive_index,
+            pair.relative_to(tmp_path).as_posix(),
+            str(pair.relative_to(tmp_path)).replace(".contract", ".summary"),
+        ],
+    )
+
+    assert ai_check_pr.validate_pr_bundle("a" * 40, [pair]) == []
+
+
+def test_aggregate_pr_rejects_unclaimed_generated_archive_index(tmp_path, monkeypatch):
+    pair = write_pair(tmp_path, "unclaimed_index", ["src/change.py"], ["src/change.py"])
+    archive_index = ".ai/work-items/archive/index.json"
+    policy = tmp_path / "scope.yaml"
+    policy.write_text("allowAlways:\n", encoding="utf-8")
+    monkeypatch.setattr(ai_check_pr, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_pr, "SCOPE_POLICY", policy)
+    patch_changes(
+        monkeypatch,
+        [
+            archive_index,
+            pair.relative_to(tmp_path).as_posix(),
+            str(pair.relative_to(tmp_path)).replace(".contract", ".summary"),
+        ],
+    )
+
+    issues = ai_check_pr.validate_pr_bundle("a" * 40, [pair])
+    assert any("lacks paired ownership" in issue and archive_index in issue for issue in issues)
+
+
 def test_aggregate_pr_rejects_uncovered_earlier_path(tmp_path, monkeypatch):
     closing = write_pair(tmp_path, "closing", ["src/closing.py"], ["src/closing.py"])
     policy = tmp_path / "scope.yaml"

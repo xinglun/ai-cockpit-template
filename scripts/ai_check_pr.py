@@ -324,6 +324,15 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
     ownership = parse_simple_manifest(OWNERSHIP_POLICY)
     exempt = policy.get("allowAlways", [])
 
+    generated_archive_index = f"{ARCHIVE_PREFIX}index.json"
+
+    def is_archived_generated_evidence(path: str) -> bool:
+        """Accept generated archive metadata only when archived evidence names it."""
+        return path == generated_archive_index and any(
+            path in changed_file_paths(summary)
+            for _contract_path, _contract, summary, _rank in archive_entries
+        )
+
     for path in all_paths:
         if path in audit_paths or included(path, exempt) or path in no_op_restore_paths:
             continue
@@ -340,6 +349,8 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
             and path in changed_file_paths(entry[2])
         ]
         if not owners:
+            if is_archived_generated_evidence(path):
+                continue
             issues.append(
                 f"complete PR diff path lacks paired ownership (same Contract scope and Summary changedFiles): {path}"
             )

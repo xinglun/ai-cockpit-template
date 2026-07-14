@@ -38,7 +38,9 @@ def template_distribution_evidence(root: Path) -> list[str]:
     return evidence
 
 
-def template_exemption(profile: dict[str, object], root: Path) -> tuple[bool, list[str]]:
+def template_exemption(
+    profile: dict[str, object], root: Path, *, execution_mode: str | None = None
+) -> tuple[bool, list[str]]:
     """Return an explicit, inspectable template-maintenance exemption.
 
     Role is intent, not identity: it must be corroborated by a checked-in
@@ -47,7 +49,8 @@ def template_exemption(profile: dict[str, object], root: Path) -> tuple[bool, li
     evidence: list[str] = []
     if profile.get("repositoryRole") == "template":
         evidence.append("repositoryRole=template")
-    if os.environ.get("AI_COCKPIT_EXECUTION_MODE") == "template_maintenance":
+    mode = execution_mode or os.environ.get("AI_COCKPIT_EXECUTION_MODE")
+    if mode == "template_maintenance":
         evidence.append("AI_COCKPIT_EXECUTION_MODE=template_maintenance")
     distribution = template_distribution_evidence(root)
     if len(distribution) == len(TEMPLATE_EVIDENCE_FILES):

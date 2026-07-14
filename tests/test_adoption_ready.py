@@ -3,7 +3,7 @@ import sys
 import shutil
 from pathlib import Path
 
-from ai_check_adoption_ready import readiness_failures
+from ai_check_adoption_ready import readiness_failures, template_exemption
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -76,6 +76,28 @@ def test_confirmed_template_profile_is_exempt_only_in_explicit_maintenance_mode(
     shutil.copytree(ROOT / "templates", tmp_path / "templates")
     monkeypatch.setenv("AI_COCKPIT_EXECUTION_MODE", "template_maintenance")
     assert readiness_failures(tmp_path) == []
+
+
+def test_template_exemption_accepts_explicit_execution_mode_without_environment(
+    tmp_path, monkeypatch
+):
+    profile = {"repositoryRole": "template"}
+    for relative in (
+        "templates/agents/AI_COCKPIT_RULES.md",
+        "templates/glossary.md",
+        "templates/make/Makefile.ai",
+        ".ai/work-items/_templates/work_item_contract.example.json",
+        ".ai/work-items/_templates/work_item_summary.example.json",
+    ):
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("evidence\n", encoding="utf-8")
+    monkeypatch.delenv("AI_COCKPIT_EXECUTION_MODE", raising=False)
+
+    exempt, evidence = template_exemption(profile, tmp_path, execution_mode="template_maintenance")
+
+    assert exempt is True
+    assert "AI_COCKPIT_EXECUTION_MODE=template_maintenance" in evidence
 
 
 def test_template_role_without_maintenance_evidence_remains_fail_closed(tmp_path):

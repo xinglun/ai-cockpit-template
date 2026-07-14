@@ -1,0 +1,155 @@
+{
+  "contractVersion": 2,
+  "workItemId": "compatibility_ci_reliability",
+  "mode": "code",
+  "title": "Fix compatibility matrix release evidence prerequisites",
+  "baseCommit": "a776c4cd560fd643eaecb0a4a76d8d01405e5627",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/compatibility.yml",
+    "tests/test_workflows.py",
+    ".ai/work-items/active/compatibility_ci_reliability.contract.json",
+    ".ai/work-items/active/compatibility_ci_reliability.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "Changing the release tag or published v0.5.24 evidence",
+    "Changing non-compatibility workflows"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Failing PR compatibility jobs and their checkout/toolchain setup."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Workflow contract tests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "ci"
+    ],
+    "reason": "The fix only makes existing compatibility prerequisites explicit and preserves the matrix contract."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Observed failures are directly within the declared compatibility workflow scope."
+  },
+  "preReviewWarnings": [
+    "Review checkout tag availability and explicit Rust toolchain behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Compatibility checkout depth is zero so release-evidence tag resolution is available.",
+    "Rust compatibility setup passes an explicit stable toolchain to the pinned action.",
+    "tests/test_workflows.py asserts checkout depth zero and explicit Rust stable configuration.",
+    "make project-test and the required AI Work Item finish checks pass after the workflow change."
+  ],
+  "guidelines": [
+    "CI prerequisites must be explicit in the workflow configuration.",
+    "Workflow changes must preserve pinned Action SHAs."
+  ],
+  "intent": {
+    "problem": "The newly required compatibility gate exposed two latent CI assumptions: shallow checkout hides the historical release tag and the pinned Rust toolchain action now requires an explicit toolchain input.",
+    "constraints": [
+      "Preserve all existing pinned Action SHAs.",
+      "Do not alter published release metadata or historical tags.",
+      "Keep the compatibility matrix job names stable for branch protection."
+    ],
+    "rationale": "Making both prerequisites explicit restores deterministic cross-platform evidence for the required compatibility gate."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized continuation and accepted the PR-first CI remediation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

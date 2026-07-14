@@ -1,0 +1,174 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_exact_sha_workflow",
+  "mode": "code",
+  "title": "Add exact-SHA release gate workflow",
+  "baseCommit": "097e2c22ed914cb3f90600fb1556a9a5eb752e04",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    ".ai/work-items/active/release_exact_sha_workflow.contract.json",
+    ".ai/work-items/active/release_exact_sha_workflow.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "Changing release.json or historical v0.5.24 evidence",
+    "Adding a new GitHub Action dependency",
+    "Creating a tag or GitHub Release during local verification"
+  ],
+  "sources": [
+    {"path": ".github/workflows/smoke.yml", "reason": "Required smoke workflow name and gate."},
+    {"path": ".github/workflows/compatibility.yml", "reason": "Required compatibility workflow name and gate."},
+    {"path": "release.json", "reason": "Release tag contract checked by the workflow."},
+    {"path": ".github/workflows/release.yml", "reason": "New exact-SHA release workflow target."},
+    {"path": "tests/test_workflows.py", "reason": "Workflow contract tests."},
+    {"path": "docs/reference/distribution.md", "reason": "Release process documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release", "ci"],
+    "reason": "The workflow can create immutable external release state, so exact-SHA and precondition checks must fail closed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The workflow is explicit, manually dispatched, and preserves existing supply-chain evidence inputs."
+  },
+  "preReviewWarnings": [
+    "Review every external-state precondition and confirm no new Action dependency is introduced."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Manual dispatch requires a new tag and source commit and rejects an existing tag.",
+    "The workflow requires source commit == workflow commit and successful smoke/compatibility runs for that exact SHA.",
+    "The workflow validates release.json tag identity before creating the tag and GitHub Release.",
+    "The workflow adds no GitHub Action occurrence and preserves historical v0.5.24 evidence.",
+    "Workflow tests and all project/governance checks pass."
+  ],
+  "guidelines": [
+    "Release creation must be fail-closed before external state mutation.",
+    "Supply-chain workflow changes must not add unpinned or new Action dependencies."
+  ],
+  "intent": {
+    "problem": "The repository now has green smoke and compatibility evidence but no formal release workflow that binds tag creation to one verified commit SHA.",
+    "constraints": [
+      "Preserve the immutable v0.5.24 release and its SBOM/provenance digests.",
+      "Do not add a new GitHub Action dependency because Action occurrences are part of the published SBOM.",
+      "Do not create external release state during local tests."
+    ],
+    "rationale": "A CLI-only manual workflow can enforce exact-SHA release evidence without changing historical supply-chain claims."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "dispatch rejects a source commit different from the workflow SHA",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_workflows.py"]
+    },
+    {
+      "scenario": "dispatch requires successful smoke and compatibility runs for the exact SHA",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_workflows.py"]
+    },
+    {
+      "scenario": "release creation uses gh CLI without adding a GitHub Action dependency",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_workflows.py"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the formal release workflow follow-up."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

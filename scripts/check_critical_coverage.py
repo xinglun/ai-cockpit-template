@@ -23,13 +23,14 @@ CRITICAL_MINIMUMS = {
     "scripts/ai_project_doctor.py": 80.0,
     "scripts/ai_project_profile.py": 70.0,
     "scripts/ai_calibrate.py": 60.0,
-    "scripts/ai_check_guard_calibration.py": 60.0,
+    "scripts/ai_check_guard_calibration.py": 75.0,
+    "scripts/ai_check_agent_risk.py": 75.0,
     "scripts/check_system_invariants.py": 75.0,
     "scripts/ai_check_backtrack.py": 85.0,
     "scripts/ai_check_coverage_guard.py": 85.0,
     "scripts/ai_check_guards.py": 85.0,
     "scripts/ai_check_work_item.py": 70.0,
-    "scripts/ai_check_scenario_coverage.py": 50.0,
+    "scripts/ai_check_scenario_coverage.py": 75.0,
 }
 
 

@@ -209,6 +209,115 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def run_declared_checks(
+    declared_items: list[dict[str, Any]],
+    *,
+    args: argparse.Namespace,
+    contract: str,
+    summary: str,
+    contract_data: dict[str, Any],
+    contract_path: Path,
+    summary_path: Path,
+    contract_hash: str,
+    commit_sha: str,
+    obs: Any,
+) -> int:
+    """Run declared checks and persist transactional verification evidence."""
+    transactional_markers_written = False
+    for item in declared_items:
+        check_id = verification_key(item)
+        if not check_id or "command" in item:
+            print(
+                "ERROR: contractVersion 2 verification must use registered check IDs only",
+                file=sys.stderr,
+            )
+            return 2
+        if args.skip_quality and check_id == "quality":
+            if item.get("required") is True:
+                print(
+                    "ERROR: --skip-quality cannot skip required Contract verification",
+                    file=sys.stderr,
+                )
+                return 2
+            continue
+        try:
+            cmd_str, command = render_check_command(
+                check_id, contract_path=contract, summary_path=summary
+            )
+        except ValueError as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            return 2
+        obs.check_started(check_id=check_id, command=cmd_str)
+        if not transactional_markers_written and verification_priority(item) >= 20:
+            current_digest = worktree_digest(changed_paths(contract_data))
+            for candidate in declared_items:
+                if verification_priority(candidate) >= 20:
+                    candidate_id = verification_key(candidate)
+                    candidate_command, _ = render_check_command(
+                        candidate_id, contract_path=contract, summary_path=summary
+                    )
+                    record_result(
+                        summary_path,
+                        pending_evidence(
+                            candidate_id,
+                            candidate_command,
+                            contract_hash=contract_hash,
+                            commit_sha=commit_sha,
+                            execution_contract_path=contract,
+                            execution_summary_path=summary,
+                            worktree_digest=current_digest,
+                        ),
+                    )
+            transactional_markers_written = True
+        if check_id == "aiSummary":
+            current_digest = worktree_digest(changed_paths(contract_data))
+            record_result(
+                summary_path,
+                evidence(
+                    check_id,
+                    cmd_str,
+                    0,
+                    0,
+                    "pending transactional validation",
+                    contract_hash=contract_hash,
+                    commit_sha=commit_sha,
+                    execution_contract_path=contract,
+                    execution_summary_path=summary,
+                    worktree_digest=current_digest,
+                ),
+            )
+        code, duration, output = run(command)
+        current_digest = worktree_digest(changed_paths(contract_data))
+        record_result(
+            summary_path,
+            evidence(
+                check_id,
+                cmd_str,
+                code,
+                duration,
+                output,
+                contract_hash=contract_hash,
+                commit_sha=commit_sha,
+                execution_contract_path=contract,
+                execution_summary_path=summary,
+                worktree_digest=current_digest,
+            ),
+        )
+        if code != 0 and item.get("required") is True:
+            obs.check_failed(check_id=check_id, command=cmd_str, duration_ms=duration)
+            return code
+        if code == 0:
+            obs.check_passed(check_id=check_id, command=cmd_str, duration_ms=duration)
+        else:
+            obs.check_failed(
+                check_id=check_id,
+                command=cmd_str,
+                duration_ms=duration,
+                detail="optional verification failed",
+            )
+    return 0
+
+
 def main() -> int:
     args = parse_args()
     contract, summary = task_paths(args.task)
@@ -249,106 +358,21 @@ def main() -> int:
             file=sys.stderr,
         )
         return 1
-    transactional_markers_written = False
-    for item in declared_items:
-        if not isinstance(item, dict):
-            continue
-        check_id = verification_key(item)
-        if not check_id or "command" in item:
-            print(
-                "ERROR: contractVersion 2 verification must use registered check IDs only",
-                file=sys.stderr,
-            )
-            return 2
-        if args.skip_quality and check_id == "quality":
-            if item.get("required") is True:
-                print(
-                    "ERROR: --skip-quality cannot skip required Contract verification",
-                    file=sys.stderr,
-                )
-                return 2
-            continue
-        try:
-            cmd_str, command = render_check_command(
-                check_id, contract_path=contract, summary_path=summary
-            )
-        except ValueError as exc:
-            print(f"ERROR: {exc}", file=sys.stderr)
-            return 2
-        obs.check_started(check_id=check_id, command=cmd_str)
-        # Status, Agent Risk, and Summary form a self-referential lifecycle
-        # cluster. Pending markers let status stabilize but are rejected by the
-        # Summary checker if execution stops before actual evidence replaces them.
-        if not transactional_markers_written and verification_priority(item) >= 20:
-            current_worktree_digest = worktree_digest(changed_paths(contract_data))
-            for candidate in declared_items:
-                if verification_priority(candidate) >= 20:
-                    candidate_id = verification_key(candidate)
-                    candidate_command, _ = render_check_command(
-                        candidate_id, contract_path=contract, summary_path=summary
-                    )
-                    record_result(
-                        summary_path,
-                        pending_evidence(
-                            candidate_id,
-                            candidate_command,
-                            contract_hash=contract_hash,
-                            commit_sha=commit_sha,
-                            execution_contract_path=contract,
-                            execution_summary_path=summary,
-                            worktree_digest=current_worktree_digest,
-                        ),
-                    )
-            transactional_markers_written = True
-        # The Summary checker validates its own record. Replace only its pending
-        # runner immediately before execution; failure overwrites it as failed.
-        if check_id == "aiSummary":
-            current_worktree_digest = worktree_digest(changed_paths(contract_data))
-            record_result(
-                summary_path,
-                evidence(
-                    check_id,
-                    cmd_str,
-                    0,
-                    0,
-                    "pending transactional validation",
-                    contract_hash=contract_hash,
-                    commit_sha=commit_sha,
-                    execution_contract_path=contract,
-                    execution_summary_path=summary,
-                    worktree_digest=current_worktree_digest,
-                ),
-            )
-        code, duration, output = run(command)
-        current_worktree_digest = worktree_digest(changed_paths(contract_data))
-        record_result(
-            summary_path,
-            evidence(
-                check_id,
-                cmd_str,
-                code,
-                duration,
-                output,
-                contract_hash=contract_hash,
-                commit_sha=commit_sha,
-                execution_contract_path=contract,
-                execution_summary_path=summary,
-                worktree_digest=current_worktree_digest,
-            ),
-        )
-        if code != 0 and item.get("required") is True:
-            obs.check_failed(check_id=check_id, command=cmd_str, duration_ms=duration)
-            obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
-            return code
-        if code == 0:
-            obs.check_passed(check_id=check_id, command=cmd_str, duration_ms=duration)
-        else:
-            obs.check_failed(
-                check_id=check_id,
-                command=cmd_str,
-                duration_ms=duration,
-                detail="optional verification failed",
-            )
+    code = run_declared_checks(
+        declared_items,
+        args=args,
+        contract=contract,
+        summary=summary,
+        contract_data=contract_data,
+        contract_path=contract_path,
+        summary_path=summary_path,
+        contract_hash=contract_hash,
+        commit_sha=commit_sha,
+        obs=obs,
+    )
+    if code:
+        obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
+        return code
 
     summary_data = load_json(summary_path)
     summary_data["reviewReadiness"] = promote_review_readiness(summary_data)

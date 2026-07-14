@@ -1,0 +1,394 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "raise_governance_coverage",
+  "contractPath": ".ai/work-items/archive/2026/raise_governance_coverage.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/raise_governance_coverage.contract.json",
+      "reason": "Declares targeted coverage paths and raised floor acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/raise_governance_coverage.summary.json",
+      "reason": "Records test, coverage, and governance verification evidence."
+    },
+    {
+      "path": "scripts/check_critical_coverage.py",
+      "reason": "Raises decision-module floors to 75 percent."
+    },
+    {
+      "path": "tests/test_ai_check_agent_risk.py",
+      "reason": "Adds missing-gate and malformed-checkpoint failure-path tests."
+    },
+    {
+      "path": "tests/test_scenario_coverage_gate.py",
+      "reason": "Adds medium-risk and explicit-acknowledgment scenario tests."
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "reason": "Adds optional boundary calibration coverage."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/raise_governance_coverage.contract.json",
+    "scripts/check_critical_coverage.py",
+    "tests/test_ai_check_agent_risk.py",
+    "tests/test_scenario_coverage_gate.py",
+    "tests/test_project_governance.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:00.005030+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "521f71f5a759e8202ee295118e1b02ece3a57e6894b1d319204efd000097a2b4",
+      "commandHash": "c2bef782d42803bba6f7d723da02bbf68d9ae489263924949661809ee2ccdd8d",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/raise_governance_coverage.contract.json work item contract check passed: .ai/work-items/active/raise_governance_coverage.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:00.237458+00:00",
+      "exitCode": 0,
+      "durationMs": 143,
+      "outputDigest": "86113b1a435f2376190b1e9732832ee19d7edaa544307c4c22530849d65992b8",
+      "commandHash": "9b2f1c4ca298dfd69bb201a92565999d7ffe12801f73192d20a0cea944258132",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/raise_governance_coverage.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:00.506850+00:00",
+      "exitCode": 0,
+      "durationMs": 162,
+      "outputDigest": "93aa75d88490a968b83aec0c6ca59a99a46c8bdb646fede298eccffa7a46b000",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/raise_governance_coverage.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:00.934938+00:00",
+      "exitCode": 0,
+      "durationMs": 338,
+      "outputDigest": "f38cea107cd0d5c4756103ba65c178f0121edc0adddaaa33d96c131dda50946c",
+      "commandHash": "fef417efb3e75e5c8353cfa80c9f4bf36580553a356135380e4253ae84b838a0",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/raise_governance_coverage.contract.json --summary .ai/work-items/active/raise_governance_coverage.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `raise_governance_coverage` - Contract Hash: `b0ed9bc8a8fe2f2d` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `16` - Requ"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:01.166877+00:00",
+      "exitCode": 0,
+      "durationMs": 147,
+      "outputDigest": "ef3b21e523779ddae8e5889ba150166da05c634c31f9813a20d2cd7f0ea1abb0",
+      "commandHash": "780bc5efe79c932a861a71eab038f498fead6e4e1567ef695fd604a3cf55a900",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/raise_governance_coverage.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:01.405121+00:00",
+      "exitCode": 0,
+      "durationMs": 145,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:01.635869+00:00",
+      "exitCode": 0,
+      "durationMs": 139,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:01.760487+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "3729dcc63fd75e81a10cc4293fd65d5b2cbb87ad8cf70fd71afd1f9b6a11a330",
+      "commandHash": "470c0ce30ecd0a6e03377804cf79135006336b3d01cbf8c6dec80ae9b7230867",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/raise_governance_coverage.contract.json --summary .ai/work-items/active/raise_governance_coverage.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:01.889483+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "b681592fb060d74a23fc5edeb35590be4d46902d049e78de52e56616c3128fed",
+      "commandHash": "51b36ec3c7622586efaae2870c0b574f65a0e0d2ab66acd5c728597319142a92",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/raise_governance_coverage.contract.json --summary .ai/work-items/active/raise_governance_coverage.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:16:02.312099+00:00",
+      "exitCode": 0,
+      "durationMs": 340,
+      "outputDigest": "a32d6fac5389b9e1f393a73a0f14c327b063fd77bcfd5314c5d78218ae0f0a1c",
+      "commandHash": "d1cc723273520b72fb6ccb968d2da40614bf86fbb9570b080f5f49a47b76c097",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/raise_governance_coverage.contract.json ## Diff Ownership Preview - active_owned: `5`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/check_critical_coverage.py` — covered by Contract scope - [active_owned] `tests/test_ai_check_agent_risk.py` — cove"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:17:13.054037+00:00",
+      "exitCode": 0,
+      "durationMs": 70651,
+      "outputDigest": "fa4942924bc5a17627074f44c5912cab49fa5bb9a09bebb125c9902388038ff6",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "431d0acfe9e3450da87abc051828620fcf567ff2781eec4a07dd4b0cad376a82",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 16%] ........................................................................ [ 32%] ........................................................................ [ 49%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:17:15.067538+00:00",
+      "exitCode": 0,
+      "durationMs": 348,
+      "outputDigest": "5073141b523abdfe1a6b483c8d0764d7a521d9bb6e4d6c5a9fd0f504af7ac014",
+      "commandHash": "649d3236a7d88708333ee5ded7339a4e538abad52f52d46282210a42c81e9e8b",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "f16b0a13e8ec2b8e9e9256a5d9915d7b6dfd550687d8756d26cabc63ddd01d25",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/raise_governance_coverage.contract.json --summary .ai/work-items/active/raise_governance_coverage.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:17:15.486037+00:00",
+      "exitCode": 0,
+      "durationMs": 330,
+      "outputDigest": "4fe593e2040e0a024a4dabc0a43dc29f9cee0bf260f84edeb9d36e3cee0ed242",
+      "commandHash": "96e738ed6ef7b7399409e0f82c8e8ffc5035f7fa42fda578ba1657b7f036c950",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "f16b0a13e8ec2b8e9e9256a5d9915d7b6dfd550687d8756d26cabc63ddd01d25",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/raise_governance_coverage.contract.json --summary .ai/work-items/active/raise_governance_coverage.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:17:15.622247+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "f16b0a13e8ec2b8e9e9256a5d9915d7b6dfd550687d8756d26cabc63ddd01d25",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:17:15.762069+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "3149246436723b35acea1e9776757af9c322e187db86ebb52bea1a1f2f389353",
+      "commandHash": "b1d815e4775816827543c4902dc4f65826d04fd3416ddb9581ced3a719e3718e",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "f16b0a13e8ec2b8e9e9256a5d9915d7b6dfd550687d8756d26cabc63ddd01d25",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/raise_governance_coverage.contract.json --summary .ai/work-items/active/raise_governance_coverage.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/raise_governance_coverage.summary.json CONTRACT=.ai/work-items/active/raise_governance_coverage.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T07:17:16.000605+00:00",
+      "exitCode": 0,
+      "durationMs": 151,
+      "outputDigest": "e705da267f1c19d4474b37cfc4ef8db58121f498b213ec3a71158e4aafec6243",
+      "commandHash": "d80608895f6455b0d2dd3b2f8b8a508eccd2727b007f90feb20dc40b6231617e",
+      "contractHash": "b0ed9bc8a8fe2f2de2e372b76a7e9b4e93032737f13fc9781dcd84c8812b7222",
+      "commitSha": "0eb31647b3292a1bde63af9f8f69635b162e6803",
+      "executionContractPath": ".ai/work-items/active/raise_governance_coverage.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raise_governance_coverage.summary.json",
+      "worktreeDigest": "f16b0a13e8ec2b8e9e9256a5d9915d7b6dfd550687d8756d26cabc63ddd01d25",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/raise_governance_coverage.summary.json --contract .ai/work-items/active/raise_governance_coverage.contract.json ai summary check passed: .ai/work-items/active/raise_governance_coverage.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Raise floors only after targeted decision-path evidence exists.",
+      "compliant": true,
+      "evidence": "New tests cover missing gates, checkpoint integrity, scenario risk acknowledgment, and optional guard calibration branches before floors are raised."
+    },
+    {
+      "guideline": "Keep the change limited to tests and coverage policy; do not weaken existing gates.",
+      "compliant": true,
+      "evidence": "Only tests and scripts/check_critical_coverage.py changed; runtime governance modules were not modified."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change adds verification evidence and raises floors without changing runtime behavior."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "Coverage remains below 80 percent in several other governance modules and should be addressed in later Work Items.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm the raised floors correspond to meaningful failure-path tests.",
+      "Confirm no runtime governance behavior changed."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Preflight and checkpoint confirmed explicit scope, acceptance, and continue execution decision.",
+      "contractHash": "b0ed9bc8a8fe2f2d",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Full project quality checks and focused coverage verification completed before finish.",
+      "contractHash": "b0ed9bc8a8fe2f2d",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "Other low-coverage governance modules remain for subsequent cycles."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 27
+}

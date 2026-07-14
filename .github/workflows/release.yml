@@ -1,0 +1,73 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "New immutable release tag, for example v0.5.25"
+        required: true
+        type: string
+      source_commit:
+        description: "Verified main commit SHA to release"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+    steps:
+      - name: Initialize exact source checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init -q "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" fetch --no-tags --quiet origin "${SOURCE_COMMIT}"
+          git checkout --detach --quiet "${SOURCE_COMMIT}"
+
+      - name: Validate release identity and tag preconditions
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$SOURCE_COMMIT" == "$GITHUB_SHA" ]]
+          [[ "$(git rev-parse HEAD)" == "$SOURCE_COMMIT" ]]
+          if git ls-remote --exit-code origin "refs/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "release tag already exists: ${RELEASE_TAG}" >&2
+            exit 1
+          fi
+          declared_tag="$(git show "${SOURCE_COMMIT}:release.json" | python3 -c 'import json, sys; print(json.load(sys.stdin)["releaseTag"])')"
+          [[ "$declared_tag" == "$RELEASE_TAG" ]]
+
+      - name: Require successful exact-SHA smoke and compatibility runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for workflow in smoke.yml compatibility.yml; do
+            count="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$workflow" --commit "$SOURCE_COMMIT" --status success --limit 20 --json databaseId --jq 'length')"
+            if [[ "$count" -lt 1 ]]; then
+              echo "no successful ${workflow} run found for ${SOURCE_COMMIT}" >&2
+              exit 1
+            fi
+          done
+
+      - name: Create exact-SHA tag and GitHub Release
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$SOURCE_COMMIT" \
+            --title "$RELEASE_TAG" \
+            --generate-notes

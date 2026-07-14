@@ -109,6 +109,16 @@ def test_complete_low_risk_recommends_ready_for_review():
     }
 
 
+def test_status_orchestration_preserves_review_evidence_and_drivers():
+    model = ai_governance_compression.derive_governance_status(
+        complete_contract(), complete_summary()
+    )
+
+    assert model["decisionDrivers"] == []
+    assert model["evidence"]["reviewReadiness"] == ["status=ready"]
+    assert model["evidence"]["verification"] == ["quality: passed"]
+
+
 def test_complete_medium_risk_recommends_ready_with_risks():
     contract = complete_contract()
     summary = complete_summary()

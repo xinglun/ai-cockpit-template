@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n23_backfill_ci_ownership",
+  "mode": "code",
+  "title": "补强 CI 修复的归档归属证据",
+  "baseCommit": "174ffee9f7e472235420beb1a245747b873b7dfe",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/review_n23_backfill_ci_ownership.contract.json",
+    ".ai/work-items/active/review_n23_backfill_ci_ownership.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/review_n21_ci_make_output_compat.summary.json",
+      "reason": "Existing archive evidence missing the CI test path."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "The already committed CI portability fix requiring paired ownership."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "evidence_backfill"
+    ],
+    "reason": "A new immutable evidence pair must cover the committed CI test path without mutating N21 history."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The missing ownership evidence and immutable-history constraint are explicit."
+  },
+  "preReviewWarnings": [
+    "Verify the backfill does not rewrite the N21 archive."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A new archived evidence pair explicitly owns tests/test_makefile.py for the prior CI fix.",
+    "The target-base PR aggregate gate passes with no unowned path.",
+    "No historical archive file is modified."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "N21 fixed a CI test but its Summary omitted the changed test path, so the target-base PR gate rejected the otherwise valid diff.",
+    "constraints": [
+      "Do not rewrite the archived N21 Contract or Summary.",
+      "Do not change production code or test behavior."
+    ],
+    "rationale": "A separate evidence-only Work Item preserves immutable history while making ownership complete."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The new archive Summary owns tests/test_makefile.py.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The target-base PR gate passes after the evidence backfill.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The N21 archive remains byte-for-byte unchanged.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

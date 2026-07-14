@@ -41,7 +41,9 @@ The role of the architect is not to force a solution, but to remove unnecessary 
 
 アーキテクトの役割は、解決策を無理に形づくることではなく、本質的な構造が見えるようになるまで、不要な複雑性を取り除くことである。
 
-これは、アーキテクチャに判断や創造がないという意味ではありません。North Star は価値の選択であり、アーキテクチャには判断が必要です。一方、構造は制約、証拠、実践を通じて徐々に現れます。We choose the direction, but we do not prescribe the shape. Direction comes from values; structure emerges through discovery.
+これは、アーキテクチャに判断や創造がないという意味ではありません。North Star は価値の選択であり、アーキテクチャには判断が必要です。一方、構造は制約、証拠、実践を通じて徐々に現れます。
+
+We choose the direction, but we do not prescribe the shape. Direction comes from values; structure emerges through discovery.
 
 ### Respect the Nature of the System
 

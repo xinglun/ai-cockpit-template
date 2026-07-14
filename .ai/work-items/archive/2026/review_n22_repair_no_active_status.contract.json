@@ -1,0 +1,175 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n22_repair_no_active_status",
+  "mode": "code",
+  "title": "修复无活动工单状态一致性",
+  "baseCommit": "d4031cddebb55aeecd7a56c65cf4df8d3e1ccf22",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "b175717f10151555357e4c1924aab42932c5a34d83da72e27feaf7b91a95fbbd"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n22_repair_no_active_status.contract.json",
+    ".ai/work-items/active/review_n22_repair_no_active_status.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "Detected the persisted no-active status inconsistency."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated status repaired by the canonical repair command."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "status_consistency"
+    ],
+    "reason": "No-active status must not persist transient changed-file state after a Work Item is archived."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The canonical repair command and acceptance criteria are explicit."
+  },
+  "preReviewWarnings": [
+    "Verify the generated no-active status is clean and does not list transient changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "No-active current_status.md reports absent worktree changes and clean ownership.",
+    "check-ai-status-consistency passes after repair.",
+    "The repaired status and Work Item evidence are archived without changing runtime behavior."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The CI checkout after the release commit reported a no-active status that still persisted transient worktree changes, blocking quality.",
+    "constraints": [
+      "Use the canonical repair command; do not hand-edit generated status.",
+      "Do not modify runtime or release behavior."
+    ],
+    "rationale": "Regenerating the no-active status removes stale lifecycle evidence and restores the required consistency gate."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "No active Work Item status reports absent changes and clean ownership.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The status consistency gate passes after repair.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The repair does not introduce runtime or scope changes.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

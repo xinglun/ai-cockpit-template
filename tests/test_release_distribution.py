@@ -174,8 +174,8 @@ def test_release_distribution_fails_closed_on_supply_chain_drift(monkeypatch, tm
     release_json = tmp_path / "release.json"
     release_json.write_text(
         json.dumps(
-                {
-                    "releaseTag": "v0.5.23",
+            {
+                "releaseTag": "v0.5.23",
                 "publicContract": {"projectQualityTarget": "quality"},
                 "capabilities": {"sha256ArchiveVerification": True},
                 "supplyChain": {

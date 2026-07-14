@@ -1,0 +1,197 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n20_publish_v023",
+  "mode": "code",
+  "title": "发布包含完整供应链证据的新版本",
+  "baseCommit": "e007d9161e9348ad3612dbe5ea2a61f7fe632eaf",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/review_n20_publish_v023.contract.json",
+    ".ai/work-items/active/review_n20_publish_v023.summary.json",
+    ".ai/cockpit/current_status.md",
+    "release.json",
+    ".ai/cockpit/version.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    "install.sh",
+    "scripts/check_supply_chain.py",
+    "scripts/check_system_invariants.py",
+    "tests/test_supply_chain.py",
+    "tests/test_release_distribution.py",
+    "tests/test_install_sh.py",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Declares the new immutable release tag and its supply-chain digests."
+    },
+    {
+      "path": ".ai/cockpit/version.json",
+      "reason": "Aligns installer metadata with the new release semver."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Publishes SBOM evidence for the release commit."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Publishes provenance evidence for the release commit and tag."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Canonical commands used to regenerate and validate release evidence."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Immutable tag distribution gate used for post-publish verification."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_publication"
+    ],
+    "reason": "The release must be one immutable unit: commit, tag, release.json, installer, lock, SBOM, and provenance."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The new tag and release publication are explicitly authorized by the user."
+  },
+  "preReviewWarnings": [
+    "Verify the published tag, release asset, and repository evidence are mutually consistent."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release metadata and installer version metadata declare v0.5.23 consistently.",
+    "SBOM and provenance are regenerated for the release commit and validate locally.",
+    "The release commit and immutable v0.5.23 tag are pushed without rewriting v0.5.22.",
+    "GitHub Release v0.5.23 is published with the complete evidence unit and make check-release-distribution passes against it."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The old public v0.5.22 tag predates the supply-chain evidence now claimed by the worktree and cannot be rewritten safely.",
+    "constraints": [
+      "Do not force-update or delete v0.5.22.",
+      "Keep release.json, installer, lock, SBOM, provenance, commit, and tag aligned.",
+      "Push only the authorized release branch state, tag, and GitHub Release."
+    ],
+    "rationale": "Publishing v0.5.23 as a new immutable release resolves the external release-unit mismatch while preserving historical release integrity."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Local release metadata and supply-chain evidence validate before commit.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "Remote v0.5.23 tag contains the same release.json, installer, lock, SBOM, and provenance evidence as the release commit.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The public distribution gate passes against v0.5.23 while v0.5.22 remains unchanged.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized commit, push, tag update, and new release publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

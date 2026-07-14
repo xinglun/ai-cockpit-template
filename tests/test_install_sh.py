@@ -10,9 +10,6 @@ def test_remote_archive_url_supports_branch_tag_and_sha_refs():
     assert (
         'git -C "$SOURCE" archive --format=tar.gz --prefix=ai-cockpit/ HEAD -o "$ARCHIVE"' in script
     )
-    assert (
-        'EXPECTED_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:-}"'
-        in script
-    )
+    assert 'EXPECTED_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:-}"' in script
     assert "http://*|https://*|git@*)" in script
     assert 'URL="$REPO"' in script

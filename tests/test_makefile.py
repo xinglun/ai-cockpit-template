@@ -1,5 +1,6 @@
 import subprocess
 import os
+import re
 from pathlib import Path
 
 
@@ -174,7 +175,9 @@ def test_check_ai_no_active_branch_is_read_only(tmp_path):
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
-    no_active_branch = result.stdout.split("\n\telse", 1)[1]
+    else_match = re.search(r"\n\s*else\b", result.stdout)
+    assert else_match, result.stdout
+    no_active_branch = result.stdout[else_match.end() :]
     assert "ai_generate_status.py --no-active" not in no_active_branch
     assert "check-ai-status-consistency" in no_active_branch
     assert "check-ai-guards" not in no_active_branch

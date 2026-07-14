@@ -1,0 +1,180 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n21_ci_make_output_compat",
+  "mode": "code",
+  "title": "修复跨平台 Make 输出测试兼容性",
+  "baseCommit": "9946c9ea54b6978b382763f99d47e31761c4ff19",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "d1d78e75d9a6120ce1b4b66141da992a55e685aa1f7f4a475a44e4ac3bd98b23"
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "status": "M",
+      "fingerprint": "0d741683df557abbbd05365321bef3c2761d11b0b4e29709e9a7c10410304fc9"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/review_n21_ci_make_output_compat.contract.json",
+    ".ai/work-items/active/review_n21_ci_make_output_compat.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Failing CI test and cross-platform Make output assertion."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Command structure under test."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "ci_portability"
+    ],
+    "reason": "GNU Make versions differ in recipe indentation when dry-running shell conditionals; the test must assert branch semantics, not whitespace."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The CI failure and intended test semantics are explicit."
+  },
+  "preReviewWarnings": [
+    "Ensure the test remains read-only and does not weaken no-active Work Item checks."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The no-active branch test identifies the else branch across supported Make output indentation styles.",
+    "The test still asserts no status mutation and retains the PR gate requirement.",
+    "The focused test and complete project quality suite pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "GitHub Actions failed because tests/test_makefile.py assumed GNU Make would render the shell else branch with a tab, while the runner emitted different whitespace.",
+    "constraints": [
+      "Do not change check-ai behavior or remove no-active branch assertions.",
+      "Keep the test portable across Make implementations and read-only."
+    ],
+    "rationale": "Matching the semantic else branch instead of exact indentation removes a CI-only false failure without weakening coverage."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The test passes when Make emits tab-indented else output.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The test passes when Make emits space-indented else output.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "No-active branch assertions still reject status mutation and require the PR gate.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -15,6 +15,59 @@ keywords:
 
 本フレームワークの構造は、航空機のフライトプランおよびコックピット計器類と類似しています。これは航空のメタファを無理に当てはめたのではなく、制御問題（Control Problem）を本質から解決しようとした結果、自然と同じ形に収束したものです。
 
+## Design Philosophy
+
+### Discover, Don’t Invent
+
+AI Cockpit は、主観的にプロセスを増やして設計するものではありません。可信的人机协作（trustworthy human-agent collaboration）が実際に何を必要とするかを観察し、必要な構造を発見します。各コンポーネントは、現実の協働上の必要性へ追跡できなければなりません。
+
+新しい仕組みを「より完全」「より強力」という理由だけで追加してはいけません。それが必要な構造を明らかにしているのか、それとも単にプロセス負荷を増やしているのかを問う必要があります。
+
+Every component exists because the collaboration itself requires it—not because the framework chooses to add complexity.
+
+### Follow the North Star
+
+方向を決める North Star は、Roadmap や機能目標の一覧ではなく、設計判断を安定させる価値の方向です。
+
+**Mission / North Star: Calibrated Human-Agent Trust**
+
+読者向けには、これは **Enable trustworthy collaboration between humans and AI agents** と表現できます。前者がプロジェクトの正式な Mission であり、後者はその方向を理解しやすくした説明です。
+
+Calibrated trust は、エージェントへの信頼を最大化することではありません。証拠が依存を支えるときは依存し、証拠が欠落、古い、矛盾、または不十分なときは、人が調査、介入、または停止を判断できるようにすることです。
+
+### Convergence over Creation
+
+The role of the architect is not to force a solution, but to remove unnecessary complexity until the essential structure becomes visible.
+
+架构师的职责，不是强行塑造一个方案，而是不断去除不必要的复杂性，直到系统的本质结构自然显现。
+
+これは、アーキテクチャに判断や創造がないという意味ではありません。North Star は価値の選択であり、アーキテクチャには判断が必要です。一方、構造は制約、証拠、実践を通じて徐々に現れます。We choose the direction, but we do not prescribe the shape. Direction comes from values; structure emerges through discovery.
+
+### Respect the Nature of the System
+
+人と AI は異なる強み、制約、責任を持ちます。フレームワークは人に機械のような手順実行を要求せず、AI の自信や内部推論を事実として扱いません。
+
+- 人は意図、価値判断、認可、最終責任を担います。
+- AI は実行、分析、一貫性チェック、証拠整理に強みを持ちます。
+
+AI Cockpit は協働環境を統治しますが、人の判断を代替しません。AI Cockpit governs evidence; it does not replace evidence-producing tools. これは、AI Cockpit が Agent Runtime、Workflow Engine、Security Sandbox ではなく、Repository Governance Layer であるという境界とも一致します。
+
+### From Philosophy to Structure
+
+Intent、Contract、Verification / Evidence、Guards、Summary、Cockpit Status、Archive は、互いに無関係な機能の集合ではありません。それぞれが、信頼できる人間とエージェントの協働に必要な同じ構造を異なる角度から表現します。
+
+| Element | 表現する協働上の必要性 |
+| --- | --- |
+| **Intent** | なぜその作業が存在するのか |
+| **Contract** | 何を約束し、どこまでを境界とし、どの条件で実行するのか |
+| **Verification / Evidence** | どの事実を判断の根拠にするのか |
+| **Guards** | 実際の変更が約束から逸脱しないようにすること |
+| **Summary** | 結果、理由、検証、残存リスクを保存すること |
+| **Cockpit Status** | Repository Truth を人の意思決定に必要な状態へ圧縮すること |
+| **Archive** | 監査可能な協働の履歴を保存すること |
+
+この階層は役割を混同しないためのものです。North Star / Mission は **Calibrated Human-Agent Trust**、Design principles は **Discover, Don’t Invent**・**Convergence over Creation**・**Respect the Nature of the System**、Epistemic principle は **Evidence over Self-Declaration**、Mechanism は **Evidence Governance**、Product boundary は **Repository Governance Layer**、Implementation は Intent / Contract / Verification / Summary / Status / Archive です。Discover, Don’t Invent は Evidence over Self-Declaration に取って代わる原則ではなく、異なる層にあります。
+
 ## Why AI Cockpit exists
 
 AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance. Calibrated trust does not mean maximizing trust in an agent. It means enabling humans to rely on the agent when evidence supports reliance and to intervene when evidence is missing, stale, contradictory, or insufficient.

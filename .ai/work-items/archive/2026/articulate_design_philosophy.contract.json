@@ -1,0 +1,194 @@
+{
+  "contractVersion": 2,
+  "workItemId": "articulate_design_philosophy",
+  "mode": "code",
+  "title": "Articulate AI Cockpit design philosophy",
+  "baseCommit": "523da5912c8c6a68217bb51d12986c943be8364b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/philosophy/design-philosophy.md",
+    ".ai/work-items/active/articulate_design_philosophy.contract.json",
+    ".ai/work-items/active/articulate_design_philosophy.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "docs/design-philosophy.md",
+    ".ai/work-items/archive/**",
+    ".ai/glossary.md",
+    ".ai/cockpit/README.md",
+    ".ai/README.md",
+    "docs/reference/documentation-architecture.md",
+    "schemas/**",
+    "scripts/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository operating rules defining the required Contract, Summary, scope, and verification workflow."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Authoritative definitions for Mission, Evidence Governance, Repository Governance Layer, implementation records, and Evidence over Self-Declaration."
+    },
+    {
+      "path": "docs/philosophy/design-philosophy.md",
+      "reason": "Existing authoritative philosophy page whose opening must be extended without duplicating later mechanism explanations."
+    }
+  ],
+  "problemStatement": "The authoritative AI Cockpit philosophy page explains the existing governance mechanisms but does not yet state the higher-level principles that explain why those mechanisms converge into the current structure or how future mechanisms should be evaluated.",
+  "scenarioCoverage": [
+    {
+      "scenario": "The authoritative philosophy page presents the four requested design principles and the From Philosophy to Structure mapping.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Manual content review of docs/philosophy/design-philosophy.md",
+        "Document-specific terminology search"
+      ]
+    },
+    {
+      "scenario": "Repository governance records and generated status remain internally consistent after the documentation change.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-ai-contract",
+        "make check-ai-scope",
+        "make check-ai-status-consistency"
+      ]
+    },
+    {
+      "scenario": "Runtime behavior, product capabilities, schemas, and compatibility redirect behavior are unchanged.",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This Work Item changes only the authoritative philosophy document and its required governance records."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Documentation-only change; the primary risks are terminology drift, accidental duplication, and scope expansion."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The task brief, authoritative glossary, target document, scope, acceptance, and verification requirements are explicit."
+  },
+  "preReviewWarnings": [
+    "Review that the new principles explain why the mechanisms exist without redefining Evidence over Self-Declaration, adding capabilities, or changing lifecycle semantics."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "docs/philosophy/design-philosophy.md opens with Discover, Don’t Invent; Follow the North Star; Convergence over Creation; Respect the Nature of the System; and From Philosophy to Structure.",
+    "The formal Mission / North Star remains Calibrated Human-Agent Trust, Evidence over Self-Declaration remains intact, and the document distinguishes Mission, Design Principles, Epistemic Principle, Mechanism, Product Boundary, and Implementation.",
+    "Intent, Contract, Verification / Evidence, Guards, Summary, Cockpit Status, and Archive are explained as different expressions of one collaboration structure without adding schema fields, product capabilities, or lifecycle phases.",
+    "docs/design-philosophy.md, .ai/glossary.md, README files, architecture documentation, schemas, scripts, Makefile, and archived Work Items are unchanged."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "AI Cockpit 的权威设计哲学已经说明现有治理机制是什么，但缺少一组元设计原则来说明这些机制为何会形成 Contract、Intent、Evidence、Summary、Guards 与 Cockpit，以及未来应如何判断新增、合并或移除机制。",
+    "constraints": [
+      "保持现有 Mission / North Star、Evidence over Self-Declaration、Evidence Governance 和 Repository Governance Layer 的术语层级与含义。",
+      "只修改权威哲学页及本 Work Item 的治理记录；不修改兼容入口、Glossary、README、Architecture、Schema、脚本、运行时行为或归档记录。",
+      "不新增未经实现支持的能力、Schema 字段或硬性 lifecycle phase，并保持现有日英混合文档风格克制、明确、可用于架构决策。"
+    ],
+    "rationale": "把设计决策的北极星、元设计原则、人与 AI 的责任边界，以及原则到治理结构的映射放在具体机制说明之前，可以让维护者用稳定的协作需要审视框架演化，而不是把流程数量本身当作完整性。"
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

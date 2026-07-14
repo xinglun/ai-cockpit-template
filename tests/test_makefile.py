@@ -163,6 +163,7 @@ def test_ai_pre_merge_clears_base_commit_for_quality_steps():
 
 
 def test_check_ai_no_active_branch_is_read_only(tmp_path):
+    # Make implementations may render shell recipe indentation differently.
     makefile_content = (ROOT / "Makefile").read_text(encoding="utf-8")
     (tmp_path / "Makefile").write_text(makefile_content, encoding="utf-8")
 

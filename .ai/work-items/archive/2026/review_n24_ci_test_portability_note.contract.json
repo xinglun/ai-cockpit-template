@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n24_ci_test_portability_note",
+  "mode": "code",
+  "title": "固化 Make 输出跨平台测试语义",
+  "baseCommit": "bd465dd6a45fe291772da841e427517aa78b723b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/review_n24_ci_test_portability_note.contract.json",
+    ".ai/work-items/active/review_n24_ci_test_portability_note.summary.json",
+    ".ai/cockpit/current_status.md",
+    "tests/test_makefile.py",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "CI portability test and explanatory semantic assertion comment."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "ci_portability"
+    ],
+    "reason": "The test must document and enforce semantic parsing across Make output formats."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The test behavior and portability requirement are explicit."
+  },
+  "preReviewWarnings": [
+    "Verify the comment and semantic matcher preserve the no-active policy assertions."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The CI portability rationale is documented next to the semantic branch assertion.",
+    "The focused Makefile test and complete quality suite pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The prior CI fix needs a durable explanation because Make implementations differ in dry-run indentation.",
+    "constraints": [
+      "Do not change Make behavior or weaken assertions."
+    ],
+    "rationale": "A local comment makes the portability invariant legible to future maintainers and creates complete ownership evidence for the CI fix."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The no-active branch test passes with current Make output.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The test retains read-only and PR gate assertions.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "The comment documents the cross-platform output constraint without runtime changes.",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

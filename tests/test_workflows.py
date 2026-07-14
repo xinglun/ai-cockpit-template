@@ -34,6 +34,8 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "workflow_dispatch:" in workflow
     assert "source_commit:" in workflow
     assert '[[ "$SOURCE_COMMIT" == "$GITHUB_SHA" ]]' in workflow
+    assert "gh auth setup-git" in workflow
+    assert 'git fetch --no-tags --quiet origin "${SOURCE_COMMIT}"' in workflow
     assert "smoke.yml" in workflow and "compatibility.yml" in workflow
     assert "gh release create" in workflow
     assert "gh workflow run smoke.yml" in workflow

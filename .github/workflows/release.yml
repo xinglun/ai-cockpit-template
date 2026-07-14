@@ -32,7 +32,8 @@ jobs:
           git init -q "$GITHUB_WORKSPACE"
           cd "$GITHUB_WORKSPACE"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" fetch --no-tags --quiet origin "${SOURCE_COMMIT}"
+          gh auth setup-git
+          git fetch --no-tags --quiet origin "${SOURCE_COMMIT}"
           git checkout --detach --quiet "${SOURCE_COMMIT}"
 
       - name: Validate release identity and tag preconditions

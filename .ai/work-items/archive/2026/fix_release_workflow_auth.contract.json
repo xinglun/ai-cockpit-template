@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix_release_workflow_auth",
+  "mode": "code",
+  "title": "修复发布 workflow 的精确 SHA checkout 认证",
+  "baseCommit": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+    ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py"
+  ],
+  "outOfScope": [
+    "release.json",
+    "install.sh",
+    "scripts/**",
+    "product code",
+    "GitHub Release publication"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "The exact-SHA checkout step failed to authenticate in the actual release workflow run."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Workflow regression coverage for authentication setup and exact-SHA behavior."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Required Work Item and verification workflow."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_workflow_authentication",
+      "exact_sha_integrity"
+    ],
+    "reason": "Release publication is blocked by authenticated exact-SHA checkout failing before tag validation; the fix must preserve source identity checks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The observed authentication failure, narrow workflow scope, and exact-SHA acceptance are explicit."
+  },
+  "preReviewWarnings": [
+    "Review that GitHub CLI authentication is configured before fetch, the source SHA and tag preconditions remain unchanged, and no release is published from the PR."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The release workflow authenticates its Git fetch through the configured GitHub token before fetching the exact source commit.",
+    "The workflow still requires SOURCE_COMMIT to equal GITHUB_SHA, checks the immutable tag precondition, and requires successful smoke and compatibility runs.",
+    "Workflow regression tests cover the authentication setup and the repository quality checks pass.",
+    "No release tag or GitHub Release is created by this Work Item."
+  ],
+  "guidelines": [
+    "Keep exact-SHA identity checks and tag preconditions unchanged.",
+    "Use the GitHub CLI credential setup rather than embedding credentials or weakening repository permissions.",
+    "Keep publication as a separate explicit workflow action."
+  ],
+  "intent": {
+    "problem": "The first post-merge release dispatch failed at git fetch because the workflow's http.extraheader authentication did not authenticate the exact source checkout.",
+    "constraints": [
+      "Only modify release workflow authentication and its regression test.",
+      "Do not weaken exact SHA, tag, or Actions evidence validation.",
+      "Do not publish a release in this fix Work Item."
+    ],
+    "rationale": "Configuring the GitHub CLI credential helper makes the existing exact-SHA checkout reliable while preserving the release gate semantics."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "release workflow configures Git authentication before fetching the exact source SHA",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "exact source SHA, tag uniqueness, and Actions evidence gates remain unchanged",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "workflow regression and project quality checks pass",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly accepted the release workflow adjustment after the observed authenticated checkout failure."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

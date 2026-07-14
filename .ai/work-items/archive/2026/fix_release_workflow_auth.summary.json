@@ -1,0 +1,421 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "fix_release_workflow_auth",
+  "contractPath": ".ai/work-items/archive/2026/fix_release_workflow_auth.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/fix_release_workflow_auth.contract.json",
+      "reason": "Defines the observed release checkout authentication failure and exact-SHA constraints."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_release_workflow_auth.summary.json",
+      "reason": "Records the workflow authentication fix and verification evidence."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Uses gh auth setup-git before fetching the exact source commit."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Covers the authenticated exact-SHA checkout configuration."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    "AGENTS.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:02.095128+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "70536c51e986f4b8f55373e0dc695f9e2a27e7b3a1bb9286731cac067f4207ab",
+      "commandHash": "459b9b0cc899902be389b4919f13d7044dcf99022c4fdb03608c131d2a2633b1",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/fix_release_workflow_auth.contract.json work item contract check passed: .ai/work-items/active/fix_release_workflow_auth.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:02.269046+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "b31e6b3b3225418cf36f5fd6ddc0ab21e2c5998c8130c558400569950ab69dfd",
+      "commandHash": "2c7e84713891ea2199a73ab4ffc7456a9d54ffdfd4c027bafebc6b18959a8a39",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/fix_release_workflow_auth.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:02.452168+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "30bb1c446945a8dcd217fed3eb21c3f2121e0e57ff284213f59ff6a8974cd53b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/fix_release_workflow_auth.contract.json [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:02.748617+00:00",
+      "exitCode": 0,
+      "durationMs": 247,
+      "outputDigest": "e215781ff2d0236f627aa3e835f5df81dfe7569b41bfaed0c7bc36ea71e50896",
+      "commandHash": "9d4d41640b5240f9c19989b16c7f81e9822baa3529d2c7fcbdb48dab7445bdc2",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/fix_release_workflow_auth.contract.json --summary .ai/work-items/active/fix_release_workflow_auth.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `fix_release_workflow_auth` - Contract Hash: `ca20d19ee379da42` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `1"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:02.903025+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "6b51ea603efbbfbd2e0b889714881a02d047ca318132f2aae437be1fe4ce00b9",
+      "commandHash": "cc2582b47fc87b0eca5bc9f3670d142983a6497405659a80522a2d71ed8af0e6",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/fix_release_workflow_auth.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] .github/workflows/release.yml review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:03.062584+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:03.221058+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:03.341630+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "0b30ad96193ca1107913de2563377f8af1824f5d08fe954194655904a33ab2e1",
+      "commandHash": "79b8c391ae4ce5d662f9fabdabac4953b205df6d3be68c34f680958e8936b350",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/fix_release_workflow_auth.contract.json --summary .ai/work-items/active/fix_release_workflow_auth.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:03.451901+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "de569940027da97eaa24807b53765d73fe4bf30af373fc88db2cc385f3b1858b",
+      "commandHash": "39299e834850ed212863282f4dc5c38d6d14d91986b9ca2f0f6bd07f0ce7ce80",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/fix_release_workflow_auth.contract.json --summary .ai/work-items/active/fix_release_workflow_auth.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:58:03.778428+00:00",
+      "exitCode": 0,
+      "durationMs": 263,
+      "outputDigest": "96aac45399b537b3cd452217be26e34d9e17e5886bafd7a063ec444dbd60a273",
+      "commandHash": "b77a745bdd03fd5c8f0a9b6d98f1f7b809d3c9eecdc01d713ec172420656888d",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/fix_release_workflow_auth.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.github/workflows/release.yml` — covered by Contract scope - [active_owned] `tests/test_workflows.py` — covered by"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:59:03.706413+00:00",
+      "exitCode": 0,
+      "durationMs": 59866,
+      "outputDigest": "03c47e1403c1b29fc03a547c592f01e7c266d7674b5df5f136dec812a0ae0ad7",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "a7d23c439e5f200c8401a3a484d4c0a3f99fa81cea3e6a60c22e30ec151552fc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 16%] ........................................................................ [ 32%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:59:05.112648+00:00",
+      "exitCode": 0,
+      "durationMs": 254,
+      "outputDigest": "39d4953bd67b4ffd4682e50e2249fe6d8b3ad2ab2aedc6709bb38d3bf687dec2",
+      "commandHash": "a177f56575cd3f9d78e24ffb68f6de2ec3b8eca26793347be289f8faa12df0ce",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "950e54e5174fe86f931bd1ac3bb81cc5d811130ffe96efea83b746cbf5ef0a77",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/fix_release_workflow_auth.contract.json --summary .ai/work-items/active/fix_release_workflow_auth.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:59:05.416211+00:00",
+      "exitCode": 0,
+      "durationMs": 241,
+      "outputDigest": "f44be62ea7b8c0b5176be945c9ab57068c429040a71a3a0f8fe0e4e70951bcf3",
+      "commandHash": "bb7ddbfa8d7495294a1efa9c436c7c99cd50397fcd1e3b4fe1dd3c6895a6033c",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "950e54e5174fe86f931bd1ac3bb81cc5d811130ffe96efea83b746cbf5ef0a77",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/fix_release_workflow_auth.contract.json --summary .ai/work-items/active/fix_release_workflow_auth.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:59:05.533592+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "950e54e5174fe86f931bd1ac3bb81cc5d811130ffe96efea83b746cbf5ef0a77",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:59:05.653232+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "bd7fb1eea649366f9847fba3ac76f06505bbb0e95fbf9b4c34b8992e10012973",
+      "commandHash": "bd1400b3ffd4ef857fbf8fc1aab5d1e0b95b2e8cb7b095b2e9dbe0be04b1a714",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "950e54e5174fe86f931bd1ac3bb81cc5d811130ffe96efea83b746cbf5ef0a77",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/fix_release_workflow_auth.contract.json --summary .ai/work-items/active/fix_release_workflow_auth.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix_release_workflow_auth.summary.json CONTRACT=.ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T11:59:05.840805+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "af6f7b7c3310d5a471b23707a23d185372fc13a5015581667cb8cf363c25917a",
+      "commandHash": "849c144d55a98f6a38f909f6700578e4aece7b9c88573660ef77ef2313eae320",
+      "contractHash": "ca20d19ee379da42fc99dca51d60804698fe8fb3594c53ca5e0d8d51caf38be3",
+      "commitSha": "3e9a9e5c90b113915ab9a832fac1b02f0e78cc2f",
+      "executionContractPath": ".ai/work-items/active/fix_release_workflow_auth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_workflow_auth.summary.json",
+      "worktreeDigest": "950e54e5174fe86f931bd1ac3bb81cc5d811130ffe96efea83b746cbf5ef0a77",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/fix_release_workflow_auth.summary.json --contract .ai/work-items/active/fix_release_workflow_auth.contract.json ai summary check passed: .ai/work-items/active/fix_release_workflow_auth.summary.json"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "release workflow configures Git authentication before fetching the exact source SHA",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/test_workflows.py"
+      ]
+    },
+    {
+      "scenario": "exact source SHA, tag uniqueness, and Actions evidence gates remain unchanged",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/test_workflows.py"
+      ]
+    },
+    {
+      "scenario": "workflow regression and project quality checks pass",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make ai-cockpit-quality",
+        "make check-ai-contract",
+        "make check-ai-scope",
+        "make check-ai-guards"
+      ]
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep exact-SHA identity checks and tag preconditions unchanged.",
+      "compliant": true,
+      "evidence": "Only the credential setup changed; SOURCE_COMMIT, GITHUB_SHA, tag uniqueness, and Actions checks remain in the workflow."
+    },
+    {
+      "guideline": "Use the GitHub CLI credential setup rather than embedding credentials or weakening repository permissions.",
+      "compliant": true,
+      "evidence": "The workflow calls gh auth setup-git and continues using the existing contents: write permission."
+    },
+    {
+      "guideline": "Keep publication as a separate explicit workflow action.",
+      "compliant": true,
+      "evidence": "No tag or GitHub Release action was added to the fix Work Item."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Medium risk is limited to authenticated exact-SHA checkout in the release workflow."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "publication",
+      "detail": "The release workflow must still be re-dispatched and observed after this fix; this Work Item does not publish a tag.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Authenticated exact-SHA checkout uses GitHub CLI credentials.",
+      "Existing release identity and evidence gates remain unchanged."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "ca20d19ee379da42",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the failed release run and confirmed the fix is limited to GitHub authentication setup."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "ca20d19ee379da42",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Ran workflow regression and repository quality checks before final Work Item verification."
+    }
+  ],
+  "knownGaps": [
+    "The corrected release workflow must be exercised by a new post-merge dispatch."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 33
+}

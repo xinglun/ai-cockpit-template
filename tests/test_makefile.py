@@ -94,7 +94,11 @@ def test_project_governance_make_targets_are_public():
 
 
 def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path):
-    clean_env = {key: value for key, value in os.environ.items() if key != "AI_PYTHON"}
+    clean_env = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in {"AI_PYTHON", "PYTHON", "MAKEFLAGS", "MAKEOVERRIDES"}
+    }
     makefile_content = (ROOT / "Makefile").read_text(encoding="utf-8")
     (tmp_path / "Makefile").write_text(makefile_content, encoding="utf-8")
 
@@ -137,6 +141,21 @@ def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path)
     )
     assert explicit.returncode == 0
     assert "/custom/python -m pytest" in explicit.stdout
+
+
+def test_nested_make_keeps_bytecode_suppression_when_ai_python_is_in_environment():
+    environment = {**os.environ, "AI_PYTHON": "/ambient/python"}
+    result = subprocess.run(
+        ["make", "-n", "ai-finish", "TASK=example"],
+        text=True,
+        capture_output=True,
+        check=False,
+        env=environment,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "PYTHONDONTWRITEBYTECODE=1" in result.stdout
+    assert "/ambient/python scripts/ai_finish.py" not in result.stdout
 
 
 def test_ai_pre_merge_clears_base_commit_for_quality_steps():

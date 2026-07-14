@@ -21,7 +21,11 @@ GIT_ENV_PREFIX = "GIT_"
 
 def clean_git_environment() -> dict[str, str]:
     """Return the process environment without ambient Git repository overrides."""
-    return {key: value for key, value in os.environ.items() if not key.startswith(GIT_ENV_PREFIX)}
+    environment = {
+        key: value for key, value in os.environ.items() if not key.startswith(GIT_ENV_PREFIX)
+    }
+    environment["PYTHONDONTWRITEBYTECODE"] = "1"
+    return environment
 
 
 def _reject_duplicate_keys(path: Path) -> Any:

@@ -165,11 +165,12 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
     monkeypatch.setenv("GIT_DIR", "/tmp/ambient.git")
     monkeypatch.setenv("GIT_WORK_TREE", "/tmp/ambient")
     monkeypatch.setenv("AI_BASE_COMMIT", "f" * 40)
+    monkeypatch.setattr(check_supply_chain, "PROVENANCE_BASELINE", Path("/missing/provenance.json"))
 
     def fake_run(command, *, cwd, env, text, capture_output, check):
         commands.append(command)
         seen_envs.append(env)
-        if command == ["git", "rev-parse", "v0.5.22^{commit}"]:
+        if command == ["git", "rev-parse", "v0.5.23^{commit}"]:
             return subprocess.CompletedProcess(
                 command, 0, stdout="eee1d4ad835a1d33cb70f26103536f77b593d2ce\n", stderr=""
             )
@@ -183,8 +184,8 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
     assert sbom["metadata"]["component"]["version"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
     assert provenance["commitSha"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
     assert commands == [
-        ["git", "rev-parse", "v0.5.22^{commit}"],
-        ["git", "rev-parse", "v0.5.22^{commit}"],
+        ["git", "rev-parse", "v0.5.23^{commit}"],
+        ["git", "rev-parse", "v0.5.23^{commit}"],
     ]
     assert len(seen_envs) == 2
     for env in seen_envs:
@@ -192,6 +193,31 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
         assert "GIT_DIR" not in env
         assert "GIT_WORK_TREE" not in env
         assert "AI_BASE_COMMIT" not in env
+
+
+def test_supply_chain_prefers_recorded_provenance_source(tmp_path, monkeypatch):
+    provenance = tmp_path / "provenance.json"
+    provenance.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(
+        check_supply_chain,
+        "PROVENANCE_BASELINE",
+        provenance,
+    )
+    monkeypatch.setattr(
+        check_supply_chain,
+        "load_json",
+        lambda _path: {"commitSha": "recorded-source"},
+    )
+    calls = []
+
+    def fake_run(command, *, cwd, env, text, capture_output, check):
+        calls.append(command)
+        return subprocess.CompletedProcess(command, 0, stdout="recorded-source\n", stderr="")
+
+    monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+
+    assert check_supply_chain.source_commit_sha() == "recorded-source"
+    assert calls == [["git", "rev-parse", "recorded-source^{commit}"]]
 
 
 def test_supply_chain_accepts_explicit_source_commit(monkeypatch):

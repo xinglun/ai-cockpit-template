@@ -148,8 +148,15 @@ def release_tag() -> str:
 
 
 def source_commit_sha(explicit: str | None = None) -> str:
-    """Resolve evidence identity from explicit input, never the current HEAD."""
+    """Resolve evidence identity from explicit evidence, never the current HEAD."""
     requested = (explicit or os.environ.get("SUPPLY_CHAIN_SOURCE_COMMIT", "")).strip()
+    if not requested and PROVENANCE_BASELINE.is_file():
+        try:
+            recorded = load_json(PROVENANCE_BASELINE).get("commitSha")
+        except (OSError, json.JSONDecodeError):
+            recorded = None
+        if isinstance(recorded, str) and recorded.strip():
+            requested = recorded.strip()
     revision = requested or release_tag()
     result = subprocess.run(
         ["git", "rev-parse", f"{revision}^{{commit}}"],

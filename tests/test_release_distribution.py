@@ -174,8 +174,8 @@ def test_release_distribution_fails_closed_on_supply_chain_drift(monkeypatch, tm
     release_json = tmp_path / "release.json"
     release_json.write_text(
         json.dumps(
-            {
-                "releaseTag": "v0.5.22",
+                {
+                    "releaseTag": "v0.5.23",
                 "publicContract": {"projectQualityTarget": "quality"},
                 "capabilities": {"sha256ArchiveVerification": True},
                 "supplyChain": {
@@ -193,7 +193,7 @@ def test_release_distribution_fails_closed_on_supply_chain_drift(monkeypatch, tm
     monkeypatch.setattr(
         release_distribution,
         "list_remote_tags",
-        lambda _repository: "a refs/tags/v0.5.22\n",
+        lambda _repository: "a refs/tags/v0.5.23\n",
     )
     monkeypatch.setattr(
         release_distribution,
@@ -214,7 +214,7 @@ def test_main_rejects_tag_missing_evidence_even_when_worktree_has_it(monkeypatch
     monkeypatch.setattr(
         release_distribution,
         "list_remote_tags",
-        lambda _repository: "a refs/tags/v0.5.22\n",
+        lambda _repository: "a refs/tags/v0.5.23\n",
     )
     monkeypatch.setattr(
         release_distribution,

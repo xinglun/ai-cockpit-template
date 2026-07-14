@@ -15,6 +15,27 @@ keywords:
 
 本フレームワークの構造は、航空機のフライトプランおよびコックピット計器類と類似しています。これは航空のメタファを無理に当てはめたのではなく、制御問題（Control Problem）を本質から解決しようとした結果、自然と同じ形に収束したものです。
 
+## Why AI Cockpit exists
+
+AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance. Calibrated trust does not mean maximizing trust in an agent. It means enabling humans to rely on the agent when evidence supports reliance and to intervene when evidence is missing, stale, contradictory, or insufficient.
+
+この使命の現在の適用範囲は、ソフトウェアリポジトリにおける human-agent collaboration です。AI Cockpit は汎用 HCI Framework ではありません。HCI の観点では、予測可能性（predictability）、説明可能性（explainability）、説明責任（accountability）、追跡可能性（traceability）を、エージェントの自己申告ではなく、レビュー可能な証拠から支えます。
+
+## Evidence over Self-Declaration
+
+AI Cockpit の中心哲学は **Evidence over Self-Declaration** です。AI Cockpit governs evidence; it does not replace evidence-producing tools.
+
+そのため AI Cockpit は、ガバナンス記録を作成し、委譲された証拠を評価し、その両方を人間の意思決定状態へ圧縮します。
+
+- **Native Governance Evidence**: Intent、Work Item Contract、Verification execution records、AI Change Summary、Cockpit Status、Archive records。これらは AI Cockpit が作成、検証、または保存するガバナンス証拠です。
+- **Delegated Domain Evidence**: テスト結果、coverage reports、SBOM、vulnerability scans、provenance、signatures、project-specific quality checks。これらは専門ツールが生成し、AI Cockpit は要求、引用、検証、集約を担います。
+
+SBOM は証拠として扱う成果物です。CycloneDX は SBOM の標準・形式であり、cyclonedx-python-lib、Syft、Trivy、pip-audit、Sigstore tooling などは証拠を生成または処理する交換可能な外部ツール／実装です。これらは AI Cockpit Core の実装ではありません。AI Cockpit リポジトリ自身が公開のために SBOM、scan、provenance を利用することはありますが、それはプロジェクト保守であり、インストール後の Core 製品能力ではありません。Tests と coverage は Release だけに属するのではなく、Work Item Review、Merge、Release の複数の意思決定を支え得ます。
+
+証拠は、支える対象と意思決定に結び付けます。少なくとも Subject（Work Item、Commit、Artifact、または Release）、Decision（Start、Review、Merge、または Release）、Producer、Freshness、Result を明らかにするべきです。これは概念上の evidence attributes であり、現行 Schema に新しい field を定義するものではありません。
+
+Evidence Governance はこの責任境界を実装するメカニズムであり、Repository Governance Layer は現在の製品境界です。Mission は Calibrated Human-Agent Trust、Philosophy は Evidence over Self-Declaration、Implementation は Intent / Contract / Verification / Summary / Status / Archive です。
+
 ## 1. 5 つの制御レイヤー
 
 強固な制御システムは、常に以下の独立したレイヤーによって多層防護されます。

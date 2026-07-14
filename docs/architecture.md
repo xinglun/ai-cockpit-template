@@ -11,7 +11,19 @@ keywords:
 
 # アーキテクチャ (Architecture)
 
-AI Cockpit のアーキテクチャは、AI Change Governance を単独のチェック群としてではなく、人間とエージェントが同じ証拠面で協働するための環境として構成されています。ガバナンスが制御の中心にあり、Intent、Contract、Implementation、Verification、Summary、Cockpit、Human Decision が delegation、description、discernment、diligence を実体化します。
+AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance. その具体的な製品境界は、AI-assisted software development における Repository Governance Layer です。アーキテクチャは AI Change Governance を単独のチェック群としてではなく、人間とエージェントが同じ証拠面で協働するための環境として構成されています。
+
+プロセスの中心は次の流れです。
+
+```text
+Intent → Contract → Implementation → Verification → Summary → Cockpit → Human Decision
+```
+
+Governance records は Core-owned です。Intent、Work Item Contract、verification execution records、AI Change Summary、Cockpit Status、Archive が Native Governance Evidence を構成します。Tests、coverage、SBOM、vulnerability scans、provenance、signatures などの Delegated Domain Evidence は、専門の evidence-producing tools が生成します。Cockpit は両者を重複させずに Human Decision State へ圧縮します。
+
+AI Cockpit governs evidence; it does not replace evidence-producing tools. SBOM は証拠成果物、CycloneDX は標準・形式、cyclonedx-python-lib、Syft、Trivy、pip-audit、Sigstore tooling は外部の生成・処理ツール／実装です。これらを AI Cockpit Core が再実装することはありません。AI Cockpit リポジトリ自身の Release Maintenance でこれらを利用することは、インストール後の Core 製品能力とは別の責務です。
+
+ガバナンスが制御の中心にあり、Intent、Contract、Implementation、Verification、Summary、Cockpit、Human Decision が delegation、description、discernment、diligence を実体化します。
 
 ## コンポーネントの依存関係とプロセスフロー
 

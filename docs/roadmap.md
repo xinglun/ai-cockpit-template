@@ -12,13 +12,18 @@ keywords:
 
 # ロードマップ (Roadmap)
 
-AI Cockpit は AI アシスト型ソフトウェア開発のためのリポジトリガバナンスレイヤーです。本ドキュメントでは、プロジェクトの長期的なアーキテクチャ方向性を V1〜V4 の進化ステージとして定義します。
+AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance. 現在の製品境界は、AI-assisted software development における Repository Governance Layer です。Mechanism は Evidence Governance であり、本ドキュメントでは、プロジェクトの長期的なアーキテクチャ方向性を V1〜V4 の進化ステージとして定義します。
 
-各バージョンは前バージョンのガバナンスを**拡張**するものであり、**置き換え**るものではありません。
+Roadmap evolution may add, consolidate, replace, or remove concepts when doing so preserves governance guarantees while reducing cognitive cost.
 
 ---
 
 ## Core Positioning
+
+- **Mission**: Calibrated Human-Agent Trust
+- **Product boundary**: Repository Governance Layer for AI-assisted software development
+- **Mechanism**: Evidence Governance
+- **Implementation**: Intent / Contract / Verification / Summary / Status / Archive
 
 **AI Cockpit is not an Agent Runtime. It is not a Workflow Engine.**
 
@@ -33,6 +38,8 @@ It provides:
 - **Intent**: First-class representation of why work exists, not just what to implement
 
 AI Cockpit does not replace Claude Code, Codex, Cursor, Gemini CLI, or other agents. Agents evolve continuously. Governance should remain stable.
+
+A capability belongs in Core only when it materially improves a human’s ability to understand, bound, verify, or decide on agent work.
 
 ---
 

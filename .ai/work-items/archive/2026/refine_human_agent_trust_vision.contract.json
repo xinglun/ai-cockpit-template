@@ -1,0 +1,261 @@
+{
+  "contractVersion": 2,
+  "workItemId": "refine_human_agent_trust_vision",
+  "mode": "code",
+  "title": "Refine AI Cockpit Vision Around Calibrated Human-Agent Trust",
+  "baseCommit": "ab850da1c45c74cd06397650d2619fae8c5214ad",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/philosophy/design-philosophy.md",
+    "docs/architecture.md",
+    "docs/roadmap.md",
+    "docs/reference/documentation-architecture.md",
+    ".ai/glossary.md",
+    ".ai/work-items/active/refine_human_agent_trust_vision.contract.json",
+    ".ai/work-items/active/refine_human_agent_trust_vision.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "Makefile",
+    "templates/**",
+    ".github/**",
+    ".ai/cockpit/checks.yaml",
+    ".ai/guards/**",
+    ".ai/work-items/_templates/**",
+    "install.sh",
+    "release.json",
+    "requirements-dev.*"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Defines the mandatory AI Cockpit Work Item workflow and finish criteria."
+    },
+    {
+      "path": "README.md",
+      "reason": "Current English product positioning and primary entry-page structure."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Current Japanese entry-page positioning."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Current Chinese entry-page positioning."
+    },
+    {
+      "path": "docs/philosophy/design-philosophy.md",
+      "reason": "Authoritative design philosophy to be refined around calibrated trust."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "Defines the current governance architecture and component boundaries."
+    },
+    {
+      "path": "docs/roadmap.md",
+      "reason": "Defines current product positioning, principles, and evolution model."
+    },
+    {
+      "path": "docs/reference/documentation-architecture.md",
+      "reason": "Defines authoritative documentation roles and navigation."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines repository terminology and architectural boundaries."
+    }
+  ],
+  "problemStatement": "Current documentation accurately describes AI Cockpit as a repository governance layer, but it does not clearly distinguish the project's mission from its mechanism. Product positioning has accumulated governance, release, supply-chain, and maintenance concepts, increasing cognitive cost and making the Core boundary less clear.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Mission, philosophy, mechanism, and implementation are consistently distinguished across authoritative documentation.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Final README ordering assertions passed", "git diff --check"],
+      "reason": "The final documentation presents Mission, Philosophy, Mechanism, and Implementation in a consistent hierarchy."
+    },
+    {
+      "scenario": "English, Japanese, and Chinese README entry pages preserve equivalent positioning semantics.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Final README ordering assertions passed for README.md, README.ja.md, and README.zh-CN.md", "Side-by-side review of the three README entry pages"],
+      "reason": "The three entry pages now share the same problem → Mission → Calibrated Trust → product boundary → non-goals → philosophy/mechanism → evidence boundary → demo order."
+    },
+    {
+      "scenario": "Native governance evidence and delegated domain evidence remain clearly separated without changing runtime behavior.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Final README ordering assertions passed", "make check-ai-scope CONTRACT=.ai/work-items/active/refine_human_agent_trust_vision.contract.json"],
+      "reason": "Native Governance Evidence and Delegated Domain Evidence remain distinct, with no schema or runtime changes."
+    },
+    {
+      "scenario": "Release evidence is not presented as a Core tool implementation, while project-owned release maintenance remains accurately described.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Final README ordering assertions passed", "make check-docs-metadata"],
+      "reason": "SBOM is treated as an evidence artifact, CycloneDX as a standard/format, and named tools as external implementations."
+    },
+    {
+      "scenario": "No code, test, CI, Makefile, schema, guard, installer, or release-flow file is modified.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make check-ai-scope CONTRACT=.ai/work-items/active/refine_human_agent_trust_vision.contract.json", "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/refine_human_agent_trust_vision.contract.json", "git diff --name-only"],
+      "reason": "Only Contract-declared documentation, governance records, and generated Status paths are changed."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "documentation",
+      "positioning",
+      "cross_language_consistency"
+    ],
+    "reason": "The change spans authoritative positioning documents and three language entry pages. Inconsistent terminology could create conflicting product boundaries even though runtime behavior is unchanged."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user has approved the documentation-only objective, terminology, file scope, non-goals, and acceptance criteria."
+  },
+  "preReviewWarnings": [
+    "Review whether calibrated trust is described as appropriate reliance and intervention rather than increased trust.",
+    "Review all three README languages for semantic consistency.",
+    "Review whether SBOM and release tooling remain external evidence-producing capabilities rather than Core implementations.",
+    "Review the final diff for accidental runtime, schema, Makefile, CI, or release-flow changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "README.md states that AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance.",
+    "README.md continues to define the concrete product boundary as a Repository Governance Layer for AI-assisted software development.",
+    "The English, Japanese, and Chinese README files express equivalent Mission, Philosophy, Mechanism, and product-boundary semantics.",
+    "The design philosophy defines calibrated trust as evidence-based reliance and intervention rather than maximizing trust in agents.",
+    "The exact principle 'AI Cockpit governs evidence; it does not replace evidence-producing tools.' appears in docs/philosophy/design-philosophy.md, and README.md presents the same responsibility boundary without contradictory wording.",
+    "The documentation distinguishes native governance evidence from delegated domain evidence without introducing new schemas or runtime concepts.",
+    "SBOM, vulnerability scanning, provenance, and signatures are described as replaceable domain or release evidence rather than Core implementations.",
+    "Tests and coverage are not described as exclusively release-stage evidence.",
+    "The roadmap defines a Core admission criterion and permits consolidation, replacement, or removal of concepts when governance guarantees are preserved.",
+    "The documentation architecture keeps README as a short entry point and assigns detailed philosophy, architecture, and reference content to their authoritative pages.",
+    "No code, tests, CI, Makefile, schema, guard, installer, distribution, or release behavior changes are included.",
+    "Documentation metadata and all Contract-declared AI governance checks pass."
+  ],
+  "guidelines": [
+    "Keep terminology language-neutral, project-neutral, and consistent across authoritative documents.",
+    "Distinguish Mission, Philosophy, Mechanism, and Implementation.",
+    "Do not overclaim current HCI scope or existing runtime capabilities.",
+    "Prefer replacing or consolidating duplicate README content over appending new sections.",
+    "Preserve existing architecture and lifecycle semantics.",
+    "Record no personal paths, credentials, or machine-specific configuration."
+  ],
+  "intent": {
+    "problem": "Current documentation accurately describes AI Cockpit as a repository governance layer, but it does not clearly distinguish the project's mission from its mechanism. Product positioning has accumulated governance, release, supply-chain, and maintenance concepts, increasing cognitive cost and making the Core boundary less clear.",
+    "constraints": [
+      "This Work Item is documentation-only and must not change runtime behavior.",
+      "Keep the current product scope limited to human-agent collaboration in software repositories.",
+      "Describe calibrated trust as evidence-based reliance and intervention, not as maximizing trust in agents.",
+      "Keep Repository Governance Layer and Evidence Governance as implementation mechanisms.",
+      "Distinguish native governance evidence from delegated domain evidence.",
+      "Do not describe SBOM or specialized release tooling as AI Cockpit Core capabilities.",
+      "Do not claim that AI Cockpit produces no evidence, because it creates governance records.",
+      "Do not mechanically replace every occurrence of AI Governance.",
+      "Do not add a new Vision document or expand the README with duplicated theory.",
+      "Keep English, Japanese, and Chinese entry-page semantics aligned."
+    ],
+    "rationale": "A mission-mechanism distinction preserves the existing governance architecture while establishing calibrated human-agent trust as the long-term North Star. Updating authoritative documentation before behavioral changes prevents premature restructuring and provides a stable boundary for later Work Items."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly approved .ai/glossary.md as an in-scope target document for this documentation-only Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

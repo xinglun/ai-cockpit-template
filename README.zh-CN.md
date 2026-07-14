@@ -34,27 +34,21 @@ AI 编码代理可能会：
 - 绕过验证
 - 让 reviewer 猜不出发生了什么
 
-不应在缺少边界明确、独立执行的 review 时接受 AI 生成的变更。
+不应在缺少边界明确、独立执行的 review 时接受 AI 生成的变更。关键不是让人更相信 agent，而是让人能基于证据判断何时可以依赖、调查、人工介入或阻止其工作继续。
 
-AI Cockpit 是写入后的差分治理流程，不是文件系统权限边界或安全沙箱。
+**AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance.**
 
-AI Cockpit 是面向 agentic development 的协作式工程环境。
-
-它通过显式 scope、委派式 checks、review 证据和可审计的任务记录来提供 AI Change Governance。
-
-![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
-
-**AI 改了 37 个文件。Cockpit 阻止了 merge。**
-
-AI Cockpit 让 AI 生成的变更有边界、可审查、可审计。
-
-我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我围绕 scope、checks、summary 和 status 构建了一个治理层，以显式契约作为核心控制机制。
+Calibrated trust（校准信任）不意味着最大化对 agent 的信任，而是让人在证据支持依赖时依赖 agent，在证据缺失、过时、矛盾或不足时进行人工介入。
 
 ## 什么是 AI Cockpit？
 
-**AI Cockpit 是面向 AI 辅助软件开发的代码仓库治理层。**
+**AI Cockpit 是面向 AI 辅助软件开发的代码仓库治理层。** 这是实现上述使命的具体产品边界。
 
-它**不是** Agent Runtime。也**不是** Workflow Engine。
+它**不是** Agent Runtime，也**不是** Workflow Engine，更**不是** Security Sandbox。
+
+其哲学是 **Evidence over Self-Declaration（证据优于自我声明）**。其机制是 **Evidence Governance**：AI Cockpit 创建治理记录、评估委派证据，并将两者压缩为 Human Decision State。
+
+AI Cockpit 是写入后的差分治理流程，不是文件系统权限边界或安全沙箱。它通过显式 scope、委派式 checks、review 证据和可审计的任务记录来提供 AI Change Governance。
 
 AI Cockpit 提供：
 
@@ -65,6 +59,16 @@ AI Cockpit 提供：
 - **Intent**: 一级表达——不仅仅是"实现什么"，还有"工作为何存在"
 
 AI Cockpit 不会取代 Claude Code、Codex、Cursor、Gemini CLI 等 agent。Agent 随模型能力持续演进。**治理应保持稳定。**
+
+AI Cockpit governs evidence; it does not replace evidence-producing tools。Native Governance Evidence / Delegated Domain Evidence 的分类与 Release 责任边界见[设计哲学](docs/philosophy/design-philosophy.md)。
+
+![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
+
+**AI 改了 37 个文件。Cockpit 阻止了 merge。**
+
+AI Cockpit 让 AI 生成的变更有边界、可审查、可审计。
+
+我反复看到 AI 重写无关文件、回退已完成工作、绕过 review 预期。所以我围绕 scope、checks、summary 和 status 构建了一个治理层，以显式契约作为核心控制机制。
 
 ## 30 秒理解
 
@@ -91,12 +95,7 @@ Review 从上下文开始。
 
 **前置条件：**支持 POSIX shell 的 Linux、macOS 或 WSL；Python 3.10+；Git、curl 和 GNU Make；以及至少已有一个提交且工作树干净的 Git 仓库。所选 stack 的 formatter、测试运行器、SDK 和构建插件也必须预先安装。
 
-## 版本演进
-
-- **V2 — Intent-aware Development（已完成）**：Work Item Contract 新增可选的 `intent` 节点（`problem`、`constraints`、`rationale` 等字段），让 AI 不只知道“改什么”，也知道“为什么存在这次变更”。`intent` 和 Summary 的 `intentAlignment` 都是可选的，在缺少上下文时可以留空。详见 [Roadmap](docs/roadmap.md) 和 [V2 Implementation Plan](docs/reference/v2-implementation-plan.md)。
-- **V2.5 — Governance Compression（已实现，稳定中）**：Summary 是 Repository Truth，Cockpit 是 Human Decision State。Cockpit 会把仓库证据压缩成面向决策的信号，例如 `ready_for_review`、`ready_with_risks`、`needs_investigation`、`blocked`，但不会发明新事实。
-- **V2.6 — Scenario Coverage（当前能力）**：中高风险 Work Item 可以记录通用的场景覆盖结果，而不需要把 release/auth/installer 的场景库硬编码进 Core。场景内容仍然由 Work Item 持有，策略来源在 `.ai/guards/scenario_coverage_policy.yaml`。
-- **V2.6.5 — Preflight Review（当前能力）**：`make ai-start TASK=<task> TITLE="..." MODE=code` 会在实现前显示 Preflight Review。其原则是 **Evidence over Self-Declaration**：ready 与否来自 Contract 证据，而不是 AI 的自我声明。若 review 为 `needs_human_confirmation` 或 `not_ready`，agent workflow 必须暂停，并在继续编码前向用户报告该 review。
+版本历史与能力演进在[路线图](docs/roadmap.md)中维护，而不是放在这个简短入口页中。
 
 ## 安装最新公开运行时
 

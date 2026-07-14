@@ -34,13 +34,19 @@ AI coding agents can:
 - bypass verification
 - leave reviewers guessing
 
-AI-generated changes should not be accepted without bounded, independently enforced review.
+AI-generated changes should not be accepted without bounded, independently enforced review. The practical question is not whether humans should trust agents more, but when the available evidence supports reliance, investigation, intervention, or a stop.
+
+**AI Cockpit enables calibrated trust between humans and AI agents through evidence-based governance.**
+
+Calibrated trust does not mean maximizing trust in an agent. It means enabling humans to rely on the agent when evidence supports reliance and to intervene when evidence is missing, stale, contradictory, or insufficient.
 
 ## What is AI Cockpit?
 
-**AI Cockpit is a Repository Governance Layer for AI-assisted Software Development.**
+**AI Cockpit is a Repository Governance Layer for AI-assisted Software Development.** This is the concrete product boundary through which its mission is delivered.
 
-It is **not** an Agent Runtime. It is **not** a Workflow Engine.
+It is **not** an Agent Runtime, **not** a Workflow Engine, and **not** a Security Sandbox.
+
+Its philosophy is **Evidence over Self-Declaration**. Its mechanism is **Evidence Governance**: AI Cockpit creates governance records, evaluates delegated evidence, and compresses both into human decision state.
 
 It provides:
 
@@ -53,6 +59,8 @@ It provides:
 AI Cockpit does not replace agents like Claude Code, Codex, Cursor, or Gemini CLI. Agents evolve continuously with model capabilities. **Governance should remain stable.**
 
 AI Cockpit checks diffs after writes; it is not a filesystem permission boundary or security sandbox.
+
+AI Cockpit governs evidence; it does not replace evidence-producing tools. The Native Governance Evidence / Delegated Domain Evidence model and release boundary are defined in [Design Philosophy](docs/philosophy/design-philosophy.md).
 
 ![AI Cockpit demo](docs/assets/ai-cockpit-demo.gif)
 
@@ -83,12 +91,7 @@ Cockpit updated.
 Review starts from context.
 ```
 
-## Version Evolution
-
-- **V2 - Intent-aware Development (completed)**: Work Item Contracts gained the optional `intent` node (`problem`, `constraints`, `rationale`, and related fields), so AI can understand not only what to change but why the work exists.
-- **V2.5 - Governance Compression (implemented, stabilizing)**: Summary became Repository Truth and Cockpit became the Human Decision layer. Cockpit compresses repository evidence into decision-oriented signals such as `ready_for_review`, `ready_with_risks`, `needs_investigation`, and `blocked`.
-- **V2.6 - Scenario Coverage (current capability)**: Medium/high-risk Work Items can record generic scenario coverage without hard-coding release/auth/installer scenario libraries into Core. Scenario content stays in the Work Item, and the policy source lives in `.ai/guards/scenario_coverage_policy.yaml`.
-- **V2.6.5 - Preflight Review (current capability)**: `make ai-start TASK=<task> TITLE="..." MODE=code` surfaces an advisory Preflight Review before implementation begins. It follows the principle of **Evidence over Self-Declaration**: readiness is derived from Contract evidence, not from agent confidence. When the review is `needs_human_confirmation` or `not_ready`, the agent workflow must pause and report the review before coding continues.
+Version history and capability evolution are maintained in the [Roadmap](docs/roadmap.md), not in this short entry page.
 
 <!-- install-prerequisites: python3.10,git-initial-commit,curl,gnu-make,posix -->
 
@@ -180,7 +183,7 @@ Intent → Contract → Implementation → Verification → Summary (Repository 
 ## Core Principles
 
 - **Intent-driven Development**: Work should be driven by declared intent (problem, constraints, rationale), not only by task descriptions
-- **Evidence over reasoning**: Store verifiable evidence, not private reasoning
+- **Evidence over Self-Declaration**: Readiness and trust decisions should be based on reviewable evidence, not agent confidence
 - **Machine-verifiable contracts**: Governance depends on structured, auditable records
 - **Minimal process**: Add governance only where it prevents real failures
 - **Scope-first engineering**: Declare boundaries before changing files

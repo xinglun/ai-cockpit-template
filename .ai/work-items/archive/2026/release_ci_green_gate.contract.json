@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_ci_green_gate",
+  "mode": "code",
+  "title": "Run compatibility on main pushes and document green-commit release sequencing",
+  "baseCommit": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/compatibility.yml",
+    ".github/workflows/smoke.yml",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    ".ai/work-items/active/release_ci_green_gate.contract.json",
+    ".ai/work-items/active/release_ci_green_gate.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "scripts/ai_project_doctor.py",
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Current workflow only runs on pull_request/manual and does not re-prove main push commits."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Current smoke workflow is the existing repository-level release and governance gate."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Regression coverage for push triggers and the documented commit-bound release sequence."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Release evidence and immutable source identity are documented here."
+    },
+    {
+      "path": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "reason": "This contract declares the release CI hardening scope."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["ci_workflow", "release_identity"],
+    "reason": "Workflow triggers and immutable release evidence affect public release trust."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Repository workflow and release validator changes are implementable in this Work Item."
+  },
+  "preReviewWarnings": [
+    "Review workflow trigger semantics, release SHA immutability, and tag-vs-worktree evidence separation."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Compatibility CI runs for pull requests, main pushes, and manual dispatch without weakening existing matrix coverage.",
+    "The release documentation states that the release tag must equal the commit SHA verified by both smoke and compatibility workflows before publication.",
+    "Regression tests cover the compatibility workflow trigger configuration and the immutable historical tag rule.",
+    "Release documentation describes the immutable commit/tag relationship and the PR-first release sequence."
+  ],
+  "guidelines": [
+    "Release evidence must be derived from the inspected tag or explicit source commit, never from the current worktree by accident.",
+    "Workflow changes must preserve pinned third-party action SHAs and least-privilege permissions.",
+    "Public release claims must remain explainable from checked-in metadata and CI evidence."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "main push runs compatibility",
+      "required": true,
+      "status": "verified",
+      "evidence": [".github/workflows/compatibility.yml"]
+    },
+    {
+      "scenario": "release tag is created only after both required workflows succeed",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "GitHub platform Ruleset enforcement must be configured and observed by a repository administrator."
+    }
+  ],
+  "intent": {
+    "problem": "v0.5.24 was tagged from a commit whose smoke CI failed, and compatibility CI does not rerun on direct main pushes, so release sequencing lacks a repository-level reminder to bind a future tag to fresh evidence.",
+    "constraints": [
+      "Do not move or rewrite v0.5.24.",
+      "Keep historical release evidence validation fail-closed.",
+      "Keep third-party GitHub Actions pinned by immutable SHA."
+    ],
+    "rationale": "Make the next release sequence mechanically bind CI evidence, tag identity, and published release metadata before publication."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized execution of the accepted PR-first release hardening plan; workflow trigger changes remain limited to this Contract scope."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

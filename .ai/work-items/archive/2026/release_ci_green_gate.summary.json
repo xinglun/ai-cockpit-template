@@ -1,0 +1,392 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_ci_green_gate",
+  "contractPath": ".ai/work-items/archive/2026/release_ci_green_gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/release_ci_green_gate.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_ci_green_gate.summary.json",
+      "reason": "Recorded implementation and verification evidence for the release CI hardening Work Item."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Added main push triggering while retaining pull request and manual compatibility execution."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documented the PR-first release sequence, same-commit smoke/compatibility evidence, and immutable v0.5.24 history."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Added regression coverage for compatibility triggers and the documented release identity rule."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/release_ci_green_gate.contract.json",
+    ".github/workflows/compatibility.yml",
+    "docs/reference/distribution.md",
+    "tests/test_workflows.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:51.832127+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "efa4878cb10cbb460f3eb8d227b8e63fb63af09907532cfae7bf14cbed6498b7",
+      "commandHash": "8bf35ad70b57e32acbf76fbdec150375f7b728fcce50f5f915228bbbc025811c",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_ci_green_gate.contract.json work item contract check passed: .ai/work-items/active/release_ci_green_gate.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:52.025577+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "745854b54d5d9ad8285339516a9a2c6e2a9acdb07f21863865964e7d48e55398",
+      "commandHash": "e563750f46de861d5a186ada8b67a91d7650ddfece0040e2680bae2c02719c39",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_ci_green_gate.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:52.274608+00:00",
+      "exitCode": 0,
+      "durationMs": 164,
+      "outputDigest": "0d2f65076cb19727b8582285e8960416582c8ad38e62df89f6b5352b9bcfa16c",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_ci_green_gate.contract.json [warning] restricted_write: .github/workflows/compatibility.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:52.716595+00:00",
+      "exitCode": 0,
+      "durationMs": 350,
+      "outputDigest": "6d67cd93aff8900de7f24ee78c44ed6a4bc5fa9d7db437c1ebbad9ba188e7eb6",
+      "commandHash": "328fe179189f54303afaa6ae57f3f303f58c974fd9426ddc3a9c7cd5aeb0ea00",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_ci_green_gate.contract.json --summary .ai/work-items/active/release_ci_green_gate.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_ci_green_gate` - Contract Hash: `c024674f0154131c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` - Required Checks "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:52.910433+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "050afff38fb3b65fd4ab741e1b0bf8b24e6b04c37aa38cbcc5452994a5668cc1",
+      "commandHash": "93bb4b410b9adcd0ebf65122d956945a6811b87f1935fcf95ca7e02aff574932",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_ci_green_gate.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] .github/workflows/compatibility.yml review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:53.117504+00:00",
+      "exitCode": 0,
+      "durationMs": 128,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:53.313972+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:53.443190+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "be7cc05e3b7ed97c8398135080d04b6d5e297d24589ea1c22051e7684389983f",
+      "commandHash": "53639fc1a42859b03d52b0d81dbfa7873727c4d7af0601a0ab84cc466011f97a",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_ci_green_gate.contract.json --summary .ai/work-items/active/release_ci_green_gate.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:53.582168+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "1c2699db66180eb196626051335df66ea958c5a00abf02449a6f65bf8f26246a",
+      "commandHash": "64c9c00c39d5a96e36027add154b9e25c2cafa700ea6dcc8ca9732fb5f66d78f",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_ci_green_gate.contract.json --summary .ai/work-items/active/release_ci_green_gate.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:37:53.977227+00:00",
+      "exitCode": 0,
+      "durationMs": 320,
+      "outputDigest": "ee19e0f5ae963ee2b7f5f984d37776f667f4d15c69223c07e4da4c240907e09f",
+      "commandHash": "6962f36e66c036907d56c4b54eeb89352eb548ee8b6f07e30ba06ffdee43cd4d",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_ci_green_gate.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.github/workflows/compatibility.yml` — covered by Contract scope - [active_owned] `docs/reference/distribution.md` — covered by"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:39:02.787244+00:00",
+      "exitCode": 0,
+      "durationMs": 68718,
+      "outputDigest": "93555995c93b1bc09398a664bba0a74d8baff170ab72b71c2af2ec4b7e802fd5",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "29dd6cd59f6229949e324066987953447b11873f3618d25390fc903c3df5489c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 89 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 17%] ........................................................................ [ 35%] ........................................................................ [ 53%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:39:04.709333+00:00",
+      "exitCode": 0,
+      "durationMs": 348,
+      "outputDigest": "89112f0110c0159724196cd84e7c885272f9db2cf2a6de899efb1a244ac9c70a",
+      "commandHash": "c961d573dc3ec4384bb75a480ef627d2aef860dcca2cd278ae6f9d9c965ffcf9",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "fc99578c4928676381401a6f562f37a97d5f34d7d625e47d7d47e88e4e6ac97a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_ci_green_gate.contract.json --summary .ai/work-items/active/release_ci_green_gate.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:39:05.115952+00:00",
+      "exitCode": 0,
+      "durationMs": 331,
+      "outputDigest": "31f6d648ad1b3b6559f8e9193ee7998403131cb507134880975fae69cd798357",
+      "commandHash": "2d381bd476b6f2ed7cba1a0f9569e21ef5fc619fceb3f621e4004cc09da9d8e3",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "fc99578c4928676381401a6f562f37a97d5f34d7d625e47d7d47e88e4e6ac97a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_ci_green_gate.contract.json --summary .ai/work-items/active/release_ci_green_gate.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:39:05.242736+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "fc99578c4928676381401a6f562f37a97d5f34d7d625e47d7d47e88e4e6ac97a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:39:05.372811+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "f4eace4cb3da4ad7627a1e52ed8cf764473bc3e6f8c81fd8359cac612e45e034",
+      "commandHash": "a833d19ce33c6bc653e1d2c022aea49f11eece792f604645d289951d50641c04",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "fc99578c4928676381401a6f562f37a97d5f34d7d625e47d7d47e88e4e6ac97a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_ci_green_gate.contract.json --summary .ai/work-items/active/release_ci_green_gate.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_ci_green_gate.summary.json CONTRACT=.ai/work-items/active/release_ci_green_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T04:39:05.597619+00:00",
+      "exitCode": 0,
+      "durationMs": 135,
+      "outputDigest": "9da5aafbe398f68c1dbfe6f5b02fd487cb29fd4811e81d8f26436b77027a38ad",
+      "commandHash": "2093bff3c1d743ac4ebae73a07bb58444edb922b0b979e3350c4a22e9b7f0ecb",
+      "contractHash": "c024674f0154131cadcd7ffbec47172d4a9e4cd9784d3ca7b9df4a90779616de",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/release_ci_green_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_ci_green_gate.summary.json",
+      "worktreeDigest": "fc99578c4928676381401a6f562f37a97d5f34d7d625e47d7d47e88e4e6ac97a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_ci_green_gate.summary.json --contract .ai/work-items/active/release_ci_green_gate.contract.json ai summary check passed: .ai/work-items/active/release_ci_green_gate.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Release evidence must be derived from the inspected tag or explicit source commit, never from the current worktree by accident.",
+      "compliant": true,
+      "evidence": "The change does not alter release evidence resolution; docs/reference/distribution.md explicitly requires immutable tag/commit identity."
+    },
+    {
+      "guideline": "Workflow changes must preserve pinned third-party action SHAs and least-privilege permissions.",
+      "compliant": true,
+      "evidence": "The compatibility workflow adds only a trigger and aggregator job; all existing action references remain immutable SHAs and permissions remain contents: read."
+    },
+    {
+      "guideline": "Public release claims must remain explainable from checked-in metadata and CI evidence.",
+      "compliant": true,
+      "evidence": "The release sequence and historical v0.5.24 limitation are documented in docs/reference/distribution.md and covered by tests/test_workflows.py."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Repository-side trigger and documentation hardening is complete; GitHub Ruleset enforcement remains an administrator-owned follow-up."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "GitHub Ruleset enforcement was updated directly on repository ruleset 16482749; the checked-in repository cannot reproduce that platform state.",
+    "A release workflow was intentionally not added because it would change supply-chain evidence for v0.5.24 before a new release metadata/tag pair exists."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "The release publication step remains procedural until a future release Work Item updates release metadata and creates the new tag from a commit with both required checks.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm compatibility runs on main pushes without weakening the existing matrix.",
+      "Confirm release tags are created only after both required workflows succeed for the same commit.",
+      "Verify the configured Ruleset remains active before the next public release."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "c024674f0154131c",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "c024674f0154131c",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 8
+    }
+  ],
+  "knownGaps": [
+    "A future release Work Item must update release.json, SBOM, provenance, and the new tag as one immutable release unit."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 17
+}

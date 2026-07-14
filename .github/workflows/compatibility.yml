@@ -1,6 +1,9 @@
 name: compatibility
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -383,3 +386,27 @@ jobs:
           git commit -qm initial
           "$GITHUB_WORKSPACE/install.sh" --stack "$STACK" --update-makefile
           make ai-cockpit-quality
+
+  compatibility-gate:
+    if: ${{ always() }}
+    needs:
+      - shellcheck
+      - python-platform-matrix
+      - real-stack-quality
+      - extended-real-stack-quality
+      - mobile-stack-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every compatibility lane to pass
+        env:
+          SHELLCHECK_RESULT: ${{ needs.shellcheck.result }}
+          PYTHON_RESULT: ${{ needs.python-platform-matrix.result }}
+          REAL_STACK_RESULT: ${{ needs.real-stack-quality.result }}
+          EXTENDED_STACK_RESULT: ${{ needs.extended-real-stack-quality.result }}
+          MOBILE_STACK_RESULT: ${{ needs.mobile-stack-quality.result }}
+        run: |
+          set -euo pipefail
+          for result in "$SHELLCHECK_RESULT" "$PYTHON_RESULT" "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"; do
+            test "$result" = success
+          done

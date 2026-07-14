@@ -1,0 +1,395 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "review_n30_installer_smoke_local_gate_explicit",
+  "contractPath": ".ai/work-items/archive/2026/review_n30_installer_smoke_local_gate_explicit.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Runs local installed governance sub-gates directly before the separate PR audit."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    }
+  ],
+  "sourcesUsed": [
+    ".github/workflows/smoke.yml",
+    "Makefile.ai"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:08.857288+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "13deeaea6ca995a20afb992fbc66e9b6e0ae6c3ced02820ae169b38882334dde",
+      "commandHash": "09defb290196f7cc48c60da1ae8122d6e4157ae23730119981d2fd8f4527a77e",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json work item contract check passed: .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:09.011380+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "6be88b086d93f4328920f60f3959b9412e3c402ce505be1b90f9100192231fda",
+      "commandHash": "c03be5d86d1a5d6de9f5e1fdc177d1dd4681e215e166ab9f65f7fc651b4bbefa",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json scope guard passed: 2 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:09.222715+00:00",
+      "exitCode": 0,
+      "durationMs": 159,
+      "outputDigest": "f731ddf57ca71ec7241770642393f7542d6964e58b757202e141f4147235de80",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json [warning] restricted_write: .github/workflows/smoke.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:09.486392+00:00",
+      "exitCode": 0,
+      "durationMs": 215,
+      "outputDigest": "f38662623ce5cb87ae2d7d000402dbbbc1af941e582bc6ae49e1b81ee52bbd18",
+      "commandHash": "55ca12ac1e0de666f8812be4b9603cec99acc4e82f1df01738c8c5e2026421b1",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `review_n30_installer_smoke_local_gate_explicit` - Contract Hash: `21169819fc0dba46` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - A"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:09.643457+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "b216a50625e550636f10678e111685408865f5ff9cfef50862540198a0466177",
+      "commandHash": "a2d902342f505cee91c6d0d16164b30d3e0caf76952da7441c5e46a567f93526",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] .github/workflows/smoke.yml review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:09.853182+00:00",
+      "exitCode": 0,
+      "durationMs": 148,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:10.009990+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:10.121736+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "aeee9a579898cf69dc72e9bfa479ebf06d08dde9c427de186993bc32ae97a590",
+      "commandHash": "53809daaf9557db313e9128f00b8ed7a73de57010898353629cc3b40d56d5229",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:10.227490+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "8f6ce0d4efff2f4f1db4f31205836346226f72c34409937a2780cec7805c2bbd",
+      "commandHash": "14de062c128fbf70f9116f81704bdb9350f5f3722ba52dd78db106847432e537",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:56:10.509886+00:00",
+      "exitCode": 0,
+      "durationMs": 230,
+      "outputDigest": "542dfb69a1d1f62b8406fd060004994808143846edfe709c47809a23831f11cf",
+      "commandHash": "a9679c82e1d6c5f94214f61e00b0f97f2c9046f5ca065f9958992dd6ae307bc6",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json ## Diff Ownership Preview - active_owned: `2`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.github/workflows/smoke.yml` — covered by Contract scope"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:57:17.494323+00:00",
+      "exitCode": 0,
+      "durationMs": 66924,
+      "outputDigest": "d6a5076c14ff7b52bba7ec0bccc96b42827c34651157806ac01b97787f089671",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "445e6e516ad88f0973ef8e4882c53ffff056459e0ffd10f02dd3dd2705a7ff2c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 88 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 18%] ........................................................................ [ 36%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:57:18.928180+00:00",
+      "exitCode": 0,
+      "durationMs": 257,
+      "outputDigest": "60a48eef1a30c762c2d513363b2860e7af9bc23b90c685d28bd1fcfa570430f1",
+      "commandHash": "7e278446ad609f33a5aa97f364f8ca6cb15305f70998fcffbd2128738828f34e",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "bf1a9ae5b81a965d7fd550364d3917dd3ea75c43396b943c131abebd295af200",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:57:19.223446+00:00",
+      "exitCode": 0,
+      "durationMs": 247,
+      "outputDigest": "6d394a18dd81d1f48bb1f1056ddbd9b7d96b2018cd5b27481893a4ced98509e2",
+      "commandHash": "0764cb4bc781e45b1a900bee67c4c4655bf0448f4b660d416354058271d06ecc",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "bf1a9ae5b81a965d7fd550364d3917dd3ea75c43396b943c131abebd295af200",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:57:19.334674+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "bf1a9ae5b81a965d7fd550364d3917dd3ea75c43396b943c131abebd295af200",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:57:19.449672+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "40616944696ddeb499890fde72d03dd3d3a6fe556d60faf8fe716be259a7985d",
+      "commandHash": "da583c0748a0a0b8676ffcf4b914d85f29007973ac0cba4582071a71ab9e3f00",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "bf1a9ae5b81a965d7fd550364d3917dd3ea75c43396b943c131abebd295af200",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json --summary .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json CONTRACT=.ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T01:57:19.621879+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "fdfb93a61c468d81a757c432e8b10fc1562a2e3d7207ab35ed3a5102f81d75ab",
+      "commandHash": "ff56ebf1369111d95a1743a132f50e68168b1161a6478cbd322b35a934dbec64",
+      "contractHash": "21169819fc0dba46981ddf40795b4b7f83d789d4c391c11cd04d9411636d88e3",
+      "commitSha": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+      "executionContractPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+      "worktreeDigest": "bf1a9ae5b81a965d7fd550364d3917dd3ea75c43396b943c131abebd295af200",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json --contract .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json ai summary check passed: .ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep local and PR gate commands explicit in CI.",
+      "compliant": true,
+      "evidence": "The workflow invokes local sub-gates directly and retains a separate check-ai-pr command."
+    },
+    {
+      "guideline": "Do not weaken or remove the installed template's PR ownership gate.",
+      "compliant": true,
+      "evidence": "The full check-ai-pr audit remains in the smoke flow."
+    },
+    {
+      "guideline": "Keep the change limited to the installer smoke local gate.",
+      "compliant": true,
+      "evidence": "Only the intended workflow block changed beyond Work Item evidence."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "CI command selection only; no installed runtime behavior changes."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "ci-smoke",
+      "detail": "The PR audit depends on the temporary repository's pre-install commit remaining available.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm all four local sub-gates run before check-ai-pr in the installed smoke flow."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "21169819fc0dba46",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Traced the self-referential PR audit failure from aggregate check-ai with HEAD."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "21169819fc0dba46",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Review explicit local sub-gates and complete local and remote smoke verification."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "local installed-repository governance checks",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Workflow directly invokes status consistency, backtrack, coverage, and ownership checks."
+      ]
+    },
+    {
+      "scenario": "full installed-repository PR audit",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Workflow invokes check-ai-pr with the saved base."
+      ]
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 13
+}

@@ -1,0 +1,152 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review_n30_installer_smoke_local_gate_explicit",
+  "mode": "code",
+  "title": "显式执行安装 smoke 本地门禁",
+  "baseCommit": "5230332db101a4e6e5e1f4b47e8ff7b60c423542",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.contract.json",
+    ".ai/work-items/active/review_n30_installer_smoke_local_gate_explicit.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/smoke.yml",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["install.sh", "scripts/**", "tests/**", "release/**"],
+  "sources": [
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "The installed no-active check-ai aggregate invokes a PR audit when given any baseline."
+    },
+    {
+      "path": "Makefile.ai",
+      "reason": "Defines the local check-ai sub-gates and aggregate PR behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "ci_gate"
+    ],
+    "reason": "Initial skeleton; replace with task-specific implementation and review risks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The remote failure is isolated to the aggregate check-ai entry point in the installed smoke flow."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The installer smoke flow runs local status, backtrack, coverage, and ownership checks without invoking a self-referential PR audit.",
+    "The smoke flow runs check-ai-pr separately against the temporary repository's pre-install base.",
+    "The complete local quality and governance gates pass."
+  ],
+  "guidelines": [
+    "Keep local and PR gate commands explicit in CI.",
+    "Do not weaken or remove the installed template's PR ownership gate.",
+    "Keep the change limited to the installer smoke local gate."
+  ],
+  "intent": {
+    "problem": "The installed aggregate check-ai cannot be used for local validation with a baseline because its no-active branch invokes check-ai-pr; using HEAD therefore fails on an empty PR diff.",
+    "constraints": ["Preserve source checkout environment isolation.", "Keep check-ai-pr against the pre-install commit."],
+    "rationale": "Run the local sub-gates directly and retain a separate full PR audit, matching each command to its intended diff model."
+  },
+  "scenarioCoverage": [
+    {"scenario": "local installed-repository governance checks", "required": true, "status": "verified", "evidence": ["Workflow runs check-ai-status-consistency, check-ai-backtrack, check-ai-coverage-guard, and check-ai-diff-ownership directly."]},
+    {"scenario": "full installed-repository PR audit", "required": true, "status": "verified", "evidence": ["Workflow runs check-ai-pr with the saved pre-install base."]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized continued remediation of remote CI blockers."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

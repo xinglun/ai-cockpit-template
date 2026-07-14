@@ -259,6 +259,45 @@ def run_code_preflight(contract_path: Path, summary_path: Path, contract_rel: st
     return code
 
 
+def validate_start_state(task: str, *, force: bool) -> tuple[Path, Path, str] | None:
+    """Validate lifecycle state and return target paths plus trusted base commit."""
+    consistency_issues = refresh_stale_no_active_status(validate_status_consistency())
+    if consistency_issues:
+        for issue in consistency_issues:
+            print(f"[ERROR] {issue}", file=sys.stderr)
+        print(
+            "ERROR: fix Work Item lifecycle/status consistency before creating a new Work Item. "
+            "Run `make repair-ai-status` when the active files are paired; otherwise clean up active Work Item files manually.",
+            file=sys.stderr,
+        )
+        return None
+
+    active_paths = active_work_item_paths()
+    if active_paths:
+        active_items = ", ".join(path.stem for path in active_paths)
+        print(
+            "ERROR: an active Work Item already exists: "
+            f"{active_items}. Finish or archive it before creating a new Work Item.",
+            file=sys.stderr,
+        )
+        return None
+
+    contract_path = ACTIVE_DIR / f"{task}.contract.json"
+    summary_path = ACTIVE_DIR / f"{task}.summary.json"
+    if not force and (contract_path.exists() or summary_path.exists()):
+        print(f"ERROR: Work Item already exists: {task}", file=sys.stderr)
+        return None
+
+    base_commit = current_head()
+    if not base_commit:
+        print(
+            "ERROR: ai-start requires an initial Git commit so baseCommit is trustworthy.",
+            file=sys.stderr,
+        )
+        return None
+    return contract_path, summary_path, base_commit
+
+
 def main() -> int:
     args = parse_args()
     try:
@@ -275,41 +314,11 @@ def main() -> int:
         return 1
 
     try:
-        consistency_issues = refresh_stale_no_active_status(validate_status_consistency())
-        if consistency_issues:
-            for issue in consistency_issues:
-                print(f"[ERROR] {issue}", file=sys.stderr)
-            print(
-                "ERROR: fix Work Item lifecycle/status consistency before creating a new Work Item. "
-                "Run `make repair-ai-status` when the active files are paired; otherwise clean up active Work Item files manually.",
-                file=sys.stderr,
-            )
+        start_state = validate_start_state(task, force=args.force)
+        if start_state is None:
             return 1
-
-        active_paths = active_work_item_paths()
-        if active_paths:
-            active_items = ", ".join(path.stem for path in active_paths)
-            print(
-                "ERROR: an active Work Item already exists: "
-                f"{active_items}. Finish or archive it before creating a new Work Item.",
-                file=sys.stderr,
-            )
-            return 1
-
-        contract_path = ACTIVE_DIR / f"{task}.contract.json"
-        summary_path = ACTIVE_DIR / f"{task}.summary.json"
-        if not args.force and (contract_path.exists() or summary_path.exists()):
-            print(f"ERROR: Work Item already exists: {task}", file=sys.stderr)
-            return 1
-
+        contract_path, summary_path, base_commit = start_state
         title = args.title or task.replace("_", " ")
-        base_commit = current_head()
-        if not base_commit:
-            print(
-                "ERROR: ai-start requires an initial Git commit so baseCommit is trustworthy.",
-                file=sys.stderr,
-            )
-            return 1
         baseline_dirty_paths = capture_dirty_baseline()
         contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
         summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()

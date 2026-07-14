@@ -156,6 +156,7 @@ def test_ai_start_requires_initial_commit(tmp_path, monkeypatch):
     stub_active_status(monkeypatch)
     monkeypatch.setattr(sys, "argv", ["ai_start.py", "--task", "sample"])
 
+    assert ai_start.validate_start_state("sample", force=False) is None
     assert ai_start.main() == 1
     assert not (active / "sample.contract.json").exists()
 

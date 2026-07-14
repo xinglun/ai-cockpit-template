@@ -19,7 +19,7 @@ keywords:
 
 ### Discover, Don’t Invent
 
-AI Cockpit は、主観的にプロセスを増やして設計するものではありません。可信的人机协作（trustworthy human-agent collaboration）が実際に何を必要とするかを観察し、必要な構造を発見します。各コンポーネントは、現実の協働上の必要性へ追跡できなければなりません。
+AI Cockpit は、主観的にプロセスを増やして設計するものではありません。信頼できる人間と AI エージェントの協働（trustworthy human-agent collaboration）が実際に何を必要とするかを観察し、必要な構造を発見します。各コンポーネントは、現実の協働上の必要性へ追跡できなければなりません。
 
 新しい仕組みを「より完全」「より強力」という理由だけで追加してはいけません。それが必要な構造を明らかにしているのか、それとも単にプロセス負荷を増やしているのかを問う必要があります。
 
@@ -39,7 +39,7 @@ Calibrated trust は、エージェントへの信頼を最大化することで
 
 The role of the architect is not to force a solution, but to remove unnecessary complexity until the essential structure becomes visible.
 
-架构师的职责，不是强行塑造一个方案，而是不断去除不必要的复杂性，直到系统的本质结构自然显现。
+アーキテクトの役割は、解決策を無理に形づくることではなく、本質的な構造が見えるようになるまで、不要な複雑性を取り除くことである。
 
 これは、アーキテクチャに判断や創造がないという意味ではありません。North Star は価値の選択であり、アーキテクチャには判断が必要です。一方、構造は制約、証拠、実践を通じて徐々に現れます。We choose the direction, but we do not prescribe the shape. Direction comes from values; structure emerges through discovery.
 

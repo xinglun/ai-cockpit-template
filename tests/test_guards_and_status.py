@@ -542,7 +542,7 @@ def test_status_consistency_rejects_live_no_active_changes(tmp_path, monkeypatch
     )
 
 
-def test_no_active_status_excludes_repository_changes(tmp_path, monkeypatch):
+def test_no_active_status_does_not_persist_repository_changes(tmp_path, monkeypatch):
     output = tmp_path / "status.md"
     monkeypatch.setattr(
         ai_generate_status,
@@ -564,8 +564,8 @@ def test_no_active_status_excludes_repository_changes(tmp_path, monkeypatch):
     assert "review_n8_archive_evidence_status_filter" not in text
     assert "`src/app.py`" not in text
     assert "`.ai/cockpit/current_status.md`" not in text
-    assert "Worktree Changes: `present`" in text
-    assert "Worktree Change Count: `2`" in text
-    assert "Ownership Preview: `ambiguous`" in text
+    assert "Worktree Changes: `absent`" in text
+    assert "Worktree Change Count: `0`" in text
+    assert "Ownership Preview: `clean`" in text
     assert "intentionally excludes transient worktree changes" in text
     assert "check-ai-pr" in text

@@ -300,7 +300,8 @@ def test_initial_status_uses_target_repository_changes(tmp_path):
     )
     clean_count = int(re.search(r"- Worktree Change Count: `(\d+)`", clean_status).group(1))
     dirty_count = int(re.search(r"- Worktree Change Count: `(\d+)`", dirty_status).group(1))
-    assert dirty_count == clean_count + 1
+    assert clean_count == 0
+    assert dirty_count == 0
 
 
 def test_missing_stack_file_project_quality_targets_fail_closed(tmp_path):

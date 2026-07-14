@@ -128,11 +128,9 @@ def default_preflight_report_path() -> Path:
 
 
 def no_active_worktree_state(output: Path) -> tuple[str, int, str]:
-    paths = repository_changes_for_status(output)
-    count = len(paths)
-    if count == 0:
-        return "absent", 0, "clean"
-    return "present", count, "ambiguous"
+    # No-active status is persisted by archive flows before the final commit.
+    # Never serialize that transient worktree snapshot into the committed marker.
+    return "absent", 0, "clean"
 
 
 def load_preflight_review(

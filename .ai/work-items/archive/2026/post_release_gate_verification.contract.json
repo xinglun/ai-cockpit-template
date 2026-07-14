@@ -1,0 +1,144 @@
+{
+  "contractVersion": 2,
+  "workItemId": "post_release_gate_verification",
+  "mode": "review",
+  "title": "复核 v0.5.24 发布后治理门禁",
+  "baseCommit": "b422f6e193591bb20beb2afc518a820470d08210",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/post_release_gate_verification.contract.json",
+    ".ai/work-items/active/post_release_gate_verification.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["scripts/**", "tests/**", "docs/**", ".github/**"],
+  "sources": [
+    {
+      "path": "https://github.com/xinglun/ai-cockpit-template/actions",
+      "reason": "Remote smoke result is the post-release verification evidence."
+    },
+    {
+      "path": "https://github.com/xinglun/ai-cockpit-template/releases/tag/v0.5.24",
+      "reason": "Confirms the immutable public release exists."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["ci_gate"],
+    "reason": "This Work Item only records post-release CI gate verification and adds no runtime changes."
+  },
+  "agentCapability": {
+    "canImplement": false,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The Work Item records a bounded remote gate verification."
+  },
+  "preReviewWarnings": [
+    "Confirm the latest smoke run passes without modifying prior release evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The latest remote smoke run passes its AI PR gate.",
+    "The v0.5.24 public release remains available and unchanged.",
+    "The Work Item is archived as append-only evidence."
+  ],
+  "guidelines": [
+    "Do not modify historical release evidence.",
+    "Record verification results without changing product behavior."
+  ],
+  "intent": {
+    "problem": "The repository smoke workflow requires every push to carry a valid archived Work Item and must be rechecked after the release evidence archive was finalized.",
+    "constraints": ["Do not modify v0.5.24 or v0.5.23.", "Do not change runtime code.", "Append only a new verification archive pair."],
+    "rationale": "A dedicated verification archive makes the final remote gate result auditable without reopening the completed release Work Item."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized continued release and CI gate handling."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

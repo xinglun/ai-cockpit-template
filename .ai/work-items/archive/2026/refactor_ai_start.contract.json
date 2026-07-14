@@ -1,0 +1,155 @@
+{
+  "contractVersion": 2,
+  "workItemId": "refactor_ai_start",
+  "mode": "code",
+  "title": "Refactor AI Work Item start orchestration",
+  "baseCommit": "779429c9bc09c3e510804c8308751b964da8bdc1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_start.py",
+    "tests/test_core_gates.py",
+    "tests/**",
+    ".ai/work-items/active/refactor_ai_start.contract.json",
+    ".ai/work-items/active/refactor_ai_start.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    ".github/**",
+    "scripts/ai_finish.py"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Target for splitting Work Item startup orchestration into lifecycle helpers."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Existing startup-path regression coverage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "refactor_only"
+    ],
+    "reason": "Behavior-preserving internal refactor with existing startup regression coverage."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contracted behavior-preserving refactor is ready for implementation."
+  },
+  "preReviewWarnings": [
+    "Confirm Work Item lifecycle checks, preflight behavior, and generated artifacts remain unchanged."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "ai_start.main is decomposed into focused lifecycle, validation, generation, and status helpers without changing startup behavior.",
+    "Existing startup-path tests pass with an orchestration regression assertion.",
+    "Full AI Cockpit and project quality checks pass with no governance policy change."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "ai_start.main combines lifecycle validation, Work Item generation, preflight handling, and status reporting in one large function.",
+    "constraints": [
+      "Preserve startup failure semantics and generated Contract/Summary contents.",
+      "Do not change governance policy or unrelated scripts."
+    ],
+    "rationale": "Separating startup responsibilities reduces maintenance risk in the Work Item entrypoint."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

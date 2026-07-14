@@ -1,0 +1,388 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "refactor_ai_start",
+  "contractPath": ".ai/work-items/archive/2026/refactor_ai_start.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/refactor_ai_start.contract.json",
+      "reason": "Defines the startup orchestration refactor scope and acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/refactor_ai_start.summary.json",
+      "reason": "Records implementation and verification evidence."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Splits Work Item startup orchestration into focused private helpers."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Adds direct regression evidence for extracted startup-state validation."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Adds startup orchestration regression evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/refactor_ai_start.contract.json",
+    "scripts/ai_start.py",
+    "tests/test_core_gates.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:21.025865+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "2e25a3dd68e1397eea48bbcd3e46ba543975147eb6db3a0d64e9f5971b33c4cc",
+      "commandHash": "96342051f8a800f9db731c42693a92a0db7fa022b7908b0be701780db6f5ff85",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/refactor_ai_start.contract.json work item contract check passed: .ai/work-items/active/refactor_ai_start.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:21.249731+00:00",
+      "exitCode": 0,
+      "durationMs": 144,
+      "outputDigest": "989b4fdd6a8eb81934948564f161df9441200f9b591c57e5551730179739df4e",
+      "commandHash": "ebe0a00ffc27e7833f2fa50977f9fee9467a98f07ba77bbca69cca4044b2502a",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/refactor_ai_start.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:21.487256+00:00",
+      "exitCode": 0,
+      "durationMs": 146,
+      "outputDigest": "9c3a4193abb16dc674fda056d008d328feb86c1173ba7ca884e003d072a2de8e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/refactor_ai_start.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:21.926186+00:00",
+      "exitCode": 0,
+      "durationMs": 345,
+      "outputDigest": "55508f215fe07e3c0b3db5fc50377475d2ae0b00f342372921dcc0b2dfe4233e",
+      "commandHash": "c58f7a62ab4d71a96a5407b03c8fdf76aed141b520d302536f2615cb1886b957",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/refactor_ai_start.contract.json --summary .ai/work-items/active/refactor_ai_start.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `refactor_ai_start` - Contract Hash: `e7b3e5fde1a0d945` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `16` - Required Checks Passed: `15`"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:22.172188+00:00",
+      "exitCode": 0,
+      "durationMs": 166,
+      "outputDigest": "be72ddc62d5c2bd731234cb609012bfa0927f2fb379042fb985fe265cab27a5b",
+      "commandHash": "aa301e5b0a1aed769f676fefad71258f20244345bc566560b6c628b1f4a1bdda",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/refactor_ai_start.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_start.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:22.384586+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:22.607789+00:00",
+      "exitCode": 0,
+      "durationMs": 135,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:22.759740+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "2f8f374049ee41e6239033346212fd3b8e6a2daef389b61beaffbbb36048dffc",
+      "commandHash": "cdf72f959a3020f1e8b346f353231e755010def2f489e5704b1af2a91f71df87",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/refactor_ai_start.contract.json --summary .ai/work-items/active/refactor_ai_start.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:22.906841+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "c019a20d5cf8a01d013e4ce1aeae1333aee154fcb4210058fb651d7221c6b121",
+      "commandHash": "b14fab963ad5d7e92b7e838aa6b213c945ddfccdb13af17bb27ef1531c090802",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/refactor_ai_start.contract.json --summary .ai/work-items/active/refactor_ai_start.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:04:23.303502+00:00",
+      "exitCode": 0,
+      "durationMs": 313,
+      "outputDigest": "16fc42797c43e8f3a3b74f719d6eb4485f05d696c770566b03222b92e16966d6",
+      "commandHash": "31c48a14390ac0c3b095fb8e6aca36243c340f10859452667f575c9cb168a147",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/refactor_ai_start.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_start.py` — covered by Contract scope - [active_owned] `tests/test_start_and_archive.py` — covered by Contract scope"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:05:32.662704+00:00",
+      "exitCode": 0,
+      "durationMs": 69272,
+      "outputDigest": "7e46e3076d55adf96f1c579588b7b583f0230d3da42869a27f744c65b9bec80b",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "b272116542628688c0597f313add5b61f03829dc412809d78e14fdced0ef8606",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 16%] ........................................................................ [ 32%] ........................................................................ [ 49%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:05:34.687274+00:00",
+      "exitCode": 0,
+      "durationMs": 320,
+      "outputDigest": "123483e8957b1a215eb7c9341137653b56041b5ce363066366b536c5f277d26b",
+      "commandHash": "351c73b1348dbd086d41a0e9c8d282a3e6dd18f76834afaf00a8747ee013f022",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "1a628461b072496f86579e2c86e8d5b92647523f680f14bd63613316edbf2b12",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/refactor_ai_start.contract.json --summary .ai/work-items/active/refactor_ai_start.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:05:35.134717+00:00",
+      "exitCode": 0,
+      "durationMs": 355,
+      "outputDigest": "71e94aa6a2dcd1bdf47fedd807019e3e2d71b85a9900531786f97378040fbdd9",
+      "commandHash": "4dbea1d66dbaa3bf8d9d46e25c4146360d2fee0588bc629c8c05d167bebd20e3",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "1a628461b072496f86579e2c86e8d5b92647523f680f14bd63613316edbf2b12",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/refactor_ai_start.contract.json --summary .ai/work-items/active/refactor_ai_start.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:05:35.276774+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "1a628461b072496f86579e2c86e8d5b92647523f680f14bd63613316edbf2b12",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:05:35.405304+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "6500da6f00c61f7b914b0a9c11465b8fe178d04e80478e0d77ee445447efc7b2",
+      "commandHash": "49b04646db5a9bc49ee7c3adaf34b0d95c0e6e1d7560b2e7692b2c2f5e372431",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "1a628461b072496f86579e2c86e8d5b92647523f680f14bd63613316edbf2b12",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/refactor_ai_start.contract.json --summary .ai/work-items/active/refactor_ai_start.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/refactor_ai_start.summary.json CONTRACT=.ai/work-items/active/refactor_ai_start.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T08:05:35.629809+00:00",
+      "exitCode": 0,
+      "durationMs": 139,
+      "outputDigest": "2dbc8e9c2d2f45ae6d5df94e5b0cd3bf49b8fe21d7b6f8bad62d02d445158178",
+      "commandHash": "e3090b95b1ebde64a6b154e020391a13c71edeccaaad2a3db98148840eb9a5f6",
+      "contractHash": "e7b3e5fde1a0d9452c2613090204dc75a8e5181eeee79370eafa28e162db823a",
+      "commitSha": "779429c9bc09c3e510804c8308751b964da8bdc1",
+      "executionContractPath": ".ai/work-items/active/refactor_ai_start.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/refactor_ai_start.summary.json",
+      "worktreeDigest": "1a628461b072496f86579e2c86e8d5b92647523f680f14bd63613316edbf2b12",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/refactor_ai_start.summary.json --contract .ai/work-items/active/refactor_ai_start.contract.json ai summary check passed: .ai/work-items/active/refactor_ai_start.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public API is introduced; helpers remain private."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The refactor stays within ai_start.py and its tests."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Behavior-preserving internal refactor; review should focus on startup lifecycle equivalence."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm lifecycle checks and preflight handling remain ordered and equivalent.",
+      "Confirm generated Work Item artifacts remain unchanged."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Preflight and checkpoint confirmed explicit scope, acceptance, and continue execution decision.",
+      "contractHash": "e7b3e5fde1a0d945",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Full project quality checks and startup regression tests completed before finish.",
+      "contractHash": "e7b3e5fde1a0d945",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "Other large maintenance functions remain for later cycles."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 30
+}

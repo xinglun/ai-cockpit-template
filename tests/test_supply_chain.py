@@ -1,5 +1,6 @@
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 import check_supply_chain
@@ -117,8 +118,25 @@ def test_dependency_vulnerability_scan_parses_pip_audit_output(monkeypatch):
         )
 
     monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+    monkeypatch.setattr(
+        check_supply_chain,
+        "build_sbom",
+        lambda: {
+            "components": [
+                {
+                    "type": "library",
+                    "name": "demo",
+                    "version": "1.0.0",
+                    "purl": "pkg:pypi/demo@1.0.0",
+                    "bom-ref": "pkg:pypi/demo@1.0.0",
+                }
+            ]
+        },
+    )
 
-    assert check_supply_chain.scan_vulnerabilities() == ["demo==1.0.0:CVE-2024-0001 fix=1.0.1"]
+    assert check_supply_chain.scan_vulnerabilities() == [
+        "pkg:pypi/demo@1.0.0:CVE-2024-0001 fix=1.0.1"
+    ]
 
 
 def test_workflow_action_discovery_includes_list_item_uses(tmp_path, monkeypatch):
@@ -277,7 +295,7 @@ def test_lock_semantics_fails_closed_when_a_package_has_no_hash(tmp_path):
 def test_supply_chain_baselines_match_repository_state():
     assert (
         subprocess.run(
-            ["python3", str(ROOT / "scripts" / "check_supply_chain.py"), "sbom"],
+            [sys.executable, str(ROOT / "scripts" / "check_supply_chain.py"), "sbom"],
             cwd=ROOT,
             text=True,
             capture_output=True,
@@ -287,7 +305,7 @@ def test_supply_chain_baselines_match_repository_state():
     )
     assert (
         subprocess.run(
-            ["python3", str(ROOT / "scripts" / "check_supply_chain.py"), "provenance"],
+            [sys.executable, str(ROOT / "scripts" / "check_supply_chain.py"), "provenance"],
             cwd=ROOT,
             text=True,
             capture_output=True,
@@ -297,11 +315,127 @@ def test_supply_chain_baselines_match_repository_state():
     )
     assert (
         subprocess.run(
-            ["python3", str(ROOT / "scripts" / "check_supply_chain.py"), "secrets"],
+            [sys.executable, str(ROOT / "scripts" / "check_supply_chain.py"), "secrets"],
             cwd=ROOT,
             text=True,
             capture_output=True,
             check=False,
         ).returncode
         == 0
+    )
+
+
+def test_parse_requirements_lock_removes_continuation_and_preserves_hashes(tmp_path):
+    lock = tmp_path / "requirements.lock"
+    lock.write_text(
+        "demo-package==1.0.0 \\\n+    --hash=sha256:abc123 \\\n+    --hash=sha256:def456\n",
+        encoding="utf-8",
+    )
+
+    assert check_supply_chain.parse_requirements_lock(lock) == [
+        {
+            "type": "library",
+            "name": "demo-package",
+            "version": "1.0.0",
+            "hashes": ["abc123", "def456"],
+            "via": [],
+        }
+    ]
+
+
+def test_sbom_uses_cyclonedx_identity_and_dependency_metadata(tmp_path, monkeypatch):
+    lock = tmp_path / "requirements.lock"
+    lock.write_text(
+        "root-package==1.0.0 \\\n+    --hash=sha256:abc123\n"
+        "    # via -r requirements-dev.in\n"
+        "child-package==2.0.0 \\\n+    --hash=sha256:def456\n"
+        "    # via root-package\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(check_supply_chain, "LOCK_FILE", lock)
+    monkeypatch.setattr(check_supply_chain, "WORKFLOW_DIR", tmp_path / "workflows")
+    monkeypatch.setattr(check_supply_chain, "source_commit_sha", lambda _=None: "source")
+
+    sbom = check_supply_chain.build_sbom()
+    assert sbom["specVersion"] == "1.5"
+    assert sbom["serialNumber"].startswith("urn:uuid:")
+    assert sbom["metadata"]["timestamp"]
+    assert sbom["metadata"]["tools"]
+    components = {component["name"]: component for component in sbom["components"]}
+    assert components["root-package"]["version"] == "1.0.0"
+    assert components["root-package"]["purl"] == "pkg:pypi/root-package@1.0.0"
+    assert components["root-package"]["bom-ref"] == "pkg:pypi/root-package@1.0.0"
+    assert components["root-package"]["hashes"] == [{"alg": "SHA-256", "content": "abc123"}]
+    dependencies = {
+        dependency["ref"]: dependency.get("dependsOn", []) for dependency in sbom["dependencies"]
+    }
+    assert dependencies["ai-cockpit-template"] == ["pkg:pypi/root-package@1.0.0"]
+    assert dependencies["pkg:pypi/root-package@1.0.0"] == ["pkg:pypi/child-package@2.0.0"]
+
+
+def test_vulnerability_results_are_mapped_to_sbom_bom_refs():
+    sbom = {
+        "components": [
+            {
+                "type": "library",
+                "name": "demo-package",
+                "version": "1.0.0",
+                "purl": "pkg:pypi/demo-package@1.0.0",
+                "bom-ref": "pkg:pypi/demo-package@1.0.0",
+            }
+        ]
+    }
+    payload = {
+        "dependencies": [
+            {
+                "name": "Demo_Package",
+                "version": "1.0.0",
+                "vulns": [{"id": "CVE-2024-0001", "fix_versions": ["1.0.1"]}],
+            }
+        ]
+    }
+
+    assert check_supply_chain.map_vulnerabilities_to_sbom(payload, sbom) == [
+        "pkg:pypi/demo-package@1.0.0:CVE-2024-0001 fix=1.0.1"
+    ]
+
+
+def test_vulnerability_mapping_fails_closed_for_unknown_component():
+    payload = {
+        "dependencies": [{"name": "unknown", "version": "9.9.9", "vulns": [{"id": "CVE-1"}]}]
+    }
+
+    try:
+        check_supply_chain.map_vulnerabilities_to_sbom(payload, {"components": []})
+    except ValueError as exc:
+        assert "unknown==9.9.9" in str(exc)
+    else:
+        raise AssertionError("unmapped vulnerability must fail closed")
+
+
+def test_release_digest_manifest_covers_generated_evidence(tmp_path, monkeypatch):
+    lock = tmp_path / "requirements.lock"
+    installer = tmp_path / "install.sh"
+    release = tmp_path / "release.json"
+    lock.write_text("lock\n", encoding="utf-8")
+    installer.write_text("installer\n", encoding="utf-8")
+    release.write_text("{}\n", encoding="utf-8")
+    monkeypatch.setattr(check_supply_chain, "LOCK_FILE", lock)
+    monkeypatch.setattr(check_supply_chain, "INSTALLER", installer)
+    monkeypatch.setattr(check_supply_chain, "RELEASE_JSON", release)
+
+    manifest = check_supply_chain.build_release_digests(
+        {"bomFormat": "CycloneDX"}, {"commitSha": "source", "releaseTag": "v1"}
+    )
+
+    assert manifest["format"] == "ai-cockpit-release-digests"
+    assert set(manifest["artifacts"]) == {
+        "requirements-dev.lock",
+        ".ai/cockpit/sbom.json",
+        ".ai/cockpit/provenance.json",
+        "install.sh",
+        "release.json",
+    }
+    assert manifest["artifacts"]["requirements-dev.lock"] == check_supply_chain.sha256_text(
+        "lock\n"
     )

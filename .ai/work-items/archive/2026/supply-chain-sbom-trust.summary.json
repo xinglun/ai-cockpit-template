@@ -1,0 +1,501 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "supply-chain-sbom-trust",
+  "contractPath": ".ai/work-items/archive/2026/supply-chain-sbom-trust.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Normalize lock entries, generate typed CycloneDX SBOMs, map vulnerabilities to bom-ref, and generate release digests."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Validate published tag evidence independently from unreleased worktree evidence."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Add regression coverage for the P0 parser defect, CycloneDX identity, vulnerability mapping, and digest manifest."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Expose the release evidence check and include it in quality."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document digest-manifest coverage and the external signing/attestation boundary."
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-14-supply-chain-sbom-trust-design.md",
+      "reason": "Record the approved remediation design."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-supply-chain-sbom-trust.md",
+      "reason": "Record the implementation plan."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated CycloneDX 1.5 baseline through the supply-chain command."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated provenance baseline through the supply-chain command."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Generated repository-internal release digest manifest."
+    },
+    {
+      "path": "release.json",
+      "reason": "Updated current worktree supply-chain digests; historical tag validation remains independent."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply-chain-sbom-trust.contract.json",
+      "reason": "Declared scope, intent, scenarios, approvals, acceptance, and verification."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/supply-chain-sbom-trust.summary.json",
+      "reason": "Recorded implementation and verification handoff evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status through lifecycle commands."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    "docs/reference/distribution.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:21.336541+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "d7716b334909a0c0b3630d462a150f287f48cad178472264c5582c23178764ed",
+      "commandHash": "888650f937b23e0a32a762a89d8f88afbb98ddcd27d23f1161b9606e567fe527",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/supply-chain-sbom-trust.contract.json work item contract check passed: .ai/work-items/active/supply-chain-sbom-trust.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:21.503740+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "77535af03899c8043fc90c8bfd1b92592fa5c2904d590b3021b4866ff022734d",
+      "commandHash": "46e8b81389aad74df92598777b56927b14230b2a9aea52b78a29fe80f9fa5afe",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/supply-chain-sbom-trust.contract.json scope guard passed: 12 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:21.681284+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "cfd193a459ca592e659b41277a3e1836a307e6b2878cbc7c592378b6a7e6c1a2",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json [warning] restricted_write: .ai/cockpit/release-digests.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai/**) - AI governance configuration. [warning] restricted_write: Makefile (Makefile) - Shared local and CI co"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:21.985872+00:00",
+      "exitCode": 0,
+      "durationMs": 243,
+      "outputDigest": "4894b649fceb3264f2bf2ff68906c29d60b25ddd874b5931939a3b9653480c14",
+      "commandHash": "27bb47fbf871833961254222fd769a4a930f7948ee40843408fc36997f0e8655",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `supply-chain-sbom-trust` - Contract Hash: `957377a8a6b4c4d8` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:22.141633+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "da8c1317c19365fbc0c0f70205dbde0e937db6502a9c617d1df6517441cc633e",
+      "commandHash": "89f1f1181ed37713f7dcc5304bae2b507dd62761ca54c599dc9532c9bbeb1f0d",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json review policy matched 5 path(s) [review] .ai/cockpit/release-digests.json [review] .ai/cockpit/current_status.md [review] .ai/cockpit/provenance.json [review] .ai/cockpit/sbom.json [review] Makefile review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:22.280534+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:22.412413+00:00",
+      "exitCode": 0,
+      "durationMs": 84,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:22.512590+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "69b291dc339564c5d548346ecb5f95e49a75bc5d8b3a999b4f3d045ab8df3432",
+      "commandHash": "97f81e3d10032cf40acdfb3b5d7190e2c881a1023acbc75a7d55d86f37e08d56",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:22.609799+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "f0d2182b0101be914f6e31d1fbb3a2c1552c9381ea11f14369bc71cd783a4cb8",
+      "commandHash": "70d6094474c1b5283d92e3bc7b5fbf40884f06ec22ca293af23289ef0b8ce1e4",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:46:22.915107+00:00",
+      "exitCode": 0,
+      "durationMs": 242,
+      "outputDigest": "99ca853066589bc0e9def6f45565ab5f00f5329178d30c73d516c900a4124cf7",
+      "commandHash": "03f478424830e6917479a2bef50541d3be20cd3b9fbd87f7cd103231ce698427",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json ## Diff Ownership Preview - active_owned: `12`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/release-digests.json` — cove"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:47:22.338584+00:00",
+      "exitCode": 0,
+      "durationMs": 59368,
+      "outputDigest": "bcc16f687f4dc632550b404eec98bf5fb9098e943f1fbb92eb9bfe9f127e4c58",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "c2a0d122ced5bc3491a000896996294c046590a523c45cbcceef1ec7624dbf55",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 88 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 17%] ........................................................................ [ 35%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:47:23.681452+00:00",
+      "exitCode": 0,
+      "durationMs": 221,
+      "outputDigest": "04567faef29a00d055218d8cb2cd218b5073af7d0f243fa2425d065ebcd440c8",
+      "commandHash": "35e5a7b59729fe11b077d847b39818d6630d369958f76853dae2da37256483de",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "0b835f52047b3c3664669d1746149e0134df89fafd568cb3482a39ae1cb0b311",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/supply-chain-sbom-trust.contract.json --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:47:23.971486+00:00",
+      "exitCode": 0,
+      "durationMs": 228,
+      "outputDigest": "63c93dd95fa1ec4cffcc82d3753f7b72bd06ee292b40df066c524377cba9d724",
+      "commandHash": "a0c6b27318855be07adfbaaa99b98ee73b5ae3c04a15def257db1c7eb70b63ca",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "0b835f52047b3c3664669d1746149e0134df89fafd568cb3482a39ae1cb0b311",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:47:24.090284+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "0b835f52047b3c3664669d1746149e0134df89fafd568cb3482a39ae1cb0b311",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:47:24.200962+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "7a9019232d7dc1e10c7bd2593c486c093c0bf90accc75c9cb5061aa688b6c856",
+      "commandHash": "32585bd521f15f1cc9b2091ceb7227e61b2605fb8d02cd5b640dc5b0774938bd",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "0b835f52047b3c3664669d1746149e0134df89fafd568cb3482a39ae1cb0b311",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json --summary .ai/work-items/active/supply-chain-sbom-trust.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/supply-chain-sbom-trust.summary.json CONTRACT=.ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T09:47:24.377326+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "954ba2f4578dcac7e9c99051deb1c5c6c08d59a354cc6dfe65ef5df03697eb82",
+      "commandHash": "f64cd3c14f2168a484bab3eeef00623d8f9777292de14088bfa504b37dcdcad3",
+      "contractHash": "957377a8a6b4c4d848404f22127be7e6175f67e22cbf07e5a0f7ee7956b6dcee",
+      "commitSha": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+      "executionContractPath": ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+      "worktreeDigest": "0b835f52047b3c3664669d1746149e0134df89fafd568cb3482a39ae1cb0b311",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/supply-chain-sbom-trust.summary.json --contract .ai/work-items/active/supply-chain-sbom-trust.contract.json ai summary check passed: .ai/work-items/active/supply-chain-sbom-trust.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Generated evidence is produced by commands and is not hand-edited.",
+      "compliant": true,
+      "evidence": "SBOM, provenance, and release digest files were generated with check_supply_chain.py."
+    },
+    {
+      "guideline": "Do not add private keys, credentials, or machine-specific configuration to the template.",
+      "compliant": true,
+      "evidence": "No signing key or credential was added; external signing remains documented as a publisher responsibility."
+    },
+    {
+      "guideline": "Document the boundary between repository digest consistency and independently verifiable release signatures.",
+      "compliant": true,
+      "evidence": "docs/reference/distribution.md describes the digest manifest and external trust-root boundary."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Generated evidence changes are internally validated; external publisher signatures or attestations remain outside this repository.",
+    "reviewRecommended": true
+  },
+  "generatedFiles": [
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_release_trust",
+      "detail": "No cryptographic signature or Sigstore attestation is created by the repository; the publishing environment must provide and publish that trust material.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "CycloneDX 1.5 identity and dependency graph",
+      "pip-audit bom-ref mapping",
+      "historical tag versus unreleased worktree release evidence"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "documentation_updated",
+    "persistence": "generated_evidence_verified",
+    "localization": "not_applicable",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "User requested remediation of the supplied P0 SBOM report."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Fix the P0 SBOM semantic error and system-level supply-chain gaps.",
+      "solidifiedIn": [
+        "Contract acceptance",
+        "tests/test_supply_chain.py",
+        "docs/reference/distribution.md"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "957377a8a6b4c4d8",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_tests",
+      "recorded": true,
+      "contractHash": "957377a8a6b4c4d8",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "957377a8a6b4c4d8",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "Publisher-side cryptographic signing or Sigstore attestation must be integrated by the release environment."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "malformed lock continuation version",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py"
+      ]
+    },
+    {
+      "scenario": "component hash and bom-ref coverage",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py"
+      ]
+    },
+    {
+      "scenario": "vulnerability cannot map to SBOM component",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py"
+      ]
+    },
+    {
+      "scenario": "release evidence tampering or drift",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py",
+        "scripts/check_supply_chain.py"
+      ]
+    },
+    {
+      "scenario": "external publisher signature or attestation",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [
+        "docs/reference/distribution.md"
+      ],
+      "reason": "Publisher signing is outside repository scope."
+    }
+  ],
+  "followUps": [
+    "Integrate publisher-side cryptographic signing or Sigstore attestation in the release environment."
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Regression tests and generated evidence checks cover the reported malformed versions, missing hashes, incomplete CycloneDX semantics, vulnerability identity gap, and repository trust boundary."
+  },
+  "overclaimPrevention": "Repository-internal digest consistency is not reported as an external signature or trust root.",
+  "archiveSequence": 17
+}

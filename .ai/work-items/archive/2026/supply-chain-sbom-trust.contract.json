@@ -1,0 +1,217 @@
+{
+  "contractVersion": 2,
+  "workItemId": "supply-chain-sbom-trust",
+  "mode": "code",
+  "title": "修复 SBOM 语义、漏洞关联与发布信任链",
+  "baseCommit": "597adab6ad7df074b7640e0cb1de68cb83e74a68",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_supply_chain.py",
+    "scripts/check_release_distribution.py",
+    "Makefile",
+    "tests/test_supply_chain.py",
+    "docs/reference/distribution.md",
+    "docs/superpowers/specs/2026-07-14-supply-chain-sbom-trust-design.md",
+    "docs/superpowers/plans/2026-07-14-supply-chain-sbom-trust.md",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    ".ai/work-items/active/supply-chain-sbom-trust.contract.json",
+    ".ai/work-items/active/supply-chain-sbom-trust.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "installer payload contents",
+    "private signing key creation or storage",
+    "changes to historical archived Work Items"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Current lock parser, SBOM builder, and vulnerability scanner described in the remediation report."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Existing supply-chain regression tests and reported missing assertions."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Current release trust-chain limitation and documented distribution contract."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Generated CycloneDX baseline currently containing malformed versions."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Generated provenance baseline tied to SBOM digest."
+    },
+    {
+      "path": "release.json",
+      "reason": "Release digest metadata must remain consistent with generated evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["supply_chain", "generated_evidence", "release_integrity"],
+    "reason": "The change alters generated release evidence and the identity mapping used by vulnerability reporting."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user approved the remediation design; implementation and verification are in scope."
+  },
+  "preReviewWarnings": [
+    "Review generated CycloneDX validity, stable component identity, vulnerability-to-bom-ref mapping, and the distinction between repository consistency and an external signature trust root."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+    "before_edit",
+    "after_tests",
+    "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Lock versions are normalized without a trailing continuation character and each locked package's hashes are represented on its SBOM component.",
+    "The generated document is valid CycloneDX 1.5 with stable bom-ref/purl identity, component hashes, metadata, and dependency edges.",
+    "pip-audit vulnerability records are mapped to SBOM component bom-ref values and fail closed when a finding cannot be mapped.",
+    "Release evidence includes a verifiable digest manifest and documentation distinguishes internal consistency from an external trust root.",
+    "Regression tests cover the reported P0 and the new identity/trust-chain behavior."
+  ],
+  "guidelines": [
+    "Generated evidence is produced by commands and is not hand-edited.",
+    "Do not add private keys, credentials, or machine-specific configuration to the template.",
+    "Document the boundary between repository digest consistency and independently verifiable release signatures."
+  ],
+  "intent": {
+    "problem": "The current supply-chain checker emits malformed package versions, loses artifact hashes, builds an incomplete hand-written CycloneDX document, and reports pip-audit findings without a component identity. Repository-local release digests are internally consistent but are not independently verifiable as a publisher trust root.",
+    "constraints": [
+      "Use the already locked cyclonedx-python-lib dependency.",
+      "Keep source-commit evidence resolution backward compatible.",
+      "Do not create or store private signing keys in the template.",
+      "Generate evidence files through the existing command entry point."
+    ],
+    "rationale": "Fixing the data model at the lock-parser boundary and using CycloneDX's typed serializer makes the SBOM and vulnerability mapping share stable identities. A generated digest manifest closes repository-internal consistency while documentation preserves the distinction from external signatures or attestations."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "malformed lock continuation version",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_supply_chain.py"]
+    },
+    {
+      "scenario": "component hash and bom-ref coverage",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_supply_chain.py"]
+    },
+    {
+      "scenario": "vulnerability cannot map to SBOM component",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_supply_chain.py"]
+    },
+    {
+      "scenario": "release evidence tampering or drift",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_supply_chain.py", "scripts/check_supply_chain.py"]
+    },
+    {
+      "scenario": "external publisher signature or attestation",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": ["docs/reference/distribution.md"],
+      "reason": "No signing key or external publishing service is in repository scope; documentation records this residual boundary."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly approved implementation of the review-backed supply-chain remediation, including generated evidence and Makefile checks."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

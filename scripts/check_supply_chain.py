@@ -10,13 +10,23 @@ import os
 import re
 import subprocess
 import sys
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from cyclonedx.model import ExternalReference, ExternalReferenceType, HashAlgorithm, HashType, XsUri
+from cyclonedx.model.bom import Bom, BomMetaData
+from cyclonedx.model.component import Component, ComponentType
+from cyclonedx.model.tool import Tool
+from cyclonedx.output.json import JsonV1Dot5
+from packageurl import PackageURL
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SBOM_BASELINE = ROOT / ".ai" / "cockpit" / "sbom.json"
 PROVENANCE_BASELINE = ROOT / ".ai" / "cockpit" / "provenance.json"
+RELEASE_DIGESTS_BASELINE = ROOT / ".ai" / "cockpit" / "release-digests.json"
 WORKFLOW_DIR = ROOT / ".github" / "workflows"
 LOCK_FILE = ROOT / "requirements-dev.lock"
 RELEASE_JSON = ROOT / "release.json"
@@ -74,14 +84,31 @@ def sha256_text(text: str) -> str:
     return sha256_bytes(text.encode("utf-8"))
 
 
-def parse_requirements_lock(path: Path) -> list[dict[str, str]]:
-    components: list[dict[str, str]] = []
+def normalize_package_name(name: str) -> str:
+    base_name = name.split("[", 1)[0]
+    return re.sub(r"[-_.]+", "-", base_name).lower()
+
+
+def parse_requirements_lock(path: Path) -> list[dict[str, Any]]:
+    components: list[dict[str, Any]] = []
+    current: dict[str, Any] | None = None
     for line in read_text(path).splitlines():
         line = line.strip()
         if not line or line.startswith("#") or "==" not in line:
+            if current and "--hash=sha256:" in line:
+                current["hashes"].extend(re.findall(r"--hash=sha256:([0-9a-fA-F]+)", line))
+            if current and line.startswith("# via"):
+                current["via"].append(line.removeprefix("# via ").strip())
             continue
         name, version = line.split("==", 1)
-        components.append({"type": "library", "name": name, "version": version})
+        current = {
+            "type": "library",
+            "name": name.strip(),
+            "version": version.rstrip("\\").strip(),
+            "hashes": re.findall(r"--hash=sha256:([0-9a-fA-F]+)", line),
+            "via": [],
+        }
+        components.append(current)
     return components
 
 
@@ -180,26 +207,114 @@ def build_sbom(source_commit: str | None = None) -> dict[str, Any]:
     lock_components = parse_requirements_lock(LOCK_FILE)
     action_components = parse_workflow_actions(WORKFLOW_DIR)
     semantics = lock_semantics(LOCK_FILE)
-    components = [*lock_components, *action_components]
-    components = sorted(components, key=lambda item: (item["type"], item["name"], item["version"]))
-    return {
-        "bomFormat": "CycloneDX",
-        "specVersion": "1.5",
-        "metadata": {
-            "component": {
-                "type": "application",
-                "name": "ai-cockpit-template",
-                "version": source_commit_sha(source_commit),
-            },
-            "supplyChainCoverage": {
-                "workflowActions": len(action_components),
-                "lockedDirectDependencies": semantics["directDependencies"],
-                "lockedDependencies": len(lock_components),
-                "lockSemantics": semantics,
-            },
-        },
-        "components": components,
+    resolved_commit = source_commit_sha(source_commit)
+    model_components: dict[str, Component] = {}
+    for item in [*lock_components, *action_components]:
+        if item["type"] == "library":
+            purl = PackageURL(
+                type="pypi", name=normalize_package_name(item["name"]), version=item["version"]
+            )
+            component = Component(
+                name=item["name"],
+                version=item["version"],
+                type=ComponentType.LIBRARY,
+                bom_ref=str(purl),
+                purl=purl,
+                hashes=[
+                    HashType(alg=HashAlgorithm.SHA_256, content=value) for value in item["hashes"]
+                ],
+                external_references=[
+                    ExternalReference(
+                        type=ExternalReferenceType.DISTRIBUTION, url=XsUri(component_url)
+                    )
+                    for component_url in [
+                        f"https://pypi.org/project/{item['name']}/{item['version']}/"
+                    ]
+                ],
+            )
+        else:
+            namespace, _, name = item["name"].partition("/")
+            purl = PackageURL(
+                type="github", namespace=namespace, name=name, version=item["version"]
+            )
+            component = Component(
+                name=item["name"],
+                version=item["version"],
+                type=ComponentType.FRAMEWORK,
+                bom_ref=str(purl),
+                purl=purl,
+                external_references=[
+                    ExternalReference(
+                        type=ExternalReferenceType.WEBSITE,
+                        url=XsUri(f"https://github.com/{item['name']}"),
+                    )
+                ],
+            )
+        model_components[str(component.bom_ref)] = component
+
+    app = Component(
+        name="ai-cockpit-template",
+        version=resolved_commit,
+        type=ComponentType.APPLICATION,
+        bom_ref="ai-cockpit-template",
+    )
+    bom = Bom(
+        components=model_components.values(),
+        serial_number=uuid.uuid5(uuid.NAMESPACE_URL, f"ai-cockpit-template:{resolved_commit}"),
+        metadata=BomMetaData(
+            component=app,
+            timestamp=datetime(1970, 1, 1, tzinfo=timezone.utc),
+            tools=[Tool(name="check_supply_chain", version=resolved_commit)],
+        ),
+    )
+    direct_components = []
+    for item in lock_components:
+        component = model_components[
+            str(
+                PackageURL(
+                    type="pypi", name=normalize_package_name(item["name"]), version=item["version"]
+                )
+            )
+        ]
+        if any(via.startswith("-r ") for via in item["via"]):
+            direct_components.append(component)
+        bom.register_dependency(component, [])
+    for item in lock_components:
+        for via in item["via"]:
+            via_name = via.removeprefix("-r ").strip()
+            if via_name in {candidate["name"] for candidate in lock_components}:
+                via_component = model_components[
+                    str(
+                        PackageURL(
+                            type="pypi",
+                            name=normalize_package_name(via_name),
+                            version=next(
+                                candidate["version"]
+                                for candidate in lock_components
+                                if candidate["name"] == via_name
+                            ),
+                        )
+                    )
+                ]
+                child_component = model_components[
+                    str(
+                        PackageURL(
+                            type="pypi",
+                            name=normalize_package_name(item["name"]),
+                            version=item["version"],
+                        )
+                    )
+                ]
+                bom.register_dependency(via_component, [child_component])
+    bom.register_dependency(app, direct_components)
+    document = json.loads(JsonV1Dot5(bom).output_as_string())
+    document["metadata"]["supplyChainCoverage"] = {
+        "workflowActions": len(action_components),
+        "lockedDirectDependencies": semantics["directDependencies"],
+        "lockedDependencies": len(lock_components),
+        "lockSemantics": semantics,
     }
+    return document
 
 
 def build_provenance(sbom: dict[str, Any], source_commit: str | None = None) -> dict[str, Any]:
@@ -213,6 +328,54 @@ def build_provenance(sbom: dict[str, Any], source_commit: str | None = None) -> 
         "releaseTag": release.get("releaseTag"),
         "installerDigest": sha256_text(installer_text),
     }
+
+
+def build_release_digests(sbom: dict[str, Any], provenance: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "format": "ai-cockpit-release-digests",
+        "version": 1,
+        "sourceCommit": provenance["commitSha"],
+        "releaseTag": provenance["releaseTag"],
+        "artifacts": {
+            "requirements-dev.lock": sha256_text(read_text(LOCK_FILE)),
+            ".ai/cockpit/sbom.json": sha256_text(
+                json.dumps(sbom, sort_keys=True, ensure_ascii=False)
+            ),
+            ".ai/cockpit/provenance.json": sha256_text(
+                json.dumps(provenance, sort_keys=True, ensure_ascii=False)
+            ),
+            "install.sh": sha256_text(read_text(INSTALLER)),
+            "release.json": sha256_text(read_text(RELEASE_JSON)),
+        },
+    }
+
+
+def map_vulnerabilities_to_sbom(payload: dict[str, Any], sbom: dict[str, Any]) -> list[str]:
+    components = {
+        (normalize_package_name(component["name"]), component["version"]): component["bom-ref"]
+        for component in sbom.get("components", [])
+        if component.get("type") == "library" and component.get("purl", "").startswith("pkg:pypi/")
+    }
+    issues: list[str] = []
+    for dependency in payload.get("dependencies", []):
+        if not isinstance(dependency, dict):
+            continue
+        name = str(dependency.get("name", "unknown"))
+        version = str(dependency.get("version", "unknown"))
+        vulns = dependency.get("vulns", [])
+        if not vulns:
+            continue
+        bom_ref = components.get((normalize_package_name(name), version))
+        if not bom_ref:
+            raise ValueError(f"pip-audit dependency cannot be mapped to SBOM: {name}=={version}")
+        for vuln in vulns:
+            if not isinstance(vuln, dict):
+                continue
+            vuln_id = vuln.get("id", "unknown")
+            fix_versions = vuln.get("fix_versions", [])
+            fix_suffix = f" fix={','.join(fix_versions)}" if fix_versions else ""
+            issues.append(f"{bom_ref}:{vuln_id}{fix_suffix}")
+    return sorted(issues)
 
 
 def compare_or_write(path: Path, data: dict[str, Any], *, write: bool) -> list[str]:
@@ -282,19 +445,7 @@ def scan_vulnerabilities() -> list[str]:
     except json.JSONDecodeError as exc:
         raise ValueError("pip-audit returned invalid JSON") from exc
 
-    issues: list[str] = []
-    for dependency in payload.get("dependencies", []):
-        if not isinstance(dependency, dict):
-            continue
-        name = dependency.get("name", "unknown")
-        version = dependency.get("version", "unknown")
-        for vuln in dependency.get("vulns", []):
-            if not isinstance(vuln, dict):
-                continue
-            vuln_id = vuln.get("id", "unknown")
-            fix_versions = vuln.get("fix_versions", [])
-            fix_suffix = f" fix={','.join(fix_versions)}" if fix_versions else ""
-            issues.append(f"{name}=={version}:{vuln_id}{fix_suffix}")
+    issues = map_vulnerabilities_to_sbom(payload, build_sbom())
 
     if result.returncode == 0 and issues:
         raise RuntimeError("pip-audit reported vulnerabilities without a failing exit code")
@@ -304,7 +455,7 @@ def scan_vulnerabilities() -> list[str]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("sbom", "provenance"):
+    for name in ("sbom", "provenance", "release"):
         cmd = sub.add_parser(name)
         cmd.add_argument(
             "--write", action="store_true", help="Write the computed evidence to the baseline file."
@@ -327,6 +478,14 @@ def main() -> int:
             issues = compare_or_write(
                 PROVENANCE_BASELINE,
                 build_provenance(sbom, args.source_commit),
+                write=bool(args.write),
+            )
+        elif args.command == "release":
+            sbom = build_sbom(args.source_commit)
+            provenance = build_provenance(sbom, args.source_commit)
+            issues = compare_or_write(
+                RELEASE_DIGESTS_BASELINE,
+                build_release_digests(sbom, provenance),
                 write=bool(args.write),
             )
         elif args.command == "vulnerabilities":

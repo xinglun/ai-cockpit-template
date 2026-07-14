@@ -125,11 +125,13 @@ def supply_chain_issues(metadata: dict[str, object], *, root: Path = ROOT) -> li
 
 
 def release_claims(metadata: dict[str, object]) -> dict[str, object]:
-    """Return the release fields that must describe one immutable unit."""
-    return {
-        key: metadata.get(key)
-        for key in ("releaseTag", "publicContract", "capabilities", "supplyChain")
-    }
+    """Return public release fields shared by the worktree and a published tag.
+
+    Supply-chain digests are validated independently against each inspected tree.
+    Excluding them here permits an unreleased worktree to regenerate evidence
+    without claiming that the historical public tag already contains it.
+    """
+    return {key: metadata.get(key) for key in ("releaseTag", "publicContract", "capabilities")}
 
 
 def fixture_archive(path: Path) -> None:

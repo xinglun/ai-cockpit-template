@@ -16,7 +16,7 @@ AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	check-docs-metadata \
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
-	check-bandit-baseline check-sbom check-provenance check-secret-scanning \
+	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
 	check-release-distribution \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	ai-doctor check-ai-adoption-ready \
@@ -112,6 +112,9 @@ check-sbom:
 check-provenance:
 	$(AI_PYTHON) scripts/check_supply_chain.py provenance
 
+check-release-evidence:
+	$(AI_PYTHON) scripts/check_supply_chain.py release
+
 check-secret-scanning:
 	$(AI_PYTHON) scripts/check_supply_chain.py secrets
 
@@ -134,7 +137,7 @@ check-ai-project-profile:
 check-ai-guard-calibration: check-ai-project-profile
 	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
 
-quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-secret-scanning check-dependency-vulnerabilities
+quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning check-dependency-vulnerabilities
 
 ai-cockpit-project-format-check: project-format-check
 

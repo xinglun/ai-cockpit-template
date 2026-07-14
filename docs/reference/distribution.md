@@ -18,6 +18,7 @@ The documented quick-install path resolves public release metadata first and the
 SBOM and provenance release evidence must be generated with an explicit source commit (`--source-commit` or `SUPPLY_CHAIN_SOURCE_COMMIT`). The local release-tag fallback exists only for compatibility and never derives evidence identity from the current `HEAD`.
 
 The development lock is generated from the committed `requirements-dev.in` input with `pip-compile --generate-hashes --allow-unsafe`. The SBOM reports workflow Action occurrences, all version-pinned lock entries, and the direct/transitive split recorded by pip-compile's `via` annotations. Every locked package must carry at least one SHA-256 artifact hash; CI installs with `pip install --require-hashes` so an unlisted artifact fails closed.
+The generated `.ai/cockpit/release-digests.json` manifest binds the lock, SBOM, provenance, installer, and release metadata to one source commit and records their SHA-256 digests. `make check-release-evidence` verifies that binding and fails on drift.
 
 ## Published Capabilities
 
@@ -30,7 +31,8 @@ Installer and upgrade flows intentionally exclude the template's `sbom.json`, `p
 - Worktree capabilities are only public when the installed release passes the published distribution check.
 - The repository also maintains supply-chain evidence checks for the dev dependency lockfile, SBOM/provenance baselines, and secret scanning.
 
-The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations. Treat caller-provided SHA256 comparison as an additional check, not as a published trust root.
+The digest manifest proves repository-internal consistency only. The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations; a release pipeline must provide an independently verifiable signature or Sigstore/provenance attestation and publish its verification material. Treat caller-provided SHA256 comparison and this manifest as additional checks, not as an external trust root.
+An unreleased worktree may regenerate its local SBOM, provenance, and digest manifest before the next public tag. `check-release-distribution` validates the historical tag's own evidence separately and does not equate those unreleased digests with the tag's public claims.
 
 ## Installer Options
 

@@ -1,0 +1,401 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "fix_release_smoke_dispatch_permission",
+  "contractPath": ".ai/work-items/archive/2026/fix_release_smoke_dispatch_permission.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/fix_release_smoke_dispatch_permission.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix_release_smoke_dispatch_permission.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Grant the release job the Actions permission required to dispatch strict post-release smoke."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Verify the release workflow declares Actions write permission and preserves dispatch behavior."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    "AGENTS.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:46.270218+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "a4c4fb467e0d9edf9b3aa3859710b9e31f6cd0ba490161a03fcfb8a28a04b4c0",
+      "commandHash": "0b54787a73d81399f7c2e5a88e4e5096115e8167b975e94e35e3d717b9f7e38d",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json work item contract check passed: .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:46.417763+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "a345c9823a8a794213962ccee818f63022343ec55fe017288ee36817bd031a08",
+      "commandHash": "b56ecae713655fea6510babc61b9a79a0a4054dbf9fd7b2df266199373fdbaf0",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json scope guard passed: 3 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:46.583955+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "f230eed4949e6937d4ac373e19775a323562b4ea827c0c546541d3e8d54108d4",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:46.908150+00:00",
+      "exitCode": 0,
+      "durationMs": 265,
+      "outputDigest": "190c2be72c811709252d7c460eb84654ee3a630408bc70fc25791495248f2866",
+      "commandHash": "9eff00d056865b893c4b391ac3e5144ae6a502b6b6021c93e43adefbe84e93ad",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `fix_release_smoke_dispatch_permission` - Contract Hash: `7ad8017f997bca3c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unkn"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:47.087530+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "99e77f845329871775d5ab9ec99c1791521ef11e04081567d8205bb297eda562",
+      "commandHash": "a58f371d241b38bbc3e9c08c9dad1771b1be4e64c77cd30104e8f855429ffeb9",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] .github/workflows/release.yml review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:47.266809+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:47.411000+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:47.509570+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "f3e4090d4e25ba9bd96b6573a8045d5bc74eccc42b4b7508cef58f164045ed97",
+      "commandHash": "436ca40a1f8e50690fce47016b1a6bc835b69ed04810049caab1c0884c761c1e",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:47.616435+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "54ad99111050fe1a0c9a42cd969b975f4671368c6b03dd976a405198132b4b05",
+      "commandHash": "fb4ed257202d68c0b8abeba297ea41502a4de601c094202e9a5b5ef0a07e6b77",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:10:47.919008+00:00",
+      "exitCode": 0,
+      "durationMs": 239,
+      "outputDigest": "1a27f964029e9bb4b3aa42d50d0edfec956872da3bb70c8235ba3ff3c454ad53",
+      "commandHash": "0f0de9e98d9c0c783534c7a3caa62e170470f90834cfffa0dfa9372fbb710690",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json ## Diff Ownership Preview - active_owned: `3`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.github/workflows/release.yml` — covered by Contract scope - [active_owned] `tests/test_workflows.py` "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:11:47.947967+00:00",
+      "exitCode": 0,
+      "durationMs": 59975,
+      "outputDigest": "9c5feb30a33f558c8dcc7d1fb9fd6de5b4ccbdad4a86fd34a844c2e4ea20efa0",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "6a35f362d94dc474c2dba4ec880a2ec44128eade2aa8afa87b3c953e78eee692",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 90 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 16%] ........................................................................ [ 32%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:11:49.369467+00:00",
+      "exitCode": 0,
+      "durationMs": 239,
+      "outputDigest": "84958351e95858a02ecfb5855e296f7ff5c834543d8f7154f201a3b19ac8bce3",
+      "commandHash": "82279a7d96a6cd8758006aaf59b72d4d4678c07fb2dee40860c4f6e38e3e86e0",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "444e277794233ddea5a93188e771107894a19adbf81b3fa8f2f902cb6c5f4a9b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:11:49.655748+00:00",
+      "exitCode": 0,
+      "durationMs": 230,
+      "outputDigest": "967893c6febe85e761abc37f64aa730e1600e34fc0126988fd9d170c8f4822ca",
+      "commandHash": "9dce80b3ec5f794520c6788e008a504764eda50c53a84dd61f7a3361322a0fe7",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "444e277794233ddea5a93188e771107894a19adbf81b3fa8f2f902cb6c5f4a9b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:11:49.769524+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "444e277794233ddea5a93188e771107894a19adbf81b3fa8f2f902cb6c5f4a9b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:11:49.889981+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "f52206d7ffd00697a26ce184cc1dec0c119bfb848777ed865a5ef423a45e1dee",
+      "commandHash": "76ca1e91d0c4b0f454667b2323e21ebada49f554263ee9f224d22e6b6963bbd4",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "444e277794233ddea5a93188e771107894a19adbf81b3fa8f2f902cb6c5f4a9b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json --summary .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json CONTRACT=.ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-14T13:11:50.076272+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "6042b98de67f55eb8f9b00bc009f6b13c027d7a088395df469c63d80acb3f746",
+      "commandHash": "73988a348a7bc68e50fe3064677dbda8f4fcd1596f6d0863b5d29af4866a2223",
+      "contractHash": "7ad8017f997bca3cf7070e34b1cee251f721dde60adae9271982ff3c5b40fbfb",
+      "commitSha": "58fabdcb986e5f37cb33875f83145573bb636b85",
+      "executionContractPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json",
+      "worktreeDigest": "444e277794233ddea5a93188e771107894a19adbf81b3fa8f2f902cb6c5f4a9b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json --contract .ai/work-items/active/fix_release_smoke_dispatch_permission.contract.json ai summary check passed: .ai/work-items/active/fix_release_smoke_dispatch_permission.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public API was added; workflow permission is covered by tests/test_workflows.py."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "No production Python imports were changed."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "release job dispatches strict post-release smoke",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_workflows.py::test_release_workflow_is_exact_sha_and_action_dependency_free"
+      ]
+    },
+    {
+      "scenario": "release gates remain unchanged while dispatch permission is expanded",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_workflows.py::test_release_workflow_is_exact_sha_and_action_dependency_free"
+      ]
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Initial skeleton; scope and acceptance still need task-specific review."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "workflow permission",
+      "detail": "The release job has actions: write so it can dispatch strict smoke; no other Actions mutation is introduced.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm actions: write is used only for workflow dispatch.",
+      "Confirm exact-SHA and tag gates remain unchanged."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "7ad8017f997bca3c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Captured the confirmed Contract state before editing release permissions."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "7ad8017f997bca3c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Captured the implementation state before final governance and quality checks."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 36
+}

@@ -1,0 +1,242 @@
+{
+  "contractVersion": 2,
+  "workItemId": "platform_merge_support_review_hardening",
+  "mode": "code",
+  "title": "Harden platform merge support design after critical review",
+  "baseCommit": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "e499b1191d9123b369bab1797a9159a9c4f897ea9044610657611533d0b0d28f"
+    }
+  ],
+  "scope": [
+    "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+    ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+    ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "templates/**",
+    ".github/workflows/**",
+    ".gitlab-ci.yml",
+    "Makefile",
+    "docs/architecture.md",
+    "docs/getting-started/**",
+    "docs/reference/**",
+    "docs/superpowers/plans/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+      "reason": "Contains the candidate taxonomy, adapter mappings, evidence conclusions, failure handling, tests, and rollout model under critical review."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_merge_support_scope.summary.json",
+      "reason": "Records the immediately preceding support-boundary revision and its verified scope."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines the canonical Cockpit Recommendation and ready_for_review terminology that the design must not overload."
+    },
+    {
+      "path": "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#merge_group",
+      "reason": "Official GitHub source for merge_group event activity and candidate SHA semantics."
+    },
+    {
+      "path": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue",
+      "reason": "Official GitHub source for Merge Queue candidate construction, required checks, and queue behavior."
+    },
+    {
+      "path": "https://docs.gitlab.com/ci/pipelines/merge_trains/",
+      "reason": "Official GitLab source for Merge Train behavior, enforcement, and the skip-without-restart exception."
+    },
+    {
+      "path": "https://docs.gitlab.com/ci/variables/predefined_variables/",
+      "reason": "Official GitLab source for merge request event type and candidate-bound SHA variables."
+    },
+    {
+      "path": "Critical five-strategy documentation review dated 2026-07-15",
+      "reason": "Independent accuracy, completeness, consistency, clarity, and audience review identified the evidence-model defects addressed here."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "documentation_drift",
+      "merge_safety_overclaim"
+    ],
+    "reason": "This is documentation-only, but an incorrect evidence model could cause future adapters to claim parallel-merge safety from stale or policy-bypassed candidates."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user requested a defect-free critical review; official platform documentation and independent review findings provide sufficient evidence for a documentation-only hardening pass."
+  },
+  "preReviewWarnings": [
+    "Do not let candidate construction mode imply freshness; derive the permitted conclusion from separate evidence dimensions.",
+    "Do not overload Cockpit ready_for_review or other governance recommendations with merge-candidate safety.",
+    "Treat GitLab skip_merge_train and unenforced train bypass as invalidating policy evidence.",
+    "Bind every native adapter base SHA to the platform-generated candidate rather than fetching a newer target ref."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The design models candidate construction and freshness as separate platform-neutral dimensions and maps every combination to an unambiguous, fail-closed conclusion.",
+    "The design defines a future candidate-evidence contract with authoritative identity fields, validation and invalidation rules, recording boundary, and command result semantics without claiming that runtime support already exists.",
+    "GitHub Merge Queue and GitLab Merge Train adapter mappings identify authoritative candidate-bound inputs; a freshly fetched target ref is never substituted for the base used to build a candidate.",
+    "GitLab Merge Train produces a merge-safe conclusion only when enforcement and no-bypass policy evidence is present, including protection against skip_merge_train without restart.",
+    "Cockpit ready_for_review remains a Work Item governance recommendation and is not used as a merge-safety conclusion.",
+    "The failure lifecycle, negative and race test strategy, and rollout gates cover stale, missing, mismatched, bypassed, interrupted, or unclassifiable evidence with fail-closed outcomes.",
+    "GitLab Free remains a concise, explicit non-correspondence statement with head-only diagnostics and no synthetic compatibility protocol.",
+    "No runtime scripts, tests, templates, CI files, Makefile targets, or unrelated documentation are changed."
+  ],
+  "guidelines": [
+    "Use official platform documentation for behavioral and tier claims.",
+    "Keep current implementation facts distinct from future design requirements.",
+    "Keep AI Cockpit Core platform-neutral and derive conclusions from explicit evidence rather than platform labels.",
+    "Use canonical glossary terms and preserve the existing Work Item Recommendation semantics.",
+    "Keep unsupported editions outside the detailed compatibility protocol."
+  ],
+  "intent": {
+    "problem": "Critical review found that the design conflates candidate construction with freshness, omits an executable evidence contract, overloads ready_for_review, and overstates GitLab Merge Train safety despite documented bypass behavior.",
+    "constraints": [
+      "Correct the design specification only; do not implement adapters, CI, scripts, schemas, or installer behavior.",
+      "Preserve the user-approved GitLab Free non-correspondence boundary and avoid reintroducing a synthetic compatibility design.",
+      "Base platform claims on official GitHub and GitLab documentation.",
+      "Keep prior archived Work Item evidence immutable.",
+      "Fail closed whenever candidate identity, freshness, policy enforcement, or event correlation is missing or contradictory."
+    ],
+    "rationale": "Separating evidence dimensions and specifying authoritative adapter inputs prevents future implementations from converting a platform label or target-integrated commit into an unsupported merge-safe claim."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "A target-integrated candidate lacks terminal freshness proof.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Critical completeness and consistency review findings dated 2026-07-15"
+      ]
+    },
+    {
+      "scenario": "A GitLab Merge Train is bypassed or skip_merge_train avoids pipeline restart.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "https://docs.gitlab.com/ci/pipelines/merge_trains/#merge-immediately-without-restarting-merge-train-pipelines",
+        "https://docs.gitlab.com/ci/pipelines/merge_trains/#enforce-merge-trains"
+      ]
+    },
+    {
+      "scenario": "Candidate, base, source, event, or policy evidence is missing, stale, mismatched, delayed, or unclassifiable.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Critical completeness review dated 2026-07-15",
+        "Official GitHub and GitLab event documentation listed in sources"
+      ]
+    },
+    {
+      "scenario": "Runtime and CI implementation remain outside this documentation Work Item.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Contract scope and outOfScope declarations"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item's design-document changes while preserving the prior archived support-boundary Work Item."
+}

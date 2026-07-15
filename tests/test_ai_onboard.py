@@ -113,3 +113,18 @@ def test_onboard_phase_calibration_runs_profile_checks(tmp_path, monkeypatch):
     monkeypatch.setattr(ai_onboard, "run_make", fake_make)
     assert ai_onboard.phase_calibration(tmp_path, "en", run_calibrate=False) == 0
     assert calls == ["check-ai-project-profile", "check-ai-guard-calibration"]
+
+
+def test_onboard_nested_make_and_phase_failures_are_reported(tmp_path, monkeypatch):
+    def raise_os_error(*_args, **_kwargs):
+        raise OSError("missing make")
+
+    monkeypatch.setattr(ai_onboard.subprocess, "run", raise_os_error)
+    assert ai_onboard.run_make(tmp_path, "quality")[0] == 127
+    monkeypatch.setattr(ai_onboard, "run_make", lambda *_args: (2, "failed"))
+    (tmp_path / ".ai").mkdir()
+    (tmp_path / ".ai" / "project_profile.proposed.yaml").write_text(
+        "version: 1\n", encoding="utf-8"
+    )
+    assert ai_onboard.phase_calibration(tmp_path, "en", run_calibrate=True) == 2
+    assert ai_onboard.phase_readiness(tmp_path, "en", run_checks=True) == 2

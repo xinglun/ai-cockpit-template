@@ -1,0 +1,223 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance_decision_path_coverage",
+  "mode": "code",
+  "title": "Raise governance decision-path coverage",
+  "baseCommit": "f152bfee07d9aa43f9954f8d07730dbb20762573",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/governance_decision_path_coverage.contract.json",
+    ".ai/work-items/active/governance_decision_path_coverage.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_scenario_coverage.py",
+    "scripts/ai_check_agent_risk.py",
+    "scripts/ai_calibrate.py",
+    "scripts/ai_onboard.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_check_pr.py",
+    "tests/test_scenario_coverage_gate.py",
+    "tests/test_ai_check_agent_risk.py",
+    "tests/test_ai_project_doctor.py",
+    "tests/test_project_governance.py",
+    "tests/test_ai_onboard.py",
+    "tests/test_preflight_review.py",
+    "tests/test_pr_aggregate.py"
+  ],
+  "outOfScope": [
+    "README.md",
+    "docs/**",
+    "Makefile",
+    "templates/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_scenario_coverage.py",
+      "reason": "Decision-path coverage target identified at 61% in the repository assessment."
+    },
+    {
+      "path": "scripts/ai_check_agent_risk.py",
+      "reason": "Decision-path coverage target identified at 63% in the repository assessment."
+    },
+    {
+      "path": "scripts/ai_calibrate.py",
+      "reason": "Decision-path coverage target identified at 65% in the repository assessment."
+    },
+    {
+      "path": "scripts/ai_onboard.py",
+      "reason": "Decision-path coverage target identified at 70% in the repository assessment."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Decision-path coverage target identified at 75% in the repository assessment."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Decision-path coverage target identified at 76% in the repository assessment."
+    },
+    {
+      "path": "tests/test_scenario_coverage_gate.py",
+      "reason": "Existing scenario coverage regression suite to extend with failure and acknowledgement branches."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Existing preflight regression suite to extend with readiness decision branches."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "testing",
+      "governance"
+    ],
+    "reason": "Additional tests must increase failure-path confidence without changing governance decisions."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The target modules and coverage thresholds are explicit; implementation is limited to tests unless a coverage defect requires a minimal production correction."
+  },
+  "preReviewWarnings": [
+    "Reviewers should confirm that tests exercise existing decisions and do not weaken governance outcomes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The six targeted governance modules each reach at least 80% line coverage, or any module that cannot reach the threshold has a documented residual risk and follow-up.",
+    "New tests cover both success and failure/blocked branches for scenario coverage, agent risk, calibration, onboarding, preflight, and PR aggregation decisions.",
+    "Overall coverage remains above the repository's 80% gate, with the aspirational 85% target recorded as follow-up, and all existing tests and governance gates pass without changing production decision semantics."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The repository-wide coverage gate passes, but several high-decision-density governance modules remain between 61% and 76%, leaving failure and blocked branches under-tested.",
+    "constraints": [
+      "Prioritize targeted failure, blocked, and boundary branches over low-value happy-path duplication.",
+      "Do not relax coverage thresholds or alter governance decisions to improve the metric.",
+      "Keep changes limited to the six named modules and their existing test suites."
+    ],
+    "rationale": "Decision-path coverage is more valuable than merely adding ordinary-path tests because these modules determine whether AI work may proceed, finish, or require human review."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "required scenario coverage failures and explicit risk acknowledgements",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_scenario_coverage_gate.py", "make quality"],
+      "reason": "Add tests for missing, invalid, unverified, and acknowledged scenario states."
+    },
+    {
+      "scenario": "agent risk gate detects missing gates and stale checkpoint evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ai_check_agent_risk.py", "make quality"],
+      "reason": "Add tests for blocked and passing risk decisions."
+    },
+    {
+      "scenario": "preflight derives ready, needs confirmation, and not ready states",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_preflight_review.py", "make quality"],
+      "reason": "Exercise readiness signal combinations and decision drivers."
+    },
+    {
+      "scenario": "onboarding and PR aggregation preserve failure semantics",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ai_onboard.py", "tests/test_pr_aggregate.py", "make quality"],
+      "reason": "Exercise command failures, archive selection, and aggregate ownership outcomes."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -95,6 +95,49 @@ def test_calibration_generates_proposal_without_approval_or_overwrite(tmp_path):
     assert output.read_text(encoding="utf-8") == original
 
 
+def test_calibration_render_helpers_cover_empty_and_populated_boundaries(tmp_path):
+    report = {
+        "reportVersion": 1,
+        "detectedFacts": {"languages": [{"value": "Python"}], "buildSystems": []},
+        "suggestedBoundaries": {"productionRoots": [{"path": "src/**"}], "testRoots": []},
+        "unknowns": ["review boundary"],
+    }
+    text = ai_calibrate.proposed_profile(report)
+    assert '"Python"' in text
+    assert "productionRoots:" in text
+    assert "testRoots: []" in text
+    assert ai_calibrate.quote("日本語") == '"日本語"'
+    assert ai_calibrate.values(None, "value") == []
+    report_path = tmp_path / "report.json"
+    output = tmp_path / "proposal.yaml"
+    report_path.write_text(json.dumps(report), encoding="utf-8")
+    assert ai_calibrate.generate(tmp_path, report_path, output) == 0
+    assert ai_calibrate.generate(tmp_path, report_path, output) == 2
+
+
+def test_calibration_main_dispatches_generate_and_validate(tmp_path, monkeypatch):
+    report_path = tmp_path / "report.json"
+    report_path.write_text(json.dumps({"reportVersion": 1}), encoding="utf-8")
+    output = tmp_path / "proposal.yaml"
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "ai_calibrate",
+            "generate",
+            "--root",
+            str(tmp_path),
+            "--report",
+            "report.json",
+            "--output",
+            "proposal.yaml",
+        ],
+    )
+    assert ai_calibrate.main() == 0
+    monkeypatch.setattr(sys, "argv", ["ai_calibrate", "validate", "--profile", str(output)])
+    assert ai_calibrate.main() == 0
+
+
 def test_profile_strictly_separates_confirmation_and_blocking_unknowns():
     profile = {
         "version": 1,

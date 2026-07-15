@@ -66,6 +66,14 @@ V2.6.5 adds Preflight Review. It follows the principle of **Evidence over Self-D
 
 ## Flow
 
+### Repository roles and review units
+The default review unit is one Work Item, one dedicated work branch, and one pull or merge request. A Work Item must not be split across unrelated branches or combined with unrelated Work Items in one PR.
+The branch base depends on the repository role:
+
+- In the template repository, create maintenance branches from the latest `origin/main`.
+- In an adopter project, create branches from the latest commit on that project's remote default branch. Discover the remote and branch; do not assume `origin/main`. Record `baseRemote`, `baseBranch`, and `baseCommit` in the Work Item when workflow metadata is used.
+Installation and upgrade work is committed to the adopter project's repository. It consumes a published template release tag, not a moving template branch. After merge, remove the remote and local work branch unless a documented recovery exception applies.
+
 1. Declare Intent (optional but recommended): Why does this work exist? What constraints must be respected? What's the rationale?
 2. Create a Work Item with `make ai-start TASK=<task> TITLE="..." MODE=code`.
 3. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available, or leave them empty / not provided when context is missing.

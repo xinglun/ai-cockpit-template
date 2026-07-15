@@ -14,6 +14,7 @@ keywords:
 Use this page after installation and validation succeed. Complete the [Adopter Configuration](adopter-configuration.md) checklist before treating the repository as production-ready, then use this page for the first governed task from start to finish.
 
 ## Start a Governed Task
+Each governed task uses one Work Item, one dedicated branch, and one pull or merge request. In this template repository, start from the latest `origin/main`. In an adopter project, start from the latest commit on that project's discovered remote default branch; do not assume the remote is `origin` or the branch is `main`. Record the chosen remote, branch, and base commit in the Contract.
 
 ```sh
 make ai-start TASK=example_change TITLE="Example change" MODE=code
@@ -51,4 +52,4 @@ Run the finish flow:
 make ai-finish TASK=example_change
 ```
 
-`ai-finish` runs the registered checks, updates the Summary with execution evidence, regenerates status, and archives the Contract/Summary pair. A successful walkthrough ends with no files under `.ai/work-items/active/`, an archive pair under `.ai/work-items/archive/<year>/`, and `make check-ai-status-consistency` passing.
+`ai-finish` runs the registered checks, updates the Summary with execution evidence, regenerates status, and archives the Contract/Summary pair. A successful walkthrough ends with no files under `.ai/work-items/active/`, an archive pair under `.ai/work-items/archive/<year>/`, and `make check-ai-status-consistency` passing. After the PR is merged, remove the corresponding remote and local work branch. Installation and upgrade tasks follow the same rule, but their source is a published template release tag recorded in the adopter project's Work Item.

@@ -1,5 +1,13 @@
 This repository uses AI Cockpit as a collaborative engineering environment for AI-assisted changes. AI Change Governance is the core control mechanism inside that environment.
 
+### Repository and Review Unit
+
+The default unit of governed work is one Work Item, one dedicated work branch, and one pull or merge request. Do not combine unrelated Work Items on one branch or use one PR to deliver multiple independent Work Items.
+
+For template-maintenance work, create the branch from the latest `origin/main`. For an adopter project, create the branch from the latest commit on that project's own remote default branch. The adopter remote and branch may have any names; discover them instead of assuming `origin/main`, and record the remote, default branch, and base commit in the Work Item Contract.
+
+Installation and upgrade changes are changes in the adopter project's history. Use a published template release tag and record its source identity; do not install from a moving template work branch. After the PR is merged, delete the remote and local work branch unless a documented recovery exception applies.
+
 ### Required Workflow
 
 1. Create or identify a version 2 Work Item Contract in `.ai/work-items/active/`.

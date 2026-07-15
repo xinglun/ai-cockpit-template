@@ -1,0 +1,193 @@
+{
+  "contractVersion": 2,
+  "workItemId": "repository_workflow_boundaries",
+  "mode": "code",
+  "title": "Clarify template and adopter repository branch workflows",
+  "baseCommit": "11821aed4882685c801e39afce50161cbb65a5ba",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "AGENTS.md",
+    "templates/agents/AI_COCKPIT_RULES.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/first-work-item.md",
+    "docs/reference/distribution.md",
+    "docs/reference/repository-workflow.md",
+    ".ai/work-items/active/repository_workflow_boundaries.contract.json",
+    ".ai/work-items/active/repository_workflow_boundaries.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "Makefile",
+    ".github/workflows/**",
+    "templates/make/**",
+    "templates/stacks/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/repository_workflow_boundaries.contract.json",
+      "reason": "Repository workflow policy and documentation are the authoritative sources for branch-base and Work Item/PR mapping."
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+      "reason": "Existing design establishes the one Work Item to one branch and one pull or merge request invariant."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Existing installation and upgrade guidance defines adopter repository behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Workflow guidance must distinguish the template repository from adopter repositories without assuming an adopter default branch name."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user confirmed the repository-role distinction and approved implementation."
+  },
+  "preReviewWarnings": [
+    "Confirm that adopter guidance discovers the target repository default branch rather than hard-coding origin/main."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Repository rules state one Work Item maps to one work branch and one pull or merge request.",
+    "Template-maintenance guidance requires the template branch to start from the latest origin/main.",
+    "Adopter-project installation and upgrade guidance requires the branch to start from the adopter repository's latest remote default branch, without assuming its name or remote alias.",
+    "Adopter guidance pins installation and upgrade to a published template release and records the source release identity in the Work Item.",
+    "Documentation distinguishes source/template repository history from adopter-project history and describes post-merge branch cleanup."
+  ],
+  "guidelines": [
+    "Keep workflow rules repository-role aware and do not hard-code an adopter branch name.",
+    "Keep platform-specific PR metadata separate from repository-local Contract evidence.",
+    "Do not modify runtime scripts or CI when documentation and installed agent rules are sufficient."
+  ],
+  "intent": {
+    "problem": "The repository needs a repeatable one-Work-Item/one-branch/one-PR workflow, but the template repository and an installed adopter repository have different branch authorities. Hard-coding origin/main for both would misdirect adopter work.",
+    "constraints": [
+      "Template maintenance continues to start from the latest origin/main.",
+      "Adopter repositories may use any remote name and any default branch name.",
+      "Installation and upgrade must use a fixed published template release rather than a moving source branch.",
+      "The change is documentation and governance guidance only unless an existing check can be reused without expanding scope."
+    ],
+    "rationale": "Separating repository roles makes the workflow precise, portable, and auditable while preserving the current template release process."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Template-maintenance branch starts from the latest template origin/main.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["AGENTS.md", "templates/agents/AI_COCKPIT_RULES.md", "docs/reference/repository-workflow.md"]
+    },
+    {
+      "scenario": "Adopter-project branch starts from the latest commit on its discovered remote default branch without assuming origin or main.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["AGENTS.md", ".ai/cockpit/README.md", "docs/getting-started/installation.md"]
+    },
+    {
+      "scenario": "Adopter installation or upgrade uses a published release tag and one adopter Work Item/PR, followed by branch cleanup.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["templates/agents/AI_COCKPIT_RULES.md", "docs/getting-started/first-work-item.md", "docs/reference/distribution.md"]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly approved implementation of the repository-role-aware workflow rules and documentation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -23,6 +23,8 @@ Changes enter `main` through a pull request. Both `smoke` and `compatibility` al
 
 The historical release tag is immutable evidence and is not rewritten. A release-preparation PR may declare exactly the next patch tag as pending publication; it must pass local metadata and evidence checks without claiming that the public tag already exists. After the PR merges, maintainers dispatch `.github/workflows/release.yml` with the exact verified `main` SHA. That workflow creates the immutable tag and GitHub Release, then dispatches a strict smoke verification against the now-public release. The workflow requires `release.json.releaseTag` to match the requested tag.
 
+This release flow applies to the template repository. An adopter project must create its own installation or upgrade branch from its own remote default branch and consume the published release tag. The adopter's installation or upgrade is a separate Work Item and PR in the adopter repository; it does not branch from the template repository's `main` or share the template release PR.
+
 ## Archive evidence index
 
 `archive/index.json` is an additive discovery index maintained by `archive-work-item`. It records each Work Item's identity, archive sequence, relative Contract/Summary paths, and file hashes so tooling can discover historical evidence without parsing every Summary. The archived Contract and Summary remain authoritative; the index is disposable and may be rebuilt from them if needed.

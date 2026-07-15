@@ -16,6 +16,14 @@ This repository is an AI Governance Template. It is meant to be copied into othe
 
 ## Required Workflow
 
+### Repository and Review Unit
+
+The default unit of governed work is one Work Item, one dedicated work branch, and one pull or merge request. Do not combine unrelated Work Items on one branch or use one PR to deliver multiple independent Work Items.
+
+This repository is the AI Cockpit template repository. Template-maintenance branches must be created from the latest `origin/main`. When these rules are installed into another repository, that repository is the adopter project: its work branch must be created from the latest commit on its own remote default branch. Do not assume that the adopter uses `origin` or `main`; discover and record its remote, default branch, and base commit in the Work Item Contract.
+
+Installation and upgrade changes belong to the adopter project's history. They must use a published template release tag, not a moving template work branch. After the PR is merged, delete the remote and local work branch unless an explicitly documented recovery procedure requires retaining it.
+
 Before changing code, docs, CI, build files, or AI governance files:
 
 1. Create or identify a Work Item Contract in `.ai/work-items/active/`.

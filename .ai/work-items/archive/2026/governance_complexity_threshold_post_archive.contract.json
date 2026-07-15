@@ -1,0 +1,162 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance_complexity_threshold_post_archive",
+  "mode": "code",
+  "title": "Align fixed governance thresholds after Work Item archival",
+  "baseCommit": "75fc0958ff77621d5c5f73669d15cd7aec2a60b0",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/governance_complexity_threshold_post_archive.contract.json",
+    ".ai/work-items/active/governance_complexity_threshold_post_archive.summary.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/governance_complexity_threshold_post_archive.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The configured maxima must cover the post-archive filesystem and the final tracked Work Item evidence."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Documents that threshold changes require an evidence-backed Work Item."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Defines the measured tracked-file and archive metrics used by the threshold gate."
+    }
+  ],
+  "unknowns": [],
+  "problemStatement": "After the prior Work Item was archived, the actual archive count became 265 while the fixed maximum remained 264, causing the post-archive governance complexity gate to fail. The threshold must cover the current repository shape and the evidence pair produced by this corrective Work Item.",
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "governance_threshold",
+      "archive_growth"
+    ],
+    "reason": "A too-low fixed threshold blocks lifecycle closure; a too-high threshold could hide unreviewed governance growth."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly requested the fixed threshold be corrected and the repository evidence determines the target values."
+  },
+  "preReviewWarnings": [
+    "Review measured current counts, expected archive growth, and the fixed maxima before merge."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The governance complexity gate passes against the post-archive repository state.",
+    "trackedFiles is fixed at 726, covering the current 724 tracked files plus this Work Item's archived evidence pair.",
+    "archiveContracts and archiveSummaries are fixed at 266, covering the current 265 entries plus this Work Item's archive pair.",
+    "markdownLines is fixed at 7162 to cover the measured tracked design documentation without silently moving the threshold.",
+    "The threshold rationale and measured evidence are recorded in the AI Change Summary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The post-archive complexity gate failed because the measured archive count exceeded the fixed maximum.",
+    "constraints": [
+      "Do not alter archived Contract or Summary evidence.",
+      "Set fixed maxima from measured repository counts and explicitly account for this Work Item's archive pair."
+    ],
+    "rationale": "A separate evidence-backed correction preserves immutable history while restoring a deterministic gate."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly requested the fixed threshold be corrected before completing the workflow."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

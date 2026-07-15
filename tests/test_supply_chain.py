@@ -360,7 +360,8 @@ def test_sbom_uses_cyclonedx_identity_and_dependency_metadata(tmp_path, monkeypa
     assert sbom["specVersion"] == "1.5"
     assert sbom["serialNumber"].startswith("urn:uuid:")
     assert sbom["metadata"]["timestamp"]
-    assert sbom["metadata"]["tools"]
+    assert sbom["metadata"]["tools"]["components"]
+    assert sbom["metadata"]["tools"]["components"][0]["name"] == "check_supply_chain"
     components = {component["name"]: component for component in sbom["components"]}
     assert components["root-package"]["version"] == "1.0.0"
     assert components["root-package"]["purl"] == "pkg:pypi/root-package@1.0.0"

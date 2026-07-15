@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "cyclonedx_schema_warning_cleanup",
+  "mode": "code",
+  "title": "Remove CycloneDX schema deprecation warnings",
+  "baseCommit": "88f869e4dfda60f0c9bc19024c9fa6f445a70e43",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/cyclonedx_schema_warning_cleanup.contract.json",
+    ".ai/work-items/active/cyclonedx_schema_warning_cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Current SBOM builder passes tools through the deprecated CycloneDX metadata field."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Existing SBOM regression tests define metadata and dependency expectations."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Committed SBOM baseline must match the updated CycloneDX representation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "supply_chain",
+      "compatibility"
+    ],
+    "reason": "The metadata representation and committed supply-chain baselines must remain schema-valid and deterministic."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The warning source, compatible metadata representation, regression tests, and baselines are explicit."
+  },
+  "preReviewWarnings": [
+    "Reviewers should confirm the updated metadata uses CycloneDX 1.5 components/services without changing dependency evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "SBOM generation emits producer metadata through the non-deprecated CycloneDX 1.5 components/services representation with no deprecation warnings.",
+    "Existing SBOM dependency relationships and deterministic committed baselines remain valid.",
+    "Regression tests cover the new metadata shape and the full quality and supply-chain checks pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The supply-chain quality gate emits three CycloneDX SchemaDeprecationWarning1Dot5 warnings because the SBOM generator serializes its producer as metadata.tools.",
+    "constraints": [
+      "Remove the deprecation warnings without relaxing supply-chain checks or changing dependency relationships.",
+      "Keep generated SBOM, provenance, and release digest baselines deterministic."
+    ],
+    "rationale": "CycloneDX metadata.tools is deprecated from v1.5 onward; using the compatible component representation removes warning noise from a core governance gate."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "SBOM generation uses non-deprecated metadata components and remains deterministic",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_supply_chain.py", "make quality"],
+      "reason": "Verify the generated JSON shape and repeated generation."
+    },
+    {
+      "scenario": "Supply-chain SBOM, provenance, and release digest checks remain consistent",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make quality", "scripts/check_supply_chain.py sbom", "scripts/check_supply_chain.py provenance", "scripts/check_supply_chain.py release"],
+      "reason": "Run the supply-chain checks and full quality gate."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-confirmed",
+    "reason": "User confirmed continuation of the warning cleanup Work Item, including regenerated supply-chain baselines."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -9,6 +9,7 @@
     "scripts/ai_close_work_item.py",
     "tests/test_work_item_lifecycle_closure.py",
     "docs/reference/work-item-lifecycle-closure.md",
+    ".ai/guards/governance_complexity_policy.yaml",
     "docs/superpowers/specs/2026-07-16-work-item-close-idempotency-design.md",
     "docs/superpowers/plans/2026-07-16-work-item-close-idempotency.md",
     ".ai/work-items/active/work_item_close_idempotency.contract.json",
@@ -38,6 +39,10 @@
     {
       "path": "AGENTS.md",
       "reason": "Repository-required Work Item, verification, and fail-closed workflow."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The repository contains 264 paired Contract/Summary archive records after this Work Item is archived; the configured limits represent that final repository baseline."
     },
     {
       "path": "User-reported PR #40 and PR #39 closure evidence",
@@ -201,9 +206,9 @@
     "allowPatterns": []
   },
   "restrictedWriteApproval": {
-    "approved": false,
-    "approvedBy": "",
-    "reason": "Set only when a human explicitly approves restricted governance paths."
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly approved raising the existing archive Contract/Summary thresholds from 260 to the measured current baseline of 263 to complete this Work Item."
   },
   "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
 }

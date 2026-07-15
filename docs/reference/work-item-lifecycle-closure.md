@@ -31,11 +31,12 @@ verify evidence and merged PR
 → fast-forward base branch
 → verify local base equals remote base
 → delete local Work Item branch
-→ delete remote Work Item branch
+→ request remote Work Item branch deletion
+→ refresh remote refs and verify the Work Item branch is absent
 → verify clean repository and synchronized base
 → report ready for next Work Item
 ```
 
-The command stops at the first failure. It never deletes the remote branch before local base safety is established, never uses an implicit merge commit, and never reports `closed` after a failed cleanup step. Squash and rebase PRs are supported because the merged PR, rather than local ancestry, authorizes deletion of the source branch.
+The command stops at the first unverified failure. It never deletes the remote branch before local base safety is established, never uses an implicit merge commit, and never reports `closed` unless the final remote-ref check proves the branch is absent. If GitHub or another platform has already deleted the branch, the redundant delete request may return non-zero; after `fetch --prune`, a verified absent remote ref is treated as the idempotent success state. A branch that still exists, or a remote state that cannot be verified, remains fail-closed. Squash and rebase PRs are supported because the merged PR, rather than local ancestry, authorizes deletion of the source branch.
 
 The repository's remote name and default branch are discovered from Git's remote HEAD. Adopter projects therefore do not need to use `origin/main`.

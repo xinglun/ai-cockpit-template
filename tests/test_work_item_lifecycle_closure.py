@@ -6,9 +6,17 @@ import ai_close_work_item as closure
 
 
 class FakeGit:
-    def __init__(self, *, fail_on: tuple[str, ...] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        fail_on: tuple[str, ...] | None = None,
+        remote_branch_exists: bool = False,
+        remote_check_returncode: int | None = None,
+    ) -> None:
         self.commands: list[tuple[str, ...]] = []
         self.fail_on = fail_on
+        self.remote_branch_exists = remote_branch_exists
+        self.remote_check_returncode = remote_check_returncode
         self.current_branch = "codex/example"
 
     def __call__(self, args: list[str] | tuple[str, ...], check: bool) -> closure.CommandResult:
@@ -28,7 +36,11 @@ class FakeGit:
         if command[:2] == ("rev-parse", "main") or command[:2] == ("rev-parse", "origin/main"):
             return closure.CommandResult(0, "abc123\n")
         if command[:3] == ("ls-remote", "--exit-code", "--heads"):
-            return closure.CommandResult(2, "", "")
+            if self.remote_check_returncode is not None:
+                return closure.CommandResult(
+                    self.remote_check_returncode, "", "remote check failed"
+                )
+            return closure.CommandResult(0 if self.remote_branch_exists else 2, "", "")
         return closure.CommandResult(0, "")
 
 
@@ -138,13 +150,42 @@ def test_non_fast_forward_blocks_before_branch_deletion(monkeypatch: pytest.Monk
 
 
 def test_remote_deletion_failure_does_not_report_closed(monkeypatch: pytest.MonkeyPatch) -> None:
-    fake = FakeGit(fail_on=("push", "origin", "--delete"))
+    fake = FakeGit(
+        fail_on=("push", "origin", "--delete"),
+        remote_branch_exists=True,
+    )
     prepare(monkeypatch, fake)
 
-    with pytest.raises(RuntimeError, match="forced failure"):
+    with pytest.raises(RuntimeError, match="remote work branch still exists"):
         closure.close_work_item("example", fake)
 
     assert ("branch", "-D", "codex/example") in fake.commands
     assert fake.commands.index(("switch", "main")) < fake.commands.index(
         ("branch", "-D", "codex/example")
     )
+
+
+def test_remote_deletion_race_is_accepted_when_postcondition_is_absent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fake = FakeGit(fail_on=("push", "origin", "--delete"))
+    prepare(monkeypatch, fake)
+
+    result = closure.close_work_item("example", fake)
+
+    assert result["state"] == "closed"
+    assert ("fetch", "origin", "--prune") in fake.commands
+    assert fake.commands[-1] == ("rev-parse", "origin/main")
+
+
+def test_remote_deletion_failure_with_unverifiable_state_fails_closed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fake = FakeGit(
+        fail_on=("push", "origin", "--delete"),
+        remote_check_returncode=1,
+    )
+    prepare(monkeypatch, fake)
+
+    with pytest.raises(RuntimeError, match="could not verify remote work branch deletion"):
+        closure.close_work_item("example", fake)

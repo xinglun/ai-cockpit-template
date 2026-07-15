@@ -171,6 +171,13 @@ def _remote_branch_absent(runner: Runner, remote: str, branch: str) -> None:
         raise RuntimeError("could not verify remote work branch deletion")
 
 
+def _delete_remote_branch(runner: Runner, remote: str, branch: str) -> None:
+    """Delete a remote branch and accept an externally completed deletion."""
+    runner(["push", remote, "--delete", branch], False)
+    runner(["fetch", remote, "--prune"], True)
+    _remote_branch_absent(runner, remote, branch)
+
+
 def close_work_item(task: str, runner: Runner = _run_git) -> dict[str, str]:
     contract_path = _verify_archived_evidence(task)
     branch_result = runner(["branch", "--show-current"], False)
@@ -194,9 +201,7 @@ def close_work_item(task: str, runner: Runner = _run_git) -> dict[str, str]:
     # A merged PR is the authority for deleting a branch. -D is intentional here:
     # squash and rebase merges do not make the source ref an ancestor of base.
     runner(["branch", "-D", work_branch], True)
-    runner(["push", remote, "--delete", work_branch], True)
-    runner(["fetch", remote, "--prune"], True)
-    _remote_branch_absent(runner, remote, work_branch)
+    _delete_remote_branch(runner, remote, work_branch)
     final_branch = runner(["branch", "--show-current"], True).stdout.strip()
     if final_branch != base_branch:
         raise RuntimeError("repository is not on the synchronized base branch")

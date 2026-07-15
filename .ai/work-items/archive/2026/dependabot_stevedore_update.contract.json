@@ -1,0 +1,146 @@
+{
+  "contractVersion": 2,
+  "workItemId": "dependabot_stevedore_update",
+  "mode": "review",
+  "title": "Record Dependabot stevedore update",
+  "baseCommit": "c5d366ec8c295ad3c4fdd835a7a6e0773b86248d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/dependabot_stevedore_update.contract.json",
+    ".ai/work-items/active/dependabot_stevedore_update.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "requirements-dev.in",
+    "requirements-dev.txt"
+  ],
+  "outOfScope": ["scripts/**", "tests/**", "release.json"],
+  "sources": [
+    {
+      "path": "requirements-dev.in",
+      "reason": "Dependabot updates the stevedore development dependency pin."
+    },
+    {
+      "path": "requirements-dev.txt",
+      "reason": "Generated development dependency requirements reflect the Dependabot update."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["dependency_update"],
+    "reason": "Automated development dependency version update with no production behavior change."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The dependency scope is explicit and CI verifies compatibility."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The dependency update is recorded with an archived Contract and Summary.",
+    "The repository quality and supply-chain checks pass with the updated dependency metadata.",
+    "The PR remains limited to dependency metadata and governance evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The Dependabot PR updates stevedore from 5.8.0 to 5.9.0 and requires an auditable Work Item record for repository PR governance.",
+    "constraints": ["Keep the change limited to development dependency metadata and governance evidence.", "Do not weaken any quality or supply-chain gates."],
+    "rationale": "A small archived Work Item makes automated dependency maintenance visible to the same PR governance chain as human-authored changes."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

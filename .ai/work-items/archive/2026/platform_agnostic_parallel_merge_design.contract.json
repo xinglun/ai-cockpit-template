@@ -1,0 +1,225 @@
+{
+  "contractVersion": 2,
+  "workItemId": "platform_agnostic_parallel_merge_design",
+  "mode": "code",
+  "title": "Design platform-agnostic parallel merge safety",
+  "baseCommit": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+    ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+    ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "templates/**",
+    ".github/workflows/**",
+    ".gitlab-ci.yml",
+    "Makefile",
+    "README.md",
+    ".ai/glossary.md",
+    "docs/philosophy/design-philosophy.md"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Defines the repository governance workflow, finish criteria, and requirement to solidify user corrections."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines Calibrated Human-Agent Trust, Evidence Governance, and the Repository Governance Layer boundary."
+    },
+    {
+      "path": "docs/philosophy/design-philosophy.md",
+      "reason": "Defines the North Star and HCI-oriented principles that the compatibility design must serve."
+    },
+    {
+      "path": "docs/architecture.md",
+      "reason": "Defines current Core, platform, diff, verification, and archive evidence boundaries."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documents the existing merge-base, aggregate PR ownership, and pre-merge verification semantics."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Provides the current GitHub pull-request baseline selection and CI integration that the design must generalize."
+    }
+  ],
+  "problemStatement": "AI Cockpit validates Work Items sequentially in the current repository workflow, while adopting teams develop independent changes concurrently across GitHub and GitLab editions with different candidate-merge capabilities.",
+  "scenarioCoverage": [
+    {
+      "scenario": "GitHub Merge Queue and GitLab Merge Trains use platform-generated candidate commits while sharing one Core verification contract.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Approved design discussion",
+        "Current make ai-pre-merge and check-ai-pr merge-base semantics"
+      ]
+    },
+    {
+      "scenario": "GitLab Free receives equivalent candidate verification through an isolated native-Git merge and a serialized final merge gate.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "User-approved compatibility requirement",
+        "GitLab Free resource_group and protected-branch design"
+      ]
+    },
+    {
+      "scenario": "The design does not turn Cockpit Core into a queue, branch graph, or platform workflow engine.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Core input boundary limited to candidate commit and target base commit",
+        "Queue state remains owned by GitHub, GitLab, or the GitLab compatibility adapter"
+      ]
+    },
+    {
+      "scenario": "Runtime behavior and CI configuration remain unchanged by this documentation-only Work Item.",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "Implementation is explicitly deferred to a later approved Work Item."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_change",
+      "platform_compatibility",
+      "merge_race"
+    ],
+    "reason": "This Work Item changes only a new design document and its governance records. Runtime merge safety is not modified; the document must nevertheless keep future implementation risks such as misleading platform claims, stale candidate evidence, and incomplete GitLab Free fallback behavior explicit."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user approved the architecture, the GitLab Free compatibility boundary, and creation of a documentation-only design specification."
+  },
+  "preReviewWarnings": [
+    "Review that the document distinguishes platform-native candidate generation, the GitLab Free compatibility gate, and head-only evidence without overstating guarantees.",
+    "Review that the compatibility fallback closes target-branch freshness races through serialization, protected branches, and source/target SHA revalidation.",
+    "Review that queue ordering and branch aggregation remain outside Cockpit Core."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The design document defines one platform-neutral Core interface in which the checked-out tree is the candidate merge and AI_BASE_COMMIT identifies its target-branch baseline.",
+    "The design documents native adapters for GitHub pull requests and merge_group events plus GitLab merged-result and merge-train pipelines without adding platform fields to Contract, Summary, or Archive schemas.",
+    "The design specifies a GitLab Free fallback that uses an isolated temporary worktree, native git merge, a serialized resource_group gate, protected target branches, source and target SHA revalidation, and a least-privilege merge identity.",
+    "The design defines fail-closed outcomes for merge conflicts, stale source or target SHAs, failed project or governance checks, missing merge credentials, and unauthorized target-branch mutation.",
+    "The design distinguishes native, synthetic, and head-only evidence strengths and never presents head-only validation as parallel merge safety.",
+    "The design records the HCI constraint that safe platform capability gaps should be absorbed by compatibility adapters rather than exposed to adopters solely to preserve architectural purity.",
+    "No runtime scripts, tests, templates, CI configuration, Makefile targets, schemas, existing architecture or philosophy documents, or archived Work Items are changed by this Work Item."
+  ],
+  "guidelines": [
+    "Distinguish current implemented behavior from proposed future behavior and do not claim that the design is already shipped.",
+    "Keep Cockpit Core platform-neutral; platform event parsing, queue semantics, credentials, and merge execution belong to adapters.",
+    "Prefer native platform candidate generation, provide a safe native-Git fallback where required, and fail closed when candidate freshness cannot be established."
+  ],
+  "intent": {
+    "problem": "AI Cockpit currently demonstrates sequential merge verification, but real teams create independent Work Items in parallel. GitHub can provide merge-group candidates, GitLab Premium and Ultimate can provide merge-train candidates, and GitLab Free cannot. Without a platform-neutral design and a safe fallback, adopters either lose concurrency safety or must invent their own governance integration.",
+    "constraints": [
+      "One Work Item maps to one branch and one pull or merge request; Git and the hosting platform remain responsible for branch topology, ordering, conflict resolution, and aggregation.",
+      "Contract, Summary, Archive, and Cockpit Core must not gain GitHub- or GitLab-specific queue state.",
+      "When a hosting platform lacks candidate-merge capabilities, the compatibility adapter must absorb the gap with native Git and CI controls when safety can be established; architectural purity must not override the HCI North Star.",
+      "GitLab Free safety must address the race between candidate verification and final merge, not merely test a synthetic merge against a target SHA that may later become stale.",
+      "This Work Item produces only the approved design document and governance evidence; implementation, templates, CI configuration, scripts, and tests remain out of scope."
+    ],
+    "rationale": "A small platform-neutral verification contract preserves AI Cockpit as a Repository Governance Layer, while native platform adapters and a Git-based GitLab Free fallback give adopters equivalent evidence without forcing a paid hosting tier or duplicating Git semantics inside Core."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -1,0 +1,438 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "platform_agnostic_parallel_merge_design",
+  "contractPath": ".ai/work-items/archive/2026/platform_agnostic_parallel_merge_design.contract.json",
+  "changedFiles": [
+    {
+      "path": "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+      "reason": "Added the approved platform-neutral candidate verification design, native platform adapters, GitLab Free atomic compatibility gate, evidence-strength model, failure semantics, and future test strategy."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_agnostic_parallel_merge_design.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_agnostic_parallel_merge_design.summary.json",
+      "reason": "Recorded the design handoff, user corrections, review findings, residual risks, and verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active documentation Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/glossary.md",
+    "docs/philosophy/design-philosophy.md",
+    "docs/architecture.md",
+    ".ai/cockpit/README.md",
+    ".github/workflows/smoke.yml",
+    "GitHub documentation for Merge Queue and merge_group events",
+    "GitLab documentation for merge request pipelines, Merge Trains, CI variables, resource groups, protected branches, and merge request APIs",
+    ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "GitHub Merge Queue and GitLab Merge Trains use platform-generated candidate commits while sharing one Core verification contract.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Core Verification Contract and Native Platform Adapters sections in the design document",
+        "Independent documentation accuracy, completeness, and consistency review"
+      ]
+    },
+    {
+      "scenario": "GitLab Free receives equivalent candidate verification through an isolated native-Git merge and a serialized final merge gate.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "GitLab Free Compatibility Gate, Failure Semantics, and Security and Trust Boundaries sections",
+        "Design correction from deferred Merge API action to an atomic fast-forward Git ref update"
+      ]
+    },
+    {
+      "scenario": "The design does not turn Cockpit Core into a queue, branch graph, or platform workflow engine.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Decisions, Non-Goals, Core Verification Contract, and Responsibility Boundaries sections"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:28.173013+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "2d80f63d63c43cad7bf35b55fe2c6ce10abddcc73e6ae38194a8f68332425a76",
+      "commandHash": "f9092badc8b1e3642715a70c739c3e4ace9b083d4f303d4ab7346975bcab6a4a",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_work_item.py .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json work item contract check passed: .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:28.393387+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "ab4e922b27139dfe2526215f6b9dc494a275c70516ef1d43f1f78ce728ad3c63",
+      "commandHash": "104fb215a48f335a1cce390e1b224dcf53610935b47adcb729df3432521c916b",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_scope.py .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json scope guard passed: 2 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:28.635267+00:00",
+      "exitCode": 0,
+      "durationMs": 159,
+      "outputDigest": "84a9a1832286cb6b3905b90de8677233100b54f7407b9cac04029f319b2ad778",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_guards.py --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:29.008140+00:00",
+      "exitCode": 0,
+      "durationMs": 301,
+      "outputDigest": "4ff36356a815591f4121ae2a665a1c981dbaeabf9513ab59da7d7ee95eec078d",
+      "commandHash": "ece58e2f78854de3bcd7d672668f9b6d51aec80b31fff4ec01f26e846530d703",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_checkpoint.py --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `platform_agnostic_parallel_merge_design` - Contract Hash: `d6b6417095aa2f8d` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `7` - Un"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:29.213901+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "0eab304d20a37e4da7e2437ee7fd7e60c772ee16c7892c20ce962df5806859d5",
+      "commandHash": "1b4e95ad5f7fcdb8f6ceca4c6642adb862bcb7d68f92cae8b91ca662e9ae677f",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_review_policy.py --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:29.439230+00:00",
+      "exitCode": 0,
+      "durationMs": 137,
+      "outputDigest": "470f5fb6f6e2bd7a8461008724d0dd9532731afaa7087c10a452e024987897d1",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:29.663247+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "bf0eeab5d1f9c6e35a2d4a984d1cacedcdb4fd6c3bfa6d43d0ddcd1c4e00b2d5",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:29.790464+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "70df68b5a723ebd54fe12198a5e5d98f78a54e6db9b79f5aa6dcd0b70b7bb33c",
+      "commandHash": "4fff0a9bb0dfb75aba686b52a62c76f7577083b5ca55185a45edc92a22b601da",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:29.911637+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "b105200fc9fa8200d0cae267e2255f5534bc961a716e144e4abe16f82ac7805c",
+      "commandHash": "3f7c4d9d1aa373d66f0c5cdc9017e1503c2c35d15c220b52f2d4d6f88b3066a0",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_guidelines.py --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:40:30.285935+00:00",
+      "exitCode": 0,
+      "durationMs": 298,
+      "outputDigest": "ecb1ec418c6e01bb19230b87a8c253c6e057dec2939ccb26549c487359ca8c4f",
+      "commandHash": "028828ce0bf6619ecfada857999f4d1587ab9cc6dfc506dd26d103a3037ff405",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json ## Diff Ownership Preview - active_owned: `2`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md` — covered by Contra"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:41:43.206339+00:00",
+      "exitCode": 0,
+      "durationMs": 72845,
+      "outputDigest": "9ad23a169e8324e8ab8cb018e1092ffd98841c7c9c9cb7eeebacad4906f47885",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "1a03476929a90c821d79ff3b3a95a27d2c344538b2103f2c53e5ab3b3f40e459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> -m ruff format --check scripts tests 92 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 15%] ........................................................................ [ 30%] ....................................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:41:45.026661+00:00",
+      "exitCode": 0,
+      "durationMs": 299,
+      "outputDigest": "1b682f3fa433b8ed4108999fb2923d664cf94eefd8fb4435d2a137f999e3f230",
+      "commandHash": "553f8e649587344d54cda3c5383514ddaf5fee877d2c2c7d6d35e1bc5f7b2fff",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "e9f65f867cdcdc79b059d29e1da9c2e0e4c45001aa0cfb78ce6ee7fedfc6eb44",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_generate_status.py .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:41:45.429342+00:00",
+      "exitCode": 0,
+      "durationMs": 320,
+      "outputDigest": "63055a2627d3b8e04912fa3024c560b7abde917ca9a3a875362c279245b0e174",
+      "commandHash": "b791fcbf8bc7ae130fced1452fe377265781ab8f38d1d81cdc7d62f00910623a",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "e9f65f867cdcdc79b059d29e1da9c2e0e4c45001aa0cfb78ce6ee7fedfc6eb44",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:41:45.574627+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "b187d28fe830a2b09f5c02be6f1905679b26cfaced00e9e8422e60d2d6c20ec5",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "e9f65f867cdcdc79b059d29e1da9c2e0e4c45001aa0cfb78ce6ee7fedfc6eb44",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:41:45.698784+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "94af2c6a23cc981eda4a8617b6c43cacaee15552a11dfd362508671793221500",
+      "commandHash": "bbe82625342cd22c5267a97cc67cc8a18468c7ec131b7eb4fcad947b33a174e0",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "e9f65f867cdcdc79b059d29e1da9c2e0e4c45001aa0cfb78ce6ee7fedfc6eb44",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_agent_risk.py --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json --summary .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json CONTRACT=.ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T07:41:45.898307+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "6e31a76c5d561b35ed8c96db886fefaa47f92698aaf16872d9b05012876b865b",
+      "commandHash": "886c1425fbbb1b1b4ff8d70c87f688fd5b5d0d983dadb2556c77eea6c88a8e66",
+      "contractHash": "d6b6417095aa2f8d8031e6518462b6d9125462693bce1240690bebc28d8591c0",
+      "commitSha": "2122363ca2c1a6ed1f59a8b452e9720c115fb79b",
+      "executionContractPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json",
+      "worktreeDigest": "e9f65f867cdcdc79b059d29e1da9c2e0e4c45001aa0cfb78ce6ee7fedfc6eb44",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_summary.py .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json --contract .ai/work-items/active/platform_agnostic_parallel_merge_design.contract.json ai summary check passed: .ai/work-items/active/platform_agnostic_parallel_merge_design.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Distinguish current implemented behavior from proposed future behavior and do not claim that the design is already shipped.",
+      "compliant": true,
+      "evidence": "The Status and Non-Goals sections explicitly identify the document as an approved future design and defer runtime implementation."
+    },
+    {
+      "guideline": "Keep Cockpit Core platform-neutral; platform event parsing, queue semantics, credentials, and merge execution belong to adapters.",
+      "compliant": true,
+      "evidence": "The Core Verification Contract accepts only candidate/base facts, while Responsibility Boundaries and adapter sections retain platform behavior outside Core."
+    },
+    {
+      "guideline": "Prefer native platform candidate generation, provide a safe native-Git fallback where required, and fail closed when candidate freshness cannot be established.",
+      "compliant": true,
+      "evidence": "The capability matrix, GitLab Free compatibility flow, evidence-strength table, and failure semantics define native preference, atomic fallback, freshness validation, and fail-closed downgrade behavior."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Documentation-only change. Runtime merge behavior is unchanged; future implementation must independently verify platform edition, permissions, credentials, protected-branch enforcement, and atomic update behavior."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "The initial draft used the GitLab Merge API after verification, but review found that its source-only SHA guard and deferred pipeline timing did not bind the final target tree; the design now uses an atomic normal fast-forward Git push.",
+    "The initial draft overstated bot-only enforcement and project access token availability on GitLab Free; the design now uses a Free-compatible automation credential and treats privileged human bypass as an external trust boundary.",
+    "Accuracy review found that an unprotected merge-request pipeline cannot safely consume protected automation credentials; the final gate now runs in a protected target-branch-controlled coordinator pipeline.",
+    "The initial draft did not distinguish candidate construction from final freshness for native platforms; a capability matrix and generic integration contract were added."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "future_implementation",
+      "detail": "GitLab editions and self-managed configurations expose different credential and protected-branch capabilities. Later implementation must validate actual instance capabilities and must not infer governed-path safety from hostname or edition labels alone.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "The design gives parallel teams one platform-neutral verification contract, uses native queues where available, provides a Git-based GitLab Free compatibility gate, and keeps queue state outside AI Cockpit Core."
+  },
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm the atomic fast-forward push and freshness checks close the governed GitLab Free merge race without claiming privileged bypass is impossible.",
+      "Confirm native GitHub and GitLab modes distinguish candidate construction from final freshness.",
+      "Confirm Contract, Summary, Archive, and AI Cockpit Core remain platform-neutral and no runtime capability is claimed as implemented."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "Aggregation is Git's responsibility; AI Cockpit should not implement Git aggregation or queue semantics again.",
+    "GitLab Free must receive a native-Git compatibility fallback; architectural boundary purity is not the HCI North Star."
+  ],
+  "userCorrectionSolidification": [
+    "The Contract intent and acceptance criteria bind queue ownership to Git and hosting platforms while limiting AI Cockpit Core to candidate/base verification.",
+    "The design's North Star and HCI Constraint plus GitLab Free Compatibility Gate require adapters to absorb safe platform capability gaps and define the atomic fallback path."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "d6b6417095aa2f8d",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the final documentation-only scope, HCI constraints, platform sources, acceptance conditions, scenario coverage, and out-of-scope runtime files before editing the design."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "d6b6417095aa2f8d",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the completed design, five-strategy documentation review corrections, final scope, acceptance mapping, user-correction solidification, and residual implementation risks before finish."
+    }
+  ],
+  "knownGaps": [
+    "No runtime adapter, installer profile, CI configuration, protected-branch automation, or merge credential setup is implemented by this Work Item.",
+    "The future implementation must test GitLab.com Free and representative Self-Managed Free configurations separately."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 54
+}

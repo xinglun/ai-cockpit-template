@@ -1,0 +1,146 @@
+{
+  "contractVersion": 2,
+  "workItemId": "coverage_regression_guard",
+  "mode": "code",
+  "title": "Restore coverage target after governance checker additions",
+  "baseCommit": "dfb5816f2ab9508c1b4ce596b05bd1c4cf98ed8c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/coverage_regression_guard.contract.json",
+    ".ai/work-items/active/coverage_regression_guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "tests/test_governance_complexity.py"
+  ],
+  "outOfScope": ["scripts/**", "Makefile", "docs/**"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/coverage_regression_guard.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Focused regression tests for the complexity checker."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["test_coverage_regression"],
+    "reason": "Adding focused tests is low behavior risk; the key risk is leaving latest-main coverage below the agreed target."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized the established remediation loop; focused tests are within scope."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Focused complexity-checker tests raise latest-main total coverage to at least 85%.",
+    "Tests cover policy parsing, line counting, and archive-index validation branches without changing production behavior.",
+    "All required AI Cockpit and project quality gates pass, and the Work Item is archived before PR creation."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The latest main branch is below the agreed 85% total coverage target because the complexity checker added production statements after the prior coverage PR.",
+    "constraints": [
+      "Add focused tests only; do not weaken coverage thresholds or modify production checker behavior.",
+      "Preserve existing archive and complexity policy semantics."
+    ],
+    "rationale": "Covering the new checker paths restores the target without changing the governance behavior that the complexity PR introduced."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

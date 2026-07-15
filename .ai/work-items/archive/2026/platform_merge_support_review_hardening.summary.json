@@ -1,0 +1,459 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "platform_merge_support_review_hardening",
+  "contractPath": ".ai/work-items/archive/2026/platform_merge_support_review_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/platform_merge_support_review_hardening.contract.json",
+      "reason": "Defines the critical-review scope, official sources, evidence-model acceptance criteria, and fail-closed verification requirements."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_merge_support_review_hardening.summary.json",
+      "reason": "Records the review findings, design corrections, guideline compliance, and verification evidence."
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+      "reason": "Separates candidate construction from freshness, defines a normative evidence record and result state machine, binds supported adapters to authoritative platform candidates, and conditions merge-safe conclusions on no-stale-bypass policy."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active critical-review Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index updated when this Work Item is archived."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_merge_support_scope.contract.json",
+      "reason": "Immutable archived Contract from the immediately preceding support-boundary Work Item, retained in the same uncommitted branch diff."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_merge_support_scope.summary.json",
+      "reason": "Immutable archived Summary from the immediately preceding support-boundary Work Item, retained in the same uncommitted branch diff and used as a source."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+    "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+    ".ai/work-items/archive/2026/platform_merge_support_scope.summary.json",
+    ".ai/glossary.md",
+    "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#merge_group",
+    "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue",
+    "https://docs.github.com/en/webhooks/webhook-events-and-payloads#merge_group",
+    "https://docs.gitlab.com/ci/pipelines/merged_results_pipelines/",
+    "https://docs.gitlab.com/ci/pipelines/merge_trains/",
+    "https://docs.gitlab.com/ci/variables/predefined_variables/",
+    "Critical five-strategy documentation review dated 2026-07-15"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:01.002242+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "ffb79cfebdfbb852cee7b58eada0887d9ca75188ea459632ee1b2434070f7047",
+      "commandHash": "7dd0146abfa6218dba8973e6bf3a20c524ccfa848cd9353a53b74cb05b19041e",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/platform_merge_support_review_hardening.contract.json work item contract check passed: .ai/work-items/active/platform_merge_support_review_hardening.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:01.227949+00:00",
+      "exitCode": 0,
+      "durationMs": 140,
+      "outputDigest": "2054efe2c342b07fc1481711ed3b7d9c30631fa91e1a12a291380e91d7438fe2",
+      "commandHash": "8d084a1d0822c29993070b528c233b1db8952eff80ff8bc50f6efb22df49153a",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/platform_merge_support_review_hardening.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:01.451169+00:00",
+      "exitCode": 0,
+      "durationMs": 144,
+      "outputDigest": "1e0124d37c310a0cf4b310be777b9d09ca06228b4e3c811e031994b468cd7296",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:01.953631+00:00",
+      "exitCode": 0,
+      "durationMs": 421,
+      "outputDigest": "737a5405bc60c8f2870326249a1e61a234466473bda67cf6d64b4e3d57e9b9e2",
+      "commandHash": "7a19b9ff09e63dee57f7ed094a54d6930d2c1af35e0104b6dd50df2463a9c026",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `platform_merge_support_review_hardening` - Contract Hash: `8eafe63cfb29eddf` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `8` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:02.173139+00:00",
+      "exitCode": 0,
+      "durationMs": 134,
+      "outputDigest": "de1c48e2e78f85ffc78a6ebf5e084ed9d7153e25d6aff29027e3accf63ed5ae5",
+      "commandHash": "24b36f3e2bfb666355b8fb45f28f9549e8b7216f691a0dc476e6294a023f8635",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json review policy matched 3 path(s) [review] .ai/work-items/archive/2026/platform_merge_support_scope.contract.json [review] .ai/cockpit/current_status.md [review] .ai/work-items/archive/index.json review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:02.379753+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:02.598730+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:02.726563+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "b0294dd0870180fc724a29da97470d7453223a5064cee402aa80b2c5e49b9c2e",
+      "commandHash": "0e234fdec9af900b9f14985d6d2a6073a97ebb38fa38b04ac0b6c3450a647132",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:02.846222+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "ccdd988ec0741805fc973308805cea702caee1d413aa3749ed4be2739a553f8c",
+      "commandHash": "d1411ba21361524129c6e0718557a6e3c8fd1c477b6c4373f4364ce53881175b",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:51:03.359687+00:00",
+      "exitCode": 0,
+      "durationMs": 423,
+      "outputDigest": "031e47278cb4c492ba06e00d28a40217bf2a4cd62605b9ca3422521a6c5cc76a",
+      "commandHash": "6adeb569b89f23b22c6761717ffebb2c1e6b127d1fb6f49ce30e02ca9a98bac4",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json ## Diff Ownership Preview - active_owned: `2`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md` — covered by Co"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:52:21.861123+00:00",
+      "exitCode": 0,
+      "durationMs": 78409,
+      "outputDigest": "15b573f64bebad5d3b00d97388ed985cf674063c65765c25a0b01f3acbc5aa50",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "96b1a0bb879e3dd86df14789e95f95d786d6aa051f31410ef9448e194e206c38",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 15%] ........................................................................ [ 30%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:52:24.074425+00:00",
+      "exitCode": 0,
+      "durationMs": 420,
+      "outputDigest": "c136db14630296c96528efccfd542d34204bc1541625e09efca360efda7cdcbd",
+      "commandHash": "49be85df266c92e550c2bb3f87f5ed5bd702475069c201b9fa1f8d717178b591",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "196418bbb7268a5e6824a52eba1674f91e8e1d059d4b18ec6191a77fe6b87b7d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/platform_merge_support_review_hardening.contract.json --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:52:24.611488+00:00",
+      "exitCode": 0,
+      "durationMs": 447,
+      "outputDigest": "464bc127bcb514f034de32ac0dd158a67618761a5c624d3a25b5aeb121d9045c",
+      "commandHash": "842ff2b30dd144c4e113f1c059acea25cd0f584033cb05a2e337ea05933233d4",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "196418bbb7268a5e6824a52eba1674f91e8e1d059d4b18ec6191a77fe6b87b7d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:52:24.756085+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "196418bbb7268a5e6824a52eba1674f91e8e1d059d4b18ec6191a77fe6b87b7d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:52:24.882407+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "bd6e18037f7ef68a357898471e8b494a33370a47b2495bef2b10f1226f2267be",
+      "commandHash": "414bc4da6d32b868eeac60dc3b0ed5892e914f6640fb61cd680b818fa8b86e03",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "196418bbb7268a5e6824a52eba1674f91e8e1d059d4b18ec6191a77fe6b87b7d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json --summary .ai/work-items/active/platform_merge_support_review_hardening.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/platform_merge_support_review_hardening.summary.json CONTRACT=.ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-15T13:52:25.102326+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "4dc63e3e979b2d7019fb7f9d6c5438f7b34cd273b76d63d64a1a745754734194",
+      "commandHash": "132e2aa49752cf782b6d2277c3a6c7043239b839ca53abd5db33c1e5b71eee2e",
+      "contractHash": "8eafe63cfb29eddf9226efc0257901047119aa233e7b8d3b25fef7c8f33a4cb8",
+      "commitSha": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+      "executionContractPath": ".ai/work-items/active/platform_merge_support_review_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/platform_merge_support_review_hardening.summary.json",
+      "worktreeDigest": "196418bbb7268a5e6824a52eba1674f91e8e1d059d4b18ec6191a77fe6b87b7d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/platform_merge_support_review_hardening.summary.json --contract .ai/work-items/active/platform_merge_support_review_hardening.contract.json ai summary check passed: .ai/work-items/active/platform_merge_support_review_hardening.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Use official platform documentation for behavioral and tier claims.",
+      "compliant": true,
+      "evidence": "GitHub Merge Queue and merge_group behavior, plus GitLab pipelines, variables, Merge Train bypass, and enforcement claims were checked against linked official documentation; the final independent accuracy review reported no findings."
+    },
+    {
+      "guideline": "Keep current implementation facts distinct from future design requirements.",
+      "compliant": true,
+      "evidence": "The Status section and evidence-contract text explicitly distinguish the existing ai-pre-merge command from the future adapter evidence artifact and runtime."
+    },
+    {
+      "guideline": "Keep AI Cockpit Core platform-neutral and derive conclusions from explicit evidence rather than platform labels.",
+      "compliant": true,
+      "evidence": "The v1 evidence object, ordered result rules, and conclusion matrix use construction, freshness, policy, Core, and evidence states independent of platform names."
+    },
+    {
+      "guideline": "Use canonical glossary terms and preserve the existing Work Item Recommendation semantics.",
+      "compliant": true,
+      "evidence": "The design explicitly keeps ready_for_review independent from candidate mergeSafety and uses the glossary's Work Item governance meaning."
+    },
+    {
+      "guideline": "Keep unsupported editions outside the detailed compatibility protocol.",
+      "compliant": true,
+      "evidence": "GitLab Free remains a concise head-only non-correspondence statement with no synthetic coordinator, credential, or protected-push protocol."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The document is implementation-driving and a mistaken state transition could authorize stale candidates; three iterative five-strategy reviews and official fact checks resolved all actionable findings."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "The prior candidate-mode taxonomy incorrectly made target-integrated construction imply freshness and could not represent target-integrated diagnostic candidates.",
+    "The prior design overloaded Cockpit ready_for_review with merge-safety semantics.",
+    "GitLab Merge Train presence was treated as sufficient despite documented bypass and skip_merge_train-without-restart behavior.",
+    "The prior Core contract lacked a versioned adapter evidence record, authoritative candidate/base mapping, invalidation lifecycle, and pre-Core failure states.",
+    "Negative/race tests and rollout gates did not cover missing, stale, mismatched, bypassed, interrupted, or unclassifiable evidence."
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "All required verification passed and no residual risk remains.",
+    "expectedReviewFocus": [
+      "Confirm the normative evidence object and ordered result rules represent passed, failed, incomplete, and not_run states without optimistic fallbacks.",
+      "Confirm GitHub and GitLab conclusions are conditional on candidate-bound terminal platform consumption and no-stale-bypass policy evidence.",
+      "Confirm ready_for_review remains independent of mergeSafety and GitLab Free remains head-only diagnostics."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "Treat this as a critical upgrade and review it carefully until no flaws remain.",
+    "GitLab Free should not receive detailed compatibility coverage and must be stated as non-corresponding."
+  ],
+  "userCorrectionSolidification": [
+    "Three iterative independent review cycles covered factual accuracy, completeness, consistency, clarity, and implementer usability; final accuracy, completeness, and consistency passes reported no findings.",
+    "The design derives mergeSafety from explicit construction, freshness, policy, Core, and evidence states rather than a platform or candidate-mode label.",
+    "GitLab Free remains concise head-only diagnostics and no synthetic compatibility design was reintroduced."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "8eafe63cfb29eddf",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the critical findings, official platform sources, fail-closed acceptance criteria, and user confirmation before modifying the design."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "8eafe63cfb29eddf",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the normative evidence state machine, authoritative adapter mappings, policy conditions, failure lifecycle, test/rollout coverage, and zero-finding final review results before repository verification."
+    }
+  ],
+  "knownGaps": [
+    "No runtime adapter, CI integration, installer profile, or JSON Schema implementation is delivered by this documentation Work Item.",
+    "GitLab's documented merge-train enforcement is not production-ready at the time of this design, so the design conditionally withholds a merge-safe conclusion unless no-stale-bypass policy can be evidenced."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A target-integrated candidate lacks terminal freshness proof.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Native Platform Adapters matrix and Evidence Strength conclusion matrix"
+      ]
+    },
+    {
+      "scenario": "A GitLab Merge Train is bypassed or skip_merge_train avoids pipeline restart.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "GitLab Premium and Ultimate adapter policy and Failure Semantics sections",
+        "Official GitLab Merge Trains documentation"
+      ]
+    },
+    {
+      "scenario": "Candidate, base, source, event, or policy evidence is missing, stale, mismatched, delayed, interrupted, or unclassifiable.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Normative v1 evidence object, ordered result rules, Failure Semantics, and adapter test strategy"
+      ]
+    },
+    {
+      "scenario": "Runtime and CI implementation remain outside this documentation Work Item.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Status, Non-Goals, Contract scope, and Contract outOfScope"
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "The design now prevents platform labels or target-integrated construction from becoming merge-safe claims without separately validated freshness, policy, Core, and evidence results."
+  },
+  "overclaimPrevention": "Do not claim runtime implementation or merge safety from platform availability alone; only the complete normative evidence combination may set mergeSafety to established.",
+  "archiveSequence": 61
+}

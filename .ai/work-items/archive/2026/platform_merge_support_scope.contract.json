@@ -1,0 +1,201 @@
+{
+  "contractVersion": 2,
+  "workItemId": "platform_merge_support_scope",
+  "mode": "code",
+  "title": "Narrow platform merge support scope",
+  "baseCommit": "fd1fad3c4fcdf61fb0009d773eb1e6248566b287",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+    ".ai/work-items/active/platform_merge_support_scope.contract.json",
+    ".ai/work-items/active/platform_merge_support_scope.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "templates/**",
+    ".github/workflows/**",
+    ".gitlab-ci.yml",
+    "Makefile",
+    "docs/architecture.md",
+    "docs/getting-started/**",
+    "docs/reference/**",
+    "docs/superpowers/plans/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-07-15-platform-agnostic-parallel-merge-safety-design.md",
+      "reason": "Contains the current platform support claims and the GitLab Free compatibility design that must be narrowed."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/platform_agnostic_parallel_merge_design.summary.json",
+      "reason": "Records the prior review findings and residual risks for the approved design."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines canonical Repository Governance Layer and Recommendation terminology."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Defines the one Work Item, one branch, one PR review unit and template-repository branch base."
+    },
+    {
+      "path": "User-confirmed scope decision dated 2026-07-15",
+      "reason": "The user explicitly approved deleting the detailed GitLab Free compatibility design and retaining only a clear non-correspondence statement."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_drift",
+      "support_boundary_overclaim"
+    ],
+    "reason": "This is a documentation-only narrowing of supported platform claims; the main risk is leaving contradictory GitLab Free compatibility text elsewhere in the same design."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user approved the exact documentation scope and confirmed that GitLab Free should be stated as not corresponding rather than described in detail."
+  },
+  "preReviewWarnings": [
+    "Confirm every synthetic compatibility, protected coordinator, credential, and GitLab Free safety claim is removed from the design.",
+    "Confirm GitLab Free remains explicitly visible as unsupported for target-integrated parallel merge safety rather than disappearing silently.",
+    "Confirm GitHub Merge Queue and GitLab Premium or Ultimate Merge Train behavior remains unchanged."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The design goal, decisions, capability matrix, profiles, testing strategy, and rollout sequence no longer claim a GitLab Free synthetic compatibility gate.",
+    "The design explicitly states that GitLab Free does not correspond to the target-integrated parallel merge safety modes defined by this document and is limited to head-only diagnostic validation.",
+    "The detailed GitLab Free coordinator, credential, protected push, retry, reconciliation, and synthetic evidence sections are removed rather than retained as an implementation protocol.",
+    "GitHub Merge Queue and GitLab Premium or Ultimate Merge Train remain the native platform paths described by the design, while AI Cockpit Core remains platform-neutral.",
+    "No runtime scripts, tests, templates, CI files, Makefile targets, or unrelated documentation are changed."
+  ],
+  "guidelines": [
+    "Do not imply that GitLab Free provides or will receive an equivalent parallel merge safety guarantee in this design.",
+    "Keep the unsupported-platform statement concise and capability-based rather than documenting a replacement implementation.",
+    "Preserve the distinction between target-integrated candidate verification and head-only diagnostic checks.",
+    "Keep AI Cockpit Core platform-neutral and avoid claiming runtime behavior is already implemented."
+  ],
+  "intent": {
+    "problem": "The approved design describes a detailed GitLab Free synthetic merge coordinator whose eligibility and trust guarantees are difficult to bind atomically. The user has decided that GitLab Free should not be treated as a corresponding parallel merge safety platform in this design.",
+    "constraints": [
+      "Remove the detailed GitLab Free compatibility protocol instead of attempting to repair or expand it.",
+      "State the non-correspondence explicitly so readers do not infer support from omission.",
+      "Preserve the existing GitHub Merge Queue, GitLab Premium or Ultimate Merge Train, and platform-neutral Core boundaries.",
+      "Limit this Work Item to documentation and governance evidence; do not change runtime or CI behavior.",
+      "Use origin as the template-repository base remote and main as the base branch; baseCommit records the fetched origin/main commit."
+    ],
+    "rationale": "A narrow, explicit support boundary is safer and easier to maintain than a speculative GitLab Free automation design that cannot provide the same platform-native candidate and freshness guarantees."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The support-boundary decision is explicit and approved before editing the design.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "User-confirmed scope decision dated 2026-07-15"
+      ]
+    },
+    {
+      "scenario": "Runtime, CI, installer, credential, and test implementation remain outside this documentation Work Item.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Contract scope and outOfScope declarations"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

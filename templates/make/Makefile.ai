@@ -13,7 +13,7 @@ TASK ?=
 TITLE ?=
 MODE ?= investigate
 PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
-AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
+AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 PROJECT_FORMAT_CHECK ?= printf '%s\n' 'ERROR: no project formatter configured. Set PROJECT_FORMAT_CHECK in Makefile.ai.stack.' >&2; false
 PROJECT_TEST ?= printf '%s\n' 'ERROR: no project test command configured. Set PROJECT_TEST in Makefile.ai.stack.' >&2; false
 PROJECT_LINT ?= printf '%s\n' 'ERROR: no project linter configured. Set PROJECT_LINT in Makefile.ai.stack.' >&2; false

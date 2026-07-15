@@ -9,7 +9,7 @@ TASK ?=
 TITLE ?=
 MODE ?= investigate
 PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
-AI_PYTHON ?= PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
+AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 
 .PHONY: help \
 	test project-format-check project-test project-lint diff-check quality \

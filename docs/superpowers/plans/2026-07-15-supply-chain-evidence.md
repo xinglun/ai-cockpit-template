@@ -25,7 +25,7 @@ keywords:
 - Do not cherry-pick the old commit wholesale.
 - Do not modify `.github/workflows/**`, `install.sh`, or `requirements-dev.lock`.
 - Do not hand-edit `.ai/cockpit/sbom.json`, `.ai/cockpit/provenance.json`, or `.ai/cockpit/release-digests.json`.
-- Preserve the immutable `v0.5.26` release and the current PR-first exact-SHA workflow.
+- Preserve the immutable `v0.5.27` release and the current PR-first exact-SHA workflow.
 - Every behavior change follows a failing focused test, minimal implementation, passing focused test, then refactor.
 
 ## File map
@@ -35,7 +35,7 @@ keywords:
 - `tests/test_release_distribution.py`: release metadata and digest binding regression coverage; modify only if the focused evidence changes require it.
 - `docs/reference/distribution.md`: document the evidence boundary and what publisher-provided attestation still supplies.
 - `.ai/cockpit/sbom.json`, `.ai/cockpit/provenance.json`, `.ai/cockpit/release-digests.json`: generated outputs written by the supply-chain command.
-- `release.json`: update only if regenerated evidence requires the current release claims to change; preserve `v0.5.26`.
+- `release.json`: update only if regenerated evidence requires the current release claims to change; preserve `v0.5.27`.
 - `.ai/work-items/**` and `.ai/cockpit/current_status.md`: Work Item evidence and generated status.
 
 ### Task 1: Lock parsing and CycloneDX model

@@ -16,7 +16,7 @@ keywords:
 `backup/main-ab850` contains a useful SBOM and release-evidence improvement, but
 its parent is stale and the commit also removes or rewinds unrelated governance
 and release changes. The goal is to reimplement only the supply-chain behavior
-on the synchronized `main`, preserving the published `v0.5.26` contract and
+on the synchronized `main`, preserving the published `v0.5.27` contract and
 the current workflow files.
 
 ## Scope
@@ -77,7 +77,7 @@ AI Cockpit checks. Generated evidence will only be changed through
 Evidence generation and validation fail closed on malformed lock entries,
 missing hashes, unmapped vulnerability identities, digest drift, or an invalid
 source commit. If implementation or review is rejected, revert the new PR;
-the immutable `v0.5.26` tag and its release assets are not rewritten.
+the immutable `v0.5.27` tag and its release assets are not rewritten.
 
 ## Acceptance
 

@@ -1,0 +1,165 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance_complexity_control",
+  "mode": "code",
+  "title": "Control governance complexity and archive growth",
+  "baseCommit": "57a152239bbba9218a3c01da48b2d38092076f57",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/governance_complexity_control.contract.json",
+    ".ai/work-items/active/governance_complexity_control.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/check_governance_complexity.py",
+    "tests/test_governance_complexity.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "docs/reference/governance-complexity.md",
+    "Makefile",
+    ".ai/cockpit/bandit_low_risk_baseline.json"
+  ],
+  "outOfScope": ["scripts/ai_*.py", ".github/**", "CODEOWNERS", "SECURITY.md", "docs/getting-started/**"],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Declare reviewable complexity and archive growth thresholds."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Generate a deterministic read-only complexity and archive consistency report."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Verify threshold failures, archive pairing, and report generation."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Expose the complexity report as a repeatable repository check."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Document lifecycle review and immutable archive handling."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_complexity"
+    ],
+    "reason": "The report is read-only, but threshold changes and archive consistency are governance-sensitive."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The report-only architecture, policy scope, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A policy-driven read-only check reports tracked file, Python/Markdown line, archive count, and archive index consistency metrics.",
+    "The check fails with actionable errors when configured thresholds or archive pairing invariants are violated.",
+    "A Make target, focused tests, and lifecycle documentation make the review process repeatable.",
+    "Historical archive records remain unchanged and the full quality and AI governance gates pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Governance scripts and immutable archive records continue to grow without a repeatable complexity inventory or lifecycle review signal.",
+    "constraints": ["Do not delete, rewrite, or migrate historical Contract/Summary records.", "Keep the report deterministic and read-only.", "Use policy configuration rather than repository-specific thresholds embedded in Python."],
+    "rationale": "A small, fail-closed inventory makes growth visible to maintainers while preserving the audit history and avoiding a larger governance refactor."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-confirmed remediation design",
+    "reason": "User confirmed the safe read-only complexity governance approach."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

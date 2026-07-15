@@ -14,7 +14,7 @@ AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 .PHONY: help \
 	test project-format-check project-test project-lint diff-check quality \
 	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
-	check-docs-metadata \
+	check-docs-metadata check-governance-complexity \
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
 	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
 	check-release-distribution \
@@ -64,6 +64,7 @@ help:
 	@printf '%s\n' '  make quality'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make check-docs-metadata'
+	@printf '%s\n' '  make check-governance-complexity'
 	@printf '%s\n' '  make check-ai-system-invariants'
 	@printf '%s\n' '  make cockpit-doctor'
 	@printf '%s\n' '  make cockpit-calibrate'
@@ -88,6 +89,7 @@ project-lint:
 	$(AI_PYTHON) -m mypy scripts/*.py
 	$(AI_PYTHON) -m bandit -q -r scripts -ll
 	$(AI_PYTHON) scripts/check_bandit_baseline.py
+	$(AI_PYTHON) scripts/check_governance_complexity.py
 	$(AI_PYTHON) scripts/check_supply_chain.py secrets
 	$(AI_PYTHON) -m py_compile scripts/*.py tests/*.py
 
@@ -96,6 +98,9 @@ diff-check:
 
 check-docs-metadata:
 	$(AI_PYTHON) scripts/check_docs_metadata.py
+
+check-governance-complexity:
+	$(AI_PYTHON) scripts/check_governance_complexity.py
 
 check-release-distribution:
 	$(AI_PYTHON) scripts/check_release_distribution.py

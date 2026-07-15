@@ -24,6 +24,8 @@ This repository is the AI Cockpit template repository. Template-maintenance bran
 
 Installation and upgrade changes belong to the adopter project's history. They must use a published template release tag, not a moving template work branch. After the PR is merged, delete the remote and local work branch unless an explicitly documented recovery procedure requires retaining it.
 
+Work Item completion is a lifecycle closure, not merely branch deletion. Run `make ai-close-work-item TASK=<task>` only after the Work Item is archived and the corresponding PR is merged. Closure must verify archived evidence, branch/PR ownership, fast-forward-only base synchronization, local and remote branch deletion, a clean worktree, and local-base equality with the remote base. Any failed step is fail closed and must not report the Work Item as closed.
+
 Before changing code, docs, CI, build files, or AI governance files:
 
 1. Create or identify a Work Item Contract in `.ai/work-items/active/`.

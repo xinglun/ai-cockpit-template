@@ -36,6 +36,10 @@ AI Cockpit は、エージェント型開発のための協調エンジニアリ
 - 導入先の adopter project では、そのプロジェクト自身のリモート既定ブランチの最新コミットから作成する。`origin/main` を仮定せず、リモート名とブランチ名を確認し、Work Item に `baseRemote`、`baseBranch`、`baseCommit` を記録する。
 インストールとアップグレードの変更履歴は adopter project 側に属します。移動するテンプレート作業ブランチではなく、公開済みテンプレートの release tag を使用してください。PR のマージ後は、明示的な復旧例外を除き、リモートとローカルの作業ブランチを削除します。
 
+### ライフサイクルのクローズ
+
+Work Item を archive し、対応する PR が merge された後に `make ai-close-work-item TASK=<task>` を実行します。Contract/Summary/Cockpit Status、ブランチと PR の一対一対応、fast-forward のみの base 同期、ローカル／リモートブランチ削除、clean な repository、local base と remote base の一致を検証します。どれかが失敗した場合は fail closed とし、全ての事後条件を満たすまで `ready for next Work Item` を報告しません。
+
 1. `make ai-start TASK=<task> TITLE="..." MODE=code` で Work Item を作成する。
 2. Contract の `scope`、`sources`、`acceptance`、`verification`、リスク評価、エージェント能力、実行判断を明確にする。
 3. 宣言したスコープ内のみ実装する。

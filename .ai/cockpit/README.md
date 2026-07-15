@@ -74,6 +74,10 @@ The branch base depends on the repository role:
 - In an adopter project, create branches from the latest commit on that project's remote default branch. Discover the remote and branch; do not assume `origin/main`. Record `baseRemote`, `baseBranch`, and `baseCommit` in the Work Item when workflow metadata is used.
 Installation and upgrade work is committed to the adopter project's repository. It consumes a published template release tag, not a moving template branch. After merge, remove the remote and local work branch unless a documented recovery exception applies.
 
+### Lifecycle closure
+
+Use `make ai-close-work-item TASK=<task>` after the Work Item is archived and its PR is merged. The command verifies the archived Contract/Summary/Cockpit Status, the one-to-one branch/PR mapping, fast-forward-only base synchronization, local and remote branch deletion, a clean repository, and local-base equality with the remote base. It fails closed on any error and reports `ready for next Work Item` only after every postcondition passes.
+
 1. Declare Intent (optional but recommended): Why does this work exist? What constraints must be respected? What's the rationale?
 2. Create a Work Item with `make ai-start TASK=<task> TITLE="..." MODE=code`.
 3. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available, or leave them empty / not provided when context is missing.

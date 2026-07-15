@@ -8,6 +8,8 @@ For template-maintenance work, create the branch from the latest `origin/main`. 
 
 Installation and upgrade changes are changes in the adopter project's history. Use a published template release tag and record its source identity; do not install from a moving template work branch. After the PR is merged, delete the remote and local work branch unless a documented recovery exception applies.
 
+Work Item completion is a lifecycle closure, not merely branch deletion. Run `make ai-close-work-item TASK=<task>` only after the Work Item is archived and the corresponding PR is merged. Closure must verify archived evidence, branch/PR ownership, fast-forward-only base synchronization, local and remote branch deletion, a clean worktree, and local-base equality with the remote base. Any failed step is fail closed and must not report the Work Item as closed.
+
 ### Required Workflow
 
 1. Create or identify a version 2 Work Item Contract in `.ai/work-items/active/`.

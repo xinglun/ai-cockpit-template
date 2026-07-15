@@ -1,0 +1,147 @@
+{
+  "contractVersion": 2,
+  "workItemId": "dependabot_ruby_setup_update",
+  "mode": "review",
+  "title": "Record Dependabot setup-ruby update",
+  "baseCommit": "32d04073fe7caa01a6b6c1cbc6a07e342c1f5b11",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/dependabot_ruby_setup_update.contract.json",
+    ".ai/work-items/active/dependabot_ruby_setup_update.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/compatibility.yml",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json"
+  ],
+  "outOfScope": ["scripts/**", "tests/**"],
+  "sources": [
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Dependabot updates the setup-ruby action pin."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "dependency_update"
+    ],
+    "reason": "Automated CI action version update with compatibility checks required."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The workflow and supply-chain evidence scope is explicit and CI verifies compatibility."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The dependency update is recorded with an archived Contract and Summary.",
+    "The repository quality and compatibility checks pass with the updated action metadata.",
+    "The PR remains limited to CI dependency metadata and governance evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The Dependabot PR updates ruby/setup-ruby from 1.316.0 to 1.317.0 and requires an auditable Work Item record for repository PR governance.",
+    "constraints": ["Keep the change limited to the action pin and governance evidence.", "Do not weaken any CI or supply-chain gates."],
+    "rationale": "A small archived Work Item makes automated CI dependency maintenance visible to the same PR governance chain as human-authored changes."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-confirmed option 1",
+    "reason": "User confirmed recording Dependabot changes as archived Work Items so the PR gate can pass."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

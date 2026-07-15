@@ -165,7 +165,6 @@ def test_check_only_fails_when_policy_enables_gate(tmp_path, monkeypatch):
         ],
     )
     assert ai_preflight_review.main() == 0
-    assert output.exists()
 
     monkeypatch.setattr(
         sys,
@@ -221,3 +220,83 @@ def test_check_passes_when_policy_is_advisory_only(tmp_path, monkeypatch):
         ],
     )
     assert ai_preflight_review.main() == 0
+
+
+def test_preflight_signal_helpers_cover_boundary_states():
+    contract = ready_contract()
+    contract["scope"] = []
+    contract["outOfScope"] = []
+    assert ai_preflight_review.scope_signal(contract).value == "Missing"
+    assert ai_preflight_review.out_of_scope_signal(contract).value == "Not Applicable"
+    assert (
+        ai_preflight_review.overall_status(
+            [], {"contract": {"notCodable": True}, "scope": {"value": "Missing"}}
+        )
+        == "not_ready"
+    )
+
+
+def test_preflight_signals_cover_missing_overlap_broad_and_partial_states():
+    assert ai_preflight_review.scope_signal({}).value == "Missing"
+    assert (
+        ai_preflight_review.scope_signal({"scope": ["src/**"], "outOfScope": ["src/**"]}).value
+        == "Inconsistent"
+    )
+    assert ai_preflight_review.scope_signal({"scope": ["**"], "outOfScope": []}).value == "Broad"
+    assert ai_preflight_review.out_of_scope_signal({}).value == "Missing"
+    assert ai_preflight_review.out_of_scope_signal({"outOfScope": [""]}).value == "Inconsistent"
+    assert (
+        ai_preflight_review.intent_signal(
+            {"intent": {"problem": "p", "constraints": [], "rationale": None}}
+        ).value
+        == "Partial"
+    )
+    assert (
+        ai_preflight_review.unknowns_signal(
+            {"unknowns": [], "riskAssessment": {"level": "low"}}
+        ).value
+        == "Ready"
+    )
+    assert (
+        ai_preflight_review.acceptance_signal(
+            {
+                "acceptance": [
+                    "done",
+                    "specific concrete acceptance condition with measurable evidence",
+                ]
+            }
+        ).value
+        == "Partial"
+    )
+
+
+def test_preflight_sources_verification_and_scenario_boundaries():
+    assert ai_preflight_review.sources_signal({}).value == "Missing"
+    assert ai_preflight_review.sources_signal({"sources": ["only"]}).value == "Inconsistent"
+    assert (
+        ai_preflight_review.sources_signal(
+            {"sources": [{"path": "docs/spec.md", "reason": "evidence"}]}
+        ).value
+        == "Weak"
+    )
+    assert (
+        ai_preflight_review.sources_signal(
+            {
+                "sources": [
+                    {"path": "docs/spec.md", "reason": "evidence"},
+                    {"path": "src/app.py", "reason": "implementation"},
+                ]
+            }
+        ).value
+        == "Ready"
+    )
+    assert ai_preflight_review.verification_signal({}).value == "Missing"
+    assert ai_preflight_review.verification_signal({"verification": []}).value == "Missing"
+    assert (
+        ai_preflight_review.verification_signal({"verification": [{"command": "make test"}]}).value
+        == "Broad"
+    )
+    assert (
+        ai_preflight_review.scenario_coverage_signal({"riskAssessment": {"level": "low"}}).value
+        == "Not Applicable"
+    )

@@ -1,4 +1,5 @@
 import json
+import sys
 from pathlib import Path
 
 import ai_check_pr
@@ -110,6 +111,41 @@ def test_aggregate_pr_covers_earlier_and_later_work_items(tmp_path, monkeypatch)
     )
 
     assert ai_check_pr.validate_pr_bundle("a" * 40, [first, second]) == []
+
+
+def test_aggregate_pr_reports_missing_summary_and_invalid_json(tmp_path, monkeypatch):
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    missing = archive / "missing.contract.json"
+    missing.write_text("{}", encoding="utf-8")
+    malformed = archive / "malformed.contract.json"
+    malformed.write_text("{", encoding="utf-8")
+    (archive / "malformed.summary.json").write_text("{}", encoding="utf-8")
+    policy = tmp_path / "scope.yaml"
+    policy.write_text("allowAlways:\n", encoding="utf-8")
+    monkeypatch.setattr(ai_check_pr, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_pr, "SCOPE_POLICY", policy)
+    patch_changes(monkeypatch, [])
+
+    issues = ai_check_pr.validate_pr_bundle("a" * 40, [missing, malformed])
+
+    assert any("Summary" in issue for issue in issues)
+    assert any("failed to load archive pair" in issue for issue in issues)
+
+
+def test_aggregate_pr_main_reports_missing_base_and_validation_issues(
+    tmp_path, monkeypatch, capsys
+):
+    monkeypatch.setattr(sys, "argv", ["ai_check_pr.py"])
+    assert ai_check_pr.main() == 2
+    assert "--base or AI_BASE_COMMIT is required" in capsys.readouterr().err
+
+    contract = tmp_path / "fixture.contract.json"
+    contract.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["ai_check_pr.py", "--base", "a" * 40, str(contract)])
+    monkeypatch.setattr(ai_check_pr, "validate_pr_bundle", lambda *_args: ["fixture issue"])
+    assert ai_check_pr.main() == 1
+    assert "fixture issue" in capsys.readouterr().err
 
 
 def test_aggregate_pr_accepts_generated_archive_index_named_by_summary(tmp_path, monkeypatch):

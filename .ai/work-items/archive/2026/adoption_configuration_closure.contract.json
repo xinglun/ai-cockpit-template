@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "adoption_configuration_closure",
+  "mode": "code",
+  "title": "Close adopter CODEOWNERS and SECURITY configuration ambiguity",
+  "baseCommit": "9f208d4d69a79ebebc29c6d07964b6c6cf47745e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/adoption_configuration_closure.contract.json",
+    ".ai/work-items/active/adoption_configuration_closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "README.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/first-work-item.md",
+    "docs/getting-started/adopter-configuration.md",
+    "tests/test_adoption_ready.py"
+  ],
+  "outOfScope": [".github/CODEOWNERS", "SECURITY.md", "scripts/**", "Makefile"],
+  "sources": [
+    {
+      "path": "docs/getting-started/adopter-configuration.md",
+      "reason": "Define exact adopter-owned CODEOWNERS and SECURITY replacement steps."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Verify placeholder and completed adopter configuration behavior."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Link the configuration closure into the adoption lifecycle."
+    },
+    {
+      "path": "docs/getting-started/first-work-item.md",
+      "reason": "Surface the configuration check before production readiness."
+    },
+    {
+      "path": "README.md",
+      "reason": "Make the adopter configuration boundary visible from the primary entry point."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "adoption_configuration"
+    ],
+    "reason": "Documentation and readiness-test changes preserve generic template placeholders while clarifying adopter obligations."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The generic placeholder boundary and adopted-project readiness behavior are explicit."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The primary README and adoption lifecycle link to an exact adopter configuration checklist.",
+    "The checklist identifies the required CODEOWNERS owner replacement and SECURITY.md reporting-policy replacement without supplying repository-specific values.",
+    "Readiness tests prove adopted repositories fail closed with placeholders and pass only after explicit configuration.",
+    "The full documentation, quality, AI governance, and PR ownership gates pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The review correctly notes that CODEOWNERS and SECURITY.md remain adopter-owned placeholders, but the configuration handoff should be impossible to miss.",
+    "constraints": ["Do not invent an owner team, security contact, SLA, or platform identity.", "Keep readiness fail-closed for adopted repositories until placeholders are replaced.", "Keep the template-maintenance exemption explicit."],
+    "rationale": "A dedicated adopter checklist and focused tests close the documentation and verification gap without pretending the generic template knows adopter-specific security facts."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

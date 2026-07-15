@@ -11,7 +11,7 @@ keywords:
 
 # First Work Item
 
-Use this page after installation and validation succeed. It covers the first governed task from start to finish.
+Use this page after installation and validation succeed. Complete the [Adopter Configuration](adopter-configuration.md) checklist before treating the repository as production-ready, then use this page for the first governed task from start to finish.
 
 ## Start a Governed Task
 

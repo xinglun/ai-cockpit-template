@@ -100,7 +100,7 @@ AI Cockpit fits a **governance runtime plus local calibration** model. Installat
 
 For Java and Android repositories, treat the host JDK as a prerequisite before the flow above starts. AI Cockpit does not install, switch, or manage JDK versions. Java compatibility CI uses JDK 21 and the Android smoke uses JDK 17, but an adopted project must use the version required by its Gradle Wrapper and AGP. Verify that `./gradlew` runs with that project-required JDK, then replace preset task names with the actual variant-aware Gradle commands it exposes.
 
-The installed [Adoption Readiness](../../.ai/cockpit/adoption.md) checklist mirrors these steps for day-to-day use.
+The installed [Adoption Readiness](../../.ai/cockpit/adoption.md) checklist mirrors these steps for day-to-day use. Before production adoption, complete the repository-owned [Adopter Configuration](adopter-configuration.md) checklist for CODEOWNERS and SECURITY.md.
 
 ### Phase 4. Project Calibration
 

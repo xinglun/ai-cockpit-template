@@ -99,7 +99,7 @@ Version history and capability evolution are maintained in the [Roadmap](docs/ro
 
 ## Quick Install
 
-Use this when you want the shortest path to a fresh adoption install. For the full lifecycle and page map, read [Installation](docs/getting-started/installation.md) and [Documentation Architecture](docs/reference/documentation-architecture.md).
+Use this when you want the shortest path to a fresh adoption install. For the full lifecycle and page map, read [Installation](docs/getting-started/installation.md), [Adopter Configuration](docs/getting-started/adopter-configuration.md), and [Documentation Architecture](docs/reference/documentation-architecture.md).
 The quick-install flow resolves the documented release metadata from the public release source first. `AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY` and `AI_COCKPIT_TEMPLATE_RAW_BASE` are used only to resolve the release tag and fetch the installer; the installer itself still honors `AI_COCKPIT_TEMPLATE_REPO` and `AI_COCKPIT_TEMPLATE_SOURCE` for its own clone or source selection. If your repository or release artifacts are private, use a local clone or configured source instead of relying on the quick-install bootstrap path.
 
 ```sh

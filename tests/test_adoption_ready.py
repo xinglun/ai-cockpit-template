@@ -180,6 +180,22 @@ def test_template_security_doc_remains_fail_closed_after_adoption(tmp_path):
     assert any("SECURITY.md" in failure for failure in readiness_failures(tmp_path))
 
 
+def test_adopter_owned_codeowners_and_security_configuration_unblocks_readiness(tmp_path):
+    write_ready_configuration(tmp_path)
+    (tmp_path / ".github" / "CODEOWNERS").write_text(
+        "# Repository-owned review team\n* @governance-reviewers\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "SECURITY.md").write_text(
+        "# Security Policy\n\n"
+        "Report vulnerabilities through the repository's private security channel.\n"
+        "Supported versions and response expectations are maintained by the security team.\n",
+        encoding="utf-8",
+    )
+
+    assert readiness_failures(tmp_path) == []
+
+
 def test_trivial_quality_commands_do_not_satisfy_static_readiness(tmp_path):
     write_ready_configuration(tmp_path)
     (tmp_path / "Makefile.ai.stack").write_text(

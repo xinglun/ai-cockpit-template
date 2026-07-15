@@ -35,6 +35,7 @@ SCRIPT_NAMES = {
     "ai_doctor.py",
     "ai_check_adoption_ready.py",
     "ai_archive_work_item.py",
+    "ai_close_work_item.py",
     "ai_checkpoint.py",
     "ai_check_agent_risk.py",
     "ai_check_backtrack.py",

@@ -69,6 +69,8 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     assert "ai-doctor:" in makefile_ai
     assert "check-ai-adoption-ready:" in makefile_ai
     assert "scripts/ai_check_pr.py" in makefile_ai
+    assert "ai-close-work-item:" in makefile_ai
+    assert (tmp_path / "scripts" / "ai_close_work_item.py").is_file()
     assert "scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))" in makefile_ai
     assert (tmp_path / ".ai" / "glossary.md").read_text(encoding="utf-8") == (
         ROOT / "templates" / "glossary.md"

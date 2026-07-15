@@ -22,7 +22,7 @@ AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	ai-doctor check-ai-adoption-ready \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy template-adoption-ready \
 	check-ai-scenario-coverage generate-ai-preflight-review check-ai-preflight-review ai-preflight \
-	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item check-ai-pr check-ai-diff-ownership ai-pre-merge
+	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item ai-close-work-item check-ai-pr check-ai-diff-ownership ai-pre-merge
 
 check-ai-diff-ownership:
 	$(AI_PYTHON) scripts/ai_check_diff_ownership.py $(if $(AI_BASE_COMMIT),--base $(AI_BASE_COMMIT),) $(if $(CONTRACT),--contract $(CONTRACT),)
@@ -71,6 +71,7 @@ help:
 	@printf '%s\n' '  make cockpit-validate-calibration'
 	@printf '%s\n' '  make check-release-distribution  # networked public release contract'
 	@printf '%s\n' '  make archive-work-item CONTRACT=<contract.json> [ARGS="--dry-run"]'
+	@printf '%s\n' '  make ai-close-work-item TASK=<task>  # verify merge, synchronize base, and clean branches'
 	@printf '%s\n' ''
 	@printf '%s\n' 'Customize project-format-check, project-test, and project-lint for your stack.'
 
@@ -226,6 +227,9 @@ repair-ai-status:
 
 archive-work-item:
 	$(AI_PYTHON) scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
+
+ai-close-work-item:
+	$(AI_PYTHON) scripts/ai_close_work_item.py --task "$(TASK)"
 
 check-ai:
 	@if [ -n "$(CONTRACT)" ]; then \

@@ -1,0 +1,201 @@
+{
+  "contractVersion": 2,
+  "workItemId": "work_item_lifecycle_closure",
+  "mode": "code",
+  "title": "Implement fail-closed Work Item lifecycle closure",
+  "baseCommit": "1a0bfb50c7f0fccc9a86ffce4b0df766eeb95aa9",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_close_work_item.py",
+    "scripts/install_ai_cockpit.py",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "tests/test_work_item_lifecycle_closure.py",
+    "tests/test_installer.py",
+    "AGENTS.md",
+    "templates/agents/AI_COCKPIT_RULES.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    ".ai/cockpit/bandit_low_risk_baseline.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/guards/coverage_policy.yaml",
+    "docs/getting-started/first-work-item.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/work-item-lifecycle-closure.md",
+    ".ai/work-items/active/work_item_lifecycle_closure.contract.json",
+    ".ai/work-items/active/work_item_lifecycle_closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    ".github/workflows/**",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_check_pr.py"
+  ],
+  "sources": [
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Defines one Work Item, one branch, one PR and repository-role-aware branch bases."
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Defines the archived Contract/Summary and no-active Cockpit status boundary."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Defines the Work Item lifecycle and generated status checks."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Closure performs destructive local and remote branch cleanup, so every precondition and postcondition must fail closed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User approved the lifecycle closure design and the new independent Work Item."
+  },
+  "preReviewWarnings": [
+    "Review destructive cleanup ordering, exact PR/branch mapping, fast-forward-only synchronization, and fail-closed behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make ai-close-work-item TASK=<task> verifies archived Contract/Summary/Cockpit Status consistency before cleanup.",
+    "The command verifies the current branch, Work Item, and PR are one-to-one and that the PR is merged before switching or deleting branches.",
+    "The command fast-forward synchronizes the configured base branch, deletes the local branch, deletes the remote branch, and verifies clean state plus local-base equality with the remote base.",
+    "Every failed precondition or cleanup step stops without marking the Work Item closed; the remote deletion occurs only after local main/base safety is established.",
+    "Tests cover successful closure and failures for incomplete evidence, unmerged PR, branch mismatch, non-fast-forward synchronization, failed remote deletion, and dirty state.",
+    "Rules and documentation describe the lifecycle closure command, repository-role-aware base branch configuration, and the final ready-for-next-task state."
+  ],
+  "guidelines": [
+    "Destructive cleanup must be fail closed and ordered to preserve local recovery capability.",
+    "Never hard-code origin/main for adopter projects; use Contract workflow metadata for remote and base branch.",
+    "Keep closure verification platform-aware without treating local output as proof of PR identity."
+  ],
+  "intent": {
+    "problem": "A Work Item can be archived and its PR merged while the repository still has a stale local base branch, a retained work branch, a remote branch, or an inconsistent Cockpit status. Manual cleanup can also delete a branch before confirming merge, weakening recovery.",
+    "constraints": [
+      "Closure must use the Work Item's configured remote and base branch, not assume origin/main.",
+      "PR merge must be verified through the hosting platform adapter before branch deletion.",
+      "Local base synchronization must be fast-forward only.",
+      "Remote deletion must happen after local base safety and local branch deletion.",
+      "Failure must leave the Work Item unclosed and must not claim repository readiness."
+    ],
+    "rationale": "A deterministic, fail-closed closure command makes the repository state ready for the next Work Item and provides the safety foundation for parallel branch/PR execution."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A completed archived Work Item with a merged matching PR closes to a clean synchronized base branch.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_work_item_lifecycle_closure.py"]
+    },
+    {
+      "scenario": "An unmerged or branch-mismatched PR prevents any branch cleanup and does not report closure.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_work_item_lifecycle_closure.py"]
+    },
+    {
+      "scenario": "A failed fast-forward or remote deletion leaves the process failed closed after preserving local base safety.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_work_item_lifecycle_closure.py"]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly approved implementation of the lifecycle closure command, tests, rules, and documentation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

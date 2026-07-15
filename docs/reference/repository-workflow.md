@@ -28,6 +28,12 @@ An adopter project keeps its own Git history and branch policy:
 5. Open one adopter-project PR, then delete the remote and local branch after merge.
 
 The remote does not have to be named `origin`, and the default branch does not have to be `main`.
+
+## Lifecycle closure
+
+After the Work Item is archived and its PR is merged, run `make ai-close-work-item TASK=<task>`. The command discovers the repository base remote and default branch, verifies the current branch and PR mapping, switches to the base branch, fetches, and synchronizes with `git merge --ff-only`. Only then does it delete the local work branch and remote work branch. It finishes by verifying a clean worktree and identical local/remote base commits.
+
+The command is fail closed: an unmerged PR, inconsistent archived evidence, dirty state, non-fast-forward update, branch mismatch, deletion failure, or final synchronization mismatch prevents a successful closed result. The remote deletion is deliberately last so a failure leaves the local base branch safe for recovery.
 ## Installation and upgrade boundary
 The template repository publishes a release; the adopter project consumes it and owns the resulting changes:
 

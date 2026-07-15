@@ -53,3 +53,11 @@ make ai-finish TASK=example_change
 ```
 
 `ai-finish` runs the registered checks, updates the Summary with execution evidence, regenerates status, and archives the Contract/Summary pair. A successful walkthrough ends with no files under `.ai/work-items/active/`, an archive pair under `.ai/work-items/archive/<year>/`, and `make check-ai-status-consistency` passing. After the PR is merged, remove the corresponding remote and local work branch. Installation and upgrade tasks follow the same rule, but their source is a published template release tag recorded in the adopter project's Work Item.
+
+Complete the lifecycle with the merged PR still identifiable from the Work Item branch:
+
+```sh
+make ai-close-work-item TASK=example_change
+```
+
+The command switches to the repository's discovered base branch only after verifying the archived evidence and merged PR, synchronizes it with `--ff-only`, then deletes local and remote work branches. It exits nonzero and reports the Work Item as not closed if any precondition or cleanup verification fails.

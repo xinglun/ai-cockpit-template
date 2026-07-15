@@ -1,0 +1,217 @@
+{
+  "contractVersion": 2,
+  "workItemId": "automate_work_item_closure",
+  "mode": "investigate",
+  "title": "Automate merged Work Item lifecycle closure",
+  "baseCommit": "59d46d714d2654291afbbcf497673c6001814fb5",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/ai_close_work_item.py",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    "docs/reference/work-item-lifecycle-closure.md",
+    "docs/reference/repository-workflow.md",
+    "docs/superpowers/specs/2026-07-16-automated-work-item-closure-design.md",
+    ".ai/work-items/active/automate_work_item_closure.contract.json",
+    ".ai/work-items/active/automate_work_item_closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "PR #41 implementation changes",
+    "unrelated release workflows",
+    "automatic deletion of developer-local branches from GitHub-hosted runners"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Defines merged-PR lifecycle closure and branch cleanup requirements."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Defines the current manual ai-close-work-item workflow and fail-closed semantics."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Current implementation requires a local Work Item branch and local base worktree."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Existing GitHub Actions event, permission, and repository workflow conventions; this is a template-repository adapter example, not an adopter-wide assumption."
+    },
+    {
+      "path": "docs/reference/work-item-lifecycle-closure.md",
+      "reason": "Canonical lifecycle protocol that currently requires manual invocation."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Fixed governance complexity bounds must include the next Work Item's tracked design artifact before remote checks run."
+    }
+  ],
+  "problemStatement": "The repository documents lifecycle closure after PR merge but does not automatically invoke or coordinate it. Remote branch cleanup can run in a provider-specific hosted CI/CD adapter, while developer-local branch cleanup cannot be performed by a hosted runner and needs a local trigger or explicit handoff. The template must not hard-code GitHub Actions into adopter projects because adopters may use GitLab or another provider.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Merged PR triggers safe remote cleanup only after merge and required evidence checks",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Requires a design decision and implementation in a follow-up coding phase."
+    },
+    {
+      "scenario": "Developer-local branch is cleaned after the remote merge without deleting an unmerged branch",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "A hosted CI/CD runner cannot directly mutate a developer's local clone; the local trigger remains to be designed."
+    },
+    {
+      "scenario": "Cleanup races with provider-side automatic branch deletion",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "PR #41 follow-up context and the idempotent deletion behavior in scripts/ai_close_work_item.py"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Whether the target automation should be hosted-provider-only, local post-merge only, or a coordinated two-part workflow.",
+    "How archived Contract/Summary evidence and the merged request identity should be passed to a hosted cleanup job without checking out the deleted source branch.",
+    "Which provider credentials and protected-branch conditions are acceptable for automatic remote branch deletion.",
+    "Whether local cleanup may be triggered by an explicit developer pull/sync command or must be fully transparent after merge."
+    ,"Which provider-neutral evidence sink should receive failed or pending CI/CD results: request note, Work Item Summary, status/check annotation, or a combination."
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "destructive_cleanup",
+      "permissions",
+      "workflow_race"
+    ],
+    "reason": "Automation would be authorized to delete remote branches and could incorrectly remove recovery paths if merge identity, evidence, permissions, or event timing are wrong."
+  },
+  "agentCapability": {
+    "canImplement": false,
+    "canVerify": false,
+    "needsHumanDecision": true,
+    "blockedReason": "Initial skeleton; clear unknowns and confirm verification before coding."
+  },
+  "executionDecision": {
+    "status": "needs_human_decision",
+    "reason": "Initial skeleton must be completed before execution."
+  },
+  "preReviewWarnings": [
+    "Do not claim full lifecycle automation unless the local developer branch boundary is explicitly handled.",
+    "Review provider credential permissions, merge-only gating, idempotency, and recovery behavior before coding."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The investigation documents the current manual gap and distinguishes hosted remote cleanup from developer-local branch cleanup.",
+    "Two or more viable automation approaches are compared for trigger, permissions, evidence transport, race handling, recovery, and local-clone limitations.",
+    "The design defines provider-neutral CI/CD monitoring keyed by merged request head SHA, required-check aggregation, pending/failed blocking, and failure evidence retention, with GitHub Actions documented only as this template's adapter example.",
+    "The design explicitly prevents adopter installation from assuming GitHub Actions and defines GitLab or other providers as adapter-specific or manual fail-closed paths.",
+    "The governance complexity policy is updated before implementation to the fixed tracked-file bound required by the PR41-merged main baseline plus this Work Item's tracked design artifact.",
+    "A recommended design and explicit non-goals are recorded in the design document before any production workflow or cleanup behavior is changed.",
+    "The Work Item records the remaining decisions required to enter a separate coding phase."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "After PR merge, the repository still depends on a human to invoke lifecycle closure, and the current rules do not explain how remote automation relates to local branch cleanup.",
+    "constraints": [
+      "Do not mix this investigation with PR #41.",
+      "Never delete a branch unless merge identity and final state are verified.",
+      "Do not imply that a hosted runner can delete a developer's local branch.",
+      "Keep the existing fail-closed lifecycle command as the safety reference."
+    ],
+    "rationale": "A separate evidence-backed design is needed before granting automation destructive permissions or changing the lifecycle contract."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly requested the fixed governance threshold be updated before finishing the current Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

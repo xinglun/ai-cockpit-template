@@ -1,3 +1,14 @@
+---
+author: Codex
+title: "Supply-chain Evidence Implementation Plan"
+description: "在同步后的 main 上重新实施 SBOM 与发布证据链改进。"
+keywords:
+  - sbom
+  - provenance
+  - release-evidence
+  - supply-chain
+---
+
 # Supply-chain Evidence Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax.

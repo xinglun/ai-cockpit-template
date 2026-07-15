@@ -443,3 +443,35 @@ def test_release_digest_manifest_covers_generated_evidence(tmp_path, monkeypatch
     assert manifest["artifacts"]["requirements-dev.lock"] == check_supply_chain.sha256_text(
         "lock\n"
     )
+
+
+def test_release_evidence_reports_drift_when_generated_sbom_changes(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    cockpit = repo / ".ai" / "cockpit"
+    lock = repo / "requirements-dev.lock"
+    installer = repo / "install.sh"
+    release = repo / "release.json"
+    sbom_path = cockpit / "sbom.json"
+    provenance_path = cockpit / "provenance.json"
+    manifest_path = cockpit / "release-digests.json"
+    lock.parent.mkdir()
+    lock.write_text("lock\n", encoding="utf-8")
+    installer.write_text("installer\n", encoding="utf-8")
+    release.write_text('{"releaseTag":"v1"}\n', encoding="utf-8")
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+    monkeypatch.setattr(check_supply_chain, "LOCK_FILE", lock)
+    monkeypatch.setattr(check_supply_chain, "INSTALLER", installer)
+    monkeypatch.setattr(check_supply_chain, "RELEASE_JSON", release)
+
+    sbom = {"bomFormat": "CycloneDX", "marker": "original"}
+    provenance = {"commitSha": "source", "releaseTag": "v1"}
+    manifest = check_supply_chain.build_release_digests(sbom, provenance)
+    assert check_supply_chain.compare_or_write(sbom_path, sbom, write=True) == []
+    assert check_supply_chain.compare_or_write(provenance_path, provenance, write=True) == []
+    assert check_supply_chain.compare_or_write(manifest_path, manifest, write=True) == []
+
+    sbom_path.write_text('{"bomFormat":"CycloneDX","marker":"changed"}\n', encoding="utf-8")
+
+    assert check_supply_chain.compare_or_write(sbom_path, sbom, write=False) == [
+        ".ai/cockpit/sbom.json differs from the computed supply-chain evidence"
+    ]

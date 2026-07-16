@@ -1,0 +1,184 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_index_integrity_validation",
+  "mode": "code",
+  "title": "Validate archive index integrity and evidence hashes",
+  "baseCommit": "91ab7f819e6ddb1556f10ad93c9f2fee6b52d466",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/archive_index_integrity_validation.contract.json",
+    ".ai/work-items/active/archive_index_integrity_validation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/check_governance_complexity.py",
+    "tests/test_governance_complexity.py",
+    "docs/reference/governance-complexity.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Current archive metrics and index validation implementation."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Existing archive pairing and index regression coverage."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Documents archive integrity as a blocking check."
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "valid index with matching archive pairs and hashes passes",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "missing index entry for an archived pair fails",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "duplicate sequence or work item identity fails",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "tampered hash or dangling path fails",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "archive_integrity"
+    ],
+    "reason": "A corrupted or incomplete archive index can hide immutable review evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The archive index validator has explicit inputs, failure modes, and local regression evidence."
+  },
+  "preReviewWarnings": [
+    "Hash and path checks must fail closed while preserving legacy archive readability."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Newly maintained archive index entries cover their Contract/Summary pairs exactly once.",
+    "Index paths, workItemId values, archiveSequence values, and stored SHA-256 hashes match the authoritative files.",
+    "Malformed, duplicated, dangling, or tampered index evidence fails the governance complexity check.",
+    "Legacy archives remain readable and immutable while newly archived evidence is validated strictly."
+  ],
+  "guidelines": [
+    "Treat archived Contract and Summary files as authoritative evidence.",
+    "Fail closed on malformed index entries and hash mismatches."
+  ],
+  "intent": {
+    "problem": "The archive index currently checks only that referenced paths exist, so duplicate, incomplete, or tampered discovery records can pass while immutable archive evidence is inconsistent.",
+    "constraints": [
+      "Do not rewrite historical archive records.",
+      "Keep archive counts observational; integrity remains blocking.",
+      "Preserve compatibility with legacy records that lack newer metadata where the repository already permits it."
+    ],
+    "rationale": "The index is a discovery manifest, but its claims must be verifiable against the authoritative archived files before reviewers rely on it."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -17,8 +17,8 @@ Thresholds live in `.ai/guards/governance_complexity_policy.yaml`. A threshold c
 ## Lifecycle rules
 
 - Archived Contract and Summary files are immutable audit records.
-- Every archived Contract must have a paired Summary. The discovery index must not contain dangling or malformed Contract/Summary references; legacy records may remain outside the maintained index.
-- Pair completeness, index shape, and index path existence remain blocking failures.
+- Every archived Contract must have a paired Summary. The discovery index must cover each pair exactly once and must not contain dangling or malformed Contract/Summary references.
+- Index work-item identities, archive sequences, and SHA-256 digests are checked against the authoritative files; tampering, duplicate claims, missing entries, or path drift are blocking failures. Legacy records may remain readable, but they cannot weaken current index integrity.
 - Newly changed archive evidence must be attributed to the current Work Item by `make check-ai-pr`; historical archive totals do not establish current-task ownership.
 - Review the observational archive counts quarterly as a repository-maintenance signal, not as a gate on unrelated current Work Items.
 - A future compaction proposal must preserve the original files, retain an index mapping, and receive a separate reviewed Work Item.

@@ -103,7 +103,6 @@ Use this when you want the shortest path to a fresh adoption install. For the fu
 The quick-install flow resolves the documented release metadata from the public release source first. `AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY` and `AI_COCKPIT_TEMPLATE_RAW_BASE` are used only to resolve the release tag and fetch the installer; the installer itself still honors `AI_COCKPIT_TEMPLATE_REPO` and `AI_COCKPIT_TEMPLATE_SOURCE` for its own clone or source selection. If your repository or release artifacts are private, use a local clone or configured source instead of relying on the quick-install bootstrap path.
 
 ```sh
-ADOPTION_BASE="$(git rev-parse HEAD)"
 STACK="${STACK:-generic}" # generic, python, go, rust, typescript, java, android, kotlin, flutter, swift, ruby, php, or csharp
 : "${AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY:?set AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY to the public Git remote for this release}"
 : "${AI_COCKPIT_TEMPLATE_RAW_BASE:?set AI_COCKPIT_TEMPLATE_RAW_BASE to the matching raw-content base}"
@@ -115,6 +114,7 @@ trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "${RAW_BASE}/${RELEASE_TAG}/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REPO="$PUBLIC_REPOSITORY" \
   AI_COCKPIT_TEMPLATE_REF="$RELEASE_TAG" sh "$INSTALLER" --stack "$STACK" --update-makefile --create-adoption
+ADOPTION_BASE="$(git rev-parse HEAD)" # installer created adopt/ai-cockpit from the remote default branch
 make ai-finish TASK=adopt_ai_cockpit
 git add .
 git commit -m "adopt AI Cockpit governance"

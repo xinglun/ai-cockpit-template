@@ -80,6 +80,29 @@ jobs:
             done
           done
 
+      - name: Generate source-bound release evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          python3 scripts/check_supply_chain.py release-assets \
+            --source-commit "$SOURCE_COMMIT" \
+            --output-dir "$RUNNER_TEMP/release-evidence"
+
+      - name: Verify source-bound release evidence subjects
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/release-evidence"
+          test "$(jq -r '.commitSha' "$evidence/provenance.json")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.sourceCommit' "$evidence/release-digests.json")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.releaseTag' "$evidence/provenance.json")" = "$RELEASE_TAG"
+          test "$(jq -r '.releaseTag' "$evidence/release-digests.json")" = "$RELEASE_TAG"
+          sbom_digest="$(sha256sum "$evidence/sbom.json" | cut -d' ' -f1)"
+          provenance_digest="$(sha256sum "$evidence/provenance.json" | cut -d' ' -f1)"
+          test "$(jq -r '.artifacts[".ai/cockpit/sbom.json"]' "$evidence/release-digests.json")" = "$sbom_digest"
+          test "$(jq -r '.artifacts[".ai/cockpit/provenance.json"]' "$evidence/release-digests.json")" = "$provenance_digest"
+
       - name: Create exact-SHA tag and GitHub Release
         working-directory: ${{ github.workspace }}
         run: |
@@ -88,7 +111,10 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --target "$SOURCE_COMMIT" \
             --title "$RELEASE_TAG" \
-            --generate-notes
+            --generate-notes \
+            "$RUNNER_TEMP/release-evidence/sbom.json#sbom.json" \
+            "$RUNNER_TEMP/release-evidence/provenance.json#provenance.json" \
+            "$RUNNER_TEMP/release-evidence/release-digests.json#release-digests.json"
 
       - name: Dispatch strict post-release smoke verification
         run: gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref main

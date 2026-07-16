@@ -10,9 +10,9 @@ import os
 import re
 import subprocess
 import sys
+from pathlib import Path
 import uuid
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
 from cyclonedx.model import ExternalReference, ExternalReferenceType, HashAlgorithm, HashType, XsUri
@@ -349,6 +349,29 @@ def build_release_digests(sbom: dict[str, Any], provenance: dict[str, Any]) -> d
     }
 
 
+def write_release_assets(output_dir: Path, source_commit: str) -> None:
+    """Generate final release evidence outside the committed candidate baselines."""
+    resolved_commit = source_commit_sha(source_commit)
+    sbom = build_sbom(resolved_commit)
+    provenance = build_provenance(sbom, resolved_commit)
+    if provenance["commitSha"] != resolved_commit:
+        raise RuntimeError("generated provenance commitSha does not match source commit")
+    digests = build_release_digests(sbom, provenance)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    paths = {
+        "sbom": output_dir / "sbom.json",
+        "provenance": output_dir / "provenance.json",
+        "releaseDigests": output_dir / "release-digests.json",
+    }
+    paths["sbom"].write_text(json.dumps(sbom, sort_keys=True, ensure_ascii=False), encoding="utf-8")
+    paths["provenance"].write_text(
+        json.dumps(provenance, sort_keys=True, ensure_ascii=False), encoding="utf-8"
+    )
+    paths["releaseDigests"].write_text(
+        json.dumps(digests, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+
+
 def map_vulnerabilities_to_sbom(payload: dict[str, Any], sbom: dict[str, Any]) -> list[str]:
     components = {
         (normalize_package_name(component["name"]), component["version"]): component["bom-ref"]
@@ -462,6 +485,12 @@ def parse_args() -> argparse.Namespace:
             "--write", action="store_true", help="Write the computed evidence to the baseline file."
         )
         cmd.add_argument("--source-commit", default=None)
+    assets = sub.add_parser(
+        "release-assets",
+        help="Generate final source-bound evidence outside committed candidate baselines.",
+    )
+    assets.add_argument("--source-commit", required=True)
+    assets.add_argument("--output-dir", required=True, type=Path)
     sub.add_parser("secrets")
     sub.add_parser("vulnerabilities")
     return parser.parse_args()
@@ -489,6 +518,9 @@ def main() -> int:
                 build_release_digests(sbom, provenance),
                 write=bool(args.write),
             )
+        elif args.command == "release-assets":
+            write_release_assets(args.output_dir, args.source_commit)
+            issues = []
         elif args.command == "vulnerabilities":
             issues = scan_vulnerabilities()
         else:

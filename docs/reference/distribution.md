@@ -17,6 +17,8 @@ The documented quick-install path resolves public release metadata first and the
 
 SBOM and provenance release evidence must be generated with an explicit source commit (`--source-commit` or `SUPPLY_CHAIN_SOURCE_COMMIT`). The local release-tag fallback exists only for compatibility and never derives evidence identity from the current `HEAD`.
 
+The release workflow treats committed `.ai/cockpit/sbom.json`, `provenance.json`, and `release-digests.json` as candidate baselines only. After checking out the immutable `SOURCE_COMMIT`, it runs `check_supply_chain.py release-assets`, verifies that every generated provenance and digest subject names that exact commit, and publishes the generated evidence as GitHub Release assets. The historical v0.5.27 provenance must not be treated as final release proof because it was created before this source-bound asset flow.
+
 ## PR-first release sequence
 
 Changes enter `main` through a pull request. Both `smoke` and `compatibility` also run on `main` pushes, so the commit selected for release has fresh repository-level and cross-platform evidence. Maintainers dispatch `.github/workflows/release.yml` with a new tag and the exact verified `main` SHA. The workflow rejects existing tags, requires the source SHA to equal the workflow SHA, requires successful smoke and compatibility runs for that SHA, verifies `release.json`, and only then creates the tag and GitHub Release.

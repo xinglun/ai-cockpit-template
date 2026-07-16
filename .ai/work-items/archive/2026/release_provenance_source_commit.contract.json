@@ -1,0 +1,199 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_provenance_source_commit",
+  "mode": "code",
+  "title": "Bind release provenance to immutable source commit",
+  "baseCommit": "8514aec1cf99b13462b877aed01475d685e6d9b4",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_provenance_source_commit.contract.json",
+    ".ai/work-items/active/release_provenance_source_commit.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md"
+  ],
+  "outOfScope": [
+    "release.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "GitHub Release publication"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Current release workflow selects an exact source SHA but does not generate or publish source-bound evidence assets."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Canonical SBOM, provenance, and digest evidence producer."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Published release and evidence contract."
+    },
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "Review finding requiring immutable SOURCE_COMMIT-bound release evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_identity", "supply_chain_evidence"],
+    "reason": "Release evidence must be generated from the immutable source commit selected by the workflow and must not self-attest a later or unrelated commit."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The workflow can generate and verify source-bound evidence without publishing a release in this Work Item."
+  },
+  "preReviewWarnings": [
+    "Reviewers must confirm that repository baselines are labeled as candidates and that final release evidence is generated from SOURCE_COMMIT in the workflow."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record checkpoints before editing the release workflow and before finishing."
+  },
+  "acceptance": [
+    "The release workflow generates SBOM, provenance, and digest artifacts after checking out SOURCE_COMMIT and fails unless provenance.commitSha equals SOURCE_COMMIT.",
+    "The workflow verifies the generated artifact subject digests and publishes the evidence files as GitHub Release assets without treating committed repository baselines as final release proof.",
+    "The evidence producer exposes a tested output-directory path that preserves the existing local baseline checks and explicit source-commit behavior.",
+    "Workflow tests and distribution documentation describe the immutable source-commit evidence boundary and the unreliability of the historical v0.5.27 provenance."
+  ],
+  "guidelines": [
+    "Generated evidence is produced by the canonical supply-chain script, not hand-edited.",
+    "Release publication is not performed during this Work Item."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "workflow checks out the requested immutable source commit",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with workflow assertions and regression tests."
+    },
+    {
+      "scenario": "a source commit that differs from the workflow SHA is rejected",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with release workflow content tests."
+    },
+    {
+      "scenario": "generated provenance and digest manifest use the same source commit and subject digests",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with supply-chain producer tests."
+    },
+    {
+      "scenario": "committed historical baseline is not treated as final release proof",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with workflow and distribution documentation tests."
+    }
+  ],
+  "intent": {
+    "problem": "The historical v0.5.27 provenance identifies the release-preparation base rather than an independently generated proof for the immutable released source commit.",
+    "constraints": [
+      "Do not publish a new version in this Work Item.",
+      "Keep committed SBOM/provenance files as local candidate baselines only.",
+      "Use the existing standard-library evidence producer and exact-SHA workflow boundary."
+    ],
+    "rationale": "Release trust requires a single immutable SOURCE_COMMIT identity that is checked out, used to generate evidence, verified against all artifact digests, and published with the release."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly instructed: complete the current Work Item before opening the separate lifecycle-enforcement Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

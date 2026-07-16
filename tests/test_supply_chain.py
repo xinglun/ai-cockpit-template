@@ -251,6 +251,30 @@ def test_supply_chain_accepts_explicit_source_commit(monkeypatch):
     assert calls == [["git", "rev-parse", "source-ref^{commit}"]]
 
 
+def test_release_assets_write_source_bound_evidence_outside_baselines(tmp_path, monkeypatch):
+    source = "a" * 40
+    sbom = {"bomFormat": "CycloneDX", "metadata": {"component": {"version": source}}}
+    provenance = {"commitSha": source, "releaseTag": "v0.5.28"}
+    digests = {
+        "format": "ai-cockpit-release-digests",
+        "sourceCommit": source,
+        "releaseTag": "v0.5.28",
+        "artifacts": {},
+    }
+    monkeypatch.setattr(check_supply_chain, "source_commit_sha", lambda _value: source)
+    monkeypatch.setattr(check_supply_chain, "build_sbom", lambda _value: sbom)
+    monkeypatch.setattr(check_supply_chain, "build_provenance", lambda _sbom, _value: provenance)
+    monkeypatch.setattr(
+        check_supply_chain, "build_release_digests", lambda _sbom, _provenance: digests
+    )
+
+    output_dir = tmp_path / "evidence"
+    check_supply_chain.write_release_assets(output_dir, "source-ref")
+    assert json.loads((output_dir / "sbom.json").read_text(encoding="utf-8")) == sbom
+    assert json.loads((output_dir / "provenance.json").read_text(encoding="utf-8")) == provenance
+    assert json.loads((output_dir / "release-digests.json").read_text(encoding="utf-8")) == digests
+
+
 def test_sbom_reports_generated_direct_transitive_and_hash_coverage(tmp_path, monkeypatch):
     lock = tmp_path / "requirements.lock"
     lock.write_text(

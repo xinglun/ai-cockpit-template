@@ -1,0 +1,157 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi04_sbom_graph",
+  "mode": "code",
+  "title": "Complete SBOM dependency graph",
+  "baseCommit": "f76b25d6326a8aadbd6b8c4f23906f4dde305514",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    ".ai/work-items/active/wi04_sbom_graph.contract.json",
+    ".ai/work-items/active/wi04_sbom_graph.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Lockfile source-of-truth policy", "Release workflow"],
+  "sources": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Parse multiline pip-compile via metadata into SBOM dependency edges."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Regression coverage for multiline via and dependency graph completeness."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "sbom_graph"
+    ],
+    "reason": "Dependency edges are release evidence and must not silently omit lockfile provenance."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The parser and graph behavior are bounded by existing SBOM fixtures and assertions."
+  },
+  "preReviewWarnings": [
+    "Verify direct dependency detection, multiline via continuation parsing, and dependsOn completeness."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Work Item Contract is updated for the actual task.",
+    "The new feature is implemented according to requirements.",
+    "Unit tests are added to verify the new feature.",
+    "User documentation or comments are updated."
+  ],
+  "guidelines": [
+    "Dependency graph edges must be evidence-backed by lockfile via metadata.",
+    "Keep direct dependency semantics aligned with requirements-dev.in."
+  ],
+  "intent": {
+    "problem": "pip-compile emits multiline # via blocks that the parser currently drops, so SBOM dependency edges can be incomplete.",
+    "constraints": ["Preserve existing CycloneDX identity and hash semantics.", "Do not infer edges from package order; use explicit via metadata."],
+    "rationale": "Normalize both inline and multiline pip-compile via records before building dependency edges."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "multiline via block", "required": true, "status": "verified", "evidence": ["tests/test_supply_chain.py"]},
+    {"scenario": "direct and transitive SBOM edges", "required": true, "status": "verified", "evidence": ["tests/test_supply_chain.py::test_sbom_uses_cyclonedx_identity_and_dependency_metadata"]}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized full automated execution of review remediation work items."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

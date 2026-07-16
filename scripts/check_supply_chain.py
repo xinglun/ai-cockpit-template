@@ -92,13 +92,21 @@ def normalize_package_name(name: str) -> str:
 def parse_requirements_lock(path: Path) -> list[dict[str, Any]]:
     components: list[dict[str, Any]] = []
     current: dict[str, Any] | None = None
+    in_via_block = False
     for line in read_text(path).splitlines():
         line = line.strip()
         if not line or line.startswith("#") or "==" not in line:
             if current and "--hash=sha256:" in line:
                 current["hashes"].extend(re.findall(r"--hash=sha256:([0-9a-fA-F]+)", line))
             if current and line.startswith("# via"):
-                current["via"].append(line.removeprefix("# via ").strip())
+                via = line.removeprefix("# via").strip()
+                if via:
+                    current["via"].append(via)
+                in_via_block = True
+            elif current and in_via_block and line.startswith("#   "):
+                current["via"].append(line.removeprefix("#   ").strip())
+            elif line and not line.startswith("#   "):
+                in_via_block = False
             continue
         name, version = line.split("==", 1)
         current = {
@@ -109,6 +117,7 @@ def parse_requirements_lock(path: Path) -> list[dict[str, Any]]:
             "via": [],
         }
         components.append(current)
+        in_via_block = False
     return components
 
 

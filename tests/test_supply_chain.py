@@ -370,6 +370,21 @@ def test_parse_requirements_lock_removes_continuation_and_preserves_hashes(tmp_p
     ]
 
 
+def test_parse_requirements_lock_preserves_multiline_via_block(tmp_path):
+    lock = tmp_path / "requirements.lock"
+    lock.write_text(
+        "root-package==1.0.0 \\\n+    --hash=sha256:abc123\n"
+        "    # via\n"
+        "    #   -r requirements-dev.in\n"
+        "    #   parent-package\n",
+        encoding="utf-8",
+    )
+
+    parsed = check_supply_chain.parse_requirements_lock(lock)
+
+    assert parsed[0]["via"] == ["-r requirements-dev.in", "parent-package"]
+
+
 def test_sbom_uses_cyclonedx_identity_and_dependency_metadata(tmp_path, monkeypatch):
     lock = tmp_path / "requirements.lock"
     lock.write_text(

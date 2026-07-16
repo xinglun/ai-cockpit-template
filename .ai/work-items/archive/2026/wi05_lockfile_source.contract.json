@@ -1,0 +1,148 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi05_lockfile_source",
+  "mode": "code",
+  "title": "Make requirements lock the single source of truth",
+  "baseCommit": "ce5146edb6af90f2e28bb92466c0fb007fd477c5",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "requirements-dev.txt",
+    "tests/test_supply_chain.py",
+    ".ai/work-items/active/wi05_lockfile_source.contract.json",
+    ".ai/work-items/active/wi05_lockfile_source.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["requirements-dev.in contents", "Lock dependency upgrades"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/wi05_lockfile_source.contract.json",
+      "reason": "Initial Work Item skeleton."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "lockfile_authority"
+    ],
+    "reason": "Removing the redundant direct-pin file prevents competing dependency truths."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "CI already installs the lock; remove the unused duplicate artifact."
+  },
+  "preReviewWarnings": [
+    "Verify no workflow or documentation consumes requirements-dev.txt."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Work Item Contract is updated for the actual task.",
+    "The new feature is implemented according to requirements.",
+    "Unit tests are added to verify the new feature.",
+    "User documentation or comments are updated."
+  ],
+  "guidelines": [
+    "Dependency installation paths must reference requirements-dev.lock.",
+    "Do not retain redundant generated dependency artifacts."
+  ],
+  "intent": {
+    "problem": "requirements-dev.txt duplicates direct pins while CI installs requirements-dev.lock.",
+    "constraints": ["Keep requirements-dev.in as direct input and requirements-dev.lock as reproducible install artifact."],
+    "rationale": "Delete the unused duplicate file and add regression coverage for the single source-of-truth pair."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "single lock source", "required": true, "status": "verified", "evidence": ["tests/test_supply_chain.py"]}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized full automated execution of review remediation work items."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

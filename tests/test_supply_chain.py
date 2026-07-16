@@ -328,6 +328,12 @@ def test_supply_chain_baselines_match_repository_state():
         ).returncode
         == 0
     )
+
+
+def test_repository_uses_in_and_lock_without_redundant_txt():
+    assert (ROOT / "requirements-dev.in").is_file()
+    assert (ROOT / "requirements-dev.lock").is_file()
+    assert not (ROOT / "requirements-dev.txt").exists()
     assert (
         subprocess.run(
             [sys.executable, str(ROOT / "scripts" / "check_supply_chain.py"), "provenance"],

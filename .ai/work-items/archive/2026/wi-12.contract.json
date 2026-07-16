@@ -1,0 +1,148 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi-12",
+  "mode": "code",
+  "title": "Create release tag before draft release",
+  "baseCommit": "85973d660493f876c4f3ee4ee17e1e0bdc630278",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    ".ai/work-items/active/wi-12.contract.json",
+    ".ai/work-items/active/wi-12.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Release metadata changes", "Rewriting existing release tags"],
+  "sources": [
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "The second release attempt proved a draft release has no fetchable tag ref before publication."
+    },
+    {"path": "tests/test_workflows.py", "reason": "Regression coverage for explicit tag creation before draft release."},
+    {"path": "docs/reference/distribution.md", "reason": "Documents the exact-SHA release sequence."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "Draft release creation does not create a remote tag ref; release must create the exact SHA tag explicitly first."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failure evidence identifies a bounded workflow fix and regression test."
+  },
+  "preReviewWarnings": [
+    "Confirm the tag is created from SOURCE_COMMIT before draft release creation and strict tag smoke dispatch."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.yml explicitly pushes RELEASE_TAG to SOURCE_COMMIT before creating the draft release.",
+    "tests/test_workflows.py asserts explicit tag creation precedes draft release creation.",
+    "Strict smoke remains required before draft publication.",
+    "The release workflow test suite passes and v0.5.29 publishes from the new main SHA."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The release workflow cannot validate or smoke-test a tag that draft release creation has not created.",
+    "constraints": ["Use exact SOURCE_COMMIT.", "Do not rewrite existing tags.", "Retain smoke and compatibility gates."],
+    "rationale": "Create the immutable tag explicitly before draft release creation so every later step can address the same ref."
+  },
+  "scenarioCoverage": [{"scenario": "Tag exists at exact source before draft release", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml", "tests/test_workflows.py"]}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User authorization in execution request",
+    "reason": "User authorized fully automatic execution of CI and release remediation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

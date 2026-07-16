@@ -1,0 +1,148 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi-13",
+  "mode": "code",
+  "title": "Refresh release supply-chain evidence",
+  "baseCommit": "32b9d59da668163fd6b038bb0b0b45361e0f8066",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/work-items/active/wi-13.contract.json",
+    ".ai/work-items/active/wi-13.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Release metadata and workflow changes", "Rewriting existing public release tags"],
+  "sources": [
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Strict smoke found the committed SBOM differs from current repository evidence."
+    },
+    {"path": ".ai/cockpit/provenance.json", "reason": "Strict smoke found the committed provenance differs from current repository evidence."},
+    {"path": ".ai/cockpit/release-digests.json", "reason": "Regenerate digest evidence alongside SBOM and provenance."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "Release evidence must match the exact merged source and current locked dependency state."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failing strict smoke evidence identifies a bounded generated-artifact refresh."
+  },
+  "preReviewWarnings": [
+    "Verify regenerated artifacts pass all supply-chain checks and strict smoke."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "SBOM, provenance, and release digests pass their repository-state checks.",
+    "Generated evidence records the current exact source commit and release tag.",
+    "Strict smoke passes after the refreshed evidence is merged."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The first strict smoke run failed because committed supply-chain evidence was stale relative to the merged repository.",
+    "constraints": ["Change generated evidence only.", "Keep exact SHA and release gates unchanged."],
+    "rationale": "Regenerate all related evidence together so repository checks and release assets agree."
+  },
+  "scenarioCoverage": [{"scenario": "Supply-chain evidence matches repository state", "required": true, "status": "verified", "evidence": [".ai/cockpit/sbom.json", ".ai/cockpit/provenance.json", ".ai/cockpit/release-digests.json"]}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User authorization in execution request",
+    "reason": "User authorized fully automatic execution of the remediation loop."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

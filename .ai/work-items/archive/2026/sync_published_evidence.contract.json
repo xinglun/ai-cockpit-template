@@ -1,0 +1,178 @@
+{
+  "contractVersion": 2,
+  "workItemId": "sync_published_evidence",
+  "mode": "code",
+  "title": "Synchronize committed evidence with published v0.5.28",
+  "baseCommit": "3939368aaed67ade1bfed79f2f896e22f0eb0fdd",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    ".ai/work-items/active/sync_published_evidence.contract.json",
+    ".ai/work-items/active/sync_published_evidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Rewriting or moving the immutable v0.5.28 tag or GitHub Release",
+    "Changing supply-chain evidence generation semantics",
+    "Changing runtime behavior or release workflow policy"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Defines the tag-aware computation that smoke uses to validate committed evidence."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Committed SBOM was still bound to the previous public tag when smoke ran after v0.5.28 publication."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Must match the published v0.5.28 source identity and regenerated SBOM digest."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Must match the synchronized published evidence artifacts."
+    },
+    {
+      "path": "release.json",
+      "reason": "Canonical release metadata stores the synchronized evidence digests."
+    },
+    {
+      "path": ".ai/work-items/active/sync_published_evidence.contract.json",
+      "reason": "Defines the bounded post-publication evidence synchronization."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Existing baseline test is the direct regression check for committed evidence consistency."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_integrity", "evidence_drift"],
+    "reason": "Committed evidence must match the immutable published tag so post-release smoke can verify repository truth."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The post-release smoke failure provides concrete evidence of stale committed evidence; the immutable tag remains unchanged."
+  },
+  "preReviewWarnings": [
+    "Verify all regenerated artifacts resolve v0.5.28 and no historical tag or release object is changed."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record evidence synchronization checkpoints before and after regeneration."
+  },
+  "acceptance": [
+    "Committed SBOM, provenance, and release-digests resolve to the immutable v0.5.28 source tag.",
+    "release.json digests match the synchronized committed evidence and all local quality gates pass.",
+    "Strict post-release smoke passes without changing the v0.5.28 tag or GitHub Release."
+  ],
+  "guidelines": [
+    "Use the existing tag-aware supply-chain generator; do not hand-edit generated evidence.",
+    "Keep the immutable v0.5.28 tag and GitHub Release unchanged.",
+    "Regenerate all dependent digests together and verify their consistency."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "committed evidence resolves v0.5.28 rather than v0.5.27", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "release.json digests match regenerated evidence", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "immutable tag and release remain unchanged", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "intent": {
+    "problem": "Post-release smoke found that committed SBOM evidence was generated while v0.5.28 was pending and therefore still used the previous public tag; the published release is correct but repository evidence is stale.",
+    "constraints": ["Do not rewrite v0.5.28.", "Use the existing generator with the published tag present.", "Keep release.json and dependent digests internally consistent."],
+    "rationale": "Regenerating the committed evidence after publication aligns the repository baseline with the immutable release identity and allows the existing smoke verification to pass."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "Ray",
+    "reason": "User explicitly required the remediation loop to continue through complete release verification."
+  },
+  "rollbackNote": "Revert only the post-release evidence synchronization; do not rewrite the immutable v0.5.28 tag or release."
+}

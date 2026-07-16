@@ -223,6 +223,7 @@ class Installer:
         self.backups: dict[Path, Path] = {}
         self.created_paths: set[Path] = set()
         self.preexisting_dirs: set[Path] = set()
+        self.created_adoption_branch: str | None = None
 
     def install(self) -> int:
         if not self.source.exists():
@@ -237,6 +238,8 @@ class Installer:
         if self.upgrade and not self.upgrade_preflight():
             return 2
         if self.create_adoption and not self.adoption_preflight():
+            return 2
+        if self.create_adoption and not self.prepare_adoption_branch():
             return 2
         try:
             self.validate_agent_markers()
@@ -456,6 +459,10 @@ class Installer:
             )
 
     def rollback_installation(self) -> None:
+        if self.created_adoption_branch:
+            run_git(self.target, ["switch", "--detach", "HEAD"])
+            run_git(self.target, ["branch", "-D", self.created_adoption_branch])
+            self.created_adoption_branch = None
         for original, backup in reversed(list(self.backups.items())):
             original.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(backup, original)
@@ -526,21 +533,74 @@ class Installer:
         active = self.target / ".ai" / "work-items" / "active"
         return active / "adopt_ai_cockpit.contract.json", active / "adopt_ai_cockpit.summary.json"
 
+    def prepare_adoption_branch(self) -> bool:
+        """Anchor first adoption to the adopter's latest remote default branch."""
+        remote, branch = self.adopter_git_context()
+        if not remote or not branch:
+            print(
+                "WARN: --create-adoption could not discover a remote default branch; "
+                "continuing without branch creation for local-only repositories.",
+                file=sys.stderr,
+            )
+            return True
+        branch_name = os.environ.get("AI_COCKPIT_ADOPTION_BRANCH", "adopt/ai-cockpit")
+        if not re.fullmatch(r"[A-Za-z0-9._/-]+", branch_name) or branch_name.startswith("/"):
+            print("ERROR: AI_COCKPIT_ADOPTION_BRANCH is not a valid branch name.", file=sys.stderr)
+            return False
+        target_args = git_target_args(self.target)
+        for args, message in (
+            (["fetch", remote, branch], "fetch adopter default branch"),
+            (
+                ["show-ref", "--verify", f"refs/remotes/{remote}/{branch}"],
+                "verify remote default branch",
+            ),
+        ):
+            result = subprocess.run(
+                ["git", *target_args, *args],
+                cwd=self.target,
+                text=True,
+                capture_output=True,
+                check=False,
+                env=clean_git_environment(),
+            )
+            if result.returncode != 0:
+                print(f"ERROR: failed to {message}: {result.stderr.strip()}", file=sys.stderr)
+                return False
+        existing = run_git(self.target, ["show-ref", "--verify", f"refs/heads/{branch_name}"])
+        if existing.returncode == 0:
+            print(f"ERROR: adoption branch already exists: {branch_name}", file=sys.stderr)
+            return False
+        created = run_git(self.target, ["switch", "--create", branch_name, f"{remote}/{branch}"])
+        if created.returncode != 0:
+            print(
+                f"ERROR: failed to create adoption branch: {created.stderr.strip()}",
+                file=sys.stderr,
+            )
+            return False
+        self.created_adoption_branch = branch_name
+        print(f"Created adoption branch {branch_name} from {remote}/{branch}")
+        return True
+
     @staticmethod
     def write_json(path: Path, data: dict) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     def adopter_git_context(self) -> tuple[str | None, str | None]:
-        head = run_git(
-            self.target, ["symbolic-ref", "--quiet", "--short", "refs/remotes/origin/HEAD"]
-        )
-        ref = head.stdout.strip()
-        return (
-            ("origin", ref.removeprefix("origin/"))
-            if head.returncode == 0 and ref.startswith("origin/")
-            else (None, None)
-        )
+        remotes = run_git(self.target, ["remote"])
+        if remotes.returncode != 0:
+            return None, None
+        for remote in remotes.stdout.splitlines():
+            remote = remote.strip()
+            if not remote:
+                continue
+            head = run_git(
+                self.target, ["symbolic-ref", "--quiet", "--short", f"refs/remotes/{remote}/HEAD"]
+            )
+            ref = head.stdout.strip()
+            if head.returncode == 0 and ref.startswith(f"{remote}/"):
+                return remote, ref.removeprefix(f"{remote}/")
+        return None, None
 
     def source_context(self) -> tuple[str, str]:
         release_path = self.source / "release.json"

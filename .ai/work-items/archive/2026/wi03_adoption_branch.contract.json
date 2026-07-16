@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi03_adoption_branch",
+  "mode": "code",
+  "title": "Quick Install adoption branch and remote E2E",
+  "baseCommit": "bec704d3ccecb316e9228beea5e2f84eca9d350b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "f754f068da0990d41c4cd6cdc805f5a0c8d31ac86d394aa81f5e71ad32da46da"
+    }
+  ],
+  "scope": [
+    "scripts/install_ai_cockpit.py",
+    ".ai/cockpit/bandit_low_risk_baseline.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "tests/test_installer.py",
+    "tests/test_adoption_e2e.py",
+    "README.md",
+    "docs/getting-started/installation.md",
+    ".ai/work-items/active/wi03_adoption_branch.contract.json",
+    ".ai/work-items/active/wi03_adoption_branch.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Release workflow and release metadata", "Adopter project repository changes"],
+  "sources": [
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Installer branch and remote-default implementation."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Bare remote and Remote HEAD regression evidence."
+    },
+    {
+      "path": "README.md",
+      "reason": "Quick Install base-commit guidance."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "installer_branch_lifecycle"
+    ],
+    "reason": "Installer changes Git branch state and must remain fail-closed for dirty or ambiguous repositories."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The branch creation and remote E2E behavior are explicitly bounded and testable."
+  },
+  "preReviewWarnings": [
+    "Verify remote HEAD discovery, fetch anchoring, branch collision handling, and rollback behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Work Item Contract is updated for the actual task.",
+    "The new feature is implemented according to requirements.",
+    "Unit tests are added to verify the new feature.",
+    "User documentation or comments are updated."
+  ],
+  "guidelines": [
+    "The installer must not commit, push, merge, or delete adopter branches.",
+    "Remote and base identity must be recorded in the generated adoption Contract."
+  ],
+  "intent": {
+    "problem": "Quick Install currently writes adoption files on whichever branch the adopter happens to have checked out, so the generated Work Item can conflict with the required one-Work-Item/one-branch lifecycle and can record a stale base.",
+    "constraints": ["Do not commit, push, merge, or delete adopter branches from the installer.", "Preserve local-only test fixtures while making real remotes deterministic.", "Do not claim branch creation replaces PR review or lifecycle closure."],
+    "rationale": "Discovering the remote HEAD, fetching its default branch, and creating a dedicated adoption branch before writes makes the documented Quick Install path produce an auditable branch/base contract."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+      {"scenario": "bare remote with origin HEAD", "required": true, "status": "verified", "evidence": ["tests/test_adoption_e2e.py::test_quick_install_creates_adoption_branch_from_remote_head"]},
+      {"scenario": "local-only repository", "required": true, "status": "verified", "evidence": ["tests/test_adoption_e2e.py::test_first_adoption_finishes_and_passes_complete_pr_check"]},
+      {"scenario": "existing adoption branch", "required": true, "status": "verified", "evidence": ["prepare_adoption_branch collision guard"]}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized full automated execution of the review remediation work items."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -1,0 +1,413 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "adoption_readiness_external_approval",
+  "contractPath": ".ai/work-items/archive/2026/adoption_readiness_external_approval.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_external_approval.contract.json",
+      "reason": "Defined fail-closed external approval boundary acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adoption_readiness_external_approval.summary.json",
+      "reason": "Records implementation and verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Enforced required, non-placeholder CODEOWNERS and SECURITY.md configuration for adopted repositories."
+    },
+    {
+      "path": "scripts/ai_check_agent_risk.py",
+      "reason": "Accepted the full hash emitted by ai-checkpoint when validating the short hash expected by the risk gate."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Added missing-file and current-placeholder regression tests and updated valid readiness fixtures."
+    },
+    {
+      "path": "tests/test_ai_check_agent_risk.py",
+      "reason": "Added regression coverage for full-versus-short checkpoint hash compatibility."
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "reason": "Updated the adoption journey fixture with explicit external owner and security reporting boundaries."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Raised the reviewable complexity ceilings minimally to include the new fail-closed regression coverage."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_adoption_ready.py",
+    "tests/test_adoption_ready.py",
+    ".github/CODEOWNERS",
+    "SECURITY.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:29.142349+00:00",
+      "exitCode": 0,
+      "durationMs": 72,
+      "outputDigest": "c186f7160a30a0db47849b1dfedcf807d0ecb9c45728bb138c8e740cd592216a",
+      "commandHash": "fd55d5593b69ef108403c9439a01f3ce6ef974477ce87b5fa6b1976c5182ecaa",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/adoption_readiness_external_approval.contract.json work item contract check passed: .ai/work-items/active/adoption_readiness_external_approval.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:29.275077+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "00f7493a806a36fb32eed572fffa65413e40fa8682c386c1cf56efba8f8d4b09",
+      "commandHash": "998b25f277799df59b6b234e0b4af837e4f271ed013eab398ba0e202af01a80f",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/adoption_readiness_external_approval.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:29.474330+00:00",
+      "exitCode": 0,
+      "durationMs": 135,
+      "outputDigest": "510be4eb3548795fb1768a5aaf2d63b9e55a0b7b68a5c71513a23c15c205f89e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:29.704784+00:00",
+      "exitCode": 0,
+      "durationMs": 179,
+      "outputDigest": "9bdf72b0409f0e1efd00b5835b44e752d274a2133f78af80123c404d20f908d1",
+      "commandHash": "24f94208d84a417cafb6b3bab8bc5ee5863e59e2e7a534a8142fa54208c026ea",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `adoption_readiness_external_approval` - Contract Hash: `55ed1d3da8983681` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:29.847241+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "4de8e58d472f56d99f22369827dcdf8f752cdc0a45fa9144611ba9a090790186",
+      "commandHash": "79847c790cb07425bc7f202b283cd6e78eebe9b900168fd9c1ca3f0c95e6f33c",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json review policy matched 4 path(s) [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_check_adoption_ready.py [review] scripts/ai_check_agent_risk.py review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:29.970855+00:00",
+      "exitCode": 0,
+      "durationMs": 80,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:30.138229+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:30.232854+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "83111b616d708df393800459ddcc25bcbfab3c930a091747735e1b548b4672ff",
+      "commandHash": "003793d60d94810d6453862342a940de01fc82771c28de381256d2f03d4e5eac",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json [warning] missing_scenario_coverage: - scenario coverage is missing for medium/high risk report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:30.326484+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "0c1b8edb3b7f1ba8d3a0b1b4d0b5427f69828341b4dc1d2520e709e08b13e0cc",
+      "commandHash": "8c301c8f82de3ba99aacdee0ff137297aa92dc45074a4493c048a13a4ad5a98b",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:50:30.552242+00:00",
+      "exitCode": 0,
+      "durationMs": 183,
+      "outputDigest": "61841e8a8d3eab19c4774195fa807d7b3338220c9fcf061807c208ca93fc9e0c",
+      "commandHash": "34d252d0ea1cecaae658fe0d68efb3ed484f9c345f7b60ba61f51888e96b07cb",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `scripts/ai_"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:51:58.653636+00:00",
+      "exitCode": 0,
+      "durationMs": 88053,
+      "outputDigest": "be36979f6047aa9c459b69852c039ae02dbcb2ee470c8a50ed704637cf6b2757",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "46226391245e1d66c1bf6ead1b6e5f84dac625960df199f6976200268bd128b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 29%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:52:00.016747+00:00",
+      "exitCode": 0,
+      "durationMs": 271,
+      "outputDigest": "f9b262edbd7f98689267c4bee13ce24f2ccaccdc4f20faf2f850ddbaa16c8efb",
+      "commandHash": "1961b00b7db7675ba43b381c75ae727e16d477aa6eb9ef458c98c77c2ac6fef7",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "b7bd806d502fac727a0601d0cdc147a9af2d0c660f1cecb68bb1caf87cef0312",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/adoption_readiness_external_approval.contract.json --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:52:00.240042+00:00",
+      "exitCode": 0,
+      "durationMs": 174,
+      "outputDigest": "08a68b342fe945955c644ad41b931cce7b58fc7ee0c7180f932201a448de3cf1",
+      "commandHash": "4e6f739f12d040e5e6de81c4fe000bedc157fc52848ba0e13e3eff01b3b0c0a1",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "b7bd806d502fac727a0601d0cdc147a9af2d0c660f1cecb68bb1caf87cef0312",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:52:00.324149+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "b7bd806d502fac727a0601d0cdc147a9af2d0c660f1cecb68bb1caf87cef0312",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:52:00.411837+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "70c2e2cf1ee3271753d7e04f17827e0dbd033e0f11f28a3f5d266549961c2f1d",
+      "commandHash": "c1c3b69c3a8959f88d98bbebfeef1c73fea6f57d6d0fcd70391c570b1d54ad97",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "b7bd806d502fac727a0601d0cdc147a9af2d0c660f1cecb68bb1caf87cef0312",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json --summary .ai/work-items/active/adoption_readiness_external_approval.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/adoption_readiness_external_approval.summary.json CONTRACT=.ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:52:00.544892+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "9efbbb3ab4ed49ca04f3894eed51d3e0f7db088499bd784af3891bb38f9de021",
+      "commandHash": "9ffce3853eded3d0c833f295d4ff2e3e57b920ccff9591f025f778d0cba9d33c",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "commitSha": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+      "executionContractPath": ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+      "worktreeDigest": "b7bd806d502fac727a0601d0cdc147a9af2d0c660f1cecb68bb1caf87cef0312",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/adoption_readiness_external_approval.summary.json --contract .ai/work-items/active/adoption_readiness_external_approval.contract.json ai summary check passed: .ai/work-items/active/adoption_readiness_external_approval.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Fail closed when external approval evidence is absent.",
+      "compliant": true,
+      "evidence": "Adopted readiness now rejects missing CODEOWNERS and SECURITY.md."
+    },
+    {
+      "guideline": "Keep template-maintenance exemption explicit.",
+      "compliant": true,
+      "evidence": "Template exemption remains before adopted boundary checks and existing exemption tests pass."
+    },
+    {
+      "guideline": "Accept full Contract hashes and their stable prefixes consistently across checkpoint gates.",
+      "compliant": true,
+      "evidence": "ai-checkpoint full hashes and ai_check_agent_risk short-hash expectations are covered by regression tests."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Adopters must provide real owner identities and private reporting channels; the checker does not authenticate platform identities."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "identity",
+      "detail": "Static checks validate configuration shape, not the truth of the external owner identity.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm missing and placeholder boundaries fail while explicit template maintenance remains exempt."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "changed and tested",
+    "userVisibleOutput": "readiness failure messages updated",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "Cockpit status generated by make",
+    "makeEntrypoints": "required Make checks run by ai-finish"
+  },
+  "userCorrectionsCaptured": [
+    "New version publication remains the final remediation step."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Defer release publication",
+      "location": "Contract scope and remediation plan",
+      "evidence": "No release files are changed by this Work Item."
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Reviewed readiness implementation, current template placeholders, and fail-closed scenarios before editing.",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Reviewed focused readiness tests and full governance verification before finishing.",
+      "contractHash": "55ed1d3da8983681838ffdbde8c74463e77555226eea2c025cc400269f6859b3",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "Platform identity authentication remains outside repository-local readiness checks."
+  ],
+  "overclaimPrevention": "Static readiness proves configuration shape only; it does not prove human identity or command effectiveness.",
+  "archiveSequence": 74
+}

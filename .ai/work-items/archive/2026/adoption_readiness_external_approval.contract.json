@@ -1,0 +1,158 @@
+{
+  "contractVersion": 2,
+  "workItemId": "adoption_readiness_external_approval",
+  "mode": "code",
+  "title": "Harden adoption readiness external approval boundaries",
+  "baseCommit": "ed5f6d014844cebe351e08a304add2eeda3d4468",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/adoption_readiness_external_approval.contract.json",
+    ".ai/work-items/active/adoption_readiness_external_approval.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_check_agent_risk.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_ai_check_agent_risk.py",
+    "tests/test_project_governance_journey.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".github/CODEOWNERS",
+    "SECURITY.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {"path": "scripts/ai_check_adoption_ready.py", "reason": "Defines static adoption readiness behavior."},
+    {"path": "tests/test_adoption_ready.py", "reason": "Defines existing readiness fixtures and regression expectations."},
+    {"path": ".github/CODEOWNERS", "reason": "Defines the template's external review boundary."},
+    {"path": "SECURITY.md", "reason": "Defines the template's security reporting boundary."}
+  ],
+  "unknowns": [],
+  "problemStatement": "Adoption readiness can accept missing or stale template approval boundaries because it only checks one old placeholder spelling and skips absent CODEOWNERS or SECURITY.md files.",
+  "scenarioCoverage": [
+    {"scenario": "missing CODEOWNERS fails readiness", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "current CODEOWNERS placeholder fails readiness", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "missing SECURITY.md fails adopted readiness", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "current SECURITY.md template boundary fails adopted readiness", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "configured owner and private reporting channel pass readiness", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["external_approval_boundary", "fail_closed"],
+    "reason": "The checker must reject incomplete adopter configuration without rejecting the template-maintenance exemption path."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The readiness contract is explicit and covered by local regression tests."
+  },
+  "preReviewWarnings": [
+    "Review that template-maintenance exemptions remain explicit and adopted repositories fail closed on absent or placeholder approval boundaries."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Adopted readiness fails when CODEOWNERS or SECURITY.md is missing.",
+    "All current template placeholders and stale placeholder variants are rejected.",
+    "Configured owner rules and private vulnerability reporting satisfy the static boundary check.",
+    "Template-maintenance exemption behavior remains explicit and regression-tested."
+  ],
+  "guidelines": [
+    "Fail closed when external approval evidence is absent.",
+    "Keep template-maintenance exemption explicit."
+    ,"Accept full Contract hashes and their stable prefixes consistently across checkpoint gates."
+  ],
+  "intent": {
+    "problem": "A copied template can be reported as adoption-ready even when the external human approval and security reporting boundaries are absent or still template placeholders.",
+    "constraints": ["Keep explicit template-maintenance exemption behavior.", "Reject missing and placeholder adopter configuration fail-closed."],
+    "rationale": "Readiness must not self-declare trust where the repository and platform identity boundary has not been configured."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly confirmed the remediation loop; the complexity ceiling change records the required test and implementation growth."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

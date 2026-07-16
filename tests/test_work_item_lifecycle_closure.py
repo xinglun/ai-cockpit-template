@@ -1,8 +1,15 @@
 from __future__ import annotations
 
+import inspect
+
 import pytest
 
 import ai_close_work_item as closure
+
+
+def test_archived_evidence_uses_strict_summary_validation() -> None:
+    source = inspect.getsource(closure._verify_archived_evidence)
+    assert "legacy_archive=False" in source
 
 
 class FakeGit:

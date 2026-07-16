@@ -176,7 +176,7 @@ def test_check_rejects_mutable_or_incomplete_install_commands(tmp_path):
     readme = tmp_path / "README.md"
     readme.write_text(
         readme.read_text(encoding="utf-8")
-        + '\nsh -c "$(curl -fsSL https://raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh)" -- --stack rust\n',
+        + '\nsh -c "$(curl -fsSL https://raw.githubusercontent.com/spirex-ds-dev/ai-cockpit-template/main/install.sh)" -- --stack rust\n',
         encoding="utf-8",
     )
 

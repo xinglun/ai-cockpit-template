@@ -17,9 +17,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT / "release.json"
+CANONICAL_REPOSITORY = "spirex-ds-dev/ai-cockpit-template"
 PUBLIC_REPOSITORY = os.environ.get(
     "AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY",
-    "https://github.com/xinglun/ai-cockpit-template.git",
+    f"https://github.com/{CANONICAL_REPOSITORY}.git",
 )
 SUPPLY_CHAIN_FILES = {
     "requirementsLockDigest": ROOT / "requirements-dev.lock",

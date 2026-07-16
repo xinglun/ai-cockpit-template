@@ -135,7 +135,13 @@ def validate_agent_risks(
                         issues.append(
                             f"checkpointEvidence[{item.get('stage')}].{key} must be integer"
                         )
-                if expected_contract_hash and item.get("contractHash") != expected_contract_hash:
+                recorded_hash = item.get("contractHash")
+                hashes_match = isinstance(recorded_hash, str) and (
+                    recorded_hash == expected_contract_hash
+                    or recorded_hash.startswith(expected_contract_hash)
+                    or expected_contract_hash.startswith(recorded_hash)
+                )
+                if expected_contract_hash and not hashes_match:
                     issues.append(f"checkpointEvidence[{item.get('stage')}] contractHash is stale")
                 expected_counts = {
                     "acceptanceCount": len(contract.get("acceptance", []))

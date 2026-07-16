@@ -15,6 +15,12 @@ from check_release_distribution import (
 )
 
 
+def test_release_distribution_uses_canonical_public_repository_by_default():
+    assert release_distribution.PUBLIC_REPOSITORY == (
+        "https://github.com/spirex-ds-dev/ai-cockpit-template.git"
+    )
+
+
 IGNORES_SHA = b"""#!/bin/sh
 set -eu
 tmp=$(mktemp -d)
@@ -131,7 +137,9 @@ def test_release_network_commands_strip_ambient_git_auth(monkeypatch, tmp_path):
 
     monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
     assert (
-        release_distribution.list_remote_tags("https://github.com/xinglun/ai-cockpit-template.git")
+        release_distribution.list_remote_tags(
+            "https://github.com/spirex-ds-dev/ai-cockpit-template.git"
+        )
         == "a refs/tags/v0.5.22\n"
     )
     assert release_distribution.fetch_tagged_installer("v0.5.22") == b"#!/bin/sh\nexit 0\n"
@@ -288,14 +296,16 @@ def test_list_remote_tags_runs_outside_repo_root(monkeypatch):
                 "ls-remote",
                 "--tags",
                 "--refs",
-                "https://github.com/xinglun/ai-cockpit-template.git",
+                "https://github.com/spirex-ds-dev/ai-cockpit-template.git",
             ]:
                 return SimpleNamespace(returncode=0, stdout="a refs/tags/v0.5.22\n", stderr="")
         raise AssertionError(f"unexpected command: {command!r}")
 
     monkeypatch.setattr(release_distribution, "run_command", fake_run_command)
     assert (
-        release_distribution.list_remote_tags("https://github.com/xinglun/ai-cockpit-template.git")
+        release_distribution.list_remote_tags(
+            "https://github.com/spirex-ds-dev/ai-cockpit-template.git"
+        )
         == "a refs/tags/v0.5.22\n"
     )
     assert seen["cwd"] != release_distribution.ROOT

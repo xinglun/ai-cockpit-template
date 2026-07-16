@@ -17,6 +17,7 @@ from ai_common import (
     changed_paths,
     clean_git_environment,
     current_head,
+    discover_remote_default_candidates,
     load_json,
     path_fingerprint,
     redact_machine_paths,
@@ -43,14 +44,13 @@ def _git_output(args: list[str]) -> str:
 
 
 def repository_base_branch() -> str | None:
-    refs = _git_output(["for-each-ref", "--format=%(symref:short)", "refs/remotes"]).splitlines()
-    candidates = sorted({ref.split("/", 1)[1] for ref in refs if "/" in ref})
+    candidates = discover_remote_default_candidates(run_git)
     if len(candidates) > 1:
         raise RuntimeError(
             "could not uniquely discover the repository remote default branch; "
             "multiple remote HEAD targets were found"
         )
-    return candidates[0] if candidates else None
+    return candidates[0][1] if candidates else None
 
 
 def ensure_work_item_branch() -> None:

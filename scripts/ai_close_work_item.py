@@ -14,7 +14,13 @@ from typing import Callable, Sequence
 
 from ai_check_summary import validate_summary
 from ai_check_work_item import validate_contract
-from ai_common import PROJECT_ROOT, clean_git_environment, load_json, run_git
+from ai_common import (
+    PROJECT_ROOT,
+    clean_git_environment,
+    discover_remote_default_candidates,
+    load_json,
+    run_git,
+)
 
 
 ARCHIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "archive"
@@ -100,20 +106,7 @@ def _verify_archived_evidence(task: str) -> Path:
 
 
 def _discover_base(runner: Runner) -> tuple[str, str]:
-    remotes = runner(["remote"], False)
-    if remotes.returncode != 0:
-        raise RuntimeError("cannot enumerate Git remotes")
-    candidates: list[tuple[str, str]] = []
-    for remote in remotes.stdout.splitlines():
-        remote = remote.strip()
-        if not remote:
-            continue
-        head = runner(["symbolic-ref", "--quiet", "--short", f"refs/remotes/{remote}/HEAD"], False)
-        if head.returncode == 0:
-            ref = head.stdout.strip()
-            prefix = f"{remote}/"
-            if ref.startswith(prefix) and ref[len(prefix) :]:
-                candidates.append((remote, ref[len(prefix) :]))
+    candidates = discover_remote_default_candidates(lambda args: runner(args, False))
     if len(candidates) != 1:
         raise RuntimeError(
             "could not uniquely discover the repository remote default branch; "

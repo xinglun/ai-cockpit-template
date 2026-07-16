@@ -10,7 +10,7 @@ import re
 import subprocess
 import shlex
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -63,6 +63,28 @@ def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
         capture_output=True,
         check=False,
     )
+
+
+def discover_remote_default_candidates(
+    run_command: Callable[[list[str]], Any],
+) -> list[tuple[str, str]]:
+    """Return remote default branches as explicit ``(remote, branch)`` identities."""
+    remotes = run_command(["remote"])
+    if remotes.returncode != 0:
+        raise RuntimeError("cannot enumerate Git remotes")
+    candidates: list[tuple[str, str]] = []
+    for remote in remotes.stdout.splitlines():
+        remote = remote.strip()
+        if not remote:
+            continue
+        head = run_command(["symbolic-ref", "--quiet", "--short", f"refs/remotes/{remote}/HEAD"])
+        if head.returncode != 0:
+            continue
+        ref = head.stdout.strip()
+        prefix = f"{remote}/"
+        if ref.startswith(prefix) and ref[len(prefix) :]:
+            candidates.append((remote, ref[len(prefix) :]))
+    return candidates
 
 
 def current_head() -> str:

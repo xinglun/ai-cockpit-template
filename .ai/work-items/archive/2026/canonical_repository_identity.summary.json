@@ -1,0 +1,450 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "canonical_repository_identity",
+  "contractPath": ".ai/work-items/archive/2026/canonical_repository_identity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/canonical_repository_identity.contract.json",
+      "reason": "Defined the canonical repository identity scope and verification boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/canonical_repository_identity.summary.json",
+      "reason": "Records implementation and verification evidence for this Work Item."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Changed the installer default and help text to the canonical repository."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Updated the canonical remote installer URL check."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Changed the release distribution default and declared canonical identity."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Stopped local provenance generation from inheriting the previous baseline commit."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated the candidate SBOM baseline for the current immutable release-tag source."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated candidate provenance without inheriting the previous baseline commit."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Regenerated candidate release digests after the evidence identity correction."
+    },
+    {
+      "path": "release.json",
+      "reason": "Synchronized supply-chain digests without changing the v0.5.27 version or tag."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Updated the canonical remote installer URL check."
+    },
+    {
+      "path": "tests/test_install_sh.py",
+      "reason": "Added a regression test for canonical installer identity."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Added a regression test for canonical release distribution identity and updated fixtures."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Added regression coverage proving recorded provenance cannot supply a new source identity."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Updated the stale URL fixture to the canonical namespace."
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-16-trust-remediation-design.md",
+      "reason": "Records the approved trust remediation design."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-16-trust-remediation-loop.md",
+      "reason": "Records the ordered remediation execution plan."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/review-remediation-backlog.md",
+    "scripts/check_release_distribution.py",
+    "install.sh",
+    "tests/test_release_distribution.py",
+    "tests/test_docs_metadata.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:45.935962+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "4a6f3cc3c29bfb7a231114df685135f5dd1cf6aa75c93b8960e32326e0ff7898",
+      "commandHash": "f862d1a803e73c87db905a026599feab743e7a83bd96fcc3f90e80ced94dd98d",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/canonical_repository_identity.contract.json work item contract check passed: .ai/work-items/active/canonical_repository_identity.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:46.087852+00:00",
+      "exitCode": 0,
+      "durationMs": 106,
+      "outputDigest": "b1ec4bbb4a25f6883926137926ff9d9b8ab9db188c2e071fbfa5d3bd9200b9e8",
+      "commandHash": "1f141f29bea7de1d11d974e0b233645f30be20f6cd3291e1805773d9f671f3e5",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/canonical_repository_identity.contract.json scope guard passed: 15 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:46.305557+00:00",
+      "exitCode": 0,
+      "durationMs": 151,
+      "outputDigest": "51f997be7093e81b13ff2d3cdea3947f5592e8cd6fcf26bc873c9bf9216f863e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/canonical_repository_identity.contract.json [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/release-digests.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai/**) - AI governance configuration. guard check completed: 3 warning(s) report: target/ai_guard_report"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:46.551867+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "e4047d44a7d9fc7faf5a44a123f446986d7e65122156687e94456dbb200a388a",
+      "commandHash": "51dd496ad5ce65d00070a71977ac55e08b698ec8bc677874f626c19c826336d8",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/canonical_repository_identity.contract.json --summary .ai/work-items/active/canonical_repository_identity.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `canonical_repository_identity` - Contract Hash: `fcf058dd9ab1481d` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:46.727057+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "746a7676eb6aba49b6470ba55bf93c236ce08d32e28d1933a1de6dc7b5eff13f",
+      "commandHash": "b4a29082c29b00ba80e7c5d6c02eb1e7a4f1f6ea9975a56f2578651d622a834e",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/canonical_repository_identity.summary.json review policy matched 4 path(s) [review] .ai/cockpit/current_status.md [review] .ai/cockpit/provenance.json [review] .ai/cockpit/release-digests.json [review] .ai/cockpit/sbom.json review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:46.929933+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:47.122974+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:47.269206+00:00",
+      "exitCode": 0,
+      "durationMs": 73,
+      "outputDigest": "ad5f0433fc67f2b8b72a7f957aa3084a0d2bd9ff026153d42624c7d6918d1202",
+      "commandHash": "acf2ccdb2e827739fe8662bfe0874be7dc0ce3ada77ddb752ec1012a2cefe33a",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/canonical_repository_identity.contract.json --summary .ai/work-items/active/canonical_repository_identity.summary.json [warning] missing_scenario_coverage: - scenario coverage is missing for medium/high risk report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:47.416592+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "c8ad1defcbda92a74be5ce993b0138b052bd4b6f113fc6429172dcae7eeecab1",
+      "commandHash": "d3799782922c930840415377d7b2d84de1bd4861f12b239c093c9da92508cfb6",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/canonical_repository_identity.contract.json --summary .ai/work-items/active/canonical_repository_identity.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:28:47.630635+00:00",
+      "exitCode": 0,
+      "durationMs": 167,
+      "outputDigest": "d0493b41c2a49466ec062e36f80114f12d64be64870abb4f39eb628fe4acc6a9",
+      "commandHash": "25e9927d4042269511c31e009e82e581d52e2fee1a4e01e66cb2a988216efe98",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/canonical_repository_identity.contract.json ## Diff Ownership Preview - active_owned: `15`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/release-digests.json` "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:30:27.684790+00:00",
+      "exitCode": 0,
+      "durationMs": 100001,
+      "outputDigest": "22c4b39610e8d922d329f0239729b2c8ddb21c0e348637b3efe9fe1fe6e71fe0",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "a790224d2e8db20a9ed151d89d8579a01b2ad2ebb58f8d81f0db71f0d3cfb386",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 29%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:30:28.850402+00:00",
+      "exitCode": 0,
+      "durationMs": 202,
+      "outputDigest": "7f46522e96e8d80e47621dee89b2e374632d198e196a3d9036325c4c0c6e4a36",
+      "commandHash": "2b6ecef4dfb0cb889fa2223dbf611c96d495f6652fa60886e7fe7f3c682b8f3f",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "447bcc252c30f0dd2380918dff0dc25afe5e22a691118fcba447e3d47bc1c042",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/canonical_repository_identity.contract.json --summary .ai/work-items/active/canonical_repository_identity.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:30:29.233647+00:00",
+      "exitCode": 0,
+      "durationMs": 298,
+      "outputDigest": "bcac0d0df2e8d4ef4724beed856045dd2aa45aad09b487f1990b98e6a330f6b1",
+      "commandHash": "2133cbec459205f929c25e274193ea153cc70c163ae75d9835b4c0e68aad4243",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "447bcc252c30f0dd2380918dff0dc25afe5e22a691118fcba447e3d47bc1c042",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/canonical_repository_identity.contract.json --summary .ai/work-items/active/canonical_repository_identity.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:30:29.353466+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "447bcc252c30f0dd2380918dff0dc25afe5e22a691118fcba447e3d47bc1c042",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:30:29.507636+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "b71f68a8c6b080cd48fb9b8b25aa308fed468efb069205d2155b1821f3e6af93",
+      "commandHash": "bb946b9eee7e4d88e76615fee1f0721de889aec4e94462069f9fd190670c722b",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "447bcc252c30f0dd2380918dff0dc25afe5e22a691118fcba447e3d47bc1c042",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/canonical_repository_identity.contract.json --summary .ai/work-items/active/canonical_repository_identity.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/canonical_repository_identity.summary.json CONTRACT=.ai/work-items/active/canonical_repository_identity.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T04:30:29.680206+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "0e00f8115b550fe402df29b872c23de2796408d31feb1a798be98244d79f8bd5",
+      "commandHash": "97d737924006f69195458b2453c6c76e745fef02d0b0fade295fa9d93a3564d1",
+      "contractHash": "fcf058dd9ab1481df006640cd65c498fd99ed30df0ad80beffc9c65909c479ee",
+      "commitSha": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+      "executionContractPath": ".ai/work-items/active/canonical_repository_identity.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/canonical_repository_identity.summary.json",
+      "worktreeDigest": "447bcc252c30f0dd2380918dff0dc25afe5e22a691118fcba447e3d47bc1c042",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/canonical_repository_identity.summary.json --contract .ai/work-items/active/canonical_repository_identity.contract.json ai summary check passed: .ai/work-items/active/canonical_repository_identity.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Evidence over self-declaration: identity is checked from executable defaults and tests.",
+      "compliant": true,
+      "evidence": "Canonical default and regression tests are included in the Work Item scope."
+    },
+    {
+      "guideline": "Keep explicit repository override support for adopters while making the canonical source the default.",
+      "compliant": true,
+      "evidence": "Environment overrides remain supported; only the default and documentation identity changed."
+    },
+    {
+      "guideline": "Do not change release version or publish assets in this Work Item.",
+      "compliant": true,
+      "evidence": "No release metadata, tag, or published asset was changed."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Explicit overrides remain compatible, but downstream consumers should migrate away from the former namespace."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "release",
+      "detail": "The existing public release remains unchanged and must be superseded by the final release Work Item.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify all executable and documented defaults use the canonical repository and no old namespace remains."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "changed and verified",
+    "userVisibleOutput": "installer help updated and verified",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "Cockpit status generated by make",
+    "makeEntrypoints": "required Make checks run by ai-finish"
+  },
+  "userCorrectionsCaptured": [
+    "New version publication must remain the final remediation step."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Defer release publication",
+      "location": "Contract outOfScope and trust remediation plan",
+      "evidence": "release version and publishing are explicitly out of scope for this Work Item."
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Reviewed the review findings, canonical identity scope, release deferral constraint, and TDD verification plan before editing.",
+      "contractHash": "fcf058dd9ab1481d",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Reviewed full test, supply-chain baseline, documentation, ownership, and release-deferral evidence before finishing.",
+      "contractHash": "fcf058dd9ab1481d",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "The final release must still publish corrected immutable evidence after all remediation Work Items pass."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 73
+}

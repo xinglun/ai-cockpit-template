@@ -89,7 +89,7 @@ def _verify_archived_evidence(task: str) -> Path:
             contract,
             contract_path=contract_path.relative_to(PROJECT_ROOT).as_posix(),
             summary_path=summary_path.relative_to(PROJECT_ROOT).as_posix(),
-            legacy_archive=True,
+            legacy_archive=False,
         )
     )
     if issues:

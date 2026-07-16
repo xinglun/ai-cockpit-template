@@ -1,0 +1,159 @@
+{
+  "contractVersion": 2,
+  "workItemId": "strict_work_item_close_validation",
+  "mode": "code",
+  "title": "Harden strict Work Item closure validation",
+  "baseCommit": "376cbd8f2c66818768251522a666dfa863e21977",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/strict_work_item_close_validation.contract.json",
+    ".ai/work-items/active/strict_work_item_close_validation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_close_work_item.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "docs/getting-started/first-work-item.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Closure evidence validator."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Closure lifecycle regression tests."
+    },
+    {
+      "path": "docs/getting-started/first-work-item.md",
+      "reason": "Closure lifecycle documentation."
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "valid merged Work Item closes", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "invalid archived evidence blocks closure", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "unmerged or mismatched PR blocks closure", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "closure_integrity"
+    ],
+    "reason": "Closure must not delete branches or synchronize the base when archived evidence or merge identity is invalid."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Closure validation has explicit fail-closed boundaries and existing lifecycle tests."
+  },
+  "preReviewWarnings": [
+    "Review that closure performs no destructive cleanup before all evidence and PR checks pass."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Closure validates new archived evidence with strict Contract/Summary rules.",
+    "Closure remains fail-closed before branch deletion or base synchronization.",
+    "Existing lifecycle regression tests pass and cover mismatched PR/base conditions.",
+    "Closure order and postconditions are documented."
+  ],
+  "guidelines": [
+    "Validate archived evidence strictly before destructive cleanup.",
+    "Keep closure postconditions explicit and testable."
+  ],
+  "intent": {
+    "problem": "Closure currently validates archived evidence through the legacy compatibility path, which can allow newly archived records to bypass strict checks before branch cleanup.",
+    "constraints": ["Preserve legacy parsing only where explicitly required.", "Do not change branch deletion order."],
+    "rationale": "Closure is the irreversible lifecycle step and must use the strongest evidence validation available."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -1,0 +1,163 @@
+{
+  "contractVersion": 2,
+  "workItemId": "compatibility_baseline_latest_split",
+  "mode": "code",
+  "title": "Split compatibility baseline gates from latest ecosystem probes",
+  "baseCommit": "14dba9a908268e920af0fc3f8ec1f63d0378e58d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/compatibility_baseline_latest_split.contract.json",
+    ".ai/work-items/active/compatibility_baseline_latest_split.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/compatibility.yml",
+    "tests/test_workflows.py",
+    "docs/configuration.md"
+  ],
+  "outOfScope": [
+    "Changing stack implementations or installer presets",
+    "Changing the release version or publishing a tag",
+    "Guaranteeing compatibility with every future ecosystem version"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Current compatibility matrix mixes fixed Python lanes with stable/latest ecosystem probes and makes every lane release-blocking."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Workflow regression expectations and compatibility gate contract."
+    },
+    {
+      "path": "review finding P2-1: pasted-text.txt",
+      "reason": "Review recommends compatibility-baseline fixed tools as blocking and compatibility-latest as warning-only exploration."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_evidence", "compatibility_drift", "fail_open"],
+    "reason": "A baseline/latest split must preserve deterministic release evidence while making ecosystem drift visible without turning latest probes into release blockers."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The fixed baseline lanes, warning-only latest lanes, and release gate ownership are explicit."
+  },
+  "preReviewWarnings": [
+    "Review that only fixed baseline lanes feed compatibility-gate and latest probe failures remain visible without blocking release."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "compatibility-gate blocks on the fixed Python matrix and shellcheck baseline only.",
+    "Stable/latest real-stack, extended-stack, and mobile probes remain executable but do not block compatibility-gate when they drift.",
+    "A named latest-probe summary job exposes the experimental lane outcomes, and tests verify the baseline/latest dependency split.",
+    "Documentation states that baseline is release evidence while latest is exploratory and may warn."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Release-blocking evidence must use fixed tool versions; latest probes must not silently become release blockers."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "fixed baseline lanes pass and compatibility-gate succeeds", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "latest probe drifts while baseline remains green", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "baseline lane fails and compatibility-gate blocks", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "latest probe outcomes are visible in a non-blocking summary", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "intent": {
+    "problem": "The compatibility workflow currently treats fixed release checks and moving stable/latest ecosystem probes as one blocking gate, so an expected latest-tool drift can block release while the evidence model remains unclear.",
+    "constraints": ["Keep fixed Python and shellcheck validation release-blocking.", "Keep all existing stack probes executable.", "Do not claim latest probes are reproducible release evidence.", "Do not publish a new version in this Work Item."],
+    "rationale": "Separate deterministic baseline evidence from exploratory ecosystem detection so release decisions remain reproducible without hiding compatibility drift."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "Ray",
+    "reason": "User explicitly confirmed execution of the planned remediation loop, including CI workflow updates."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

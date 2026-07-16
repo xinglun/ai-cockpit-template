@@ -44,6 +44,7 @@ jobs:
       - run: make quality
 
   real-stack-quality:
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -120,6 +121,7 @@ jobs:
           make ai-cockpit-quality
 
   extended-real-stack-quality:
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -264,6 +266,7 @@ jobs:
           make ai-cockpit-quality
 
   mobile-stack-quality:
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -403,9 +406,6 @@ jobs:
     needs:
       - shellcheck
       - python-platform-matrix
-      - real-stack-quality
-      - extended-real-stack-quality
-      - mobile-stack-quality
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -413,11 +413,27 @@ jobs:
         env:
           SHELLCHECK_RESULT: ${{ needs.shellcheck.result }}
           PYTHON_RESULT: ${{ needs.python-platform-matrix.result }}
+        run: |
+          set -euo pipefail
+          for result in "$SHELLCHECK_RESULT" "$PYTHON_RESULT"; do
+            test "$result" = success
+          done
+
+  compatibility-latest:
+    if: ${{ always() }}
+    needs:
+      - real-stack-quality
+      - extended-real-stack-quality
+      - mobile-stack-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Report latest ecosystem probe outcomes
+        env:
           REAL_STACK_RESULT: ${{ needs.real-stack-quality.result }}
           EXTENDED_STACK_RESULT: ${{ needs.extended-real-stack-quality.result }}
           MOBILE_STACK_RESULT: ${{ needs.mobile-stack-quality.result }}
         run: |
-          set -euo pipefail
-          for result in "$SHELLCHECK_RESULT" "$PYTHON_RESULT" "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"; do
-            test "$result" = success
-          done
+          printf 'compatibility-latest real-stack=%s extended-stack=%s mobile-stack=%s\n' \
+            "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"
+          printf '%s\n' 'Latest probes are exploratory evidence; their drift does not block compatibility-gate.'

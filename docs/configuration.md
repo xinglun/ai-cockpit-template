@@ -42,7 +42,7 @@ Compatibility evidence is tiered:
 - **Preset only:** `generic` provides editable fail-closed commands but intentionally fails `ai-cockpit-quality` until configured.
 - **Unsupported runtime/platform:** native Windows shells. Use WSL or another POSIX environment.
 
-CI verification proves the documented minimal project only. It does not guarantee compatibility with every framework version, plugin set, monorepo layout, SDK, or generated-code policy.
+CI verification has two compatibility evidence tiers. The fixed Python matrix and shellcheck baseline feed the release-blocking `compatibility-gate`; stable/latest real-stack, extended-stack, and mobile probes are exploratory `compatibility-latest` evidence and may warn when the ecosystem moves. Neither tier guarantees compatibility with every framework version, plugin set, monorepo layout, SDK, or generated-code policy.
 
 Stack presets populate these variables:
 

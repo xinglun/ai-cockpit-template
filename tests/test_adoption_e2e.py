@@ -39,7 +39,7 @@ def test_first_adoption_finishes_and_passes_complete_pr_check(tmp_path):
         )
     )
     assert contract["baseCommit"] == base
-    assert contract["sourceReleaseTag"] == "v0.5.27"
+    assert contract["sourceReleaseTag"] == "v0.5.28"
     assert contract["sourceRepository"] == "local source"
     assert contract["sources"] == [
         {

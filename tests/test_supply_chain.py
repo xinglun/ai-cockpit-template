@@ -188,7 +188,7 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
     def fake_run(command, *, cwd, env, text, capture_output, check):
         commands.append(command)
         seen_envs.append(env)
-        if command == ["git", "rev-parse", "v0.5.27^{commit}"]:
+        if command == ["git", "rev-parse", "v0.5.28^{commit}"]:
             return subprocess.CompletedProcess(
                 command, 0, stdout="eee1d4ad835a1d33cb70f26103536f77b593d2ce\n", stderr=""
             )
@@ -202,8 +202,8 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
     assert sbom["metadata"]["component"]["version"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
     assert provenance["commitSha"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
     assert commands == [
-        ["git", "rev-parse", "v0.5.27^{commit}"],
-        ["git", "rev-parse", "v0.5.27^{commit}"],
+        ["git", "rev-parse", "v0.5.28^{commit}"],
+        ["git", "rev-parse", "v0.5.28^{commit}"],
     ]
     assert len(seen_envs) == 2
     for env in seen_envs:
@@ -226,7 +226,7 @@ def test_supply_chain_does_not_reuse_recorded_provenance_source(tmp_path, monkey
         "load_json",
         lambda _path: {"commitSha": "recorded-source"},
     )
-    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: "v0.5.27")
+    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: "v0.5.28")
     calls = []
 
     def fake_run(command, *, cwd, env, text, capture_output, check):
@@ -236,7 +236,7 @@ def test_supply_chain_does_not_reuse_recorded_provenance_source(tmp_path, monkey
     monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
 
     assert check_supply_chain.source_commit_sha() == "release-source"
-    assert calls == [["git", "rev-parse", "v0.5.27^{commit}"]]
+    assert calls == [["git", "rev-parse", "v0.5.28^{commit}"]]
 
 
 def test_supply_chain_accepts_explicit_source_commit(monkeypatch):

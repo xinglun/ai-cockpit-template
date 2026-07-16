@@ -27,7 +27,7 @@ The installation flow has five stages. The first governed Work Item walkthrough 
 
 ### Phase 1. Pre-flight
 
-For an adopter project, identify the repository's actual remote and default branch before creating the installation branch. The remote may not be named `origin`, and the default branch may not be `main`. Fetch that remote, create the branch from its latest default-branch commit, and record the remote, branch, and base commit in the adoption Work Item Contract. The installer source should be a published template release tag such as `v0.5.27`, not a moving template work branch.
+For an adopter project, identify the repository's actual remote and default branch before creating the installation branch. The remote may not be named `origin`, and the default branch may not be `main`. Fetch that remote, create the branch from its latest default-branch commit, and record the remote, branch, and base commit in the adoption Work Item Contract. The installer source should be a published template release tag such as `v0.5.28`, not a moving template work branch.
 
 Before installing, run the checks that keep the installer from failing late:
 

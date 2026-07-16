@@ -17,7 +17,7 @@ The documented quick-install path resolves public release metadata first and the
 
 SBOM and provenance release evidence must be generated with an explicit source commit (`--source-commit` or `SUPPLY_CHAIN_SOURCE_COMMIT`). The local release-tag fallback exists only for compatibility and never derives evidence identity from the current `HEAD`.
 
-The release workflow treats committed `.ai/cockpit/sbom.json`, `provenance.json`, and `release-digests.json` as candidate baselines only. After checking out the immutable `SOURCE_COMMIT`, it runs `check_supply_chain.py release-assets`, verifies that every generated provenance and digest subject names that exact commit, and publishes the generated evidence as GitHub Release assets. The historical v0.5.27 provenance must not be treated as final release proof because it was created before this source-bound asset flow.
+The release workflow treats committed `.ai/cockpit/sbom.json`, `provenance.json`, and `release-digests.json` as candidate baselines only. After checking out the immutable `SOURCE_COMMIT`, it runs `check_supply_chain.py release-assets`, verifies that every generated provenance and digest subject names that exact commit, and publishes the generated evidence as GitHub Release assets. Candidate provenance from a previous public release must not be treated as final proof for the current release because it was created before this source-bound asset flow.
 
 ## PR-first release sequence
 

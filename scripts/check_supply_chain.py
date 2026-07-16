@@ -192,6 +192,18 @@ def source_commit_sha(explicit: str | None = None) -> str:
         capture_output=True,
         check=False,
     )
+    if result.returncode != 0 and not requested:
+        revision = subprocess.check_output(
+            ["git", "describe", "--tags", "--abbrev=0"], text=True
+        ).strip()
+        result = subprocess.run(
+            ["git", "rev-parse", f"{revision}^{{commit}}"],
+            cwd=ROOT,
+            env=clean_git_environment(),
+            text=True,
+            capture_output=True,
+            check=False,
+        )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "git rev-parse failed")
     return result.stdout.strip()

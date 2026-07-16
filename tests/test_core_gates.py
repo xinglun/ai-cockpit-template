@@ -517,33 +517,37 @@ def test_finish_branch_guard_compares_current_branch_with_discovered_base(monkey
 
 
 def test_finish_branch_discovery_handles_remote_head_and_no_remote_head(monkeypatch):
-    responses = {
-        ("for-each-ref", "--format=%(symref:short)", "refs/remotes"): SimpleNamespace(
-            returncode=0, stdout="origin/main\n", stderr=""
-        ),
-    }
-    monkeypatch.setattr(ai_finish, "run_git", lambda args: responses[tuple(args)])
+    def one_remote(args):
+        if args == ["remote"]:
+            return SimpleNamespace(returncode=0, stdout="origin\n", stderr="")
+        return SimpleNamespace(returncode=0, stdout="origin/main\n", stderr="")
+
+    monkeypatch.setattr(ai_finish, "run_git", one_remote)
 
     assert ai_finish.repository_base_branch() == "main"
 
     monkeypatch.setattr(
         ai_finish,
         "run_git",
-        lambda _args: SimpleNamespace(returncode=0, stdout="", stderr=""),
+        lambda args: SimpleNamespace(
+            returncode=0,
+            stdout="" if args == ["remote"] else "",
+            stderr="",
+        ),
     )
     assert ai_finish.repository_base_branch() is None
 
 
-def test_finish_branch_discovery_rejects_ambiguous_remote_heads(monkeypatch):
-    monkeypatch.setattr(
-        ai_finish,
-        "run_git",
-        lambda _args: SimpleNamespace(
-            returncode=0,
-            stdout="origin/main\nupstream/trunk\n",
-            stderr="",
-        ),
-    )
+@pytest.mark.parametrize("branches", [("main", "trunk"), ("main", "main")])
+def test_finish_branch_discovery_rejects_ambiguous_remote_heads(monkeypatch, branches):
+    def two_remotes(args):
+        if args == ["remote"]:
+            return SimpleNamespace(returncode=0, stdout="origin\nupstream\n", stderr="")
+        remote = args[-1].split("/")[2]
+        branch = branches[0] if remote == "origin" else branches[1]
+        return SimpleNamespace(returncode=0, stdout=f"{remote}/{branch}\n", stderr="")
+
+    monkeypatch.setattr(ai_finish, "run_git", two_remotes)
 
     with pytest.raises(RuntimeError, match="multiple remote HEAD targets"):
         ai_finish.repository_base_branch()
@@ -555,7 +559,7 @@ def test_finish_branch_helpers_fail_closed_for_git_errors_and_detached_head(monk
         "run_git",
         lambda _args: SimpleNamespace(returncode=1, stdout="", stderr="bad git"),
     )
-    with pytest.raises(RuntimeError, match="git for-each-ref .*bad git"):
+    with pytest.raises(RuntimeError, match="cannot enumerate Git remotes"):
         ai_finish.repository_base_branch()
 
 

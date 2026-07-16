@@ -12,6 +12,16 @@ def test_archived_evidence_uses_strict_summary_validation() -> None:
     assert "legacy_archive=False" in source
 
 
+def test_close_branch_discovery_uses_remote_identity_for_duplicate_branch_names() -> None:
+    with pytest.raises(RuntimeError, match="could not uniquely discover"):
+        closure._discover_base(
+            lambda args, _check: closure.CommandResult(
+                0,
+                "origin\nupstream\n" if args == ["remote"] else f"{args[-1].split('/')[2]}/main\n",
+            )
+        )
+
+
 class FakeGit:
     def __init__(
         self,

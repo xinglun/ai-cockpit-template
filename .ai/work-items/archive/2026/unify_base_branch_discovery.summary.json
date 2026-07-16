@@ -1,0 +1,452 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "unify_base_branch_discovery",
+  "contractPath": ".ai/work-items/archive/2026/unify_base_branch_discovery.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/unify_base_branch_discovery.contract.json",
+      "reason": "Defined the shared remote-aware lifecycle contract."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify_base_branch_discovery.summary.json",
+      "reason": "Recorded implementation and verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Regenerated governed cockpit status."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Added the shared remote default candidate discovery helper."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Changed finish-stage discovery to use explicit (remote, branch) candidates."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Changed close-stage discovery to use the same shared helper."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Updated and expanded finish-stage discovery tests."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Added close-stage duplicate and single-remote discovery tests."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "review finding P2-2: pasted-text.txt",
+    "scripts/ai_finish.py",
+    "scripts/ai_close_work_item.py",
+    "tests/test_core_gates.py",
+    "tests/test_work_item_lifecycle_closure.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:27.840189+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "1181387c04b189dd8eeae3ad95598c1b957709981c2fcf46453a30c5df58ffee",
+      "commandHash": "6fd09ceee79354abbc4cabb85bf17d75894d5c9f0654065dffaa33ae6cec1574",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/unify_base_branch_discovery.contract.json work item contract check passed: .ai/work-items/active/unify_base_branch_discovery.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:27.962430+00:00",
+      "exitCode": 0,
+      "durationMs": 79,
+      "outputDigest": "8703e83001e6bbb5e172f193f20fb25d8130d420505e64e528961941ed8886fa",
+      "commandHash": "460b1ce116f9199f02155427ad0eaa31bc15ee9eb16e21d038461bfc89fd221b",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/unify_base_branch_discovery.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.120082+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "21b1ee76f6c33cfdd2c9478e8654ef063e440606baaf9eccab746ae87ee06a2f",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/unify_base_branch_discovery.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.320761+00:00",
+      "exitCode": 0,
+      "durationMs": 164,
+      "outputDigest": "f6ba3292be22ff0d894b919b2dc01a36b717f3e3bbc0e7e6187a5ce22a9ac6de",
+      "commandHash": "2c6f2d3b5e07d3955792b8a6de963c25efbc6cec8959917cdb993e9f40dc428f",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/unify_base_branch_discovery.contract.json --summary .ai/work-items/active/unify_base_branch_discovery.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `unify_base_branch_discovery` - Contract Hash: `7124a61b4631ece5` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Chec"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.437083+00:00",
+      "exitCode": 0,
+      "durationMs": 79,
+      "outputDigest": "f0725746dcb2af9ff68731c73354604614c8026945c831c7814ad4f32671bb01",
+      "commandHash": "6d816b05fc523c54cb55545f4dd40d44145cff17f641fe174fc8bb0d9789677c",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/unify_base_branch_discovery.summary.json review policy matched 4 path(s) [review] .ai/cockpit/current_status.md [review] scripts/ai_close_work_item.py [review] scripts/ai_common.py [review] scripts/ai_finish.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.548284+00:00",
+      "exitCode": 0,
+      "durationMs": 74,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.670911+00:00",
+      "exitCode": 0,
+      "durationMs": 84,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.793597+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "6a3d73f8aa19e0e07df6718d5792dafa07c888df27ee00336f162514d0cc2213",
+      "commandHash": "57c45ef1257c33f72b2c309b589ef3b5e36ccdaba128ec45acc53723e5ee82d4",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/unify_base_branch_discovery.contract.json --summary .ai/work-items/active/unify_base_branch_discovery.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:28.889830+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "ef8e0527dd283e37564119f25786c803699a8cacdbb73b5dc5015113b7186cfd",
+      "commandHash": "7060d7277bbd7c532e249e554d7b5eafd5bdefb2c510919fa009016f09fb0986",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/unify_base_branch_discovery.contract.json --summary .ai/work-items/active/unify_base_branch_discovery.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:20:29.076794+00:00",
+      "exitCode": 0,
+      "durationMs": 152,
+      "outputDigest": "e51ab15e56f85c8aab972df8c9c3df463d8914410041806be80c441143a5b8f0",
+      "commandHash": "7364ba6ed3ca57f30b2d90673e3344c0358c4ae7474942f312b58ea49305907e",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/unify_base_branch_discovery.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `scripts/ai_close_work_item.py` — covered by Contract scope - [active_owned] `scripts/ai_common.py` — covered by "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:21:58.269965+00:00",
+      "exitCode": 0,
+      "durationMs": 89107,
+      "outputDigest": "009fb7ea874782db30d70242055e002109e0ca597f31e47b3eebeb886d118b78",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "b7b4e0060926ddac1ed5a7b1ffd678f3f79322bf34f0ac2fffe9b1ce484c7643",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 28%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:21:59.724149+00:00",
+      "exitCode": 0,
+      "durationMs": 380,
+      "outputDigest": "791f4c82dff72d240671b85f899258ef3cc3f203c4d93c7135c95cb32cf0edc4",
+      "commandHash": "25bb4306b2c1180dc09fbdbc194d90ec2fe234e54642b0b33277ec48838e1c27",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "51461a49db1a6e89a5f06ba6a7b3d9364def81808f7d985451efad0750f2dc5d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/unify_base_branch_discovery.contract.json --summary .ai/work-items/active/unify_base_branch_discovery.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:21:59.920918+00:00",
+      "exitCode": 0,
+      "durationMs": 161,
+      "outputDigest": "21125ff8cc40cc7ea80e3181385dfa945069f65d3ba942c54eec126d7cf3c843",
+      "commandHash": "5338333920fad1370ba5bd0da070bec7eb1cfa97111a7f0f88f951f8e31bf6ba",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "51461a49db1a6e89a5f06ba6a7b3d9364def81808f7d985451efad0750f2dc5d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/unify_base_branch_discovery.contract.json --summary .ai/work-items/active/unify_base_branch_discovery.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:21:59.991626+00:00",
+      "exitCode": 0,
+      "durationMs": 37,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "51461a49db1a6e89a5f06ba6a7b3d9364def81808f7d985451efad0750f2dc5d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:22:00.070032+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "0b0013514d5f38bb1aecaff27e0b04f351944e52d16cd30d5a3b45907db73838",
+      "commandHash": "10a4b4a2e4b5cc26b23992ecb251d64aff5f5aa7213936513af746ffe106fd16",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "51461a49db1a6e89a5f06ba6a7b3d9364def81808f7d985451efad0750f2dc5d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/unify_base_branch_discovery.contract.json --summary .ai/work-items/active/unify_base_branch_discovery.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/unify_base_branch_discovery.summary.json CONTRACT=.ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T09:22:00.194110+00:00",
+      "exitCode": 0,
+      "durationMs": 86,
+      "outputDigest": "37dc87b150c7ddf435e341a1068e4994d5eaa43a23c7eaf2593e50663ec44d78",
+      "commandHash": "10d5e4903ad986ff281b69b7a8b435e78f8c1230a3e58f9221e020423e3b53cd",
+      "contractHash": "7124a61b4631ece55b923a37d7399ea15f8368fed74058a82f1794ef172bbda2",
+      "commitSha": "07a09889d4d59cdacb35c8332b988c11d061d535",
+      "executionContractPath": ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+      "worktreeDigest": "51461a49db1a6e89a5f06ba6a7b3d9364def81808f7d985451efad0750f2dc5d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/unify_base_branch_discovery.summary.json --contract .ai/work-items/active/unify_base_branch_discovery.contract.json ai summary check passed: .ai/work-items/active/unify_base_branch_discovery.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The shared helper is an internal script utility; its behavior is documented by its docstring and regression tests."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "Both lifecycle scripts import the shared utility module; no feature-module imports were introduced."
+    },
+    {
+      "guideline": "Lifecycle boundary discovery must use one shared remote-aware implementation.",
+      "compliant": true,
+      "evidence": "ai_finish and ai_close_work_item both call discover_remote_default_candidates from ai_common."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Repositories with no configured remote HEAD remain permissive during finish but fail closed during close, preserving existing lifecycle semantics; ambiguous remote identities now fail consistently."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "remote_configuration",
+      "detail": "A repository still needs a configured remote HEAD before close can synchronize a base; the diagnostic remains explicit and fail closed.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm candidate identity includes remote name.",
+      "Confirm no remote HEAD remains permissive only where existing finish semantics require it."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "User required the complete Work Item/PR/merge/close lifecycle and the release last."
+  ],
+  "userCorrectionSolidification": [
+    "This change is isolated on a dedicated branch and does not change release or adopter configuration behavior."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract was enriched and checkpoint passed before implementation edits.",
+      "contractHash": "7124a61b4631ece5",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Final checkpoint was executed before finish; all acceptance scenarios are verified and no unknowns remain.",
+      "contractHash": "7124a61b4631ece5",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "one remote advertises main and both lifecycle phases select it",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py::test_finish_branch_discovery_handles_remote_head_and_no_remote_head",
+        "tests/test_work_item_lifecycle_closure.py::test_close_branch_discovery_selects_single_remote_default"
+      ]
+    },
+    {
+      "scenario": "no remote HEAD is configured and finish remains permissive",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py::test_finish_branch_discovery_handles_remote_head_and_no_remote_head"
+      ]
+    },
+    {
+      "scenario": "two remotes advertise different default branches and both phases fail closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py::test_finish_branch_discovery_rejects_ambiguous_remote_heads[branches0]",
+        "shared candidate helper returns both (remote, branch) identities"
+      ]
+    },
+    {
+      "scenario": "two remotes advertise the same branch name and both phases fail closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py::test_finish_branch_discovery_rejects_ambiguous_remote_heads[branches1]",
+        "tests/test_work_item_lifecycle_closure.py::test_close_branch_discovery_uses_remote_identity_for_duplicate_branch_names"
+      ]
+    }
+  ],
+  "knownGaps": [
+    "This Work Item does not change adopter installer context discovery; that remains out of scope for the P2-2 lifecycle consistency fix."
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Both lifecycle phases now enumerate the same explicit remote-aware candidates, preventing branch-name-only ambiguity."
+  },
+  "overclaimPrevention": "Do not claim universal provider compatibility; this helper only standardizes Git remote HEAD discovery and preserves fail-closed behavior.",
+  "archiveSequence": 83
+}

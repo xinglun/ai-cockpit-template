@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "unify_base_branch_discovery",
+  "mode": "code",
+  "title": "Unify remote-aware base branch discovery",
+  "baseCommit": "07a09889d4d59cdacb35c8332b988c11d061d535",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/unify_base_branch_discovery.contract.json",
+    ".ai/work-items/active/unify_base_branch_discovery.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_common.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_close_work_item.py",
+    "tests/test_core_gates.py",
+    "tests/test_work_item_lifecycle_closure.py"
+  ],
+  "outOfScope": [
+    "Changing installer adopter configuration behavior",
+    "Changing PR provider or merge policy",
+    "Changing release version or publishing a tag"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/pasted-text.txt",
+      "reason": "Review finding P2-2 identifies inconsistent base branch discovery between ai-finish and ai-close-work-item."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Current finish-stage discovery collapses remote candidates by branch name."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Current close-stage discovery is the canonical remote-aware behavior to share."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Finish-stage branch discovery regression coverage."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Close-stage discovery regression coverage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "base_discovery_consistency",
+      "multi_remote_ambiguity"
+    ],
+    "reason": "Finish and close must reject the same ambiguous remote default-branch state, including two remotes that advertise the same branch name."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User confirmed the remediation loop; the shared helper and regression tests are well-defined."
+  },
+  "preReviewWarnings": [
+    "Verify ai-finish and ai-close-work-item use the same remote-aware candidate identity and fail closed on duplicate remote HEADs."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A shared remote-aware discovery helper defines candidates as (remote, default branch), and both finish and close call it.",
+    "ai-finish and ai-close-work-item reject multiple remote HEAD targets with the same branch name instead of silently choosing one.",
+    "Regression tests cover one remote, no remote HEAD, distinct remote defaults, and duplicate branch names across remotes.",
+    "The implementation preserves the existing fail-closed diagnostic and does not change release or adopter configuration behavior."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Lifecycle boundary discovery must use one shared remote-aware implementation."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "one remote advertises main and both lifecycle phases select it", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "no remote HEAD is configured and finish remains permissive", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "two remotes advertise different default branches and both phases fail closed", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "two remotes advertise the same branch name and both phases fail closed", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "intent": {
+    "problem": "ai-finish and ai-close-work-item currently implement subtly different remote default-branch discovery rules, so a multi-remote repository can pass one lifecycle phase and fail the next or select the wrong base.",
+    "constraints": ["Keep fail-closed behavior for ambiguous remote HEAD state.", "Preserve existing public diagnostics and lifecycle order.", "Do not hard-code origin/main or provider-specific behavior."],
+    "rationale": "A shared helper makes the lifecycle contract deterministic and ensures both pre-PR finish and post-merge close interpret remote identity the same way."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "Ray",
+    "reason": "User explicitly confirmed the remediation loop, including lifecycle governance fixes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

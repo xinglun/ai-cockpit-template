@@ -1,0 +1,134 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi-08",
+  "mode": "code",
+  "title": "Review readiness stabilization ordering",
+  "baseCommit": "75b519d0d4a579c18b91e3eef70d69c0aaf91533",
+  "baselineDirtyPaths": [],
+  "scope": ["scripts/ai_finish.py", "tests/test_finish_readiness.py", ".ai/work-items/active/wi-08.contract.json", ".ai/work-items/active/wi-08.summary.json", ".ai/cockpit/current_status.md", ".ai/work-items/archive/**"],
+  "outOfScope": ["Changing the meaning of external platform approval"],
+  "sources": [
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Promote review readiness only after stabilization evidence." 
+    },
+    {"path": "tests/test_finish_readiness.py", "reason": "Regression coverage for stabilization ordering."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["review_readiness"],
+    "reason": "Readiness must not become ready before status, risk, and Summary stabilization completes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The ordering rule is deterministic and covered by regression tests."
+  },
+  "preReviewWarnings": [
+    "Review final status consistency after readiness promotion."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Review readiness is promoted only after all stabilization checks pass.",
+    "Final cockpit status is regenerated from the promoted readiness signal.",
+    "Regression tests cover incomplete stabilization evidence.",
+    "All Work Item and project checks pass."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {"problem": "The previous ordering could derive readiness before status, risk, and Summary stabilization had completed.", "constraints": ["Keep existing verification IDs and fail-closed behavior."], "rationale": "Readiness is a final signal and must be calculated from the stabilized evidence set."},
+  "scenarioCoverage": [{"scenario": "Incomplete status evidence", "required": true, "status": "verified", "evidence": ["test_promote_review_readiness_requires_stabilization_checks"]}, {"scenario": "All stabilization checks pass", "required": true, "status": "verified", "evidence": ["ai_finish final status stabilization commands"]}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

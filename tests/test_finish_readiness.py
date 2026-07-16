@@ -21,6 +21,7 @@ def test_promote_review_readiness_marks_fully_verified_summary_ready():
 
     assert result["status"] == "ready"
     assert "required verification" in result["reason"]
+    assert result["expectedReviewFocus"] == ["review"]
 
 
 def test_promote_review_readiness_preserves_residual_risk_signal():

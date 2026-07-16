@@ -424,6 +424,9 @@ def main() -> int:
         obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
         return code
 
+    # Establish the readiness baseline before self-referential stabilization;
+    # the subsequent status/risk/Summary checks must all attest this exact
+    # baseline before the Work Item can be archived.
     summary_data = load_json(summary_path)
     summary_data["reviewReadiness"] = promote_review_readiness(summary_data)
     save_json(summary_path, summary_data)

@@ -14,6 +14,8 @@ Run `make check-governance-complexity` during maintenance and before a release. 
 
 Thresholds live in `.ai/guards/governance_complexity_policy.yaml`. A threshold change requires a Work Item explaining the new repository shape and the expected reviewer impact. Live repository thresholds remain blocking; archive totals are intentionally observational. The report is intentionally read-only: it detects growth but does not delete or rewrite historical evidence.
 
+The Python threshold is calibrated at 24,050 for the lifecycle-enforcement Work Item because the repository gained the explicit finish-versus-closure guard, its regression coverage, and the associated governance checks. This is a small capacity adjustment with no change to archive integrity policy; future growth remains blocking and requires another documented Work Item.
+
 ## Lifecycle rules
 
 - Each pull request must contain one newly maintained Work Item archive pair; combine independent Work Items in separate pull requests.

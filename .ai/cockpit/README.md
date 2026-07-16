@@ -87,8 +87,9 @@ The required order is: latest remote base, dedicated Work Item branch, implement
 3. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available, or leave them empty / not provided when context is missing.
 4. Implement only inside the declared scope.
 5. Update the Summary with changed files, checks, risks, review readiness, boundary checks, known gaps, any destructive changes, and optional `intentAlignment` evidence when it exists.
-6. Run `make ai-finish TASK=<task>`.
-7. Review the generated status and archived Contract/Summary.
+6. Run `make ai-finish TASK=<task>`; this archives the evidence but does not close the lifecycle.
+7. Push the Work Item branch, open and merge its PR, then run `make ai-close-work-item TASK=<task>`.
+8. Review the generated status and confirm the closure command reports `ready for next Work Item`.
 
 If you want the startup flow to surface readiness before implementation, run `make ai-preflight`.
 That target generates the advisory Preflight Review and then validates it. By default it stays advisory; when policy enables gating, `needs_human_confirmation` or `not_ready` can fail the check.

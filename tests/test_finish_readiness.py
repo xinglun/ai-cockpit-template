@@ -38,3 +38,10 @@ def test_promote_review_readiness_remains_not_ready_for_incomplete_evidence():
 
     assert failed["status"] == "not_ready"
     assert unknown["status"] == "not_ready"
+
+
+def test_finish_archive_message_is_not_lifecycle_closure():
+    output = ai_finish.archive_next_steps("example")
+
+    assert "lifecycle is not closed" in output
+    assert "make ai-close-work-item TASK=example" in output

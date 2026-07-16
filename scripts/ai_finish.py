@@ -44,7 +44,13 @@ def _git_output(args: list[str]) -> str:
 
 def repository_base_branch() -> str | None:
     refs = _git_output(["for-each-ref", "--format=%(symref:short)", "refs/remotes"]).splitlines()
-    return next((ref.split("/", 1)[1] for ref in refs if "/" in ref), None)
+    candidates = sorted({ref.split("/", 1)[1] for ref in refs if "/" in ref})
+    if len(candidates) > 1:
+        raise RuntimeError(
+            "could not uniquely discover the repository remote default branch; "
+            "multiple remote HEAD targets were found"
+        )
+    return candidates[0] if candidates else None
 
 
 def ensure_work_item_branch() -> None:
@@ -207,6 +213,14 @@ def promote_review_readiness(summary: dict[str, Any]) -> dict[str, Any]:
         ),
         "expectedReviewFocus": expected_focus,
     }
+
+
+def archive_next_steps(task: str) -> str:
+    return (
+        "Work Item archived; lifecycle is not closed. "
+        "Next steps: push this Work Item branch, open and merge its PR, "
+        f"then run make ai-close-work-item TASK={task}."
+    )
 
 
 def verification_priority(item: dict[str, Any]) -> int:
@@ -472,6 +486,7 @@ def main() -> int:
             obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
             return code
         obs.check_passed(check_id="archive-work-item", command=cmd_str, duration_ms=duration)
+        print(archive_next_steps(args.task))
     obs.work_item_finished(result="passed", duration_ms=elapsed_ms(total_start))
     return 0
 

@@ -534,6 +534,21 @@ def test_finish_branch_discovery_handles_remote_head_and_no_remote_head(monkeypa
     assert ai_finish.repository_base_branch() is None
 
 
+def test_finish_branch_discovery_rejects_ambiguous_remote_heads(monkeypatch):
+    monkeypatch.setattr(
+        ai_finish,
+        "run_git",
+        lambda _args: SimpleNamespace(
+            returncode=0,
+            stdout="origin/main\nupstream/trunk\n",
+            stderr="",
+        ),
+    )
+
+    with pytest.raises(RuntimeError, match="multiple remote HEAD targets"):
+        ai_finish.repository_base_branch()
+
+
 def test_finish_branch_helpers_fail_closed_for_git_errors_and_detached_head(monkeypatch):
     monkeypatch.setattr(
         ai_finish,

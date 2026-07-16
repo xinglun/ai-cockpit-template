@@ -39,4 +39,6 @@ verify evidence and merged PR
 
 The command stops at the first unverified failure. It never deletes the remote branch before local base safety is established, never uses an implicit merge commit, and never reports `closed` unless the final remote-ref check proves the branch is absent. If GitHub or another platform has already deleted the branch, the redundant delete request may return non-zero; after `fetch --prune`, a verified absent remote ref is treated as the idempotent success state. A branch that still exists, or a remote state that cannot be verified, remains fail-closed. Squash and rebase PRs are supported because the merged PR, rather than local ancestry, authorizes deletion of the source branch.
 
+`make ai-finish TASK=<task>` is an archive milestone, not lifecycle closure. Its successful output explicitly directs the operator to push the Work Item branch, open and merge the PR, and then run `ai-close-work-item`. Historical local branches or detached worktrees outside the current Work Item are not deleted automatically because their ownership cannot be established safely from a branch name alone; audit and remove them only with explicit operator authorization.
+
 The repository's remote name and default branch are discovered from Git's remote HEAD. Adopter projects therefore do not need to use `origin/main`.

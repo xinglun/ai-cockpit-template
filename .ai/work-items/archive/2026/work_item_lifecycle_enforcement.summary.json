@@ -1,0 +1,458 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "work_item_lifecycle_enforcement",
+  "contractPath": ".ai/work-items/archive/2026/work_item_lifecycle_enforcement.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/work_item_lifecycle_enforcement.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/work_item_lifecycle_enforcement.summary.json",
+      "reason": "Updated the Summary for lifecycle enforcement and cleanup-safety changes."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Reject ambiguous remote default discovery and distinguish archive finish from lifecycle closure."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Verify ambiguous remote HEAD discovery fails closed."
+    },
+    {
+      "path": "tests/test_finish_readiness.py",
+      "reason": "Verify finish output names the remaining PR and closure steps."
+    },
+    {
+      "path": "docs/reference/work-item-lifecycle-closure.md",
+      "reason": "Document finish/archive as a non-closure milestone and safe cleanup boundary."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Clarify the canonical finish, PR, merge, and closure order."
+    },
+    {
+      "path": "docs/getting-started/first-work-item.md",
+      "reason": "Clarify that finish alone does not complete a Work Item."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Clarify lifecycle milestones in the canonical Cockpit workflow."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Calibrate the Python complexity threshold for the measured lifecycle enforcement change."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Document the threshold adjustment and reviewer impact."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+    "scripts/ai_finish.py",
+    "scripts/ai_close_work_item.py",
+    "docs/design/harden-work-item-pr-closure.md",
+    "docs/reference/work-item-lifecycle-closure.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:45.639241+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "4e1f3ce651077612898ceb0da0226beb3e3953ef7008efd93f7a0e8555b88028",
+      "commandHash": "2f955b69bbe1fcb04d69c5d5f9215807211c55c43e9a93d5d0bd05876d143875",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/work_item_lifecycle_enforcement.contract.json work item contract check passed: .ai/work-items/active/work_item_lifecycle_enforcement.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:45.752704+00:00",
+      "exitCode": 0,
+      "durationMs": 75,
+      "outputDigest": "0dd3b8350f0935c376da5c0503f0b6d57702ab708c806b09876bb582cd37ea1f",
+      "commandHash": "f08d79975ccbf8f3c6cabcde93f11ab77188e3ff6756c6b5d2cbc4e2d9b013ce",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/work_item_lifecycle_enforcement.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:45.901159+00:00",
+      "exitCode": 0,
+      "durationMs": 100,
+      "outputDigest": "b5b29ccef7aa08b6d979a963e7b21de005ea68c5de6e0bc187091c9e0be84cd9",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.120676+00:00",
+      "exitCode": 0,
+      "durationMs": 178,
+      "outputDigest": "a481be7339effc6e9a238881617f55ce754350bee7ca26aa9a2b99ce40d5d09a",
+      "commandHash": "305e6e8053ddc5ed003f70d4c5d15636c1b5cadb95fc3c6a2ac748f858c01274",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `work_item_lifecycle_enforcement` - Contract Hash: `02abd3bc0cd1c15d` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.236833+00:00",
+      "exitCode": 0,
+      "durationMs": 76,
+      "outputDigest": "68013c67c6bc4b3dd5532266cf687f763d98b39cf6b38e7a687945b1815af406",
+      "commandHash": "4b19e2d56b2743f05229b44ec884d041051ed472def925efd0612af752f0e757",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json review policy matched 4 path(s) [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_finish.py review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.347345+00:00",
+      "exitCode": 0,
+      "durationMs": 75,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.464993+00:00",
+      "exitCode": 0,
+      "durationMs": 77,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.564871+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "a2b6896af171b93dd9f96404d2b9f9819d88a03ed625b7ee10b464a983482be3",
+      "commandHash": "3da2c669dc72c9778659c2aecc29d0abfab0fff2c92a32da9e95d03f0060642f",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.670026+00:00",
+      "exitCode": 0,
+      "durationMs": 62,
+      "outputDigest": "3f6e2b01a06750f7b27c547af36f426e5bded1001040967541e80f62597a695a",
+      "commandHash": "868ab3563e90bf7f6514cddd75bf6dd69d80469d32f8a531e94f3c74fb31b998",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:07:46.933543+00:00",
+      "exitCode": 0,
+      "durationMs": 228,
+      "outputDigest": "40f9ff4de9fb0915bc1c52e9e3054672c6bb7e8bc252279547638c4ac460297a",
+      "commandHash": "ef4730dc60cc6da4b6bf60cc1ddc0f0ee78b566306c1d101a539df4e3f8a9d06",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_polic"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:09:10.091222+00:00",
+      "exitCode": 0,
+      "durationMs": 83113,
+      "outputDigest": "1e27c090ce2e56614e5c68d3e989c6dc8b620617ba808885062c86dffab96354",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "390172359d4930b45dc4231d8f3fae3a3e84523b938c083b35e104713350fe14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 28%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:09:11.163433+00:00",
+      "exitCode": 0,
+      "durationMs": 176,
+      "outputDigest": "5ec779ada823874b6d02a898036b50388515fcbe4f20b793b4c96bb45cb1a68b",
+      "commandHash": "47235d5eaae5d767048f9c957e21de868ccacf5edab935a70f741d0c1ff17d0e",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "088b083d6edee0de08a74a0a590681e6b35cd066837498103ef6e9a58a043fbf",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/work_item_lifecycle_enforcement.contract.json --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:09:11.473006+00:00",
+      "exitCode": 0,
+      "durationMs": 267,
+      "outputDigest": "ad96cae0acbe66d869806383b38f903b6bd18e26e7a1b417bdad54f6e937a1d8",
+      "commandHash": "8035130258d5e109ed5147e2de9a9ae9c99c4a5cde07d68dd607e3d9bf0c39f9",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "088b083d6edee0de08a74a0a590681e6b35cd066837498103ef6e9a58a043fbf",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:09:11.548479+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "088b083d6edee0de08a74a0a590681e6b35cd066837498103ef6e9a58a043fbf",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:09:11.634991+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "320514c9a5142c10871d25cc6c80149d6bc013255e2f25f4d87e5514b4565fa5",
+      "commandHash": "49d6e7443dc3f134ecdda7aaf99c1d8e3dcaf8e437faf86414d6c7e03f1a9f85",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "088b083d6edee0de08a74a0a590681e6b35cd066837498103ef6e9a58a043fbf",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json --summary .ai/work-items/active/work_item_lifecycle_enforcement.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/work_item_lifecycle_enforcement.summary.json CONTRACT=.ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T07:09:11.754351+00:00",
+      "exitCode": 0,
+      "durationMs": 83,
+      "outputDigest": "cf3b60f83ffee48d58e59ae90bdbfe9a5d4205d2c1d38b4bd791b1d11fbdbf23",
+      "commandHash": "b024f3e41127103b9efb4a6b8deeca692a218a798db3a600aa05147df40b4b3a",
+      "contractHash": "02abd3bc0cd1c15dde894f81bf59c165f141233c7d47c7ff9158caf1db2ba6fd",
+      "commitSha": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+      "executionContractPath": ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+      "worktreeDigest": "088b083d6edee0de08a74a0a590681e6b35cd066837498103ef6e9a58a043fbf",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/work_item_lifecycle_enforcement.summary.json --contract .ai/work-items/active/work_item_lifecycle_enforcement.contract.json ai summary check passed: .ai/work-items/active/work_item_lifecycle_enforcement.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Do not delete local branches or worktrees without verifiable Work Item ownership.",
+      "compliant": true,
+      "evidence": "ai-close-work-item remains ownership-scoped; lifecycle documentation explicitly prohibits arbitrary cleanup."
+    },
+    {
+      "guideline": "Keep release publication out of scope.",
+      "compliant": true,
+      "evidence": "Only lifecycle scripts, tests, and documentation changed; no release workflow or tag was modified."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Finish/archive and final closure are now explicitly separated; unrelated stale local state remains an operator-audited cleanup concern."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "The repository cannot safely infer ownership of arbitrary stale local branches or detached worktrees; cleanup outside the current Work Item remains manual and authorized.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm finish output is not treated as closure and ambiguous remote default discovery fails closed."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Completed lifecycle investigation and confirmed safe enforcement boundary.",
+      "contractHash": "02abd3bc0cd1c15d",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Confirmed lifecycle enforcement implementation and cleanup safety boundary before finish.",
+      "contractHash": "02abd3bc0cd1c15d",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "finish runs on a dedicated Work Item branch",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py"
+      ]
+    },
+    {
+      "scenario": "ambiguous remote default branch discovery fails closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_core_gates.py"
+      ]
+    },
+    {
+      "scenario": "finish/archive is distinguished from merged PR closure",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_finish.py",
+        "tests/test_finish_readiness.py",
+        "docs/reference/work-item-lifecycle-closure.md"
+      ]
+    },
+    {
+      "scenario": "unrelated local branches and worktrees are not deleted automatically",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "docs/reference/work-item-lifecycle-closure.md",
+        "tests/test_work_item_lifecycle_closure.py"
+      ]
+    }
+  ],
+  "knownGaps": [
+    "Historical local branches and detached worktrees require explicit operator cleanup because ownership cannot be inferred safely."
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Finish/archive and final closure are explicitly separated; cleanup remains ownership-scoped and fail-closed."
+  },
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 79
+}

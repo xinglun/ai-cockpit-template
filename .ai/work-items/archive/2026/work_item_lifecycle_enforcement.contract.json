@@ -1,0 +1,210 @@
+{
+  "contractVersion": 2,
+  "workItemId": "work_item_lifecycle_enforcement",
+  "mode": "code",
+  "title": "Enforce complete Work Item lifecycle and local cleanup",
+  "baseCommit": "b9ff38e2be8d02e338ae431f62ab5d823ea2c906",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/work_item_lifecycle_enforcement.contract.json",
+    ".ai/work-items/active/work_item_lifecycle_enforcement.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_finish.py",
+    "scripts/ai_close_work_item.py",
+    "scripts/ai_check_pr.py",
+    "tests/test_core_gates.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_finish_readiness.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "tests/test_pr_aggregate.py",
+    "docs/reference/work-item-lifecycle-closure.md",
+    "docs/reference/repository-workflow.md",
+    "docs/getting-started/first-work-item.md",
+    ".ai/cockpit/README.md"
+    ,".ai/guards/governance_complexity_policy.yaml"
+    ,"docs/reference/governance-complexity.md"
+  ],
+  "outOfScope": [
+    "Deleting arbitrary user branches or worktrees without explicit lifecycle ownership evidence",
+    "Changing GitHub branch-protection or reviewer settings",
+    "Publishing a release"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Canonical lifecycle order and finish criteria."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Repository roles, lifecycle closure, and PR ownership rules."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Current archive/finish implementation."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Current post-merge closure and cleanup implementation."
+    },
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "Review finding that the written one-Work-Item lifecycle was not enforced end to end."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["lifecycle_integrity", "local_cleanup_safety"],
+    "reason": "The fix must prevent incomplete Work Item closure without making destructive cleanup of unrelated local state unsafe."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Investigation resolved the implementation boundary: enforce provider-neutral base discovery and make finish/closure states explicit without destructive global cleanup."
+  },
+  "preReviewWarnings": [
+    "Reviewers must confirm that finish output is not presented as closure and that stale unrelated local state is reported, not deleted."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "ai-finish discovers exactly one remote default branch using the same provider-neutral rule as ai-close-work-item and fails closed when discovery is ambiguous.",
+    "ai-finish output explicitly states that archive/finish is not lifecycle closure and names the required push, PR merge, and ai-close-work-item steps.",
+    "Regression tests cover ambiguous remote default discovery, dedicated branch enforcement, and the non-closure finish message without deleting unrelated branches or worktrees.",
+    "The governance complexity threshold is calibrated for the measured lifecycle enforcement change and documented with reviewer impact.",
+    "Lifecycle documentation consistently distinguishes finish/archive, PR merge, and final closure, including the safe handling boundary for stale local state."
+  ],
+  "guidelines": [
+    "Do not delete local branches or worktrees without verifiable Work Item ownership.",
+    "Keep release publication out of scope."
+  ],
+  "intent": {
+    "problem": "The repository documents a complete Work Item lifecycle, but finish/archive can be mistaken for completion and earlier execution left stale local branches and detached worktrees after PR closure.",
+    "constraints": [
+      "Preserve fail-closed PR and closure behavior.",
+      "Do not delete unrelated local branches or worktrees automatically.",
+      "Do not change release behavior or publish a version."
+    ],
+    "rationale": "Make lifecycle milestones explicit and make base-branch discovery consistent so operators cannot mistake archive success for final closure or silently lose ownership context."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "finish runs on a dedicated Work Item branch",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with existing finish regression tests."
+    },
+    {
+      "scenario": "ambiguous remote default branch discovery fails closed",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with new base discovery tests."
+    },
+    {
+      "scenario": "finish/archive is distinguished from merged PR closure",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with finish output and documentation tests."
+    },
+    {
+      "scenario": "unrelated local branches and worktrees are not deleted automatically",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with closure safety tests and lifecycle documentation."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly instructed to open and continue the new Work Item for the incomplete lifecycle problem."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -1,4 +1,5 @@
 import json
+import hashlib
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -218,6 +219,48 @@ def test_archive_metrics_reports_unpaired_records(tmp_path):
 
     assert "missing paired Summary for contract-only" in issues
     assert "missing paired Contract for summary-only" in issues
+
+
+def test_archive_metrics_validates_index_coverage_identity_and_hashes(tmp_path):
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    contract = archive / "work.contract.json"
+    summary = archive / "work.summary.json"
+    contract.write_text(json.dumps({"workItemId": "work"}), encoding="utf-8")
+    summary.write_text(json.dumps({"workItemId": "work"}), encoding="utf-8")
+    rel_contract = contract.relative_to(tmp_path).as_posix()
+    rel_summary = summary.relative_to(tmp_path).as_posix()
+
+    def digest(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    (archive.parent / "index.json").write_text(
+        json.dumps(
+            {
+                "indexVersion": 1,
+                "entries": [
+                    {
+                        "workItemId": "work",
+                        "archiveSequence": 100,
+                        "contractPath": rel_contract,
+                        "summaryPath": rel_summary,
+                        "contractSha256": digest(contract),
+                        "summarySha256": digest(summary),
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    _, issues = check_governance_complexity.archive_metrics(tmp_path)
+
+    assert issues == []
+
+    contract.write_text(json.dumps({"workItemId": "tampered"}), encoding="utf-8")
+    _, issues = check_governance_complexity.archive_metrics(tmp_path)
+    assert any("contractSha256 mismatch" in issue for issue in issues)
+    assert any("workItemId mismatch" in issue for issue in issues)
 
 
 def test_main_writes_success_report(tmp_path, monkeypatch):

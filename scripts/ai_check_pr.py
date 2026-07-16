@@ -39,6 +39,7 @@ WORKTREE_DIGEST_INTRODUCED_AT = "63ec6fcd3c8f945b379966d43457e44ccaeba258"
 # New archive pairs use explicit ordering evidence. Older pairs remain readable
 # through the timestamp fallback and are never rewritten in place.
 ARCHIVE_SEQUENCE_INTRODUCED_AT = "f0b7caa9fdc8fa0bc25cf8c099fc2cef5f0c61b7"
+NEW_WORK_ITEM_SEQUENCE = 74
 
 
 def _git_blob_hash(revision: str, path: str) -> str:
@@ -300,6 +301,19 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
         issues.extend(f"{summary_rel}: {issue}" for issue in machine_path_issues(summary))
 
     archive_entries.sort(key=lambda entry: entry[3])
+
+    new_work_items = {
+        summary.get("workItemId")
+        for _path, contract, summary, _rank in archive_entries
+        if isinstance(summary.get("archiveSequence"), int)
+        and summary.get("archiveSequence", 0) >= NEW_WORK_ITEM_SEQUENCE
+        and contract.get("workItemId")
+    }
+    if len(new_work_items) > 1:
+        issues.append(
+            "PR must contain exactly one newly maintained Work Item; "
+            f"found {len(new_work_items)}: {', '.join(sorted(str(item) for item in new_work_items))}"
+        )
 
     sequences: dict[int, str] = {}
     for contract_path, contract, summary, _rank in archive_entries:

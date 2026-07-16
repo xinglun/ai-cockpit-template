@@ -113,6 +113,25 @@ def test_aggregate_pr_covers_earlier_and_later_work_items(tmp_path, monkeypatch)
     assert ai_check_pr.validate_pr_bundle("a" * 40, [first, second]) == []
 
 
+def test_pr_rejects_multiple_newly_maintained_work_items(tmp_path, monkeypatch):
+    first = write_pair(tmp_path, "first", ["src/first.py"], ["src/first.py"])
+    second = write_pair(tmp_path, "second", ["src/second.py"], ["src/second.py"])
+    for path, sequence in ((first, 75), (second, 76)):
+        summary_path = path.with_name(path.name.replace(".contract", ".summary"))
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        summary["archiveSequence"] = sequence
+        summary_path.write_text(json.dumps(summary), encoding="utf-8")
+    policy = tmp_path / "scope.yaml"
+    policy.write_text("allowAlways:\n", encoding="utf-8")
+    monkeypatch.setattr(ai_check_pr, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_check_pr, "SCOPE_POLICY", policy)
+    patch_changes(monkeypatch, ["src/first.py", "src/second.py"])
+
+    issues = ai_check_pr.validate_pr_bundle("a" * 40, [first, second])
+
+    assert any("exactly one newly maintained Work Item" in issue for issue in issues)
+
+
 def test_aggregate_pr_reports_missing_summary_and_invalid_json(tmp_path, monkeypatch):
     archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
     archive.mkdir(parents=True)

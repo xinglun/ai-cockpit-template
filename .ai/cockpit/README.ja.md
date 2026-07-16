@@ -40,6 +40,8 @@ AI Cockpit は、エージェント型開発のための協調エンジニアリ
 
 Work Item を archive し、対応する PR が merge された後に `make ai-close-work-item TASK=<task>` を実行します。Contract/Summary/Cockpit Status、ブランチと PR の一対一対応、fast-forward のみの base 同期、ローカル／リモートブランチ削除、clean な repository、local base と remote base の一致を検証します。どれかが失敗した場合は fail closed とし、全ての事後条件を満たすまで `ready for next Work Item` を報告しません。
 
+`ai-close-work-item` は worktree を考慮します。base branch が別の worktree で checkout 済みの場合、その worktree が clean であることを確認し、そこで base を fast-forward と検証した後、Work Item worktree を detached にして local／remote の Work Item branch を削除します。過去の archive 証跡は保持します。ガバナンス複雑度レポートは `trackedFiles` を引き続き記録しますが、この値は観測値であり、archive 整合性と現在の Work Item 所有権は hard gate として残ります。
+
 1. `make ai-start TASK=<task> TITLE="..." MODE=code` で Work Item を作成する。
 2. Contract の `scope`、`sources`、`acceptance`、`verification`、リスク評価、エージェント能力、実行判断を明確にする。
 3. 宣言したスコープ内のみ実装する。

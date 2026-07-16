@@ -106,7 +106,26 @@ def test_report_fails_on_threshold_and_missing_archive_pair(tmp_path, monkeypatc
     assert report["issues"] == issues
     assert any("missing paired Summary" in issue for issue in issues)
     assert any("archive index references missing" in issue for issue in issues)
-    assert any("trackedFiles=2" in issue for issue in issues)
+    assert not any("trackedFiles" in issue for issue in issues)
+
+
+def test_tracked_files_are_observational_when_policy_omits_the_former_threshold(
+    tmp_path, monkeypatch
+):
+    policy_file = tmp_path / "policy.yaml"
+    policy_file.write_text(
+        "version: 1\nmax:\n  pythonLines: 10\n  markdownLines: 10\n",
+        encoding="utf-8",
+    )
+    files = [tmp_path / f"file-{index}.py" for index in range(741)]
+    for path in files:
+        path.write_text("x\n", encoding="utf-8")
+    monkeypatch.setattr(check_governance_complexity, "tracked_files", lambda root: files)
+
+    report, issues = check_governance_complexity.build_report(tmp_path, policy_file)
+
+    assert report["metrics"]["trackedFiles"] == 741
+    assert not any("trackedFiles" in issue for issue in issues)
 
 
 def test_archive_metrics_reports_missing_and_malformed_index_entries(tmp_path):
@@ -155,10 +174,10 @@ def test_load_policy_rejects_missing_or_non_positive_limits(tmp_path):
 
     invalid_limit = tmp_path / "invalid-limit.yaml"
     invalid_limit.write_text(
-        "version: 1\nmax:\n  trackedFiles: nope\n  pythonLines: 1\n  markdownLines: 1\n",
+        "version: 1\nmax:\n  pythonLines: nope\n  markdownLines: 1\n",
         encoding="utf-8",
     )
-    with pytest.raises(ValueError, match="max.trackedFiles"):
+    with pytest.raises(ValueError, match="max.pythonLines"):
         check_governance_complexity.load_policy(invalid_limit)
 
 

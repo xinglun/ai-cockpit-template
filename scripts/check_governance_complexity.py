@@ -85,8 +85,9 @@ def load_policy(path: Path) -> dict[str, int]:
     if not isinstance(raw, dict) or not isinstance(raw.get("max"), dict):
         raise ValueError("policy must contain a max mapping")
     values = raw["max"]
+    # trackedFiles remains in the report for repository-shape observation, but
+    # immutable archive evidence makes a fixed ceiling unsuitable as a gate.
     metrics = (
-        "trackedFiles",
         "pythonLines",
         "markdownLines",
     )

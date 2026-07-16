@@ -1,0 +1,437 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "governance_threshold_and_closure_hardening",
+  "contractPath": ".ai/work-items/archive/2026/governance_threshold_and_closure_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Removed the fixed trackedFiles hard threshold and calibrated pythonLines for the new implementation."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Keeps trackedFiles in the report while validating only retained hard-gate metrics."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Supports base synchronization when the base branch is checked out in another worktree."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression coverage for observational trackedFiles behavior."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Regression coverage for worktree-aware closure."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documents the canonical closure order and worktree behavior."
+    },
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "reason": "Documents the canonical closure order and worktree behavior in Japanese."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_threshold_and_closure_hardening.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/governance_threshold_and_closure_hardening.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    "scripts/check_governance_complexity.py",
+    "scripts/ai_close_work_item.py",
+    "tests/test_governance_complexity.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "PR #44 closure review"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Immutable archive grows beyond the former tracked-file ceiling",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_governance_complexity.py::test_tracked_files_are_observational_when_policy_omits_the_former_threshold"
+      ],
+      "reason": "741 reported tracked files produce no trackedFiles threshold issue."
+    },
+    {
+      "scenario": "Closure starts while the base branch is checked out in another worktree",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_work_item_lifecycle_closure.py::test_base_branch_worktree_occupancy_is_supported"
+      ],
+      "reason": "Closure synchronizes the designated base worktree and removes the Work Item branch safely."
+    },
+    {
+      "scenario": "Current Work Item archive or PR ownership evidence is invalid",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_work_item_lifecycle_closure.py"
+      ],
+      "reason": "Existing closure tests retain fail-closed validation."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:59:59.068242+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "03848507058ac4ea07469c83668fb9ddd146ddb1e1047bea58542db41ebdedd1",
+      "commandHash": "51902e15bf890d9978d979f8450f076bb4f625ad84d0b575bb481ee692dc5377",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json work item contract check passed: .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:59:59.273770+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "54372bab92f50a54856b8c995ca9bf85179d74db5ba79eaff34c9358c2e6dda1",
+      "commandHash": "f19ab16d3ea15533dc1bdb61f4190f7861716538427dde6e447b30b4209c0334",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json scope guard passed: 8 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:59:59.446353+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "984447c533c0f1cf50e09f5164c0b6d4c286c64e4e79ba8c8e65f3b5aaa0cef1",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json [warning] restricted_write: .ai/cockpit/README.ja.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only wi"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:59:59.672391+00:00",
+      "exitCode": 0,
+      "durationMs": 180,
+      "outputDigest": "e77d6c8fccc673357b3cb7329b56ba97a562c8e7ce9bb62717667492bb30b283",
+      "commandHash": "7816c86e449b583cbdd205b26fa0db40fff29f93a0778be3641763211e7e975d",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `governance_threshold_and_closure_hardening` - Contract Hash: `0a340ed989ab2a79` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:59:59.821596+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "6097d835ccae10b3906b3a31f83bb3b3a942e72466e36e65307f2773aec0822b",
+      "commandHash": "5181248b535f76f89926d1b72eb3fd4caba87f7599fb687d7813db7c40042d90",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json review policy matched 5 path(s) [review] .ai/cockpit/README.ja.md [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_close_work_item.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:59:59.988373+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:00:00.126692+00:00",
+      "exitCode": 0,
+      "durationMs": 87,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:00:00.228599+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "6d00626951aafe443086a45da00319b742bd750e1ed1227978111d0801b032e1",
+      "commandHash": "cf2b739bc22262d09df5a78ec736cacd0e6259b39ae26e929840da1d76aca93c",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:00:00.327550+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "54c808fee697bf92db9e9f269a32ee8961b95be845e5e6ec33575da602ceb044",
+      "commandHash": "d8e889ff83e12b19ec2b86a0ffe1f15d9f99f0522817fdb9a8347a2e9379fa4b",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:00:00.556223+00:00",
+      "exitCode": 0,
+      "durationMs": 184,
+      "outputDigest": "dadccdd48bbffeec6763a9df48497ef77499959735fd5e713a2b15d87c9c80ef",
+      "commandHash": "84208a0e17bbb9448354b4792706af7e3656208335137a10891db14ed9a51a3b",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json ## Diff Ownership Preview - active_owned: `8`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:01:21.344913+00:00",
+      "exitCode": 0,
+      "durationMs": 80734,
+      "outputDigest": "355e5ab24f6fd3a4b208c2826a0e1194225ab2f0d0bc9016e38ddeb761e71964",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "024869e4207cc461f1cf45cfa7675a68584295dcadb7a87206c36c578aae3dae",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 29%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:01:22.857204+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "999aa036f62508c016aa255c587a6439bec21033d58f9791b61df95e47c56b65",
+      "commandHash": "75eff43755619cfd1613ddfdbc6573af98d83a9c0151dc6fe0d2b1c51ac1fb54",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "a53c815f138e9a2cf3563ad93fb9a7e3ded3b5632e98529ae533643957b16426",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:01:23.204254+00:00",
+      "exitCode": 0,
+      "durationMs": 196,
+      "outputDigest": "998ba22b3e823efaaeafc39ce3f20c8605858187c12cfa95ac438a8335a49604",
+      "commandHash": "78958820b2bff99035f6b34a4da9e2272ad7af51e149783e7297b74f78b35af7",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "a53c815f138e9a2cf3563ad93fb9a7e3ded3b5632e98529ae533643957b16426",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:01:23.296015+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "a53c815f138e9a2cf3563ad93fb9a7e3ded3b5632e98529ae533643957b16426",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:01:23.509644+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "e276c4f840fb64d04d59a068a25ba4cb3c96b19be4d13f16eeb54e91c71b6cd6",
+      "commandHash": "e604dedd69eda21e06fd4bc3e30e92f982bf788f4906bdc7942c08b34c960446",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "a53c815f138e9a2cf3563ad93fb9a7e3ded3b5632e98529ae533643957b16426",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json --summary .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/governance_threshold_and_closure_hardening.summary.json CONTRACT=.ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T02:01:23.721498+00:00",
+      "exitCode": 0,
+      "durationMs": 153,
+      "outputDigest": "b121b1b0af207c3857b6fb333015488998a57af1233676c10baac1b547d726cc",
+      "commandHash": "9e463b808e2d26190c905b34314d5c010e7f45aea452129edc4a3d1006d0f472",
+      "contractHash": "0a340ed989ab2a796c39f17504d340cf049d1d7cd64a137e1a8a8afc6757e2f0",
+      "commitSha": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+      "executionContractPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+      "worktreeDigest": "a53c815f138e9a2cf3563ad93fb9a7e3ded3b5632e98529ae533643957b16426",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json --contract .ai/work-items/active/governance_threshold_and_closure_hardening.contract.json ai summary check passed: .ai/work-items/active/governance_threshold_and_closure_hardening.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No public API was added; internal helpers are documented in code."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "No new cross-feature imports were added."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Hard-gate behavior remains for archive integrity and PR ownership; worktree cleanup now has additional command-path coverage."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm trackedFiles remains visible in reports but is absent from hard-gate policy evaluation.",
+      "Confirm cleanup remains fail-closed when either worktree or remote branch verification fails."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "0a340ed989ab2a79",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Recorded the implementation boundary after user confirmation of threshold deletion and worktree-aware closure."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "0a340ed989ab2a79",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Ran make ai-checkpoint before full verification."
+    }
+  ],
+  "knownGaps": [
+    "Provider-hosted PR automation remains out of scope; closure is still an explicit local command."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 69
+}

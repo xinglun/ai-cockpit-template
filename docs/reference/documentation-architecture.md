@@ -12,6 +12,8 @@ keywords:
 
 # Documentation Architecture
 
+日本語の主要入口は、[日本語 README](../../README.ja.md)、[インストール](../getting-started/installation.ja.md)、[最初の Work Item](../getting-started/first-work-item.ja.md)、[設定](../configuration.ja.md)、[アーキテクチャ](../architecture.ja.md) です。詳細な英語リファレンスへ進む必要がある場合は、各日本語ページの対応リンクを使用してください。
+
 ## Authoritative entry points
 
 | Need | Authoritative page |

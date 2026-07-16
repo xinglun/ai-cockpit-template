@@ -314,7 +314,7 @@ Repository `make quality` runs the full test suite with an 80% overall script co
 - [Installation](docs/getting-started/installation.md)
 - [First Work Item](docs/getting-started/first-work-item.md)
 - [Roadmap (V1–V4)](docs/roadmap.md)
-- [V2 Implementation Plan](docs/reference/v2-implementation-plan.md)
+- [Japanese Concept Guide](docs/overview.ja.md)
 - [How to Read Cockpit Status](docs/reference/how-to-read-cockpit-status.md)
 - [Concept Guide (Japanese)](docs/overview.ja.md)
 - [Contract & Summary Fields Manual](docs/contract-fields.md)

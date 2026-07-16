@@ -1,0 +1,179 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi-14",
+  "mode": "code",
+  "title": "Prevent sensitive issue details in supply-chain error logs",
+  "baseCommit": "783b44c4b61359f1617ea4f8dbee289ad1fe38a1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    ".ai/work-items/active/wi-14.contract.json",
+    ".ai/work-items/active/wi-14.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Changing secret detection patterns or scan semantics",
+    "Adding secret values to diagnostics or test fixtures",
+    "Changing release workflow or public release assets"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "CodeQL identified direct logging of issue details in the supply-chain checker."
+    },
+    {
+      "path": "tests/test_supply_chain.py",
+      "reason": "Existing supply-chain tests provide the regression boundary for safe failure output."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Repository workflow defines the Contract and Summary evidence required for this code change."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "security_logging"
+    ],
+    "reason": "Failure diagnostics must remain actionable without echoing issue content that a future scanner may classify as sensitive."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The CodeQL finding is bounded to the error-output boundary and can be fixed with a tested non-disclosure behavior."
+  },
+  "preReviewWarnings": [
+    "Confirm failure output does not include issue details while preserving a non-zero failure result."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A failed supply-chain check returns status 1 and emits only a fixed summary with the issue count, not issue contents.",
+    "A regression test proves issue details are absent from stderr for a failing check.",
+    "Existing supply-chain checks and repository quality gates remain passing."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "CodeQL reports that the supply-chain checker writes issue values directly to logs, creating a future clear-text disclosure path if a scanner includes sensitive content in an issue string.",
+    "constraints": [
+      "Do not change scan semantics or return codes.",
+      "Do not print secret values, issue details, or derived sensitive content.",
+      "Keep diagnostics deterministic and useful enough to identify the failing command."
+    ],
+    "rationale": "A fixed failure summary removes the clear-text logging sink while preserving fail-closed command behavior."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Failing supply-chain check does not disclose issue details",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py"
+      ]
+    },
+    {
+      "scenario": "Successful supply-chain check behavior remains unchanged",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_supply_chain.py",
+        "make quality"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

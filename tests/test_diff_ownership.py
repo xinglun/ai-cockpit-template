@@ -176,6 +176,25 @@ def test_pr_preview_accepts_generated_archive_index_declared_by_summary(monkeypa
     assert ownership.preview(base="merge-base") == []
 
 
+def test_active_preview_accepts_explicit_approved_archive_index_repair(monkeypatch):
+    index_path = ".ai/work-items/archive/index.json"
+    monkeypatch.setattr(
+        ownership,
+        "changed_name_status",
+        lambda *_args, **_kwargs: [("M", index_path)],
+    )
+    monkeypatch.setattr(ownership, "owners", lambda **_kwargs: [])
+    monkeypatch.setattr(ownership, "parse_simple_manifest", lambda _path: {})
+
+    contract = {
+        "archiveIndexRepair": True,
+        "restrictedWriteApproval": {"approved": True},
+        "baselineDirtyPaths": [],
+    }
+
+    assert ownership.preview(contract=contract) == []
+
+
 def test_preview_skips_generated_no_active_status(monkeypatch, tmp_path):
     status_path = tmp_path / "current_status.md"
     status_path.write_text(

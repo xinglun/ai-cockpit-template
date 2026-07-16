@@ -137,6 +137,13 @@ def generated_archive_index_claimed(base: str) -> bool:
     return False
 
 
+def archive_index_repair_approved(contract: dict[str, Any] | None) -> bool:
+    """Allow one explicit, approved repair of generated index metadata."""
+    if not isinstance(contract, dict) or contract.get("archiveIndexRepair") is not True:
+        return False
+    return approved(Owner("active", "archive-index-repair", contract, None))
+
+
 def is_unchanged_active_baseline(owner: Owner, path: str) -> bool:
     """Return whether ``path`` predates an active Work Item unchanged.
 
@@ -275,6 +282,8 @@ def preview(*, base: str = "", contract: dict[str, Any] | None = None) -> list[O
     values: list[Ownership] = []
     for status, path in changed:
         if is_generated_no_active_status(path):
+            continue
+        if path == GENERATED_ARCHIVE_INDEX and archive_index_repair_approved(contract):
             continue
         if path == GENERATED_ARCHIVE_INDEX and base and generated_archive_index_claimed(base):
             continue

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import hashlib
 import shutil
 import subprocess
@@ -35,9 +36,38 @@ def _archive_index_path() -> Path:
     return ARCHIVE_BASE_DIR / "index.json"
 
 
+def _is_ignored(path: Path) -> bool:
+    """Identify local-only archive evidence excluded from repository checkouts."""
+    try:
+        relative_path = path.relative_to(PROJECT_ROOT)
+    except ValueError:
+        return False
+    gitignore = PROJECT_ROOT / ".gitignore"
+    if not gitignore.is_file():
+        return False
+    relative_text = relative_path.as_posix()
+    ignored = False
+    for line in gitignore.read_text(encoding="utf-8").splitlines():
+        pattern = line.strip()
+        if not pattern or pattern.startswith("#"):
+            continue
+        negated = pattern.startswith("!")
+        if negated:
+            pattern = pattern[1:]
+        pattern = pattern.rstrip("/").lstrip("/")
+        if fnmatch.fnmatch(relative_text, pattern) or fnmatch.fnmatch(path.name, pattern):
+            ignored = not negated
+    return ignored
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Archive a Work Item.")
-    parser.add_argument("contract", help="Path to the active contract JSON.")
+    parser.add_argument("contract", nargs="?", help="Path to the active contract JSON.")
+    parser.add_argument(
+        "--rebuild-index",
+        action="store_true",
+        help="Rebuild the archive discovery index from authoritative Contract/Summary pairs.",
+    )
     parser.add_argument(
         "--dry-run", action="store_true", help="Print actions without modifying files."
     )
@@ -139,46 +169,96 @@ def _archive_sequence_key(item: object) -> int:
 
 
 def _load_archive_index() -> dict[str, object]:
-    """Load the index, or return an empty versioned index for first use."""
+    """Load the index and add any authoritative archive pair it omits."""
     try:
         index = load_json(_archive_index_path())
     except (OSError, ValueError):
         index = None
     if isinstance(index, dict) and isinstance(index.get("entries"), list):
-        return index
-    entries: list[dict[str, object]] = []
-    # Bootstrap once from existing evidence so the first index is complete.
+        entries = index["entries"]
+    else:
+        entries = []
+        index = {
+            "indexVersion": 1,
+            "description": "Discovery index; archived Contract and Summary files remain authoritative.",
+            "entries": entries,
+        }
+
+    deduplicated: list[dict[str, object]] = []
+    positions: dict[tuple[object, object], int] = {}
+    for existing_entry in entries:
+        if not isinstance(existing_entry, dict):
+            continue
+        pair = (existing_entry.get("contractPath"), existing_entry.get("summaryPath"))
+        position = positions.get(pair)
+        if position is None:
+            positions[pair] = len(deduplicated)
+            deduplicated.append(existing_entry)
+            continue
+        current = deduplicated[position]
+        current_is_strict = isinstance(current.get("contractSha256"), str) and isinstance(
+            current.get("summarySha256"), str
+        )
+        candidate_is_strict = isinstance(existing_entry.get("contractSha256"), str) and isinstance(
+            existing_entry.get("summarySha256"), str
+        )
+        if (not current_is_strict and candidate_is_strict) or (
+            current.get("archivedAt") == "legacy" and existing_entry.get("archivedAt") != "legacy"
+        ):
+            deduplicated[position] = existing_entry
+    entries = [
+        entry
+        for entry in deduplicated
+        if isinstance(entry.get("contractPath"), str)
+        and isinstance(entry.get("summaryPath"), str)
+        and (PROJECT_ROOT / str(entry["contractPath"])).is_file()
+        and (PROJECT_ROOT / str(entry["summaryPath"])).is_file()
+        and not _is_ignored(PROJECT_ROOT / str(entry["contractPath"]))
+        and not _is_ignored(PROJECT_ROOT / str(entry["summaryPath"]))
+    ]
+    index["entries"] = entries
+
+    indexed_pairs = {
+        (entry.get("contractPath"), entry.get("summaryPath"))
+        for entry in entries
+        if isinstance(entry, dict)
+    }
     for summary_path in ARCHIVE_BASE_DIR.rglob("*.summary.json"):
+        if _is_ignored(summary_path):
+            continue
         try:
             summary = load_json(summary_path)
             contract_path = PROJECT_ROOT / str(summary["contractPath"])
+            if not contract_path.exists():
+                contract_path = summary_path.with_name(
+                    summary_path.name.replace(".summary.json", ".contract.json")
+                )
             sequence = summary.get("archiveSequence")
-            if (
-                not isinstance(sequence, int)
-                or not contract_path.exists()
-                or not isinstance(summary.get("workItemId"), str)
-            ):
+            if not contract_path.exists() or not isinstance(summary.get("workItemId"), str):
                 continue
-            entries.append(
-                {
-                    "workItemId": summary["workItemId"],
-                    "archiveSequence": sequence,
-                    "archiveYear": summary_path.parent.name,
-                    "contractPath": contract_path.relative_to(PROJECT_ROOT).as_posix(),
-                    "summaryPath": summary_path.relative_to(PROJECT_ROOT).as_posix(),
-                    "contractSha256": hashlib.sha256(contract_path.read_bytes()).hexdigest(),
-                    "summarySha256": hashlib.sha256(summary_path.read_bytes()).hexdigest(),
-                    "archivedAt": summary.get("archivedAt", "legacy"),
-                }
-            )
+            if _is_ignored(contract_path):
+                continue
+            contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
+            summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
+            if (contract_rel, summary_rel) in indexed_pairs:
+                continue
+            entry: dict[str, object] = {
+                "workItemId": summary["workItemId"],
+                "archiveSequence": sequence if isinstance(sequence, int) else 0,
+                "archiveYear": summary_path.parent.name,
+                "contractPath": contract_rel,
+                "summaryPath": summary_rel,
+                "archivedAt": summary.get("archivedAt", "legacy"),
+            }
+            if isinstance(sequence, int) and sequence > 0:
+                entry["contractSha256"] = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+                entry["summarySha256"] = hashlib.sha256(summary_path.read_bytes()).hexdigest()
+            entries.append(entry)
+            indexed_pairs.add((contract_rel, summary_rel))
         except (KeyError, OSError, ValueError):
             continue
     entries.sort(key=_archive_sequence_key)
-    return {
-        "indexVersion": 1,
-        "description": "Discovery index; archived Contract and Summary files remain authoritative.",
-        "entries": entries,
-    }
+    return index
 
 
 def _write_archive_index(index: dict[str, object]) -> None:
@@ -213,6 +293,23 @@ def _validate_archive_inputs(
 
 def main() -> int:
     args = parse_args()
+    if getattr(args, "rebuild_index", False):
+        try:
+            index = _load_archive_index()
+            _write_archive_index(index)
+        except (OSError, ValueError, KeyError) as exc:
+            print(f"ERROR: Failed to rebuild archive index: {exc}", file=sys.stderr)
+            return 1
+        entries = index.get("entries", [])
+        count = len(entries) if isinstance(entries, list) else 0
+        print(f"archive index rebuilt: {count} entries")
+        return 0
+    if not args.contract:
+        print(
+            "ERROR: an active Contract path is required unless --rebuild-index is used",
+            file=sys.stderr,
+        )
+        return 1
     contract_path = Path(args.contract).resolve()
 
     try:
@@ -363,14 +460,22 @@ def main() -> int:
         entries = index.get("entries")
         if not isinstance(entries, list):
             raise ValueError("archive index entries must be a list")
-        entries.append(
-            _archive_entry(
-                contract_path=contract_path,
-                summary_path=summary_path if has_summary else None,
-                target_dir=target_dir,
-                archive_sequence=archive_sequence,
-            )
+        new_entry = _archive_entry(
+            contract_path=contract_path,
+            summary_path=summary_path if has_summary else None,
+            target_dir=target_dir,
+            archive_sequence=archive_sequence,
         )
+        new_pair = (new_entry.get("contractPath"), new_entry.get("summaryPath"))
+        for entry_index, entry in enumerate(entries):
+            if (
+                isinstance(entry, dict)
+                and (entry.get("contractPath"), entry.get("summaryPath")) == new_pair
+            ):
+                entries[entry_index] = new_entry
+                break
+        else:
+            entries.append(new_entry)
         entries.sort(key=_archive_sequence_key)
         _write_archive_index(index)
     except Exception as exc:

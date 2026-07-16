@@ -52,6 +52,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "intent",
     "problemStatement",
     "scenarioCoverage",
+    "archiveIndexRepair",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 RISK_LEVELS = {"low", "medium", "high"}
@@ -169,6 +170,9 @@ def validate_optional_readiness(data: dict[str, Any]) -> list[str]:
                 )
             if not non_empty_string(decision.get("reason")):
                 issues.append("executionDecision.reason is required")
+
+    if "archiveIndexRepair" in data and not isinstance(data.get("archiveIndexRepair"), bool):
+        issues.append("archiveIndexRepair must be boolean")
 
     warnings = data.get("preReviewWarnings")
     if warnings is not None:

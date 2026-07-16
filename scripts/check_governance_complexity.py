@@ -44,10 +44,24 @@ def line_count(paths: list[Path], suffix: str) -> int:
     return total
 
 
+def archive_files(root: Path, archive: Path, pattern: str) -> list[Path]:
+    """Return archive files that can be part of the repository checkout."""
+    if not archive.is_dir():
+        return []
+    if (root / ".git").exists():
+        try:
+            allowed = set(tracked_files(root))
+        except RuntimeError:
+            allowed = set()
+        if allowed:
+            return sorted(path for path in archive.rglob(pattern) if path in allowed)
+    return sorted(archive.rglob(pattern))
+
+
 def archive_metrics(root: Path) -> tuple[dict[str, int], list[str]]:
     archive = root / ".ai" / "work-items" / "archive"
-    contracts = sorted(archive.rglob("*.contract.json")) if archive.is_dir() else []
-    summaries = sorted(archive.rglob("*.summary.json")) if archive.is_dir() else []
+    contracts = archive_files(root, archive, "*.contract.json")
+    summaries = archive_files(root, archive, "*.summary.json")
     contract_stems = {path.name.removesuffix(".contract.json") for path in contracts}
     summary_stems = {path.name.removesuffix(".summary.json") for path in summaries}
     issues = [
@@ -80,6 +94,8 @@ def archive_metrics(root: Path) -> tuple[dict[str, int], list[str]]:
             authoritative[key] = (contract_path, summary_path)
 
     indexed: set[tuple[str, str]] = set()
+    strict_contract_paths: set[str] = set()
+    strict_summary_paths: set[str] = set()
     work_item_ids: set[str] = set()
     sequences: set[int] = set()
     for entry in entries:
@@ -102,8 +118,14 @@ def archive_metrics(root: Path) -> tuple[dict[str, int], list[str]]:
         )
         if pair in indexed and not legacy_entry:
             issues.append(f"archive index duplicates Contract/Summary pair {index_contract_path}")
+        if not legacy_entry and index_contract_path in strict_contract_paths:
+            issues.append(f"archive index duplicates Contract path {index_contract_path}")
+        if not legacy_entry and index_summary_path in strict_summary_paths:
+            issues.append(f"archive index duplicates Summary path {index_summary_path}")
+        indexed.add(pair)
         if not legacy_entry:
-            indexed.add(pair)
+            strict_contract_paths.add(index_contract_path)
+            strict_summary_paths.add(index_summary_path)
         if pair not in authoritative:
             issues.append(
                 f"archive index pair is not an authoritative archive pair: {index_contract_path}"
@@ -144,6 +166,11 @@ def archive_metrics(root: Path) -> tuple[dict[str, int], list[str]]:
                     issues.append(f"archive Summary workItemId mismatch for {index_summary_path}")
             except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
                 issues.append(f"archive pair cannot be loaded for index validation: {exc}")
+
+    for pair in sorted(set(authoritative) - indexed):
+        issues.append(
+            f"archive index does not cover authoritative archive pair: {pair[0]}, {pair[1]}"
+        )
 
     return {
         "archiveContracts": len(contracts),

@@ -1,0 +1,190 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_integrity_complete",
+  "mode": "code",
+  "title": "Complete archive index integrity verification",
+  "baseCommit": "209c6298d2e2a313bda0bf85c1154cae624e4bb1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/archive_integrity_complete.contract.json",
+    ".ai/work-items/active/archive_integrity_complete.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/index.json",
+    "scripts/check_governance_complexity.py",
+    "scripts/ai_archive_work_item.py",
+    "tests/test_governance_complexity.py",
+    "tests/test_ai_archive_work_item.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/ai_check_diff_ownership.py",
+    "scripts/ai_check_work_item.py",
+    "tests/test_diff_ownership.py",
+    "tests/test_contract_and_policy.py",
+    "docs/reference/governance-complexity.md"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/2026/**",
+    "scripts/ai_check_pr.py",
+    "release.json",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Current archive index validation and legacy compatibility boundary."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Existing archive integrity regression coverage and gaps."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Current documented archive integrity contract."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["archive_integrity", "backward_compatibility"],
+    "reason": "The checker must reject missing or duplicated index coverage without rewriting historical archive evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The review identified a concrete reverse-coverage gap while preserving the existing legacy boundary."
+  },
+  "preReviewWarnings": [
+    "Review that every authoritative archive pair is indexed and that strict rows cannot reuse paths, Work Item IDs, or sequences."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Archive Integrity reports an error when an authoritative Contract/Summary pair is absent from the index.",
+    "Strict archive rows reject duplicate Contract paths, Summary paths, Work Item IDs, and archive sequences while preserving the documented legacy boundary.",
+    "Strict archive row hashes and Work Item IDs continue to be checked against the authoritative files.",
+    "Regression tests cover missing reverse coverage and duplicate identity cases.",
+    "The governance reference documents the strict-row checks and the preserved legacy boundary."
+  ],
+  "guidelines": [
+    "Keep archive evidence append-only; this Work Item may change validation but must not rewrite historical records.",
+    "Preserve legacy archive readability while applying strict integrity checks to new archive rows.",
+    "Generated status and archive index files must be produced by repository commands, not hand-edited."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "authoritative archive pair missing from index",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Regression test constructs an authoritative Contract/Summary pair omitted from the index and expects a coverage error."]
+    },
+    {
+      "scenario": "strict archive identity collision",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Regression tests cover duplicate strict paths, Work Item IDs, and archive sequences."]
+    },
+    {
+      "scenario": "legacy archive compatibility",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Existing legacy index rows remain readable while new rows retain strict hash and identity checks."]
+    }
+  ],
+  "intent": {
+    "problem": "The archive index stores hashes and identity metadata, but current validation does not prove that every authoritative archive pair is covered by the index.",
+    "constraints": [
+      "Do not rewrite or delete historical archive evidence.",
+      "Do not broaden this Work Item into PR ownership or release workflow changes."
+    ],
+    "rationale": "Close the remaining Archive Integrity gap at the evidence consumer so missing coverage and duplicate strict identities fail closed."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "archiveIndexRepair": true,
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User confirmed the ordered remediation loop and this Work Item plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

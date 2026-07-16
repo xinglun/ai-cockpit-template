@@ -263,6 +263,62 @@ def test_archive_metrics_validates_index_coverage_identity_and_hashes(tmp_path):
     assert any("workItemId mismatch" in issue for issue in issues)
 
 
+def test_archive_metrics_rejects_authoritative_pair_missing_from_index(tmp_path):
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    contract = archive / "unindexed.contract.json"
+    summary = archive / "unindexed.summary.json"
+    contract.write_text(json.dumps({"workItemId": "unindexed"}), encoding="utf-8")
+    summary.write_text(json.dumps({"workItemId": "unindexed"}), encoding="utf-8")
+    (archive.parent / "index.json").write_text('{"entries": []}', encoding="utf-8")
+
+    _, issues = check_governance_complexity.archive_metrics(tmp_path)
+
+    assert any("does not cover authoritative archive pair" in issue for issue in issues)
+
+
+def test_archive_metrics_rejects_duplicate_strict_paths(tmp_path):
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    first_contract = archive / "first.contract.json"
+    first_summary = archive / "first.summary.json"
+    second_contract = archive / "second.contract.json"
+    second_summary = archive / "second.summary.json"
+    for path, item in (
+        (first_contract, "first"),
+        (first_summary, "first"),
+        (second_contract, "second"),
+        (second_summary, "second"),
+    ):
+        path.write_text(json.dumps({"workItemId": item}), encoding="utf-8")
+
+    def digest(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    entries = []
+    for sequence, contract, summary, item in (
+        (100, first_contract, first_summary, "first"),
+        (100, second_contract, second_summary, "first"),
+    ):
+        entries.append(
+            {
+                "workItemId": item,
+                "archiveSequence": sequence,
+                "contractPath": first_contract.relative_to(tmp_path).as_posix(),
+                "summaryPath": summary.relative_to(tmp_path).as_posix(),
+                "contractSha256": digest(contract),
+                "summarySha256": digest(summary),
+            }
+        )
+    (archive.parent / "index.json").write_text(json.dumps({"entries": entries}), encoding="utf-8")
+
+    _, issues = check_governance_complexity.archive_metrics(tmp_path)
+
+    assert any("duplicates Contract path" in issue for issue in issues)
+    assert any("duplicates workItemId" in issue for issue in issues)
+    assert any("duplicates archiveSequence" in issue for issue in issues)
+
+
 def test_main_writes_success_report(tmp_path, monkeypatch):
     output = tmp_path / "target" / "report.json"
     monkeypatch.setattr(

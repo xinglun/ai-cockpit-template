@@ -22,6 +22,7 @@ from ai_common import (
     redact_machine_paths,
     redact_sensitive_output,
     render_check_command,
+    run_git,
     save_json,
     verification_key,
 )
@@ -30,6 +31,35 @@ from ai_observability import create_observability, elapsed_ms
 
 
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
+
+
+def _git_output(args: list[str]) -> str:
+    result = run_git(args)
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"git {' '.join(args)} failed: {(result.stderr or result.stdout).strip()}"
+        )
+    return result.stdout.strip()
+
+
+def repository_base_branch() -> str | None:
+    refs = _git_output(["for-each-ref", "--format=%(symref:short)", "refs/remotes"]).splitlines()
+    return next((ref.split("/", 1)[1] for ref in refs if "/" in ref), None)
+
+
+def ensure_work_item_branch() -> None:
+    current = _git_output(["branch", "--show-current"])
+    base = repository_base_branch()
+    if base is not None:
+        validate_work_item_branch(current, base)
+
+
+def validate_work_item_branch(current: str, base: str) -> None:
+    if current == base:
+        raise RuntimeError(
+            "ai-finish must run on the dedicated Work Item branch; current branch is the repository "
+            f"base branch ({base}). Finish/archive on the Work Item branch before pushing and opening the PR."
+        )
 
 
 def task_paths(task: str) -> tuple[str, str]:
@@ -327,6 +357,12 @@ def main() -> int:
     if not (PROJECT_ROOT / summary).exists():
         print(f"ERROR: Summary does not exist: {summary}", file=sys.stderr)
         return 1
+
+    try:
+        ensure_work_item_branch()
+    except RuntimeError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
 
     contract_path = PROJECT_ROOT / contract
     summary_path = PROJECT_ROOT / summary

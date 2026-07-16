@@ -26,6 +26,8 @@ Installation and upgrade changes belong to the adopter project's history. They m
 
 Work Item completion is a lifecycle closure, not merely branch deletion. Run `make ai-close-work-item TASK=<task>` only after the Work Item is archived and the corresponding PR is merged. Closure must verify archived evidence, branch/PR ownership, fast-forward-only base synchronization, local and remote branch deletion, a clean worktree, and local-base equality with the remote base. Any failed step is fail closed and must not report the Work Item as closed.
 
+The canonical order is: latest remote base → dedicated Work Item branch → implement → `ai-finish`/archive → push branch → PR → merge PR → `make ai-close-work-item` → synchronize and clean the local base. Do not merge the feature branch into local `main` before the PR; that creates local commits that are not on `origin/main`. Do not use a PR merge option or provider setting that deletes the Work Item branch before `ai-close-work-item` can identify it. Branch deletion belongs to lifecycle closure.
+
 Before changing code, docs, CI, build files, or AI governance files:
 
 1. Create or identify a Work Item Contract in `.ai/work-items/active/`.

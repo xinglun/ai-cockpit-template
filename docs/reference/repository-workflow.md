@@ -18,6 +18,14 @@ Template maintenance uses the template repository's protected default branch:
 ```text
 latest origin/main → Work Item branch → one PR → merge → cleanup
 ```
+
+The complete closure order is:
+
+```text
+latest remote base → dedicated Work Item branch → finish/archive → push → PR → merge → ai-close-work-item → synchronized clean base
+```
+
+Do not merge the Work Item branch into local `main` before opening or merging the PR. That makes local `main` appear ahead of `origin/main` and bypasses the review unit. Do not delete the Work Item branch as part of PR merge before running `ai-close-work-item`; closure needs the merged branch identity to verify ownership before it synchronizes the base and removes both branch copies.
 ## Adopter project
 An adopter project keeps its own Git history and branch policy:
 

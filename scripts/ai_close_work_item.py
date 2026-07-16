@@ -186,7 +186,11 @@ def close_work_item(task: str, runner: Runner = _run_git) -> dict[str, str]:
     work_branch = branch_result.stdout.strip()
     remote, base_branch = _discover_base(runner)
     if work_branch == base_branch:
-        raise RuntimeError("current branch is the repository base branch, not the Work Item branch")
+        raise RuntimeError(
+            "current branch is the repository base branch, not the still-identifiable Work Item branch; "
+            "run ai-close-work-item from the merged Work Item branch before deleting it, then let closure "
+            "synchronize the base and remove local/remote branches"
+        )
     _require_clean_worktree(runner)
     pr = _verify_pr(runner, work_branch, base_branch)
 

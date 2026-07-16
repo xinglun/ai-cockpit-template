@@ -22,6 +22,7 @@ def test_governance_entrypoints_can_clean_ambient_git_environment():
 @pytest.fixture(autouse=True)
 def isolate_diff_ownership_preview(monkeypatch):
     monkeypatch.setattr(ai_finish, "preview", lambda **_kwargs: [])
+    monkeypatch.setattr(ai_finish, "ensure_work_item_branch", lambda: None)
 
 
 class ObservabilityStub:
@@ -483,6 +484,71 @@ def test_finish_main_fails_when_contract_is_missing(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "missing"])
 
     assert ai_finish.main() == 1
+
+
+def test_finish_refuses_repository_base_branch_before_running_checks(tmp_path, monkeypatch, capsys):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
+    (active / "task.contract.json").write_text(
+        json.dumps({"contractVersion": 2, "workItemId": "task", "verification": []}),
+        encoding="utf-8",
+    )
+    (active / "task.summary.json").write_text(json.dumps({"verification": []}), encoding="utf-8")
+
+    def reject_base_branch():
+        raise RuntimeError(
+            "ai-finish must run on the dedicated Work Item branch; current branch is the repository base branch"
+        )
+
+    monkeypatch.setattr(ai_finish, "ensure_work_item_branch", reject_base_branch)
+    monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task"])
+
+    assert ai_finish.main() == 2
+    assert "dedicated Work Item branch" in capsys.readouterr().err
+
+
+def test_finish_branch_guard_compares_current_branch_with_discovered_base(monkeypatch):
+    monkeypatch.setattr(ai_finish, "repository_base_branch", lambda: "main")
+
+    with pytest.raises(RuntimeError, match="repository base branch"):
+        ai_finish.validate_work_item_branch("main", "main")
+
+
+def test_finish_branch_discovery_handles_remote_head_and_no_remote_head(monkeypatch):
+    responses = {
+        ("for-each-ref", "--format=%(symref:short)", "refs/remotes"): SimpleNamespace(
+            returncode=0, stdout="origin/main\n", stderr=""
+        ),
+    }
+    monkeypatch.setattr(ai_finish, "run_git", lambda args: responses[tuple(args)])
+
+    assert ai_finish.repository_base_branch() == "main"
+
+    monkeypatch.setattr(
+        ai_finish,
+        "run_git",
+        lambda _args: SimpleNamespace(returncode=0, stdout="", stderr=""),
+    )
+    assert ai_finish.repository_base_branch() is None
+
+
+def test_finish_branch_helpers_fail_closed_for_git_errors_and_detached_head(monkeypatch):
+    monkeypatch.setattr(
+        ai_finish,
+        "run_git",
+        lambda _args: SimpleNamespace(returncode=1, stdout="", stderr="bad git"),
+    )
+    with pytest.raises(RuntimeError, match="git for-each-ref .*bad git"):
+        ai_finish.repository_base_branch()
+
+
+def test_finish_allows_branch_when_no_remote_head_is_configured(monkeypatch):
+    monkeypatch.setattr(ai_finish, "repository_base_branch", lambda: None)
+    monkeypatch.setattr(ai_finish, "_git_output", lambda _args: "codex/task")
+
+    ai_finish.ensure_work_item_branch()
 
 
 def test_finish_main_records_required_check_failure(tmp_path, monkeypatch):

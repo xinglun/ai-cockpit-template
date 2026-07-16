@@ -1,0 +1,432 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "harden_work_item_pr_closure",
+  "contractPath": ".ai/work-items/archive/2026/harden_work_item_pr_closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/harden_work_item_pr_closure.contract.json",
+      "reason": "Defined the approved scope, lifecycle acceptance, scenarios, and restricted governance-path approval."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/harden_work_item_pr_closure.summary.json",
+      "reason": "Records implementation, verification, and user correction solidification evidence."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Documents the canonical PR-merge-then-closure order and prohibits premature local merge or branch deletion."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Aligns the Cockpit workflow entry point with the canonical lifecycle."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Adds the complete lifecycle sequence and recovery boundaries."
+    },
+    {
+      "path": "docs/getting-started/first-work-item.md",
+      "reason": "Adds the operational ordering guidance to the first-task walkthrough."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Rejects finishing from a discovered repository base branch."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Makes premature base-branch closure failure actionable."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Covers the finish guard and base-branch comparison."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Covers the actionable closure diagnostic."
+    },
+    {
+      "path": "docs/design/harden-work-item-pr-closure.md",
+      "reason": "Records the approved design decision."
+    },
+    {
+      "path": "docs/plans/harden-work-item-pr-closure.md",
+      "reason": "Records the implementation and verification plan."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/reference/repository-workflow.md",
+    "docs/getting-started/first-work-item.md",
+    "scripts/ai_finish.py",
+    "scripts/ai_close_work_item.py",
+    "tests/test_core_gates.py",
+    "tests/test_work_item_lifecycle_closure.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:41.033981+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "a007aecbd5e67a77fbccd1ee81d93a05a2eeb7d064bf488c700c895b79d46554",
+      "commandHash": "c8d733c542d1c61760a04d169500d096cb8a4d865735bc0ab9400c8ed98994c2",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/harden_work_item_pr_closure.contract.json work item contract check passed: .ai/work-items/active/harden_work_item_pr_closure.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:41.266694+00:00",
+      "exitCode": 0,
+      "durationMs": 159,
+      "outputDigest": "01d7837a10a7a1862e39b3ee6ccc39caed07402daaa908626b3d9901361f57db",
+      "commandHash": "abc479f67929b4d70c0934ec09c20f85483a3bcb6f465bbe122bbb098121500e",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/harden_work_item_pr_closure.contract.json scope guard passed: 11 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:41.477157+00:00",
+      "exitCode": 0,
+      "durationMs": 131,
+      "outputDigest": "174f089928df6fd361b23401e33a243b90098d96fb2ca4d9b0d5e7a79d04f188",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: AGENTS.md (AGENTS.md) - Agent operating rules. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:41.854166+00:00",
+      "exitCode": 0,
+      "durationMs": 295,
+      "outputDigest": "99e28ef91ddfe52c0c481f061be644b0d636f8cd935b62e581a36fe06b350dfe",
+      "commandHash": "6456cf025ec2ac7f7219d67964882b5d9410d990f30252855d6cfe4094cf044f",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `harden_work_item_pr_closure` - Contract Hash: `99dddd84f70d90ca` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:42.035054+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "cae50f21fd7812dea782e209c360572227621d4231ab3d2ab82fe0748d093289",
+      "commandHash": "7e08925ff49b953ec41561e2e8ac8a89f1f178793973b0dd7140dfc00924b85c",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json review policy matched 5 path(s) [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] AGENTS.md [review] scripts/ai_close_work_item.py [review] scripts/ai_finish.py review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:42.221462+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:42.420935+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:42.544033+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "20efbb8cd047ac5b1b0a59bc3198d9c186fc172437ae6931005b3471b60e1c8c",
+      "commandHash": "86c00a0fb1fabd723fe8b6cf9bfe65b6ad19844995e8865b60d4c4bd3b4b8301",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:42.676464+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "21d061f768e762a79f82171cd99eeec5c43c826b9052bb2df6b0ac46162b82f8",
+      "commandHash": "f118b5ef2c28637b3a0a31050c370ef480afe3a5cce74ef59502fafc465bc6d6",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:16:43.014901+00:00",
+      "exitCode": 0,
+      "durationMs": 271,
+      "outputDigest": "07de7290332aa89a6ac3e5d091ac3808e168a63ef1376a94a576fbc50d71f215",
+      "commandHash": "ec3709f47da6e280f1a3ac08338b0f2593d2f66d8b0811bb649dd32f7a59c65d",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json ## Diff Ownership Preview - active_owned: `11`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `AGENTS.md` — covered by Contract scope - [active_ow"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:18:20.246016+00:00",
+      "exitCode": 0,
+      "durationMs": 97163,
+      "outputDigest": "23f6dde9dd3a7d9953ae8d44c92f5c7b6ec0d809990e056218eab09685a6f5da",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "5c6decef4cf961c24a171cf76547c347fc07b05c3f8da084a68309f3cbefd252",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 29%] ........................................................................ [ 44%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:18:22.182559+00:00",
+      "exitCode": 0,
+      "durationMs": 284,
+      "outputDigest": "728df790c864b7f7185c3f6675ea36d35847d454655f998f22b6d4273233a5ae",
+      "commandHash": "8602762eed51e1eb248045b7b4d0b1f66cffa8a2aa546f2aaebc66dae4245a07",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "3fd6ecdccc1c76c96923cd3fa4b5257ae0a9b7d6e52ee1c7a29d36e78e027197",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/harden_work_item_pr_closure.contract.json --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:18:22.503214+00:00",
+      "exitCode": 0,
+      "durationMs": 252,
+      "outputDigest": "87946797462c4113715de82bd1134ed05f1af3224edeb80408fb0442e1f23e7e",
+      "commandHash": "1307bb634510c6fcba0d3623f7ba4b3b7e50cdaba55e0725ec505df71636486c",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "3fd6ecdccc1c76c96923cd3fa4b5257ae0a9b7d6e52ee1c7a29d36e78e027197",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:18:22.613226+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "3fd6ecdccc1c76c96923cd3fa4b5257ae0a9b7d6e52ee1c7a29d36e78e027197",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:18:22.747366+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "4703b1a3562eab7f6b564421e2b38eab254dc59ab9e95ddb4e50ce12150cbe84",
+      "commandHash": "878f83a2afc57423e77cfb290ba1e0c1513950646b67ecf23ea0f2063989beba",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "3fd6ecdccc1c76c96923cd3fa4b5257ae0a9b7d6e52ee1c7a29d36e78e027197",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json --summary .ai/work-items/active/harden_work_item_pr_closure.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/harden_work_item_pr_closure.summary.json CONTRACT=.ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T01:18:22.939448+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "0ebb2dd6c6112589c0506e329c8240c370ebe30aa068055f8cc762b323234421",
+      "commandHash": "27fd0d489d4417e6c7530b51546c2b03c05466b1337db7696e961e6e1297c6b2",
+      "contractHash": "99dddd84f70d90ca7ad31189d2b7a0537c6b60ac01d502e9916168eb17b2429f",
+      "commitSha": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+      "executionContractPath": ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+      "worktreeDigest": "3fd6ecdccc1c76c96923cd3fa4b5257ae0a9b7d6e52ee1c7a29d36e78e027197",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/harden_work_item_pr_closure.summary.json --contract .ai/work-items/active/harden_work_item_pr_closure.contract.json ai summary check passed: .ai/work-items/active/harden_work_item_pr_closure.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The new validate_work_item_branch helper and its user-facing failure message are covered by tests/test_core_gates.py; workflow behavior is documented in AGENTS.md and the Cockpit workflow docs."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The implementation reuses the existing ai_common.run_git helper and does not import internal feature modules."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Narrow fail-closed guard and documentation changes; PR provider behavior and archived evidence are unchanged."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "Base-branch discovery is intentionally observational when no remote HEAD exists, preserving first-adoption behavior; repositories with a configured remote HEAD receive the guard.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm the guard remains provider-neutral and that closure remains the only branch-deletion owner."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "User corrected the lifecycle definition: completion includes PR merge into the remote base, then cleanup, then local base synchronization from the remote base."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "The complete flow is PR merge, cleanup, then sync local main from origin/main; local main must not be treated as complete while ahead of origin/main.",
+      "solidifiedIn": [
+        "AGENTS.md",
+        "docs/reference/repository-workflow.md",
+        "docs/getting-started/first-work-item.md",
+        ".ai/cockpit/README.md",
+        "scripts/ai_finish.py",
+        "scripts/ai_close_work_item.py"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "99dddd84f70d90ca",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Ran ai-checkpoint and reviewed scope, acceptance, unknowns, verification, and next action before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "99dddd84f70d90ca",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Ran ai-checkpoint and reviewed scope, acceptance, unknowns, verification, and next action before finishing."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 67
+}

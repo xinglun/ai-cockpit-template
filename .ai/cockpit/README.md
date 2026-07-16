@@ -78,6 +78,8 @@ Installation and upgrade work is committed to the adopter project's repository. 
 
 Use `make ai-close-work-item TASK=<task>` after the Work Item is archived and its PR is merged. The command verifies the archived Contract/Summary/Cockpit Status, the one-to-one branch/PR mapping, fast-forward-only base synchronization, local and remote branch deletion, a clean repository, and local-base equality with the remote base. It fails closed on any error and reports `ready for next Work Item` only after every postcondition passes.
 
+The required order is: latest remote base, dedicated Work Item branch, implementation, `ai-finish`/archive, push, PR, PR merge, then `ai-close-work-item`. Do not merge the feature branch into local `main` before the PR, and do not delete the Work Item branch before closure; otherwise local `main` can diverge from `origin/main` or the merged branch identity can be lost before ownership verification.
+
 1. Declare Intent (optional but recommended): Why does this work exist? What constraints must be respected? What's the rationale?
 2. Create a Work Item with `make ai-start TASK=<task> TITLE="..." MODE=code`.
 3. Edit the Contract until scope, sources, acceptance, verification, risk assessment, agent capability, and execution decision are explicit. Fill `intent.problem`, `intent.constraints`, and `intent.rationale` when context is available, or leave them empty / not provided when context is missing.

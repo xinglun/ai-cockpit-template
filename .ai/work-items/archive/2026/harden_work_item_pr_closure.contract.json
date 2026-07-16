@@ -1,0 +1,220 @@
+{
+  "contractVersion": 2,
+  "workItemId": "harden_work_item_pr_closure",
+  "mode": "code",
+  "title": "Harden Work Item branch, PR, and closure workflow",
+  "baseCommit": "3b7d71c5f17cb6ee383cfd4c32f78d4b24e30cff",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/harden_work_item_pr_closure.contract.json",
+    ".ai/work-items/active/harden_work_item_pr_closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/reference/repository-workflow.md",
+    "docs/getting-started/first-work-item.md",
+    "scripts/ai_finish.py",
+    "scripts/ai_close_work_item.py",
+    "tests/test_core_gates.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "docs/design/harden-work-item-pr-closure.md",
+    "docs/plans/harden-work-item-pr-closure.md"
+  ],
+  "outOfScope": [
+    "Changing PR provider authentication or automatic PR creation/merge behavior.",
+    "Changing archived evidence, archive retention, or unrelated governance checks.",
+    "Changing the repository default branch or requiring a provider-specific CLI workflow."
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository rules define the Work Item, PR, merge, cleanup, and closure lifecycle."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Cockpit workflow documentation is a user-facing governance entry point."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Reference workflow describes base synchronization and lifecycle closure."
+    },
+    {
+      "path": "docs/getting-started/first-work-item.md",
+      "reason": "First Work Item guide is the practical workflow used by collaborators."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Finish command is the executable boundary before archiving a Work Item."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Closure command owns merged-PR verification, branch deletion, and base synchronization."
+    },
+    {
+      "path": "tests/test_core_gates.py",
+      "reason": "Existing finish-command regression coverage."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Existing lifecycle-closure regression coverage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "workflow_regression"
+    ],
+    "reason": "Narrow guard and documentation changes around an existing fail-closed closure command; no archive or PR provider behavior changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User approved the design direction: enforce the canonical PR-merge-then-close lifecycle and prevent base-branch finish."
+  },
+  "preReviewWarnings": [
+    "Review that the branch guard discovers the repository base branch without assuming a provider-specific default."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "ai-finish refuses to run on the discovered repository base branch with an actionable message and does not archive the Work Item.",
+    "The canonical lifecycle is documented: latest remote base, dedicated Work Item branch, finish/archive, push, PR, merge, then ai-close-work-item for branch deletion and base synchronization.",
+    "The workflow explicitly forbids merging the feature branch into local main before the PR and forbids deleting the Work Item branch before lifecycle closure.",
+    "ai-close-work-item explains that closure must be run while the merged Work Item branch is still identifiable when invoked from the base branch or after premature deletion.",
+    "Regression tests assert the base-branch finish guard, the lifecycle closure diagnostic, and unchanged normal-branch closure behavior."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The previous archive-threshold Work Item exposed a repeatable lifecycle failure: the feature branch was auto-deleted during PR merge, closure was attempted from local main, local main temporarily became ahead of origin/main, and the expected order of PR merge, closure cleanup, and base synchronization was not enforced by executable guidance.",
+    "constraints": [
+      "Preserve historical evidence and existing fail-closed closure checks.",
+      "Keep the workflow generic across Git hosting providers and remote/default-branch names.",
+      "Use one Work Item, one dedicated branch, and one PR; do not broaden this change into PR automation."
+    ],
+    "rationale": "Make the intended lifecycle unambiguous in the rules and documentation, then add a small executable guard at ai-finish so a Work Item cannot be finalized from the base branch. Improve closure diagnostics so an incorrect order points to the exact recovery action."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "ai-finish invoked on the discovered repository base branch",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "To be covered by the new finish-command regression test."
+    },
+    {
+      "scenario": "ai-finish invoked on a dedicated Work Item branch",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "To be covered by existing finish-command tests and the final verification run."
+    },
+    {
+      "scenario": "ai-close-work-item invoked after branch deletion or from base branch",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "To be covered by the lifecycle-closure regression test."
+    },
+    {
+      "scenario": "Normal merged-PR closure",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Existing lifecycle closure tests must remain green."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly confirmed continuation after the preflight review; this Work Item patches the repository operating rules and Cockpit workflow documentation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

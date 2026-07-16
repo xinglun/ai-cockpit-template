@@ -92,6 +92,19 @@ def test_unmerged_pr_blocks_all_cleanup(monkeypatch: pytest.MonkeyPatch) -> None
     assert not any(command[:3] == ("push", "origin", "--delete") for command in fake.commands)
 
 
+def test_base_branch_error_explains_that_closure_must_identify_work_item_branch(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fake = FakeGit()
+    fake.current_branch = "main"
+    prepare(monkeypatch, fake)
+
+    with pytest.raises(RuntimeError, match="still-identifiable Work Item branch"):
+        closure.close_work_item("example", fake)
+
+    assert fake.commands == [("branch", "--show-current")]
+
+
 def test_incomplete_archived_evidence_blocks_before_branch_inspection(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

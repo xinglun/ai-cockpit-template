@@ -1,0 +1,407 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "decouple_archive_history_threshold",
+  "contractPath": ".ai/work-items/archive/2026/decouple_archive_history_threshold.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/decouple_archive_history_threshold.contract.json",
+      "reason": "Work Item boundary and explicit approval for the governance policy change."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/decouple_archive_history_threshold.summary.json",
+      "reason": "Verification and handoff evidence for this Work Item."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Removed cumulative archive count limits and calibrated live-document headroom."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Keeps archive totals as report metrics while limiting blocking policy checks to live complexity metrics."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression coverage for valid archive totals above the former limit and existing integrity failures."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Documents the separation between historical archive evidence and current-task ownership."
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-16-decouple-archive-history-threshold-design.md",
+      "reason": "Approved design record for this Work Item."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-16-decouple-archive-history-threshold.md",
+      "reason": "Implementation and verification plan for this Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/decouple_archive_history_threshold.contract.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:53.532179+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "fb1a5c0426997278cb32511b64be2ef84efb13abe2943a1f49c037c1f58621cf",
+      "commandHash": "548be612ee0d892a6f4c4579f4be1db2aa3f83022b9df724b0a8487179988829",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_work_item.py .ai/work-items/active/decouple_archive_history_threshold.contract.json work item contract check passed: .ai/work-items/active/decouple_archive_history_threshold.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:53.760537+00:00",
+      "exitCode": 0,
+      "durationMs": 148,
+      "outputDigest": "4ffc120bc84957e85af05ac66e92dfc455ff19b16ef24429c29187a87c15deb8",
+      "commandHash": "a8bd162f900c4e123c13424f56019d8c74faa90b32a29077a94e94f04ffb0c87",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_scope.py .ai/work-items/active/decouple_archive_history_threshold.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:53.973197+00:00",
+      "exitCode": 0,
+      "durationMs": 137,
+      "outputDigest": "2ef8e3421890ba40c5746255d1349e15e93c20e1ebf7c42ad7cf6c6d3772260b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_guards.py --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:54.375004+00:00",
+      "exitCode": 0,
+      "durationMs": 309,
+      "outputDigest": "6c66be28c2a295a976163f28d5af4858de2f25ced7d7579436dd36461be9000a",
+      "commandHash": "03039118046525f5039a4791eded785f2631898de02b574051f674f996f4354c",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_checkpoint.py --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `decouple_archive_history_threshold` - Contract Hash: `13b9944df40910ad` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:54.573349+00:00",
+      "exitCode": 0,
+      "durationMs": 122,
+      "outputDigest": "e3bbadaddae0e12c2c830bff277597d6a7a2c7648b929900acf41c648b892728",
+      "commandHash": "9e1f20e47979575f568e217e6516ce909b99bc10e6ff1b01301a49d6b8223385",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_review_policy.py --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json review policy matched 2 path(s) [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:54.765625+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "470f5fb6f6e2bd7a8461008724d0dd9532731afaa7087c10a452e024987897d1",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:54.962012+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "bf0eeab5d1f9c6e35a2d4a984d1cacedcdb4fd6c3bfa6d43d0ddcd1c4e00b2d5",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:55.083404+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "df1e3b46032a2603870aaab89bc32d5a99fc7b5fde03ba947e80637ec4e46ae9",
+      "commandHash": "4a691cf85488013914a4192a4614f5afe23cd23fd5038a88b5fec80214cb1d7e",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:55.198409+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "7371bf81d66a7564d48eb26c1d85e2b2febd4ce80b12b50f843b262430a42639",
+      "commandHash": "f4ca7813685f1197c46a6c05d9291d0bd4a4a1696b1bcf88b86671f1e2582c44",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_guidelines.py --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:15:55.545925+00:00",
+      "exitCode": 0,
+      "durationMs": 278,
+      "outputDigest": "c8d88dbcfec164c32849d15862df95f7a75b4ec37ca0d7af100c4c28bae7fcb3",
+      "commandHash": "dcdee2949e34c272e1a4348d3fb721b05b309bcb015d376ffc3eeef3001d18bc",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `docs/reference/go"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:17:31.641270+00:00",
+      "exitCode": 0,
+      "durationMs": 96005,
+      "outputDigest": "5d7f31a7c44f3e110683f83e8ca3e6b81de871a627253dfb0165b204d223001e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "9bb33df2d30399be15c261b444cf347c5efa09e6a2df349a673265f5c5d2160d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 29%] ....................................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:17:33.324496+00:00",
+      "exitCode": 0,
+      "durationMs": 283,
+      "outputDigest": "8b6fdfc224ad51c70db0e547b36661dbf76c3e5364410710f1c4a7538abe65f5",
+      "commandHash": "1becd7a0739b2885d51aca5b63681fe421527a6ee20ec27fe9f5750f167ea50b",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "8ac73067beb9b8b72465538730398c5244a82f48e355494a3801a9f2b668c618",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_generate_status.py .ai/work-items/active/decouple_archive_history_threshold.contract.json --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:17:33.687915+00:00",
+      "exitCode": 0,
+      "durationMs": 285,
+      "outputDigest": "10ba1e2dbc3d35877353b64b487ceaa4986870452ae1ee55fba5f7a90e0a7517",
+      "commandHash": "050128e50b285dea362311e7aa8bbf5da31e0c24dc6e017e02aee794a1f82778",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "8ac73067beb9b8b72465538730398c5244a82f48e355494a3801a9f2b668c618",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:17:33.801041+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "b187d28fe830a2b09f5c02be6f1905679b26cfaced00e9e8422e60d2d6c20ec5",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "8ac73067beb9b8b72465538730398c5244a82f48e355494a3801a9f2b668c618",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:17:33.983419+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "f1ebec467d44609dc2ae7e7175246134090de2ad8922172635744d33abd217c5",
+      "commandHash": "9aecc33d961a93e128aa432d951fded25a62ba0d6bb9b57c365cd7303f749bc7",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "8ac73067beb9b8b72465538730398c5244a82f48e355494a3801a9f2b668c618",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_agent_risk.py --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json --summary .ai/work-items/active/decouple_archive_history_threshold.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/decouple_archive_history_threshold.summary.json CONTRACT=.ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T00:17:34.187555+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "ef8ace6c71032d174f7a6660537cd1078577af4238069a6ddaac26f5ee6f50d3",
+      "commandHash": "5506dad08dd46e6aca7997b88d34b42a3aeb9418e58bf4aa025b503409333126",
+      "contractHash": "13b9944df40910ad503772e57aa97e5349306e29d9482f1451139f52f8ea0730",
+      "commitSha": "88e5cef8f9ad574f97417b131bb9c1b50ee4608b",
+      "executionContractPath": ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+      "worktreeDigest": "8ac73067beb9b8b72465538730398c5244a82f48e355494a3801a9f2b668c618",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 <LOCAL_PATH> scripts/ai_check_summary.py .ai/work-items/active/decouple_archive_history_threshold.summary.json --contract .ai/work-items/active/decouple_archive_history_threshold.contract.json ai summary check passed: .ai/work-items/active/decouple_archive_history_threshold.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep archived Contract/Summary evidence immutable.",
+      "compliant": true,
+      "evidence": "No archived Contract or Summary was deleted, rewritten, compacted, or relocated."
+    },
+    {
+      "guideline": "Keep archive integrity failures blocking.",
+      "compliant": true,
+      "evidence": "Existing missing-pair, malformed-index, and dangling-path tests remain passing."
+    },
+    {
+      "guideline": "Do not weaken current-PR archive ownership validation.",
+      "compliant": true,
+      "evidence": "The change does not modify scripts/ai_check_pr.py or its changed-archive-pair audit behavior."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The archive total is now observational; integrity and current-PR ownership remain blocking."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "governance-policy",
+      "detail": "The live complexity ceilings were calibrated only to include the required design and plan documents.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm archive totals are observational while pair/index integrity remains blocking.",
+      "Confirm current PR ownership is still enforced independently of historical totals."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Valid cumulative archive totals no longer fail governance complexity checks; archive integrity and current-PR ownership remain enforced."
+  },
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Reviewed root cause, approved design, scope boundaries, and archive immutability constraints before implementation.",
+      "contractHash": "13b9944df40910ad",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Reviewed implementation, regression coverage, full quality results, and restricted governance-path approval before finish.",
+      "contractHash": "13b9944df40910ad",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 66
+}

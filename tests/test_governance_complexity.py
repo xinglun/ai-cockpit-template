@@ -13,8 +13,6 @@ def policy(path: Path, **limits: int) -> None:
         "trackedFiles": 100,
         "pythonLines": 100,
         "markdownLines": 100,
-        "archiveContracts": 10,
-        "archiveSummaries": 10,
     }
     values.update(limits)
     path.write_text(
@@ -44,7 +42,7 @@ def test_report_passes_and_writes_metrics(tmp_path, monkeypatch):
     )
     policy_file = tmp_path / "policy.yaml"
     policy_file.write_text(
-        "version: 1\nmax:\n  trackedFiles: 10\n  pythonLines: 10\n  markdownLines: 10\n  archiveContracts: 2\n  archiveSummaries: 2\n",
+        "version: 1\nmax:\n  trackedFiles: 10\n  pythonLines: 10\n  markdownLines: 10\n",
         encoding="utf-8",
     )
     monkeypatch.setattr(
@@ -58,6 +56,35 @@ def test_report_passes_and_writes_metrics(tmp_path, monkeypatch):
     assert issues == []
     assert report["metrics"]["archiveContracts"] == 1
     assert report["metrics"]["archiveIndexEntries"] == 1
+
+
+def test_archive_totals_are_observational_above_former_threshold(tmp_path, monkeypatch):
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    entries = []
+    for index in range(261):
+        stem = f"task-{index}"
+        contract_path = archive / f"{stem}.contract.json"
+        summary_path = archive / f"{stem}.summary.json"
+        contract_path.write_text("{}", encoding="utf-8")
+        summary_path.write_text("{}", encoding="utf-8")
+        entries.append(
+            {
+                "contractPath": f".ai/work-items/archive/2026/{stem}.contract.json",
+                "summaryPath": f".ai/work-items/archive/2026/{stem}.summary.json",
+            }
+        )
+    (archive.parent / "index.json").write_text(json.dumps({"entries": entries}), encoding="utf-8")
+    policy_file = tmp_path / "policy.yaml"
+    policy(policy_file, trackedFiles=10, pythonLines=10, markdownLines=10)
+    monkeypatch.setattr(check_governance_complexity, "tracked_files", lambda root: [root / "x.py"])
+    (tmp_path / "x.py").write_text("x\n", encoding="utf-8")
+
+    report, issues = check_governance_complexity.build_report(tmp_path, policy_file)
+
+    assert report["metrics"]["archiveContracts"] == 261
+    assert report["metrics"]["archiveSummaries"] == 261
+    assert not any("archiveContracts" in issue or "archiveSummaries" in issue for issue in issues)
 
 
 def test_report_fails_on_threshold_and_missing_archive_pair(tmp_path, monkeypatch):
@@ -128,12 +155,7 @@ def test_load_policy_rejects_missing_or_non_positive_limits(tmp_path):
 
     invalid_limit = tmp_path / "invalid-limit.yaml"
     invalid_limit.write_text(
-        "version: 1\nmax:\n"
-        "  trackedFiles: nope\n"
-        "  pythonLines: 1\n"
-        "  markdownLines: 1\n"
-        "  archiveContracts: 1\n"
-        "  archiveSummaries: 1\n",
+        "version: 1\nmax:\n  trackedFiles: nope\n  pythonLines: 1\n  markdownLines: 1\n",
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="max.trackedFiles"):

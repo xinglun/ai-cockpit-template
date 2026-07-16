@@ -1,0 +1,193 @@
+{
+  "contractVersion": 2,
+  "workItemId": "decouple_archive_history_threshold",
+  "mode": "code",
+  "title": "Decouple immutable archive history from current complexity thresholds",
+  "baseCommit": "2229589f149d1e287df6e3ea04a3424d0550c59b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/decouple_archive_history_threshold.contract.json",
+    ".ai/work-items/active/decouple_archive_history_threshold.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_governance_complexity.py",
+    "tests/test_governance_complexity.py",
+    "docs/reference/governance-complexity.md",
+    "docs/superpowers/specs/2026-07-16-decouple-archive-history-threshold-design.md",
+    "docs/superpowers/plans/2026-07-16-decouple-archive-history-threshold.md"
+  ],
+  "outOfScope": [
+    "Deleting or rewriting archived Contract/Summary evidence",
+    "Changing PR ownership rules for newly changed archive pairs",
+    "Changing the semantics of tracked-file, Python-line, or Markdown-line thresholds",
+    "Introducing external cold-storage or release-artifact migration"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current hard thresholds include archiveContracts and archiveSummaries."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "The checker currently treats cumulative archive totals as blocking limits."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Defines immutable archive evidence and the complexity-check lifecycle."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Current PR audit is the boundary for changed archive-pair ownership."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Existing regression coverage for policy loading and archive metrics."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_behavior"],
+    "reason": "The change removes a cumulative archive-count blocker while preserving archive integrity and PR ownership gates."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The design and scope are confirmed; implementation is limited to the complexity checker, policy, tests, and documentation."
+  },
+  "preReviewWarnings": [
+    "Review that archive integrity and current-PR ownership remain blocking after cumulative archive totals become observational."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The governance complexity checker reports archive Contract/Summary totals but does not compare them with blocking max limits.",
+    "The checker continues to fail on missing archive pairs, malformed index entries, and dangling index paths.",
+    "Existing non-archive complexity limits remain blocking with only the minimum calibration needed to include this Work Item's required governance documents, and current-PR archive ownership behavior remains unchanged.",
+    "Documentation explains that immutable archive history is observational and that current PR evidence is validated separately."
+  ],
+  "guidelines": [
+    "Keep archived Contract/Summary evidence immutable.",
+    "Keep archive integrity failures blocking.",
+    "Do not weaken current-PR archive ownership validation."
+  ],
+  "intent": {
+    "problem": "The cumulative immutable archive count has exceeded the fixed complexity threshold, causing current Work Items to fail even though the historical evidence is valid.",
+    "constraints": [
+      "Do not delete or rewrite historical archive evidence.",
+      "Do not weaken pairing, index-integrity, or current-PR ownership checks.",
+      "Keep the change language-neutral and limited to repository governance behavior."
+    ],
+    "rationale": "Separate immutable historical evidence from live complexity limits so past Work Items remain auditable without blocking unrelated current work."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "A repository with archive totals above the old 260 limit passes complexity-limit evaluation when archive integrity is valid.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_governance_complexity.py"]
+    },
+    {
+      "scenario": "Missing archive pairs and dangling index references still fail the complexity check.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_governance_complexity.py"]
+    },
+    {
+      "scenario": "Current PR archive ownership remains governed by the existing PR audit.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/ai_check_pr.py", "make check-ai-pr"]
+    }
+  ],
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-confirmed",
+    "reason": "User explicitly approved separating immutable archive history from current complexity thresholds."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

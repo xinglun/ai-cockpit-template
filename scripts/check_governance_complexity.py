@@ -89,8 +89,6 @@ def load_policy(path: Path) -> dict[str, int]:
         "trackedFiles",
         "pythonLines",
         "markdownLines",
-        "archiveContracts",
-        "archiveSummaries",
     )
     result: dict[str, int] = {}
     for metric in metrics:

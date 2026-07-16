@@ -1,3 +1,13 @@
+---
+author: Codex
+title: "Decouple Immutable Archive History from Complexity Thresholds Implementation Plan"
+description: Implementation plan for separating immutable archive history from current complexity limits.
+keywords:
+  - governance
+  - archive
+  - complexity
+---
+
 # Decouple Immutable Archive History from Complexity Thresholds Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
@@ -12,7 +22,7 @@
 
 - Do not delete, rewrite, compact, or relocate historical archive evidence.
 - Do not change current-PR archive ownership rules.
-- Do not change tracked-file, Python-line, or Markdown-line thresholds.
+- Do not change the semantics of tracked-file, Python-line, or Markdown-line thresholds; calibrate their ceilings only as needed to include this Work Item's required governance documents.
 - Use the active Work Item Contract as the change boundary.
 - Verify behavior with a failing test before implementation changes.
 

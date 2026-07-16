@@ -9,6 +9,21 @@ import check_supply_chain
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_supply_chain_failure_log_does_not_include_issue_details(monkeypatch, capsys):
+    monkeypatch.setattr(sys, "argv", ["check_supply_chain.py", "secrets"])
+    monkeypatch.setattr(
+        check_supply_chain,
+        "scan_secrets",
+        lambda: ["secret.txt:github_token:1"],
+    )
+
+    assert check_supply_chain.main() == 1
+
+    captured = capsys.readouterr()
+    assert "secret.txt:github_token:1" not in captured.err
+    assert "supply-chain check failed: 1 issue(s)" in captured.err
+
+
 def test_secret_scanning_detects_github_token(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     repo.mkdir()

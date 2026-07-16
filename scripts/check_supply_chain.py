@@ -585,8 +585,7 @@ def main() -> int:
         return 1
 
     if issues:
-        for issue in issues:
-            print(f"[ERROR] {issue}", file=sys.stderr)
+        print(f"supply-chain check failed: {len(issues)} issue(s)", file=sys.stderr)
         return 1
     print(f"{args.command} supply-chain check passed")
     return 0

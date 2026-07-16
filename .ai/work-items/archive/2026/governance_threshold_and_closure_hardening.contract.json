@@ -1,0 +1,206 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance_threshold_and_closure_hardening",
+  "mode": "code",
+  "title": "Make archive-related thresholds observational and harden post-merge closure workflow",
+  "baseCommit": "3491698c0763d0c9d4b72503bfb90d2deed8d61d",
+  "baselineDirtyPaths": [],
+  "intent": {
+    "problem": "The previous closure incident showed that immutable archive evidence can make a fixed tracked-file ceiling fail again, while the cleanup command assumes the Work Item branch and base branch can be operated from one worktree. This creates repeated threshold calibration and avoidable manual recovery during normal PR closure.",
+    "constraints": [
+      "Do not delete, rewrite, or weaken validation of historical Contract/Summary evidence.",
+      "Keep current-task scope, archive pairing, PR ownership, merge state, and local/remote base synchronization fail-closed.",
+      "Preserve provider-neutral behavior and the repository's existing make-based checks."
+    ],
+    "rationale": "Separate immutable historical evidence from current-task safety gates, and make the documented closure workflow explicit for worktree-aware recovery."
+  },
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    "scripts/check_governance_complexity.py",
+    "scripts/ai_close_work_item.py",
+    "tests/test_governance_complexity.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "docs/superpowers/specs/**",
+    "docs/superpowers/plans/**",
+    ".ai/work-items/active/governance_threshold_and_closure_hardening.contract.json",
+    ".ai/work-items/active/governance_threshold_and_closure_hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Deleting or rewriting historical archive evidence.",
+    "Changing PR provider adapters or introducing automatic hosted cleanup.",
+    "Changing unrelated complexity metrics such as pythonLines or markdownLines."
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Defines the canonical Work Item lifecycle and closure order."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Calculates tracked-file and immutable archive metrics."
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "Implements post-merge branch cleanup and base synchronization."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Existing regression coverage for complexity metrics and threshold behavior."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Existing regression coverage for fail-closed lifecycle closure."
+    },
+    {
+      "path": "PR #44 closure review",
+      "reason": "Observed worktree occupancy and local-main divergence during the completed PR workflow."
+    }
+  ],
+  "problemStatement": "Normal archive growth must not repeatedly invalidate repository shape checks, and closure must leave the local base synchronized with the merged remote base without requiring a base branch to be checked out in the same worktree.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Immutable archive grows beyond the former tracked-file ceiling",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Add a regression fixture demonstrating observation without a hard failure."
+    },
+    {
+      "scenario": "Closure starts while the base branch is checked out in another worktree",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Add a regression test and document the supported recovery path."
+    },
+    {
+      "scenario": "Current Work Item archive or PR ownership evidence is invalid",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_work_item_lifecycle_closure.py"],
+      "reason": "Existing closure tests verify fail-closed behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_regression",
+      "workflow_recovery"
+    ],
+    "reason": "The change touches hard gates and lifecycle cleanup; historical evidence preservation and fail-closed current-task checks must remain intact."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The incident evidence and existing regression suites define a narrow, verifiable rule patch."
+  },
+  "preReviewWarnings": [
+    "Review that archive integrity and current-task ownership remain hard failures after tracked-file observation is decoupled."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Tracked-file count is reported as an observational metric and cannot fail solely because immutable archive evidence grows.",
+    "Archive pairing/index integrity and current-task PR ownership remain fail-closed.",
+    "Closure behavior and the documented post-merge sequence cover base-branch worktree occupancy without deleting historical evidence.",
+    "Regression tests prove both the threshold behavior and the closure safety behavior.",
+    "All required AI Cockpit and project checks pass, and the Summary records residual risks and any follow-up."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly approved deleting the trackedFiles threshold and hardening worktree-aware closure."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

@@ -18,24 +18,40 @@ class FakeGit:
         self.remote_branch_exists = remote_branch_exists
         self.remote_check_returncode = remote_check_returncode
         self.current_branch = "codex/example"
+        self.base_worktree_path = ""
 
     def __call__(self, args: list[str] | tuple[str, ...], check: bool) -> closure.CommandResult:
         command = tuple(args)
         self.commands.append(command)
-        if self.fail_on and command[: len(self.fail_on)] == self.fail_on:
+        normalized = command[2:] if command[:1] == ("-C",) else command
+        if self.fail_on and normalized[: len(self.fail_on)] == self.fail_on:
             if check:
-                raise RuntimeError(f"forced failure: {' '.join(command)}")
+                raise RuntimeError(f"forced failure: {' '.join(normalized)}")
             return closure.CommandResult(1, "", "forced failure")
-        if command == ("branch", "--show-current"):
-            return closure.CommandResult(0, f"{self.current_branch}\n")
-        if command == ("switch", "main"):
+        if normalized == ("branch", "--show-current"):
+            branch = "main" if command[:1] == ("-C",) else self.current_branch
+            return closure.CommandResult(0, f"{branch}\n")
+        if normalized == ("switch", "main"):
             self.current_branch = "main"
             return closure.CommandResult(0, "")
-        if command == ("status", "--porcelain", "--untracked-files=all"):
+        if normalized == ("switch", "--detach", "HEAD"):
+            self.current_branch = ""
             return closure.CommandResult(0, "")
-        if command[:2] == ("rev-parse", "main") or command[:2] == ("rev-parse", "origin/main"):
+        if normalized == ("worktree", "list", "--porcelain"):
+            if self.base_worktree_path:
+                return closure.CommandResult(
+                    0,
+                    "worktree /tmp/base-worktree\nHEAD abc123\nbranch refs/heads/main\n\n",
+                )
+            return closure.CommandResult(0, "")
+        if normalized == ("status", "--porcelain", "--untracked-files=all"):
+            return closure.CommandResult(0, "")
+        if normalized[:2] == ("rev-parse", "main") or normalized[:2] == (
+            "rev-parse",
+            "origin/main",
+        ):
             return closure.CommandResult(0, "abc123\n")
-        if command[:3] == ("ls-remote", "--exit-code", "--heads"):
+        if normalized[:3] == ("ls-remote", "--exit-code", "--heads"):
             if self.remote_check_returncode is not None:
                 return closure.CommandResult(
                     self.remote_check_returncode, "", "remote check failed"
@@ -103,6 +119,20 @@ def test_base_branch_error_explains_that_closure_must_identify_work_item_branch(
         closure.close_work_item("example", fake)
 
     assert fake.commands == [("branch", "--show-current")]
+
+
+def test_base_branch_worktree_occupancy_is_supported(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    fake = FakeGit()
+    fake.base_worktree_path = "/tmp/base-worktree"
+    prepare(monkeypatch, fake)
+
+    result = closure.close_work_item("example", fake)
+
+    assert ("worktree", "list", "--porcelain") in fake.commands
+    assert result["state"] == "closed"
+    assert ("-C", "/tmp/base-worktree", "merge", "--ff-only", "origin/main") in fake.commands
 
 
 def test_incomplete_archived_evidence_blocks_before_branch_inspection(

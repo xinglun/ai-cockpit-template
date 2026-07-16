@@ -163,6 +163,39 @@ def _require_clean_worktree(runner: Runner) -> None:
         raise RuntimeError("worktree or index is not clean; cleanup stopped")
 
 
+def _base_worktree_path(runner: Runner, base_branch: str) -> str | None:
+    """Find a worktree that currently owns the repository base branch."""
+    result = runner(["worktree", "list", "--porcelain"], False)
+    if result.returncode != 0:
+        raise RuntimeError("cannot inspect Git worktrees")
+    path: str | None = None
+    for block in result.stdout.split("\n\n"):
+        lines = block.splitlines()
+        if not lines or not lines[0].startswith("worktree "):
+            continue
+        branch = next(
+            (
+                line.removeprefix("branch refs/heads/")
+                for line in lines
+                if line.startswith("branch ")
+            ),
+            None,
+        )
+        if branch == base_branch:
+            path = lines[0].removeprefix("worktree ")
+            break
+    return path
+
+
+def _in_worktree(runner: Runner, path: str) -> Runner:
+    """Run Git commands against a designated worktree without changing branches."""
+
+    def scoped(args: Sequence[str], check: bool = False) -> CommandResult:
+        return runner(["-C", path, *args], check)
+
+    return scoped
+
+
 def _remote_branch_absent(runner: Runner, remote: str, branch: str) -> None:
     result = runner(["ls-remote", "--exit-code", "--heads", remote, branch], False)
     if result.returncode == 0:
@@ -194,23 +227,30 @@ def close_work_item(task: str, runner: Runner = _run_git) -> dict[str, str]:
     _require_clean_worktree(runner)
     pr = _verify_pr(runner, work_branch, base_branch)
 
-    runner(["switch", base_branch], True)
-    runner(["fetch", remote, "--prune"], True)
-    runner(["merge", "--ff-only", f"{remote}/{base_branch}"], True)
-    local_base = runner(["rev-parse", base_branch], True).stdout.strip()
+    base_path = _base_worktree_path(runner, base_branch)
+    base_runner = _in_worktree(runner, base_path) if base_path else runner
+    if base_path:
+        _require_clean_worktree(base_runner)
+    else:
+        runner(["switch", base_branch], True)
+    base_runner(["fetch", remote, "--prune"], True)
+    base_runner(["merge", "--ff-only", f"{remote}/{base_branch}"], True)
+    local_base = base_runner(["rev-parse", base_branch], True).stdout.strip()
     remote_base = runner(["rev-parse", f"{remote}/{base_branch}"], True).stdout.strip()
     if local_base != remote_base:
         raise RuntimeError("base branch is not synchronized with the remote after fast-forward")
 
     # A merged PR is the authority for deleting a branch. -D is intentional here:
     # squash and rebase merges do not make the source ref an ancestor of base.
+    if base_path:
+        runner(["switch", "--detach", "HEAD"], True)
     runner(["branch", "-D", work_branch], True)
     _delete_remote_branch(runner, remote, work_branch)
-    final_branch = runner(["branch", "--show-current"], True).stdout.strip()
+    final_branch = base_runner(["branch", "--show-current"], True).stdout.strip()
     if final_branch != base_branch:
         raise RuntimeError("repository is not on the synchronized base branch")
-    _require_clean_worktree(runner)
-    final_local = runner(["rev-parse", base_branch], True).stdout.strip()
+    _require_clean_worktree(base_runner)
+    final_local = base_runner(["rev-parse", base_branch], True).stdout.strip()
     final_remote = runner(["rev-parse", f"{remote}/{base_branch}"], True).stdout.strip()
     if final_local != final_remote:
         raise RuntimeError("local base branch no longer matches the remote base branch")

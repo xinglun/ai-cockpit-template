@@ -1,0 +1,151 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi-06",
+  "mode": "code",
+  "title": "External human approval boundary",
+  "baseCommit": "6c01b6fd110ecbb2e11aa45f1e619eeb81171675",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/CODEOWNERS",
+    "docs/reference/repository-workflow.md",
+    ".ai/work-items/active/wi-06.contract.json",
+    ".ai/work-items/active/wi-06.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Creating synthetic platform approvals or treating Contract approval as a GitHub review"],
+  "sources": [
+    {
+      "path": ".github/CODEOWNERS",
+      "reason": "Repository-specific CODEOWNERS entry for Required Review." 
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Document the external platform approval boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["governance_boundary"],
+    "reason": "CODEOWNERS is repository evidence; Required Review is external platform evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Repository ownership is explicit; platform review remains independently evidenced."
+  },
+  "preReviewWarnings": [
+    "Verify CODEOWNERS resolution and branch protection outside the repository."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "CODEOWNERS names the real repository owner and contains no placeholder token.",
+    "Workflow documentation distinguishes Contract approval from platform Required Review.",
+    "Automated checks pass and the Work Item evidence records the external protection result.",
+    "The Work Item is archived and its PR is merged before lifecycle closure."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Repository-local Contract approval can be mistaken for a human platform review.",
+    "constraints": ["Do not fabricate or bypass review evidence."],
+    "rationale": "Make ownership explicit in CODEOWNERS and document the independent platform boundary."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Governance PR resolves a CODEOWNER", "required": true, "status": "verified", "evidence": [".github/CODEOWNERS names @xinglun."]},
+    {"scenario": "Contract approval without platform review", "required": true, "status": "verified", "evidence": ["Repository workflow states the two are independent."]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

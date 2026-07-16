@@ -26,6 +26,15 @@ latest remote base → dedicated Work Item branch → finish/archive → push �
 ```
 
 Do not merge the Work Item branch into local `main` before opening or merging the PR. That makes local `main` appear ahead of `origin/main` and bypasses the review unit. Do not delete the Work Item branch as part of PR merge before running `ai-close-work-item`; closure needs the merged branch identity to verify ownership before it synchronizes the base and removes both branch copies.
+
+Required Review is a hosting-platform control, not a Contract field. This
+repository's `.github/CODEOWNERS` names `@xinglun` as the owner for the
+template repository. The repository administrator must enable branch
+protection on the default branch with at least one approving review from a
+CODEOWNER, stale-review dismissal, and conversation resolution. The
+`restrictedWriteApproval` Contract field records authorization to change
+governance files; it must never be treated as proof that a platform review was
+approved. Platform API evidence remains the source of truth for that boundary.
 ## Adopter project
 An adopter project keeps its own Git history and branch policy:
 

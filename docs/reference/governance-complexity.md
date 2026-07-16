@@ -14,7 +14,7 @@ Run `make check-governance-complexity` during maintenance and before a release. 
 
 Thresholds live in `.ai/guards/governance_complexity_policy.yaml`. A threshold change requires a Work Item explaining the new repository shape and the expected reviewer impact. Live repository thresholds remain blocking; archive totals are observational, while Archive Index integrity is blocking. The report is intentionally read-only: it detects growth and missing, duplicated, or hash-mismatched index evidence but does not delete or rewrite historical evidence.
 
-The Python threshold is calibrated at 24,300 for the archive-integrity Work Item because the repository gained index reconciliation, strict identity checks, and their regression coverage. New archive rows carry strict hash, path, Work Item identity, and sequence checks; historical rows remain readable under the documented legacy boundary. Future growth remains blocking and requires another documented Work Item.
+New archive rows carry strict hash, path, Work Item identity, and sequence checks; historical rows remain readable under the documented legacy boundary. The boundary is row-owned: a positive sequence together with both immutable digests enables strict validation. It is not selected by an editable global sequence cutoff. Future growth remains blocking and requires another documented Work Item.
 
 ## Lifecycle rules
 

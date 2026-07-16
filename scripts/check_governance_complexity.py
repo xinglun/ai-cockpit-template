@@ -17,10 +17,36 @@ from ai_common import parse_yaml
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_POLICY = ROOT / ".ai" / "guards" / "governance_complexity_policy.yaml"
 DEFAULT_OUTPUT = ROOT / "target" / "governance_complexity_report.json"
-# Existing archive index rows are immutable historical evidence.  Strict
-# cross-file integrity applies to rows created from this migration boundary
-# onward; older rows remain readable and continue to be checked for paths.
-ARCHIVE_INDEX_INTEGRITY_INTRODUCED_SEQUENCE = 74
+# Archive migration is anchored to the immutable commit that introduced
+# digest validation. A mutable archive-count threshold must not decide trust.
+ARCHIVE_INDEX_INTEGRITY_INTRODUCED_AT = "3dc234a"
+
+
+def strict_archive_entry(root: Path, entry: dict[str, Any], contract_path: Path) -> bool:
+    if not (
+        isinstance(entry.get("archiveSequence"), int)
+        and not isinstance(entry.get("archiveSequence"), bool)
+        and entry["archiveSequence"] >= 1
+        and isinstance(entry.get("contractSha256"), str)
+        and isinstance(entry.get("summarySha256"), str)
+    ):
+        return False
+    try:
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        base_commit = contract.get("baseCommit")
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return False
+    if not isinstance(base_commit, str) or not base_commit:
+        # Isolated fixture repositories have no migration history; explicit
+        # digest evidence is sufficient for their self-contained validation.
+        return True
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ARCHIVE_INDEX_INTEGRITY_INTRODUCED_AT, base_commit],
+        cwd=root,
+        capture_output=True,
+        check=False,
+    )
+    return result.returncode == 0
 
 
 def tracked_files(root: Path) -> list[Path]:
@@ -108,14 +134,8 @@ def archive_metrics(root: Path) -> tuple[dict[str, int], list[str]]:
             issues.append("archive index entry lacks Contract/Summary paths")
             continue
         pair = (index_contract_path, index_summary_path)
-        sequence_value = entry.get("archiveSequence")
-        legacy_entry = not (
-            isinstance(sequence_value, int)
-            and not isinstance(sequence_value, bool)
-            and sequence_value >= ARCHIVE_INDEX_INTEGRITY_INTRODUCED_SEQUENCE
-            and isinstance(entry.get("contractSha256"), str)
-            and isinstance(entry.get("summarySha256"), str)
-        )
+        contract_for_entry = root / index_contract_path
+        legacy_entry = not strict_archive_entry(root, entry, contract_for_entry)
         if pair in indexed and not legacy_entry:
             issues.append(f"archive index duplicates Contract/Summary pair {index_contract_path}")
         if not legacy_entry and index_contract_path in strict_contract_paths:

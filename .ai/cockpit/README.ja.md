@@ -33,8 +33,8 @@ AI Cockpit は、エージェント型開発のための協調エンジニアリ
 ブランチの起点はリポジトリの役割で決まります。
 
 - テンプレートリポジトリでは、最新の `origin/main` から保守ブランチを作成する。
-- 導入先の adopter project では、そのプロジェクト自身のリモート既定ブランチの最新コミットから作成する。`origin/main` を仮定せず、リモート名とブランチ名を確認し、Work Item に `baseRemote`、`baseBranch`、`baseCommit` を記録する。
-インストールとアップグレードの変更履歴は adopter project 側に属します。移動するテンプレート作業ブランチではなく、公開済みテンプレートの release tag を使用してください。PR のマージ後は、明示的な復旧例外を除き、リモートとローカルの作業ブランチを削除します。
+- 導入先プロジェクトでは、そのプロジェクト自身のリモート既定ブランチの最新コミットから作成する。`origin/main` を仮定せず、リモート名とブランチ名を確認し、Work Item に `baseRemote`、`baseBranch`、`baseCommit` を記録する。
+インストールとアップグレードの変更履歴は導入先プロジェクト側に属します。移動するテンプレート作業ブランチではなく、公開済みテンプレートのリリースタグを使用してください。PR のマージ後は、明示的な復旧例外を除き、リモートとローカルの作業ブランチを削除します。
 
 ### ライフサイクルのクローズ
 
@@ -49,7 +49,7 @@ Work Item を archive し、対応する PR が merge された後に `make ai-c
 5. `make ai-finish TASK=<task>` を実行する。
 6. 生成されたステータスとアーカイブ済み Contract/Summary をレビューする。
 
-前置フローで readiness を先に見せたい場合は `make ai-preflight` を実行してください。
+前置フローで導入準備状況を先に確認したい場合は `make ai-preflight` を実行してください。
 このターゲットは助言的な Preflight Review を生成してから検証します。既定では advisory のままで、policy が gate を有効にした場合のみ `needs_human_confirmation` や `not_ready` が失敗になります。
 `make generate-ai-preflight-review` は検証を行わずにレポートだけ生成したい場合に使えます。
 `make check-ai-preflight-review` は生成済みレポートの構造を検証し、policy が有効な場合のみ gate として動作します。

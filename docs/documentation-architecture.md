@@ -11,4 +11,4 @@ keywords:
 
 # Documentation Architecture
 
-This compatibility entry now lives at [Reference Documentation Architecture](reference/documentation-architecture.md).
+This compatibility entry now lives at [Reference Documentation Architecture](reference/documentation-architecture.md). Japanese readers can use the [Japanese entry map](reference/documentation-architecture.ja.md).

@@ -262,7 +262,6 @@ Before V3 is considered, V2.5 should be stabilized against real Work Items and r
 
 Completion Assurance becomes one component of Governance Compression rather than the milestone name.
 
-See [V2.5 Governance Compression Plan](reference/v2-5-governance-compression-plan.md) for the implemented reference plan.
 
 ---
 
@@ -383,7 +382,6 @@ Implementation completed in four incremental phases:
 3. **Validator Compatibility**: Ensure all validators handle optional intent fields correctly
 4. **Templates & AI Integration**: Update templates and agent guidance to leverage intent naturally
 
-See [V2 Implementation Plan](reference/v2-implementation-plan.md) for the completed phase breakdown.
 
 **V2.5 — Governance Compression (implemented, stabilizing)**
 
@@ -391,7 +389,6 @@ V2.5 established the human review compression layer that turns Summary evidence 
 
 V2.6 extends that layer with generic Scenario Coverage for medium/high-risk Work Items.
 
-See [V2.5 Governance Compression Plan](reference/v2-5-governance-compression-plan.md) for the implemented reference plan.
 
 ---
 

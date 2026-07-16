@@ -226,7 +226,7 @@ V2.5 の Cockpit は Summary をそのまま複製せず、`reviewReadiness`、`
 - `checkpointEvidence` は長期タスクの整合性と evidence freshness を維持します。
 - `.ai/guards/scenario_coverage_policy.yaml` により、どの `hardRiskTypes` に `scenarioCoverage` が必要かが決まります。ポリシー自体は機構であり、シナリオ内容は Work Item の責任です。
 
-Cockpit の出力は Summary の代替ではなく、Summary から派生した人間向けの圧縮表示です。詳細な定義は [V2.5 Governance Compression Plan](reference/v2-5-governance-compression-plan.md) を参照してください。
+Cockpit の出力は Summary の代替ではなく、Summary から派生した人間向けの圧縮表示です。詳細な定義は [Cockpit Status の読み方](reference/how-to-read-cockpit-status.md) を参照してください。
 
 ---
 

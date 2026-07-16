@@ -1,0 +1,203 @@
+{
+  "contractVersion": 2,
+  "workItemId": "docs-japanese-language-cleanup",
+  "mode": "code",
+  "title": "整理文档语言与已完成计划",
+  "baseCommit": "3e867928f7afbe335390383169a1a2dce2ef8cde",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "*.md",
+    "docs/**/*.md",
+    ".ai/**/*.md",
+    "templates/**/*.md",
+    "examples/**/README.md",
+    "docs/plans/**",
+    ".ai/work-items/active/docs-japanese-language-cleanup.contract.json",
+    ".ai/work-items/active/docs-japanese-language-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "docs/superpowers/plans/**"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Defines the required Work Item, scope, summary, and verification workflow."
+    },
+    {
+      "path": "README.md",
+      "reason": "Primary repository entry document and source for the Japanese entry version."
+    },
+    {
+      "path": "docs/documentation-architecture.md",
+      "reason": "Defines document roles, language variants, and navigation expectations."
+    },
+    {
+      "path": "docs/reference/v2-implementation-plan.md",
+      "reason": "Explicitly marked completed; candidate for removal as a completed plan document."
+    },
+    {
+      "path": "docs/reference/v2-5-governance-compression-plan.md",
+      "reason": "Explicitly marked completed and retained as a plan reference; candidate for removal under this task."
+    }
+  ],
+  "problemStatement": "主要文档面向日本公司项目使用时，日语入口不完整，Markdown 中存在中文、日文、英文混用的整理问题，并保留了已经完成的计划文档。",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope",
+      "documentation_consistency",
+      "broken_links"
+    ],
+    "reason": "仅整理 Markdown 文档并删除有完成证据的计划文件；主要风险是术语、导航链接和文档元数据不一致。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已明确 Intent；范围、排除项、验收条件和验证方式已定义。"
+  },
+  "preReviewWarnings": [
+    "重点检查日语文档的导航链接、代码命令和 AI Cockpit 术语是否仍与实现一致。",
+    "仅删除有明确完成证据的计划文档；未完成的执行计划保留。"
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "README 等主要入口文档提供可用的日语版本，并保持导航、命令和核心术语与英文主文档一致。",
+    "审计范围内 Markdown 的自然语言不出现非预期中文、日文、英文混入；必要的产品名、命令、代码标识和标准术语保留并保持一致。",
+    "删除明确标记为已完成的计划文档，保留未完成计划，并同步修正受影响的内部链接。",
+    "通过文档元数据检查、链接/引用检查和所有 Contract 要求的 AI Cockpit 检查；不修改代码、测试或生成状态文件。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "主要入口文档的日语版本可从导航进入，且命令与链接有效",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "将在文档修改后通过引用扫描和人工审阅验证。"
+    },
+    {
+      "scenario": "明确完成的计划文档被删除，未完成计划保留且无悬空引用",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "将在删除与链接修正后通过文件扫描验证。"
+    },
+    {
+      "scenario": "审计范围内 Markdown 的非预期语言混入已修正，必要术语保持一致",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "将在修改后通过语言模式扫描和文档审阅验证。"
+    }
+  ],
+  "guidelines": [
+    "日语主文档的标题、导航、命令和核心术语必须与英文主文档保持一致。",
+    "删除计划文档前必须确认其已完成，并修正所有受影响的文档引用。",
+    "不得修改代码、测试、凭据或生成状态文件的内容。"
+  ],
+  "intent": {
+    "problem": "主要是给日本公司项目使用，现有文档需要整理内容、补齐日语主入口，并清理中文、日文、英文非预期混入。",
+    "constraints": [
+      "保持 AI Cockpit 的治理术语、命令、链接和文档结构与现有实现一致。",
+      "只删除有明确完成证据的计划文档，未完成计划不删除。"
+    ],
+    "rationale": "让日本公司项目的使用者可以直接通过日语文档理解、安装和执行 AI Cockpit，同时降低多语言文档维护造成的误解。"
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": [
+      "docs/reference/v2-implementation-plan.md",
+      "docs/reference/v2-5-governance-compression-plan.md"
+    ]
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "用户在确认任务范围后明确回复“请开始”，授权执行本工单声明的文档整理，包括 .ai/cockpit 下的日语治理指南。"
+  },
+  "rollbackNote": "恢复删除的计划文档、对应链接和本次语言整理差异即可回滚。"
+}

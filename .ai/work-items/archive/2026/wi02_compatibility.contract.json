@@ -1,0 +1,175 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi02_compatibility",
+  "mode": "code",
+  "title": "Compatibility fixed baseline and latest probe separation",
+  "baseCommit": "49947b794629bfb326e31f4b82fca68559498a19",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/wi02_compatibility.contract.json",
+    ".ai/work-items/active/wi02_compatibility.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/compatibility.yml",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md"
+  ],
+  "outOfScope": [".github/workflows/release.yml", "install.sh"],
+  "sources": [
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Current compatibility workflow marks non-Python lanes continue-on-error and excludes them from the blocking gate."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Release documentation defines compatibility evidence used by the publication decision."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Regression coverage for blocking baseline and exploratory probe separation."
+    }
+  ],
+  "problemStatement": "Compatibility documentation claims verified stacks while the release gate only blocks on ShellCheck and Python; non-Python failures can be green through continue-on-error.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "compatibility_truthfulness",
+      "release_gate"
+    ],
+    "reason": "Changing release-blocking CI can reject previously accepted commits, so fixed versions and exploratory behavior must be explicit."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The approved review defines the blocking-baseline and latest-probe split."
+  },
+  "preReviewWarnings": [
+    "Review focus: verify every lane labeled verified is a required dependency of compatibility-gate, while exploratory probes remain explicitly non-blocking."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Blocking baseline lanes use explicit toolchain versions and every stack described as verified is required by compatibility-gate.",
+    "Latest ecosystem probes are separate, explicitly exploratory, and their failures do not falsely report verified baseline support.",
+    "Workflow regression tests assert the gate dependencies and documentation distinguishes verified baseline from hosted probe evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The current compatibility workflow can report success while verified non-Python stacks fail, which makes release support claims stronger than their blocking evidence.",
+    "constraints": [
+      "Keep stable/latest probes visible as exploratory evidence.",
+      "Use explicit fixed versions for blocking baseline lanes.",
+      "Do not silently relabel a non-blocking lane as verified."
+    ],
+    "rationale": "Release claims must be calibrated to the actual gate that can fail."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A failure in every verified compatibility lane blocks compatibility-gate",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with workflow assertions and CI."
+    },
+    {
+      "scenario": "Latest probe failure remains visible without blocking the baseline gate",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with workflow structure and documentation checks."
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized automated execution of the review remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

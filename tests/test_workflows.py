@@ -14,17 +14,22 @@ def test_compatibility_runs_on_main_pushes_and_pull_requests():
     assert "needs:\n      - shellcheck" in workflow
     assert 'test "$result" = success' in workflow
     assert workflow.count("fetch-depth: 0") == 5
-    assert "toolchain: stable" in workflow
+    assert 'toolchain: "1.86.0"' in workflow
 
 
 def test_compatibility_separates_blocking_baseline_from_latest_probes():
     workflow = (ROOT / ".github" / "workflows" / "compatibility.yml").read_text(encoding="utf-8")
     gate = workflow.split("  compatibility-gate:", 1)[1].split("  compatibility-latest:", 1)[0]
-    assert "needs:\n      - shellcheck\n      - python-platform-matrix" in gate
-    assert "real-stack-quality" not in gate
+    assert "needs:" in gate
+    assert "real-stack-quality" in gate
+    assert "extended-real-stack-quality" in gate
+    assert "mobile-stack-quality" in gate
     assert "compatibility-latest:" in workflow
-    assert "continue-on-error: true" in workflow
-    assert "Latest probes are exploratory evidence" in workflow
+    assert "continue-on-error: true" not in gate
+    assert "fixed compatibility baseline is the blocking release gate" in workflow
+    assert 'go-version: "1.24.4"' in workflow
+    assert 'toolchain: "1.86.0"' in workflow
+    assert 'node-version: "24.11.1"' in workflow
 
 
 def test_release_documentation_requires_one_verified_commit():

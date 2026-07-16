@@ -44,7 +44,6 @@ jobs:
       - run: make quality
 
   real-stack-quality:
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -61,16 +60,16 @@ jobs:
       - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         if: matrix.stack == 'go'
         with:
-          go-version: stable
+          go-version: "1.24.4"
       - uses: dtolnay/rust-toolchain@e97e2d8cc328f1b50210efc529dca0028893a2d9
         if: matrix.stack == 'rust'
         with:
-          toolchain: stable
+          toolchain: "1.86.0"
           components: rustfmt, clippy
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         if: matrix.stack == 'typescript'
         with:
-          node-version: 24
+          node-version: "24.11.1"
       - name: Create and verify minimal project
         shell: bash
         env:
@@ -121,7 +120,6 @@ jobs:
           make ai-cockpit-quality
 
   extended-real-stack-quality:
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -147,7 +145,7 @@ jobs:
       - uses: ruby/setup-ruby@8e41b362d2589a22a44c1cfa214b3c83052c195b
         if: matrix.stack == 'ruby'
         with:
-          ruby-version: "3.4"
+          ruby-version: "3.4.2"
       - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         if: matrix.stack == 'php'
         with:
@@ -156,7 +154,7 @@ jobs:
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         if: matrix.stack == 'csharp'
         with:
-          dotnet-version: "9.0.x"
+          dotnet-version: "9.0.305"
       - name: Create and verify extended minimal project
         shell: bash
         env:
@@ -266,7 +264,6 @@ jobs:
           make ai-cockpit-quality
 
   mobile-stack-quality:
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -289,7 +286,7 @@ jobs:
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         if: matrix.stack == 'flutter'
         with:
-          channel: stable
+          flutter-version: "3.29.3"
           cache: true
       - uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a
         if: matrix.stack == 'android'
@@ -406,6 +403,9 @@ jobs:
     needs:
       - shellcheck
       - python-platform-matrix
+      - real-stack-quality
+      - extended-real-stack-quality
+      - mobile-stack-quality
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -413,9 +413,12 @@ jobs:
         env:
           SHELLCHECK_RESULT: ${{ needs.shellcheck.result }}
           PYTHON_RESULT: ${{ needs.python-platform-matrix.result }}
+          REAL_STACK_RESULT: ${{ needs.real-stack-quality.result }}
+          EXTENDED_STACK_RESULT: ${{ needs.extended-real-stack-quality.result }}
+          MOBILE_STACK_RESULT: ${{ needs.mobile-stack-quality.result }}
         run: |
           set -euo pipefail
-          for result in "$SHELLCHECK_RESULT" "$PYTHON_RESULT"; do
+          for result in "$SHELLCHECK_RESULT" "$PYTHON_RESULT" "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"; do
             test "$result" = success
           done
 
@@ -436,4 +439,4 @@ jobs:
         run: |
           printf 'compatibility-latest real-stack=%s extended-stack=%s mobile-stack=%s\n' \
             "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"
-          printf '%s\n' 'Latest probes are exploratory evidence; their drift does not block compatibility-gate.'
+          printf '%s\n' 'Hosted ecosystem probe outcomes are reported separately; the fixed compatibility baseline is the blocking release gate.'

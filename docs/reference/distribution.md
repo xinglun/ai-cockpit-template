@@ -33,6 +33,7 @@ This release flow applies to the template repository. An adopter project must cr
 
 The development lock is generated from the committed `requirements-dev.in` input with `pip-compile --generate-hashes --allow-unsafe`. The SBOM reports workflow Action occurrences, all version-pinned lock entries, and the direct/transitive split recorded by pip-compile's `via` annotations. Every locked package must carry at least one SHA-256 artifact hash; CI installs with `pip install --require-hashes` so an unlisted artifact fails closed.
 The generated `.ai/cockpit/release-digests.json` manifest binds the lock, SBOM, provenance, installer, and release metadata to one source commit and records their SHA-256 digests. `make check-release-evidence` verifies that binding and fails on drift.
+Compatibility support claims are split between a fixed-version blocking baseline and separately reported hosted ecosystem probes. Only the fixed baseline is release-blocking; probe drift is exploratory evidence and must not be described as verified baseline support.
 
 ## Published Capabilities
 

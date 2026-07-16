@@ -52,6 +52,14 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert '[[ "$SOURCE_COMMIT" == "$GITHUB_SHA" ]]' in workflow
     assert "gh auth setup-git" in workflow
     assert 'git fetch --no-tags --quiet origin "${SOURCE_COMMIT}"' in workflow
+    assert (
+        'git fetch --no-tags --quiet origin "refs/tags/${RELEASE_TAG}:refs/tags/${RELEASE_TAG}"'
+        in workflow
+    )
+    assert 'git rev-parse "$RELEASE_TAG^{commit}"' in workflow
+    assert workflow.index(
+        'git fetch --no-tags --quiet origin "refs/tags/${RELEASE_TAG}:refs/tags/${RELEASE_TAG}"'
+    ) < workflow.index('git rev-parse "$RELEASE_TAG^{commit}"')
     assert "smoke.yml" in workflow and "compatibility.yml" in workflow
     assert "deadline=$((SECONDS + 900))" in workflow
     assert 'any(.[]; .conclusion == "success")' in workflow

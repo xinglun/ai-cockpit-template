@@ -1,0 +1,203 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi01_release_identity",
+  "mode": "code",
+  "title": "Release Identity single source of truth and atomic release",
+  "baseCommit": "c25aefe20b874708293738dd1ea4ac982d1c1dc7",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/wi01_release_identity.contract.json",
+    ".ai/work-items/active/wi01_release_identity.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "scripts/check_release_distribution.py",
+    "tests/test_workflows.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_supply_chain.py",
+    "tests/test_release_distribution.py",
+    "tests/test_supply_chain.py",
+    "release.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "outOfScope": [
+    ".github/CODEOWNERS",
+    "requirements-dev.in",
+    "README.md"
+  ],
+  "sources": [
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Repository release contract requires source-bound evidence and immutable release handling."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Current release workflow creates a public release before post-release smoke verification."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Current distribution checker validates local tag files but does not verify release asset subject identity."
+    },
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Current source-bound evidence generator defines the release asset evidence contract."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The current hard line ceiling must account for the authorized release identity verification increment until WI-09 replaces it with real complexity metrics."
+    }
+  ],
+  "problemStatement": "v0.5.28 contains tag-local provenance for an older commit while final Release Assets attest a different commit, and post-release Smoke is asynchronous on main. The release path therefore has internally consistent but non-unique publication facts.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_identity",
+      "release_atomicity"
+    ],
+    "reason": "This changes release workflow and distribution verification, so a source-identity regression could publish a misleading release."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The approved review defines the source identity, release asset, and draft-release acceptance boundaries."
+  },
+  "preReviewWarnings": [
+    "Review focus: ensure the workflow never publishes a release before verification and never accepts provenance whose subject differs from the immutable tag target."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release Assets are generated from one exact immutable source SHA and their provenance subject, digest metadata, release tag, and tag target are cross-checked.",
+    "Git Tag content contains no candidate provenance that can be mistaken for final release evidence; Release Assets are the sole authoritative publication evidence.",
+    "The GitHub Release is created as Draft, exact-tag installation and evidence verification run before publication, and any failed verification prevents publication.",
+    "Regression tests cover mismatched tag target, mismatched provenance subject, digest mismatch, draft release sequencing, and exact-ref post-release verification."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The published v0.5.28 tag and final release assets attest different source commits, so consumers cannot identify one immutable release fact.",
+    "constraints": [
+      "Keep Release Assets source-bound to the exact requested SHA.",
+      "Do not treat committed candidate provenance as final publication evidence.",
+      "Do not publish a release until exact-tag verification passes."
+    ],
+    "rationale": "A single immutable release identity is required for calibrated trust in release evidence."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Release workflow publishes only after exact-tag evidence verification",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify with workflow tests and a controlled release dry run."
+    },
+    {
+      "scenario": "Distribution checker rejects a provenance subject that differs from the tag target",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Regression test required."
+    },
+    {
+      "scenario": "Public release assets remain the sole authoritative release evidence",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify generated asset schema and release workflow behavior."
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly approved automated execution of the complete review remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

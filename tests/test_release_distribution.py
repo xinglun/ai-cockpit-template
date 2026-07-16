@@ -21,6 +21,45 @@ def test_release_distribution_uses_canonical_public_repository_by_default():
     )
 
 
+def test_release_asset_identity_requires_one_tag_target_and_source_subject():
+    provenance = {"commitSha": "source", "releaseTag": "v0.5.29"}
+    digests = {"sourceCommit": "source", "releaseTag": "v0.5.29"}
+
+    assert (
+        release_distribution.release_asset_identity_issues(
+            tag="v0.5.29",
+            tag_target="source",
+            provenance=provenance,
+            release_digests=digests,
+        )
+        == []
+    )
+
+    issues = release_distribution.release_asset_identity_issues(
+        tag="v0.5.29",
+        tag_target="tag-target",
+        provenance={"commitSha": "wrong", "releaseTag": "v0.5.28"},
+        release_digests={"sourceCommit": "other", "releaseTag": "v0.5.28"},
+    )
+    assert "tag target" in " ".join(issues)
+    assert "provenance commitSha" in " ".join(issues)
+    assert "release digest sourceCommit" in " ".join(issues)
+
+
+def test_release_asset_identity_rejects_missing_subject_fields():
+    issues = release_distribution.release_asset_identity_issues(
+        tag="v0.5.29",
+        tag_target="source",
+        provenance={},
+        release_digests={},
+    )
+
+    assert "provenance commitSha is missing" in issues
+    assert "provenance releaseTag is missing" in issues
+    assert "release digest sourceCommit is missing" in issues
+    assert "release digest releaseTag is missing" in issues
+
+
 IGNORES_SHA = b"""#!/bin/sh
 set -eu
 tmp=$(mktemp -d)

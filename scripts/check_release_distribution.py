@@ -12,6 +12,8 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 
@@ -147,6 +149,88 @@ def release_claims(metadata: dict[str, object]) -> dict[str, object]:
     without claiming that the historical public tag already contains it.
     """
     return {key: metadata.get(key) for key in ("releaseTag", "publicContract", "capabilities")}
+
+
+def release_asset_identity_issues(
+    *,
+    tag: str,
+    tag_target: str,
+    provenance: dict[str, object],
+    release_digests: dict[str, object],
+) -> list[str]:
+    """Validate that release evidence names the exact immutable tag target."""
+    issues: list[str] = []
+    provenance_commit = provenance.get("commitSha")
+    provenance_tag = provenance.get("releaseTag")
+    digest_commit = release_digests.get("sourceCommit")
+    digest_tag = release_digests.get("releaseTag")
+    if not isinstance(provenance_commit, str) or not provenance_commit:
+        issues.append("provenance commitSha is missing")
+    elif provenance_commit != tag_target:
+        issues.append(
+            f"provenance commitSha {provenance_commit!r} differs from tag target {tag_target!r}"
+        )
+    if not isinstance(provenance_tag, str) or not provenance_tag:
+        issues.append("provenance releaseTag is missing")
+    elif provenance_tag != tag:
+        issues.append(f"provenance releaseTag {provenance_tag!r} differs from tag {tag!r}")
+    if not isinstance(digest_commit, str) or not digest_commit:
+        issues.append("release digest sourceCommit is missing")
+    elif digest_commit != tag_target:
+        issues.append(
+            f"release digest sourceCommit {digest_commit!r} differs from tag target {tag_target!r}"
+        )
+    if not isinstance(digest_tag, str) or not digest_tag:
+        issues.append("release digest releaseTag is missing")
+    elif digest_tag != tag:
+        issues.append(f"release digest releaseTag {digest_tag!r} differs from tag {tag!r}")
+    return issues
+
+
+def fetch_published_release_assets(tag: str) -> dict[str, bytes]:
+    """Download the public release evidence assets for *tag*."""
+    parsed = urllib.parse.urlsplit(PUBLIC_REPOSITORY)
+    repository_path = parsed.path.rstrip("/")
+    if repository_path.endswith(".git"):
+        repository_path = repository_path[:-4]
+    api_url = f"{parsed.scheme}://{parsed.netloc}/api/v3/repos{repository_path}/releases/tags/{tag}"
+    if parsed.netloc == "github.com":
+        api_url = f"https://api.github.com/repos{repository_path}/releases/tags/{tag}"
+    request = urllib.request.Request(
+        api_url,
+        headers={"Accept": "application/vnd.github+json", "User-Agent": "ai-cockpit-release-check"},
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:  # nosec B310
+        release = json.loads(response.read().decode("utf-8"))
+    if not isinstance(release, dict) or release.get("draft") is True:
+        raise RuntimeError(f"{tag}: published release is missing or still draft")
+    assets = release.get("assets")
+    if not isinstance(assets, list):
+        raise RuntimeError(f"{tag}: published release assets are missing")
+    payloads: dict[str, bytes] = {}
+    for asset in assets:
+        if not isinstance(asset, dict):
+            continue
+        name = asset.get("name")
+        url = asset.get("browser_download_url")
+        if name in {"provenance.json", "release-digests.json", "sbom.json"} and isinstance(
+            url, str
+        ):
+            asset_request = urllib.request.Request(
+                url,
+                headers={
+                    "Accept": "application/octet-stream",
+                    "User-Agent": "ai-cockpit-release-check",
+                },
+            )
+            with urllib.request.urlopen(asset_request, timeout=30) as response:  # nosec B310
+                payloads[name] = response.read()
+    missing = {"provenance.json", "release-digests.json", "sbom.json"} - payloads.keys()
+    if missing:
+        raise RuntimeError(
+            f"{tag}: published release is missing assets: {', '.join(sorted(missing))}"
+        )
+    return payloads
 
 
 def fixture_archive(path: Path) -> None:
@@ -450,7 +534,27 @@ def inspect_tagged_release(tag: str) -> tuple[dict[str, object], bytes, list[str
         installer = clone_dir / "install.sh"
         if not installer.is_file():
             raise RuntimeError(f"{tag}: cloned release is missing install.sh")
-        return metadata, installer.read_bytes(), supply_chain_issues(metadata, root=clone_dir)
+        issues = supply_chain_issues(metadata, root=clone_dir)
+        if metadata.get("releaseEvidenceAuthority") == "release-assets-v1":
+            tag_target = run_command(
+                ["git", "rev-parse", "HEAD"], cwd=clone_dir, env=clone_git_environment()
+            ).stdout.strip()
+            try:
+                assets = fetch_published_release_assets(tag)
+                provenance = json.loads(assets["provenance.json"].decode("utf-8"))
+                release_digests = json.loads(assets["release-digests.json"].decode("utf-8"))
+            except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
+                issues.append(f"published release asset inspection failed: {exc}")
+            else:
+                issues.extend(
+                    release_asset_identity_issues(
+                        tag=tag,
+                        tag_target=tag_target,
+                        provenance=provenance,
+                        release_digests=release_digests,
+                    )
+                )
+        return metadata, installer.read_bytes(), issues
 
 
 def fetch_tagged_installer(tag: str) -> bytes:

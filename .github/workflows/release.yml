@@ -107,7 +107,7 @@ jobs:
           test "$(jq -r '.artifacts[".ai/cockpit/sbom.json"]' "$evidence/release-digests.json")" = "$sbom_digest"
           test "$(jq -r '.artifacts[".ai/cockpit/provenance.json"]' "$evidence/release-digests.json")" = "$provenance_digest"
 
-      - name: Create exact-SHA tag and GitHub Release
+      - name: Create exact-SHA tag and Draft GitHub Release
         working-directory: ${{ github.workspace }}
         run: |
           set -euo pipefail
@@ -115,10 +115,48 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --target "$SOURCE_COMMIT" \
             --title "$RELEASE_TAG" \
+            --draft \
             --generate-notes \
             "$RUNNER_TEMP/release-evidence/sbom.json#sbom.json" \
             "$RUNNER_TEMP/release-evidence/provenance.json#provenance.json" \
             "$RUNNER_TEMP/release-evidence/release-digests.json#release-digests.json"
 
-      - name: Dispatch strict post-release smoke verification
-        run: gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref main
+      - name: Verify Draft tag target and release asset subjects
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse "$RELEASE_TAG^{commit}")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.commitSha' "$RUNNER_TEMP/release-evidence/provenance.json")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.sourceCommit' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.releaseTag' "$RUNNER_TEMP/release-evidence/provenance.json")" = "$RELEASE_TAG"
+          test "$(jq -r '.releaseTag' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$RELEASE_TAG"
+
+      - name: Dispatch strict smoke verification for immutable release tag
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_TAG"
+          run_id=""
+          deadline=$((SECONDS + 120))
+          while [[ -z "$run_id" ]]; do
+            run_id="$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow smoke.yml \
+              --commit "$SOURCE_COMMIT" \
+              --event workflow_dispatch \
+              --limit 1 \
+              --json databaseId \
+              --jq '.[0].databaseId // empty')"
+            if [[ -n "$run_id" ]]; then
+              break
+            fi
+            if (( SECONDS >= deadline )); then
+              echo "timed out waiting for tag smoke dispatch" >&2
+              exit 1
+            fi
+            sleep 5
+          done
+          gh run watch "$run_id" --repo "$GITHUB_REPOSITORY" --exit-status
+
+      - name: Publish verified Draft Release
+        run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

@@ -54,7 +54,9 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "timed out waiting for ${workflow}" in workflow
     assert "sleep 15" in workflow
     assert "gh release create" in workflow
-    assert "gh workflow run smoke.yml" in workflow
+    assert "--draft" in workflow
+    assert 'gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_TAG"' in workflow
+    assert 'gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false' in workflow
     assert "actions/checkout" not in workflow
     assert "release-assets" in workflow
     assert "'.commitSha'" in workflow

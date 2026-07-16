@@ -194,7 +194,10 @@ def installation_command_errors(root: Path) -> list[str]:
                     f"{relative}: primary adoption flow must finish, audit, and start configuration governance before calibration"
                 )
         for number, line in enumerate(text.splitlines(), start=1):
-            if "raw.githubusercontent.com/xinglun/ai-cockpit-template/main/install.sh" in line:
+            if (
+                "raw.githubusercontent.com/spirex-ds-dev/ai-cockpit-template/main/install.sh"
+                in line
+            ):
                 errors.append(
                     f"{relative}:{number}: remote installer must use a fixed tag or commit"
                 )

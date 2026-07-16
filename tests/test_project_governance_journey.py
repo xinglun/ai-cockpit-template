@@ -247,8 +247,17 @@ def test_documented_project_governance_journey_and_upgrade_rollback(tmp_path):
             ".ai/project_profile.yaml",
             ".ai/guards/coverage_policy.yaml",
             "Makefile.ai.stack",
+            ".github/CODEOWNERS",
+            "SECURITY.md",
         ],
         extra_checks=("aiProjectProfile", "aiGuardCalibration"),
+    )
+    (project / ".github" / "CODEOWNERS").write_text("* @governance-reviewers\n", encoding="utf-8")
+    (project / "SECURITY.md").write_text(
+        "# Security Policy\n\n"
+        "Report vulnerabilities through the repository's private security channel.\n"
+        "Supported versions and response expectations are maintained by the security team.\n",
+        encoding="utf-8",
     )
     assert (
         run(project, "make", "check-ai-adoption-ready", f"PYTHON={sys.executable}").returncode == 0

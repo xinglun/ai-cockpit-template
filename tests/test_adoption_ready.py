@@ -36,6 +36,42 @@ def write_ready_configuration(root: Path) -> None:
     (workflows / "ai.yml").write_text(
         "run: make ai-cockpit-quality && make check-ai-pr\n", encoding="utf-8"
     )
+    (root / ".github" / "CODEOWNERS").write_text("* @governance-reviewers\n", encoding="utf-8")
+    (root / "SECURITY.md").write_text(
+        "# Security Policy\n\n"
+        "Report vulnerabilities through the repository's private security channel.\n"
+        "Supported versions and response expectations are maintained by the security team.\n",
+        encoding="utf-8",
+    )
+
+
+def test_adopted_readiness_rejects_missing_external_approval_boundaries(tmp_path):
+    write_ready_configuration(tmp_path)
+    (tmp_path / ".github" / "CODEOWNERS").unlink()
+    (tmp_path / "SECURITY.md").unlink()
+
+    failures = readiness_failures(tmp_path)
+
+    assert any("CODEOWNERS" in failure and "missing" in failure for failure in failures)
+    assert any("SECURITY.md" in failure and "missing" in failure for failure in failures)
+
+
+def test_adopted_readiness_rejects_current_template_placeholders(tmp_path):
+    write_ready_configuration(tmp_path)
+    (tmp_path / ".github" / "CODEOWNERS").write_text(
+        "* @REPLACE_WITH_REPOSITORY_OWNER\n", encoding="utf-8"
+    )
+    (tmp_path / "SECURITY.md").write_text(
+        "# Security Policy\n\n"
+        "This repository is a governance template.\n"
+        "Before production adoption, replace this file with your private reporting path.\n",
+        encoding="utf-8",
+    )
+
+    failures = readiness_failures(tmp_path)
+
+    assert any("CODEOWNERS" in failure for failure in failures)
+    assert any("SECURITY.md" in failure for failure in failures)
 
 
 def test_readiness_fails_with_all_actionable_configuration_gaps(tmp_path):

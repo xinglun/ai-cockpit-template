@@ -139,16 +139,48 @@ def readiness_failures(root: Path) -> list[str]:
             failures.append(f"configure {target} in GitHub Actions or GitLab CI")
 
     codeowners = root / ".github" / "CODEOWNERS"
-    if codeowners.is_file():
-        codeowners_text = codeowners.read_text(encoding="utf-8")
-        if "@owner" in codeowners_text:
-            failures.append("replace placeholder CODEOWNERS owners before adoption readiness")
-
     security = root / "SECURITY.md"
-    if role == "adopted" and security.is_file():
-        security_text = security.read_text(encoding="utf-8")
-        if "Replace this document with your own security reporting process." in security_text:
-            failures.append("replace template SECURITY.md instructions before adoption readiness")
+    if role == "adopted":
+        if not codeowners.is_file():
+            failures.append(
+                ".github/CODEOWNERS is missing; configure at least one external owner rule"
+            )
+        else:
+            codeowners_text = codeowners.read_text(encoding="utf-8")
+            rules = [
+                line.strip()
+                for line in codeowners_text.splitlines()
+                if line.strip() and not line.lstrip().startswith("#")
+            ]
+            placeholder = re.compile(r"(?:@owner|REPLACE_WITH|placeholder)", re.IGNORECASE)
+            if not rules or any(placeholder.search(line) for line in rules):
+                failures.append("replace placeholder CODEOWNERS owners before adoption readiness")
+            elif not any(
+                len(line.split()) >= 2 and line.split()[1].startswith(("@", "mailto:"))
+                for line in rules
+            ):
+                failures.append(
+                    "configure at least one valid CODEOWNERS owner rule before adoption readiness"
+                )
+
+        if not security.is_file():
+            failures.append(
+                "SECURITY.md is missing; configure a private vulnerability reporting channel"
+            )
+        else:
+            security_text = security.read_text(encoding="utf-8")
+            template_markers = re.compile(
+                r"(?:governance template|replace this|before production adoption|template boundary)",
+                re.IGNORECASE,
+            )
+            if template_markers.search(security_text) or not re.search(
+                r"private.{0,80}(?:report|vulnerab|security)|(?:report|vulnerab|security).{0,80}private",
+                security_text,
+                re.IGNORECASE | re.DOTALL,
+            ):
+                failures.append(
+                    "replace template SECURITY.md instructions before adoption readiness"
+                )
     return failures
 
 

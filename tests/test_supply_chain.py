@@ -213,7 +213,7 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
         assert "AI_BASE_COMMIT" not in env
 
 
-def test_supply_chain_prefers_recorded_provenance_source(tmp_path, monkeypatch):
+def test_supply_chain_does_not_reuse_recorded_provenance_source(tmp_path, monkeypatch):
     provenance = tmp_path / "provenance.json"
     provenance.write_text("{}", encoding="utf-8")
     monkeypatch.setattr(
@@ -226,16 +226,17 @@ def test_supply_chain_prefers_recorded_provenance_source(tmp_path, monkeypatch):
         "load_json",
         lambda _path: {"commitSha": "recorded-source"},
     )
+    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: "v0.5.27")
     calls = []
 
     def fake_run(command, *, cwd, env, text, capture_output, check):
         calls.append(command)
-        return subprocess.CompletedProcess(command, 0, stdout="recorded-source\n", stderr="")
+        return subprocess.CompletedProcess(command, 0, stdout="release-source\n", stderr="")
 
     monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
 
-    assert check_supply_chain.source_commit_sha() == "recorded-source"
-    assert calls == [["git", "rev-parse", "recorded-source^{commit}"]]
+    assert check_supply_chain.source_commit_sha() == "release-source"
+    assert calls == [["git", "rev-parse", "v0.5.27^{commit}"]]
 
 
 def test_supply_chain_accepts_explicit_source_commit(monkeypatch):

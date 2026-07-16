@@ -84,6 +84,55 @@ def test_agent_risk_accepts_complete_gates_and_checkpoints():
     )
 
 
+def test_agent_risk_accepts_checkpoint_full_hash_when_expected_hash_is_short():
+    contract = {
+        "verification": [
+            {"check": gate, "required": True}
+            for gate in (
+                "aiWorkItem",
+                "aiScope",
+                "aiAgentRisk",
+                "aiSummary",
+                "aiStatus",
+                "aiStatusCheck",
+            )
+        ],
+        "acceptance": ["done"],
+        "unknowns": [],
+        "checkpointPolicy": {"requiredBeforeFinish": True, "requiredStages": ["before_finish"]},
+    }
+    summary = {
+        "verification": [
+            {"check": gate, "result": "passed"}
+            for gate in (
+                "aiWorkItem",
+                "aiScope",
+                "aiAgentRisk",
+                "aiSummary",
+                "aiStatus",
+                "aiStatusCheck",
+            )
+        ],
+        "checkpointEvidence": [
+            {
+                "stage": "before_finish",
+                "recorded": True,
+                "contractHash": "0123456789abcdef0123456789abcdef",
+                "acceptanceCount": 1,
+                "unknownCount": 0,
+                "requiredChecks": 6,
+                "requiredChecksPassed": 6,
+            }
+        ],
+    }
+    assert (
+        ai_check_agent_risk.validate_agent_risks(
+            contract, summary, expected_contract_hash="0123456789abcdef"
+        )
+        == []
+    )
+
+
 def test_agent_risk_rejects_missing_gate_and_failed_required_gate():
     contract = {
         "verification": [

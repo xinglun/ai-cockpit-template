@@ -175,15 +175,14 @@ def release_tag() -> str:
 
 
 def source_commit_sha(explicit: str | None = None) -> str:
-    """Resolve evidence identity from explicit evidence, never the current HEAD."""
+    """Resolve evidence identity from explicit input or the immutable release tag.
+
+    A committed provenance baseline must never become the source of a later
+    provenance identity: doing so lets old evidence silently attest a new
+    release. Final release evidence supplies the immutable source commit
+    explicitly; local generation falls back to the release tag only.
+    """
     requested = (explicit or os.environ.get("SUPPLY_CHAIN_SOURCE_COMMIT", "")).strip()
-    if not requested and PROVENANCE_BASELINE.is_file():
-        try:
-            recorded = load_json(PROVENANCE_BASELINE).get("commitSha")
-        except (OSError, json.JSONDecodeError):
-            recorded = None
-        if isinstance(recorded, str) and recorded.strip():
-            requested = recorded.strip()
     revision = requested or release_tag()
     result = subprocess.run(
         ["git", "rev-parse", f"{revision}^{{commit}}"],

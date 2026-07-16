@@ -1,0 +1,159 @@
+{
+  "contractVersion": 2,
+  "workItemId": "enforce_one_work_item_one_pr",
+  "mode": "code",
+  "title": "Enforce one Work Item per pull request",
+  "baseCommit": "3f16f5d4bca9d2b8cbea9c42a43864fdbe7d9fd1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/enforce_one_work_item_one_pr.contract.json",
+    ".ai/work-items/active/enforce_one_work_item_one_pr.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_pr.py",
+    "tests/test_pr_aggregate.py",
+    "docs/reference/governance-complexity.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR archive ownership validator."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "PR ownership regression tests."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Documented one Work Item/branch/PR lifecycle."
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "one newly archived Work Item passes", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "multiple newly archived Work Items fail", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "legacy aggregate fixtures remain readable", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "pr_atomicity"
+    ],
+    "reason": "A PR combining independent Work Items weakens review ownership and lifecycle closure."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The PR validator has a clear migration boundary and regression strategy."
+  },
+  "preReviewWarnings": [
+    "Reject multiple new archive pairs while preserving historical aggregate compatibility."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A PR containing exactly one newly maintained Work Item archive pair passes.",
+    "A PR containing multiple newly maintained archive pairs fails closed.",
+    "Legacy aggregate archive fixtures remain readable for historical compatibility.",
+    "The one Work Item/branch/PR rule is documented."
+  ],
+  "guidelines": [
+    "Preserve legacy archive compatibility explicitly.",
+    "Fail closed on multiple newly maintained Work Items in one PR."
+  ],
+  "intent": {
+    "problem": "PR validation currently permits multiple newly archived Work Items in one PR, making review ownership and lifecycle closure ambiguous.",
+    "constraints": ["Do not reject immutable legacy aggregate evidence.", "Use the archive sequence as the migration boundary."],
+    "rationale": "One Work Item per PR keeps scope, approval, archive evidence, and closure ownership unambiguous."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

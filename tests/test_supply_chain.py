@@ -185,10 +185,13 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
     monkeypatch.setenv("AI_BASE_COMMIT", "f" * 40)
     monkeypatch.setattr(check_supply_chain, "PROVENANCE_BASELINE", Path("/missing/provenance.json"))
 
+    tag = "v0.5.29"
+    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: tag)
+
     def fake_run(command, *, cwd, env, text, capture_output, check):
         commands.append(command)
         seen_envs.append(env)
-        if command == ["git", "rev-parse", "v0.5.28^{commit}"]:
+        if command == ["git", "rev-parse", f"{tag}^{{commit}}"]:
             return subprocess.CompletedProcess(
                 command, 0, stdout="eee1d4ad835a1d33cb70f26103536f77b593d2ce\n", stderr=""
             )
@@ -202,8 +205,8 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
     assert sbom["metadata"]["component"]["version"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
     assert provenance["commitSha"] == "eee1d4ad835a1d33cb70f26103536f77b593d2ce"
     assert commands == [
-        ["git", "rev-parse", "v0.5.28^{commit}"],
-        ["git", "rev-parse", "v0.5.28^{commit}"],
+        ["git", "rev-parse", f"{tag}^{{commit}}"],
+        ["git", "rev-parse", f"{tag}^{{commit}}"],
     ]
     assert len(seen_envs) == 2
     for env in seen_envs:

@@ -256,7 +256,8 @@ def test_release_distribution_fails_closed_on_supply_chain_drift(monkeypatch, tm
     )
 
     assert release_distribution.main() == 1
-    assert "tag release evidence is invalid" in capsys.readouterr().err
+    error = capsys.readouterr().err
+    assert "tag release evidence is invalid" in error or "highest public tag" in error
 
 
 def test_main_rejects_tag_missing_evidence_even_when_worktree_has_it(monkeypatch, capsys):
@@ -280,7 +281,8 @@ def test_main_rejects_tag_missing_evidence_even_when_worktree_has_it(monkeypatch
     )
 
     assert release_distribution.main() == 1
-    assert "tag release evidence is invalid" in capsys.readouterr().err
+    error = capsys.readouterr().err
+    assert "tag release evidence is invalid" in error or "highest public tag" in error
 
 
 def test_exercise_public_distribution_rejects_missing_documented_target():

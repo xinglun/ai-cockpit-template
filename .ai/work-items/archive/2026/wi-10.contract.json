@@ -1,0 +1,135 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi-10",
+  "mode": "code",
+  "title": "Publish v0.5.29 release",
+  "baseCommit": "4475a343a2b89e9d0f2f4d41722b33cf6c8df05b",
+  "baselineDirtyPaths": [],
+  "scope": ["release.json", "install.sh", "docs/getting-started/installation.md", "tests/test_adoption_e2e.py", "tests/test_release_distribution.py", "tests/test_supply_chain.py", ".ai/cockpit/sbom.json", ".ai/cockpit/provenance.json", ".ai/cockpit/release-digests.json", ".ai/work-items/active/wi-10.contract.json", ".ai/work-items/active/wi-10.summary.json", ".ai/cockpit/current_status.md", ".ai/work-items/archive/**"],
+  "outOfScope": ["Rewriting any existing public release tag or release object"],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Declares the next patch release tag."
+    },
+    {"path": "install.sh", "reason": "Uses the new published default tag."},
+    {"path": "docs/getting-started/installation.md", "reason": "Documents the new release reference."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_integrity", "distribution_verification"],
+    "reason": "The new tag must be created only from merged main and exact-SHA workflow evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Release publication is explicitly deferred to the exact-SHA GitHub workflow after PR merge."
+  },
+  "preReviewWarnings": [
+    "Verify exact source SHA, tag target, release assets, smoke, and compatibility evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json and installer documentation declare v0.5.29.",
+    "Generated candidate evidence is internally consistent for the release source commit.",
+    "The merged main SHA passes required smoke and compatibility workflows.",
+    "The exact-SHA release workflow publishes and verifies v0.5.29."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {"problem": "The completed remediation set needs a new immutable public release without changing v0.5.28.", "constraints": ["Use v0.5.29.", "Publish only from merged main through release.yml.", "Do not rewrite v0.5.28."], "rationale": "Separate release preparation from exact-SHA post-merge publication and platform evidence."},
+  "scenarioCoverage": [{"scenario": "Release metadata and installer default agree", "required": true, "status": "verified", "evidence": ["release.json and install.sh"]}, {"scenario": "Exact-SHA publication", "required": false, "status": "not_applicable", "reason": "Executed only by release.yml after this Work Item merges.", "evidence": ["release.yml"]}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User authorization in execution request",
+    "reason": "User authorized fully automatic release remediation, including generated supply-chain evidence updates."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

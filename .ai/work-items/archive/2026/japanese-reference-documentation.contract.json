@@ -1,0 +1,212 @@
+{
+  "contractVersion": 2,
+  "workItemId": "japanese-reference-documentation",
+  "mode": "code",
+  "title": "日语化深度参考文档",
+  "baseCommit": "c96b09a54e822218e44f8f569544f1ac47475386",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/reference/*.ja.md",
+    "docs/reference/*.md",
+    "docs/documentation-architecture.md",
+    "README.ja.md",
+    ".ai/work-items/active/japanese-reference-documentation.contract.json",
+    ".ai/work-items/active/japanese-reference-documentation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "docs/superpowers/**",
+    "README.md",
+    "README.zh-CN.md"
+  ],
+  "sources": [
+    {
+      "path": "README.ja.md",
+      "reason": "Japanese primary entry point and navigation source."
+    },
+    {
+      "path": "docs/reference/documentation-architecture.ja.md",
+      "reason": "Defines the Japanese reference-document navigation map."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Authoritative distribution and integrity reference to translate."
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.md",
+      "reason": "Authoritative reviewer-facing status interpretation reference to translate."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Authoritative repository workflow reference to translate."
+    },
+    {
+      "path": "docs/reference/upgrade.md",
+      "reason": "Authoritative upgrade reference to translate."
+    },
+    {
+      "path": "docs/reference/work-item-lifecycle-closure.md",
+      "reason": "Authoritative Work Item closure reference to translate."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Authoritative governance complexity reference to translate."
+    }
+  ],
+  "problemStatement": "上一工单补齐了主要日语入口，但 docs/reference/ 下仍有深度参考文档只有英文版本，日本公司项目的审阅者无法在日语入口内完成完整的安装、发布、状态解释、升级和生命周期确认。",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope",
+      "documentation_consistency",
+      "broken_links"
+    ],
+    "reason": "参考文档翻译需要保持命令、路径、状态名、版本语义和内部链接与实现一致。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户明确要求继续处理上一工单遗留的深度参考文档日语化。"
+  },
+  "preReviewWarnings": [
+    "重点检查日语版是否完整覆盖英文版的命令、路径、限制、状态定义和恢复步骤。",
+    "保留必要的产品名、命令名、字段名和状态枚举，不把可执行标识符翻译成不可执行文本。"
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "docs/reference/ 下现有的深度英文参考页面均有对应的 .ja.md 日语版本，至少覆盖 distribution、governance-complexity、how-to-read-cockpit-status、repository-workflow、upgrade、work-item-lifecycle-closure。",
+    "每个日语版本保留英文版的命令、路径、配置字段、状态枚举、限制条件、恢复步骤和交叉引用，并将说明性正文翻译为自然日语。",
+    "日语文档导航可以从文档架构页和 README 日语入口到达所有参考页面，所有相对链接指向存在的文件。",
+    "通过文档元数据、链接/引用、语言混入和所有 Contract 要求的 AI Cockpit 检查；不修改代码、测试或既有英文正文。"
+  ],
+  "guidelines": [
+    "日语版必须与对应英文参考页保持命令、路径、字段和状态语义一致。",
+    "说明性正文使用日语；产品名、命令、代码标识、JSON/YAML 字段和状态枚举保持原文。",
+    "不删除或改写既有英文参考正文，只新增或修正对应的日语版本和导航。"
+  ],
+  "intent": {
+    "problem": "上一工单只补齐了主要入口日语版本，深度参考文档仍以英文为主，导致日本公司项目的使用者在发布、升级、状态审阅和 Work Item 关闭等操作上需要切换语言。",
+    "constraints": [
+      "只处理 docs/reference/ 下的参考文档及其导航，不修改代码、测试、治理运行逻辑或既有英文正文。",
+      "命令、路径、配置字段、状态枚举和链接目标必须与仓库实际实现一致。"
+    ],
+    "rationale": "将日语支持从入口页延伸到完整的参考层，使日本公司项目能够用同一语言完成日常导入、审阅、升级、发布和生命周期操作。"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "每个深度参考页面都有对应日语文件且元数据完整",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "将在新增日语页面后通过文件清单和文档元数据检查验证。"
+    },
+    {
+      "scenario": "日语页面中的命令、路径、状态名和链接与英文参考页一致",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "将在翻译后通过相对链接扫描和逐页对照验证。"
+    },
+    {
+      "scenario": "日语正文没有非预期中文或英文自然语言混入",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "将在翻译后通过语言模式扫描和文档审阅验证。"
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "删除本工单新增的 .ja.md 文件并恢复导航差异即可回滚；英文参考正文不在本工单修改范围内。"
+}

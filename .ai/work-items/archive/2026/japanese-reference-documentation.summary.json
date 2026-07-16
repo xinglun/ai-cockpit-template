@@ -1,0 +1,461 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "japanese-reference-documentation",
+  "contractPath": ".ai/work-items/archive/2026/japanese-reference-documentation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/japanese-reference-documentation.contract.json",
+      "reason": "记录深度参考文档日语化的范围、来源、验收和验证条件。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/japanese-reference-documentation.summary.json",
+      "reason": "记录参考文档翻译、链接审计和治理验证证据。"
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "新增日语参考文档结构入口，并把 Cockpit Status 链接切换到日语页面。"
+    },
+    {
+      "path": "docs/reference/documentation-architecture.ja.md",
+      "reason": "补充全部深度参考页面的日语导航。"
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "新增配布、整合性、インストーラー选项和本地导入的日语参考。"
+    },
+    {
+      "path": "docs/reference/governance-complexity.ja.md",
+      "reason": "新增治理复杂度指标、执行和审阅说明的日语参考。"
+    },
+    {
+      "path": "docs/reference/how-to-read-cockpit-status.ja.md",
+      "reason": "新增 Cockpit Status、Preflight、Recommendation 和审阅顺序的日语参考。"
+    },
+    {
+      "path": "docs/reference/repository-workflow.ja.md",
+      "reason": "新增 Work Item、分支、PR、归档和关闭流程的日语参考。"
+    },
+    {
+      "path": "docs/reference/upgrade.ja.md",
+      "reason": "新增升级前提、命令、备份和 Cursor rule 的日语参考。"
+    },
+    {
+      "path": "docs/reference/work-item-lifecycle-closure.ja.md",
+      "reason": "新增 Work Item 关闭前提、验证、失败处理和完成状态的日语参考。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由治理命令生成，反映当前 Work Item 状态。"
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "README.ja.md",
+    "docs/reference/documentation-architecture.ja.md",
+    "docs/reference/distribution.md",
+    "docs/reference/governance-complexity.md",
+    "docs/reference/how-to-read-cockpit-status.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/upgrade.md",
+    "docs/reference/work-item-lifecycle-closure.md",
+    ".ai/work-items/active/japanese-reference-documentation.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "每个深度参考页面都有对应日语文件且元数据完整",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "find docs/reference -maxdepth 1 -type f -name '*.md' -not -name '*.ja.md'",
+        "make check-docs-metadata"
+      ],
+      "reason": "所有 docs/reference 英文页面均有对应 .ja.md，且文档元数据检查通过。"
+    },
+    {
+      "scenario": "日语页面中的命令、路径、状态名和链接与英文参考页一致",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "逐页对照 docs/reference/*.md",
+        "Japanese reference relative-link check"
+      ],
+      "reason": "保留可执行标识符并通过所有日语参考页面相对链接扫描。"
+    },
+    {
+      "scenario": "日语正文没有非预期中文或英文自然语言混入",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "rg language-mixing scan over README.ja.md and docs/reference/*.ja.md"
+      ],
+      "reason": "扫描未发现非预期中文或英文自然语言；产品名、命令和代码标识按 Contract 保留。"
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:58.187046+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "ee9693a4f567648452c0921268e2b9d8dba94212cf1c1fb3d277934d9906a737",
+      "commandHash": "138b32e908b9f056d0c3eeac567f3e5dd2ebe007ea0d3d4d73f5e91627b87d4a",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/japanese-reference-documentation.contract.json work item contract check passed: .ai/work-items/active/japanese-reference-documentation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:58.333639+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "6ebdbd2e403287fe5cd3968d753c31eed5004a1dd1f0ad4f0435a6b0d5e2dc24",
+      "commandHash": "a42f190eda6021442bcc8abd30f0e825a1ecdd3a0b8fd20359ce82be1d9b2aff",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/japanese-reference-documentation.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:58.570281+00:00",
+      "exitCode": 0,
+      "durationMs": 145,
+      "outputDigest": "4c5b97ae64744c41213bc1b130eb4ef7e911e58fb7a64dc7264d733806c2026b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/japanese-reference-documentation.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:58.803795+00:00",
+      "exitCode": 0,
+      "durationMs": 184,
+      "outputDigest": "7a78ae5b2714b98a75bc700e8482944f7d1db8377323169ba0dfa979f10f07d6",
+      "commandHash": "99e7fdeb58691c03239e9107e2f6583685ffb5ec74c72543f38c8083b1ef8d09",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/japanese-reference-documentation.contract.json --summary .ai/work-items/active/japanese-reference-documentation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `japanese-reference-documentation` - Contract Hash: `14354b1d18cfead3` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:59.011339+00:00",
+      "exitCode": 0,
+      "durationMs": 140,
+      "outputDigest": "33f4b1cf57b4857a4f5f3112aaf2fbbced669b3a9649d5bddccd28052e9a2dc4",
+      "commandHash": "5384731eaf6eeba76f0cc5cc1d92f6fbb9bbe9173958fe41719e632779f9d011",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/japanese-reference-documentation.summary.json review policy matched 1 path(s) [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:59.237242+00:00",
+      "exitCode": 0,
+      "durationMs": 153,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:59.407839+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:59.519909+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "92798f5357187bf30adcd3aa7fb00165c74052370a75fa7bd6481667b1054fb9",
+      "commandHash": "bda436c7821d97fe16f97cf9b968698272a122a35e0f8a62a9a8c0008fcdcc41",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/japanese-reference-documentation.contract.json --summary .ai/work-items/active/japanese-reference-documentation.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:59.651240+00:00",
+      "exitCode": 0,
+      "durationMs": 73,
+      "outputDigest": "ffcdd7991b3d7d1073fdf9bf86084af0eafc000c40bb81d6dcf7db45cd298bf0",
+      "commandHash": "d2033c176597ec68560db4778c61d3133ca42b9115c004493578e3d91f90f6ac",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/japanese-reference-documentation.contract.json --summary .ai/work-items/active/japanese-reference-documentation.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:35:59.890085+00:00",
+      "exitCode": 0,
+      "durationMs": 175,
+      "outputDigest": "0f430c51c204529ecabb7921fcf7e9d6443940f62c07e00dc57b09edc9796531",
+      "commandHash": "bbb56c41062519ec492c7d44bec3a7233e464718674af91bf84eecb286494948",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/japanese-reference-documentation.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `README.ja.md` — covered by Contract scope - [active_owned] `docs/reference/distribution.ja.md` — covered by"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:37:41.306049+00:00",
+      "exitCode": 0,
+      "durationMs": 101336,
+      "outputDigest": "d700f602e7fc19a8e2f1b7b0e8cf45f0a47f970fd19c415835df5a208aeea45d",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "5e36ac466a06fdf62f730a0d41e9a56da7f9f1cadc7f6a796a92f2276cf2e6d4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 14%] ........................................................................ [ 29%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:37:42.419893+00:00",
+      "exitCode": 0,
+      "durationMs": 195,
+      "outputDigest": "aa99337a1323ce594f3650f2cc8c09acda6efc2dc4da8627056c9ed527db3c7f",
+      "commandHash": "66f45719647556f478f6a96d60e62c1c3a9977f40460639478a01252571fa7de",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "701e683f093db51eb11fc1b905efa9604865476cf04c691c39043fc1b37f675b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/japanese-reference-documentation.contract.json --summary .ai/work-items/active/japanese-reference-documentation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:37:42.737703+00:00",
+      "exitCode": 0,
+      "durationMs": 273,
+      "outputDigest": "61265846d321a249854800361ff5d96d3e12caa6b2b733381113fe26f7e55dc7",
+      "commandHash": "3ab3dcddfa2b92e0fb0ae413c5da125f8d04d01419e21d046c07c8fef4f8764b",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "701e683f093db51eb11fc1b905efa9604865476cf04c691c39043fc1b37f675b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/japanese-reference-documentation.contract.json --summary .ai/work-items/active/japanese-reference-documentation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:37:42.834311+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "701e683f093db51eb11fc1b905efa9604865476cf04c691c39043fc1b37f675b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:37:42.954793+00:00",
+      "exitCode": 0,
+      "durationMs": 61,
+      "outputDigest": "70237b6bf362829503b288b35b3b19b618478c32c72b6c02b3467b80825acc9a",
+      "commandHash": "d63da02eb97b184ed03042169ce1d844f30bdd6eb7ba4b87c3a6e329aad7b640",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "701e683f093db51eb11fc1b905efa9604865476cf04c691c39043fc1b37f675b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/japanese-reference-documentation.contract.json --summary .ai/work-items/active/japanese-reference-documentation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/japanese-reference-documentation.summary.json CONTRACT=.ai/work-items/active/japanese-reference-documentation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-16T03:37:43.095029+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "b276425a1e2081c5a7615696eea05519867cc712fd5197c99b18a5d93f5a0564",
+      "commandHash": "084f0ab239ddcffa4e4748656f7fdd300835e370700bff8229c047ecb6417632",
+      "contractHash": "14354b1d18cfead34f71e40cd66ace6542eef3c021cc3e901f9e9dc73bcd48c0",
+      "commitSha": "c96b09a54e822218e44f8f569544f1ac47475386",
+      "executionContractPath": ".ai/work-items/active/japanese-reference-documentation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/japanese-reference-documentation.summary.json",
+      "worktreeDigest": "701e683f093db51eb11fc1b905efa9604865476cf04c691c39043fc1b37f675b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/japanese-reference-documentation.summary.json --contract .ai/work-items/active/japanese-reference-documentation.contract.json ai summary check passed: .ai/work-items/active/japanese-reference-documentation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "日语版必须与对应英文参考页保持命令、路径、字段和状态语义一致。",
+      "compliant": true,
+      "evidence": "逐页以英文参考页为来源保留命令、路径、字段和状态枚举，并通过链接扫描验证目标存在。"
+    },
+    {
+      "guideline": "说明性正文使用日语；产品名、命令、代码标识、JSON/YAML 字段和状态枚举保持原文。",
+      "compliant": true,
+      "evidence": "日语页面以日语说明为主，仅保留可执行标识符和必要的产品/标准术语。"
+    },
+    {
+      "guideline": "不删除或改写既有英文参考正文，只新增或修正对应的日语版本和导航。",
+      "compliant": true,
+      "evidence": "英文参考页面未被修改；差异仅新增 .ja.md、更新 README 日语导航和生成状态。"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "参考页面已覆盖；残余风险限于翻译措辞与英文后续更新之间可能产生的维护漂移。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "日语版本与英文参考页是并列维护的文档，后续英文内容变更时需要同步更新对应 .ja.md。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "确认日语版本覆盖英文参考页的命令、路径、状态和限制。",
+      "确认日语导航和所有相对链接没有悬空目标。"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    {
+      "correction": "继续开工单，处理深度参考文档尚未全部完整翻译，仅补齐了主要入口日语版本。",
+      "capturedAt": "2026-07-16",
+      "impact": "将 docs/reference/ 下缺失的日语参考页面全部补齐，并把参考导航接入日语入口。"
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "深度参考文档需完整日语化",
+      "destination": "Contract scope、acceptance、guidelines 和 docs/reference/documentation-architecture.ja.md"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "14354b1d18cfead3",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "确认深度参考页面清单、日语导航、英文正本不修改范围和验证策略后开始翻译。"
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "14354b1d18cfead3",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "确认全部缺失参考页面已具备日语版本、导航链接有效、语言混入已检查且质量检查通过后进入 finish。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 72
+}

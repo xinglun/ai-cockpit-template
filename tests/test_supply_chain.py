@@ -216,6 +216,23 @@ def test_supply_chain_uses_release_tag_commit_not_head(monkeypatch):
         assert "AI_BASE_COMMIT" not in env
 
 
+def test_supply_chain_falls_back_to_checked_out_head_when_release_tag_is_absent(monkeypatch):
+    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: "v0.5.29")
+    calls = []
+
+    def fake_run(command, *, cwd, env, text, capture_output, check):
+        calls.append(command)
+        if command == ["git", "rev-parse", "v0.5.29^{commit}"]:
+            return subprocess.CompletedProcess(command, 128, stdout="", stderr="missing tag")
+        if command == ["git", "rev-parse", "HEAD"]:
+            return subprocess.CompletedProcess(command, 0, stdout="head-source\n", stderr="")
+        raise AssertionError(f"unexpected command: {command}")
+
+    monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+    assert check_supply_chain.source_commit_sha() == "head-source"
+    assert calls == [["git", "rev-parse", "v0.5.29^{commit}"], ["git", "rev-parse", "HEAD"]]
+
+
 def test_supply_chain_does_not_reuse_recorded_provenance_source(tmp_path, monkeypatch):
     provenance = tmp_path / "provenance.json"
     provenance.write_text("{}", encoding="utf-8")

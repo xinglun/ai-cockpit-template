@@ -202,11 +202,11 @@ def source_commit_sha(explicit: str | None = None) -> str:
         check=False,
     )
     if result.returncode != 0 and not requested:
-        revision = subprocess.check_output(
-            ["git", "describe", "--tags", "--abbrev=0"], text=True
-        ).strip()
+        # Before the new release tag exists (for example in PR validation),
+        # attest the checked-out candidate commit rather than an older tag.
+        revision = "HEAD"
         result = subprocess.run(
-            ["git", "rev-parse", f"{revision}^{{commit}}"],
+            ["git", "rev-parse", revision],
             cwd=ROOT,
             env=clean_git_environment(),
             text=True,

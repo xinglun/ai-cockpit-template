@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-REPO="${AI_COCKPIT_TEMPLATE_REPO:-xinglun/ai-cockpit-template}"
+REPO="${AI_COCKPIT_TEMPLATE_REPO:-spirex-ds-dev/ai-cockpit-template}"
 REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.27}"
 SOURCE="${AI_COCKPIT_TEMPLATE_SOURCE:-}"
 EXPECTED_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:-}"
@@ -15,7 +15,7 @@ Usage:
 
 Environment:
   AI_COCKPIT_TEMPLATE_SOURCE=/path/to/ai-cockpit-template
-  AI_COCKPIT_TEMPLATE_REPO=xinglun/ai-cockpit-template
+  AI_COCKPIT_TEMPLATE_REPO=spirex-ds-dev/ai-cockpit-template
   AI_COCKPIT_TEMPLATE_REF=v0.5.27
   AI_COCKPIT_TEMPLATE_SHA256=<expected archive SHA256>
 

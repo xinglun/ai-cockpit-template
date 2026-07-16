@@ -1,0 +1,206 @@
+{
+  "contractVersion": 2,
+  "workItemId": "canonical_repository_identity",
+  "mode": "code",
+  "title": "Fix canonical repository identity",
+  "baseCommit": "945ebe87a3fc98721710465fc41f2e70764fce9e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/canonical_repository_identity.contract.json",
+    ".ai/work-items/active/canonical_repository_identity.summary.json",
+    ".ai/cockpit/current_status.md",
+    "install.sh",
+    "scripts/check_docs_metadata.py",
+    "scripts/check_release_distribution.py",
+    "scripts/check_supply_chain.py",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    "scripts/check_system_invariants.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_docs_metadata.py",
+    "tests/test_release_distribution.py",
+    "tests/test_install_sh.py",
+    "tests/test_supply_chain.py",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md"
+  ],
+  "outOfScope": [
+    ".github/workflows/release.yml",
+    "SECURITY.md",
+    ".github/CODEOWNERS"
+  ],
+  "sources": [
+    {
+      "path": "docs/review-remediation-backlog.md",
+      "reason": "Records the review findings and remediation backlog."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Defines the release distribution source identity."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Defines the installer default source."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Covers release source identity behavior."
+    },
+    {
+      "path": "tests/test_docs_metadata.py",
+      "reason": "Catches stale repository identity in documentation."
+    }
+  ],
+  "problemStatement": "The repository has migrated to spirex-ds-dev/ai-cockpit-template, but installer, release-distribution checks, tests, and documentation still default to or assert the former xinglun namespace. Redirects are not a trustworthy supply-chain identity.",
+  "scenarioCoverage": [
+    {
+      "scenario": "default installer source resolves to the canonical repository",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "release distribution check rejects a non-canonical repository identity",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "explicit repository override remains available to adopters",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "supply_chain_identity",
+      "compatibility"
+    ],
+    "reason": "Changing defaults can affect existing adopters that explicitly rely on the old source; compatibility is preserved through explicit override support while stale defaults are rejected."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The canonical repository identity and compatibility boundary are explicit and testable."
+  },
+  "preReviewWarnings": [
+    "Review that every default, URL, generated instruction, and regression fixture uses the canonical repository while explicit override behavior remains documented."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All default distribution sources use spirex-ds-dev/ai-cockpit-template.",
+    "Release-distribution checks validate canonical owner/name and installer output reports the resolved repository identity.",
+    "Tests fail for stale xinglun defaults and pass for the canonical identity, including explicit override behavior.",
+    "Documentation and generated installation examples use the canonical repository.",
+    "No release tag or version number is changed; release.json digests are synchronized only with the candidate evidence baselines."
+  ],
+  "guidelines": [
+    "Evidence over self-declaration: identity is checked from executable defaults and tests.",
+    "Keep explicit repository override support for adopters while making the canonical source the default.",
+    "Do not change release version or publish assets in this Work Item."
+  ],
+  "intent": {
+    "problem": "The review found that the repository's distribution identity still points at the former GitHub namespace, so a redirect rather than an exact canonical source is trusted during installation and release checks.",
+    "constraints": [
+      "Use spirex-ds-dev/ai-cockpit-template as the canonical default.",
+      "Preserve explicit override support for adopter repositories.",
+      "Do not publish or mutate a release version in this Work Item."
+    ],
+    "rationale": "Canonical identity is a prerequisite for trustworthy release evidence and must be corrected before provenance and release validation can be trusted."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly confirmed execution of the trust remediation loop; candidate supply-chain evidence must be regenerated to validate the Provenance fix."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

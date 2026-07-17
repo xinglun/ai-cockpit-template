@@ -216,6 +216,8 @@ class Installer:
         upgrade_with_active: bool = False,
         replace_glossary: bool = False,
         create_adoption: bool = False,
+        base_remote: str | None = None,
+        base_branch: str | None = None,
     ) -> None:
         self.source = source.resolve()
         self.target = target.resolve()
@@ -228,6 +230,8 @@ class Installer:
         self.upgrade_with_active = upgrade_with_active
         self.replace_glossary = replace_glossary
         self.create_adoption = create_adoption
+        self.base_remote = base_remote
+        self.base_branch = base_branch
         self.backup_dir = (
             self.target
             / ".ai"
@@ -968,10 +972,26 @@ class Installer:
 
     def prepare_upgrade_branch(self) -> bool:
         """Create an isolated upgrade branch from the adopter default branch when available."""
-        remote, branch = self.adopter_git_context()
-        if not remote or not branch:
+        remote, branch = self.base_remote, self.base_branch
+        discovered_remote, discovered_branch = self.adopter_git_context()
+        remote = remote or discovered_remote
+        branch = branch or discovered_branch
+        if remote and not branch:
             print(
-                "WARN: upgrade branch could not be created without a discovered remote default branch.",
+                "ERROR: remote exists but default branch is unknown; pass --base-remote and --base-branch.",
+                file=sys.stderr,
+            )
+            return False
+        if not remote or not branch:
+            remotes = run_git(self.target, ["remote"])
+            if remotes.returncode == 0 and remotes.stdout.strip():
+                print(
+                    "ERROR: remote exists but default branch is unknown; pass --base-remote and --base-branch.",
+                    file=sys.stderr,
+                )
+                return False
+            print(
+                "WARN: upgrade branch could not be created without a remote; continuing local-only.",
                 file=sys.stderr,
             )
             return True
@@ -1582,6 +1602,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Allow a high-risk upgrade while active Work Item records exist.",
     )
+    parser.add_argument(
+        "--base-remote", help="Explicit adopter remote for upgrade/adoption lifecycle."
+    )
+    parser.add_argument(
+        "--base-branch", help="Explicit adopter base branch for upgrade/adoption lifecycle."
+    )
     return parser.parse_args()
 
 
@@ -1599,6 +1625,8 @@ def main() -> int:
         upgrade_with_active=args.upgrade_with_active,
         replace_glossary=args.replace_glossary,
         create_adoption=args.create_adoption,
+        base_remote=args.base_remote,
+        base_branch=args.base_branch,
     ).install()
 
 

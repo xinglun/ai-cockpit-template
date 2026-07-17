@@ -17,6 +17,8 @@ Upgrade is local preparation only. Review the Contract and upgrade diff first, t
 
 An upgrade now creates `upgrade_ai_cockpit` Contract and Summary records in the target repository. When the adopter has a discoverable remote default branch, it prepares `upgrade/ai-cockpit` (or `AI_COCKPIT_UPGRADE_BRANCH`) from that base; local-only repositories retain their existing behavior. The records capture source/target version metadata, managed-file changes, and the timestamped rollback backup root. The installer does not commit, push, open or merge a PR, or delete the review branch.
 
+If a remote exists but its default branch cannot be established from remote HEAD, upgrade fails closed. Supply both `--base-remote <remote>` and `--base-branch <branch>` to provide explicit base evidence; the resulting Contract records both values and the base commit.
+
 ```sh
 CURRENT_VERSION="${CURRENT_VERSION:?set CURRENT_VERSION to the installed release tag}"
 TARGET_VERSION="${TARGET_VERSION:?set TARGET_VERSION to a newer release tag}"

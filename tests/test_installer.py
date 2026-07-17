@@ -547,6 +547,22 @@ def test_upgrade_preserves_diverged_project_owned_guard(tmp_path):
     )
 
 
+def test_upgrade_fails_closed_when_remote_default_branch_is_unknown(tmp_path):
+    init_git_repo(tmp_path, "README.md", "project\n", "initial")
+    run(tmp_path, "git", "remote", "add", "origin", "https://example.invalid/repo.git")
+    upgrade = Installer(
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=False,
+        upgrade=True,
+    )
+    assert upgrade.install() == 2
+
+
 def test_commented_makefile_include_does_not_suppress_active_include(tmp_path):
     makefile = tmp_path / "Makefile"
     makefile.write_text("# include Makefile.ai\n", encoding="utf-8")

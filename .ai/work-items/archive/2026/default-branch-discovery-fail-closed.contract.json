@@ -1,0 +1,163 @@
+{
+  "contractVersion": 2,
+  "workItemId": "default-branch-discovery-fail-closed",
+  "mode": "code",
+  "title": "Fail closed when adopter default branch is ambiguous",
+  "baseCommit": "e00bc22bb07ab2d2997f0547787c92e00fc017ba",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/default-branch-discovery-fail-closed.contract.json",
+    ".ai/work-items/active/default-branch-discovery-fail-closed.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_common.py",
+    "tests/test_installer.py",
+    "tests/test_install_script.py",
+    "tests/test_adoption_e2e.py",
+    "docs/reference/upgrade.md"
+  ],
+  "outOfScope": ["Inferring a default branch from local branch names without remote evidence."],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/default-branch-discovery-fail-closed.contract.json",
+      "reason": "Default branch discovery and fail-closed upgrade requirements."
+    },
+    {"path": "scripts/install_ai_cockpit.py", "reason": "Adoption and upgrade remote/base discovery."},
+    {"path": "tests/test_installer.py", "reason": "Installer lifecycle regression tests."},
+    {"path": "docs/reference/upgrade.md", "reason": "Explicit base evidence documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "base_identity"
+    ],
+    "reason": "An unknown remote default branch can cause upgrade or adoption to use the wrong base."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the full implementation loop."
+  },
+  "preReviewWarnings": [
+    "Review missing remote HEAD, explicit base override, and local-only behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Remote existence with unknown default branch fails closed unless explicit base remote and branch are supplied.",
+    "No-remote local-only repositories retain supported local behavior.",
+    "Tests and documentation cover remote, explicit, and missing evidence paths."
+  ],
+  "guidelines": [
+    "Base identity is fail-closed when remote evidence is incomplete.",
+    "Explicit base overrides are recorded for review."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "No remote permits local-only behavior", "required": true, "status": "verified", "evidence": ["tests/test_installer.py"]},
+    {"scenario": "Known remote HEAD selects discovered base", "required": true, "status": "verified", "evidence": ["scripts/install_ai_cockpit.py"]},
+    {"scenario": "Unknown remote HEAD requires explicit base evidence", "required": true, "status": "verified", "evidence": ["scripts/install_ai_cockpit.py", "docs/reference/upgrade.md"]}
+  ],
+  "intent": {
+    "problem": "Upgrade currently treats unknown remote default branch state like local-only operation.",
+    "constraints": ["Preserve no-remote local-only support.", "Require explicit evidence when a remote exists but HEAD is ambiguous."],
+    "rationale": "Fail-closed base discovery prevents upgrades and adoption records from silently anchoring to an unverified branch."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the full implementation loop."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/default-branch-discovery-fail-closed.json",
+    "baseCommit": "e00bc22bb07ab2d2997f0547787c92e00fc017ba",
+    "initialScopeDigest": "5e4c616e2e4e22ccd5e5e1a5a315113f9ee0f766f346964852866c6488fcecfc",
+    "contractSkeletonDigest": "7e26e8ba6c9747d4281655a0acd0e9f1c45e05381147bb725a2ad973cef5e0ce"
+  }
+}

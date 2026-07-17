@@ -7,6 +7,12 @@ import pytest
 import ai_close_work_item as closure
 
 
+def test_quality_gate_requires_at_least_85_percent_coverage() -> None:
+    makefile = (closure.PROJECT_ROOT / "Makefile").read_text(encoding="utf-8")
+
+    assert "--cov-fail-under=85" in makefile
+
+
 def test_archived_evidence_uses_strict_summary_validation() -> None:
     source = inspect.getsource(closure._verify_archived_evidence)
     assert "legacy_archive=False" in source
@@ -249,3 +255,70 @@ def test_remote_deletion_failure_with_unverifiable_state_fails_closed(
 
     with pytest.raises(RuntimeError, match="could not verify remote work branch deletion"):
         closure.close_work_item("example", fake)
+
+
+def test_find_archived_contract_requires_exactly_one_match(tmp_path, monkeypatch):
+    archive = tmp_path / "archive"
+    (archive / "2026").mkdir(parents=True)
+    monkeypatch.setattr(closure, "ARCHIVE_DIR", archive)
+
+    with pytest.raises(RuntimeError, match="exactly one"):
+        closure._find_archived_contract("example")
+
+    (archive / "2026" / "example.contract.json").write_text("{}", encoding="utf-8")
+    assert closure._find_archived_contract("example").name == "example.contract.json"
+
+    (archive / "2025").mkdir()
+    (archive / "2025" / "example.contract.json").write_text("{}", encoding="utf-8")
+    with pytest.raises(RuntimeError, match="exactly one"):
+        closure._find_archived_contract("example")
+
+
+def test_verify_pr_rejects_malformed_adapter_responses():
+    with pytest.raises(RuntimeError, match="cannot verify"):
+        closure._verify_pr(
+            lambda _args, _check: closure.CommandResult(0, "not-json"), "branch", "main"
+        )
+
+    def wrong_shape(_args, _check):
+        return closure.CommandResult(0, "[]")
+
+    with pytest.raises(RuntimeError, match="non-object"):
+        closure._verify_pr(wrong_shape, "branch", "main")
+
+
+def test_verify_pr_requires_merged_identity_and_timestamp():
+    cases = [
+        ({"state": "OPEN"}, "not merged"),
+        ({"state": "MERGED", "headRefName": "other"}, "head branch"),
+        ({"state": "MERGED", "headRefName": "branch", "baseRefName": "other"}, "base branch"),
+        ({"state": "MERGED", "headRefName": "branch", "baseRefName": "main"}, "merge commit"),
+    ]
+    for payload, message in cases:
+
+        def runner(_args, _check, payload=payload):
+            return closure.CommandResult(0, __import__("json").dumps(payload))
+
+        with pytest.raises(RuntimeError, match=message):
+            closure._verify_pr(runner, "branch", "main")
+
+
+def test_external_runner_fails_closed_when_command_is_unavailable(monkeypatch):
+    monkeypatch.setattr(closure.shutil, "which", lambda _name: None)
+
+    with pytest.raises(RuntimeError, match="required command is unavailable"):
+        closure._run_external(["missing-command"])
+
+
+def test_clean_worktree_and_remote_postconditions_fail_closed():
+    def dirty(_args, _check):
+        return closure.CommandResult(0, " M file.py\n")
+
+    with pytest.raises(RuntimeError, match="not clean"):
+        closure._require_clean_worktree(dirty)
+
+    def unverifiable(_args, _check):
+        return closure.CommandResult(1, "", "remote unavailable")
+
+    with pytest.raises(RuntimeError, match="could not verify"):
+        closure._remote_branch_absent(unverifiable, "origin", "branch")

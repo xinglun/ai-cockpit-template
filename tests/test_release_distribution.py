@@ -12,7 +12,23 @@ from check_release_distribution import (
     exercise_public_distribution,
     highest_semver_tag,
     is_next_patch_release,
+    release_claims,
+    supply_chain_issues,
 )
+
+
+class _Response:
+    def __init__(self, payload):
+        self.payload = payload
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def read(self):
+        return self.payload
 
 
 def test_release_distribution_uses_canonical_public_repository_by_default():
@@ -25,6 +41,251 @@ def test_release_metadata_declares_release_asset_authority():
     metadata = json.loads(release_distribution.RELEASE.read_text(encoding="utf-8"))
 
     assert metadata["releaseEvidenceAuthority"] == "release-assets-v1"
+
+
+def test_supply_chain_issues_fail_closed_for_missing_mismatched_and_unscanned_evidence(
+    tmp_path,
+):
+    metadata = {"supplyChain": {"requirementsLockDigest": "wrong", "secretScanning": False}}
+
+    (tmp_path / "requirements-dev.lock").write_bytes(b"lock")
+    issues = supply_chain_issues(metadata, root=tmp_path)
+
+    joined = " ".join(issues)
+    assert "sbomDigest is missing" in joined
+    assert "provenanceDigest is missing" in joined
+    assert "differs from requirements-dev.lock" in joined
+    assert "secretScanning must be true" in joined
+
+
+def test_release_claims_excludes_generated_supply_chain_digests():
+    metadata = {
+        "releaseTag": "v1.2.3",
+        "publicContract": {"projectQualityTarget": "quality"},
+        "capabilities": {"sha256ArchiveVerification": True},
+        "supplyChain": {"sbomDigest": "stale"},
+    }
+
+    assert release_claims(metadata) == {
+        "releaseTag": "v1.2.3",
+        "publicContract": {"projectQualityTarget": "quality"},
+        "capabilities": {"sha256ArchiveVerification": True},
+    }
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [b"not-json", json.dumps(["not-an-object"]).encode(), json.dumps({"artifacts": []}).encode()],
+)
+def test_public_asset_integrity_rejects_invalid_manifest_shapes(tmp_path, payload):
+    issues = release_distribution.public_release_asset_integrity_issues(
+        tag="v1.2.3",
+        tag_target="a" * 40,
+        tag_root=tmp_path,
+        assets={"release-digests.json": payload},
+    )
+
+    assert any("release-digests.json" in issue for issue in issues)
+
+
+def test_public_asset_integrity_rejects_invalid_artifact_entries_and_bytes(tmp_path):
+    (tmp_path / "release.json").write_bytes(b"release")
+    manifest = {
+        "format": "wrong",
+        "version": 2,
+        "sourceCommit": "wrong",
+        "releaseTag": "wrong",
+        "artifacts": {
+            "release.json": "invalid",
+            "missing.txt": "0" * 64,
+            7: "0" * 64,
+        },
+    }
+    manifest_bytes = json.dumps(manifest).encode()
+    issues = release_distribution.public_release_asset_integrity_issues(
+        tag="v1.2.3",
+        tag_target="a" * 40,
+        tag_root=tmp_path,
+        assets={
+            "sbom.json": b"downloaded",
+            "provenance.json": b"downloaded",
+            "release-digests.json": manifest_bytes,
+        },
+    )
+
+    joined = " ".join(issues)
+    assert "unsupported format" in joined
+    assert "sourceCommit" in joined
+    assert "invalid SHA-256" in joined
+    assert "missing artifact in tag tree" in joined
+
+
+def test_public_asset_integrity_rejects_tag_tree_byte_mismatches(tmp_path):
+    tree = tmp_path / ".ai" / "cockpit"
+    tree.mkdir(parents=True)
+    (tmp_path / "release.json").write_bytes(b"tree")
+    (tree / "release-digests.json").write_bytes(b"tree-manifest")
+    manifest = {
+        "format": "release-digests-v1",
+        "version": 1,
+        "sourceCommit": "a" * 40,
+        "releaseTag": "v1.2.3",
+        "artifacts": {"release.json": "0" * 64},
+    }
+    issues = release_distribution.public_release_asset_integrity_issues(
+        tag="v1.2.3",
+        tag_target="a" * 40,
+        tag_root=tmp_path,
+        assets={
+            "release-digests.json": json.dumps(manifest).encode(),
+            "sbom.json": b"sbom",
+            "provenance.json": b"prov",
+        },
+    )
+    assert any("bytes differ" in issue for issue in issues)
+
+
+@pytest.mark.parametrize(
+    "result",
+    [
+        SimpleNamespace(returncode=1, stderr="clone failed"),
+        SimpleNamespace(returncode=0, stderr=""),
+    ],
+)
+def test_inspect_tagged_release_fails_closed_before_release_metadata(monkeypatch, result):
+    monkeypatch.setattr(release_distribution, "run_command", lambda *_args, **_kwargs: result)
+    with pytest.raises(RuntimeError, match="clone|release.json"):
+        release_distribution.inspect_tagged_release("v1.2.3")
+
+
+def test_fetch_published_release_assets_downloads_all_required_assets(monkeypatch):
+    release_payload = json.dumps(
+        {
+            "draft": False,
+            "assets": [
+                {"name": name, "browser_download_url": f"https://example.test/{name}"}
+                for name in ("sbom.json", "provenance.json", "release-digests.json")
+            ],
+        }
+    ).encode()
+
+    def fake_urlopen(request, timeout):
+        assert timeout == 30
+        url = request.full_url
+        if "/releases/tags/" in url:
+            return _Response(release_payload)
+        return _Response(url.rsplit("/", 1)[-1].encode())
+
+    monkeypatch.setattr(release_distribution.urllib.request, "urlopen", fake_urlopen)
+
+    assert release_distribution.fetch_published_release_assets("v1.2.3") == {
+        "sbom.json": b"sbom.json",
+        "provenance.json": b"provenance.json",
+        "release-digests.json": b"release-digests.json",
+    }
+
+
+def test_fetch_published_release_assets_rejects_draft_and_missing_assets(monkeypatch):
+    monkeypatch.setattr(
+        release_distribution.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: _Response(json.dumps({"draft": True}).encode()),
+    )
+    with pytest.raises(RuntimeError, match="still draft"):
+        release_distribution.fetch_published_release_assets("v1.2.3")
+
+
+def test_fetch_published_release_assets_rejects_incomplete_published_release(monkeypatch):
+    payload = {
+        "draft": False,
+        "assets": [
+            {"name": "sbom.json", "browser_download_url": "https://example.test/sbom"},
+            "malformed asset entry",
+        ],
+    }
+    monkeypatch.setattr(
+        release_distribution.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: _Response(json.dumps(payload).encode()),
+    )
+    with pytest.raises(RuntimeError, match="missing assets"):
+        release_distribution.fetch_published_release_assets("v1.2.3")
+
+
+def test_fetch_published_release_assets_rejects_missing_asset_list(monkeypatch):
+    monkeypatch.setattr(
+        release_distribution.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: _Response(json.dumps({"draft": False}).encode()),
+    )
+    with pytest.raises(RuntimeError, match="assets are missing"):
+        release_distribution.fetch_published_release_assets("v1.2.3")
+
+
+@pytest.mark.parametrize("payload", [[], {"draft": False, "assets": None}])
+def test_fetch_published_release_assets_rejects_non_object_or_non_list(monkeypatch, payload):
+    monkeypatch.setattr(
+        release_distribution.urllib.request,
+        "urlopen",
+        lambda *_args, **_kwargs: _Response(json.dumps(payload).encode()),
+    )
+    with pytest.raises(RuntimeError):
+        release_distribution.fetch_published_release_assets("v1.2.3")
+
+
+def test_fetch_published_release_assets_uses_github_api(monkeypatch):
+    assets = [
+        {"name": name, "browser_download_url": f"https://example.test/{name}"}
+        for name in ("sbom.json", "provenance.json", "release-digests.json")
+    ]
+    seen = []
+
+    def fake_urlopen(request, timeout):
+        seen.append(request.full_url)
+        return _Response(
+            json.dumps({"draft": False, "assets": assets}).encode() if len(seen) == 1 else b"data"
+        )
+
+    monkeypatch.setattr(release_distribution, "PUBLIC_REPOSITORY", "https://github.com/o/r.git")
+    monkeypatch.setattr(release_distribution.urllib.request, "urlopen", fake_urlopen)
+    release_distribution.fetch_published_release_assets("v1.2.3")
+    assert seen[0] == "https://api.github.com/repos/o/r/releases/tags/v1.2.3"
+
+
+def test_public_release_network_helpers_fail_closed_on_git_errors(monkeypatch):
+    monkeypatch.setattr(
+        release_distribution,
+        "run_command",
+        lambda *_args, **_kwargs: SimpleNamespace(returncode=1, stdout="", stderr="network down"),
+    )
+    with pytest.raises(RuntimeError, match="failed to list public tags"):
+        release_distribution.list_remote_tags("https://example.test/repo.git")
+    with pytest.raises(RuntimeError, match="failed to clone public release tag"):
+        release_distribution.fetch_tagged_installer("v1.2.3")
+
+
+def test_fetch_tagged_installer_rejects_clone_without_installer(monkeypatch, tmp_path):
+    def fake_run(command, *, cwd, env):
+        Path(command[-1]).mkdir(parents=True, exist_ok=True)
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(release_distribution, "run_command", fake_run)
+    with pytest.raises(RuntimeError, match="missing install.sh"):
+        release_distribution.fetch_tagged_installer("v1.2.3")
+
+
+def test_public_release_network_helpers_return_verified_data(monkeypatch, tmp_path):
+    def fake_run(command, *, cwd, env):
+        if "ls-remote" in command:
+            return SimpleNamespace(returncode=0, stdout="tag output", stderr="")
+        install = Path(command[-1]) / "install.sh"
+        install.parent.mkdir(parents=True, exist_ok=True)
+        install.write_bytes(b"installer")
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(release_distribution, "run_command", fake_run)
+    assert release_distribution.list_remote_tags("https://example.test/repo.git") == "tag output"
+    assert release_distribution.fetch_tagged_installer("v1.2.3") == b"installer"
 
 
 def test_release_asset_identity_requires_one_tag_target_and_source_subject():

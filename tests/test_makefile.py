@@ -65,7 +65,7 @@ def test_project_test_uses_stricter_coverage_floor():
     )
 
     assert result.returncode == 0, result.stdout + result.stderr
-    assert "--cov-fail-under=80" in result.stdout
+    assert "--cov-fail-under=85" in result.stdout
 
 
 def test_project_governance_make_targets_are_public():

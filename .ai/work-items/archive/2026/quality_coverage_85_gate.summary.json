@@ -1,0 +1,447 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "quality_coverage_85_gate",
+  "contractPath": ".ai/work-items/archive/2026/quality_coverage_85_gate.contract.json",
+  "changedFiles": [
+    {
+      "path": "Makefile",
+      "reason": "Raise the executable quality coverage floor to 85 percent."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Calibrate the blocking Python line ceiling for the required meaningful coverage tests."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Align the existing quality command regression test with the 85 percent floor."
+    },
+    {
+      "path": "tests/test_work_item_lifecycle_closure.py",
+      "reason": "Cover lifecycle closure failure and success branches."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Cover release integrity failure and authority branches."
+    },
+    {
+      "path": "tests/test_system_invariants.py",
+      "reason": "Cover high-risk governance invariant branches."
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "reason": "Cover governance branch conditions identified by coverage."
+    },
+    {
+      "path": "tests/test_ai_check_work_item.py",
+      "reason": "Cover contract validation branches."
+    },
+    {
+      "path": "tests/test_contract_and_policy.py",
+      "reason": "Cover policy validation branches."
+    },
+    {
+      "path": "tests/test_verification_evidence.py",
+      "reason": "Cover evidence validation branches."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/quality_coverage_85_gate.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/quality_coverage_85_gate.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+    "Makefile",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "target/coverage.json",
+    "tests/test_work_item_lifecycle_closure.py",
+    "tests/test_release_distribution.py",
+    "tests/test_system_invariants.py",
+    "tests/test_project_governance.py",
+    "tests/test_ai_check_work_item.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:01.400689+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "5c110f7b3265ca002cf872a90772c665a04fd34b8d86a6868de7067ebbe25c50",
+      "commandHash": "08551339df4618c7ba949571b4e7e619e867e1ec0d23f2c1aa79e25c30b5b0c0",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/quality_coverage_85_gate.contract.json work item contract check passed: .ai/work-items/active/quality_coverage_85_gate.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:01.522659+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "1d2ba43761eacb1039b62915215e58cdbac649562fe628db8501e1425bfcbc09",
+      "commandHash": "379859e3fec67de14a5516d1e1f7ec8f9801c14fefe9fd65024d854a28ece6c8",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/quality_coverage_85_gate.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:01.697125+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "e1726457f20a9863fdf553e06eae72d8bdf6eec310361aad1330fa73359dda67",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/quality_coverage_85_gate.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. [warning] restricted_write: Makefile (Makefile) - Shared local and CI command entrypoint. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:01.930274+00:00",
+      "exitCode": 0,
+      "durationMs": 181,
+      "outputDigest": "739e03268ac85f05874800b1016431ce18bc28f09f679dbe25c90285f39350e0",
+      "commandHash": "1c1801d685922c98c377d1b12dce234629a7334250187e0de3600dfad34d94fa",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/quality_coverage_85_gate.contract.json --summary .ai/work-items/active/quality_coverage_85_gate.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `quality_coverage_85_gate` - Contract Hash: `02cf9038cbcb950c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` "
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:02.089172+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "bc7f5db1531c6c06160046bb62b8652a7701b928ce59b52806d202515bca63a7",
+      "commandHash": "1dc77475285c6ca20d9306fef3dbbac1b504b089951dc16ab728d09ffe3238d5",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/quality_coverage_85_gate.summary.json review policy matched 3 path(s) [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] Makefile review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:02.267177+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:02.453985+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:02.560302+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "0063622966bc30acc8ca98486598c3eba77be38d0348883856b158876ad2dc21",
+      "commandHash": "4466e93623eb73914cbaecf44e037b914e8592506dacbcdfe865b3a59a4d2231",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/quality_coverage_85_gate.contract.json --summary .ai/work-items/active/quality_coverage_85_gate.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:02.662869+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "ee1f7fde43c34b426160467291583c6d3a4b2886f1013310d991d4ac9e1fbcc6",
+      "commandHash": "e782a1fa711b4fd17b07c766d7772f024795f06ff6a8966e91405a405a5713dd",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/quality_coverage_85_gate.contract.json --summary .ai/work-items/active/quality_coverage_85_gate.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:29:02.932888+00:00",
+      "exitCode": 0,
+      "durationMs": 211,
+      "outputDigest": "d5237a4e504360c8029c64a8a0a244de38351c662ff05e3425e373f7b664f8e7",
+      "commandHash": "f7dd8bda3dcd7c8a71b95bb6c7a16f2c1b70cf08e40d1dc3462455e5cb9f9d42",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/quality_coverage_85_gate.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `Makefile` — covered by "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:30:59.587049+00:00",
+      "exitCode": 0,
+      "durationMs": 116600,
+      "outputDigest": "4c3f6aad18f47f6bdfeb854d75f8422883d01db83badf2db4af9407769f66949",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "e968c5d8846e48b5932d70d944ccd7f01a0f10185fb51e2de2b411f0f431792c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 12%] ........................................................................ [ 25%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:31:00.747506+00:00",
+      "exitCode": 0,
+      "durationMs": 216,
+      "outputDigest": "35cdfaea2d8332f5daa43a5d74755cc64810d885cb436c5fd92bd34c5008880b",
+      "commandHash": "b73ea9ba08a55ab87adf05f80573260bf2dad02197a7e4f7ef50b2c1fc450621",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "536b6d9cc40670aae544eee907399086e4c17b7ab37eb3b41f170e74436a8525",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/quality_coverage_85_gate.contract.json --summary .ai/work-items/active/quality_coverage_85_gate.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:31:01.018029+00:00",
+      "exitCode": 0,
+      "durationMs": 228,
+      "outputDigest": "2b7dc7a335307b495975a9762315dbf688f1915479f9e677ed5fa1477d078091",
+      "commandHash": "e149af30dc64772287620ebfb66f76bd32abf58444bcb5f1992f19d3c588eb87",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "536b6d9cc40670aae544eee907399086e4c17b7ab37eb3b41f170e74436a8525",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/quality_coverage_85_gate.contract.json --summary .ai/work-items/active/quality_coverage_85_gate.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:31:01.141249+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "536b6d9cc40670aae544eee907399086e4c17b7ab37eb3b41f170e74436a8525",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:31:01.454859+00:00",
+      "exitCode": 0,
+      "durationMs": 249,
+      "outputDigest": "66dd4779fc1e46a309229df06db09919c94f1accf4dc199efd890fb24fa8ef62",
+      "commandHash": "08c32638e8bdbd4cc1b48d9b4ff59713e8fe73a3ce65931601e7a7dc7d72e833",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "536b6d9cc40670aae544eee907399086e4c17b7ab37eb3b41f170e74436a8525",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/quality_coverage_85_gate.contract.json --summary .ai/work-items/active/quality_coverage_85_gate.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/quality_coverage_85_gate.summary.json CONTRACT=.ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T04:31:01.590258+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "00d2456e8c0ea4acf9eaca0b5bb38ceb17648c64a38ba2f21373717a9b94342e",
+      "commandHash": "2aa72b623bdcbb91d66e876965f89b808162500e582e2179cb714505965f259c",
+      "contractHash": "02cf9038cbcb950c86d8c41aebd2233781750cf9e6b8ef76aeb07828ef82cd0c",
+      "commitSha": "128167435f15daf6dba8816dd29392dd154df65b",
+      "executionContractPath": ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+      "worktreeDigest": "536b6d9cc40670aae544eee907399086e4c17b7ab37eb3b41f170e74436a8525",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/quality_coverage_85_gate.summary.json --contract .ai/work-items/active/quality_coverage_85_gate.contract.json ai summary check passed: .ai/work-items/active/quality_coverage_85_gate.summary.json"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Coverage is a release prerequisite; the gate remains blocking and no exclusions were added."
+  },
+  "generatedFiles": [
+    "target/coverage.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CycloneDX dependency emits an existing deprecation warning during tests."
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Use tests to cover real behavior and failure paths rather than coverage exclusions.",
+      "compliant": true,
+      "evidence": "Meaningful lifecycle and public-release failure-path tests were added; no exclusions changed."
+    },
+    {
+      "guideline": "Keep the coverage threshold blocking and visible in the registered quality command.",
+      "compliant": true,
+      "evidence": "Makefile project-test invokes --cov-fail-under=85; make quality passed twice."
+    },
+    {
+      "guideline": "Record exact verification evidence before claiming release readiness.",
+      "compliant": true,
+      "evidence": "Two consecutive make quality runs passed with 559 tests and 85.06% total coverage."
+    }
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "The executable gate is 85%, meaningful failure-path tests raise measured coverage to 85.06%, and no exclusions were added."
+  },
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "All required verification passed and no residual risk remains.",
+    "expectedReviewFocus": [
+      "Coverage integrity and no-exclusion evidence",
+      "Meaningful lifecycle and release-path tests",
+      "Complexity ceiling calibration"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The quality command fails when total coverage is below 85 percent.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_work_item_lifecycle_closure.py::test_quality_gate_requires_at_least_85_percent_coverage",
+        "Makefile project-test"
+      ]
+    },
+    {
+      "scenario": "New tests cover high-risk lifecycle, release integrity, and governance branches without exclusions.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_work_item_lifecycle_closure.py",
+        "tests/test_release_distribution.py",
+        "target/coverage.json"
+      ]
+    },
+    {
+      "scenario": "The full quality suite passes at or above 85 percent twice from a clean worktree.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make quality run 1: 559 passed, 85.06%",
+        "make quality run 2: 559 passed, 85.06%"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "02cf9038cbcb950c",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Contract scope, acceptance, coverage baseline, and explicit user authorization were reviewed before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "02cf9038cbcb950c",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Two complete make quality runs passed with 559 tests and 85.06% total coverage; checkpoint recorded before ai-finish."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report the quality gate complete until two clean full-suite runs show at least 85.00 percent total coverage.",
+  "archiveSequence": 111
+}

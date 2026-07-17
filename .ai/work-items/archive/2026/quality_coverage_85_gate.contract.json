@@ -1,0 +1,70 @@
+{
+  "contractVersion": 2,
+  "workItemId": "quality_coverage_85_gate",
+  "mode": "code",
+  "title": "Raise the repository quality coverage gate to 85 percent",
+  "baseCommit": "1281674",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/quality_coverage_85_gate.contract.json",
+    ".ai/work-items/active/quality_coverage_85_gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "Makefile",
+    "tests/test_makefile.py",
+    "tests/test_work_item_lifecycle_closure.py",
+    "tests/test_release_distribution.py",
+    "tests/test_system_invariants.py",
+    "tests/test_project_governance.py",
+    "tests/test_ai_check_work_item.py",
+    "tests/test_contract_and_policy.py",
+    "tests/test_verification_evidence.py"
+  ],
+  "outOfScope": [
+    "Coverage exclusions or source-path omissions",
+    "Production behavior changes unrelated to testability",
+    "Release publication and version selection"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md", "reason": "Task 9 acceptance and release prerequisite."},
+    {"path": "Makefile", "reason": "Current quality command and 80 percent coverage gate."},
+    {"path": "target/coverage.json", "reason": "Measured uncovered paths from the latest full quality run."},
+    {"path": "tests/test_work_item_lifecycle_closure.py", "reason": "High-risk lifecycle closure paths with existing focused tests."},
+    {"path": "tests/test_release_distribution.py", "reason": "High-risk public release integrity paths with existing focused tests."},
+    {"path": "tests/test_system_invariants.py", "reason": "Governance and installer invariant paths exposed by the remediation cycle."},
+    {"path": "tests/test_project_governance.py", "reason": "Project governance branch and invariant coverage."},
+    {"path": "tests/test_ai_check_work_item.py", "reason": "Contract validation branch coverage."}
+  ],
+  "problemStatement": "The repository quality command currently enforces only 80 percent total coverage; the latest measured total is 83.94 percent, below the Conditional GO release prerequisite of 85 percent.",
+  "scenarioCoverage": [
+    {"scenario": "The quality command fails when total coverage is below 85 percent.", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "New tests cover high-risk lifecycle, release integrity, and governance branches without exclusions.", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "The full quality suite passes at or above 85 percent twice from a clean worktree.", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["quality_gate", "coverage_integrity", "release_readiness"], "reason": "The coverage threshold is a release prerequisite; exclusions or weak tests would create a false readiness signal."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "The coverage report identifies concrete uncovered branches and the required threshold is explicit in the plan."},
+  "preReviewWarnings": ["Do not add coverage exclusions or lower the threshold.", "Record two clean full-suite runs with exact coverage totals."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record the measured coverage baseline and final threshold evidence."},
+  "acceptance": [
+    "make quality enforces total measured coverage at or above 85.00 percent.",
+    "Tests cover the highest-risk uncovered lifecycle, release integrity, and governance paths without exclusions.",
+    "No source path, test path, or coverage omission is added solely to inflate the percentage.",
+    "Two clean full-suite runs record total coverage at or above 85 percent."
+  ],
+  "guidelines": [
+    "Use tests to cover real behavior and failure paths rather than coverage exclusions.",
+    "Keep the coverage threshold blocking and visible in the registered quality command.",
+    "Record exact verification evidence before claiming release readiness."
+  ],
+  "intent": {"problem": "The release prerequisite requires at least 85 percent measured coverage, but the repository currently reports 83.94 percent.", "constraints": ["Do not exclude code or lower thresholds.", "Prioritize high-risk paths introduced or exposed by the remediation cycle.", "Keep quality reproducible from a clean worktree."], "rationale": "Raising the executable gate and covering meaningful failure paths prevents release readiness from relying on an 80 percent floor."},
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User authorized the complete remediation cycle and the 85 percent quality gate."},
+  "rollbackNote": "Revert the coverage threshold and added tests together, preserving the prior quality command and test suite."
+}

@@ -81,7 +81,7 @@ project-format-check:
 	git diff --check
 
 project-test:
-	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80
+	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85
 	$(AI_PYTHON) scripts/check_critical_coverage.py
 
 test: project-test

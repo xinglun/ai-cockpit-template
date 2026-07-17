@@ -364,7 +364,18 @@ def test_public_release_network_helpers_return_verified_data(monkeypatch, tmp_pa
 
 def test_release_asset_identity_requires_one_tag_target_and_source_subject():
     provenance = {"commitSha": "source", "releaseTag": "v0.5.29"}
-    digests = {"sourceCommit": "source", "releaseTag": "v0.5.29"}
+    digests = {
+        "sourceCommit": "source",
+        "releaseTag": "v0.5.29",
+        "artifacts": {".ai/cockpit/sbom.json": "a", ".ai/cockpit/provenance.json": "b"},
+        "correlation": {
+            "workflowRunId": "123",
+            "workflowRunSha": "source",
+            "sourceCommit": "source",
+            "releaseTag": "v0.5.29",
+            "artifactDigests": {"sbom.json": "a", "provenance.json": "b"},
+        },
+    }
 
     assert (
         release_distribution.release_asset_identity_issues(
@@ -385,6 +396,58 @@ def test_release_asset_identity_requires_one_tag_target_and_source_subject():
     assert "tag target" in " ".join(issues)
     assert "provenance commitSha" in " ".join(issues)
     assert "release digest sourceCommit" in " ".join(issues)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "expected"),
+    [
+        ("workflowRunId", "", "release correlation workflowRunId is missing"),
+        ("workflowRunSha", "wrong", "release correlation workflowRunSha differs from tag target"),
+        ("releaseTag", "v0.5.28", "release correlation releaseTag differs from tag"),
+    ],
+)
+def test_release_correlation_rejects_missing_or_mismatched_identity(field, value, expected):
+    correlation = {
+        "workflowRunId": "123",
+        "workflowRunSha": "source",
+        "sourceCommit": "source",
+        "releaseTag": "v0.5.29",
+        "artifactDigests": {"sbom.json": "a", "provenance.json": "b"},
+    }
+    correlation[field] = value
+    issues = release_distribution.release_asset_identity_issues(
+        tag="v0.5.29",
+        tag_target="source",
+        provenance={"commitSha": "source", "releaseTag": "v0.5.29"},
+        release_digests={
+            "sourceCommit": "source",
+            "releaseTag": "v0.5.29",
+            "artifacts": {".ai/cockpit/sbom.json": "a", ".ai/cockpit/provenance.json": "b"},
+            "correlation": correlation,
+        },
+    )
+    assert expected in issues
+
+
+def test_release_correlation_rejects_artifact_digest_mismatch():
+    issues = release_distribution.release_asset_identity_issues(
+        tag="v0.5.29",
+        tag_target="source",
+        provenance={"commitSha": "source", "releaseTag": "v0.5.29"},
+        release_digests={
+            "sourceCommit": "source",
+            "releaseTag": "v0.5.29",
+            "artifacts": {".ai/cockpit/sbom.json": "a", ".ai/cockpit/provenance.json": "b"},
+            "correlation": {
+                "workflowRunId": "123",
+                "workflowRunSha": "source",
+                "sourceCommit": "source",
+                "releaseTag": "v0.5.29",
+                "artifactDigests": {"sbom.json": "wrong", "provenance.json": "b"},
+            },
+        },
+    )
+    assert "release correlation artifact digest mismatch for sbom.json" in issues
 
 
 def test_release_asset_identity_rejects_missing_subject_fields():
@@ -420,6 +483,20 @@ def test_public_release_asset_integrity_binds_downloads_to_tag_tree(tmp_path):
         "version": 1,
         "sourceCommit": "a" * 40,
         "releaseTag": "v1.2.3",
+        "correlation": {
+            "workflowRunId": "123",
+            "workflowRunSha": "a" * 40,
+            "sourceCommit": "a" * 40,
+            "releaseTag": "v1.2.3",
+            "artifactDigests": {
+                "sbom.json": __import__("hashlib")
+                .sha256(files[".ai/cockpit/sbom.json"])
+                .hexdigest(),
+                "provenance.json": __import__("hashlib")
+                .sha256(files[".ai/cockpit/provenance.json"])
+                .hexdigest(),
+            },
+        },
         "artifacts": {
             relative: __import__("hashlib").sha256(payload).hexdigest()
             for relative, payload in files.items()

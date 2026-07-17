@@ -255,6 +255,30 @@ def release_asset_identity_issues(
         issues.append("release digest releaseTag is missing")
     elif digest_tag != tag:
         issues.append(f"release digest releaseTag {digest_tag!r} differs from tag {tag!r}")
+    correlation = release_digests.get("correlation")
+    if not isinstance(correlation, dict):
+        issues.append("release correlation record is missing")
+        return issues
+    for field in ("workflowRunId", "workflowRunSha", "sourceCommit", "releaseTag"):
+        if not isinstance(correlation.get(field), str) or not correlation[field]:
+            issues.append(f"release correlation {field} is missing")
+    if correlation.get("workflowRunSha") != tag_target:
+        issues.append("release correlation workflowRunSha differs from tag target")
+    if correlation.get("sourceCommit") != tag_target:
+        issues.append("release correlation sourceCommit differs from tag target")
+    if correlation.get("releaseTag") != tag:
+        issues.append("release correlation releaseTag differs from tag")
+    artifact_digests = correlation.get("artifactDigests")
+    artifacts = release_digests.get("artifacts")
+    if not isinstance(artifact_digests, dict) or not isinstance(artifacts, dict):
+        issues.append("release correlation artifact digests are missing")
+    else:
+        for asset, manifest_path in (
+            ("sbom.json", ".ai/cockpit/sbom.json"),
+            ("provenance.json", ".ai/cockpit/provenance.json"),
+        ):
+            if artifact_digests.get(asset) != artifacts.get(manifest_path):
+                issues.append(f"release correlation artifact digest mismatch for {asset}")
     return issues
 
 
@@ -292,6 +316,16 @@ def public_release_asset_integrity_issues(
         issues.append(
             f"release-digests.json releaseTag {manifest.get('releaseTag')!r} differs from tag {tag!r}"
         )
+    correlation = manifest.get("correlation")
+    if not isinstance(correlation, dict):
+        issues.append("release-digests.json correlation record is missing")
+    else:
+        if not correlation.get("workflowRunId"):
+            issues.append("release-digests.json correlation workflowRunId is missing")
+        if correlation.get("workflowRunSha") != tag_target:
+            issues.append("release-digests.json correlation workflowRunSha differs from tag target")
+        if correlation.get("releaseTag") != tag:
+            issues.append("release-digests.json correlation releaseTag differs from tag")
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, dict):
         return issues + ["release-digests.json artifacts must contain an object"]
@@ -336,6 +370,12 @@ def public_release_asset_integrity_issues(
             issues.append(
                 f"public asset digest mismatch for {asset_name} (expected={expected!r}, actual={actual})"
             )
+    if isinstance(correlation, dict) and isinstance(correlation.get("artifactDigests"), dict):
+        for asset_name in ("sbom.json", "provenance.json"):
+            payload = assets.get(asset_name)
+            expected = correlation["artifactDigests"].get(asset_name)
+            if payload is not None and hashlib.sha256(payload).hexdigest() != expected:
+                issues.append(f"release correlation artifact digest mismatch for {asset_name}")
     return issues
 
 

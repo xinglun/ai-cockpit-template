@@ -138,6 +138,9 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           python3 scripts/check_supply_chain.py release-assets \
             --source-commit "$SOURCE_COMMIT" \
+            --workflow-run-id "$GITHUB_RUN_ID" \
+            --workflow-run-sha "$GITHUB_SHA" \
+            --release-tag "$RELEASE_TAG" \
             --output-dir "$RUNNER_TEMP/release-evidence"
 
       - name: Verify source-bound release evidence subjects
@@ -149,6 +152,10 @@ jobs:
           test "$(jq -r '.sourceCommit' "$evidence/release-digests.json")" = "$SOURCE_COMMIT"
           test "$(jq -r '.releaseTag' "$evidence/provenance.json")" = "$RELEASE_TAG"
           test "$(jq -r '.releaseTag' "$evidence/release-digests.json")" = "$RELEASE_TAG"
+          test "$(jq -r '.correlation.workflowRunId' "$evidence/release-digests.json")" = "$GITHUB_RUN_ID"
+          test "$(jq -r '.correlation.workflowRunSha' "$evidence/release-digests.json")" = "$GITHUB_SHA"
+          test "$(jq -r '.correlation.sourceCommit' "$evidence/release-digests.json")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.correlation.releaseTag' "$evidence/release-digests.json")" = "$RELEASE_TAG"
           sbom_digest="$(sha256sum "$evidence/sbom.json" | cut -d' ' -f1)"
           provenance_digest="$(sha256sum "$evidence/provenance.json" | cut -d' ' -f1)"
           test "$(jq -r '.artifacts[".ai/cockpit/sbom.json"]' "$evidence/release-digests.json")" = "$sbom_digest"
@@ -205,6 +212,8 @@ jobs:
           test "$(jq -r '.sourceCommit' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$SOURCE_COMMIT"
           test "$(jq -r '.releaseTag' "$RUNNER_TEMP/release-evidence/provenance.json")" = "$RELEASE_TAG"
           test "$(jq -r '.releaseTag' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$RELEASE_TAG"
+          test "$(jq -r '.correlation.workflowRunId' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$GITHUB_RUN_ID"
+          test "$(jq -r '.correlation.workflowRunSha' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$GITHUB_SHA"
           test "$(jq -r '.sourceCommit' "$RUNNER_TEMP/release-source.json")" = "$SOURCE_COMMIT"
           test "$(jq -r '.remote' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_REMOTE"
           test "$(jq -r '.defaultBranch' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_DEFAULT_BRANCH"

@@ -136,6 +136,19 @@ def test_release_workflow_requires_lockfile_reproducibility():
     assert "make check-lockfile-reproducibility" in workflow
 
 
+def test_release_workflow_generates_and_verifies_correlation_record():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    assert '--workflow-run-id "$GITHUB_RUN_ID"' in workflow
+    assert '--workflow-run-sha "$GITHUB_SHA"' in workflow
+    assert "correlation.workflowRunId" in workflow
+    assert "correlation.workflowRunSha" in workflow
+    assert "correlation.sourceCommit" in workflow
+    assert "correlation.releaseTag" in workflow
+    assert workflow.index("Generate source-bound release evidence") < workflow.index(
+        "Create exact-SHA tag and Draft GitHub Release"
+    )
+
+
 def test_smoke_preparation_mode_is_event_based_and_dispatch_stays_strict():
     workflow = (ROOT / ".github" / "workflows" / "smoke.yml").read_text(encoding="utf-8")
     assert "github.event_name == 'pull_request'" in workflow

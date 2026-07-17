@@ -351,8 +351,12 @@ def build_provenance(sbom: dict[str, Any], source_commit: str | None = None) -> 
     }
 
 
-def build_release_digests(sbom: dict[str, Any], provenance: dict[str, Any]) -> dict[str, Any]:
-    return {
+def build_release_digests(
+    sbom: dict[str, Any],
+    provenance: dict[str, Any],
+    correlation: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    manifest = {
         "format": "ai-cockpit-release-digests",
         "version": 1,
         "sourceCommit": provenance["commitSha"],
@@ -369,9 +373,19 @@ def build_release_digests(sbom: dict[str, Any], provenance: dict[str, Any]) -> d
             "release.json": sha256_text(read_text(RELEASE_JSON)),
         },
     }
+    if correlation is not None:
+        manifest["correlation"] = correlation
+    return manifest
 
 
-def write_release_assets(output_dir: Path, source_commit: str) -> None:
+def write_release_assets(
+    output_dir: Path,
+    source_commit: str,
+    *,
+    workflow_run_id: str | None = None,
+    workflow_run_sha: str | None = None,
+    release_tag: str | None = None,
+) -> None:
     """Generate final release evidence outside the committed candidate baselines."""
     resolved_commit = source_commit_sha(source_commit)
     sbom = build_sbom(resolved_commit)
@@ -379,6 +393,22 @@ def write_release_assets(output_dir: Path, source_commit: str) -> None:
     if provenance["commitSha"] != resolved_commit:
         raise RuntimeError("generated provenance commitSha does not match source commit")
     digests = build_release_digests(sbom, provenance)
+    if workflow_run_id is not None or workflow_run_sha is not None or release_tag is not None:
+        correlation = {
+            "format": "ai-cockpit-release-correlation",
+            "version": 1,
+            "workflowRunId": workflow_run_id or "",
+            "workflowRunSha": workflow_run_sha or "",
+            "sourceCommit": resolved_commit,
+            "releaseTag": release_tag or provenance["releaseTag"],
+            "artifactDigests": {
+                "sbom.json": sha256_text(json.dumps(sbom, sort_keys=True, ensure_ascii=False)),
+                "provenance.json": sha256_text(
+                    json.dumps(provenance, sort_keys=True, ensure_ascii=False)
+                ),
+            },
+        }
+        digests["correlation"] = correlation
     output_dir.mkdir(parents=True, exist_ok=True)
     paths = {
         "sbom": output_dir / "sbom.json",
@@ -546,6 +576,9 @@ def parse_args() -> argparse.Namespace:
     )
     assets.add_argument("--source-commit", required=True)
     assets.add_argument("--output-dir", required=True, type=Path)
+    assets.add_argument("--workflow-run-id")
+    assets.add_argument("--workflow-run-sha")
+    assets.add_argument("--release-tag")
     sub.add_parser("secrets")
     sub.add_parser("vulnerabilities")
     return parser.parse_args()
@@ -574,7 +607,13 @@ def main() -> int:
                 write=bool(args.write),
             )
         elif args.command == "release-assets":
-            write_release_assets(args.output_dir, args.source_commit)
+            write_release_assets(
+                args.output_dir,
+                args.source_commit,
+                workflow_run_id=args.workflow_run_id,
+                workflow_run_sha=args.workflow_run_sha,
+                release_tag=args.release_tag,
+            )
             issues = []
         elif args.command == "vulnerabilities":
             issues = scan_vulnerabilities()

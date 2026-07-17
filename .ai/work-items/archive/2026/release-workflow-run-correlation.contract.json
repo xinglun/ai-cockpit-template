@@ -1,0 +1,168 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release-workflow-run-correlation",
+  "mode": "code",
+  "title": "Correlate release evidence with workflow runs",
+  "baseCommit": "dd937d6dc8024b2a15ff45408c25acd4050be24d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release-workflow-run-correlation.contract.json",
+    ".ai/work-items/active/release-workflow-run-correlation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "scripts/check_release_distribution.py",
+    "scripts/check_supply_chain.py",
+    ".ai/cockpit/release-digests.json",
+    "tests/test_release_distribution.py",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md"
+    ,".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": ["Release provider API changes outside the repository workflow."],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/release-workflow-run-correlation.contract.json",
+      "reason": "Work Item Contract and repository governance rules."
+    },
+    {"path": ".github/workflows/release.yml", "reason": "Release workflow source of Run ID and source identity."},
+    {"path": "scripts/check_supply_chain.py", "reason": "Canonical release evidence generation."},
+    {"path": "scripts/check_release_distribution.py", "reason": "Published release evidence validation."},
+    {"path": "tests/test_release_distribution.py", "reason": "Existing release identity and artifact integrity tests."},
+    {"path": "tests/test_workflows.py", "reason": "Workflow contract tests."},
+    {"path": "docs/reference/distribution.md", "reason": "Published distribution contract."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+      "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "Release evidence must fail closed when workflow identity or artifact digests are missing or inconsistent."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the implementation plan and release workflow changes are within scope."
+  },
+  "preReviewWarnings": [
+    "Confirm every published evidence record names one workflow run, source SHA, release tag, and matching artifact digests."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release evidence contains a correlation record with a non-empty workflow Run ID, Run SHA, source commit, and release tag, and rejects missing or mismatched identity.",
+    "Correlation artifact digests are generated from the same release evidence and mismatches fail closed in published distribution validation.",
+    "Workflow and distribution tests cover missing Run ID, Run SHA mismatch, tag mismatch, and artifact digest mismatch; documentation describes the contract."
+  ],
+  "guidelines": [
+    "Release identity is fail-closed: missing, stale, or contradictory workflow evidence must not pass.",
+    "Generated release evidence is produced by the release workflow and is validated before tag or publication mutations."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Missing workflow Run ID", "riskDomain": "release_integrity", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py", ".github/workflows/release.yml"]},
+    {"scenario": "Run SHA or release tag mismatch", "riskDomain": "release_integrity", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py", "scripts/check_release_distribution.py"]},
+    {"scenario": "Generated artifact digest mismatch", "riskDomain": "release_integrity", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py", "scripts/check_supply_chain.py"]}
+  ],
+  "intent": {
+    "problem": "Release evidence currently records source and tag identity but does not make the originating workflow run and artifact digest relationship a single validated correlation record.",
+    "constraints": ["Preserve the existing exact-SHA release flow and public asset contract.", "Do not publish or tag before correlation validation passes."],
+    "rationale": "A deterministic correlation record makes release evidence auditable and prevents mixing evidence from different runs, commits, tags, or generated artifacts."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the full implementation loop, including CI and workflow changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release-workflow-run-correlation.json",
+    "baseCommit": "dd937d6dc8024b2a15ff45408c25acd4050be24d",
+    "initialScopeDigest": "e353d3b58e70f475f13eb1a826ca54e66e707a1e64a79797c7c6888b16e10237",
+    "contractSkeletonDigest": "57b01fe845837d2bc28c85cf364d29c0821e9599db47c52e5adcdc6a9a3e1462"
+  }
+}

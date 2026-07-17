@@ -193,7 +193,8 @@ def source_commit_sha(explicit: str | None = None) -> str:
     explicitly; local generation falls back to the release tag only.
     """
     requested = (explicit or os.environ.get("SUPPLY_CHAIN_SOURCE_COMMIT", "")).strip()
-    revision = requested or release_tag()
+    tag = release_tag()
+    revision = requested or tag
     result = subprocess.run(
         ["git", "rev-parse", f"{revision}^{{commit}}"],
         cwd=ROOT,
@@ -204,8 +205,21 @@ def source_commit_sha(explicit: str | None = None) -> str:
     )
     if result.returncode != 0 and not requested:
         # Before the new release tag exists (for example in PR validation),
-        # attest the checked-out candidate commit rather than an older tag.
-        revision = "HEAD"
+        # retain the previously published evidence identity while a pending
+        # publication PR carries the new release metadata. The immutable
+        # release workflow will replace this candidate baseline with
+        # source-bound assets after the tag is created.
+        next_release = load_json(ROOT / "next-release.json")
+        baseline = load_json(PROVENANCE_BASELINE)
+        pending_publication = (
+            next_release.get("releaseState") == "candidate"
+            and next_release.get("published") is False
+            and next_release.get("releaseTag") == tag
+            and next_release.get("basedOnReleaseTag") == tag
+            and baseline.get("releaseTag") == tag
+            and isinstance(baseline.get("commitSha"), str)
+        )
+        revision = baseline["commitSha"] if pending_publication else "HEAD"
         result = subprocess.run(
             ["git", "rev-parse", revision],
             cwd=ROOT,

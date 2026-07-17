@@ -90,7 +90,7 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     ) < workflow.index("gh release create")
     assert "--draft" in workflow
     assert (
-        'gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref "$SOURCE_COMMIT"' in workflow
+        'gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME"' in workflow
     )
     assert 'gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false' in workflow
     assert "actions/checkout" not in workflow
@@ -108,7 +108,7 @@ def test_release_workflow_runs_strict_smoke_before_tag_and_release_mutations():
     publish = workflow.index("Publish verified Draft Release")
     assert smoke < tag < publish
     dispatch = workflow[smoke:tag]
-    assert '--ref "$SOURCE_COMMIT"' in dispatch
+    assert '--ref "$GITHUB_REF_NAME"' in dispatch
     assert '--commit "$SOURCE_COMMIT"' in dispatch
 
 

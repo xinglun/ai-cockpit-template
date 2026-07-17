@@ -1,0 +1,39 @@
+{
+  "contractVersion": 2,
+  "workItemId": "final_plan_deletion_followup",
+  "mode": "code",
+  "title": "Record and close the completed plan deletion",
+  "baseCommit": "e24caaa",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/final_plan_deletion_followup.contract.json",
+    ".ai/work-items/active/final_plan_deletion_followup.summary.json",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md"
+  ],
+  "outOfScope": ["Changing release assets or tags", "Deleting archived evidence", "Changing repository policy"],
+  "sources": [
+    {"path": ".ai/work-items/archive/2026/final_plan_document_cleanup.summary.json", "reason": "Prior cleanup evidence and preserved release evidence."},
+    {"path": ".ai/work-items/archive/index.json", "reason": "Archive preservation and discovery evidence."}
+  ],
+  "problemStatement": "The completed remediation plan deletion must pass the repository PR governance rule requiring an archived Work Item Contract in the change set.",
+  "scenarioCoverage": [
+    {"scenario": "The completed plan is absent from the final branch.", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md is deleted"]},
+    {"scenario": "The new follow-up Work Item is archived with its audit evidence preserved.", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["audit_evidence"], "reason": "This records an already-authorized documentation deletion without changing runtime or release behavior."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "The user authorized full cycle completion and plan deletion."},
+  "preReviewWarnings": ["Preserve all archived Contracts, Summaries, and index entries."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record the final deletion and archive evidence."},
+  "acceptance": ["The plan remains deleted.", "The follow-up Work Item Contract and Summary are archived and indexed.", "PR and full repository checks pass."],
+  "guidelines": ["Preserve historical Work Item evidence.", "Run the full quality and governance checks."],
+  "intent": {"problem": "Satisfy the PR governance audit requirement for the final deletion change.", "constraints": ["No release changes.", "No archived evidence deletion."], "rationale": "An explicit archived Contract makes the deletion change auditable and allows lifecycle closure."},
+  "verification": [{"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User authorized full completion of the remediation cycle."},
+  "rollbackNote": "This Work Item changes only audit metadata; release evidence and the deleted plan remain recoverable from merged history."
+}

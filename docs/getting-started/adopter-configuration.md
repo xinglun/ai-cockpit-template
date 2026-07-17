@@ -18,9 +18,12 @@ production control.
 
 ## Required repository-owned decisions
 
-- Replace the placeholder entry in `.github/CODEOWNERS` with the real review
-  team or platform identity for this repository. Confirm that the configured
-  owner can receive and approve the governed paths.
+- Configure `.github/CODEOWNERS` with the real review team or platform identity
+  for the target repository. The template repository itself is maintained by
+  the authorized personal owner `@RayIori`; an installed target must replace
+  that identity and configure at least one required approval before treating
+  the review boundary as active. This is not equivalent to an organization
+  Team with two independent maintainers.
 - Replace the template instructions in `SECURITY.md` with the repository's
   private vulnerability reporting path, supported versions, response
   expectations, and disclosure policy. Do not publish secrets or private
@@ -43,9 +46,10 @@ make check-ai-status-consistency
 The readiness gate intentionally fails for an adopted repository when the
 CODEOWNERS owner or SECURITY reporting policy is still a template placeholder.
 It does not infer whether a chosen team, platform identity, SLA, or security
-process is appropriate; the adopting team owns that decision.
+process is appropriate; the adopting team owns that decision. A personal
+Code Owner and one required approval in the target project do not prove
+independent multi-maintainer review or enterprise-trusted governance.
 
 Template maintenance is different: this source repository may retain its
 generic placeholders when the explicit template-maintenance execution mode is
 used. That exemption must not be copied as an adoption configuration.
-

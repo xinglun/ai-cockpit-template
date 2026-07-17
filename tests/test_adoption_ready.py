@@ -9,6 +9,22 @@ from ai_check_adoption_ready import readiness_failures, template_exemption
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_template_codeowners_uses_authorized_personal_owner():
+    codeowners = (ROOT / ".github" / "CODEOWNERS").read_text(encoding="utf-8")
+
+    assert "* @RayIori" in codeowners
+    assert "@xinglun" not in codeowners
+
+
+def test_adopter_configuration_requires_one_target_approval():
+    documentation = (ROOT / "docs" / "getting-started" / "adopter-configuration.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "at least one required approval" in documentation
+    assert "replace\n  that identity" in documentation
+
+
 def write_ready_configuration(root: Path) -> None:
     (root / "Makefile.ai.stack").write_text(
         "PROJECT_FORMAT_CHECK = formatter --check\n"

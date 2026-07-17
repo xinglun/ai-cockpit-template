@@ -1,0 +1,64 @@
+{
+  "contractVersion": 2,
+  "workItemId": "external_review_boundary_verification",
+  "mode": "code",
+  "title": "Configure a personal Code Owner review boundary",
+  "baseCommit": "30a66c3",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/external_review_boundary_verification.contract.json",
+    ".ai/work-items/active/external_review_boundary_verification.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    ".github/CODEOWNERS",
+    "docs/getting-started/adopter-configuration.md",
+    "docs/configuration.md",
+    "tests/test_adoption_ready.py"
+  ],
+  "outOfScope": [
+    "Creating an organization Team",
+    "Claiming two independent maintainers when only one personal Code Owner is configured",
+    "Production release publication or enterprise trust claims"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md", "reason": "Task 8 acceptance and human-gated review boundary."},
+    {"path": ".github/CODEOWNERS", "reason": "Current placeholder Code Owner configuration."},
+    {"path": "docs/getting-started/adopter-configuration.md", "reason": "Adopter ownership configuration instructions."},
+    {"path": "docs/configuration.md", "reason": "Repository-controlled approval versus trusted platform identity boundary."},
+    {"path": "scripts/ai_check_adoption_ready.py", "reason": "Existing fail-closed readiness diagnostic for CODEOWNERS placeholders."},
+    {"path": "tests/test_adoption_ready.py", "reason": "Readiness regression tests for external ownership configuration."},
+    {"path": "GitHub Ruleset API for spirex-ds-dev/ai-cockpit-template", "reason": "Platform evidence for required approvals, Code Owner review, stale review dismissal, and conversation resolution."}
+  ],
+  "problemStatement": "The template repository had a placeholder personal Code Owner. The requested simplified boundary uses RayIori for template maintenance, while installed target projects must replace that identity and enforce at least one required approval.",
+  "scenarioCoverage": [
+    {"scenario": "CODEOWNERS names RayIori as the repository Code Owner.", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Adopter configuration requires at least one target-project approval after replacing the template owner.", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Documentation distinguishes personal Code Owner enforcement from organization Team and independent-maintainer assurance.", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Release immutability and external trust claims remain limited without signed tags or independent attestations.", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["review_identity", "platform_configuration", "overclaim_prevention"], "reason": "A personal Code Owner improves review enforcement but does not provide independent multi-maintainer or organization-Team assurance."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "The user explicitly authorized the simplified RayIori personal Code Owner boundary and GitHub Admin access is active."},
+  "preReviewWarnings": ["Do not claim organization-Team review or two-maintainer independence.", "Platform evidence must be captured from the active RayIori Admin identity."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record the review-boundary evidence before and after the platform configuration change."},
+  "acceptance": [
+    "CODEOWNERS assigns the governed repository paths to RayIori as a personal Code Owner.",
+    "Adopter documentation requires at least one target-project approval after replacing the template owner.",
+    "Documentation explicitly limits this simplified boundary and does not claim organization-Team or two-maintainer assurance.",
+    "Release immutability claims are limited unless signed tags or independent attestations are actually configured."
+  ],
+  "guidelines": [
+    "Treat platform review settings as external evidence, not as Contract self-declarations.",
+    "Keep the simplified personal-owner boundary distinct from trusted organization review.",
+    "Do not claim release immutability beyond the verified tag and attestation evidence."
+  ],
+  "intent": {"problem": "The repository needs an enforceable review owner without inventing a nonexistent organization Team.", "constraints": ["Use RayIori as a personal Code Owner.", "Do not overclaim two-maintainer or organization-Team assurance.", "Keep release trust claims evidence-bounded."], "rationale": "A simple personal-owner boundary is immediately actionable while preserving an explicit path to stronger organization review later."},
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized RayIori personal Code Owner configuration for the template and the adopter approval requirement."},
+  "rollbackNote": "Revert this Work Item diff and restore CODEOWNERS, documentation, tests, and generated cockpit status."
+}

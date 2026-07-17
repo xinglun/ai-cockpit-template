@@ -102,7 +102,7 @@ associations:
 
 Restricted paths are hard failures unless the active Contract contains an explicitly approved `restrictedWriteApproval` with an approver and reason. `destructiveChangePolicy.allowPatterns` is inactive unless destructive changes are allowed and any required human approval evidence is present.
 
-These approval objects are explicit workflow records, not trusted identity assertions: an agent that can edit the Contract can also edit those fields. Organizations that require trustworthy approval must enforce it outside the repository-controlled Contract through CODEOWNERS/required reviews, protected environments, or CI checks backed by platform identity.
+These approval objects are explicit workflow records, not trusted identity assertions: an agent that can edit the Contract can also edit those fields. The template repository is maintained by personal Code Owner `@RayIori`; an installed target project must replace that identity and enforce at least one required approval outside the Contract. This does not claim organization-Team or two-independent-maintainer assurance. Organizations that require stronger trustworthy approval must enforce it through a visible `@org/team` CODEOWNERS entry, required reviews, protected environments, or CI checks backed by platform identity.
 
 `scope_policy.yaml` `dependencyScopeRules` maps a changed source pattern to required companion change patterns. The default policy requires governance script changes to include tests.
 

@@ -18,6 +18,7 @@ AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
 	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
 	check-release-distribution \
+	check-lockfile-reproducibility \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	ai-doctor check-ai-adoption-ready \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy template-adoption-ready \
@@ -120,6 +121,9 @@ check-provenance:
 
 check-release-evidence:
 	$(AI_PYTHON) scripts/check_supply_chain.py release
+
+check-lockfile-reproducibility:
+	@tmp=$$(mktemp -d); trap 'rm -rf "$$tmp"' EXIT; cp requirements-dev.lock "$$tmp/"; (cd "$$tmp" && ln -s "$(CURDIR)/requirements-dev.in" requirements-dev.in && "$(dir $(abspath $(PYTHON)))pip-compile" --generate-hashes --allow-unsafe --output-file=requirements-dev.lock requirements-dev.in >/dev/null); cmp -s "$$tmp/requirements-dev.lock" requirements-dev.lock
 
 check-secret-scanning:
 	$(AI_PYTHON) scripts/check_supply_chain.py secrets

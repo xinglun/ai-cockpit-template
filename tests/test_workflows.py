@@ -95,6 +95,12 @@ def test_release_workflow_runs_strict_smoke_before_tag_and_release_mutations():
     assert '--commit "$SOURCE_COMMIT"' in dispatch
 
 
+def test_release_workflow_requires_lockfile_reproducibility():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    assert "Require reproducible dependency lockfile" in workflow
+    assert "make check-lockfile-reproducibility" in workflow
+
+
 def test_smoke_preparation_mode_is_event_based_and_dispatch_stays_strict():
     workflow = (ROOT / ".github" / "workflows" / "smoke.yml").read_text(encoding="utf-8")
     assert "github.event_name == 'pull_request'" in workflow

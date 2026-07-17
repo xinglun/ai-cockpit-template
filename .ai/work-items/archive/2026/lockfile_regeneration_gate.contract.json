@@ -1,0 +1,181 @@
+{
+  "contractVersion": 2,
+  "workItemId": "lockfile_regeneration_gate",
+  "mode": "code",
+  "title": "Enforce lockfile regeneration gate",
+  "baseCommit": "5793063015a70d8af07503b5b54b44262f2e21c2",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/release.yml",
+    "Makefile",
+    "release.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    "requirements-dev.lock",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+    ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["dependency version selection", "public release asset integrity", "coverage threshold changes"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+      "reason": "Task 4 requires a lockfile regeneration gate."
+    },
+    {
+      "path": "requirements-dev.in",
+      "reason": "Canonical lockfile input."
+    },
+    {
+      "path": "requirements-dev.lock",
+      "reason": "Committed generated lockfile that must remain reproducible."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Release workflow is the blocking publication gate."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "dependency_reproducibility",
+      "release_regression"
+    ],
+    "reason": "A stale lock can make release evidence and CI installation non-reproducible."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The lockfile input and generated output are local and testable."
+  },
+  "preReviewWarnings": [
+    "Confirm regenerated lock bytes are compared before release publication."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release workflow regenerates requirements-dev.lock from requirements-dev.in with hashes and fails on byte drift.",
+    "A regression test asserts the regeneration gate and existing require-hashes installation behavior.",
+    "Distribution references document the lockfile reproducibility gate."
+  ],
+  "guidelines": [
+    "Do not weaken --require-hashes installation or existing supply-chain checks.",
+    "Document the lockfile regeneration gate."
+  ],
+  "intent": {
+    "problem": "The workflow installs the committed lock but does not prove it is reproducible from the committed input before publication.",
+    "constraints": ["Do not change dependency selections in this Work Item.", "Do not hand-edit generated lock content."],
+    "rationale": "Comparing a fresh pip-compile output prevents stale or manually altered lockfiles from entering a release."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Committed lockfile exactly matches fresh hash-enabled generation.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Workflow regression test and release gate."
+    },
+    {
+      "scenario": "Lockfile drift fails before release publication.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "The comparison command exits non-zero on mismatch."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete remediation, PR merge, and release workflow."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

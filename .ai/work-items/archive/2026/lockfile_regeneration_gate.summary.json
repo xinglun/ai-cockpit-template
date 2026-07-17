@@ -1,0 +1,444 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "lockfile_regeneration_gate",
+  "contractPath": ".ai/work-items/archive/2026/lockfile_regeneration_gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/lockfile_regeneration_gate.contract.json",
+      "reason": "Defined lockfile regeneration and publication gate scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lockfile_regeneration_gate.summary.json",
+      "reason": "Maintained governed lockfile change handoff."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added reproducible hash-enabled lockfile comparison target."
+    },
+    {
+      "path": "requirements-dev.lock",
+      "reason": "Regenerated from requirements-dev.in in the controlled environment."
+    },
+    {
+      "path": "release.json",
+      "reason": "Updated generated lock digest in release metadata."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Regenerated release evidence after lockfile update."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Run the lockfile gate before release publication."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Cover the release lockfile gate."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated generated SBOM after lockfile update."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated generated provenance after lockfile update."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document lockfile gate."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Document lockfile gate in Japanese."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+    "Makefile",
+    "requirements-dev.lock",
+    "release.json",
+    ".ai/cockpit/release-digests.json",
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Committed lockfile exactly matches fresh hash-enabled generation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-lockfile-reproducibility"
+      ],
+      "reason": "Regeneration comparison passed."
+    },
+    {
+      "scenario": "Lockfile drift fails before release publication.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/test_workflows.py"
+      ],
+      "reason": "Release workflow invokes the fail-closed Make target."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:50.398525+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "68c5c5b742f1eafe7a7b9d511f0ffdd01dec5ebc24ec3726e3d3af9bbb3a57cd",
+      "commandHash": "884ff80c8a09a147d5eba7e57f135bc4d122a1647527e041ac3dac4a88ce9c78",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/lockfile_regeneration_gate.contract.json work item contract check passed: .ai/work-items/active/lockfile_regeneration_gate.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:50.608057+00:00",
+      "exitCode": 0,
+      "durationMs": 128,
+      "outputDigest": "7f2310b663a3b1ba12850a30a0fae9a38599ca174e57d587bf95b833334d6979",
+      "commandHash": "d1c3894d33b49b67a860c07a4ff36f233dbe2474d10f1b7fafb10d4dd2f5fb4a",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/lockfile_regeneration_gate.contract.json scope guard passed: 11 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:50.848963+00:00",
+      "exitCode": 0,
+      "durationMs": 158,
+      "outputDigest": "b0563bb0208f7ef7e647ba689c93289e35cd6f7aab723ee87baf0020677e0604",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/release-digests.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai/**) - AI governance configuration. [warning] restricted_write: .github/workflows/release.yml (.github/wo"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:51.216852+00:00",
+      "exitCode": 0,
+      "durationMs": 289,
+      "outputDigest": "bb2150f74fba817753b9ce4b822441908d42ab9db3d0ce7593e555e6866d6c76",
+      "commandHash": "e145ad3c35b7e481d9bbc61f016d3f87a836e9e5ba3a1d44b20f1de7c93e5691",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `lockfile_regeneration_gate` - Contract Hash: `da5416413120e587` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:51.450773+00:00",
+      "exitCode": 0,
+      "durationMs": 144,
+      "outputDigest": "00bfd4df58a12ebb2c6eef1bd56b262e8ca5c61d48c79d673b2e72339abb5f7c",
+      "commandHash": "b53b264fc769c40960943f373ca8dc5b00588feaa5d593285087c741c77593d4",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json review policy matched 6 path(s) [review] .ai/cockpit/current_status.md [review] .ai/cockpit/provenance.json [review] .ai/cockpit/release-digests.json [review] .ai/cockpit/sbom.json [review] .github/workflows/release.yml [review] Makefile review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:51.703974+00:00",
+      "exitCode": 0,
+      "durationMs": 160,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:51.926291+00:00",
+      "exitCode": 0,
+      "durationMs": 139,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:52.065259+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "ee8f9b0e47a32ff85a93fdbfc670658b219977e6038265e8804f2007366e1b31",
+      "commandHash": "4651c1eb23abc99ada05c28d86455012a6bea03c36192c7ed845ddfbe03c20fa",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:52.207917+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "73761fceb77f6abc96892dfc456de632517a9b6eb72802c9d2577e4b9ff76506",
+      "commandHash": "5b048290a087d484e02cde5aaaa716e4742478a7418faf562ab32f02956d4af8",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:01:52.598573+00:00",
+      "exitCode": 0,
+      "durationMs": 309,
+      "outputDigest": "d53477fd53650372f502f96210b38ea375a99eb9438177cbee64ee31ddfb5fa6",
+      "commandHash": "8aa3ab453ba24bc42dffa0592e361f4fb5a404dc7db69fa00dd4a82d9f8a83d5",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json ## Diff Ownership Preview - active_owned: `11`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/release-digests.json` — c"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:03:53.146860+00:00",
+      "exitCode": 0,
+      "durationMs": 120453,
+      "outputDigest": "ef594ae18e03860ff73fc13c4330d499d779b6489fdced3b86ee9ed27dcaca78",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "3e5fc29b2922e06af688fc0dca3b22bed089a2ba797547b8adc0d296cdb5c306",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 13%] ........................................................................ [ 27%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:03:55.131428+00:00",
+      "exitCode": 0,
+      "durationMs": 337,
+      "outputDigest": "9e8b67597084f66f5b2bd84088d87e9d99cff438d3b71be84a86a65e0cb51971",
+      "commandHash": "22674cda51257291e62b04786c8a8997f7d8dd3089c740ffbcd6b2d063f0f5b7",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "f97957501148d5a64301c05683dc2b24ea47f89826f3bbe67d131fc4edbb1257",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/lockfile_regeneration_gate.contract.json --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:03:55.613972+00:00",
+      "exitCode": 0,
+      "durationMs": 400,
+      "outputDigest": "21dc371909df58ddb998d51f86a81bb10db7ee671f677ec917973e1e1084d82a",
+      "commandHash": "2523c7c60d62f82e8f13a5fbcfd019b05f526667b75e9e60d21dcdbb342ea854",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "f97957501148d5a64301c05683dc2b24ea47f89826f3bbe67d131fc4edbb1257",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:03:55.741114+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "f97957501148d5a64301c05683dc2b24ea47f89826f3bbe67d131fc4edbb1257",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:03:55.893613+00:00",
+      "exitCode": 0,
+      "durationMs": 61,
+      "outputDigest": "c21bb5ffb8364eacc989258b3843f38bec24a1095f1619870afcd38d3c3c4777",
+      "commandHash": "91acc2c491771f8b57c767f6eac368bf916f4d8c941a64b55cfe4440930f9c94",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "f97957501148d5a64301c05683dc2b24ea47f89826f3bbe67d131fc4edbb1257",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json --summary .ai/work-items/active/lockfile_regeneration_gate.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/lockfile_regeneration_gate.summary.json CONTRACT=.ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T01:03:56.107224+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "d7b5028e44b7975c90dc29b5b4e96efff53943e45c6bd5c1f4747353e2926edf",
+      "commandHash": "0f7037db4941d7d19a660f5581587f64cce0b4eafb95487d2cda47d17fc7c57a",
+      "contractHash": "da5416413120e587b5b72dcf8b8d6ea54cacc0e522081d32580f0eec0a122959",
+      "commitSha": "5793063015a70d8af07503b5b54b44262f2e21c2",
+      "executionContractPath": ".ai/work-items/active/lockfile_regeneration_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_regeneration_gate.summary.json",
+      "worktreeDigest": "f97957501148d5a64301c05683dc2b24ea47f89826f3bbe67d131fc4edbb1257",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/lockfile_regeneration_gate.summary.json --contract .ai/work-items/active/lockfile_regeneration_gate.contract.json ai summary check passed: .ai/work-items/active/lockfile_regeneration_gate.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Do not weaken --require-hashes installation or existing supply-chain checks.",
+      "compliant": true,
+      "evidence": "Existing locked installation and supply-chain checks remain unchanged."
+    },
+    {
+      "guideline": "Document the lockfile regeneration gate.",
+      "compliant": true,
+      "evidence": "Distribution references document make check-lockfile-reproducibility."
+    }
+  ],
+  "unknownsRemaining": [
+    "None."
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "Lock regeneration depends on the pinned pip-tools behavior available in the release environment."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Required verification or known-unknown evidence is incomplete.",
+    "expectedReviewFocus": [
+      "Confirm generated lock and digest artifacts are intentional."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "da5416413120e587",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed lock input/output and release gate boundaries before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "da5416413120e587",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Lock regeneration and release evidence checks passed."
+    }
+  ],
+  "knownGaps": [
+    "Production release execution remains a later human-gated Work Item."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 106
+}

@@ -55,6 +55,10 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: python3 -m pip install --disable-pip-version-check --require-hashes -r requirements-dev.lock
 
+      - name: Require reproducible dependency lockfile
+        working-directory: ${{ github.workspace }}
+        run: make check-lockfile-reproducibility
+
       - name: Require successful exact-SHA smoke and compatibility runs
         shell: bash
         run: |

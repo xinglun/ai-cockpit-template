@@ -28,6 +28,7 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 `archive/index.json` は `archive-work-item` が管理する追加型の発見インデックスです。Work Item の識別子、アーカイブ順序、Contract/Summary の相対パス、ファイルハッシュを記録します。アーカイブ済み Contract と Summary が正本であり、インデックスは必要に応じて再生成できます。
 
 開発用 lock は `requirements-dev.in` から `pip-compile --generate-hashes --allow-unsafe` で生成します。すべてのロック済みパッケージには SHA-256 ハッシュを付け、CI は `pip install --require-hashes` でインストールします。`.ai/cockpit/release-digests.json` は lock、SBOM、provenance、インストーラー、リリースメタデータを一つのソースコミットへ結び付けます。
+リリース Workflow は公開前に `make check-lockfile-reproducibility` も実行し、`requirements-dev.in` から再生成した hash 付き lock とコミット済み lock のバイト列が一致しない場合は失敗します。
 
 `releaseEvidenceAuthority` が `release-assets-v1` の場合、公開チェッカーはタグ付き GitHub Release から `sbom.json`、`provenance.json`、`release-digests.json` をダウンロードして再ハッシュし、不変タグツリーと比較します。さらにマニフェストの全成果物を再ハッシュし、期待する成果物一式を要求します。欠落、改ざん、形式不正、タグ不一致、コミット不一致の証拠は、インストーラーを実行する前に拒否されます。
 

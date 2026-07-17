@@ -1,8 +1,11 @@
-from ai_readiness_policy import has_explicit_blocker
+from pathlib import Path
+
+from ai_readiness_policy import readiness_state
 
 
-def test_explicit_blockers_are_fail_closed():
-    assert has_explicit_blocker({"notCodable": True})
-    assert has_explicit_blocker({"executionDecision": {"status": "block"}})
-    assert has_explicit_blocker({"agentCapability": {"canImplement": False}})
-    assert not has_explicit_blocker({})
+def test_readiness_policy_does_not_call_installation_production_ready(tmp_path: Path):
+    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
+    (tmp_path / ".ai" / "cockpit" / "version.json").write_text("{}", encoding="utf-8")
+    state = readiness_state(tmp_path)
+    assert state["adoptionInstalled"] is True
+    assert state["productionReady"] is False

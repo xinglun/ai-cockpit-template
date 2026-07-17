@@ -10,6 +10,7 @@ from pathlib import Path
 
 from ai_check_guard_calibration import calibration_issues
 from ai_project_profile import load_profile
+from ai_readiness_policy import readiness_state
 
 
 PLACEHOLDER_MARKERS = ("configure PROJECT_", "No project")
@@ -189,6 +190,8 @@ def main() -> int:
     parser.add_argument("--root", default=".", help="Repository root to inspect.")
     args = parser.parse_args()
     failures = readiness_failures(Path(args.root).resolve())
+    state = readiness_state(Path(args.root).resolve())
+    print(f"readiness state: {state['state']}")
     print(f"adoption role: {readiness_role_message(Path(args.root).resolve())}")
     if failures:
         print("AI Cockpit static adoption configuration is incomplete:")
@@ -196,6 +199,10 @@ def main() -> int:
             print(f"[FAIL] {failure}")
         return 1
     print("AI Cockpit static adoption configuration check passed")
+    if not state["productionReady"]:
+        print(
+            "Production Ready is not asserted until calibration, CI, and review evidence are complete."
+        )
     print(
         "This does not prove command effectiveness; require make ai-cockpit-quality and check-ai-pr in CI."
     )

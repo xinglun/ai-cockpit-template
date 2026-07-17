@@ -4,9 +4,16 @@ import shutil
 from pathlib import Path
 
 from ai_check_adoption_ready import readiness_failures, template_exemption
+from ai_readiness_policy import readiness_state
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_readiness_separates_installation_from_production(tmp_path):
+    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
+    (tmp_path / ".ai" / "cockpit" / "version.json").write_text("{}", encoding="utf-8")
+    assert readiness_state(tmp_path)["state"] == "adoption_installed"
 
 
 def test_template_codeowners_uses_authorized_personal_owner():

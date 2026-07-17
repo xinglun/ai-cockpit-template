@@ -128,3 +128,11 @@ def test_onboard_nested_make_and_phase_failures_are_reported(tmp_path, monkeypat
     )
     assert ai_onboard.phase_calibration(tmp_path, "en", run_calibrate=True) == 2
     assert ai_onboard.phase_readiness(tmp_path, "en", run_checks=True) == 2
+
+
+def test_onboard_exposes_non_production_readiness_state(tmp_path):
+    from ai_onboard import readiness_actions
+
+    passed, actions = readiness_actions(tmp_path, "en")
+    assert passed == []
+    assert any("production gate remains disabled" in item for item in actions)

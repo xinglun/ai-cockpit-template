@@ -11,6 +11,7 @@ from pathlib import Path
 from ai_check_adoption_ready import readiness_failures
 from ai_common import clean_git_environment
 from ai_doctor import diagnose
+from ai_readiness_policy import readiness_state
 
 
 PHASE_LABELS = {
@@ -153,6 +154,9 @@ def profile_status(root: Path, locale: str) -> tuple[str, list[str]]:
 def readiness_actions(root: Path, locale: str) -> tuple[list[str], list[str]]:
     passed: list[str] = []
     actions: list[str] = []
+    state = readiness_state(root)
+    if state["state"] != "production_ready":
+        actions.append(f"readiness state: {state['state']} (production gate remains disabled)")
     failures = readiness_failures(root)
     if failures:
         actions.extend(failures)

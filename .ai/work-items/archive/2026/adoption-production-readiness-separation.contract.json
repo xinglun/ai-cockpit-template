@@ -1,0 +1,165 @@
+{
+  "contractVersion": 2,
+  "workItemId": "adoption-production-readiness-separation",
+  "mode": "code",
+  "title": "adoption-production-readiness-separation",
+  "baseCommit": "4c441ca768942e88f1fa1b356e08835b8d920906",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_readiness_policy.py",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_onboard.py",
+    ".ai/cockpit/adoption.md",
+    "tests/test_adoption_ready.py",
+    "tests/test_ai_onboard.py",
+    "tests/test_onboard_e2e.py",
+    "tests/test_readiness_policy.py",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/first-work-item.md",
+    ".ai/work-items/active/adoption-production-readiness-separation.contract.json",
+    ".ai/work-items/active/adoption-production-readiness-separation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Claiming production readiness from installation alone.", "Changing adopter-owned CI or review policy."],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Defines Work Item 15 requirements."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Readiness claims affect adopter production gates and must remain evidence-based."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the approved implementation loop."
+  },
+  "preReviewWarnings": [
+    "Verify installed, calibrated, and production-ready states remain distinct."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Readiness reports distinguish adoption_installed, calibration_complete, and production_ready.",
+    "Installation without CI, review, and calibration evidence cannot assert production readiness.",
+    "Onboarding and adoption tests cover the state separation.",
+    "Installation and first-work-item documentation explain the separate states."
+  ],
+  "guidelines": [
+    "Readiness states and evidence requirements are documented.",
+    "Production readiness remains fail-closed and evidence-based."
+  ],
+  "intent": {
+    "problem": "Installation completion and production readiness are currently too easy to conflate.",
+    "constraints": ["Do not mark production ready without calibration, CI, and review evidence."],
+    "rationale": "Explicit state names prevent adopters from treating a successful install as a production approval."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Installed but uncalibrated adopter", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Calibration complete without CI or review evidence", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "All production evidence present", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/adoption-production-readiness-separation.json",
+    "baseCommit": "4c441ca768942e88f1fa1b356e08835b8d920906",
+    "initialScopeDigest": "e082bfcf4672b983e0ae80582f8e148d2626ab9417d8cf5f5cb230542f7bf156",
+    "contractSkeletonDigest": "5779b5281f5d9e7ac4976e1c0699753d6c88df23fb7306e5158480f15c0f23a7"
+  }
+}

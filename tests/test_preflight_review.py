@@ -102,6 +102,10 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
         "Evidence Integrity Guard": "Ready",
         "Production Operation Guard": "Ready",
     }
+    summary = ai_preflight_review.presentation_summary(report)
+    assert summary["status"] == "ready"
+    assert summary["decision"] == "none"
+    assert summary["signals"]["Intent"] == "Ready"
     assert report["context"]["scope"]["value"] == "Ready"
     assert report["context"]["outOfScope"]["value"] == "Ready"
 

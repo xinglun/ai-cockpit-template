@@ -966,6 +966,23 @@ def render_markdown(report: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def presentation_summary(report: dict[str, Any]) -> dict[str, Any]:
+    """Return the compact reviewer-facing state shared by CLI and Cockpit consumers."""
+    return {
+        "status": report.get("status"),
+        "recommendation": report.get("recommendation"),
+        "decision": report.get("decisionState", "none"),
+        "resumeCondition": report.get("humanDecisionRequest", {}).get("resumeCondition")
+        if isinstance(report.get("humanDecisionRequest"), dict)
+        else None,
+        "signals": {
+            item["name"]: item["value"]
+            for item in report.get("signals", [])
+            if isinstance(item, dict) and item.get("name")
+        },
+    }
+
+
 def validate_report_structure(report: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     for field in (

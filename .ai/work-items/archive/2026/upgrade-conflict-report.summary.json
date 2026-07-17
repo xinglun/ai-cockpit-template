@@ -1,0 +1,415 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "upgrade-conflict-report",
+  "contractPath": ".ai/work-items/archive/2026/upgrade-conflict-report.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/upgrade-conflict-report.contract.json",
+      "reason": "Defines the conflict report scope, gate, scenarios, and acceptance evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/upgrade-conflict-report.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Work Item status."
+    },
+    {
+      "path": ".ai/work-items/starts/upgrade-conflict-report.json",
+      "reason": "Work Item start receipt."
+    },
+    {
+      "path": "scripts/ai_upgrade_conflict_report.py",
+      "reason": "Structured conflict report builder and validator."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Fail-closed upgrade conflict detection and confirmation flag."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Shared upgrade conflict decision gate."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Installer confirmation behavior regression coverage."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Decision gate regression coverage."
+    },
+    {
+      "path": "tests/test_upgrade_conflict_report.py",
+      "reason": "Report schema, classification, and missing-report coverage."
+    },
+    {
+      "path": "docs/reference/upgrade.md",
+      "reason": "Documents report review and confirmation workflow."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Raises the complexity ceiling by the measured Work Item increment."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Work Item plan source."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/upgrade-conflict-report.contract.json",
+    "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_upgrade_conflict_report.py",
+    "tests/test_upgrade_conflict_report.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:07.321558+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "7c4e609369f9c8f02a6390be1d0f2550ba6766b90b089b6a2e722b9a2bf52c31",
+      "commandHash": "1d9dd014a7b1c55fc70af142c7fb76c9ebee900c8df8b6a01aa743f209461dd8",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/upgrade-conflict-report.contract.json work item contract check passed: .ai/work-items/active/upgrade-conflict-report.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:07.476995+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "eef6aff42629dc99471b91a0a889940aa7b56d7943989750609e27458b864a4e",
+      "commandHash": "042a12061138551a751f66f357b43c1ac602d928e6fe8c66e4a955645196e48f",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/upgrade-conflict-report.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:07.624415+00:00",
+      "exitCode": 0,
+      "durationMs": 100,
+      "outputDigest": "7f1676add3978444db8ff0f8ac5345b305fe3b898206f6594ac7c6281ee5e5f5",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/upgrade-conflict-report.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:07.865730+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "bcffab11efe90b72083f9edba55e66c057edac07fe298139dcfffe13bd254326",
+      "commandHash": "203ac0da5b8aa6f7c993c63bbd2edad8a031886c064c4b5adddd7b68df5e89b6",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/upgrade-conflict-report.contract.json --summary .ai/work-items/active/upgrade-conflict-report.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `upgrade-conflict-report` - Contract Hash: `511fb82922236515` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:07.993442+00:00",
+      "exitCode": 0,
+      "durationMs": 77,
+      "outputDigest": "04aa8b3be3b2f1db17bf3f671a39641e9b5d6c915438f813dd61257759797806",
+      "commandHash": "5c22f5caf3350614dddb22a8daa02161786d1407b892bc89e191ad18efc88fea",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/upgrade-conflict-report.summary.json review policy matched 5 path(s) [review] .ai/work-items/starts/upgrade-conflict-report.json [review] scripts/ai_upgrade_conflict_report.py [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_preflight_review.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:08.113386+00:00",
+      "exitCode": 0,
+      "durationMs": 83,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:08.240288+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:08.327683+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "eae0b87c66bf5766b752839824a582c57b7a34bef75e19743ed53ee9ecfbaf5d",
+      "commandHash": "e24ee47b23da259520d133e3adc0918c8713f54ec4c6cb653f7d50b38763ff20",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/upgrade-conflict-report.contract.json --summary .ai/work-items/active/upgrade-conflict-report.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:08.436664+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "fd6c2439cd40576e8b55ffb448a841a0358c064846a1c606dd22f497e8e33b9d",
+      "commandHash": "60073f07e80f079ac6919cefc5d2d44c4711de92ac9e4e8f874930de45b02b9e",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/upgrade-conflict-report.contract.json --summary .ai/work-items/active/upgrade-conflict-report.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:18:08.789361+00:00",
+      "exitCode": 0,
+      "durationMs": 314,
+      "outputDigest": "5d8f125deb19e69ca3ba240dcd4d5be94869fa6f39512f70e02411192126aa9c",
+      "commandHash": "6ca254a2fc018218decc0c91298f01c5c3e8fb8cad155fbc34a5a9361aad3189",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/upgrade-conflict-report.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/starts/u"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:20:04.729152+00:00",
+      "exitCode": 0,
+      "durationMs": 115889,
+      "outputDigest": "e8d2762f856fdf339c1e1bbc528f512cf578ed6248d62b56b2cdf35de708ac25",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "756f85265af070f1a1d93f70e11181b066fcc08583a4bf6d83404fa895b05ba1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 97 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 11%] ........................................................................ [ 23%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:20:06.061000+00:00",
+      "exitCode": 0,
+      "durationMs": 236,
+      "outputDigest": "f68ed3b25dc286ea81a33a06fc714521f1d21cddfc55afb103f16a094961600b",
+      "commandHash": "9989de117077597f0624ef1b51da1727b5b042caf1e7b1ae7d3f39267e48a5a7",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "ce09430ba86dd1e6fbba46bcb0bb08861238ad7fdedc5e241e118e91b163942b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/upgrade-conflict-report.contract.json --summary .ai/work-items/active/upgrade-conflict-report.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:20:06.324327+00:00",
+      "exitCode": 0,
+      "durationMs": 216,
+      "outputDigest": "6ee8f67ebe125d0858f338b74d65b69cff93f0d4f6b9cb3c9f4933644b20b29f",
+      "commandHash": "01de336d7944cdf7d699188581f907445da3042919d54a952b23d4ea08d1af89",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "ce09430ba86dd1e6fbba46bcb0bb08861238ad7fdedc5e241e118e91b163942b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/upgrade-conflict-report.contract.json --summary .ai/work-items/active/upgrade-conflict-report.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:20:06.414039+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "ce09430ba86dd1e6fbba46bcb0bb08861238ad7fdedc5e241e118e91b163942b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:20:06.512512+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "098bf0b29842a60ccc1bb22e8e3e0f81dfcb56793ebbd519ddd62f8e480c7f13",
+      "commandHash": "db54d467caad753312f573e3db15f5af961b8c2e0629feb1be22a708d38aa66c",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "ce09430ba86dd1e6fbba46bcb0bb08861238ad7fdedc5e241e118e91b163942b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/upgrade-conflict-report.contract.json --summary .ai/work-items/active/upgrade-conflict-report.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/upgrade-conflict-report.summary.json CONTRACT=.ai/work-items/active/upgrade-conflict-report.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T13:20:07.280958+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "9df32da0d1c7ed2259a5d056db374ff2ec7bc153c182094e5565d2f575972c9d",
+      "commandHash": "d5b0cc77d3c012f202e34da7ca7d22b5f95bb8e5d9705b6fda084b4c1bf5bf87",
+      "contractHash": "511fb8292223651517bb577e16d8b11d48553041b7a9be0b77be53a26fe17db5",
+      "commitSha": "03d3e916f26c9822454df1cfca5417c86c4e8e33",
+      "executionContractPath": ".ai/work-items/active/upgrade-conflict-report.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/upgrade-conflict-report.summary.json",
+      "worktreeDigest": "22b4d81e8b0b961202dc9c4c642a654aff3c2493a061b4263023fe50e84df289",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/upgrade-conflict-report.summary.json --contract .ai/work-items/active/upgrade-conflict-report.contract.json ai summary check passed: .ai/work-items/active/upgrade-conflict-report.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented in the upgrade reference.",
+      "compliant": true,
+      "evidence": "docs/reference/upgrade.md documents the report and confirmation flag."
+    },
+    {
+      "guideline": "Conflict classification must preserve project-owned files and never silently overwrite diverged content.",
+      "compliant": true,
+      "evidence": "scripts/install_ai_cockpit.py uses ai_preflight_review.upgrade_conflict_gate and preserves project-owned files."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Upgrade conflict classification and confirmation gating are covered by focused and end-to-end tests."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "Adopters must review and confirm project-owned or diverged files before applying an upgrade.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "classification correctness",
+      "fail-closed confirmation gate"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "511fb82922236515",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "511fb82922236515",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 131
+}

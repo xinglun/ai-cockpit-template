@@ -52,3 +52,11 @@ Use [Distribution](distribution.md) for installer options and release capability
 New installations ship `.cursor/rules/ai-cockpit.mdc` with `alwaysApply: false`. Read-only investigation no longer forces a Work Item by default. Teams that want stricter enforcement can enable **Always Apply** in Cursor rule settings or set `alwaysApply: true` after reviewing local workflow impact.
 
 Existing installations keep their current rule file until you upgrade or merge the managed `.cursor` tree from a newer AI Cockpit release.
+### Upgrade conflict report
+
+When an upgrade finds a project-owned or diverged governance file, it writes
+`.ai/cockpit/upgrade-conflict-report.json` with the path classification, diff
+summary, and recommendation, then stops. Review the report and rerun with
+`--confirm-upgrade-conflicts` only after deciding that the preserved target
+content is correct. Missing or malformed reports must be treated as a failed
+upgrade; the installer never silently overwrites these files.

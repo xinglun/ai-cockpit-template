@@ -16,6 +16,8 @@ from pathlib import Path
 from typing import cast
 
 from ai_generate_status import write_no_active_status
+from ai_upgrade_conflict_report import build_report
+from ai_preflight_review import upgrade_conflict_gate
 from ai_start_receipt import build_receipt, receipt_binding
 
 STACKS = {
@@ -73,6 +75,7 @@ SCRIPT_NAMES = {
     "ai_project_doctor.py",
     "ai_calibrate.py",
     "ai_check_guard_calibration.py",
+    "ai_upgrade_conflict_report.py",
 }
 AGENT_MARKER = "<!-- AI_COCKPIT_SECTION -->"
 AGENT_END_MARKER = "<!-- /AI_COCKPIT_SECTION -->"
@@ -218,6 +221,7 @@ class Installer:
         create_adoption: bool = False,
         base_remote: str | None = None,
         base_branch: str | None = None,
+        confirm_upgrade_conflicts: bool = False,
     ) -> None:
         self.source = source.resolve()
         self.target = target.resolve()
@@ -232,6 +236,7 @@ class Installer:
         self.create_adoption = create_adoption
         self.base_remote = base_remote
         self.base_branch = base_branch
+        self.confirm_upgrade_conflicts = confirm_upgrade_conflicts
         self.backup_dir = (
             self.target
             / ".ai"
@@ -246,6 +251,7 @@ class Installer:
         self.created_adoption_branch: str | None = None
         self.original_git_head: GitHeadSnapshot | None = None
         self.upgrade_conflicts: list[dict[str, str]] = []
+        self.upgrade_conflict_report: dict[str, object] | None = None
 
     def install(self) -> int:
         if not self.source.exists():
@@ -312,6 +318,13 @@ class Installer:
         ) as exc:
             if not self.dry_run:
                 self.rollback_installation()
+                if self.upgrade_conflict_report is not None:
+                    report_path = self.target / ".ai" / "cockpit" / "upgrade-conflict-report.json"
+                    report_path.parent.mkdir(parents=True, exist_ok=True)
+                    report_path.write_text(
+                        json.dumps(self.upgrade_conflict_report, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
             print(f"ERROR: installation failed: {exc}", file=sys.stderr)
             return 2
 
@@ -1350,17 +1363,43 @@ class Installer:
             ".ai/project_profile.yaml",
             ".ai/project_profile.proposed.yaml",
         }
-        if self.upgrade and existed and project_owned_boundary:
-            if src.read_bytes() != dst.read_bytes():
+        if self.upgrade and existed and src.read_bytes() != dst.read_bytes():
+            if project_owned_boundary or not self.confirm_upgrade_conflicts:
                 decision = {
                     "path": relative,
-                    "classification": "project-owned-or-diverged",
+                    "classification": "Project-owned" if project_owned_boundary else "Diverged",
                     "decision": "preserved",
                     "reason": "Target differs from template baseline; review manually before adopting template changes.",
+                    "summary": "Target content differs from the template-managed content.",
+                    "recommendation": "Confirm the project-owned decision or keep the target file unchanged.",
                 }
                 self.upgrade_conflicts.append(decision)
-                self.record("skip", dst, "preserve project-owned or diverged governance file")
-                return
+                self.upgrade_conflict_report = build_report(
+                    self.upgrade_conflicts,
+                    source_version=self.load_version(
+                        self.source / ".ai" / "cockpit" / "version.json"
+                    ),
+                    target_version=self.load_version(
+                        self.target / ".ai" / "cockpit" / "version.json"
+                    ),
+                )
+                report_path = self.target / ".ai" / "cockpit" / "upgrade-conflict-report.json"
+                if not self.dry_run:
+                    report_path.parent.mkdir(parents=True, exist_ok=True)
+                    report_path.write_text(
+                        json.dumps(self.upgrade_conflict_report, indent=2) + "\n", encoding="utf-8"
+                    )
+                if upgrade_conflict_gate(
+                    self.upgrade_conflict_report, confirmed=self.confirm_upgrade_conflicts
+                ):
+                    raise ValueError(
+                        "upgrade conflict report requires human confirmation; "
+                        "review .ai/cockpit/upgrade-conflict-report.json and pass "
+                        "--confirm-upgrade-conflicts"
+                    )
+                if project_owned_boundary:
+                    self.record("skip", dst, "preserve project-owned or diverged governance file")
+                    return
         if existed and not (self.force or self.upgrade):
             self.record("skip", dst, "already exists")
             return
@@ -1608,6 +1647,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--base-branch", help="Explicit adopter base branch for upgrade/adoption lifecycle."
     )
+    parser.add_argument(
+        "--confirm-upgrade-conflicts",
+        action="store_true",
+        help="Explicitly continue after reviewing the generated upgrade conflict report.",
+    )
     return parser.parse_args()
 
 
@@ -1627,6 +1671,7 @@ def main() -> int:
         create_adoption=args.create_adoption,
         base_remote=args.base_remote,
         base_branch=args.base_branch,
+        confirm_upgrade_conflicts=args.confirm_upgrade_conflicts,
     ).install()
 
 

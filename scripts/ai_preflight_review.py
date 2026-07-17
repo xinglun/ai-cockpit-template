@@ -22,6 +22,7 @@ from ai_common import (
     validate_scenario_coverage,
 )
 from ai_readiness_policy import has_explicit_blocker
+from ai_upgrade_conflict_report import validate_report
 
 
 ALLOWED_STATUSES = {
@@ -42,6 +43,16 @@ ALLOWED_SIGNAL_VALUES = {
 }
 DEFAULT_OUTPUT = PROJECT_ROOT / "target" / "ai_preflight_review.json"
 DEFAULT_POLICY = PROJECT_ROOT / ".ai" / "guards" / "preflight_review_policy.yaml"
+
+
+def upgrade_conflict_gate(report: Any, *, confirmed: bool) -> list[str]:
+    """Return blocking issues for an upgrade conflict report and decision."""
+    issues = validate_report(report)
+    if issues:
+        return [f"upgrade conflict report: {issue}" for issue in issues]
+    if report.get("requiresHumanConfirmation") and not confirmed:
+        return ["upgrade conflict report requires human confirmation"]
+    return []
 
 
 @dataclass(frozen=True)

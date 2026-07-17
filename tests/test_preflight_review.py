@@ -568,3 +568,13 @@ def test_preflight_sources_verification_and_scenario_boundaries():
         ai_preflight_review.scenario_coverage_signal({"riskAssessment": {"level": "low"}}).value
         == "Not Applicable"
     )
+
+
+def test_upgrade_conflict_gate_requires_confirmation_and_accepts_it():
+    report = {
+        "reportVersion": 1,
+        "entries": [{"path": "x", "classification": "Human Confirmation Required"}],
+        "requiresHumanConfirmation": True,
+    }
+    assert ai_preflight_review.upgrade_conflict_gate(report, confirmed=False)
+    assert ai_preflight_review.upgrade_conflict_gate(report, confirmed=True) == []

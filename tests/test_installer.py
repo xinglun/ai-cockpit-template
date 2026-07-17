@@ -417,6 +417,7 @@ def test_upgrade_backs_up_policies_and_replaces_agent_marker_section(tmp_path):
         with_examples=False,
         update_makefile=True,
         upgrade=True,
+        confirm_upgrade_conflicts=True,
     )
     assert upgrade.install() == 0
 
@@ -489,6 +490,7 @@ def test_upgrade_branch_preparation_is_review_only(tmp_path, monkeypatch):
         with_examples=False,
         update_makefile=False,
         upgrade=True,
+        confirm_upgrade_conflicts=True,
     )
     monkeypatch.setattr(installer, "adopter_git_context", lambda: ("origin", "main"))
     assert installer.prepare_upgrade_branch() is True
@@ -536,6 +538,7 @@ def test_upgrade_preserves_diverged_project_owned_guard(tmp_path):
         with_examples=False,
         update_makefile=False,
         upgrade=True,
+        confirm_upgrade_conflicts=True,
     )
     assert upgrade.install() == 0
     assert guard.read_text(encoding="utf-8") == "project-owned: true\n"

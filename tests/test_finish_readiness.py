@@ -41,6 +41,20 @@ def test_promote_review_readiness_remains_not_ready_for_incomplete_evidence():
     assert unknown["status"] == "not_ready"
 
 
+def test_promote_review_readiness_requires_acceptance_evidence_for_v2():
+    result = ai_finish.promote_review_readiness(
+        summary(),
+        {
+            "contractVersion": 2,
+            "acceptance": ["A1: behavior is mapped"],
+            "riskAssessment": {"level": "low"},
+        },
+    )
+
+    assert result["status"] == "not_ready"
+    assert "Acceptance evidence" in result["reason"]
+
+
 def test_finish_archive_message_is_not_lifecycle_closure():
     output = ai_finish.archive_next_steps("example")
 

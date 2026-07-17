@@ -110,6 +110,7 @@ metadata; strict archive integrity is enabled by the row's own digest pair.
 
 - **`acceptance`**: `array[string]`
   - 本タスクの人間が期待する受入要件（TODOリスト）。
+- v2 の新規 Contract では、各要件を `A1: ...`、`A2: ...` のように安定した ID 付きで記述します。ID は Summary の `acceptanceEvidence` から一意に参照されます。
 - **`guidelines`**: `array[string]`
   - 本タスクに適用される追加の開発・品質ガイドライン（例:「新規 API には doc コメントを必須とする」など）。
 - **`verification`**: `array[object]`
@@ -177,7 +178,12 @@ Preflight が `needs_human_confirmation` の場合、生成レポートには `h
   - Contract で指示された各ガイドラインに対する準拠証拠。
   - `guideline`: `string` - ガイドライン文章。
   - `compliant`: `boolean` - 準拠しているか。
-  - `evidence`: `string` - 具体的な準拠の証明（例: 「仕様書ドキュメントに JSDoc を追記した」）。
+    - `evidence`: `string` - 具体的な準拠の証明（例: 「仕様書ドキュメントに JSDoc を追記した」）。
+- **`acceptanceEvidence`**: `array[object]` (v2 Summary)
+  - Contract の各 Acceptance ID と、実行済み検証に紐づく証拠を一対一で対応付けます。各要素は `acceptanceId` と `evidence` を持ちます。
+  - `evidence` の各要素は `type`、`path`、`locator`、`verification` を必須とします。`path` はリポジトリ相対で実在するテストファイル、`locator` はテスト名や行などの追跡位置、`verification` は Summary に記録された passed の検証 ID（文字列または配列）です。
+  - バグ修正を示す証拠には `kind: "bug_fix"` と `failureScenario` を付けます。high-risk Contract では `humanReview: {"completed": true, ...}` のような明示的な人間レビュー証拠も必要です。
+  - これは監査用の対応表であり、新しいテスト実行エンジンではありません。既存の Contract v1 アーカイブはこの項目なしで読み取り互換を維持します。
 
 ### 2.3 チェックポイント監査証跡
 

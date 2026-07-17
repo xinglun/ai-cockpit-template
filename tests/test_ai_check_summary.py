@@ -356,3 +356,29 @@ def test_summary_validator_accepts_positive_archive_sequence_and_rejects_invalid
     summary["archiveSequence"] = 0
     issues = ai_check_summary.validate_summary(summary, contract, legacy_archive=True)
     assert "archiveSequence must be a positive integer when present" in issues
+
+
+def test_summary_validator_requires_v2_acceptance_evidence_mapping():
+    summary = {
+        "summaryVersion": 2,
+        "workItemId": "task",
+        "contractPath": ".ai/work-items/active/task.contract.json",
+        "changedFiles": [{"path": "tests/test_acceptance_policy.py", "reason": "fixture"}],
+        "sourcesUsed": ["fixture"],
+        "verification": [{"check": "quality", "result": "not_run"}],
+        "unknownsRemaining": [],
+        "risk": {"level": "low", "detail": "fixture"},
+        "generatedFiles": [],
+        "destructiveChanges": [],
+        "observedIssues": [],
+    }
+    contract = {
+        "contractVersion": 2,
+        "workItemId": "task",
+        "acceptance": ["A1: behavior is mapped"],
+        "verification": [],
+    }
+
+    issues = ai_check_summary.validate_summary(summary, contract)
+
+    assert "summary.acceptanceEvidence must be a list" in issues

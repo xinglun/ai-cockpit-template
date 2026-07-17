@@ -1,0 +1,231 @@
+{
+  "contractVersion": 2,
+  "workItemId": "acceptance-to-evidence-traceability",
+  "mode": "code",
+  "title": "Bind Acceptance Criteria to Executed Evidence",
+  "problemStatement": "Summary validation confirms that verification commands ran, but it cannot prove which Acceptance criterion each command supports, whether the referenced test exists and ran, or whether a high-risk change received human review.",
+  "scenarioCoverage": [
+    {
+      "scenario": "v2 Contract with identified Acceptance criteria and complete executed evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_acceptance_policy.py", "tests/test_ai_check_summary.py"]
+    },
+    {
+      "scenario": "Missing or duplicate Acceptance ID",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_acceptance_policy.py"]
+    },
+    {
+      "scenario": "Evidence references missing or unexecuted tests",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_acceptance_policy.py", "tests/test_ai_check_summary.py"]
+    },
+    {
+      "scenario": "High-risk or bug-fix Acceptance lacks required review/failure evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_acceptance_policy.py"]
+    },
+    {
+      "scenario": "Historic v1 archive remains readable without v2 Acceptance mapping",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ai_check_summary.py"]
+    }
+  ],
+  "baseCommit": "4eb19c005c6e69fc8b1aa45215f75f1e2caf2f8f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_acceptance_policy.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_finish.py",
+    ".ai/guards/summary_policy.yaml",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "docs/contract-fields.md",
+    "tests/test_acceptance_policy.py",
+    "tests/test_ai_check_summary.py",
+    "tests/test_finish_readiness.py",
+    ".ai/work-items/active/acceptance-to-evidence-traceability.contract.json",
+    ".ai/work-items/active/acceptance-to-evidence-traceability.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_archive_work_item.py",
+    "product source code outside Summary/Contract governance"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Work Item 3 objective, compatibility, and required evidence scenarios."
+    },
+    {
+      "path": "scripts/ai_acceptance_policy.py",
+      "reason": "Existing Acceptance signal policy and compatibility behavior."
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Summary schema and verification evidence validation entry point."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Finish-time Summary evidence generation and readiness promotion."
+    },
+    {
+      "path": ".ai/guards/summary_policy.yaml",
+      "reason": "Policy source for Acceptance ID/evidence and high-risk review requirements."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Contract and Summary field documentation."
+    },
+    {
+      "path": "tests/test_acceptance_policy.py",
+      "reason": "Acceptance policy regression coverage."
+    },
+    {
+      "path": "tests/test_ai_check_summary.py",
+      "reason": "Summary validation regression coverage."
+    },
+    {
+      "path": "tests/test_finish_readiness.py",
+      "reason": "Finish readiness regression coverage."
+    },
+    {
+      "path": ".ai/work-items/active/acceptance-to-evidence-traceability.contract.json",
+      "reason": "Active Contract for this Work Item."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_evidence", "schema_validation"],
+    "reason": "The change tightens finish evidence requirements and must preserve historic v1 readability while preventing unsupported Acceptance claims."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized the implementation plan and normal repository workflow."
+  },
+  "preReviewWarnings": [
+    "Review v2 Acceptance ID parsing, evidence execution binding, high-risk human review, and v1 compatibility."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "v2 Acceptance criteria use stable A<n>: identifiers, and Summary acceptanceEvidence maps every ID exactly once.",
+    "Every Acceptance evidence item references an existing repository-relative test path, locator, and one or more Verification IDs whose recorded result is passed.",
+    "Missing IDs, missing mappings, duplicate mappings, missing test paths, unexecuted Verification, and bug-fix mappings without failure scenarios are rejected.",
+    "High-risk v2 Work Items require an explicit human review marker in acceptanceEvidence; low/medium risk behavior remains compatible.",
+    "The mapping is retained in Summary/Archive evidence, historic Contract v1 remains readable, and the focused tests plus make quality pass."
+  ],
+  "guidelines": [
+    "Acceptance evidence must be explicit, repository-relative, and traceable to executed Verification.",
+    "Keep Contract v1 archive validation read-only compatible; apply strict Acceptance mapping only to v2 active Work Items.",
+    "Require human review evidence only for high-risk Work Items, without hard-coding a universal two-person policy.",
+    "Do not claim an Acceptance is complete from command presence alone."
+  ],
+  "intent": {
+    "problem": "Verification results currently prove that checks ran but not which Acceptance criterion they support.",
+    "constraints": [
+      "Use A<n>: IDs in v2 Acceptance strings to remain compatible with the existing Contract checker.",
+      "Historic v1 archive records must continue to validate without new mapping fields.",
+      "Evidence paths must be repository-relative and must not expose machine-specific paths.",
+      "High-risk review is an explicit marker, not a hard-coded organization policy."
+    ],
+    "rationale": "A small evidence mapping makes each Acceptance auditable without changing the existing registered Verification command model."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "Explicit user authorization covers the plan's governance policy, documentation, tests, branch, PR, merge, and cleanup changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

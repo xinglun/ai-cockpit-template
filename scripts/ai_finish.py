@@ -27,6 +27,7 @@ from ai_common import (
     save_json,
     verification_key,
 )
+from ai_acceptance_policy import validate_acceptance_evidence
 from ai_check_diff_ownership import format_preview, preview
 from ai_observability import create_observability, elapsed_ms
 
@@ -179,7 +180,9 @@ def record_result(summary_path: Path, item: dict[str, Any]) -> None:
     save_json(summary_path, summary)
 
 
-def promote_review_readiness(summary: dict[str, Any]) -> dict[str, Any]:
+def promote_review_readiness(
+    summary: dict[str, Any], contract: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """Derive review readiness from recorded verification and residual risk."""
     verification = summary.get("verification")
     unknowns = summary.get("unknownsRemaining")
@@ -196,6 +199,20 @@ def promote_review_readiness(summary: dict[str, Any]) -> dict[str, Any]:
         if isinstance(existing, dict) and isinstance(existing.get("expectedReviewFocus"), list)
         else []
     )
+    if isinstance(contract, dict):
+        acceptance_issues = validate_acceptance_evidence(
+            contract,
+            summary,
+            summary.get("verification", [])
+            if isinstance(summary.get("verification"), list)
+            else [],
+        )
+        if acceptance_issues:
+            return {
+                "status": "not_ready",
+                "reason": "Acceptance evidence is incomplete: " + "; ".join(acceptance_issues[:3]),
+                "expectedReviewFocus": expected_focus,
+            }
     if not complete:
         return {
             "status": "not_ready",
@@ -437,7 +454,7 @@ def main() -> int:
     # the subsequent status/risk/Summary checks must all attest this exact
     # baseline before the Work Item can be archived.
     summary_data = load_json(summary_path)
-    summary_data["reviewReadiness"] = promote_review_readiness(summary_data)
+    summary_data["reviewReadiness"] = promote_review_readiness(summary_data, contract_data)
     save_json(summary_path, summary_data)
 
     # Summary/status are self-referential artifacts. Stabilize them after all

@@ -1022,6 +1022,10 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
                 "Capability",
                 "Constraint Guard",
                 "Success Criteria",
+                "Critical Domain Guard",
+                "Governance Bypass Guard",
+                "Evidence Integrity Guard",
+                "Production Operation Guard",
             }:
                 issues.append(f"signals[{index}].name is invalid")
             if signal.get("value") not in ALLOWED_SIGNAL_VALUES:

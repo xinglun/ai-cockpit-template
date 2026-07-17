@@ -97,6 +97,10 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
         "Sources": "Ready",
         "Scenario Coverage": "Ready",
         "Verification": "Ready",
+        "Critical Domain Guard": "Ready",
+        "Governance Bypass Guard": "Ready",
+        "Evidence Integrity Guard": "Ready",
+        "Production Operation Guard": "Ready",
     }
     assert report["context"]["scope"]["value"] == "Ready"
     assert report["context"]["outOfScope"]["value"] == "Ready"

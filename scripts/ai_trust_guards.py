@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from ai_trust_schema import ValidationError, validate_payload
+from ai_critical_domain_guards import critical_domain_signals
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -192,4 +193,5 @@ def trust_signals(contract: dict[str, Any]) -> list[dict[str, Any]]:
         intent_guard_signal(contract),
         constraint_conflict_signal(contract),
         success_criteria_signal(contract),
+        *critical_domain_signals(contract),
     ]

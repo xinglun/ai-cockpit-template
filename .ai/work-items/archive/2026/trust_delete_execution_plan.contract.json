@@ -1,0 +1,171 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trust_delete_execution_plan",
+  "mode": "code",
+  "title": "Archive release evidence and delete execution plan",
+  "baseCommit": "1c8f557db8740162ea01d7d820b4b618ff8a71e9",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md",
+    ".ai/work-items/archive/2026/trust_publish_release.publication.json",
+    ".ai/work-items/active/trust_delete_execution_plan.contract.json",
+    ".ai/work-items/active/trust_delete_execution_plan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/index.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["all other plans", "all other Contracts and Summaries", "release metadata", "user-facing documentation"],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/trust_publish_release.publication.json",
+      "reason": "Contains the independently verified publication evidence that permits final plan cleanup."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trust_publish_release.summary.json",
+      "reason": "Stores independently verified v0.5.32 publication evidence before plan deletion."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive index must remain consistent after the evidence update."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Deletion is narrowly authorized and limited to the completed plan; the main risk is deleting audit-relevant evidence, mitigated by preserving all archived pairs and release metadata."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized this exact final deletion; scope and preservation rules are explicit."
+  },
+  "preReviewWarnings": [
+    "Confirm only the named plan is deleted and that all archived Work Item evidence and v0.5.32 release evidence remain discoverable."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Only docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md is deleted.",
+    "The append-only publication evidence record stores v0.5.32, source commit 1c8f557db8740162ea01d7d820b4b618ff8a71e9, workflow 29620355096, published Release URL, tag target, and four release assets.",
+    "All ten Work Item archive pairs, archive index integrity, Cockpit status consistency, and release metadata remain valid.",
+    "The final PR contains no unrelated deletion and the lifecycle closes with a clean synchronized main branch."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The completed execution plan is no longer needed after all ten Work Items and the public release are complete, but its release evidence must remain auditable.",
+    "constraints": ["Delete only the named plan.", "Preserve Contracts, Summaries, archive index, release metadata, and user-facing Trust documentation.", "Record the published release evidence before deletion."],
+    "rationale": "Removing the finished plan prevents stale execution instructions while preserving the durable audit trail."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Only the named plan is deleted", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Release evidence remains archived and discoverable", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Final status and archive integrity remain valid", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": ["docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md"],
+    "approvalEvidence": {
+      "approved": true,
+      "approvedBy": "user",
+      "reason": "User explicitly authorized deletion of the completed execution plan as the final Work Item."
+    }
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly requested deletion of this exact completed execution plan as the final Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/trust_delete_execution_plan.json",
+    "baseCommit": "1c8f557db8740162ea01d7d820b4b618ff8a71e9",
+    "initialScopeDigest": "94f86db78b5938d2475e807f95930ff1a5a5af10c0913a9c619340ee3e4b2e82",
+    "contractSkeletonDigest": "5085c8153de12bcb921e7922cf8fd3de38aa35859b5ebdb803549e61a7670ccb"
+  }
+}

@@ -121,6 +121,7 @@ def test_release_workflow_requires_lockfile_reproducibility():
 def test_smoke_preparation_mode_is_event_based_and_dispatch_stays_strict():
     workflow = (ROOT / ".github" / "workflows" / "smoke.yml").read_text(encoding="utf-8")
     assert "github.event_name == 'pull_request'" in workflow
+    assert "github.event_name == 'workflow_dispatch'" in workflow
     assert "github.ref == 'refs/heads/main'" in workflow
     assert "startsWith(github.head_ref" not in workflow
 

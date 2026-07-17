@@ -12,11 +12,8 @@ keywords:
 # AI Cockpit 全面评审整改实施计划
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Every step uses checkbox (`- [ ]`) syntax. The execution loop below is mandatory.
-
 **Goal:** 将评审确认的 Conditional GO 结论转化为 17 个可独立验收的整改 Work Item，并在全部整改完成后发布新版本、清理本计划文档。
-
 **Architecture:** AI Cockpit 继续分为三个边界：模板维护工程、安装对象工程、Human-Agent Collaboration。每个整改项遵循“一项工单、一个专用分支、一个 PR”的生命周期；先修复人机决策与证据闭环，再修复模板发布与采用方升级，最后发布版本。
-
 **Tech Stack:** Python、pytest、Make、GitHub Actions、JSON/YAML、Markdown、AI Cockpit Work Item Contract/Summary。
 
 ## Global Constraints
@@ -38,7 +35,6 @@ keywords:
 - 安装对象工程为 **Adoption GO，Production Conditional GO**：首次安装可继续使用，但安装成功不等于项目已完成质量、CI、Coverage、Review 和 Release 校准。
 - Human-Agent Collaboration 方向正确但交接协议不足：`needs_human_confirmation` 必须从通用诊断状态升级为结构化 Human Decision Request，并具备可验证的 Decision Evidence 和 Resume Protocol。
 - 模板不强制所有采用方双人审批；采用方按自身组织和风险决定单人、双人或更严格政策。
-
 ## 工单总表
 
 | 顺序 | 优先级 | Work Item | 依赖 | 完成标志 |
@@ -91,273 +87,182 @@ keywords:
 ### 全部完成后的顺序
 
 工单 17 发布新版本前，必须确认工单 1–16 的 PR 已合并、Archive Evidence 完整、`make check-ai-pr` 和项目质量检查通过。发布成功后，执行工单 18 删除本计划文档；删除前必须确认新版本 Tag、Release Evidence、Published Release 文件和安装验证均成功。工单 18 只删除计划文档，不删除任何 Work Item 历史记录。
-
 ## 工单 1：Human Decision Request Schema
 
 **目标：** 把 `needs_human_confirmation` 从通用 Recommendation 升级为结构化决策请求。
-
 **文件：** 修改 `scripts/ai_preflight_review.py`、`scripts/ai_governance_compression.py`、`.ai/guards/preflight_review_policy.yaml`；测试 `tests/test_preflight_review.py`、`tests/test_governance_compression.py`；更新 `docs/contract-fields.md` 和 `.ai/cockpit/README.md`。
-
 **步骤：**
-
 - [ ] 为 `needs_human_confirmation` 增加失败测试，断言输出包含 `decisionId`、`whatHappened`、`whyItMatters`、`options`、`recommendedOption`、`recommendationReason`、`question`、`resumeCondition`。
 - [ ] 执行 `pytest -q tests/test_preflight_review.py tests/test_governance_compression.py`，确认新测试先失败。
 - [ ] 实现稳定、可序列化的 Schema 和从现有 Signals/Decision Drivers 到人类可读内容的映射；缺少证据时保持保守状态。
 - [ ] 增加 Schema 校验和字段文档；执行上述测试、`make check-ai-preflight-review`、`make check-ai-status`。
 - [ ] 完成该 Work Item 的标准生命周期循环。
-
 ## 工单 2：Human Decision Gate 与 Resume Protocol
 
 **目标：** 没有与当前 Preflight Hash 绑定的有效人类决定时，Agent 不得从 Human Decision State 进入 Implementation State。
-
 **文件：** 修改 `scripts/ai_preflight_review.py`、`scripts/ai_start.py`、`scripts/ai_finish.py`、`scripts/ai_common.py`、`.ai/guards/preflight_review_policy.yaml`、`.ai/cockpit/README.md`；测试 `tests/test_preflight_review.py`、`tests/test_start_and_archive.py`、`tests/test_finish_e2e.py`。
-
 **步骤：**
-
 - [ ] 增加无 Decision、过期 Hash、错误 Contract Hash、未重新 Preflight 时的失败测试。
 - [ ] 实现 Decision Evidence 的读取、Hash 校验、`human_decision_recorded` 状态和重新 Preflight 的恢复路径。
 - [ ] 让 `ai-start`/`ai-preflight` 在 Gate 开启时 fail closed，并保留用户已授权的当前流程配置语义。
 - [ ] 验证 `ready → implementation → ready_for_review` 及 `not_ready/needs_human_confirmation → decision → ready` 状态转换。
 - [ ] 完成标准生命周期循环，并把暂停/恢复证据写入 Summary。
-
 ## 工单 3：Acceptance-to-Evidence Traceability
 
 **目标：** 让每项 Acceptance 具备可执行且可追溯的证据，不再只验证“有命令输出”。
-
 **文件：** 修改 `scripts/ai_acceptance_policy.py`、`scripts/ai_check_summary.py`、`scripts/ai_finish.py`、`.ai/guards/summary_policy.yaml`；测试 `tests/test_acceptance_policy.py`、`tests/test_ai_check_summary.py`、`tests/test_finish_readiness.py`；更新 `docs/contract-fields.md`。
-
 **步骤：**
-
 - [ ] 增加缺少 Acceptance ID、缺证据、测试路径不存在、测试未执行和 Bug Fix 缺少失败场景的失败测试。
 - [ ] 实现 Acceptance Evidence Mapping 校验，并让高风险项要求人工 Review 标记。
 - [ ] 将映射结果写入 Summary 和 Archive Evidence；保持旧 Contract v1 只读兼容。
 - [ ] 执行 `pytest -q tests/test_acceptance_policy.py tests/test_ai_check_summary.py tests/test_finish_readiness.py` 及 `make quality`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 4：Work Item Start Receipt
 
 **目标：** 用不可变 Receipt 证明 Work Item 起始时间早于实现变更。
-
 **文件：** 新增 `scripts/ai_start_receipt.py`；修改 `scripts/ai_start.py`、`scripts/ai_check_work_item.py`、`scripts/ai_check_pr.py`、`Makefile`；新增/修改 `tests/test_start_and_archive.py`、`tests/test_ai_check_work_item.py`、`tests/test_pr_aggregate.py`；更新 `docs/reference/repository-workflow.md`。
-
 **步骤：**
-
 - [ ] 增加 Start Receipt 结构、Digest 和 Git-tracked path 的测试，覆盖 Receipt 缺失、篡改、基线不一致。
 - [ ] 让 `ai-start` 在实现变更前创建 `.ai/work-items/starts/<work-item-id>.json`，记录 Work Item ID、Base Commit、Start Timestamp、Initial Scope Digest、Contract Skeleton Digest。
 - [ ] 让 PR 检查验证 Receipt 的不可变性和与 Contract/分支基线的绑定。
 - [ ] 通过 `make ai-start`、`pytest`、`make check-ai-pr AI_BASE_COMMIT=origin/main` 验证完整路径。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 5：Release Source Default-Branch Binding
 
 **目标：** Release 只能来自远程默认分支的明确 HEAD。
-
 **文件：** 修改 `.github/workflows/release.yml`、`scripts/check_release_distribution.py`、`scripts/ai_common.py`、`tests/test_workflows.py`、`tests/test_release_distribution.py`、`docs/distribution.md`。
-
 **步骤：**
-
 - [ ] 增加功能分支 Source、默认分支 Source、Remote HEAD 缺失和显式 Base 参数的失败/成功测试。
 - [ ] 在 Release Workflow 中 fetch 远程默认分支并验证 `SOURCE_COMMIT == origin/<default-branch>`；无法解析时 fail closed。
 - [ ] 将 Source Commit、Remote、Default Branch 和 Run ID 写入 Release Evidence。
 - [ ] 执行 Workflow 静态检查、`pytest -q tests/test_workflows.py tests/test_release_distribution.py`、`make check-release-evidence`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 6：Review Readiness Finalization
 
 **目标：** Readiness 只在 Stabilization、Summary 和最终 Status 校验全部通过后提升。
-
 **文件：** 修改 `scripts/ai_finish.py`、`scripts/ai_generate_status.py`、`scripts/ai_check_status.py`；测试 `tests/test_finish_readiness.py`、`tests/test_finish_e2e.py`、`tests/test_guards_and_status.py`。
-
 **步骤：**
-
 - [ ] 增加后续 Stabilization 失败时 Readiness 保持 `not_ready` 的回归测试。
 - [ ] 调整执行顺序为 `Declared Verification → Stabilization → Final Summary Validation → Promote Review Readiness → Final Status Generation → Final Status Consistency`。
 - [ ] 验证任何中间失败都不会留下过期的正向 Readiness。
 - [ ] 执行相关 pytest、`make ai-finish` 演练和 `make check-ai-status-consistency`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 7：Lockfile Reproducibility Runtime Fix
 
 **目标：** Clean Runner 实际运行锁文件可复现命令，并修复无 `.venv` 时的解释器路径问题。
-
 **文件：** 修改 `Makefile`、`.github/workflows/compatibility.yml` 或对应 Clean Runner Workflow、`tests/test_makefile.py`；更新 `docs/distribution.md`。
-
 **步骤：**
-
 - [ ] 增加测试断言 Target 使用 `$(PYTHON) -m piptools compile`，而非从 `$(dir $(abspath $(PYTHON)))` 查找可执行文件。
 - [ ] 修改 Make Target 和 Clean Runner，使其在干净环境中真正执行该 Target。
 - [ ] 使用项目提供的 Python 环境运行锁文件检查，记录缺失依赖时的明确失败信息。
 - [ ] 执行 `pytest -q tests/test_makefile.py`、锁文件 Target、`make quality`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 8：Published Release / Candidate Release 分离
 
 **目标：** Quick Install 永远只读取已发布版本，候选版本不污染安装入口。
-
 **文件：** 修改 `release.json`、发布准备脚本/Workflow、`install.sh`、`scripts/install_ai_cockpit.py`、`tests/test_install_sh.py`、`tests/test_install_script.py`、`tests/test_release_distribution.py`；更新 `docs/installation.md`、`docs/upgrade.md`。
-
 **步骤：**
-
 - [ ] 增加候选 Tag 尚未发布时 Quick Install 仍使用已发布 `release.json` 的回归测试。
 - [ ] 引入 `next-release.json` 作为候选版本元数据，明确其不能被 Quick Install 消费。
 - [ ] 校验已发布 Tag、Digest、Manifest 和安装入口之间的一致性。
 - [ ] 执行安装测试、发布证据测试和 `make check-ai-adoption-ready`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 9：Release Workflow Run Correlation
 
 **目标：** 让 Release Evidence 能唯一关联 Workflow Run、Source Commit、Tag 和生成物。
-
 **文件：** 修改 `.github/workflows/release.yml`、`scripts/check_release_distribution.py`、`.ai/cockpit/release-digests.json`；测试 `tests/test_release_distribution.py`、`tests/test_workflows.py`；更新 `docs/distribution.md`。
-
 **步骤：**
-
 - [ ] 增加缺 Run ID、Run SHA 与 Source 不一致、Tag 不一致和 Artifact Digest 不一致的失败测试。
 - [ ] 生成并校验不可歧义的 Release Correlation Record。
 - [ ] 将 Correlation Record 接入发布检查和安装验证。
 - [ ] 执行发布证据测试、Workflow 检查和 `make check-release-evidence`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 10：Safe Upgrade Work Item Lifecycle
 
 **目标：** `--upgrade` 与首次 Adoption 享有同等级的 Work Item、分支、验证和 PR 治理。
-
 **文件：** 修改 `scripts/install_ai_cockpit.py`、`scripts/ai_start.py`、`Makefile`；测试 `tests/test_installer.py`、`tests/test_adoption_e2e.py`、`tests/test_install_script.py`；更新 `docs/upgrade.md`、`docs/reference/upgrade.md`。
-
 **步骤：**
-
 - [ ] 增加 Upgrade 创建分支、Contract、Summary、Template Version Diff 和 PR Ownership 的失败测试。
 - [ ] 实现 Upgrade Work Item 生命周期；有 Active Work Item 时保持默认阻止。
 - [ ] 将升级前后版本、Managed File Diff 和恢复点写入 Contract/Summary。
 - [ ] 执行 Adoption/Upgrade 测试、`make check-ai-adoption-ready` 和完整质量检查。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 11：Project-owned Guard Preservation
 
 **目标：** Upgrade 识别并保留采用方拥有的 Guard、Coverage、Risk 和 Scope 校准。
-
 **文件：** 修改 `scripts/install_ai_cockpit.py`、`scripts/ai_project_profile.py`、`.ai/project_profile.yaml` 或其模板；测试 `tests/test_installer.py`、`tests/test_project_governance.py`、`tests/test_adoption_e2e.py`；更新 `docs/getting-started/adopter-configuration.md`、`docs/reference/upgrade.md`。
-
 **步骤：**
-
 - [ ] 增加 Project-owned Guard 被覆盖、模板未改动 Guard 可升级、Diverged Guard 需确认三类测试。
 - [ ] 建立 Template-owned / Project-owned / Diverged 文件归属判定。
 - [ ] 对项目拥有文件执行保留或冲突报告，不直接覆盖；记录每个决定。
 - [ ] 执行 Installer 回归测试和完整 Adoption 检查。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 12：Default Branch Discovery Fail-closed
 
 **目标：** 区分无 Remote 与 Remote 存在但默认分支未知，后者不得静默按 Local-only 继续。
-
 **文件：** 修改 `scripts/install_ai_cockpit.py`、`scripts/ai_common.py`、`Makefile`；测试 `tests/test_installer.py`、`tests/test_install_script.py`、`tests/test_adoption_e2e.py`；更新 `docs/reference/upgrade.md`。
-
 **步骤：**
-
 - [ ] 增加 Remote 缺失、Remote HEAD 已知、Remote HEAD 缺失但显式 `--base-remote/--base-branch` 和两者都缺失的测试。
 - [ ] 实现默认分支解析优先级：Remote API/HEAD 证据，其次显式参数；无证据时 fail closed。
 - [ ] 将 Base Remote、Base Branch、Base Commit 写入 Adoption/Upgrade Contract。
 - [ ] 执行 Installer 测试和 `make check-ai-status-consistency`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 13：Upgrade Conflict Report
 
 **目标：** 让 Upgrade 在 Diverged Managed File 或 Project-owned 冲突时输出可供人决定的报告。
-
 **文件：** 新增 `scripts/ai_upgrade_conflict_report.py`；修改 `scripts/install_ai_cockpit.py`、`scripts/ai_preflight_review.py`；测试 `tests/test_installer.py`、`tests/test_preflight_review.py`、`tests/test_adoption_e2e.py`；更新 `docs/reference/upgrade.md`。
-
 **步骤：**
-
 - [ ] 增加冲突报告结构和报告缺失、路径归属错误、未确认继续的失败测试。
 - [ ] 输出每个文件的 Template-owned、Project-owned、Diverged、Human Confirmation Required 分类、差异摘要和建议。
 - [ ] 将需要人决定的冲突接入工单 1–2 的 Decision Request/Gate；未确认时不应用升级。
 - [ ] 执行冲突场景测试、完整 Installer 测试和质量检查。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 14：Organization Review Policy Adapter
 
 **目标：** 提供采用方按风险配置 Review Policy 的 Adapter，而不是把双人审批写死在模板中。
-
 **文件：** 修改 `.ai/guards/ai_review_policy.yaml`、`scripts/ai_check_review_policy.py`、`scripts/ai_project_profile.py`；测试 `tests/test_project_governance.py`、`tests/test_governance_compression.py`、`tests/test_adoption_ready.py`；更新 `docs/getting-started/adopter-configuration.md`、`docs/reference/repository-workflow.md`。
-
 **步骤：**
-
 - [ ] 增加单人维护、团队 CODEOWNERS、双人审批和高风险保护环境的配置矩阵测试。
 - [ ] 实现 Adapter 配置入口、Doctor 检查和 Readiness 报告；模板维护工程保持诚实的 single-maintainer 声明。
 - [ ] 验证模板不会把采用方政策误报为模板自身的独立审核证明。
 - [ ] 执行 Review Policy、Adoption Readiness 和项目治理测试。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 15：Adoption Readiness / Production Readiness 分离
 
 **目标：** 明确区分安装完成、校准完成和生产就绪。
-
 **文件：** 修改 `scripts/ai_readiness_policy.py`、`scripts/ai_check_adoption_ready.py`、`scripts/ai_onboard.py`、`.ai/cockpit/adoption.md`；测试 `tests/test_adoption_ready.py`、`tests/test_ai_onboard.py`、`tests/test_onboard_e2e.py`；更新 `docs/getting-started/installation.md`、`docs/getting-started/first-work-item.md`。
-
 **步骤：**
-
 - [ ] 增加“安装成功但质量/CI/Review 未校准”不得标记 Production Ready 的测试。
 - [ ] 建立 Adoption Installed、Calibration Complete、Production Ready 的状态和必需证据。
 - [ ] 将 Profile、Guard、Quality Command、CI、Review Policy、Release Policy 纳入采用方检查。
 - [ ] 执行 Onboarding/Adoption 测试、`make ai-onboard` 和 `make check-ai-adoption-ready`。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 16：Action SHA、Archive Sequence 与 Complexity 增量指标
 
 **目标：** 完成剩余 P2 稳定化工作，并保持历史 Archive 不可变。
-
 **文件：** 修改 `.github/workflows/*.yml`、`scripts/ai_archive_work_item.py`、`scripts/check_governance_complexity.py`、相关 `.ai/guards/*.yaml`；测试 `tests/test_workflows.py`、`tests/test_ai_archive_work_item.py`、`tests/test_governance_complexity.py`；更新 `docs/reference/governance-complexity.md`、`docs/reference/work-item-lifecycle-closure.md`。
-
 **步骤：**
-
 - [ ] 增加 Action 未固定 SHA、Archive 顺序错误、历史计数阻塞当前任务、复杂度增量异常的失败测试。
 - [ ] 对第三方 Action 使用固定 SHA；修正 Archive 顺序并确保历史记录只增不改；增加当前变更的复杂度增量报告。
 - [ ] 执行 Workflow 静态检查、Archive/Complexity 测试、`make quality` 和 PR 聚合检查。
 - [ ] 只有所有 P0/P1 工单完成且本项通过后，才进入发布工单。
-- [ ] 完成标准生命周期循环。
-
 ## 工单 17：发布新版本
 
 **目标：** 在工单 1–16 全部完成、合并和归档后，从已验证的远程默认分支发布新版本。
-
 **文件：** 修改 `release.json`、`.ai/cockpit/version.json`、`.ai/cockpit/release-digests.json`、发布 Workflow/Manifest；测试 `tests/test_release_distribution.py`、`tests/test_workflows.py`、安装 Smoke/Compatibility 测试。
-
 **前置条件：**
-
 - [ ] 确认工单 1–16 的 Archive Contract/Summary 完整，所有 PR 已合并，所有 `make ai-close-work-item` 成功。
 - [ ] 确认 `origin/<default-branch>`、Source Commit、Smoke、Compatibility、Release Evidence 和 Candidate/Published 文件一致。
 - [ ] 确认版本号、变更摘要和发布内容已经由本计划范围内的验证证据支持。
-
 **执行步骤：**
-
 - [ ] 从最新远程默认分支创建唯一发布准备 Work Item 分支并执行 `make ai-start`/`make ai-preflight`。
 - [ ] 先运行完整项目质量检查、Smoke、Compatibility、Release Evidence 和安装验证；任何失败都不发布。
 - [ ] 生成候选 Release Evidence，验证 Source Default-Branch Binding 和 Workflow Run Correlation。
 - [ ] 创建并合并发布 PR，按项目 Release Workflow 创建新版本 Tag/Release。
 - [ ] 使用 Quick Install 和 Upgrade Smoke 验证已发布版本；记录 Tag、Digest、Run ID、Source Commit 和生成物。
 - [ ] 执行标准 Work Item 归档和 `make ai-close-work-item`；发布成功是进入工单 18 的唯一条件。
-
 ## 工单 18：完成后清理计划文档
 
 **目标：** 仅在工单 1–17 全部完成并发布成功后，删除本实施计划文档，同时保留完整历史证据。
-
 **文件：** 删除 `docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md`；新增本次清理 Work Item 的 Contract/Summary 并保留在 `.ai/work-items/archive/`；不得删除 `.ai/work-items/archive/**`、Release Evidence 或其他审计记录。
-
 **前置条件：**
-
 - [ ] 逐项核对工单 1–17 的 Work Item ID、Archive Contract、Archive Summary、合并 PR、关闭结果和验证记录。
 - [ ] 核对工单 17 的版本 Tag、Published Release、Release Evidence、安装验证和远程默认分支 Source。
 - [ ] 若任一核对项缺失，保持计划文档和当前清理工单 active，不执行删除。
-
 **执行步骤：**
-
 - [ ] 从最新远程默认分支创建清理 Work Item 分支，执行 `make ai-start TASK=ai-cockpit-review-plan-cleanup TITLE="Remove completed comprehensive review plan" MODE=code`。
 - [ ] 执行清理前 checkpoint、Archive completeness 检查、`make check-ai-pr` 和 `git diff --check`。
 - [ ] 删除计划文档，更新 Summary 说明删除原因是 1–17 已完成，并列出保留的历史证据。
 - [ ] 执行全套 AI 检查和项目质量检查；确认计划路径确实被此 Work Item 单独拥有。
 - [ ] 执行 `make ai-finish TASK=ai-cockpit-review-plan-cleanup`，创建并合并 PR，随后执行 `make ai-close-work-item TASK=ai-cockpit-review-plan-cleanup`。
 - [ ] 最终确认仓库干净、远程默认分支同步、历史 Archive 未被删除；向用户报告全部循环完成、版本号和清理结果。
-
 ## 验收矩阵
 
 | 评审缺口 | 覆盖工单 | 最终证据 |
@@ -375,7 +280,6 @@ keywords:
 | Adoption 被误当作 Production Ready | 15 | 分层 Readiness 检查 |
 | Action/Archive/Complexity 余项 | 16 | SHA、顺序、增量指标回归测试 |
 | 发布与计划收尾 | 17、18 | Published Release Evidence、计划删除和历史保留 |
-
 ## 最终完成标准
 
 计划执行不得以“计划已写成”作为全部完成。只有以下条件全部满足，才可报告完成：

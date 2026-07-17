@@ -56,6 +56,7 @@ SCRIPT_NAMES = {
     "ai_check_summary.py",
     "ai_check_work_item.py",
     "ai_common.py",
+    "ai_critical_domain_guards.py",
     "ai_scenario_policy.py",
     "ai_readiness_policy.py",
     "ai_risk_policy.py",

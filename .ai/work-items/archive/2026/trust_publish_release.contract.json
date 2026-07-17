@@ -1,0 +1,182 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trust_publish_release",
+  "mode": "code",
+  "title": "Publish Trust Layer release",
+  "baseCommit": "7e4adc89c3b0843dfdbcaf071e66d6f3ea3ff32e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "release.json",
+    "next-release.json",
+    ".ai/cockpit/version.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    "install.sh",
+    "docs/getting-started/installation.md",
+    "tests/test_install_script.py",
+    "tests/test_install_sh.py",
+    "tests/test_release_distribution.py",
+    ".ai/work-items/active/trust_publish_release.contract.json",
+    ".ai/work-items/active/trust_publish_release.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Publishing any tag other than v0.5.32", "Publishing before all release evidence checks pass", ".github/workflows/**"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md",
+      "reason": "Defines the release task and publication acceptance."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Defines exact-SHA release and evidence requirements."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Defines the configured publication workflow."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Defines public distribution and candidate checks."
+    },
+    {
+      "path": "release.json",
+      "reason": "Defines published release metadata contract."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Publication is externally visible; source identity, exact tag, and all release evidence must match before dispatch."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized publication; the workflow remains fail-closed on any missing or mismatched evidence."
+  },
+  "preReviewWarnings": [
+    "Verify candidate metadata, source commit, immutable tag, release assets, and public install smoke bindings."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release metadata and version metadata declare v0.5.32 consistently, with candidate state based on the current release.",
+    "Local release, distribution, supply-chain, installer, and project quality checks pass.",
+    "The configured workflow publishes only after exact main SHA, smoke, compatibility, release assets, and tag-target checks pass.",
+    "The published tag and release evidence are verified and recorded in the archived Summary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The merged Trust Layer work needs an immutable, source-bound public release so adopters can consume the verified result.",
+    "constraints": ["Publish only v0.5.32 from the latest green main commit.", "Require every configured release gate and exact tag check.", "Do not claim publication until the provider confirms the tag and assets."],
+    "rationale": "A source-bound release closes the implementation loop and gives the final execution-plan cleanup an immutable evidence reference."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Candidate and published metadata agree", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Release evidence is bound to exact main source commit", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Installer and public distribution smoke succeed", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized publication in the requested uninterrupted execution plan; workflow gates remain mandatory."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/trust_publish_release.json",
+    "baseCommit": "7e4adc89c3b0843dfdbcaf071e66d6f3ea3ff32e",
+    "initialScopeDigest": "5ed08aa444141b967e6b4d199ae3e7049d57388367d3fd2c5db984f46a74a8b4",
+    "contractSkeletonDigest": "c6450b81c0d340c4eae11a62084dcdb9790ba73ffccbbcc335deb0bbb7448987"
+  }
+}

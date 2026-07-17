@@ -72,7 +72,9 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
         'git push origin "$SOURCE_COMMIT:refs/tags/$RELEASE_TAG"'
     ) < workflow.index("gh release create")
     assert "--draft" in workflow
-    assert 'gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_TAG"' in workflow
+    assert (
+        'gh workflow run smoke.yml --repo "$GITHUB_REPOSITORY" --ref "$SOURCE_COMMIT"' in workflow
+    )
     assert 'gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false' in workflow
     assert "actions/checkout" not in workflow
     assert "release-assets" in workflow
@@ -80,6 +82,17 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "release-digests.json" in workflow
     assert "#sbom.json" in workflow
     assert "#provenance.json" in workflow
+
+
+def test_release_workflow_runs_strict_smoke_before_tag_and_release_mutations():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    smoke = workflow.index("Dispatch strict smoke verification")
+    tag = workflow.index("Create exact-SHA tag and Draft GitHub Release")
+    publish = workflow.index("Publish verified Draft Release")
+    assert smoke < tag < publish
+    dispatch = workflow[smoke:tag]
+    assert '--ref "$SOURCE_COMMIT"' in dispatch
+    assert '--commit "$SOURCE_COMMIT"' in dispatch
 
 
 def test_smoke_preparation_mode_is_event_based_and_dispatch_stays_strict():

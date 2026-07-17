@@ -15,7 +15,7 @@ AI Cockpit の配布物は、公開インストーラーとリリースメタデ
 
 SBOM と provenance のリリース証拠は、`--source-commit` または `SUPPLY_CHAIN_SOURCE_COMMIT` で明示したソースコミットから生成します。現在の `HEAD` を証拠の識別子に使うことはありません。
 
-コミット済みの `.ai/cockpit/sbom.json`、`provenance.json`、`release-digests.json` は候補ベースラインにすぎません。リリース Workflow は不変の `SOURCE_COMMIT` を checkout した後に `check_supply_chain.py release-assets` を実行し、生成された provenance と digest の subject が同じコミットを指すことを検証してから、GitHub Release Asset として公開します。以前の公開リリース向けに生成された provenance は、現在のリリースの最終証明として扱いません。
+コミット済みの `.ai/cockpit/sbom.json`、`provenance.json`、`release-digests.json` は候補ベースラインにすぎません。リリース Workflow は不変の `SOURCE_COMMIT` を checkout した後に `check_supply_chain.py release-assets` を実行し、生成された provenance と digest の subject が同じコミットを指すことを検証し、同じソースコミットに対する厳格な Smoke を通過してから tag と Draft Release を作成します。tag 対象と Asset subject の検証後にのみ Draft Release を公開します。以前の公開リリース向けに生成された provenance は、現在のリリースの最終証明として扱いません。
 
 ## PR を起点とするリリース手順
 

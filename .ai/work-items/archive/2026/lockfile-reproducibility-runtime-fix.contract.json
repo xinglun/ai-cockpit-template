@@ -1,0 +1,198 @@
+{
+  "contractVersion": 2,
+  "workItemId": "lockfile-reproducibility-runtime-fix",
+  "mode": "code",
+  "title": "Fix lockfile reproducibility runtime on clean runners",
+  "baseCommit": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+    ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "Makefile",
+    ".github/workflows/compatibility.yml",
+    "tests/test_makefile.py",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    ".ai/cockpit/sbom.json",
+    "release.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Work Item 7 defines the clean-runner lockfile reproducibility requirement."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Current lockfile target and Python interpreter selection."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Clean Runner workflow that must execute the lockfile target."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Make target regression coverage."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Published lockfile verification documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+      "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "The lockfile gate must fail closed and run consistently on clean hosted runners."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the full review plan and this Work Item is bounded by the declared scope."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "clean runner without .venv",
+      "riskDomain": "release_integrity",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Make dry-run and compatibility workflow inspection use the selected interpreter directly."]
+    },
+    {
+      "scenario": "missing pip-tools dependency",
+      "riskDomain": "release_integrity",
+      "required": true,
+      "status": "verified",
+      "evidence": ["The module invocation exposes the interpreter's actionable ModuleNotFoundError output and the workflow fails closed."]
+    },
+    {
+      "scenario": "reproducible lockfile output",
+      "riskDomain": "release_integrity",
+      "required": true,
+      "status": "verified",
+      "evidence": ["The target compares regenerated requirements-dev.lock bytes with the committed lockfile."]
+    }
+  ],
+  "acceptance": [
+    "The lockfile reproducibility target invokes the selected project interpreter as `$(PYTHON) -m piptools compile` and does not derive a pip-compile executable path from `$(dir $(abspath $(PYTHON)))`.",
+    "The clean-runner compatibility workflow executes the lockfile target and reports missing pip-tools or other dependency failures clearly.",
+    "Regression tests prove interpreter selection and target command construction, the lockfile target passes locally, and distribution documentation describes the runtime contract."
+  ],
+  "guidelines": [
+    "Keep the Make target portable across clean runners with and without a project `.venv`.",
+    "Use the project-selected Python interpreter for Python module execution.",
+    "Document the clean-runner dependency prerequisite and fail-closed behavior."
+  ],
+  "intent": {
+    "problem": "The current lockfile reproducibility target derives a pip-compile executable directory from PYTHON, so a clean runner without `.venv` can invoke an invalid path and the compatibility workflow does not exercise the target.",
+    "constraints": [
+      "Preserve hash-locked requirements verification and byte-for-byte comparison.",
+      "Do not add a repository-local virtual environment or commit generated lockfile drift."
+    ],
+    "rationale": "Running pip-tools through the same interpreter selected by Make and invoking the target in the clean-runner workflow makes the release gate executable and reproducible across supported environments."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized execution of the complete review plan, including governance files, CI, branches, PRs, merges, and cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/lockfile-reproducibility-runtime-fix.json",
+    "baseCommit": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+    "initialScopeDigest": "d7e2c4e31c613db7155a83858349b55c8645c08d422fd0d38c1cca92f89ba52b",
+    "contractSkeletonDigest": "6c2e355af80f26d069ee91a9797122bddc7ea5e4e07b664cb844dd9134465dbe"
+  }
+}

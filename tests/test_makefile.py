@@ -93,6 +93,19 @@ def test_project_governance_make_targets_are_public():
     assert "ai_preflight_review.py" in result.stdout
 
 
+def test_lockfile_reproducibility_uses_python_module_invocation():
+    result = subprocess.run(
+        ["make", "-n", "check-lockfile-reproducibility"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "-m piptools compile" in result.stdout
+    assert "$(dir $(abspath $(PYTHON)))pip-compile" not in result.stdout
+
+
 def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path):
     clean_env = {
         key: value

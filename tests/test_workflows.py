@@ -13,8 +13,19 @@ def test_compatibility_runs_on_main_pushes_and_pull_requests():
     assert "  compatibility-gate:" in workflow
     assert "needs:\n      - shellcheck" in workflow
     assert 'test "$result" = success' in workflow
-    assert workflow.count("fetch-depth: 0") == 6
+    assert workflow.count("fetch-depth: 0") == 7
     assert 'toolchain: "1.86.0"' in workflow
+
+
+def test_compatibility_runs_lockfile_reproducibility_on_clean_runner():
+    workflow = (ROOT / ".github" / "workflows" / "compatibility.yml").read_text(encoding="utf-8")
+    lockfile = workflow.split("  lockfile-reproducibility:", 1)[1].split(
+        "  real-stack-quality:", 1
+    )[0]
+
+    assert 'python-version: "3.10"' in lockfile
+    assert "python -m pip install --disable-pip-version-check pip-tools" in lockfile
+    assert "make check-lockfile-reproducibility" in lockfile
 
 
 def test_compatibility_separates_blocking_baseline_from_latest_probes():

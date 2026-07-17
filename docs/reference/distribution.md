@@ -36,7 +36,7 @@ The generated `.ai/cockpit/release-digests.json` manifest binds the lock, SBOM, 
 The release workflow also runs `make check-lockfile-reproducibility`, which regenerates the hash-enabled lock from `requirements-dev.in` and fails on byte drift before publication.
 
 When `releaseEvidenceAuthority` is `release-assets-v1`, the public checker downloads `sbom.json`, `provenance.json`, and `release-digests.json` from the tagged GitHub Release, rehashes them, and compares them with the immutable tag tree. It also rehashes every manifest artifact, requires the expected artifact set, and rejects missing, altered, malformed, cross-tag, or cross-commit evidence before exercising the installer.
-Compatibility support claims are split between a fixed-version blocking baseline and separately reported hosted ecosystem probes. Only the fixed baseline is release-blocking; probe drift is exploratory evidence and must not be described as verified baseline support.
+Compatibility support claims are split between a fixed-version blocking baseline and separately reported hosted ecosystem probes. The baseline pins Python 3.10/3.11/3.14, Go 1.24.4, Rust 1.86.0, Node 24.11.1, Java 21, Ruby 3.4.2, PHP 8.4, Gradle 8.12, and the declared mobile fixture levels; it runs on the `ubuntu-latest` and `macos-latest` labels where applicable. Only that baseline is release-blocking. The `latest-ecosystem-probe` lane requests current Stable/Latest tools and is explicitly non-blocking; its result is exploratory evidence and must not be described as verified baseline support. Hosted labels can move independently of the pinned tool versions, so Ubuntu/macOS image changes remain an external compatibility risk.
 
 ## Published Capabilities
 

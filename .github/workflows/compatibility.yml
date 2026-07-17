@@ -398,6 +398,73 @@ jobs:
           "$GITHUB_WORKSPACE/install.sh" --stack "$STACK" --update-makefile
           make ai-cockpit-quality
 
+  latest-ecosystem-probe:
+    name: latest ecosystem probe (${{ matrix.stack }})
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - stack: python
+            os: ubuntu-latest
+          - stack: go
+            os: ubuntu-latest
+          - stack: typescript
+            os: ubuntu-latest
+          - stack: ruby
+            os: ubuntu-latest
+          - stack: php
+            os: ubuntu-latest
+          - stack: swift
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        if: matrix.stack == 'python'
+        with:
+          python-version: "3.x"
+          check-latest: true
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        if: matrix.stack == 'go'
+        with:
+          go-version: stable
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        if: matrix.stack == 'typescript'
+        with:
+          node-version: node
+          check-latest: true
+      - uses: ruby/setup-ruby@8e41b362d2589a22a44c1cfa214b3c83052c195b
+        if: matrix.stack == 'ruby'
+        with:
+          ruby-version: ruby-head
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
+        if: matrix.stack == 'php'
+        with:
+          php-version: latest
+          tools: composer
+      - name: Probe Swift toolchain
+        if: matrix.stack == 'swift'
+        run: |
+          swift --version
+          brew install swift-format
+          swift format --version
+      - name: Probe current toolchain
+        env:
+          STACK: ${{ matrix.stack }}
+        run: |
+          set -euo pipefail
+          case "$STACK" in
+            python) python --version; python -m pip --version ;;
+            go) go version ;;
+            typescript) node --version; npm --version ;;
+            ruby) ruby --version; gem --version ;;
+            php) php --version; composer --version ;;
+          esac
+
   compatibility-gate:
     if: ${{ always() }}
     needs:
@@ -425,18 +492,13 @@ jobs:
   compatibility-latest:
     if: ${{ always() }}
     needs:
-      - real-stack-quality
-      - extended-real-stack-quality
-      - mobile-stack-quality
+      - latest-ecosystem-probe
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Report latest ecosystem probe outcomes
         env:
-          REAL_STACK_RESULT: ${{ needs.real-stack-quality.result }}
-          EXTENDED_STACK_RESULT: ${{ needs.extended-real-stack-quality.result }}
-          MOBILE_STACK_RESULT: ${{ needs.mobile-stack-quality.result }}
+          LATEST_RESULT: ${{ needs.latest-ecosystem-probe.result }}
         run: |
-          printf 'compatibility-latest real-stack=%s extended-stack=%s mobile-stack=%s\n' \
-            "$REAL_STACK_RESULT" "$EXTENDED_STACK_RESULT" "$MOBILE_STACK_RESULT"
-          printf '%s\n' 'Hosted ecosystem probe outcomes are reported separately; the fixed compatibility baseline is the blocking release gate.'
+          printf 'compatibility-latest ecosystem-probe=%s\n' "$LATEST_RESULT"
+          printf '%s\n' 'Hosted ecosystem probe outcomes are reported separately; the fixed compatibility baseline is the blocking release gate. Latest probes are exploratory and non-blocking, not verified support.'

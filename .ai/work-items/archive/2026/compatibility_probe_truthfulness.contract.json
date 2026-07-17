@@ -1,0 +1,200 @@
+{
+  "contractVersion": 2,
+  "workItemId": "compatibility_probe_truthfulness",
+  "mode": "code",
+  "title": "compatibility probe truthfulness",
+  "baseCommit": "9489e95ba31844dcc72a50144aa5ef6cc1534311",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/compatibility_probe_truthfulness.contract.json",
+    ".ai/work-items/active/compatibility_probe_truthfulness.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/compatibility.yml",
+    "docs/reference/distribution.md",
+    "docs/configuration.md",
+    "tests/test_workflows.py",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["release publication", "installer transactionality", "coverage threshold changes", "platform ruleset or CODEOWNERS changes"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+      "reason": "Task 5 acceptance and stop conditions."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Current baseline and latest compatibility lanes."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Existing workflow contract tests and regression target."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Current compatibility support claims."
+    },
+    {
+      "path": "docs/configuration.md",
+      "reason": "Current hosted-environment and compatibility guidance."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "compatibility_claims",
+      "hosted_environment_drift"
+    ],
+    "reason": "A workflow that reuses fixed baseline jobs for latest probes can overstate support as hosted tools move."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The workflow, static tests, and documentation boundaries are available locally."
+  },
+  "preReviewWarnings": [
+    "Confirm baseline pins are explicit, latest probes use distinct floating setup commands, and latest results cannot satisfy the blocking gate."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Blocking baseline versions are explicit and reproducible for Python, Ruby, PHP, Swift, Ubuntu, and macOS lanes.",
+    "compatibility-latest installs and runs distinct current ecosystem tools and is explicitly non-blocking.",
+    "Static workflow tests prove latest results cannot satisfy compatibility-gate.",
+    "Distribution and configuration docs distinguish verified baseline support from exploratory latest probes and hosted OS movement."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A pinned baseline lane runs the exact declared tool versions and remains blocking.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "acceptanceRefs": [0],
+      "verificationRefs": [15]
+    },
+    {
+      "scenario": "A latest probe uses distinct current tool setup and its failure is reported without satisfying the blocking gate.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "acceptanceRefs": [1, 2],
+      "verificationRefs": [15]
+    },
+    {
+      "scenario": "Documentation warns that hosted Ubuntu/macOS labels move independently of the pinned baseline.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "acceptanceRefs": [3],
+      "verificationRefs": [15]
+    }
+  ],
+  "guidelines": [
+    "Compatibility claims must match the commands and tool versions actually executed.",
+    "Latest ecosystem probes must not be used as blocking baseline evidence."
+  ],
+  "intent": {
+    "problem": "The compatibility workflow currently labels real-stack, extended-stack, and mobile jobs as latest probes while executing fixed tool versions, so the evidence cannot distinguish verified baseline support from current ecosystem movement.",
+    "constraints": [
+      "Keep the fixed baseline blocking and reproducible.",
+      "Keep latest probes explicitly non-blocking.",
+      "Pin every baseline tool and document hosted Ubuntu/macOS movement as risk.",
+      "Do not change release publication or platform ownership settings."
+    ],
+    "rationale": "Separate reproducible baseline evidence from exploratory latest probes so release claims remain truthful without hiding ecosystem drift."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the full PR and implementation cycle."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

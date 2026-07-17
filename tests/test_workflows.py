@@ -13,7 +13,7 @@ def test_compatibility_runs_on_main_pushes_and_pull_requests():
     assert "  compatibility-gate:" in workflow
     assert "needs:\n      - shellcheck" in workflow
     assert 'test "$result" = success' in workflow
-    assert workflow.count("fetch-depth: 0") == 5
+    assert workflow.count("fetch-depth: 0") == 6
     assert 'toolchain: "1.86.0"' in workflow
 
 
@@ -30,6 +30,23 @@ def test_compatibility_separates_blocking_baseline_from_latest_probes():
     assert 'go-version: "1.24.4"' in workflow
     assert 'toolchain: "1.86.0"' in workflow
     assert 'node-version: "24.11.1"' in workflow
+
+
+def test_latest_compatibility_probe_uses_distinct_current_tool_commands():
+    workflow = (ROOT / ".github" / "workflows" / "compatibility.yml").read_text(encoding="utf-8")
+    latest = workflow.split("  latest-ecosystem-probe:", 1)[1].split("  compatibility-gate:", 1)[0]
+    report = workflow.split("  compatibility-latest:", 1)[1]
+
+    assert "continue-on-error: true" in latest
+    assert 'python-version: "3.x"' in latest
+    assert "check-latest: true" in latest
+    assert "go-version: stable" in latest
+    assert "node-version: node" in latest
+    assert "ruby-version: ruby-head" in latest
+    assert "php-version: latest" in latest
+    assert "brew install swift-format" in latest
+    assert "needs:\n      - latest-ecosystem-probe" in report
+    assert "fixed compatibility baseline is the blocking release gate" in report
 
 
 def test_release_documentation_requires_one_verified_commit():

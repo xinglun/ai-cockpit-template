@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import ai_preflight_review
+import pytest
 
 
 def write_contract(path: Path, data: dict) -> None:
@@ -156,6 +157,230 @@ def test_human_decision_request_validation_rejects_unknown_recommendation(tmp_pa
     issues = ai_preflight_review.validate_report_structure(report)
 
     assert "humanDecisionRequest.recommendedOption must reference an option" in issues
+
+
+def test_valid_decision_evidence_is_bound_to_current_preflight_hash(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, conservative_contract())
+    report = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+    evidence = {
+        "decisionId": report["humanDecisionRequest"]["decisionId"],
+        "decision": "A",
+        "workItemId": "task",
+        "contractHash": report["contractHash"],
+        "preflightHash": report["preflightHash"],
+        "recordedAt": "2026-07-17T00:00:00+00:00",
+        "recordedBy": "user",
+    }
+    summary = contract.with_name("task.summary.json")
+    summary.write_text(json.dumps({"decisionEvidence": evidence}), encoding="utf-8")
+
+    resumed = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+
+    assert resumed["decisionState"] == "human_decision_recorded"
+    assert resumed["status"] == "human_decision_recorded"
+    assert resumed["decisionEvidence"] == evidence
+
+
+def test_stale_or_wrong_decision_evidence_is_rejected(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, conservative_contract())
+    report = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+    evidence = {
+        "decisionId": report["humanDecisionRequest"]["decisionId"],
+        "decision": "A",
+        "workItemId": "wrong-task",
+        "contractHash": "0" * 16,
+        "preflightHash": "1" * 16,
+        "recordedAt": "2026-07-17T00:00:00+00:00",
+        "recordedBy": "user",
+    }
+
+    issues = ai_preflight_review.validate_decision_evidence(
+        evidence,
+        report,
+        report["humanDecisionRequest"],
+    )
+
+    assert "decisionEvidence.workItemId does not match the current Work Item" in issues
+    assert "decisionEvidence.contractHash does not match the current Contract" in issues
+    assert "decisionEvidence.preflightHash does not match the current Preflight Hash" in issues
+
+
+def test_gate_blocks_until_preflight_recomputes_ready(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, conservative_contract())
+    policy = tmp_path / "preflight_review_policy.yaml"
+    write_policy(policy, gate_enabled=True, blocked_statuses=["needs_human_confirmation"])
+    report = ai_preflight_review.derive_report(
+        conservative_contract(), contract_path=contract, policy_path=policy
+    )
+
+    assert ai_preflight_review.report_is_blocked(report, ai_preflight_review.load_policy(policy))
+    assert report["status"] == "needs_human_confirmation"
+
+
+def test_record_decision_evidence_updates_summary_for_resume(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    summary = tmp_path / "task.summary.json"
+    write_contract(contract, conservative_contract())
+    summary.write_text(json.dumps({"workItemId": "task"}), encoding="utf-8")
+    report = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+
+    evidence = ai_preflight_review.record_decision_evidence(summary, report, "A", "sei-rinn")
+
+    stored = json.loads(summary.read_text(encoding="utf-8"))
+    assert stored["decisionEvidence"] == evidence
+    assert evidence["recordedBy"] == "sei-rinn"
+
+
+def test_invalid_decision_evidence_is_reported_without_becoming_recorded(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    summary = tmp_path / "task.summary.json"
+    write_contract(contract, conservative_contract())
+    summary.write_text(
+        json.dumps(
+            {
+                "decisionEvidence": {
+                    "decisionId": "HD-invalid",
+                    "decision": "Z",
+                    "workItemId": "task",
+                    "contractHash": "0" * 16,
+                    "preflightHash": "1" * 16,
+                    "recordedAt": "2026-07-17T00:00:00+00:00",
+                    "recordedBy": "user",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    report = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+
+    assert report["decisionState"] == "invalid"
+    assert report["status"] == "needs_human_confirmation"
+    assert report["decisionEvidenceIssues"]
+
+
+def test_record_decision_cli_requires_decision(tmp_path, monkeypatch, capsys):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, conservative_contract())
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["ai_preflight_review.py", "--contract", str(contract), "--record-decision"],
+    )
+
+    assert ai_preflight_review.main() == 2
+    assert "--decision is required" in capsys.readouterr().err
+
+
+def test_ready_preflight_remains_ready_after_matching_evidence_is_present(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    summary = tmp_path / "task.summary.json"
+    write_contract(contract, ready_contract())
+    first = ai_preflight_review.derive_report(
+        ready_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+    summary.write_text(
+        json.dumps(
+            {
+                "decisionEvidence": {
+                    "decisionId": "HD-not-needed",
+                    "decision": "A",
+                    "workItemId": "task",
+                    "contractHash": first["contractHash"],
+                    "preflightHash": first["preflightHash"],
+                    "recordedAt": "2026-07-17T00:00:00+00:00",
+                    "recordedBy": "user",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    report = ai_preflight_review.derive_report(
+        ready_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+
+    assert report["status"] == "ready"
+    assert report["decisionState"] == "human_decision_recorded"
+
+
+def test_decision_evidence_helpers_fail_closed_on_malformed_inputs(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    summary = tmp_path / "task.summary.json"
+    write_contract(contract, conservative_contract())
+    summary.write_text("not-json", encoding="utf-8")
+
+    assert ai_preflight_review.load_decision_evidence(contract) is None
+    assert ai_preflight_review.validate_decision_evidence(None, {}, None)
+    with pytest.raises(ValueError, match="only be recorded"):
+        ai_preflight_review.record_decision_evidence(summary, {"status": "ready"}, "A", "user")
+
+
+def test_invalid_gate_policy_boolean_is_rejected(tmp_path):
+    policy = tmp_path / "policy.yaml"
+    policy.write_text("gateEnabled: maybe\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="invalid boolean"):
+        ai_preflight_review.load_policy(policy)
+
+
+def test_valid_report_structure_accepts_decision_protocol_fields(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, ready_contract())
+    report = ai_preflight_review.derive_report(
+        ready_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+
+    assert ai_preflight_review.validate_report_structure(report) == []
+    assert not ai_preflight_review.report_is_blocked(
+        {**report, "status": "human_decision_recorded"},
+        {"gateEnabled": False, "blockedStatuses": []},
+    )
+    gate = {"gateEnabled": True, "blockedStatuses": ["needs_human_confirmation"]}
+    assert ai_preflight_review.report_is_blocked(
+        {**report, "status": "human_decision_recorded"}, gate
+    )
+    assert ai_preflight_review.report_is_blocked(
+        {**report, "status": "needs_human_confirmation"}, gate
+    )
+    assert ai_preflight_review.report_is_blocked(
+        {**report, "status": "not_ready", "decisionState": "invalid"}, gate
+    )
+    assert len(ai_preflight_review.validate_decision_evidence({}, {}, None)) >= 7
+    rendered = ai_preflight_review.render_markdown(
+        {**report, "decisionDrivers": [], "decisionEvidenceIssues": ["stale evidence"]}
+    )
+    assert "- none" in rendered
+    assert "- stale evidence" in rendered
 
 
 def test_main_prints_pause_banner_for_non_ready_status(tmp_path, monkeypatch, capsys):

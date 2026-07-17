@@ -14,7 +14,9 @@ from typing import Any
 
 from ai_common import (
     PROJECT_ROOT,
+    canonical_json_hash,
     load_json,
+    save_json,
     simple_yaml_lists,
     simple_yaml_scalars,
     validate_scenario_coverage,
@@ -22,7 +24,12 @@ from ai_common import (
 from ai_readiness_policy import has_explicit_blocker
 
 
-ALLOWED_STATUSES = {"ready", "needs_human_confirmation", "not_ready"}
+ALLOWED_STATUSES = {
+    "ready",
+    "needs_human_confirmation",
+    "human_decision_recorded",
+    "not_ready",
+}
 ALLOWED_SIGNAL_VALUES = {
     "Ready",
     "Partial",
@@ -74,6 +81,31 @@ def policy_hash(path: Path) -> str:
     if not path.exists():
         return "defaults"
     return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+
+
+def summary_path_for(contract_path: Path) -> Path:
+    return contract_path.with_name(contract_path.name.replace(".contract.json", ".summary.json"))
+
+
+def load_decision_evidence(contract_path: Path) -> dict[str, Any] | None:
+    summary_path = summary_path_for(contract_path)
+    if not summary_path.exists():
+        return None
+    try:
+        summary = load_json(summary_path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return None
+    evidence = summary.get("decisionEvidence")
+    return evidence if isinstance(evidence, dict) else None
+
+
+def preflight_hash(report: dict[str, Any]) -> str:
+    stable = {
+        key: value
+        for key, value in report.items()
+        if key not in {"generatedAt", "preflightHash", "decisionEvidence", "decisionState"}
+    }
+    return canonical_json_hash(stable)
 
 
 def load_policy(path: Path) -> dict[str, Any]:
@@ -656,6 +688,67 @@ def human_decision_request(
     }
 
 
+def validate_decision_evidence(
+    evidence: Any, report: dict[str, Any], request: dict[str, Any] | None
+) -> list[str]:
+    if not isinstance(evidence, dict):
+        return ["decisionEvidence must be an object"]
+    issues: list[str] = []
+    for field in (
+        "decisionId",
+        "decision",
+        "workItemId",
+        "contractHash",
+        "preflightHash",
+        "recordedAt",
+        "recordedBy",
+    ):
+        if not non_empty_string(evidence.get(field)):
+            issues.append(f"decisionEvidence.{field} must be a non-empty string")
+    if evidence.get("workItemId") != report.get("workItemId"):
+        issues.append("decisionEvidence.workItemId does not match the current Work Item")
+    if evidence.get("contractHash") != report.get("contractHash"):
+        issues.append("decisionEvidence.contractHash does not match the current Contract")
+    if evidence.get("preflightHash") != report.get("preflightHash"):
+        issues.append("decisionEvidence.preflightHash does not match the current Preflight Hash")
+    if isinstance(request, dict) and evidence.get("decisionId") != request.get("decisionId"):
+        issues.append("decisionEvidence.decisionId does not match the current request")
+    if isinstance(request, dict):
+        option_ids = {
+            item.get("id") for item in request.get("options", []) if isinstance(item, dict)
+        }
+        if evidence.get("decision") not in option_ids:
+            issues.append("decisionEvidence.decision must reference a current option")
+    return issues
+
+
+def record_decision_evidence(
+    summary_path: Path,
+    report: dict[str, Any],
+    decision: str,
+    recorded_by: str,
+) -> dict[str, Any]:
+    request = report.get("humanDecisionRequest")
+    if report.get("status") != "needs_human_confirmation" or not isinstance(request, dict):
+        raise ValueError("Decision Evidence can only be recorded for needs_human_confirmation")
+    evidence = {
+        "decisionId": request["decisionId"],
+        "decision": decision,
+        "workItemId": report["workItemId"],
+        "contractHash": report["contractHash"],
+        "preflightHash": report["preflightHash"],
+        "recordedAt": datetime.now(timezone.utc).isoformat(),
+        "recordedBy": recorded_by,
+    }
+    issues = validate_decision_evidence(evidence, report, request)
+    if issues:
+        raise ValueError("; ".join(issues))
+    summary = load_json(summary_path)
+    summary["decisionEvidence"] = evidence
+    save_json(summary_path, summary)
+    return evidence
+
+
 def build_context(contract: dict[str, Any]) -> dict[str, Any]:
     return {
         "contract": contract,
@@ -703,6 +796,25 @@ def derive_report(
             contract_hash_value=current_contract_hash,
         ),
     }
+    report["preflightHash"] = preflight_hash(report)
+    evidence = load_decision_evidence(contract_path)
+    request = report["humanDecisionRequest"]
+    evidence_issues = (
+        validate_decision_evidence(evidence, report, request) if evidence is not None else []
+    )
+    report["decisionEvidence"] = evidence
+    if evidence is None:
+        report["decisionState"] = "none"
+    elif evidence_issues:
+        report["decisionState"] = "invalid"
+    else:
+        report["decisionState"] = "human_decision_recorded"
+        if status == "needs_human_confirmation":
+            report["status"] = "human_decision_recorded"
+    if evidence_issues:
+        report["decisionEvidenceIssues"] = evidence_issues
+    else:
+        report["decisionEvidenceIssues"] = []
     return report
 
 
@@ -793,6 +905,16 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines.extend(f"- {item}" for item in report["decisionDrivers"])
     else:
         lines.append("- none")
+    lines.extend(
+        [
+            "",
+            "Decision Evidence:",
+            f"- state: {report.get('decisionState', 'none')}",
+            f"- preflightHash: {report.get('preflightHash', '')}",
+        ]
+    )
+    for item in report.get("decisionEvidenceIssues", []):
+        lines.append(f"- {item}")
     return "\n".join(lines) + "\n"
 
 
@@ -813,6 +935,10 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
         "decisionDrivers",
         "recommendation",
         "humanDecisionRequest",
+        "preflightHash",
+        "decisionEvidence",
+        "decisionState",
+        "decisionEvidenceIssues",
     ):
         if field not in report:
             issues.append(f"missing field: {field}")
@@ -884,7 +1010,7 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
     if not non_empty_string(report.get("recommendation")):
         issues.append("recommendation must be a non-empty string")
     request = report.get("humanDecisionRequest")
-    if report.get("status") == "needs_human_confirmation":
+    if report.get("status") in {"needs_human_confirmation", "human_decision_recorded"}:
         if not isinstance(request, dict):
             issues.append("humanDecisionRequest must be an object for needs_human_confirmation")
         else:
@@ -941,6 +1067,21 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
                     issues.append(f"humanDecisionRequest.{field} must be non-empty")
     elif request is not None:
         issues.append("humanDecisionRequest must be null unless status is needs_human_confirmation")
+    if not non_empty_string(report.get("preflightHash")):
+        issues.append("preflightHash must be a non-empty string")
+    if report.get("decisionState") not in {"none", "invalid", "human_decision_recorded"}:
+        issues.append("decisionState is invalid")
+    if not isinstance(report.get("decisionEvidenceIssues"), list) or any(
+        not non_empty_string(item) for item in report.get("decisionEvidenceIssues", [])
+    ):
+        issues.append("decisionEvidenceIssues must be a list of non-empty strings")
+    evidence = report.get("decisionEvidence")
+    if evidence is not None:
+        evidence_issues = validate_decision_evidence(evidence, report, request)
+        if report.get("decisionState") == "human_decision_recorded" and evidence_issues:
+            issues.extend(evidence_issues)
+        if report.get("decisionState") == "none":
+            issues.append("decisionState must not be none when decisionEvidence is present")
     return issues
 
 
@@ -962,7 +1103,11 @@ def policy_issues(report: dict[str, Any], policy: dict[str, Any]) -> list[str]:
 def report_is_blocked(report: dict[str, Any], policy: dict[str, Any]) -> bool:
     if not policy["gateEnabled"]:
         return False
-    return report.get("status") in set(policy["blockedStatuses"])
+    if report.get("status") in set(policy["blockedStatuses"]):
+        return True
+    if report.get("status") == "human_decision_recorded":
+        return True
+    return report.get("decisionState") == "invalid" and report.get("status") != "ready"
 
 
 def resolve_contract_path(explicit: str | None) -> Path | None:
@@ -985,6 +1130,9 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Validate an existing report instead of generating one.",
     )
+    parser.add_argument("--record-decision", action="store_true")
+    parser.add_argument("--decision")
+    parser.add_argument("--recorded-by", default="human")
     return parser.parse_args()
 
 
@@ -1006,6 +1154,21 @@ def main() -> int:
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Failed to load preflight review inputs: {exc}", file=sys.stderr)
         return 1
+
+    if args.record_decision:
+        if not non_empty_string(args.decision):
+            print("--decision is required with --record-decision", file=sys.stderr)
+            return 2
+        try:
+            report = derive_report(contract, contract_path=contract_path, policy_path=policy_path)
+            evidence = record_decision_evidence(
+                summary_path_for(contract_path), report, args.decision.strip(), args.recorded_by
+            )
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            print(f"Failed to record Decision Evidence: {exc}", file=sys.stderr)
+            return 1
+        print(json.dumps(evidence, ensure_ascii=False, indent=2))
+        return 0
 
     if args.check:
         if not output_path.exists():

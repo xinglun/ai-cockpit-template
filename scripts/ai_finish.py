@@ -386,6 +386,15 @@ def main() -> int:
             "ERROR: ai-finish executes only contractVersion 2 check-ID Contracts", file=sys.stderr
         )
         return 2
+    if (PROJECT_ROOT / "Makefile").exists():
+        preflight_code, _, _ = run(["make", "ai-preflight", f"CONTRACT={contract}"])
+        if preflight_code != 0:
+            print(
+                "ERROR: Work Item finish is blocked by the Human Decision Gate; "
+                "record valid Decision Evidence and rerun Preflight until status is ready.",
+                file=sys.stderr,
+            )
+            return preflight_code
     contract_hash = hashlib.sha256(contract_path.read_bytes()).hexdigest()
     commit_sha = current_head()
     declared = contract_data.get("verification", [])

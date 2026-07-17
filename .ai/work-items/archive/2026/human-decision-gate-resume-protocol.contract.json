@@ -1,0 +1,222 @@
+{
+  "contractVersion": 2,
+  "workItemId": "human-decision-gate-resume-protocol",
+  "mode": "code",
+  "title": "Enforce Human Decision Gate and Resume Protocol",
+  "problemStatement": "A structured Human Decision Request can be emitted, but there is no tamper-evident handoff that proves which decision was made for which Contract and Preflight state, nor a fail-closed recovery path.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Gate disabled with a ready Contract",
+      "required": true,
+      "expected": "Existing advisory behavior remains unchanged and implementation may proceed.",
+      "evidence": ["tests/test_preflight_review.py", "tests/test_finish_e2e.py"],
+      "status": "verified"
+    },
+    {
+      "scenario": "Gate enabled without Decision Evidence",
+      "required": true,
+      "expected": "Preflight and lifecycle entry fail closed.",
+      "evidence": ["tests/test_preflight_review.py", "tests/test_start_and_archive.py"],
+      "status": "verified"
+    },
+    {
+      "scenario": "Decision Evidence has stale or mismatched hashes",
+      "required": true,
+      "expected": "The evidence is rejected and the Work Item cannot resume.",
+      "evidence": ["tests/test_preflight_review.py"],
+      "status": "verified"
+    },
+    {
+      "scenario": "Valid Decision Evidence followed by a fresh ready Preflight",
+      "required": true,
+      "expected": "The lifecycle may resume and finish after the current state is recomputed ready.",
+      "evidence": ["tests/test_preflight_review.py", "tests/test_finish_e2e.py"],
+      "status": "verified"
+    }
+  ],
+  "baseCommit": "2b925d6037ffd5c929a94eb53e0f0ab889ea9227",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_common.py",
+    ".ai/guards/preflight_review_policy.yaml",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/README.md",
+    "tests/test_preflight_review.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_finish_e2e.py",
+    ".ai/work-items/active/human-decision-gate-resume-protocol.contract.json",
+    ".ai/work-items/active/human-decision-gate-resume-protocol.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/ai_archive_work_item.py",
+    ".github/workflows/**",
+    "product source code outside the AI Cockpit workflow"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Work Item 2 objective, file boundaries, and required state transitions."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Existing Preflight status, gate policy, report hash, and structured request implementation."
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Work Item start path that invokes code-mode Preflight."
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Work Item finish path that must enforce the gate before lifecycle closure."
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "reason": "Repository policy switch for advisory versus blocking Preflight states."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Existing Preflight and policy behavior regression coverage."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "Existing ai-start lifecycle coverage."
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "reason": "Existing ai-finish lifecycle coverage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["workflow_state", "human_handoff"],
+    "reason": "The change protects implementation and finish transitions when a repository enables the explicit Preflight Gate; the default advisory policy remains unchanged."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized the implementation plan and normal branch, verification, PR, merge, release, and cleanup workflow."
+  },
+  "preReviewWarnings": [
+    "Review evidence binding, stale-hash rejection, and fail-closed behavior when the Gate is enabled."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Decision Evidence records decisionId, decision, workItemId, contractHash, preflightHash, recordedAt, and recordedBy, and is accepted only when its identity and hashes match the current Work Item and current Preflight report.",
+    "A Gate-enabled Preflight rejects missing, stale, wrong-Contract, or not-yet-recomputed Decision Evidence; the report exposes human_decision_recorded only for a valid decision against the current non-ready Preflight.",
+    "ai-start and ai-finish fail closed when the Gate blocks, while the default gate-disabled advisory behavior remains backward compatible.",
+    "After Decision Evidence is recorded and Preflight is rerun, only a ready report permits the implementation and ready_for_review lifecycle paths; invalid or missing evidence never resumes work.",
+    "Regression tests cover no decision, stale Preflight Hash, wrong Contract Hash, no re-Preflight, valid ready recovery, and unchanged advisory behavior; documentation describes the evidence schema and operator flow."
+  ],
+  "guidelines": [
+    "Keep Decision Evidence generic, repository-local, and agent agnostic.",
+    "Bind every accepted decision to the exact Work Item identity, Contract Hash, and current Preflight Hash.",
+    "Fail closed only when gateEnabled is true; preserve advisory behavior when the policy is disabled.",
+    "Do not treat a recorded decision as implementation authorization until a fresh Preflight report is ready."
+  ],
+  "intent": {
+    "problem": "A structured Human Decision Request can be emitted, but there is no tamper-evident handoff that proves which decision was made for which Contract and Preflight state, nor a fail-closed recovery path.",
+    "constraints": [
+      "Decision Evidence must be bound to the current Work Item, Contract Hash, and Preflight Hash.",
+      "The default gate-disabled policy must remain advisory and backward compatible.",
+      "A decision alone cannot resume implementation; a fresh Preflight must recompute to ready.",
+      "Do not add product behavior or provider-specific approval semantics."
+    ],
+    "rationale": "Hash-bound evidence separates a human decision from the later verification that the repository is safe to resume, preventing stale or misapplied approvals from authorizing implementation."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "Explicit user authorization covers this plan's normal governance-file, test, documentation, branch, PR, merge, and cleanup changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

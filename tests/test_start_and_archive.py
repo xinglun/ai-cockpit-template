@@ -146,6 +146,27 @@ def test_ai_start_default_contains_agent_risk_gate(tmp_path, monkeypatch):
     assert ".ai/cockpit/current_status.md" in contract["scope"]
 
 
+def test_ai_start_fails_closed_when_preflight_gate_blocks(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    monkeypatch.setattr(ai_start, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_start, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_start, "validate_status_consistency", lambda: [])
+    monkeypatch.setattr(ai_start, "current_head", lambda: "a" * 40)
+    monkeypatch.setattr(ai_start, "capture_dirty_baseline", lambda: [])
+    monkeypatch.setattr(ai_start, "write_active_status", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(ai_start, "run_make", lambda *_args, **_kwargs: (1, "gate blocked"))
+    monkeypatch.setattr(
+        ai_start,
+        "create_observability",
+        lambda **_: type("Obs", (), {"work_item_started": lambda *a, **k: None})(),
+    )
+    monkeypatch.setattr(sys, "argv", ["ai_start.py", "--task", "blocked", "--mode", "code"])
+
+    assert ai_start.main() == 1
+    assert (active / "blocked.contract.json").exists()
+
+
 def test_ai_start_requires_initial_commit(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)

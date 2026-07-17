@@ -55,6 +55,14 @@ V2.6 adds a generic `Scenario Coverage` signal for medium/high risk Work Items. 
 
 V2.6.5 adds Preflight Review. It follows the principle of **Evidence over Self-Declaration**: implementation readiness is derived from Contract evidence, not from agent confidence. `make ai-start TASK=<task> TITLE="..." MODE=code` and `make ai-preflight` surface that review before implementation begins. By default the review is advisory; when it reports `needs_human_confirmation` or `not_ready`, the agent workflow must pause and report the review to the user before coding continues.
 
+When `.ai/guards/preflight_review_policy.yaml` sets `gateEnabled: true`, the pause becomes a fail-closed Human Decision Gate. Decision Evidence is stored in the active Summary under `decisionEvidence` with `decisionId`, `decision`, `workItemId`, `contractHash`, `preflightHash`, `recordedAt`, and `recordedBy`. Record a selected option from the current request with:
+
+```text
+$(PYTHON) scripts/ai_preflight_review.py --contract .ai/work-items/active/<task>.contract.json --record-decision --decision A --recorded-by <person>
+```
+
+The evidence is accepted only when its Work Item, Contract Hash, Decision ID, and Preflight Hash match the current report. After recording it, rerun Preflight; `human_decision_recorded` is still paused, and only a newly recomputed `ready` report permits implementation or finish. Missing, stale, or mismatched evidence causes the Gate to fail closed. With `gateEnabled: false`, the existing advisory behavior is preserved.
+
 ## Core Files
 
 - `checks.yaml`: check catalog and project-specific command selection guidance.
@@ -127,6 +135,7 @@ See [Adoption Readiness](adoption.md) for the detailed checklist.
 
 `make ai-start` runs a lifecycle preflight before creating a new skeleton. It refuses to start when active Contract/Summary files are unpaired, more than one Work Item is active, or `current_status.md` disagrees with the active/no-active state.
 In `MODE=code`, it also runs `make ai-preflight` so the Preflight Review is shown before implementation begins. If that review reports `needs_human_confirmation` or `not_ready`, the agent must pause, present the review to the user, and only then continue with implementation decisions.
+When the explicit Preflight Gate is enabled, `ai-start` and `ai-finish` return a failure for missing or invalid Decision Evidence and for any state that has not been freshly recomputed as `ready`.
 
 Run `make check-ai-status-consistency` after generating or checking `current_status.md` when you need to validate the lifecycle state without finishing the Work Item.
 

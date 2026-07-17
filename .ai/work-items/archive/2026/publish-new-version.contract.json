@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "publish-new-version",
+  "mode": "code",
+  "title": "publish-new-version",
+  "baseCommit": "1472de8174f623e5fcabb004e3b80276a6949449",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "release.json",
+    "next-release.json",
+    ".ai/cockpit/version.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    "install.sh",
+    ".github/workflows/release.yml",
+    "tests/test_release_distribution.py",
+    "tests/test_workflows.py",
+    "tests/test_install_script.py",
+    "tests/test_install_sh.py",
+    "docs/getting-started/installation.md",
+    ".ai/work-items/active/publish-new-version.contract.json",
+    ".ai/work-items/active/publish-new-version.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Publishing any tag other than v0.5.31.", "Publishing before all release evidence checks pass."],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Defines Work Item 17 release requirements."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Release changes are externally visible and must be bound to verified source and evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the approved implementation loop."
+  },
+  "preReviewWarnings": [
+    "Verify version, source commit, candidate, release evidence, and install smoke bindings."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release metadata declares v0.5.31 and matches the candidate release contract.",
+    "Release distribution, workflow, smoke, compatibility, and supply-chain checks pass.",
+    "Published release evidence is bound to the verified main source commit."
+  ],
+  "guidelines": [
+    "Release metadata and evidence are source-commit bound.",
+    "Do not publish when any release-blocking verification fails."
+  ],
+  "intent": {
+    "problem": "All approved stabilization Work Items are complete and the next candidate must be published from verified main.",
+    "constraints": ["Use only v0.5.31.", "Require complete release evidence before tag/release publication."],
+    "rationale": "A final source-bound release closes the review loop and enables plan cleanup."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Candidate and published metadata agree", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Release evidence is bound to main source commit", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "Install and upgrade smoke succeed for published version", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the full approved implementation loop, including release metadata and workflow publication steps."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/publish-new-version.json",
+    "baseCommit": "1472de8174f623e5fcabb004e3b80276a6949449",
+    "initialScopeDigest": "2ff19c2121524b438c1c8acd5b5404873f48574cdcaa3fdf26e4ad5fedb78f4f",
+    "contractSkeletonDigest": "1c47343c98000fad6acf37ba85875aa4768ee63ec020e014d97135e01dc91449"
+  }
+}

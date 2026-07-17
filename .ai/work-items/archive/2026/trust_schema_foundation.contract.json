@@ -1,0 +1,204 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trust_schema_foundation",
+  "mode": "code",
+  "title": "Add Trust Layer schema foundation and validators",
+  "baseCommit": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/trust_schema_foundation.contract.json",
+    ".ai/work-items/active/trust_schema_foundation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/trust/schema/**",
+    "scripts/ai_trust_schema.py",
+    "tests/test_trust_schema.py",
+    "Makefile"
+  ],
+  "outOfScope": [
+    "Capability matching and intent guards",
+    "Human decision runtime protocol and Preflight integration",
+    "Critical-domain, bypass, and production-operation guards",
+    "Baseline capture and backtrack comparison",
+    "Cockpit Status presentation changes beyond generated active status"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md",
+      "reason": "Task 1 defines the five Trust Layer data contracts, validators, and acceptance boundaries."
+    },
+    {
+      "path": "user-provided/AI Cockpit Trust Layer Upgrade specification",
+      "reason": "Defines the required fields and protocol semantics for Capability, Success Criteria, Human Decision, and Baseline evidence."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Defines the Contract, Summary, verification, and lifecycle requirements for this Work Item."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines Evidence Governance and the boundary between native and delegated evidence."
+    }
+  ],
+  "problemStatement": "The Trust Layer needs machine-validated, versioned data contracts before guards and runtime decisions can safely consume capability, success, human-decision, and baseline evidence.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "schema",
+      "verification"
+    ],
+    "reason": "Schemas become a shared contract for later guards and evidence producers; invalid or ambiguous shapes must fail deterministically without implementing later Trust Layer behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The schema fields and validation boundary are explicit and limited to Task 1."
+  },
+  "preReviewWarnings": [
+    "Review schema strictness, required fields, versioning, and deterministic rejection of malformed evidence before approving the next guard task."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Five versioned JSON Schemas exist for repository capabilities, success criteria, Human Decision Request, Human Decision Evidence, and baseline evidence.",
+    "A standard-library validator validates every schema example and rejects missing required fields, wrong types, unknown top-level fields, and invalid enum values deterministically.",
+    "Human Decision Request validation requires decision identity, state, risk category, what happened, why it matters, evidence, options with consequences, recommendation, recommendation reason, question, and resume condition.",
+    "Human Decision Evidence validation requires decision identity, selected option, decision text, actor, timestamp, rationale, source, and supersession semantics.",
+    "Automated tests cover positive examples, malformed payloads, schema version mismatches, and the minimum required evidence fields; `make check-trust-schemas` is available and included in quality."
+  ],
+  "guidelines": [
+    "Keep schemas language-neutral and use explicit machine-readable field names.",
+    "Reject malformed or unknown top-level fields rather than silently interpreting them.",
+    "Do not implement guard decisions or runtime integration in this schema foundation task."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "All five valid Trust Layer schema examples pass validation",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This is a post-implementation test scenario, not an implementation-readiness decision gate; make check-trust-schemas and pytest provide the evidence."
+    },
+    {
+      "scenario": "Missing required Human Decision Request fields fail validation without inference",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This is a post-implementation test scenario, not an implementation-readiness decision gate; malformed-payload tests provide the evidence."
+    },
+    {
+      "scenario": "Schema version and unknown top-level field mismatches fail deterministically",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This is a post-implementation test scenario, not an implementation-readiness decision gate; validator tests provide the evidence."
+    }
+  ],
+  "intent": {
+    "problem": "Later Trust Layer guards need stable, machine-validated data contracts for repository capability, success criteria, human decisions, and baseline evidence; the repository currently has no shared schema foundation for those records.",
+    "constraints": [
+      "Keep the contracts language-neutral and deterministic.",
+      "Use standard-library validation only; do not add a runtime dependency.",
+      "Reject malformed or unknown top-level data instead of inferring intent.",
+      "Do not implement guard decisions or Preflight integration in Task 1."
+    ],
+    "rationale": "A small, strict schema layer gives later guard and evidence Work Items a common contract while keeping policy and runtime behavior out of the foundation task."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized execution of the complete Trust Layer plan in the current conversation; scope remains limited to the declared schema foundation files."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/trust_schema_foundation.json",
+    "baseCommit": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+    "initialScopeDigest": "d7893458884afcbdcad371798f78d735f84036648129257c8512628f62029e90",
+    "contractSkeletonDigest": "84009f58f968343458c881ca2845ebd701022d8f2ae32b75e99543928c0fce2f"
+  }
+}

@@ -19,6 +19,7 @@ AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
 	check-release-distribution \
 	check-lockfile-reproducibility \
+	check-trust-schemas \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	ai-doctor check-ai-adoption-ready \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy template-adoption-ready \
@@ -74,6 +75,7 @@ help:
 	@printf '%s\n' '  make cockpit-calibrate'
 	@printf '%s\n' '  make cockpit-validate-calibration'
 	@printf '%s\n' '  make check-release-distribution  # networked public release contract'
+	@printf '%s\n' '  make check-trust-schemas'
 	@printf '%s\n' '  make archive-work-item CONTRACT=<contract.json> [ARGS="--dry-run"]'
 	@printf '%s\n' '  make ai-close-work-item TASK=<task>  # verify merge, synchronize base, and clean branches'
 	@printf '%s\n' ''
@@ -109,6 +111,9 @@ check-governance-complexity:
 
 check-release-distribution:
 	$(AI_PYTHON) scripts/check_release_distribution.py
+
+check-trust-schemas:
+	$(AI_PYTHON) scripts/ai_trust_schema.py --check
 
 check-ai-system-invariants:
 	$(AI_PYTHON) scripts/check_system_invariants.py
@@ -150,7 +155,7 @@ check-ai-project-profile:
 check-ai-guard-calibration: check-ai-project-profile
 	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
 
-quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning check-dependency-vulnerabilities
+quality: project-format-check project-test project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning check-dependency-vulnerabilities check-trust-schemas
 
 ai-cockpit-project-format-check: project-format-check
 

@@ -1,0 +1,440 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "trust_schema_foundation",
+  "contractPath": ".ai/work-items/archive/2026/trust_schema_foundation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/trust_schema_foundation.contract.json",
+      "reason": "Refined the generated Contract with the Task 1 schema scope, acceptance, scenarios, and verification boundaries."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trust_schema_foundation.summary.json",
+      "reason": "Updated the Summary for Task 1 evidence and lifecycle verification."
+    },
+    {
+      "path": ".ai/trust/schema/repository_capabilities.schema.json",
+      "reason": "Added the strict Repository Capability Declaration contract."
+    },
+    {
+      "path": ".ai/trust/schema/success_criteria.schema.json",
+      "reason": "Added the strict Success Criteria Declaration contract."
+    },
+    {
+      "path": ".ai/trust/schema/human_decision_request.schema.json",
+      "reason": "Added the explain-before-asking Human Decision Request contract."
+    },
+    {
+      "path": ".ai/trust/schema/human_decision_evidence.schema.json",
+      "reason": "Added the structured Human Decision Evidence contract."
+    },
+    {
+      "path": ".ai/trust/schema/baseline_evidence.schema.json",
+      "reason": "Added the provenance-bound Baseline Evidence contract."
+    },
+    {
+      "path": "scripts/ai_trust_schema.py",
+      "reason": "Added the standard-library strict schema and payload validator."
+    },
+    {
+      "path": "tests/test_trust_schema.py",
+      "reason": "Added positive and negative tests for all five schema contracts."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added check-trust-schemas and included it in quality."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/trust_schema_foundation.contract.json",
+    "docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md",
+    "user-provided/AI Cockpit Trust Layer Upgrade specification",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "All five valid Trust Layer schema examples pass validation",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "make check-trust-schemas",
+        "pytest tests/test_trust_schema.py -q"
+      ]
+    },
+    {
+      "scenario": "Missing required Human Decision Request fields fail validation without inference",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "pytest tests/test_trust_schema.py -q"
+      ]
+    },
+    {
+      "scenario": "Schema version and unknown top-level field mismatches fail deterministically",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "pytest tests/test_trust_schema.py -q"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:21.450210+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "20d893dfb7e3bfafc1b7903be96c135389ccb0903e355f01f39a470c906bb51d",
+      "commandHash": "e531f08bc4696914882d9703d75f9b9b1f50e71fcb389c2d5cec04208eb2295c",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/trust_schema_foundation.contract.json work item contract check passed: .ai/work-items/active/trust_schema_foundation.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:21.618497+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "7cd6f3c30687db54846786dba9a9dc121dd600920e8becf1f68875673f362092",
+      "commandHash": "b1da7030824ce283e77cb0fc2d517f71c3ad7a864f7fa6bf6946515c268fd992",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/trust_schema_foundation.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:21.796061+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "975cf8a1d4a605d0d6ad2e45e39992dbe07c0e0cb3b0803da0821f12dc5bd162",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/trust_schema_foundation.contract.json [warning] restricted_write: .ai/trust/schema/baseline_evidence.schema.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/trust/schema/human_decision_evidence.schema.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/trust/schema/human_decision_request.schema.json (.ai/**) - AI governance configuration. [wa"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.038193+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "502c03bdca4b1ab52314e6932bb40f95592281fbeec20795b6266f70e9557b77",
+      "commandHash": "47dc617d4388283c550d4dfde8084c7b4d3af9a4c1ddf985848b9cc27ba3f06d",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/trust_schema_foundation.contract.json --summary .ai/work-items/active/trust_schema_foundation.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `trust_schema_foundation` - Contract Hash: `a67b27af448a3511` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.194052+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "8822473fa78c3ad14668f3d78e8be418c2a40757abea623a3748d6ededb4769a",
+      "commandHash": "14c2a698a79039fede39a74c5611139111e959f7e164eac28c2f79a0bb7c18e3",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/trust_schema_foundation.summary.json review policy matched 9 path(s) [review] .ai/trust/schema/baseline_evidence.schema.json [review] .ai/trust/schema/human_decision_evidence.schema.json [review] .ai/trust/schema/human_decision_request.schema.json [review] .ai/trust/schema/repository_capabilities.schema.json [review] .ai/trust/schema/success_criteria.schema.json [review] .ai/work-items/st"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.354752+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.498351+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.614310+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "2e24751d52d6cbb513392d32ee607e3cebd7c502344b5efb7b99a47a759e67b3",
+      "commandHash": "b64ecf6f4d51cc8701481211777b7013163d12f6fa8b9c448d6087b2b1d0785f",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/trust_schema_foundation.contract.json --summary .ai/work-items/active/trust_schema_foundation.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.713843+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "c138aec65afbbfa011d19492afd511832bed1d0fa86a10054b3f62c8a1aeefdb",
+      "commandHash": "d3f03c9c85c2e77989f7c28e01284e53653c75bfe8595bdf44c3495326e55acf",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/trust_schema_foundation.contract.json --summary .ai/work-items/active/trust_schema_foundation.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:49:22.952721+00:00",
+      "exitCode": 0,
+      "durationMs": 195,
+      "outputDigest": "08315525f0e92c94e8ee62d5bf54e2363288d584b4b8060b03b04360071edde1",
+      "commandHash": "eb24900a5cfe92999f1a88b609c990743d9f33c8f5241ac2311c3664a762698e",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/trust_schema_foundation.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/trust/schema/baseline_evidence.schema.json` — covered by Contract scope - [active_owned] `.ai/trust/schema/huma"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:51:29.338291+00:00",
+      "exitCode": 0,
+      "durationMs": 126331,
+      "outputDigest": "1982c72ac7de39848b53cef602a2efcb5394301a4ffe77d1b9c0077879782ead",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "bcb2923b1cd354cf2779bcb9cd2df18a5ebf4f4a79e1e1593a3739dda5708631",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 99 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 11%] ........................................................................ [ 22%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:51:30.780754+00:00",
+      "exitCode": 0,
+      "durationMs": 245,
+      "outputDigest": "591509924b1089a42f8d127a09e13fbb8869578614a6613f6df261b7f0dc1fe9",
+      "commandHash": "d2cba3b1d896b87902ae3bb0db167647e708e8e2f27814ff962ce1f25495cec8",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "3ccc14a0584e968f0b00b301dc4c5b3f265c8e4bc9f67ac72562bf5cca4c078f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/trust_schema_foundation.contract.json --summary .ai/work-items/active/trust_schema_foundation.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:51:31.040459+00:00",
+      "exitCode": 0,
+      "durationMs": 215,
+      "outputDigest": "b65946584609b3b88dcc31ebd2096f12b9c7ed8d2b3ef9bfbe6523319ee10cd0",
+      "commandHash": "d7d7823142c880ba5bc4a8d195ec5be665908f2d144c8d47695350ea88e2e088",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "3ccc14a0584e968f0b00b301dc4c5b3f265c8e4bc9f67ac72562bf5cca4c078f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/trust_schema_foundation.contract.json --summary .ai/work-items/active/trust_schema_foundation.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:51:31.129161+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "3ccc14a0584e968f0b00b301dc4c5b3f265c8e4bc9f67ac72562bf5cca4c078f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:51:31.226668+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "2193b76d3cb83f29a1c049ab9fa7e7f4dcc0262d22d553c00764b7c4e19c280b",
+      "commandHash": "75a50434dc75987feae93808b4149e2d8b532c8a7bf212c1ee5e3820b15c7b48",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "3ccc14a0584e968f0b00b301dc4c5b3f265c8e4bc9f67ac72562bf5cca4c078f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/trust_schema_foundation.contract.json --summary .ai/work-items/active/trust_schema_foundation.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trust_schema_foundation.summary.json CONTRACT=.ai/work-items/active/trust_schema_foundation.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T20:51:31.987480+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "43e5d0de7d291064050ae93fe3bea83f8e6e0f4d6cbb69275080993ee87f8b61",
+      "commandHash": "6b2c0f37c99f8428a585003e88e94288050968ed54e790570b03e0381e3cb5e5",
+      "contractHash": "a67b27af448a35111f6483b7e5e5b43aa0f5c2408f13b8c1d93b430812f53881",
+      "commitSha": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "executionContractPath": ".ai/work-items/active/trust_schema_foundation.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/trust_schema_foundation.summary.json",
+      "worktreeDigest": "e45cacbc472b504f2e48c3949e10142e55f04f83ba5cb7571dc2ebf52f22a8ac",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/trust_schema_foundation.summary.json --contract .ai/work-items/active/trust_schema_foundation.contract.json ai summary check passed: .ai/work-items/active/trust_schema_foundation.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep schemas language-neutral and use explicit machine-readable field names.",
+      "compliant": true,
+      "evidence": "The planned artifacts are JSON Schema documents and a standard-library validator with explicit field names."
+    },
+    {
+      "guideline": "Reject malformed or unknown top-level fields rather than silently interpreting them.",
+      "compliant": true,
+      "evidence": "The validator contract and tests explicitly cover unknown top-level fields and malformed payload rejection."
+    },
+    {
+      "guideline": "Do not implement guard decisions or runtime integration in this schema foundation task.",
+      "compliant": true,
+      "evidence": "The Contract outOfScope explicitly excludes capability, intent, critical-domain, bypass, baseline, and runtime integration behavior."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Schema changes are shared inputs for later Trust Layer guards, so strictness and compatibility require focused review."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Schema consumers in later Work Items must preserve these field names and version semantics.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Required fields and rejection behavior for all five schema contracts.",
+      "Compatibility and versioning boundary for later guard Work Items."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "a67b27af448a3511",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the five schema boundary, strict rejection rules, out-of-scope guard behavior, and later Work Item handoff before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "a67b27af448a3511",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the final schema/test/Makefile diff and full quality result before finish stabilization."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 139
+}

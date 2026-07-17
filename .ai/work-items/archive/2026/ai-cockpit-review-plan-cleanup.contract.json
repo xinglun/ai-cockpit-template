@@ -1,0 +1,150 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-cockpit-review-plan-cleanup",
+  "mode": "code",
+  "title": "Remove completed AI Cockpit review plan",
+  "baseCommit": "62a551d4825d43c7c0dc1283afd0ea3058052269",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/ai-cockpit-review-plan-cleanup.contract.json",
+    ".ai/work-items/active/ai-cockpit-review-plan-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md"
+  ],
+  "outOfScope": ["Deleting any other plan, archive record, release asset, or governance evidence."],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/ai-cockpit-review-plan-cleanup.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {"path": ".ai/work-items/archive/index.json", "reason": "Archive integrity is preserved and verified."},
+    {"path": "release.json", "reason": "Published release evidence remains preserved."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["documentation_cleanup"],
+    "reason": "One completed plan document is removed; archive and release evidence are explicitly preserved."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly requested plan cleanup after completion of Work Item 18."
+  },
+  "preReviewWarnings": [
+    "Verify only the completed comprehensive review plan is deleted and all Work Item/release evidence remains present."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The completed comprehensive review plan document is removed.",
+    "All W1-W17 archive pairs and v0.5.31 release evidence remain present.",
+    "AI checks, archive integrity, and quality verification pass."
+  ],
+  "guidelines": [
+    "Preserve archived Work Item and release evidence.",
+    "Limit cleanup to the explicitly completed plan document."
+  ],
+  "intent": {
+    "problem": "The comprehensive review plan is complete and must be cleaned up without removing its implementation evidence.",
+    "constraints": ["Delete only the named plan document.", "Retain all archive pairs, index entries, and v0.5.31 release evidence."],
+    "rationale": "A final cleanup Work Item closes the user-requested loop while preserving auditability."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly requested cleanup after Work Item 18 completion."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/ai-cockpit-review-plan-cleanup.json",
+    "baseCommit": "62a551d4825d43c7c0dc1283afd0ea3058052269",
+    "initialScopeDigest": "1bdaacf0f7357a5084dcc1c36a4ecf2a14b037e811355fbd4a4b1fbe2d8ecad1",
+    "contractSkeletonDigest": "83a22107100388efe095c6d1c52c6c10cbe2b0a893d93db7532df58699c20928"
+  }
+}

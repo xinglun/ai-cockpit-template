@@ -23,6 +23,7 @@ from ai_common import (
     verification_key,
     validate_scenario_coverage,
 )
+from ai_acceptance_policy import validate_acceptance_evidence
 from ai_observability import create_observability, elapsed_ms
 
 
@@ -41,6 +42,7 @@ REQUIRED_FIELDS = (
 )
 ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "archiveSequence",
+    "acceptanceEvidence",
     "boundaryChecks",
     "checkpointEvidence",
     "checkpointReview",
@@ -445,6 +447,16 @@ def validate_summary(
     )
     issues.extend(_validate_summary_metadata(summary))
     issues.extend(_validate_required_verification(summary, contract))
+    if isinstance(contract, dict):
+        issues.extend(
+            validate_acceptance_evidence(
+                contract,
+                summary,
+                summary.get("verification", [])
+                if isinstance(summary.get("verification"), list)
+                else [],
+            )
+        )
     return issues
 
 

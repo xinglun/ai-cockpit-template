@@ -87,11 +87,29 @@ def discover_remote_default_candidates(
         head = run_command(["symbolic-ref", "--quiet", "--short", f"refs/remotes/{remote}/HEAD"])
         if head.returncode != 0:
             continue
-        ref = head.stdout.strip()
-        prefix = f"{remote}/"
-        if ref.startswith(prefix) and ref[len(prefix) :]:
-            candidates.append((remote, ref[len(prefix) :]))
+        branch = remote_default_branch_from_symref(head.stdout, remote)
+        if branch:
+            candidates.append((remote, branch))
     return candidates
+
+
+def remote_default_branch_from_symref(output: str, remote: str) -> str | None:
+    """Parse one remote's symbolic HEAD, returning None for missing/invalid output."""
+    refs = [
+        match.group(1)
+        for line in output.splitlines()
+        if (match := re.fullmatch(r"ref:\s+refs/heads/(.+)\s+HEAD", line.strip()))
+    ]
+    if not refs:
+        refs = [
+            match.group(1)
+            for line in output.splitlines()
+            if (match := re.fullmatch(rf"{re.escape(remote)}/(.+)", line.strip()))
+        ]
+    if len(refs) != 1:
+        return None
+    branch = refs[0].strip()
+    return branch if branch and "/" not in remote and remote else None
 
 
 def current_head() -> str:

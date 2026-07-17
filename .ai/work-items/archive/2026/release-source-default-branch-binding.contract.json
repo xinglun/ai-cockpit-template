@@ -1,0 +1,222 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release-source-default-branch-binding",
+  "mode": "code",
+  "title": "Bind releases to the remote default branch HEAD",
+  "baseCommit": "c0229923d6340ff1845415d74777444a5796ae8d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+    ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "scripts/check_release_distribution.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/ai_common.py",
+    "tests/test_workflows.py",
+    "tests/test_release_distribution.py",
+    "docs/distribution.md",
+    "docs/reference/distribution.md"
+  ],
+  "outOfScope": [
+    "Product source code and unrelated release features",
+    "Publishing or deleting external releases/tags"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Defines Work Item 5 release source binding objective and required checks."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Aligns release evidence, remote default branch, and fail-closed terminology."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Current release workflow source selection and evidence boundary."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Current release distribution and evidence validation implementation."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Shared Git and remote metadata helpers used by release validation."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Workflow contract tests for release source behavior."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Release evidence and distribution validation tests."
+    },
+    {
+      "path": "docs/distribution.md",
+      "reason": "Documents release provenance and distribution expectations."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_provenance"
+    ],
+    "reason": "Release provenance is high impact; source resolution must fail closed when remote default branch metadata is unavailable."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized the implementation loop, including release workflow, governance scripts, tests, and documentation within this Contract scope."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A1: Release workflow resolves the remote default branch and rejects a feature-branch or ambiguous source.",
+    "A2: Release validation fails closed when Remote HEAD/default branch metadata is missing and accepts an explicit source only when it equals origin/<default-branch>.",
+    "A3: Release Evidence records Source Commit, Remote, Default Branch, and Run ID with validation coverage.",
+    "A4: Workflow/release tests and distribution documentation cover success, feature-branch failure, missing HEAD failure, and explicit-base behavior."
+  ],
+  "guidelines": [
+    "Release source selection must be repository-relative and fail closed; never infer provenance from a moving local branch.",
+    "Keep remote/default-branch resolution in shared Git helpers and preserve existing release evidence compatibility.",
+    "Do not publish or mutate external release state as part of this Work Item; implementation and verification remain local/CI scoped."
+  ],
+  "intent": {
+    "problem": "Release workflows can currently validate or package from an unintended local or feature branch, weakening provenance and making published artifacts difficult to audit.",
+    "constraints": [
+      "The authoritative source is the remote default branch HEAD, not the current checkout branch.",
+      "Missing or ambiguous remote metadata must fail closed.",
+      "Preserve explicit base/source validation and historic release evidence compatibility."
+    ],
+    "rationale": "Binding release source to remote default-branch HEAD makes provenance deterministic and prevents a feature branch from being mistaken for publishable release input."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Feature branch source is rejected",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_workflows.py", "tests/test_release_distribution.py: test_release_source_binding_rejects_feature_branch_source"],
+      "reason": "Release source is rejected when it differs from the remote default branch HEAD."
+    },
+    {
+      "scenario": "Remote default branch HEAD is accepted",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_release_distribution.py: test_release_source_binding_accepts_default_branch_head_and_evidence"],
+      "reason": "The authoritative release source remains usable when identities match."
+    },
+    {
+      "scenario": "Missing remote HEAD/default branch metadata fails closed",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_release_distribution.py: test_release_source_binding_fails_closed_without_remote_head"],
+      "reason": "Missing remote identity fields are rejected."
+    },
+    {
+      "scenario": "Explicit base is accepted only when bound to the default branch",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_release_distribution.py: test_release_source_evidence_requires_all_identity_fields"],
+      "reason": "Explicit source evidence is accepted only when all binding fields are present and matched."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized the complete Work Item loop, including release workflow, governance scripts, tests, documentation, branch operations, PR merge, and lifecycle cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release-source-default-branch-binding.json",
+    "baseCommit": "c0229923d6340ff1845415d74777444a5796ae8d",
+    "initialScopeDigest": "138b523431b817f8787b6cff1606d626ed7812fde9d2346fd0301359b72762fd",
+    "contractSkeletonDigest": "884e537d628ca198a5f88b567129e723790d99353c20c32f2803e74f1d03ce06"
+  }
+}

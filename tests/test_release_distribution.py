@@ -15,6 +15,7 @@ from check_release_distribution import (
     release_claims,
     supply_chain_issues,
 )
+from ai_common import discover_remote_default_candidates, remote_default_branch_from_symref
 
 
 class _Response:
@@ -41,6 +42,67 @@ def test_release_metadata_declares_release_asset_authority():
     metadata = json.loads(release_distribution.RELEASE.read_text(encoding="utf-8"))
 
     assert metadata["releaseEvidenceAuthority"] == "release-assets-v1"
+
+
+def test_remote_default_branch_candidates_require_explicit_remote_head():
+    def run(args):
+        if args == ["remote"]:
+            return SimpleNamespace(returncode=0, stdout="origin\nupstream\n")
+        if args == ["symbolic-ref", "--quiet", "--short", "refs/remotes/origin/HEAD"]:
+            return SimpleNamespace(returncode=0, stdout="origin/main\n")
+        return SimpleNamespace(returncode=1, stdout="")
+
+    assert discover_remote_default_candidates(run) == [("origin", "main")]
+    assert remote_default_branch_from_symref("ref: refs/heads/main\tHEAD\n", "origin") == "main"
+    assert remote_default_branch_from_symref("", "origin") is None
+
+
+def test_release_source_binding_accepts_default_branch_head_and_evidence():
+    assert (
+        release_distribution.release_source_identity_issues(
+            source_commit="default-sha",
+            remote="origin",
+            default_branch="main",
+            default_branch_commit="default-sha",
+            run_id="123",
+        )
+        == []
+    )
+
+
+def test_release_source_binding_rejects_feature_branch_source():
+    issues = release_distribution.release_source_identity_issues(
+        source_commit="feature-sha",
+        remote="origin",
+        default_branch="main",
+        default_branch_commit="default-sha",
+        run_id="123",
+    )
+    assert any("default branch" in issue for issue in issues)
+
+
+def test_release_source_binding_fails_closed_without_remote_head():
+    issues = release_distribution.release_source_identity_issues(
+        source_commit="source-sha",
+        remote="",
+        default_branch="",
+        default_branch_commit="",
+        run_id="123",
+    )
+    assert "release remote is missing" in issues
+    assert "release default branch is missing" in issues
+    assert "remote default branch commit is missing" in issues
+
+
+def test_release_source_evidence_requires_all_identity_fields():
+    issues = release_distribution.release_source_identity_issues(
+        source_commit="source-sha",
+        remote="origin",
+        default_branch="main",
+        default_branch_commit="source-sha",
+        run_id="",
+    )
+    assert "release run ID is missing" in issues
 
 
 def test_supply_chain_issues_fail_closed_for_missing_mismatched_and_unscanned_evidence(

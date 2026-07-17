@@ -1,0 +1,501 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release-source-default-branch-binding",
+  "contractPath": ".ai/work-items/archive/2026/release-source-default-branch-binding.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/release-source-default-branch-binding.contract.json",
+      "reason": "Defines strict remote default-branch source binding and verified scenario coverage."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release-source-default-branch-binding.summary.json",
+      "reason": "Records implementation and verification evidence for release source provenance."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Resolves remote HEAD, binds source to origin/default-branch, and publishes release-source.json evidence."
+    },
+    {
+      "path": "scripts/ai_common.py",
+      "reason": "Provides shared fail-closed parsing for remote default-branch symbolic HEAD output."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Validates release source, remote, default branch, commit, and run ID identity."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Calibrates the generated Python line ceiling to the measured repository total after this scoped implementation."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Asserts workflow source binding and Release Evidence contract."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Covers default branch success, feature branch rejection, missing HEAD failure, and evidence completeness."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documents default-branch binding and release-source evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/release-source-default-branch-binding.contract.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:01.588635+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "f194614bf3f8c339e187faa5c0898c0e50295825e7d85140b12c2b2b01bbb0c6",
+      "commandHash": "38bb379c889983aa20278de5c403ffccfcac90301f2a5c3c2ca91e762078e14a",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/release-source-default-branch-binding.contract.json work item contract check passed: .ai/work-items/active/release-source-default-branch-binding.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:01.735252+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "a3508320a6c7b270895d65e7309932cfe223bf360544fd7eb37b1f530e46ddb7",
+      "commandHash": "a1d7fb1da3938266a7052c4ef732968325d10d9cc08ebcca55b59094dce70e36",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/release-source-default-branch-binding.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:01.909135+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "377b1aa44d4a2bcf41495c39023081af5c6e69225a409c14f06b09a1c07acd4b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/release-source-default-branch-binding.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 2 warning(s) report: target/ai"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:02.160857+00:00",
+      "exitCode": 0,
+      "durationMs": 203,
+      "outputDigest": "6abcb34caf83e5944260c577bd4334168a68914f1f63f6c2b365bc576b043f42",
+      "commandHash": "555c006686fd5faab13453a9ca14672c6055f7a359219819126c2504325d2cc7",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/release-source-default-branch-binding.contract.json --summary .ai/work-items/active/release-source-default-branch-binding.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release-source-default-branch-binding` - Contract Hash: `9e6e1bd8a17d92fd` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unkn"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:02.316947+00:00",
+      "exitCode": 0,
+      "durationMs": 109,
+      "outputDigest": "b027485f12be420e0461ae1f27d1f5a8c8b1b0a95c62c7b95f6437f9cb5e9269",
+      "commandHash": "9bf1543a70eb05e4370782abc5fee9ef1093e852883a89c3558754044bc513b9",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/release-source-default-branch-binding.summary.json review policy matched 5 path(s) [review] .ai/work-items/starts/release-source-default-branch-binding.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] .github/workflows/release.yml [review] scripts/ai_common.py review focus recorded: 2 item(s) report: target/ai_review_policy_report."
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:02.471018+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:02.609619+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:02.717712+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "fd1dafbe6c06bf8af09a2e1d30527589c26a4e14825bb0dbad55f82cc9f97924",
+      "commandHash": "0ce66b8815d2f759e37d3d7082f89dbb8844f402d8809f82ab1f5d17fccabcb1",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release-source-default-branch-binding.contract.json --summary .ai/work-items/active/release-source-default-branch-binding.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:02.815147+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "1fed3448cb20f0f6d73d11321a8eb90c15e66f75f1318f2461fc51cc7e7a53a3",
+      "commandHash": "8ff9453f4362b081057308933f9c5822b68bba8f8ad8cd5e9ecc930bb8687246",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/release-source-default-branch-binding.contract.json --summary .ai/work-items/active/release-source-default-branch-binding.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:32:03.059085+00:00",
+      "exitCode": 0,
+      "durationMs": 198,
+      "outputDigest": "0adef5a7d40b227a12d040f22d3d019c7b5fc462c13f2718f1634ed2a2d445d8",
+      "commandHash": "648b2620c93b2ee7033739f240d73153617313db44a11b45d149f5029e858c78",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release-source-default-branch-binding.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-i"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:33:50.367819+00:00",
+      "exitCode": 0,
+      "durationMs": 107254,
+      "outputDigest": "73ea7d5860febaa1f98ad2ad2a90db2a844dd9b420a7bd7648a52cb941929fad",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "ef39b2552b51b281464c306006a9512f114ffd2cec81a589cbfc484f047a264d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 95 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 12%] ........................................................................ [ 24%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:33:51.885335+00:00",
+      "exitCode": 0,
+      "durationMs": 223,
+      "outputDigest": "ce3960de923f27f620fa7de31d338ad041e31d0a4ce9d26dfa36f8eeceeb2f85",
+      "commandHash": "0d47355180f024c3dbdab76affa896ccf2444213a1b64f0df3c699a34f6c423f",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "efb377bc0fd58fbb47165fe8aab41bf35805e6e7d5be607c724cc5ceb4750a1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/release-source-default-branch-binding.contract.json --summary .ai/work-items/active/release-source-default-branch-binding.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:33:52.131638+00:00",
+      "exitCode": 0,
+      "durationMs": 202,
+      "outputDigest": "047ae4e5578ef0dd629f426e9d58c5ae04361cd9ec07237dbf759e5789720b19",
+      "commandHash": "bb655f079007e2c5315dbaab25edc813662ced6588d424e2ba71a1e00389be82",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "efb377bc0fd58fbb47165fe8aab41bf35805e6e7d5be607c724cc5ceb4750a1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release-source-default-branch-binding.contract.json --summary .ai/work-items/active/release-source-default-branch-binding.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:33:52.222021+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "efb377bc0fd58fbb47165fe8aab41bf35805e6e7d5be607c724cc5ceb4750a1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:33:52.318146+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "b57eaa9f0dbc10804d9e18931f7bf94f93cd126024e2cac3bcf8f03bc10a83d3",
+      "commandHash": "cf5b69e6d01ed4fcdfd597334962deef40106e083f5ec898c74616daac50ed42",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "efb377bc0fd58fbb47165fe8aab41bf35805e6e7d5be607c724cc5ceb4750a1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release-source-default-branch-binding.contract.json --summary .ai/work-items/active/release-source-default-branch-binding.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release-source-default-branch-binding.summary.json CONTRACT=.ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T10:33:52.466811+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "5aa1e08c10a1b2f6c3f968c270c6410dc2d4ada5f209fed2ba5dc822ebee6926",
+      "commandHash": "5e344859d6907bf87ff4cb2e2fe18534a3d926134ea308a67a98b31d316aca31",
+      "contractHash": "9e6e1bd8a17d92fd4f8308b3f752362f1e5e7fbcce5297640f34a76f5521d42b",
+      "commitSha": "c0229923d6340ff1845415d74777444a5796ae8d",
+      "executionContractPath": ".ai/work-items/active/release-source-default-branch-binding.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release-source-default-branch-binding.summary.json",
+      "worktreeDigest": "efb377bc0fd58fbb47165fe8aab41bf35805e6e7d5be607c724cc5ceb4750a1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/release-source-default-branch-binding.summary.json --contract .ai/work-items/active/release-source-default-branch-binding.contract.json ai summary check passed: .ai/work-items/active/release-source-default-branch-binding.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Release source selection must be repository-relative and fail closed; never infer provenance from a moving local branch.",
+      "compliant": true,
+      "evidence": "The workflow resolves origin symbolic HEAD, fetches origin/<default-branch>, and rejects SOURCE_COMMIT unless it equals that immutable remote-tracking commit."
+    },
+    {
+      "guideline": "Keep remote/default-branch resolution in shared Git helpers and preserve existing release evidence compatibility.",
+      "compliant": true,
+      "evidence": "scripts/ai_common.py owns fail-closed symbolic HEAD parsing; existing release evidence remains unchanged and release-source.json is additive."
+    },
+    {
+      "guideline": "Do not publish or mutate external release state as part of this Work Item; implementation and verification remain local/CI scoped.",
+      "compliant": true,
+      "evidence": "No release/tag command was executed locally; the workflow change only defines CI-time publication after all source-bound checks pass."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Feature branch source is rejected",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_distribution.py::test_release_source_binding_rejects_feature_branch"
+      ],
+      "reason": "Mismatched source and default-branch commits produce a blocking issue."
+    },
+    {
+      "scenario": "Remote default branch HEAD is accepted",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_distribution.py::test_release_source_binding_accepts_default_branch_head_and_evidence"
+      ],
+      "reason": "Matching source and default-branch commits produce no identity issues."
+    },
+    {
+      "scenario": "Missing remote HEAD/default branch metadata fails closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_distribution.py::test_release_source_binding_fails_closed_without_remote_head"
+      ],
+      "reason": "Missing remote, branch, and commit fields are all rejected."
+    },
+    {
+      "scenario": "Explicit base is accepted only when bound to the default branch",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_distribution.py::test_release_source_evidence_requires_all_identity_fields"
+      ],
+      "reason": "Run evidence is incomplete without the required source identity fields."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Initial skeleton; scope and acceptance still need task-specific review."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Remote provider output formats outside the supported symbolic-ref forms fail closed.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Review shell parsing of GitHub remote symbolic HEAD and fail-closed behavior.",
+      "Confirm additive release-source.json evidence remains compatible with existing release assets."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "9e6e1bd8a17d92fd",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "9e6e1bd8a17d92fd",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_release_distribution.py",
+          "locator": "test_release_source_binding_rejects_feature_branch",
+          "verification": "quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_release_distribution.py",
+          "locator": "test_release_source_binding_fails_closed_without_remote_head",
+          "verification": "quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_release_distribution.py",
+          "locator": "test_release_source_binding_accepts_default_branch_head_and_evidence",
+          "verification": "quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_release_distribution.py",
+          "locator": "test_release_source_binding_accepts_default_branch_head_and_evidence",
+          "verification": "quality"
+        },
+        {
+          "type": "test",
+          "path": "tests/test_workflows.py",
+          "locator": "test_release_workflow_is_exact_sha_and_action_dependency_free",
+          "verification": "quality"
+        },
+        {
+          "type": "documentation",
+          "path": "docs/reference/distribution.md",
+          "locator": "PR-first release sequence",
+          "verification": "quality"
+        }
+      ]
+    }
+  ],
+  "knownGaps": [
+    "The workflow's GitHub-hosted remote HEAD parsing is covered by workflow contract assertions; runtime provider behavior remains a fail-closed boundary."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 123
+}

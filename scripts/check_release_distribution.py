@@ -168,6 +168,29 @@ def release_claims(metadata: dict[str, object]) -> dict[str, object]:
     return {key: metadata.get(key) for key in ("releaseTag", "publicContract", "capabilities")}
 
 
+def release_source_identity_issues(
+    *,
+    source_commit: str,
+    remote: str,
+    default_branch: str,
+    default_branch_commit: str,
+    run_id: str,
+) -> list[str]:
+    """Fail closed unless release source and provenance identity are complete."""
+    issues: list[str] = []
+    if not remote:
+        issues.append("release remote is missing")
+    if not default_branch:
+        issues.append("release default branch is missing")
+    if not default_branch_commit:
+        issues.append("remote default branch commit is missing")
+    if not run_id:
+        issues.append("release run ID is missing")
+    if source_commit and default_branch_commit and source_commit != default_branch_commit:
+        issues.append("release source commit is not the remote default branch HEAD")
+    return issues
+
+
 def release_asset_identity_issues(
     *,
     tag: str,

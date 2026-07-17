@@ -33,8 +33,32 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
           gh auth setup-git
+          remote_head="$(git ls-remote --symref origin HEAD)"
+          mapfile -t default_branches < <(awk '$1 == "ref:" && $2 ~ /^refs\/heads\// {sub(/^refs\/heads\//, "", $2); print $2}' <<<"$remote_head")
+          [[ "${#default_branches[@]}" -eq 1 ]]
+          RELEASE_REMOTE=origin
+          RELEASE_DEFAULT_BRANCH="${default_branches[0]}"
+          [[ -n "$RELEASE_DEFAULT_BRANCH" && "$RELEASE_DEFAULT_BRANCH" != *$'\n'* ]]
+          export RELEASE_REMOTE RELEASE_DEFAULT_BRANCH
+          git fetch --no-tags --quiet origin \
+            "refs/heads/${RELEASE_DEFAULT_BRANCH}:refs/remotes/origin/${RELEASE_DEFAULT_BRANCH}"
+          DEFAULT_BRANCH_COMMIT="$(git rev-parse "refs/remotes/origin/${RELEASE_DEFAULT_BRANCH}^{commit}")"
+          export DEFAULT_BRANCH_COMMIT
+          [[ "$SOURCE_COMMIT" == "$DEFAULT_BRANCH_COMMIT" ]]
+          {
+            echo "RELEASE_REMOTE=$RELEASE_REMOTE"
+            echo "RELEASE_DEFAULT_BRANCH=$RELEASE_DEFAULT_BRANCH"
+            echo "DEFAULT_BRANCH_COMMIT=$DEFAULT_BRANCH_COMMIT"
+          } >> "$GITHUB_ENV"
           git fetch --no-tags --quiet origin "${SOURCE_COMMIT}"
           git checkout --detach --quiet "${SOURCE_COMMIT}"
+          jq -n \
+            --arg sourceCommit "$SOURCE_COMMIT" \
+            --arg remote "$RELEASE_REMOTE" \
+            --arg defaultBranch "$RELEASE_DEFAULT_BRANCH" \
+            --arg runId "$GITHUB_RUN_ID" \
+            '{format:"ai-cockpit-release-source",version:1,sourceCommit:$sourceCommit,remote:$remote,defaultBranch:$defaultBranch,runId:$runId}' \
+            > "$RUNNER_TEMP/release-source.json"
 
       - name: Validate release identity and tag preconditions
         shell: bash
@@ -42,8 +66,12 @@ jobs:
           set -euo pipefail
           cd "$GITHUB_WORKSPACE"
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          [[ "$SOURCE_COMMIT" == "$GITHUB_SHA" ]]
           [[ "$(git rev-parse HEAD)" == "$SOURCE_COMMIT" ]]
+          [[ -s "$RUNNER_TEMP/release-source.json" ]]
+          jq -e --arg source "$SOURCE_COMMIT" --arg remote "$RELEASE_REMOTE" \
+            --arg branch "$RELEASE_DEFAULT_BRANCH" --arg run "$GITHUB_RUN_ID" \
+            '(.sourceCommit == $source and .remote == $remote and .defaultBranch == $branch and .runId == $run)' \
+            "$RUNNER_TEMP/release-source.json" >/dev/null
           if git ls-remote --exit-code origin "refs/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
             echo "release tag already exists: ${RELEASE_TAG}" >&2
             exit 1
@@ -149,7 +177,8 @@ jobs:
             --generate-notes \
             "$RUNNER_TEMP/release-evidence/sbom.json#sbom.json" \
             "$RUNNER_TEMP/release-evidence/provenance.json#provenance.json" \
-            "$RUNNER_TEMP/release-evidence/release-digests.json#release-digests.json"
+            "$RUNNER_TEMP/release-evidence/release-digests.json#release-digests.json" \
+            "$RUNNER_TEMP/release-source.json#release-source.json"
 
       - name: Verify Draft tag target and release asset subjects
         working-directory: ${{ github.workspace }}
@@ -161,6 +190,10 @@ jobs:
           test "$(jq -r '.sourceCommit' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$SOURCE_COMMIT"
           test "$(jq -r '.releaseTag' "$RUNNER_TEMP/release-evidence/provenance.json")" = "$RELEASE_TAG"
           test "$(jq -r '.releaseTag' "$RUNNER_TEMP/release-evidence/release-digests.json")" = "$RELEASE_TAG"
+          test "$(jq -r '.sourceCommit' "$RUNNER_TEMP/release-source.json")" = "$SOURCE_COMMIT"
+          test "$(jq -r '.remote' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_REMOTE"
+          test "$(jq -r '.defaultBranch' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_DEFAULT_BRANCH"
+          test "$(jq -r '.runId' "$RUNNER_TEMP/release-source.json")" = "$GITHUB_RUN_ID"
 
       - name: Publish verified Draft Release
         run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

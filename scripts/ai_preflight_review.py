@@ -22,6 +22,7 @@ from ai_common import (
     validate_scenario_coverage,
 )
 from ai_readiness_policy import has_explicit_blocker
+from ai_trust_guards import trust_signals
 from ai_upgrade_conflict_report import validate_report
 
 
@@ -774,6 +775,7 @@ def derive_report(
 ) -> dict[str, Any]:
     signals = [
         intent_signal(contract),
+        *(Signal(**item) for item in trust_signals(contract)),
         unknowns_signal(contract),
         acceptance_signal(contract),
         sources_signal(contract),
@@ -976,11 +978,15 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
                 continue
             if signal.get("name") not in {
                 "Intent",
+                "Intent Guard",
                 "Unknowns",
                 "Acceptance",
                 "Sources",
                 "Scenario Coverage",
                 "Verification",
+                "Capability",
+                "Constraint Guard",
+                "Success Criteria",
             }:
                 issues.append(f"signals[{index}].name is invalid")
             if signal.get("value") not in ALLOWED_SIGNAL_VALUES:

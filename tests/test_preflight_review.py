@@ -34,7 +34,7 @@ def ready_contract() -> dict:
         },
         "unknowns": [],
         "acceptance": [
-            "The generated report includes the six named Preflight Review signals.",
+            "The generated report includes the ten named Preflight Review signals.",
             "The report can be generated and validated with the new Make targets.",
         ],
         "sources": [
@@ -88,6 +88,10 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
     assert report["status"] == "ready"
     assert signal_map(report) == {
         "Intent": "Ready",
+        "Intent Guard": "Ready",
+        "Capability": "Ready",
+        "Constraint Guard": "Ready",
+        "Success Criteria": "Not Applicable",
         "Unknowns": "Ready",
         "Acceptance": "Ready",
         "Sources": "Ready",
@@ -109,6 +113,10 @@ def test_conservative_contract_stays_advisory(tmp_path):
 
     assert report["status"] == "needs_human_confirmation"
     assert signal_map(report)["Intent"] == "Missing"
+    assert signal_map(report)["Intent Guard"] == "Missing"
+    assert signal_map(report)["Capability"] == "Ready"
+    assert signal_map(report)["Constraint Guard"] == "Ready"
+    assert signal_map(report)["Success Criteria"] == "Not Applicable"
     assert signal_map(report)["Unknowns"] == "Suspiciously Empty"
     assert signal_map(report)["Acceptance"] == "Broad"
     assert signal_map(report)["Sources"] == "Weak"

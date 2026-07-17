@@ -69,6 +69,8 @@ SCRIPT_NAMES = {
     "ai_governance_compression.py",
     "ai_observability.py",
     "ai_preflight_review.py",
+    "ai_trust_guards.py",
+    "ai_trust_schema.py",
     "ai_start.py",
     "ai_start_receipt.py",
     "ai_project_profile.py",

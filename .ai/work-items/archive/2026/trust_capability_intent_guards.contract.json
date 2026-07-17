@@ -1,0 +1,199 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trust_capability_intent_guards",
+  "mode": "code",
+  "title": "Add Trust Layer capability and intent guards",
+  "baseCommit": "7f1cf3f004d82af920a68af0970e91ba247addd6",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/trust_capability_intent_guards.contract.json",
+    ".ai/work-items/active/trust_capability_intent_guards.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/project/capabilities.json",
+    ".ai/project/success_criteria.json",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_trust_schema.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/install_ai_cockpit.py",
+    "Makefile",
+    "tests/test_trust_guards.py",
+    "tests/test_preflight_review.py"
+  ],
+  "outOfScope": [
+    "Human Decision Request persistence and decision recording",
+    "Critical-domain and production-operation policy guards",
+    "Baseline/backtrack evidence capture",
+    "Cockpit presentation redesign",
+    "Documentation and release publication"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md",
+      "reason": "Defines Task 2 capability, ambiguous-intent, constraint-conflict, and Success Criteria guard scope and acceptance."
+    },
+    {
+      "path": ".ai/trust/schema/repository_capabilities.schema.json",
+      "reason": "Provides the Task 1 schema contract for project-owned capability declarations."
+    },
+    {
+      "path": ".ai/trust/schema/success_criteria.schema.json",
+      "reason": "Provides the Task 1 schema contract for Work Item Success Criteria declarations."
+    },
+    {
+      "path": ".ai/project_profile.yaml",
+      "reason": "Declares repository-owned language, build, boundary, and critical-path capabilities."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines Intent, Preflight Review, Evidence over Self-Declaration, and Work Item boundaries."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_logic"
+    ],
+    "reason": "The change adds deterministic preflight signals and project-owned declarations without executing project operations."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Task 2 scope, evidence, and deterministic verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Review that project-owned capability declarations are authoritative, ambiguous intent fails closed, and no guard infers unsupported capability from free text."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Project-owned capability and Success Criteria declarations validate against the Task 1 schemas and are consumed by the guards.",
+    "Supported capability requests reach ready while unsupported capability, ambiguous intent, and conflicting constraints produce deterministic non-ready evidence.",
+    "Preflight includes capability, intent, constraint, and Success Criteria signals without inferring missing evidence.",
+    "Positive, negative, malformed-declaration, and zero-change-before-confirmation tests pass."
+  ],
+  "guidelines": [
+    "Project-owned declarations remain the source of truth for capability matching.",
+    "Guard output must be deterministic and machine-readable."
+  ],
+  "intent": {
+    "problem": "Preflight currently evaluates generic Contract completeness but cannot prove that a requested change fits the repository capability boundary or that intent and success criteria are sufficiently specific.",
+    "constraints": [
+      "Use project-owned declarations and the Task 1 schemas as evidence.",
+      "Fail closed on unsupported capability, ambiguous intent, conflicting constraints, or incomplete Success Criteria.",
+      "Keep the implementation standard-library based and independent of any specific LLM."
+    ],
+    "rationale": "Deterministic preflight signals make implementation readiness auditable before code changes begin and provide the evidence needed for later human-decision protocol work."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the sequential Trust Layer execution plan, including governance-path changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {
+      "scenario": "A request matching a declared repository capability and complete Success Criteria reaches ready",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_trust_guards.py", "tests/test_preflight_review.py"]
+    },
+    {
+      "scenario": "Unsupported capability, ambiguous intent, conflicting constraints, or incomplete criteria remains non-ready with evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_trust_guards.py", "tests/test_preflight_review.py"]
+    }
+  ],
+  "startReceipt": {
+    "path": ".ai/work-items/starts/trust_capability_intent_guards.json",
+    "baseCommit": "7f1cf3f004d82af920a68af0970e91ba247addd6",
+    "initialScopeDigest": "f651c8c5a91979d4d00e2a1fa52b5f572913ad35d59edbf84e56f76cfa13df0d",
+    "contractSkeletonDigest": "88a362dd62378758b036b04dcf06b662ca44987ac73ebb5f6a3e2fac3f2008eb"
+  }
+}

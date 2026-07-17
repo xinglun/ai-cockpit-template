@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import json
 from pathlib import Path
 
 import pytest
@@ -61,6 +62,24 @@ def test_schema_version_and_enum_mismatches_are_rejected() -> None:
 
 def test_cli_check_runs_against_repository_schemas() -> None:
     assert ai_trust_schema.main(["--check"]) == 0
+
+
+def test_cli_validates_a_named_payload(tmp_path: Path) -> None:
+    schema = ai_trust_schema.load_schemas()["success_criteria"]
+    payload_path = tmp_path / "success.json"
+    payload_path.write_text(json.dumps(schema["examples"][0]), encoding="utf-8")
+
+    assert ai_trust_schema.main(["--schema", "success_criteria", "--input", str(payload_path)]) == 0
+
+
+def test_cli_reports_invalid_payload_file(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    payload_path = tmp_path / "invalid.json"
+    payload_path.write_text('{"schemaVersion": 2}', encoding="utf-8")
+
+    assert ai_trust_schema.main(["--schema", "success_criteria", "--input", str(payload_path)]) == 1
+    assert "schema check failed" in capsys.readouterr().err
 
 
 def test_schema_directory_contains_only_expected_documents() -> None:

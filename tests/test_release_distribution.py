@@ -12,6 +12,7 @@ from check_release_distribution import (
     exercise_public_distribution,
     highest_semver_tag,
     is_next_patch_release,
+    candidate_release_issues,
     release_claims,
     supply_chain_issues,
 )
@@ -42,6 +43,17 @@ def test_release_metadata_declares_release_asset_authority():
     metadata = json.loads(release_distribution.RELEASE.read_text(encoding="utf-8"))
 
     assert metadata["releaseEvidenceAuthority"] == "release-assets-v1"
+
+
+def test_candidate_release_is_next_patch_and_separate_from_published_metadata():
+    published = json.loads((release_distribution.ROOT / "release.json").read_text(encoding="utf-8"))
+    candidate = json.loads(
+        (release_distribution.ROOT / "next-release.json").read_text(encoding="utf-8")
+    )
+
+    assert candidate_release_issues(candidate, published) == []
+    assert candidate["releaseTag"] != published["releaseTag"]
+    assert candidate["published"] is False
 
 
 def test_remote_default_branch_candidates_require_explicit_remote_head():

@@ -19,6 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT / "release.json"
+CANDIDATE_RELEASE = ROOT / "next-release.json"
 CANONICAL_REPOSITORY = "spirex-ds-dev/ai-cockpit-template"
 PUBLIC_REPOSITORY = os.environ.get(
     "AI_COCKPIT_TEMPLATE_PUBLIC_REPOSITORY",
@@ -125,6 +126,36 @@ def is_next_patch_release(candidate: str, published: str) -> bool:
     return (
         candidate_parts[:2] == published_parts[:2] and candidate_parts[2] == published_parts[2] + 1
     )
+
+
+def candidate_release_issues(
+    candidate: dict[str, object], published: dict[str, object]
+) -> list[str]:
+    """Validate candidate metadata without treating it as the public release contract."""
+    issues: list[str] = []
+    candidate_tag = candidate.get("releaseTag")
+    published_tag = published.get("releaseTag")
+    if not isinstance(candidate_tag, str) or not candidate_tag:
+        issues.append("next-release.json releaseTag is missing")
+    if not isinstance(published_tag, str) or not published_tag:
+        issues.append("release.json releaseTag is missing")
+    if isinstance(candidate_tag, str) and isinstance(published_tag, str):
+        if not is_next_patch_release(candidate_tag, published_tag):
+            issues.append(
+                f"next-release.json releaseTag {candidate_tag!r} is not the next patch after {published_tag!r}"
+            )
+    if candidate.get("releaseState") != "candidate":
+        issues.append("next-release.json releaseState must be 'candidate'")
+    if candidate.get("published") is not False:
+        issues.append("next-release.json published must be false")
+    if candidate.get("basedOnReleaseTag") != published_tag:
+        issues.append("next-release.json basedOnReleaseTag must match release.json releaseTag")
+    if candidate.get("releaseEvidenceAuthority") != published.get("releaseEvidenceAuthority"):
+        issues.append("next-release.json releaseEvidenceAuthority differs from release.json")
+    for key in ("publicContract", "capabilities", "supplyChain"):
+        if not isinstance(candidate.get(key), dict):
+            issues.append(f"next-release.json {key} is missing or invalid")
+    return issues
 
 
 def file_digest(path: Path) -> str:
@@ -727,13 +758,22 @@ def list_remote_tags(repository_url: str) -> str:
 
 
 def main() -> int:
-    metadata = json.loads(RELEASE.read_text(encoding="utf-8"))
+    preparation_mode = os.environ.get("AI_RELEASE_PREPARATION") == "1"
+    metadata_path = CANDIDATE_RELEASE if preparation_mode else RELEASE
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     tag = metadata["releaseTag"]
     supported = metadata["capabilities"]["sha256ArchiveVerification"]
     quality_target = metadata["publicContract"]["projectQualityTarget"]
     local_source = os.environ.get("AI_COCKPIT_TEMPLATE_SOURCE")
-    preparation_mode = os.environ.get("AI_RELEASE_PREPARATION") == "1"
     try:
+        published = json.loads(RELEASE.read_text(encoding="utf-8"))
+        if preparation_mode:
+            if not CANDIDATE_RELEASE.is_file():
+                raise RuntimeError("next-release.json is required in release preparation mode")
+            candidate = json.loads(CANDIDATE_RELEASE.read_text(encoding="utf-8"))
+            candidate_issues = candidate_release_issues(candidate, published)
+            if candidate_issues:
+                raise RuntimeError("candidate metadata is invalid: " + "; ".join(candidate_issues))
         latest_tag = highest_semver_tag(list_remote_tags(PUBLIC_REPOSITORY))
         if tag != latest_tag:
             if preparation_mode and is_next_patch_release(tag, latest_tag):

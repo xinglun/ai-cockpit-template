@@ -13,6 +13,8 @@ keywords:
 
 Install a fixed release of AI Cockpit into an existing repository. Start with the Quick Install entry in [README.md](../../README.md), then use this guide to confirm the repository is ready for adoption.
 
+Quick Install consumes the published `release.json` only. Release preparation may maintain a separate `next-release.json` candidate record, but that file is never used to choose the public installer tag; candidate testing must pass an explicit ref.
+
 ## Installation Flow
 
 Installation is performed in the adopter repository, not in the template repository's working branch. The adopter repository keeps its own history and branch policy.

@@ -1,0 +1,223 @@
+{
+  "contractVersion": 2,
+  "workItemId": "published-candidate-release-separation",
+  "mode": "code",
+  "title": "Separate published and candidate release metadata",
+  "baseCommit": "5259a7010611a56a97eed964a8882a3aecdd0ed0",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/published-candidate-release-separation.contract.json",
+    ".ai/work-items/active/published-candidate-release-separation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+    ,"next-release.json",
+    "install.sh",
+    "scripts/install_ai_cockpit.py",
+    "scripts/check_release_distribution.py",
+    ".github/workflows/release.yml",
+    "tests/test_install_sh.py",
+    "tests/test_install_script.py",
+    "tests/test_installer.py",
+    "tests/test_release_distribution.py",
+    "docs/getting-started/installation.md",
+    "docs/reference/distribution.md",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Work Item 8 requires published/candidate metadata separation and Quick Install isolation."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published release metadata is the only public install input."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Quick Install ref and source selection behavior."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Release preparation and public distribution validation."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Installer source metadata selection."
+    },
+    {
+      "path": "tests/test_install_sh.py",
+      "reason": "Quick Install shell contract tests."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Remote installer behavior tests."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Published/candidate release evidence tests."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Document published-only Quick Install behavior."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document candidate metadata and release preparation boundaries."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+      "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "Quick Install must never consume candidate metadata or an unreleased tag."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized the complete review plan and release metadata changes are bounded by this Contract."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Quick Install with a candidate file present",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_install_sh.py", "tests/test_install_script.py"]
+    },
+    {
+      "scenario": "Candidate preparation without public release mutation",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_release_distribution.py", "scripts/check_release_distribution.py"]
+    },
+    {
+      "scenario": "Published release tag, digest, and manifest consistency",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_release_distribution.py", ".github/workflows/release.yml"]
+    }
+  ],
+  "acceptance": [
+    "Quick Install and installer source metadata use only the published `release.json` and never consume `next-release.json`.",
+    "Release preparation validates `next-release.json` as exactly the next patch candidate without changing the published release contract.",
+    "Regression tests and documentation prove published tag, digest, manifest, and installation entry consistency."
+  ],
+  "guidelines": [
+    "Published release metadata remains immutable from the candidate preparation path.",
+    "Quick Install must not consume candidate metadata or moving work branches.",
+    "Document the published-versus-candidate boundary and verification behavior."
+  ],
+  "intent": {
+    "problem": "The repository has one release metadata path and release preparation currently relies on changing that path, which can make Quick Install consume an unreleased candidate.",
+    "constraints": [
+      "Keep `release.json` as the published public contract used by Quick Install.",
+      "Candidate metadata must be explicit, separate, and rejected as a public install source."
+    ],
+    "rationale": "Separating `next-release.json` from the published contract makes candidate validation possible without contaminating the stable installation entry."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete review plan, including release, installer, CI, branch, PR, merge, and cleanup work."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/published-candidate-release-separation.json",
+    "baseCommit": "5259a7010611a56a97eed964a8882a3aecdd0ed0",
+    "initialScopeDigest": "2b36db31bc1665e9cf938bcc34fad0ad864f728cbd2ca143084ed1ed865bbe9b",
+    "contractSkeletonDigest": "494d27d8aed105b1e9ff839ef504109b09450d75a9c2c657870bae81731755a1"
+  }
+}

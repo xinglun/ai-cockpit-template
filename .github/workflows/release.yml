@@ -78,6 +78,21 @@ jobs:
           fi
           declared_tag="$(git show "${SOURCE_COMMIT}:release.json" | python3 -c 'import json, sys; print(json.load(sys.stdin)["releaseTag"])')"
           [[ "$declared_tag" == "$RELEASE_TAG" ]]
+          if git cat-file -e "${SOURCE_COMMIT}:next-release.json" 2>/dev/null; then
+            git show "${SOURCE_COMMIT}:next-release.json" > "$RUNNER_TEMP/next-release.json"
+            python3 - "$RUNNER_TEMP/next-release.json" "${SOURCE_COMMIT}:release.json" <<'PY'
+          import json
+          import pathlib
+          import subprocess
+          import sys
+
+          candidate = json.loads(pathlib.Path(sys.argv[1]).read_text())
+          published = json.loads(subprocess.check_output(["git", "show", sys.argv[2]], text=True))
+          assert candidate["releaseState"] == "candidate"
+          assert candidate["published"] is False
+          assert candidate["basedOnReleaseTag"] == published["releaseTag"]
+          PY
+          fi
 
       - name: Install locked release evidence dependencies
         working-directory: ${{ github.workspace }}

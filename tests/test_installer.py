@@ -43,6 +43,42 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     assert (tmp_path / ".ai" / "README.md").is_file()
     assert (tmp_path / "scripts" / "ai_doctor.py").is_file()
     assert (tmp_path / "scripts" / "ai_onboard.py").is_file()
+
+
+def test_installer_source_context_ignores_candidate_metadata(tmp_path):
+    source = tmp_path / "source"
+    target = tmp_path / "target"
+    source.mkdir()
+    target.mkdir()
+    (source / "release.json").write_text('{"releaseTag":"v0.5.30"}\n', encoding="utf-8")
+    (source / "next-release.json").write_text(
+        '{"releaseTag":"v0.5.31","published":false}\n', encoding="utf-8"
+    )
+
+    installer = Installer(
+        source=source,
+        target=target,
+        stack="generic",
+        force=False,
+        dry_run=True,
+        with_examples=False,
+        update_makefile=False,
+    )
+
+    assert installer.source_context() == ("v0.5.30", "local source")
+
+
+def test_installed_distribution_contains_adoption_files(tmp_path):
+    installer = Installer(
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+    )
+    assert installer.install() == 0
     assert (tmp_path / "scripts" / "ai_check_adoption_ready.py").is_file()
     assert (tmp_path / ".ai" / "cockpit" / "README.ja.md").is_file()
     assert (tmp_path / ".ai" / "cockpit" / "adoption.ja.md").is_file()

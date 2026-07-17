@@ -107,3 +107,12 @@ def test_remote_install_rejects_sha256_mismatch_before_extraction(tmp_path):
     assert result.returncode == 2
     assert "archive SHA256 mismatch" in result.stderr
     assert "stub installer" not in result.stdout
+
+
+def test_remote_install_default_ref_is_published_release_not_candidate_metadata():
+    script = (ROOT / "install.sh").read_text(encoding="utf-8")
+    candidate = (ROOT / "next-release.json").read_text(encoding="utf-8")
+
+    assert 'REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.30}"' in script
+    assert "next-release.json" not in script
+    assert '"published": false' in candidate

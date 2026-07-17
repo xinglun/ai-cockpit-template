@@ -2,6 +2,8 @@
 set -eu
 
 REPO="${AI_COCKPIT_TEMPLATE_REPO:-spirex-ds-dev/ai-cockpit-template}"
+# This default is the published release.json tag. Candidate metadata is never
+# consulted by Quick Install; use AI_COCKPIT_TEMPLATE_REF explicitly for tests.
 REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.30}"
 SOURCE="${AI_COCKPIT_TEMPLATE_SOURCE:-}"
 EXPECTED_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:-}"

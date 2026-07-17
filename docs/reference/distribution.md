@@ -40,7 +40,7 @@ Compatibility support claims are split between a fixed-version blocking baseline
 
 ## Published Capabilities
 
-The documented release is defined in `release.json`.
+The documented public release is defined in `release.json`. Release preparation may use the separate `next-release.json` candidate record, which must be marked `releaseState: candidate`, `published: false`, and exactly one patch after the published tag. Quick Install and installer source metadata consume only `release.json`; the candidate record cannot redirect the public installation entry. Release preparation validates the candidate record without rewriting the published metadata.
 
 Installer and upgrade flows intentionally exclude the template's `sbom.json`, `provenance.json`, and `bandit_low_risk_baseline.json`. Those files describe the template release; an adopter must generate and verify project-owned evidence after adoption.
 

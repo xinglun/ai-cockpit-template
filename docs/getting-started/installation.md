@@ -76,7 +76,7 @@ After installation, confirm that the target repository gained the expected files
 - AI Cockpit sections in `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` when those files already exist
 - `examples/` when `--with-examples` is used
 
-You should not expect `templates/` to be copied into the target repository. That tree stays in the source repository.
+You should not expect `templates/` to be copied into the target repository. That tree stays in the source repository. Template supply-chain evidence files — `.ai/cockpit/release-digests.json`, `.ai/cockpit/sbom.json`, and `.ai/cockpit/provenance.json` — are also excluded: they record digests and attestations for template release artifacts and are not meaningful in an adopter repository.
 
 ### Phase 3. Adoption
 

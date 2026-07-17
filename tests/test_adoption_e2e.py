@@ -318,3 +318,33 @@ def test_adoption_preflight_warnings_list_tracked_hygiene_without_writing(tmp_pa
 
     assert any("Tracked files commonly ignored locally" in item for item in warnings)
     assert not any("dirty" in item.lower() for item in warnings)
+
+
+def test_adoption_install_excludes_template_release_manifest(tmp_path):
+    """採用インストール後の採用者ツリーにテンプレートのリリースマニフェストが含まれないことを確認する。"""
+    assert run(tmp_path, "git", "init", "-q").returncode == 0
+    assert run(tmp_path, "git", "config", "user.email", "test@example.invalid").returncode == 0
+    assert run(tmp_path, "git", "config", "user.name", "Test").returncode == 0
+    (tmp_path / "README.md").write_text("# Adopter project\n", encoding="utf-8")
+    assert run(tmp_path, "git", "add", "README.md").returncode == 0
+    assert run(tmp_path, "git", "commit", "-qm", "initial").returncode == 0
+
+    installer = Installer(
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=True,
+        create_adoption=True,
+    )
+    assert installer.install() == 0
+
+    # テンプレートのリリースアーティファクトダイジェストは採用者ツリーに含まれてはならない。
+    # このファイルは採用者ツリーに存在しないアーティファクトの整合性を主張するスタールなマニフェストになる。
+    assert not (tmp_path / ".ai" / "cockpit" / "release-digests.json").exists()
+    # その他のテンプレートサプライチェーン証拠ファイルも同様に除外されていることを確認する。
+    assert not (tmp_path / ".ai" / "cockpit" / "sbom.json").exists()
+    assert not (tmp_path / ".ai" / "cockpit" / "provenance.json").exists()
+    assert not (tmp_path / ".ai" / "cockpit" / "bandit_low_risk_baseline.json").exists()

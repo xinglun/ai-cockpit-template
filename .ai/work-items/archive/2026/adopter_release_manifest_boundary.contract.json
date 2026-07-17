@@ -1,0 +1,207 @@
+{
+  "contractVersion": 2,
+  "workItemId": "adopter_release_manifest_boundary",
+  "mode": "code",
+  "title": "採用者ツリーからテンプレート release-digests.json を除外する",
+  "baseCommit": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+    ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_adoption_ready.py",
+    "docs/getting-started/installation.md",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md"
+  ],
+  "outOfScope": [
+    "scripts/check_release_distribution.py",
+    "scripts/check_supply_chain.py",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+      "reason": "Remediation cycle plan, Task 7: adopter_release_manifest_boundary acceptance criteria."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "TEMPLATE_SUPPLY_CHAIN_BASELINES constant and tree_copy_pairs method define the current exclusion list."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Existing test_installed_distribution_contains_pr_and_approval_wiring asserts sbom/provenance/bandit excluded but not release-digests.json."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "The manifest file to be excluded: contains template-release artifact digests that are meaningless in an adopter repository."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "install_behavior_change"
+    ],
+    "reason": "Adding release-digests.json to TEMPLATE_SUPPLY_CHAIN_BASELINES exclusion set. Minimal scope: one constant change in installer, one test assertion added. No destructive change to existing adopter trees; only affects fresh installations."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, acceptance, sources, and verification are all specified. Unknowns are empty. Implementation is a single-constant addition plus test coverage."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "intent": {
+    "problem": "The installer's TEMPLATE_SUPPLY_CHAIN_BASELINES exclusion set omits .ai/cockpit/release-digests.json. This manifest records digests of template release artifacts (install.sh, release.json, sbom.json, provenance.json, requirements-dev.lock). Copying it into an adopter repository creates a stale manifest that claims to prove artifacts absent from the adopter tree (e.g. it references a fixed sourceCommit and releaseTag from the template). The adopter tree thereby contains a file with semantically false integrity claims. The plan (Task 7, P1-4) requires this boundary to be enforced by the installer, by the adoption readiness check, and to be reflected in documentation.",
+    "constraints": [
+      "Do not change existing excluded files: bandit_low_risk_baseline.json, provenance.json, sbom.json remain excluded.",
+      "Do not alter check_release_distribution.py or check_supply_chain.py — those operate on the template repository's own supply-chain, not on adoption.",
+      "The exclusion applies only during copy_tree; upgrade path already skips supply-chain baselines through the same set.",
+      "Do not add adoption-readiness failures for release-digests.json absence — the point is to exclude it, not require adopters to have their own.",
+      "Documentation update must describe the boundary, not prescribe adopter-owned manifest creation."
+    ],
+    "rationale": "Adding release-digests.json to TEMPLATE_SUPPLY_CHAIN_BASELINES is the minimal correct fix: the same mechanism that already excludes sbom.json and provenance.json (template supply-chain evidence) naturally covers the release digests manifest, which is equally template-specific. A single-constant change, matched by a test assertion and a documentation note, closes the boundary without introducing new modes or flags."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Fresh install: release-digests.json is absent from adopter tree",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "test_installer.py assertion to be added: assert not (tmp_path / '.ai' / 'cockpit' / 'release-digests.json').exists()"
+    },
+    {
+      "scenario": "Fresh install: other excluded files remain excluded",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Existing assertions for sbom.json, provenance.json, bandit_low_risk_baseline.json must remain unchanged after edit."
+    },
+    {
+      "scenario": "Upgrade path: release-digests.json exclusion enforced via same TEMPLATE_SUPPLY_CHAIN_BASELINES set",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "TEMPLATE_SUPPLY_CHAIN_BASELINES is shared between copy_tree and managed_copy_pairs; adding the entry covers both install and upgrade conflict detection."
+    },
+    {
+      "scenario": "E2E smoke: installed adopter tree has no stale manifest",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "test_adoption_e2e.py assertion that release-digests.json is not present in installed adopter tree."
+    }
+  ],
+  "acceptance": [
+    "TEMPLATE_SUPPLY_CHAIN_BASELINES in install_ai_cockpit.py includes ('cockpit', 'release-digests.json').",
+    "A fresh install does not copy .ai/cockpit/release-digests.json to the adopter tree.",
+    "The resulting adopter tree contains no manifest that claims to prove template-release artifacts absent from that tree.",
+    "test_installer.py asserts absence of release-digests.json in the installed target.",
+    "test_adoption_e2e.py includes an assertion that verifies the absence of the stale manifest.",
+    "Installation documentation and adoption.md describe that release-digests.json is a template supply-chain file not copied to adopters.",
+    "make quality passes with no coverage regression."
+  ],
+  "guidelines": [
+    "Add ('cockpit', 'release-digests.json') to TEMPLATE_SUPPLY_CHAIN_BASELINES frozenset; do not introduce a new mechanism.",
+    "Assertions in test_installer.py must mirror the existing pattern for sbom.json and provenance.json.",
+    "Documentation changes must be minimal: one sentence clarifying release-digests.json is template-only, aligned with the existing description of sbom.json and provenance.json.",
+    "Do not remove or change existing exclusions."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "Ray",
+    "reason": "adoption.md and adoption.ja.md are restricted governance paths. The edits are documentation-only: one sentence added to describe the release-digests.json exclusion boundary. No behavioral change; no removal of existing guidance."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

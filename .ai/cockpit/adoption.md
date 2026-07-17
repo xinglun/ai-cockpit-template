@@ -12,7 +12,7 @@ Installation deploys the governance runtime. It does not prove that project-spec
 
 AI Cockpit fits a **generic template plus local calibration** model: installation is feasible, but production readiness requires a separate `configure_ai_cockpit` Work Item after adoption.
 
-First adoption with `--create-adoption` is transactional: validation finishes before branch mutation, `--dry-run` performs no Git fetch or branch changes, and a failed install restores the original branch or detached HEAD together with the filesystem. Successful adoption still requires the human-approved finish, PR, and close flow below—it is not release or external-review readiness.
+First adoption with `--create-adoption` is transactional: validation finishes before branch mutation, `--dry-run` performs no Git fetch or branch changes, and a failed install restores the original branch or detached HEAD together with the filesystem. Successful adoption still requires the human-approved finish, PR, and close flow below—it is not release or external-review readiness. Template supply-chain evidence files (`.ai/cockpit/release-digests.json`, `.ai/cockpit/sbom.json`, `.ai/cockpit/provenance.json`) are not copied to the adopter tree; they record digests and attestations for template release artifacts that are not meaningful outside the template repository.
 
 The installed Cursor rule (`.cursor/rules/ai-cockpit.mdc`) defaults to `alwaysApply: false`. Enable **Always Apply** when you want Work Item governance on read-only investigation too.
 

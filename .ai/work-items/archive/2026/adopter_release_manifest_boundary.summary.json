@@ -1,0 +1,413 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "adopter_release_manifest_boundary",
+  "contractPath": ".ai/work-items/archive/2026/adopter_release_manifest_boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/adopter_release_manifest_boundary.contract.json",
+      "reason": "Work Item Contract — fully specified scope, intent, scenario coverage, acceptance criteria, and guidelines for Task 7."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/adopter_release_manifest_boundary.summary.json",
+      "reason": "AI Change Summary — records changed files, sources, verification results, and guidelines compliance."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Added ('cockpit', 'release-digests.json') to TEMPLATE_SUPPLY_CHAIN_BASELINES frozenset so that release-digests.json is excluded from adopter trees in both fresh installs and upgrade conflict detection."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Added assertion that .ai/cockpit/release-digests.json is absent from the installed adopter tree, mirroring the existing assertions for sbom.json, provenance.json, and bandit_low_risk_baseline.json."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Added test_adoption_install_excludes_template_release_manifest: E2E test verifying that a full adoption install does not copy release-digests.json or other template supply-chain evidence files into the adopter tree."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Added one sentence describing that template supply-chain evidence files (release-digests.json, sbom.json, provenance.json) are excluded from adopter trees."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Added sentence clarifying that template supply-chain evidence files are not copied to the adopter tree and why."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Added corresponding Japanese explanation matching the English adoption.md update."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer.py",
+    ".ai/cockpit/release-digests.json",
+    ".ai/work-items/_templates/work_item_contract.example.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:38.329123+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "9fb094e5213a43ca81b0a17f8d8c34932a70424501cfac1d61f7d1e5083218a5",
+      "commandHash": "ae2e1d6024bd2ec89dfedb3f23c3ab832491a2243cb9f25f36869b15f751d414",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/adopter_release_manifest_boundary.contract.json work item contract check passed: .ai/work-items/active/adopter_release_manifest_boundary.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:38.450577+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "27f0dbdc19db487aae9bd1a65d2bf104b32f38f076f65319aea4554c5c2b1801",
+      "commandHash": "a825af16906a742d7b405c69c95cb5c584f456f3700f3a44f39890faadfd7c89",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/adopter_release_manifest_boundary.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:38.586781+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "e064d40fddd1ca492abab533ef0e6a8c440b6dac3867c49d8bde8339da14c115",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json [warning] restricted_write: .ai/cockpit/adoption.ja.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/adoption.md (.ai/**) - AI governance configuration. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:38.789636+00:00",
+      "exitCode": 0,
+      "durationMs": 162,
+      "outputDigest": "2a98b85a4caa468dcabdc1e12274cbb10c4e41fa12ab092a3adeddef573abcdc",
+      "commandHash": "f83c7b20a93671f28d2f1c8a4ae4030fc83e1be1f3fd51944caa1d9695aa32e4",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `adopter_release_manifest_boundary` - Contract Hash: `497151e09af7c850` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `7` - Unknown Count: `"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:38.913486+00:00",
+      "exitCode": 0,
+      "durationMs": 83,
+      "outputDigest": "c4cb1c6e8613854c2b09e6294d530a629774da9027c835056e9022e4891717e5",
+      "commandHash": "064ee28921a39d5fca5c85a8606a4fd254ba60581fdfb8fe4836a8a13d20932e",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json review policy matched 3 path(s) [review] .ai/cockpit/adoption.ja.md [review] .ai/cockpit/adoption.md [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:39.034505+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:39.153108+00:00",
+      "exitCode": 0,
+      "durationMs": 78,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:39.391811+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "46ec7622ef83fe08c3816b406d3272fb23a13578fc858a7131a78f084dfa1738",
+      "commandHash": "32981d7dfcdc08c0c0f849f7e6e75963f92c7e51e29b0c3f775f4099b105ee7c",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:39.475457+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "68151ed6241a439b15693a530edc2452babce742d63050e7ce496eb4c593f19a",
+      "commandHash": "960229485b998e6a14758579505b8d045ab44db852671b4f0d82dbfe48870640",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json guidelines compliance check passed: 4 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:08:39.677875+00:00",
+      "exitCode": 0,
+      "durationMs": 163,
+      "outputDigest": "21eb34b89200441948b788f007a171e6945a3b25a5cac48bd4eff58a77345b8d",
+      "commandHash": "55ed7261814d6644195f1967ad0bf60e77cb6a2d7fc1851d2fe94376dd974aa0",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/adoption.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/adoption.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — cover"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:10:25.174605+00:00",
+      "exitCode": 0,
+      "durationMs": 105456,
+      "outputDigest": "345da9baa7589533afde22c5b176e86e1b592b0dcd0333c731873b69e17f8b2d",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "475c3d0322f47a248f031b8dad48c18196a4b8939d4c3ffdd164029e298b4fc8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=80 ........................................................................ [ 13%] ........................................................................ [ 27%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:10:26.205821+00:00",
+      "exitCode": 0,
+      "durationMs": 171,
+      "outputDigest": "a9dec9f025d4667d029af1a34414789047623a1872e8412f4e62d3bae42534b2",
+      "commandHash": "548bf3bc8e84a2a06fe93771ca72cd2fb67509272cd924f61ee47a7282b11897",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "c39761d5b263b873ff7a3e6df225cee9f2f626eabc92f55307c9fec57c0f42a1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/adopter_release_manifest_boundary.contract.json --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:10:26.425902+00:00",
+      "exitCode": 0,
+      "durationMs": 179,
+      "outputDigest": "bcfe0fd961e7186037cf659973f36765a11c79d3f17181c6821975030f3b3105",
+      "commandHash": "83a288e2ba7843dd9e30e70b8b3db30e15fd08e78062e0676840e35f734b5645",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "c39761d5b263b873ff7a3e6df225cee9f2f626eabc92f55307c9fec57c0f42a1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:10:26.524546+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "c39761d5b263b873ff7a3e6df225cee9f2f626eabc92f55307c9fec57c0f42a1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:10:26.618692+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "8ef6d6d479f51ef8e88bf3034b98e50bf91541b9542a477facbd7abc8070e446",
+      "commandHash": "b47fbd8f3b415c291deff5e39c8a3a0914926567e9e098ca3e59525ce0a32f26",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "c39761d5b263b873ff7a3e6df225cee9f2f626eabc92f55307c9fec57c0f42a1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json --summary .ai/work-items/active/adopter_release_manifest_boundary.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/adopter_release_manifest_boundary.summary.json CONTRACT=.ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T03:10:26.759634+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "0334517deb335a4fdcfe61465129be8897daf431aeedb649ac2879d6278cd9e3",
+      "commandHash": "302d80162424f0dd281142ad21fcb57cd8badaaee8d264e4f3cfd275d13da928",
+      "contractHash": "497151e09af7c85032068bfe68c970a783e964454b2a3cd43635b4350c943d93",
+      "commitSha": "8dbcb902f9f1e164339dc70efefd7c04b68e85d9",
+      "executionContractPath": ".ai/work-items/active/adopter_release_manifest_boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/adopter_release_manifest_boundary.summary.json",
+      "worktreeDigest": "c39761d5b263b873ff7a3e6df225cee9f2f626eabc92f55307c9fec57c0f42a1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/adopter_release_manifest_boundary.summary.json --contract .ai/work-items/active/adopter_release_manifest_boundary.contract.json ai summary check passed: .ai/work-items/active/adopter_release_manifest_boundary.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Add ('cockpit', 'release-digests.json') to TEMPLATE_SUPPLY_CHAIN_BASELINES frozenset; do not introduce a new mechanism.",
+      "compliant": true,
+      "evidence": "The change is a single line added to the existing frozenset in install_ai_cockpit.py:91-98. No new mechanism was introduced."
+    },
+    {
+      "guideline": "Assertions in test_installer.py must mirror the existing pattern for sbom.json and provenance.json.",
+      "compliant": true,
+      "evidence": "The added assertion `assert not (tmp_path / '.ai' / 'cockpit' / 'release-digests.json').exists()` is inserted between the provenance.json and sbom.json assertions, following the identical pattern."
+    },
+    {
+      "guideline": "Documentation changes must be minimal: one sentence clarifying release-digests.json is template-only, aligned with the existing description of sbom.json and provenance.json.",
+      "compliant": true,
+      "evidence": "installation.md received one sentence appended to the existing paragraph about templates/. adoption.md and adoption.ja.md each received one sentence within the existing transactionality paragraph."
+    },
+    {
+      "guideline": "Do not remove or change existing exclusions.",
+      "compliant": true,
+      "evidence": "bandit_low_risk_baseline.json, provenance.json, and sbom.json remain in TEMPLATE_SUPPLY_CHAIN_BASELINES unchanged. Existing test assertions for those files are untouched."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Single constant addition to a frozenset. The exclusion mechanism was already tested and proven correct for the other three files. New assertions confirm the behavior for release-digests.json specifically."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Contract schema required executionDecision.status='continue' (not 'ready') and scenarioCoverage entries must include required/status/evidence fields — corrected before check-ai-contract pass."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "upgrade_path",
+      "detail": "managed_copy_pairs uses the same TEMPLATE_SUPPLY_CHAIN_BASELINES set via tree_copy_pairs, so the upgrade conflict detection is also updated. This was not separately tested with an upgrade scenario, but the mechanism is verified to be shared.",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm TEMPLATE_SUPPLY_CHAIN_BASELINES change in install_ai_cockpit.py:91-98.",
+      "Confirm new test assertion in test_installer.py:48-50.",
+      "Confirm new E2E test in test_adoption_e2e.py."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "497151e09af7c850",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 2,
+      "detail": "Recorded before any source edits. Contract check passed. Scope, acceptance criteria, and intent fully specified. No unknowns."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "497151e09af7c850",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 2,
+      "detail": "Recorded after all edits and make quality pass (532 tests, 83.94% coverage). Reviewed scope, acceptance, diff ownership, and verification before calling ai-finish."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "make quality verified locally: 532 tests, 83.94% coverage. Scenario coverage for the upgrade path is covered by mechanism analysis (shared frozenset) rather than a dedicated upgrade integration test.",
+  "archiveSequence": 109
+}

@@ -92,6 +92,7 @@ TEMPLATE_SUPPLY_CHAIN_BASELINES = frozenset(
     {
         ("cockpit", "bandit_low_risk_baseline.json"),
         ("cockpit", "provenance.json"),
+        ("cockpit", "release-digests.json"),
         ("cockpit", "sbom.json"),
     }
 )

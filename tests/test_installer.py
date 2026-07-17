@@ -47,6 +47,7 @@ def test_installed_distribution_contains_pr_and_approval_wiring(tmp_path):
     assert (tmp_path / ".ai" / "cockpit" / "adoption.ja.md").is_file()
     assert not (tmp_path / ".ai" / "cockpit" / "bandit_low_risk_baseline.json").exists()
     assert not (tmp_path / ".ai" / "cockpit" / "provenance.json").exists()
+    assert not (tmp_path / ".ai" / "cockpit" / "release-digests.json").exists()
     assert not (tmp_path / ".ai" / "cockpit" / "sbom.json").exists()
     assert "<!-- AI_COCKPIT_SECTION -->" in (tmp_path / "AGENTS.md").read_text(encoding="utf-8")
     managed = (tmp_path / "AGENTS.md").read_text(encoding="utf-8")

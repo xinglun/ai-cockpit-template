@@ -1,0 +1,448 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "lockfile-reproducibility-runtime-fix",
+  "contractPath": ".ai/work-items/archive/2026/lockfile-reproducibility-runtime-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/lockfile-reproducibility-runtime-fix.contract.json",
+      "reason": "Defined the lockfile runtime, clean-runner, evidence, and verification contract."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lockfile-reproducibility-runtime-fix.summary.json",
+      "reason": "Maintained the governed handoff record."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Invoke pip-tools through the selected Python interpreter and report lockfile drift clearly."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Run lockfile reproducibility on a clean blocking runner."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Verify the Python module invocation and interpreter-safe target construction."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Verify the clean-runner lockfile job is present and executes the target."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document the clean-runner dependency and interpreter contract."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated supply-chain evidence after the workflow change."
+    },
+    {
+      "path": "release.json",
+      "reason": "Updated the published candidate SBOM digest after evidence regeneration."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Regenerated release evidence digests after the governed metadata changes."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+    "Makefile",
+    ".github/workflows/compatibility.yml",
+    "tests/test_makefile.py",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "clean runner without .venv",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_makefile.py",
+        ".github/workflows/compatibility.yml"
+      ],
+      "reason": "The target resolves an absolute selected interpreter and the blocking workflow executes it on Ubuntu."
+    },
+    {
+      "scenario": "missing pip-tools dependency",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Makefile",
+        ".github/workflows/compatibility.yml"
+      ],
+      "reason": "The workflow installs pip-tools explicitly and module invocation exposes an actionable failure if it is unavailable."
+    },
+    {
+      "scenario": "reproducible lockfile output",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-lockfile-reproducibility"
+      ],
+      "reason": "The local target passed and compares regenerated lockfile bytes with the committed lockfile."
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:34.465036+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "4b0065d796dfa78547cb031ce353b59b4e495a2b8bba4545f9318a6cd26f81f6",
+      "commandHash": "ed36e6577faff14f53a9928c0aad004c95a3b7a75c754d87a922d885349b4d11",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json work item contract check passed: .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:34.603039+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "a51772c24d4ddc35d0574e81117b5f00ef4bc9cd24ffd21a73120472ef21f8fb",
+      "commandHash": "1a4ff1b50b7de83f4d4771fc123e5bae7b2f57b3055cec3f0902e923a8a48142",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:34.774574+00:00",
+      "exitCode": 0,
+      "durationMs": 119,
+      "outputDigest": "66c3253d6abbbfa43906f6ad576a1c6ae5d315af4fd105d89ae29d2c534e0398",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json [warning] restricted_write: .ai/cockpit/release-digests.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai/**) - AI governance configuration. [warning] restricted_write: .github/workflows/compatibility.yml (.github/workflows/**) - CI workflow configuration. [warning] restricted_write: Makefile (M"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.025666+00:00",
+      "exitCode": 0,
+      "durationMs": 199,
+      "outputDigest": "e43ab65fcb13c8c693b04895e82feb66b98e821a2648ce0aa72a6be8714202a3",
+      "commandHash": "90ae6049ad8056c167ef2c417453393ff4faffc00dc3d117476960485bc52585",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `lockfile-reproducibility-runtime-fix` - Contract Hash: `b71e4c671f296ad5` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.183360+00:00",
+      "exitCode": 0,
+      "durationMs": 100,
+      "outputDigest": "b061786559267d2c7a80f87ad26285127999b9fdbad00a18201eff99f081c7e2",
+      "commandHash": "c6cd2d9be943dfd02f3e42d4cbb890e74fb9a254f9624a1c40fb1ca5c9910edf",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json review policy matched 6 path(s) [review] .ai/work-items/starts/lockfile-reproducibility-runtime-fix.json [review] .ai/cockpit/current_status.md [review] .ai/cockpit/release-digests.json [review] .ai/cockpit/sbom.json [review] .github/workflows/compatibility.yml [review] Makefile review focus recorded: 1 item(s) report: target/ai_review_pol"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.321270+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.464764+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.574417+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "fbd86563ace1cb76f8879e9219d70d444cf3590ed6cbecca153183ec823e2f61",
+      "commandHash": "dbd44032f4e7f1b9c3a920d438ffe3373ac0147124e705c6c59a9df371b52cc1",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.709559+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "d608b9d7ccddc7b5f4675515bd30d663886b6491db688b068f16a3f90e080f6e",
+      "commandHash": "ee542129f28b19c3d9bcc04730bfaa91944e75659b8f0cfd813e90b994857d8b",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:17:35.947385+00:00",
+      "exitCode": 0,
+      "durationMs": 190,
+      "outputDigest": "a8fa054ff61e99464a40fc33e949c2809e9f4f57246efcf7771d214bb0249e4a",
+      "commandHash": "112bd452645c77ebbdfe87e7bfe568634f4aa7c43dac65cfff5bab5e99feb3fa",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/release-digests.json` — covered by Contract scope - [active_owned] `.ai/cockpit/sbom.json`"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:19:20.012730+00:00",
+      "exitCode": 0,
+      "durationMs": 104012,
+      "outputDigest": "8ecce1cb42f0494969c7e5d26ec023d7f3a2ef954278e7abfac07c8c2dc33e03",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "85ab2480c7e5d9da49bb3a7369636bbd1255fa61ee4343dc3b9c5d26b0883068",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 95 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 11%] ........................................................................ [ 23%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:19:21.421521+00:00",
+      "exitCode": 0,
+      "durationMs": 352,
+      "outputDigest": "d0135d322bf92ff05453b53a13733dbe5b0ba842711f98efaec41eca39c826be",
+      "commandHash": "21b604727d982be5d77ea1d5e5c024db35e2c71a2e753d418f7db8d4e76a292a",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "4f867a3c1723988e5ccdf6d3cf2a9a1e48c865f09b18db807e809d40257cde0e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:19:21.663367+00:00",
+      "exitCode": 0,
+      "durationMs": 197,
+      "outputDigest": "b0a0b5f8cca01de21380ee40b6759a3299d4f5b936a958e6ccb2a0329e0a833c",
+      "commandHash": "9bdd2135bef28ff20d712ce99b6d6bf95d1b8ce7204e96f1ef9866cf98522555",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "4f867a3c1723988e5ccdf6d3cf2a9a1e48c865f09b18db807e809d40257cde0e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:19:21.748734+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "4f867a3c1723988e5ccdf6d3cf2a9a1e48c865f09b18db807e809d40257cde0e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:19:21.915290+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "5ec7f4a352b38a1388d1baea0adaa586ffa0c261bcde0dd8089e7b47ad226f19",
+      "commandHash": "26272eba45d9839233bf74cda20d6d920e7f43ab3c919b5a510de6ae763805f3",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "4f867a3c1723988e5ccdf6d3cf2a9a1e48c865f09b18db807e809d40257cde0e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json --summary .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json CONTRACT=.ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T11:19:22.798045+00:00",
+      "exitCode": 0,
+      "durationMs": 222,
+      "outputDigest": "8dbd8a9fd43ff6dfdfacec8b67c18e41048255c947dc7c6d816dcbce84ab2bed",
+      "commandHash": "b18bd36913605cd07855fd301ba9341d27249e3d9fe322ee906c23ac43d623ab",
+      "contractHash": "b71e4c671f296ad589b7973b3bfe3e86d1cb05ec659bf8ac46e86b4ff98c5b58",
+      "commitSha": "959ed5e2009b440fafe7ef3d3ce04e4519bfcbb6",
+      "executionContractPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json",
+      "worktreeDigest": "0b013ff8806be8a6b378b776b6b4305ed5a8eabe19782fd72ce4eea8f313dcb2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json --contract .ai/work-items/active/lockfile-reproducibility-runtime-fix.contract.json ai summary check passed: .ai/work-items/active/lockfile-reproducibility-runtime-fix.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep the Make target portable across clean runners with and without a project `.venv`.",
+      "compliant": true,
+      "evidence": "The target uses an absolute selected interpreter and the Make regression tests pass."
+    },
+    {
+      "guideline": "Use the project-selected Python interpreter for Python module execution.",
+      "compliant": true,
+      "evidence": "The target invokes `$(PYTHON) -m piptools compile` through the selected interpreter."
+    },
+    {
+      "guideline": "Document the clean-runner dependency prerequisite and fail-closed behavior.",
+      "compliant": true,
+      "evidence": "docs/reference/distribution.md documents pip-tools installation, explicit failure, and byte comparison."
+    }
+  ],
+  "unknownsRemaining": [
+    "None."
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "The lockfile gate is release-blocking; the clean runner and byte comparison now provide explicit evidence."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "Hosted runners and the pip-tools package index remain external dependencies; failures are surfaced and block the gate.",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Required verification or known-unknown evidence is incomplete.",
+    "expectedReviewFocus": [
+      "Confirm the clean runner executes the same lockfile target as release verification."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "b71e4c671f296ad5",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed the lockfile target, clean-runner workflow, and bounded Work Item Contract before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "b71e4c671f296ad5",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 8,
+      "detail": "Focused tests, lockfile verification, and full quality checks passed."
+    }
+  ],
+  "knownGaps": [
+    "Replace this before finishing the Work Item."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 125
+}

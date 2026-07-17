@@ -523,6 +523,30 @@ def test_upgrade_branch_preparation_uses_remote_default_branch(tmp_path, monkeyp
     assert installer.created_adoption_branch == "upgrade/ai-cockpit"
 
 
+def test_upgrade_preserves_diverged_project_owned_guard(tmp_path):
+    guard = tmp_path / ".ai" / "guards" / "coverage_policy.yaml"
+    guard.parent.mkdir(parents=True)
+    guard.write_text("project-owned: true\n", encoding="utf-8")
+    upgrade = Installer(
+        source=ROOT,
+        target=tmp_path,
+        stack="generic",
+        force=False,
+        dry_run=False,
+        with_examples=False,
+        update_makefile=False,
+        upgrade=True,
+    )
+    assert upgrade.install() == 0
+    assert guard.read_text(encoding="utf-8") == "project-owned: true\n"
+    summary = json.loads(
+        (tmp_path / ".ai/work-items/active/upgrade_ai_cockpit.summary.json").read_text()
+    )
+    assert any(
+        item["path"] == ".ai/guards/coverage_policy.yaml" for item in summary["ownershipDecisions"]
+    )
+
+
 def test_commented_makefile_include_does_not_suppress_active_include(tmp_path):
     makefile = tmp_path / "Makefile"
     makefile.write_text("# include Makefile.ai\n", encoding="utf-8")

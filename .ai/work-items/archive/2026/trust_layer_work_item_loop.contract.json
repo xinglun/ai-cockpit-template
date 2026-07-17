@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trust_layer_work_item_loop",
+  "mode": "author_todo",
+  "title": "Define AI Cockpit Trust Layer work-item loop",
+  "baseCommit": "053f038343c480e2018897443a0a1263b4a21dfe",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/trust_layer_work_item_loop.contract.json",
+    ".ai/work-items/active/trust_layer_work_item_loop.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    "docs/superpowers/plans/2026-07-18-ai-cockpit-trust-layer-work-item-loop.md"
+  ],
+  "outOfScope": [
+    "All production implementation files for the Trust Layer upgrade",
+    "Existing archived Work Item records",
+    "Publishing a release",
+    "Deleting any execution plan"
+  ],
+  "sources": [
+    {
+      "path": "user-provided/AI Cockpit Trust Layer Upgrade specification",
+      "reason": "Defines the eight proposed implementation PRs, goals, principles, acceptance criteria, risks, and non-goals."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Defines the Work Item lifecycle, preflight pause behavior, archive, PR, and close requirements."
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "Defines repository governance concepts and evidence boundaries."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Aligns terminology for Contracts, Summaries, Evidence, Cockpit Status, and lifecycle closure."
+    }
+  ],
+  "problemStatement": "The Trust Layer specification needs to become an ordered, independently reviewable Work Item backlog with a repeatable lifecycle loop and two final operational Work Items.",
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope",
+      "governance"
+    ],
+    "reason": "This Work Item authors a plan only. Future implementation, release, and destructive deletion remain separate Work Items with their own Contracts and gates."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The scope is limited to authoring and verifying the ordered Work Item plan."
+  },
+  "preReviewWarnings": [
+    "Review that release and execution-plan deletion remain separate gated Work Items and are not silently executed by the plan-authoring task."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The specification is decomposed into eight implementation Work Items matching PR1 through PR8.",
+    "Two final Work Items are appended: publish a new version, then delete the execution plan.",
+    "Every Work Item defines scope, out-of-scope boundaries, dependencies, acceptance, verification, evidence, lifecycle closure, and the transition to the next Work Item.",
+    "The loop states that it may continue automatically only after the current Work Item is archived, its PR is merged, and ai-close-work-item reports ready for next Work Item.",
+    "Release and deletion operations are explicitly marked as separate gated operations; the user-provided authorization is recorded as context but cannot bypass repository/provider safeguards."
+  ],
+  "guidelines": [
+    "Keep the plan language-neutral and repository-governance focused.",
+    "Do not claim that a Work Item is complete without its required evidence and checks.",
+    "Do not remove existing Work Item records while authoring the plan."
+  ],
+  "intent": {
+    "problem": "The Trust Layer specification contains multiple dependent proposals but does not yet provide an operational Work Item sequence with explicit lifecycle handoffs, release closure, and final plan cleanup.",
+    "constraints": [
+      "Preserve AI Cockpit's evidence-first, fail-closed governance workflow.",
+      "Keep implementation, release, and destructive deletion as separate review units.",
+      "Record the user's requested authorization without treating it as a bypass for repository or provider safeguards.",
+      "Do not modify existing archived Work Item evidence while authoring the plan."
+    ],
+    "rationale": "A dependency-ordered loop makes the Trust Layer work reviewable and allows the next Work Item to start only after the current item's evidence, PR, merge, and lifecycle closure are complete."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/trust_layer_work_item_loop.json",
+    "baseCommit": "053f038343c480e2018897443a0a1263b4a21dfe",
+    "initialScopeDigest": "d935efa3b57b5990bf7f1d0c839bb144d7102a2418b2325d848908ea9dec4cc9",
+    "contractSkeletonDigest": "0ad5c60d3d8c9e041713f136c758f41fdb0295f935c5d618f8c3592e94f966bb"
+  }
+}

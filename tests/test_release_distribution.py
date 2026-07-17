@@ -21,6 +21,12 @@ def test_release_distribution_uses_canonical_public_repository_by_default():
     )
 
 
+def test_release_metadata_declares_release_asset_authority():
+    metadata = json.loads(release_distribution.RELEASE.read_text(encoding="utf-8"))
+
+    assert metadata["releaseEvidenceAuthority"] == "release-assets-v1"
+
+
 def test_release_asset_identity_requires_one_tag_target_and_source_subject():
     provenance = {"commitSha": "source", "releaseTag": "v0.5.29"}
     digests = {"sourceCommit": "source", "releaseTag": "v0.5.29"}

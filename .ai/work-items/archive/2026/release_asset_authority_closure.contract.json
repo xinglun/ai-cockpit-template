@@ -1,0 +1,200 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_asset_authority_closure",
+  "mode": "code",
+  "title": "Close Release Asset Authority and canonical Release Identity",
+  "baseCommit": "253bf5504b38750714eede8c21397aa4d8d8f761",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_asset_authority_closure.contract.json",
+    ".ai/work-items/active/release_asset_authority_closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**",
+    "release.json",
+    ".github/workflows/release.yml",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    "tests/test_workflows.py",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "docs/reference/distribution.md"
+  ],
+  "outOfScope": [
+    "Full public asset hash graph validation reserved for release_asset_integrity_public_check",
+    "Release tag publication ordering reserved for release_atomic_publication",
+    "Production release publication and external platform settings"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+      "reason": "Task 1 acceptance and P0-1/P0-2 review mapping."
+    },
+    {
+      "path": "User-provided Conditional GO review attachment",
+      "reason": "Documents contradictory v0.5.29 candidate identities and disabled Release Asset Authority."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Current public checker only enters asset authority when releaseEvidenceAuthority is enabled."
+    },
+    {
+      "path": "release.json",
+      "reason": "Current release metadata lacks the authority field."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Existing identity and public distribution regression coverage."
+    }
+  ],
+  "problemStatement": "The public release checker documents Release Assets as the final evidence authority, but v0.5.29 metadata does not enable that path and Tag candidate files contain conflicting source identities.",
+  "scenarioCoverage": [
+    {
+      "scenario": "authority field enables public Release Asset inspection",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "conflicting Tag candidate identities fail closed or are superseded only by valid authoritative assets",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "provenance, digest source, release tag, and exact Tag target resolve to one identity",
+      "required": true,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "release_identity",
+      "public_evidence_authority",
+      "regression"
+    ],
+    "reason": "The checker decides whether a public release is trustworthy; accepting a mismatched source identity would invalidate the release evidence boundary."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The review supplies the exact failing authority path and the repository contains the checker and regression-test surfaces."
+  },
+  "preReviewWarnings": [
+    "Review focus: ensure candidate evidence cannot silently remain authoritative and all identity fields refer to the exact immutable Tag target.",
+    "Generated release-digests.json is refreshed through check_supply_chain.py, not hand-edited."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Public release metadata explicitly enables release-assets-v1 authority.",
+    "The checker validates the enabled authority path and fails closed on missing or contradictory identity evidence.",
+    "Regression tests cover disabled authority, enabled authority, mismatched candidate identity, and exact Tag target identity.",
+    "Release documentation and generated evidence describe one canonical Release Identity without claiming production publication in this Work Item."
+  ],
+  "guidelines": [
+    "Treat Release Assets as authoritative only when the explicit release-assets-v1 contract is present and validated.",
+    "Do not accept a candidate source identity that differs from the exact immutable Tag target.",
+    "Do not claim full public asset integrity; that is the next dependent Work Item."
+  ],
+  "intent": {
+    "problem": "The public checker documents Release Assets as the final release evidence authority, but the current release metadata does not enable that path and candidate evidence can contain conflicting source identities.",
+    "constraints": [
+      "Keep the Release Asset authority contract explicit and fail closed when required evidence is missing.",
+      "Do not claim full asset graph integrity or atomic publication in this Work Item; those are dependent Work Items.",
+      "Keep generated release evidence source-bound and do not hand-edit generated baselines as a substitute for the generator."
+    ],
+    "rationale": "Making the authority path executable and testing the canonical identity boundary closes the first P0 trust-model mismatch before adding full public asset integrity validation."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the full PR merge and remediation execution flow."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

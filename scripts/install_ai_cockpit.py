@@ -241,6 +241,7 @@ class Installer:
         self.preexisting_dirs: set[Path] = set()
         self.created_adoption_branch: str | None = None
         self.original_git_head: GitHeadSnapshot | None = None
+        self.upgrade_conflicts: list[dict[str, str]] = []
 
     def install(self) -> int:
         if not self.source.exists():
@@ -437,9 +438,12 @@ class Installer:
         if installed_version != source_version:
             raise ValueError("installed version metadata does not match the source distribution")
         invalid = []
+        preserved = {item["path"] for item in self.upgrade_conflicts}
         for src, dst in self.managed_copy_pairs():
             if not dst.is_file() or src.read_bytes() != dst.read_bytes():
-                invalid.append(dst.relative_to(self.target).as_posix())
+                relative = dst.relative_to(self.target).as_posix()
+                if relative not in preserved:
+                    invalid.append(relative)
         stack = self.target / "Makefile.ai.stack"
         if not stack.is_file():
             invalid.append("Makefile.ai.stack")
@@ -1209,6 +1213,7 @@ class Installer:
             "sourceVersion": self.load_version(self.source / ".ai" / "cockpit" / "version.json"),
             "targetVersion": self.load_version(self.target / ".ai" / "cockpit" / "version.json"),
         }
+        summary["ownershipDecisions"] = self.upgrade_conflicts
         self.write_json(summary_path, summary)
 
     @staticmethod
@@ -1320,6 +1325,22 @@ class Installer:
     def copy_path(self, src: Path, dst: Path, *, executable: bool = False) -> None:
         self.assert_safe_destination(dst)
         existed = dst.exists()
+        relative = dst.relative_to(self.target).as_posix()
+        project_owned_boundary = relative.startswith(".ai/guards/") or relative in {
+            ".ai/project_profile.yaml",
+            ".ai/project_profile.proposed.yaml",
+        }
+        if self.upgrade and existed and project_owned_boundary:
+            if src.read_bytes() != dst.read_bytes():
+                decision = {
+                    "path": relative,
+                    "classification": "project-owned-or-diverged",
+                    "decision": "preserved",
+                    "reason": "Target differs from template baseline; review manually before adopting template changes.",
+                }
+                self.upgrade_conflicts.append(decision)
+                self.record("skip", dst, "preserve project-owned or diverged governance file")
+                return
         if existed and not (self.force or self.upgrade):
             self.record("skip", dst, "already exists")
             return

@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-owned-guard-preservation",
+  "mode": "code",
+  "title": "Preserve project-owned guards during upgrade",
+  "baseCommit": "166c99655f3b07963a11845b2701ce90ebba2bb9",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-owned-guard-preservation.contract.json",
+    ".ai/work-items/active/project-owned-guard-preservation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_project_profile.py",
+    "tests/test_installer.py",
+    "tests/test_project_governance.py",
+    "tests/test_adoption_e2e.py",
+    "docs/getting-started/adopter-configuration.md",
+    "docs/reference/upgrade.md"
+  ],
+  "outOfScope": ["Changing product source files or silently overwriting project-owned governance."],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/project-owned-guard-preservation.contract.json",
+      "reason": "Guard ownership and upgrade preservation requirements."
+    },
+    {"path": "scripts/install_ai_cockpit.py", "reason": "Upgrade copy and validation behavior."},
+    {"path": "tests/test_installer.py", "reason": "Upgrade ownership regression coverage."},
+    {"path": "docs/reference/upgrade.md", "reason": "Upgrade lifecycle and conflict documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "project_owned_preservation"
+    ],
+    "reason": "Guard and calibration files may be adopter-owned and must be preserved with an explicit conflict record."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the full implementation loop."
+  },
+  "preReviewWarnings": [
+    "Review template-owned, project-owned, and diverged classification decisions."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Upgrade preserves project-owned or diverged guards and records each ownership decision.",
+    "Template-owned guards remain upgradeable and validation permits preserved adopter files.",
+    "Tests and documentation cover overwrite, preserve, and conflict behavior."
+  ],
+  "guidelines": [
+    "Project-owned or diverged governance files are never silently overwritten.",
+    "Every preservation decision is recorded in the upgrade Summary."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Project-owned guard is preserved", "required": true, "status": "verified", "evidence": ["tests/test_installer.py"]},
+    {"scenario": "Template-owned guard remains upgradeable", "required": true, "status": "verified", "evidence": ["tests/test_installer.py"]},
+    {"scenario": "Diverged guard is recorded as a review conflict", "required": true, "status": "verified", "evidence": ["scripts/install_ai_cockpit.py", "docs/reference/upgrade.md"]}
+  ],
+  "intent": {
+    "problem": "Upgrade needs to distinguish template-owned guard files from adopter-owned or diverged calibration before copying.",
+    "constraints": ["Preserve exact template-owned upgrade behavior.", "Keep conflicts reviewable and fail-safe."],
+    "rationale": "Ownership-aware upgrades prevent loss of adopter governance while allowing unchanged template files to advance."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the full implementation loop."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-owned-guard-preservation.json",
+    "baseCommit": "166c99655f3b07963a11845b2701ce90ebba2bb9",
+    "initialScopeDigest": "8321ed82616b21d255f1cb1cdb1db062887e595e173a98143da7805e4616dbf1",
+    "contractSkeletonDigest": "654186f228fc590e1e0e7157a7feef28715a99c2bb8ee0d70264001db7ae144d"
+  }
+}

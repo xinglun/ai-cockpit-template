@@ -60,3 +60,12 @@ def test_finish_archive_message_is_not_lifecycle_closure():
 
     assert "lifecycle is not closed" in output
     assert "make ai-close-work-item TASK=example" in output
+
+
+def test_promote_review_readiness_does_not_override_failed_stabilization_evidence():
+    result = ai_finish.promote_review_readiness(
+        summary(verification="failed"),
+        {"contractVersion": 2, "acceptance": []},
+    )
+
+    assert result["status"] == "not_ready"

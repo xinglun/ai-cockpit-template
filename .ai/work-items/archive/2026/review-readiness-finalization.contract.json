@@ -1,0 +1,195 @@
+{
+  "contractVersion": 2,
+  "workItemId": "review-readiness-finalization",
+  "mode": "code",
+  "title": "Finalize review readiness only after stabilization and final status checks",
+  "baseCommit": "fed504c228885705708645295b2be7c45a7b701e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/review-readiness-finalization.contract.json",
+    ".ai/work-items/active/review-readiness-finalization.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_finish.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "tests/test_finish_readiness.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_guards_and_status.py",
+    "tests/test_core_gates.py"
+  ],
+  "outOfScope": [
+    "Changing unrelated Work Item lifecycle or archive behavior",
+    "Changing product code or external CI provider configuration"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Defines Work Item 6 sequencing and failure-safety requirements."
+    },
+    {"path": ".ai/glossary.md", "reason": "Defines Readiness and stabilization terminology."},
+    {"path": "scripts/ai_finish.py", "reason": "Current finish orchestration and Readiness promotion."},
+    {"path": "scripts/ai_generate_status.py", "reason": "Final status generation and rendering."},
+    {"path": "scripts/ai_check_status.py", "reason": "Status validation boundary."},
+    {"path": "tests/test_finish_readiness.py", "reason": "Readiness unit-test contract."},
+    {"path": "tests/test_finish_e2e.py", "reason": "Finish lifecycle integration evidence."},
+    {"path": "tests/test_guards_and_status.py", "reason": "Status and guard regression evidence."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+    "lifecycle_integrity"
+  ],
+    "reason": "Finish ordering is lifecycle-critical: a failed stabilization step must not leave a persisted positive Readiness state."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized the complete Work Item execution loop; the change is bounded to finish/readiness orchestration and its tests."
+  },
+  "preReviewWarnings": [
+    "Review that every stabilization failure persists not_ready and that Readiness is promoted only after final Summary and Status checks."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A1: Readiness is promoted only after declared verification, stabilization, final Summary validation, final status generation, and final status consistency succeed.",
+    "A2: Any stabilization or final validation failure persists reviewReadiness.status as not_ready and does not leave stale positive Readiness.",
+    "A3: Regression tests cover successful promotion and failure after Readiness would otherwise be positive."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "All final checks pass",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_finish_readiness.py::test_promote_review_readiness_marks_fully_verified_summary_ready", "tests/test_finish_e2e.py::test_required_failure_keeps_active_and_retry_archives"],
+      "reason": "Positive Readiness is allowed only at the end of the successful finish pipeline."
+    },
+    {
+      "scenario": "A stabilization check fails after declared verification",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_finish_e2e.py::test_required_failure_keeps_active_and_retry_archives"],
+      "reason": "Failure must persist not_ready and prevent stale positive state."
+    },
+    {
+      "scenario": "Final Summary or status consistency validation fails",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_finish_e2e.py::test_archive_collision_fails_after_checks_and_preserves_active", "tests/test_guards_and_status.py"],
+      "reason": "The final lifecycle gate must remain fail-closed."
+    }
+  ],
+  "guidelines": [
+    "Keep Readiness promotion fail-closed and do not persist a positive state before all final checks pass.",
+    "Preserve existing finish command evidence and status generation compatibility while changing only orchestration order.",
+    "Keep tests deterministic and do not mutate external release or repository state."
+  ],
+  "intent": {
+    "problem": "ai-finish currently writes a positive reviewReadiness before self-referential stabilization checks complete, so a later failure can leave an inconsistent Summary claiming readiness.",
+    "constraints": [
+      "Declared verification must remain the first gate.",
+      "Stabilization, final Summary validation, status generation, and status consistency must all pass before positive Readiness is persisted.",
+      "A failure must leave the Work Item not_ready and retain useful failure evidence."
+    ],
+    "rationale": "Moving Readiness promotion to the end of the finish pipeline makes the persisted Summary and generated Status reflect only a fully verified lifecycle state."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized the complete implementation loop, including governance scripts, tests, documentation where scoped, PR merge, and lifecycle cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/review-readiness-finalization.json",
+    "baseCommit": "fed504c228885705708645295b2be7c45a7b701e",
+    "initialScopeDigest": "37489ee7a928932c2617350e0f8ae061a4ca08f9624af53181dcfd6f31574c94",
+    "contractSkeletonDigest": "c5fd9445dee25ff0f84deb6ea683365ab15e57e647f3dd8628d521079558525c"
+  }
+}

@@ -450,11 +450,22 @@ def main() -> int:
         obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
         return code
 
-    # Establish the readiness baseline before self-referential stabilization;
-    # the subsequent status/risk/Summary checks must all attest this exact
-    # baseline before the Work Item can be archived.
+    # Establish a fail-closed readiness baseline before self-referential
+    # stabilization. Positive readiness is persisted only after the first
+    # stabilization and final Summary validation have passed.
     summary_data = load_json(summary_path)
-    summary_data["reviewReadiness"] = promote_review_readiness(summary_data, contract_data)
+    existing_readiness = summary_data.get("reviewReadiness")
+    expected_focus = (
+        existing_readiness.get("expectedReviewFocus", [])
+        if isinstance(existing_readiness, dict)
+        and isinstance(existing_readiness.get("expectedReviewFocus"), list)
+        else []
+    )
+    summary_data["reviewReadiness"] = {
+        "status": "not_ready",
+        "reason": "Final stabilization and status checks are still pending.",
+        "expectedReviewFocus": expected_focus,
+    }
     save_json(summary_path, summary_data)
 
     # Summary/status are self-referential artifacts. Stabilize them after all
@@ -503,6 +514,69 @@ def main() -> int:
             obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
             return code
         obs.check_passed(check_id=check_id, command=" ".join(command), duration_ms=duration)
+
+    # Promote only after the declared checks, stabilization, and final Summary
+    # validation have all passed. Promotion itself changes the Summary, so
+    # status must be regenerated and checked once more against the promoted
+    # state. These final checks intentionally do not mutate verification
+    # evidence after the status has been generated.
+    summary_data = load_json(summary_path)
+    summary_data["reviewReadiness"] = promote_review_readiness(summary_data, contract_data)
+    save_json(summary_path, summary_data)
+    final_status_checks = [
+        ["make", "generate-cockpit-status", f"CONTRACT={contract}", f"SUMMARY={summary}"],
+        ["make", "check-ai-status", f"CONTRACT={contract}", f"SUMMARY={summary}"],
+        ["make", "check-ai-status-consistency"],
+    ]
+    for command in final_status_checks:
+        code, duration, output = run(command)
+        if code != 0:
+            failed_summary = load_json(summary_path)
+            failed_summary["reviewReadiness"] = {
+                "status": "not_ready",
+                "reason": f"Final status validation failed: {' '.join(command)}",
+                "expectedReviewFocus": expected_focus,
+            }
+            save_json(summary_path, failed_summary)
+            print(output, file=sys.stderr)
+            obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
+            return code
+
+    # Revalidate the promoted Summary last and retain its evidence as the
+    # archive's final worktree-digest anchor.
+    summary_command = [
+        "make",
+        "check-ai-change-summary",
+        f"SUMMARY={summary}",
+        f"CONTRACT={contract}",
+    ]
+    code, duration, output = run(summary_command)
+    if code != 0:
+        failed_summary = load_json(summary_path)
+        failed_summary["reviewReadiness"] = {
+            "status": "not_ready",
+            "reason": "Final Summary validation failed after Readiness promotion.",
+            "expectedReviewFocus": expected_focus,
+        }
+        save_json(summary_path, failed_summary)
+        print(output, file=sys.stderr)
+        obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
+        return code
+    record_result(
+        summary_path,
+        evidence(
+            "aiSummary",
+            " ".join(summary_command),
+            code,
+            duration,
+            output,
+            contract_hash=contract_hash,
+            commit_sha=commit_sha,
+            execution_contract_path=contract,
+            execution_summary_path=summary,
+            worktree_digest=worktree_digest(changed_paths(contract_data)),
+        ),
+    )
 
     print("Work Item finish checks passed")
     if args.archive:

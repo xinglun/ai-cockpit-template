@@ -1,0 +1,419 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "human-decision-request-schema",
+  "contractPath": ".ai/work-items/archive/2026/human-decision-request-schema.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/human-decision-request-schema.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/human-decision-request-schema.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Added and validated the structured human decision request payload for needs_human_confirmation reports."
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Rendered human decision requests in active cockpit status output."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Added schema and recommendation-reference coverage for human decision requests."
+    },
+    {
+      "path": "tests/test_governance_compression.py",
+      "reason": "Added status rendering coverage for human decision requests."
+    },
+    {
+      "path": "docs/contract-fields.md",
+      "reason": "Documented the human decision request fields and the handoff-only boundary."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documented how needs_human_confirmation reports expose the request without implementing a gate or resume mechanism."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Calibrated blocking complexity ceilings to the measured repository totals after this schema and documentation addition."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+    ".ai/work-items/active/human-decision-request-schema.contract.json",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_governance_compression.py",
+    "tests/test_preflight_review.py",
+    "tests/test_governance_compression.py",
+    "docs/contract-fields.md",
+    ".ai/cockpit/README.md",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:30.520433+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "0a35bac0585645e2bb1311717bc58f5ef7f6ef41948378c39d78d63f53dfa9c1",
+      "commandHash": "b98d6935a06b184ca00c0f5f631580fe73c51d7cb1819d4de451ab6367743d1c",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/human-decision-request-schema.contract.json work item contract check passed: .ai/work-items/active/human-decision-request-schema.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:30.664984+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "59a53c2c9f095698c29b459a5c95d45a5e72ca8f4f03aefd02386e8575cc4a14",
+      "commandHash": "14169f575f51b39be663f3cf495db6156258d1345e86a05f77ad9c1b72ac70d5",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/human-decision-request-schema.contract.json scope guard passed: 8 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:30.818662+00:00",
+      "exitCode": 0,
+      "durationMs": 108,
+      "outputDigest": "473ae631403b9062df1a25e1aecc13f9ebf1feb534045de1ebf1590fb170498a",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/human-decision-request-schema.contract.json [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.062047+00:00",
+      "exitCode": 0,
+      "durationMs": 199,
+      "outputDigest": "6566933794bbcbe86f4f3c4fb98e903038c3b749db09e2b9856e3f86fb3fa635",
+      "commandHash": "b9c8cd54ebf231fb86c19dec4900d777e2568564b87c18976a8f81a3d0f6d418",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/human-decision-request-schema.contract.json --summary .ai/work-items/active/human-decision-request-schema.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `human-decision-request-schema` - Contract Hash: `2abac47364f41a7c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.208807+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "8c5919d71de3beb58230b3206c1d5c5e4085c9d1b5bb156a6e2d2e642bc8e0ab",
+      "commandHash": "8859d485bdfcdf04ceb306580d51cb3b46ed05ae7de7e7907ef2079442c71a74",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/human-decision-request-schema.summary.json review policy matched 5 path(s) [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_governance_compression.py [review] scripts/ai_preflight_review.py review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.367264+00:00",
+      "exitCode": 0,
+      "durationMs": 106,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.509280+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.620731+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "af3ecad24b24b1a5fb9f52a1277fa1e577225254d4b7cb6cd16b7fb4590e83c0",
+      "commandHash": "8f04c95df8daea388c338269f4801172bbf39525dc0a814d8c8ca28b68669065",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/human-decision-request-schema.contract.json --summary .ai/work-items/active/human-decision-request-schema.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.719614+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "6f7d4ad6f87bfb56454af6e577b4d7739362208ba996d3278add278b4aa0094c",
+      "commandHash": "9170a2a7c2468e40fbb0ae7925075fdf443a876bd4991d4c23c6258b2e840516",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/human-decision-request-schema.contract.json --summary .ai/work-items/active/human-decision-request-schema.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:19:31.976545+00:00",
+      "exitCode": 0,
+      "durationMs": 209,
+      "outputDigest": "cb257906c5d92d5c00437511b8f722997c19bb9560a5141c0230ef66ba4086ce",
+      "commandHash": "c35e292462855d3d7a3e579b728e2be04abff2b47d4318c3e2e1c9c1f4753dbd",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/human-decision-request-schema.contract.json ## Diff Ownership Preview - active_owned: `8`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.y"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:21:23.313825+00:00",
+      "exitCode": 0,
+      "durationMs": 111283,
+      "outputDigest": "76c040c68b8668c31f1a8fbdcd350b4c68539a6a3ce70fb5c37ee8481fe3d25a",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "8482d66ca7e0531805436b2cbe81e6b240392598796ac9ec74a8bf1debc7b874",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 94 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 12%] ........................................................................ [ 25%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:21:24.601088+00:00",
+      "exitCode": 0,
+      "durationMs": 253,
+      "outputDigest": "5ee113ec6f386efabfb2c86011aab43a2d978dc04527ab3b23c7e3a4c4d0374e",
+      "commandHash": "ca76967b3d440096e2e80a39acb1bf07d629aa005dc535559435af6fabd22992",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "c44ebbae915c2227baa7766f1d0ddf9ca4f56e53f046632fd673f7266e50f884",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/human-decision-request-schema.contract.json --summary .ai/work-items/active/human-decision-request-schema.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:21:24.871496+00:00",
+      "exitCode": 0,
+      "durationMs": 225,
+      "outputDigest": "4b817e6818fde030a57687e7dd568dc33758498ffebed83f377587f7568ad3fc",
+      "commandHash": "278a8a76cbe9d26f038a55da47371572480e84b766beea7180fac8b1dd173445",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "c44ebbae915c2227baa7766f1d0ddf9ca4f56e53f046632fd673f7266e50f884",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/human-decision-request-schema.contract.json --summary .ai/work-items/active/human-decision-request-schema.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:21:24.960578+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "c44ebbae915c2227baa7766f1d0ddf9ca4f56e53f046632fd673f7266e50f884",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:21:25.061687+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "5e0e17bfd5c97cd069a48203f777cce5d2929c0cd797ffeac0a0ad3e650b31ce",
+      "commandHash": "906187da12a9b990a35ae8169bc3b47b40ffcbfa827952220509cf4f535896a5",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "c44ebbae915c2227baa7766f1d0ddf9ca4f56e53f046632fd673f7266e50f884",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/human-decision-request-schema.contract.json --summary .ai/work-items/active/human-decision-request-schema.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/human-decision-request-schema.summary.json CONTRACT=.ai/work-items/active/human-decision-request-schema.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-17T08:21:25.210004+00:00",
+      "exitCode": 0,
+      "durationMs": 96,
+      "outputDigest": "496d9a2f608d65b7cd62767e49e33003c9368bc0bd3217c6af64bee1afe0f0f0",
+      "commandHash": "e5702430f5de53e47a6cdaa21b944d84457551ca43118b93d29a00ba8c7f5bbc",
+      "contractHash": "2abac47364f41a7c88e3715ad22042e886defd36d23f99c55a64c66207a951d9",
+      "commitSha": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+      "executionContractPath": ".ai/work-items/active/human-decision-request-schema.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/human-decision-request-schema.summary.json",
+      "worktreeDigest": "c44ebbae915c2227baa7766f1d0ddf9ca4f56e53f046632fd673f7266e50f884",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/human-decision-request-schema.summary.json --contract .ai/work-items/active/human-decision-request-schema.contract.json ai summary check passed: .ai/work-items/active/human-decision-request-schema.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep the Human Decision Request schema generic and agent-agnostic.",
+      "compliant": true,
+      "evidence": "The request uses generic decision, options, recommendation, question, and resume-condition fields without provider-specific names."
+    },
+    {
+      "guideline": "Document all new report fields and preserve existing report fields for backward compatibility.",
+      "compliant": true,
+      "evidence": "docs/contract-fields.md and .ai/cockpit/README.md document the fields; needs_human_confirmation is the only status carrying an object and other statuses retain null."
+    },
+    {
+      "guideline": "Do not implement gate enforcement or resume behavior in this Work Item.",
+      "compliant": true,
+      "evidence": "The implementation emits and renders handoff evidence only; no gate, decision persistence, or resume execution was added."
+    },
+    {
+      "guideline": "Keep the governance complexity guard blocking and calibrate ceilings from measured totals.",
+      "compliant": true,
+      "evidence": "The guard remains blocking; ceilings were set to pythonLines 26050 and markdownLines 8000 against measured totals 25897 and 7860, and make check-governance-complexity passed."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change is additive schema validation and status rendering with focused and full test coverage; it does not alter gate, persistence, or resume behavior."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm the humanDecisionRequest schema remains generic and backward compatible.",
+      "Confirm recommendedOption always references an available option.",
+      "Confirm complexity ceilings remain blocking and calibrated from measured totals."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "2abac47364f41a7c",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Checkpoint recorded after the Contract was made task-specific and before implementation edits."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "2abac47364f41a7c",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Checkpoint recorded immediately before finalization; contract, scope, and guard checks had passed, with remaining checks delegated to ai_finish."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 119
+}

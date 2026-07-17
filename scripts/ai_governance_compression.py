@@ -713,6 +713,24 @@ def render_active_status(
         lines.append(
             "- Pause Rule: `Cockpit Status keeps the Preflight Review visible for reviewers, but it does not replace the pre-implementation pause.`"
         )
+        request = (
+            preflight_review.get("humanDecisionRequest")
+            if isinstance(preflight_review, dict)
+            else None
+        )
+        if isinstance(request, dict):
+            lines.extend(["", "## Human Decision Request", ""])
+            lines.append(f"- Decision ID: `{request['decisionId']}`")
+            lines.append("- What Happened:")
+            lines.extend(f"  - {item}" for item in request["whatHappened"])
+            lines.append(f"- Why It Matters: {request['whyItMatters']}")
+            lines.append("- Options:")
+            for option in request["options"]:
+                lines.append(f"  - `{option['id']}` {option['label']}: {option['effect']}")
+            lines.append(f"- Recommended Option: `{request['recommendedOption']}`")
+            lines.append(f"- Recommendation Reason: {request['recommendationReason']}")
+            lines.append(f"- Decision Needed: {request['question']}")
+            lines.append(f"- Resume Condition: {request['resumeCondition']}")
 
     lines.extend(["", "## Diff Ownership", ""])
     if ownership_counts is None:

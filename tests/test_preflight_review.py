@@ -115,6 +115,49 @@ def test_conservative_contract_stays_advisory(tmp_path):
     assert signal_map(report)["Verification"] == "Missing"
 
 
+def test_needs_human_confirmation_contains_structured_decision_request(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, conservative_contract())
+
+    report = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+
+    request = report["humanDecisionRequest"]
+    assert request["decisionId"].startswith("HD-")
+    assert request["status"] == "needs_human_confirmation"
+    assert request["whatHappened"]
+    assert request["whyItMatters"]
+    assert request["options"]
+    assert request["recommendedOption"] in {item["id"] for item in request["options"]}
+    assert request["recommendationReason"]
+    assert request["question"]
+    assert request["resumeCondition"]
+
+    for option in request["options"]:
+        assert set(option) == {"id", "label", "effect"}
+        assert option["id"]
+        assert option["label"]
+        assert option["effect"]
+
+
+def test_human_decision_request_validation_rejects_unknown_recommendation(tmp_path):
+    contract = tmp_path / "task.contract.json"
+    write_contract(contract, conservative_contract())
+    report = ai_preflight_review.derive_report(
+        conservative_contract(),
+        contract_path=contract,
+        policy_path=Path("/tmp/preflight_review_policy.yaml"),
+    )
+    report["humanDecisionRequest"]["recommendedOption"] = "Z"
+
+    issues = ai_preflight_review.validate_report_structure(report)
+
+    assert "humanDecisionRequest.recommendedOption must reference an option" in issues
+
+
 def test_main_prints_pause_banner_for_non_ready_status(tmp_path, monkeypatch, capsys):
     contract = tmp_path / "task.contract.json"
     output = tmp_path / "ai_preflight_review.json"

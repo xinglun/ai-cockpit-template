@@ -119,6 +119,45 @@ def test_status_orchestration_preserves_review_evidence_and_drivers():
     assert model["evidence"]["verification"] == ["quality: passed"]
 
 
+def test_active_status_renders_human_decision_request():
+    model = ai_governance_compression.derive_governance_status(
+        complete_contract(), complete_summary()
+    )
+    preflight_review = {
+        "status": "needs_human_confirmation",
+        "recommendation": "Clarify intent before implementation.",
+        "decisionDrivers": ["Intent: contract.intent has no meaningful content"],
+        "humanDecisionRequest": {
+            "decisionId": "HD-001",
+            "status": "needs_human_confirmation",
+            "whatHappened": ["The Contract intent is missing."],
+            "whyItMatters": "Continuing would require a human product decision.",
+            "options": [{"id": "A", "label": "Clarify intent", "effect": "Update the Contract."}],
+            "recommendedOption": "A",
+            "recommendationReason": "The missing intent affects implementation behavior.",
+            "question": "Should I update the Contract?",
+            "resumeCondition": "Preflight becomes ready.",
+        },
+    }
+
+    rendered = ai_governance_compression.render_active_status(
+        model,
+        work_item_id="task",
+        mode="code",
+        contract_path=".ai/work-items/active/task.contract.json",
+        summary_path=".ai/work-items/active/task.summary.json",
+        preflight_review=preflight_review,
+    )
+
+    assert "## Human Decision Request" in rendered
+    assert "- Decision ID: `HD-001`" in rendered
+    assert "- What Happened:" in rendered
+    assert "  - The Contract intent is missing." in rendered
+    assert "- Recommended Option: `A`" in rendered
+    assert "- Decision Needed: Should I update the Contract?" in rendered
+    assert "- Resume Condition: Preflight becomes ready." in rendered
+
+
 def test_complete_medium_risk_recommends_ready_with_risks():
     contract = complete_contract()
     summary = complete_summary()

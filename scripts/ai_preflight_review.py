@@ -611,6 +611,51 @@ def recommendation_for(status: str, signals: list[Signal], context: dict[str, An
     return "Clarify the remaining evidence before implementation."
 
 
+def human_decision_request(
+    status: str,
+    signals: list[Signal],
+    *,
+    contract_hash_value: str,
+) -> dict[str, Any] | None:
+    if status != "needs_human_confirmation":
+        return None
+
+    what_happened = [
+        f"{signal.name}: {evidence}"
+        for signal in signals
+        if signal.value not in {"Ready", "Not Applicable"}
+        for evidence in signal.evidence
+    ]
+    options = [
+        {
+            "id": "A",
+            "label": "Clarify the missing decision",
+            "effect": "Update the Contract before implementation.",
+        },
+        {
+            "id": "B",
+            "label": "Reduce the Work Item scope",
+            "effect": "Continue only with the confirmed portion of the work.",
+        },
+        {
+            "id": "C",
+            "label": "Defer this Work Item",
+            "effect": "Keep the Work Item open without implementation.",
+        },
+    ]
+    return {
+        "decisionId": f"HD-{contract_hash_value[:12]}",
+        "status": status,
+        "whatHappened": what_happened or ["The Contract does not determine a single safe path."],
+        "whyItMatters": "Continuing would require a human decision about behavior or scope.",
+        "options": options,
+        "recommendedOption": "A",
+        "recommendationReason": "The missing evidence should be resolved before implementation behavior is chosen.",
+        "question": "Should I clarify the missing decision in the Contract before implementation?",
+        "resumeCondition": "A human decision is recorded and the Preflight Review becomes ready.",
+    }
+
+
 def build_context(contract: dict[str, Any]) -> dict[str, Any]:
     return {
         "contract": contract,
@@ -634,11 +679,12 @@ def derive_report(
     context = build_context(contract)
     status = overall_status(signals, context)
     policy = load_policy(policy_path)
+    current_contract_hash = contract_hash(contract_path)
     report = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "workItemId": contract.get("workItemId", ""),
         "contractPath": contract_path.as_posix(),
-        "contractHash": contract_hash(contract_path),
+        "contractHash": current_contract_hash,
         "policyPath": policy["path"],
         "policyHash": policy_hash(policy_path),
         "policyVersion": policy["version"],
@@ -651,6 +697,11 @@ def derive_report(
         "context": context,
         "decisionDrivers": decision_drivers(signals, context),
         "recommendation": recommendation_for(status, signals, context),
+        "humanDecisionRequest": human_decision_request(
+            status,
+            signals,
+            contract_hash_value=current_contract_hash,
+        ),
     }
     return report
 
@@ -761,6 +812,7 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
         "context",
         "decisionDrivers",
         "recommendation",
+        "humanDecisionRequest",
     ):
         if field not in report:
             issues.append(f"missing field: {field}")
@@ -831,6 +883,64 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
         issues.append("decisionDrivers must be a list")
     if not non_empty_string(report.get("recommendation")):
         issues.append("recommendation must be a non-empty string")
+    request = report.get("humanDecisionRequest")
+    if report.get("status") == "needs_human_confirmation":
+        if not isinstance(request, dict):
+            issues.append("humanDecisionRequest must be an object for needs_human_confirmation")
+        else:
+            required_request_fields = (
+                "decisionId",
+                "status",
+                "whatHappened",
+                "whyItMatters",
+                "options",
+                "recommendedOption",
+                "recommendationReason",
+                "question",
+                "resumeCondition",
+            )
+            for field in required_request_fields:
+                if field not in request:
+                    issues.append(f"humanDecisionRequest missing field: {field}")
+            if request.get("status") != "needs_human_confirmation":
+                issues.append("humanDecisionRequest.status must be needs_human_confirmation")
+            for field in ("whatHappened", "options"):
+                if not isinstance(request.get(field), list) or not request.get(field):
+                    issues.append(f"humanDecisionRequest.{field} must be a non-empty list")
+            what_happened = request.get("whatHappened")
+            if isinstance(what_happened, list) and any(
+                not non_empty_string(item) for item in what_happened
+            ):
+                issues.append("humanDecisionRequest.whatHappened must contain non-empty strings")
+            options = request.get("options")
+            if isinstance(options, list):
+                option_ids = set()
+                for index, option in enumerate(options):
+                    if not isinstance(option, dict) or set(option) != {"id", "label", "effect"}:
+                        issues.append(
+                            f"humanDecisionRequest.options[{index}] must contain only id, label, effect"
+                        )
+                        continue
+                    option_ids.add(option["id"])
+                    for field in ("id", "label", "effect"):
+                        if not non_empty_string(option.get(field)):
+                            issues.append(
+                                f"humanDecisionRequest.options[{index}].{field} must be non-empty"
+                            )
+                if request.get("recommendedOption") not in option_ids:
+                    issues.append("humanDecisionRequest.recommendedOption must reference an option")
+            for field in (
+                "decisionId",
+                "whyItMatters",
+                "recommendedOption",
+                "recommendationReason",
+                "question",
+                "resumeCondition",
+            ):
+                if not non_empty_string(request.get(field)):
+                    issues.append(f"humanDecisionRequest.{field} must be non-empty")
+    elif request is not None:
+        issues.append("humanDecisionRequest must be null unless status is needs_human_confirmation")
     return issues
 
 

@@ -118,6 +118,22 @@ metadata; strict archive integrity is enabled by the row's own digest pair.
     - `check`: `string` - `aiScope` や `aiAgentRisk` などの `.ai/cockpit/checks.yaml` に登録されたチェック名。
     - `required`: `boolean` - `true` の場合、失敗すると Finish を実行できません。
 
+### 1.5 Preflight Human Decision Request
+
+Preflight が `needs_human_confirmation` の場合、生成レポートには `humanDecisionRequest` オブジェクトが含まれます。このオブジェクトは診断結果を人が判断できる選択肢へ変換しますが、この Work Item では Gate の強制や Resume Protocol は実装しません。
+
+- **`decisionId`**: `string` - 現在の Contract に対応する決定要求 ID。
+- **`status`**: `string` - 常に `needs_human_confirmation`。
+- **`whatHappened`**: `array[string]` - 検出された具体的な不足・矛盾・曖昧さ。
+- **`whyItMatters`**: `string` - なぜ Agent が自行判断してはいけないか。
+- **`options`**: `array[object]` - 人が選べる方案。各项必须包含 `id`、`label` 和 `effect`，且只能包含这三个字段。
+- **`recommendedOption`**: `string` - `options` 中推荐方案的 ID。
+- **`recommendationReason`**: `string` - AI 推荐该方案的原因。
+- **`question`**: `string` - 当前需要人回答的单一问题。
+- **`resumeCondition`**: `string` - 满足何种条件后才可重新进行 Preflight 判断。
+
+当 Preflight 状态为 `ready` 或 `not_ready` 时，`humanDecisionRequest` 必须为 `null`。状态仍由现有 Preflight 规则决定，Request 只是结构化交接证据。
+
 ---
 
 ## 2. Change Summary (`*.summary.json`)

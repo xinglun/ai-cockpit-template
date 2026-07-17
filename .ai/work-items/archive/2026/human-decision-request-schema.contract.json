@@ -1,0 +1,198 @@
+{
+  "contractVersion": 2,
+  "workItemId": "human-decision-request-schema",
+  "mode": "code",
+  "title": "Add structured Human Decision Request schema",
+  "baseCommit": "aff5358bf6174bede63aac10c448e406c0b5b2a1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_governance_compression.py",
+    ".ai/guards/preflight_review_policy.yaml",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "tests/test_preflight_review.py",
+    "tests/test_governance_compression.py",
+    "docs/contract-fields.md",
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/human-decision-request-schema.contract.json",
+    ".ai/work-items/active/human-decision-request-schema.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_common.py",
+    "scripts/install_ai_cockpit.py",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-ai-cockpit-comprehensive-review.md",
+      "reason": "Defines Work Item 1 schema fields, implementation boundary, and required tests."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Current Preflight Review report and rendering behavior."
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Current governance status compression and human-facing output integration."
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "reason": "Current policy fields for Preflight Review behavior."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current blocking ceilings that must accommodate the planned schema and test additions without disabling the guard."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Existing Preflight Review behavior and validation tests."
+    },
+    {
+      "path": "tests/test_governance_compression.py",
+      "reason": "Existing governance-compression output tests."
+    }
+  ],
+  "problemStatement": "needs_human_confirmation currently exposes a generic recommendation and machine-oriented decision drivers but does not provide a structured human decision request with the context needed to choose and resume safely.",
+  "scenarioCoverage": [
+    {
+      "scenario": "high-risk scenario coverage",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This bounded schema-only Work Item is low risk; behavior is covered by Acceptance evidence and focused tests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "human_handoff",
+      "schema_validation"
+    ],
+    "reason": "The change adds a structured, validated report object and human-readable rendering without changing implementation gates or resume behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user confirmed execution of the reviewed plan and this Work Item has a bounded implementation and verification scope."
+  },
+  "preReviewWarnings": [
+    "Review that the schema remains generic and does not silently enable a workflow gate or resume protocol."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A needs_human_confirmation report contains decisionId, status, whatHappened, whyItMatters, options, recommendedOption, recommendationReason, question, and resumeCondition.",
+    "Each decision option contains a stable id, human-readable label, and effect, and the recommendedOption references one declared option.",
+    "Focused regression tests cover the structured report object, invalid schema data, and human-readable rendering while existing Preflight and governance-compression behavior remains compatible.",
+    "The files docs/contract-fields.md and .ai/cockpit/README.md describe the schema fields and pause-state semantics without claiming that this Work Item implements the Human Decision Gate."
+    ,"The governance complexity guard keeps blocking behavior enabled while its ceilings are calibrated above the measured post-change totals."
+  ],
+  "guidelines": [
+    "Keep the Human Decision Request schema generic and agent-agnostic.",
+    "Document all new report fields and preserve existing report fields for backward compatibility.",
+    "Do not implement gate enforcement or resume behavior in this Work Item."
+  ],
+  "intent": {
+    "problem": "When Preflight pauses for human confirmation, the current output does not give a person a complete, structured choice to make.",
+    "constraints": [
+      "Keep the schema generic and agent-agnostic.",
+      "Preserve existing report fields and current advisory gate behavior.",
+      "Do not implement gate enforcement or resume behavior in this Work Item."
+    ],
+    "rationale": "A stable request object lets later gate and resume work consume explicit human-facing evidence without inferring decisions from prose."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized execution of the confirmed implementation plan; this Work Item updates the Cockpit documentation path within its declared scope."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

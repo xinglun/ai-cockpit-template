@@ -99,6 +99,8 @@ That target generates the advisory Preflight Review and then validates it. By de
 When `ai-start` or `ai-preflight` reports `needs_human_confirmation` or `not_ready`, the agent must pause and report the Preflight Review to the user before implementation continues.
 Cockpit Status keeps the Preflight Review visible for reviewers, but it does not replace that pre-implementation pause.
 
+When the status is `needs_human_confirmation`, the Preflight report also contains a `humanDecisionRequest` with what happened, why it matters, available options, the recommended option and reason, the decision question, and the resume condition. This object makes the pause actionable; it does not itself enforce a gate or record a human decision.
+
 Explicit blockers also produce `not_ready`: `notCodable: true`; `executionDecision.status` of `block`, `defer`, or `needs_human_decision`; and a declared `agentCapability` that cannot implement, cannot verify, or requires human decision.
 
 Intent drives Contract. Contract drives Implementation. Verification validates execution. Summary validates alignment back to Intent.

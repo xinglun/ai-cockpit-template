@@ -29,6 +29,8 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 
 開発用 lock は `requirements-dev.in` から `pip-compile --generate-hashes --allow-unsafe` で生成します。すべてのロック済みパッケージには SHA-256 ハッシュを付け、CI は `pip install --require-hashes` でインストールします。`.ai/cockpit/release-digests.json` は lock、SBOM、provenance、インストーラー、リリースメタデータを一つのソースコミットへ結び付けます。
 
+`releaseEvidenceAuthority` が `release-assets-v1` の場合、公開チェッカーはタグ付き GitHub Release から `sbom.json`、`provenance.json`、`release-digests.json` をダウンロードして再ハッシュし、不変タグツリーと比較します。さらにマニフェストの全成果物を再ハッシュし、期待する成果物一式を要求します。欠落、改ざん、形式不正、タグ不一致、コミット不一致の証拠は、インストーラーを実行する前に拒否されます。
+
 ## 公開機能
 
 公開リリースの定義は `release.json` にあります。

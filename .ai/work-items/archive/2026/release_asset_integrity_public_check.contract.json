@@ -1,0 +1,206 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_asset_integrity_public_check",
+  "mode": "code",
+  "title": "Validate public release asset integrity",
+  "baseCommit": "d5412e0bc025ca62dc32bc9ac7cd91650c23b33c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/release_asset_integrity_public_check.contract.json",
+    ".ai/work-items/active/release_asset_integrity_public_check.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "release publication ordering and atomic workflow changes",
+    "installer transactionality and compatibility probe behavior",
+    "production GitHub repository settings or third-party attestation configuration",
+    "raising the repository-wide coverage threshold",
+    "changing unrelated governance policies"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-17-conditional-go-remediation-cycle.md",
+      "reason": "Task 2 defines P0-4 public asset integrity as a release-blocking remediation."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Current checker validates only identity fields for published evidence assets."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Existing release distribution tests establish fail-closed and public release boundaries."
+    },
+    {
+      "path": "release.json",
+      "reason": "Release metadata declares the release evidence authority and local supply-chain inputs."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Current public distribution contract documents the trust boundary and digest manifest."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The calibrated Python line ceiling is the repository gate that rejects the verified implementation despite all quality checks passing."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A complete public release asset set matches the immutable tag tree and passes the checker.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Add a network-free fixture test for the manifest and downloaded asset rehash path."
+    },
+    {
+      "scenario": "Missing or altered public assets fail closed before installer execution.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Add fixture tests for missing assets and byte-level digest mismatch."
+    },
+    {
+      "scenario": "Cross-tag or cross-commit evidence fails even when individual JSON fields are syntactically valid.",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Add fixture tests that bind manifest subjects to the tag tree and source commit."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "release_identity",
+      "public_evidence_integrity",
+      "regression"
+    ],
+    "reason": "A false-positive public integrity check would accept cross-tag or tampered release evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The requested remediation has explicit scope, evidence, acceptance, and verification."
+  },
+  "preReviewWarnings": [
+    "Review every downloaded public asset by SHA-256 and compare the manifest against the immutable tag tree."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Published release-assets-v1 payloads are rehashed after download and must match the tag's release-digests.json asset entries.",
+    "The checker verifies every public manifest entry against the immutable tag tree, including release.json, install.sh, requirements-dev.lock, SBOM, provenance, and the digest manifest itself.",
+    "Missing, altered, cross-tag, cross-commit, malformed, or unexpected public evidence fails closed with actionable diagnostics.",
+    "Tests cover valid assets and each integrity failure class without network access, and distribution documentation states the final public trust boundary."
+  ],
+  "guidelines": [
+    "Preserve anonymous public-check behavior and do not rely on credentials or the local worktree for public evidence.",
+    "Keep the checker fail-closed and deterministic; do not weaken existing release identity checks.",
+    "Document any new checker contract or public evidence field.",
+    "Calibrate only the governance complexity ceiling required by this audited implementation; do not lower coverage or security thresholds."
+  ],
+  "intent": {
+    "problem": "The current release-assets-v1 path checks that public provenance and digest assets name the tag commit, but it does not prove that downloaded asset bytes match the tag's committed manifest or that all public release artifacts belong to one immutable source tree.",
+    "constraints": [
+      "Keep the implementation local to the release checker, its tests, and distribution reference documentation.",
+      "Use SHA-256 and immutable tag-tree inspection; do not introduce a new trust root or silently accept missing manifest entries.",
+      "Preserve the existing release-preparation path for an unreleased next patch.",
+      "Do not hand-edit generated evidence files."
+    ],
+    "rationale": "A public release can only be accepted when its downloaded evidence and its source-tag contents form one consistent, independently rehashed set."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete remediation, PR merge, and release workflow."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs."
+}

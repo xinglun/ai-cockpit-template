@@ -66,6 +66,99 @@ def test_release_asset_identity_rejects_missing_subject_fields():
     assert "release digest releaseTag is missing" in issues
 
 
+def test_public_release_asset_integrity_binds_downloads_to_tag_tree(tmp_path):
+    tree = tmp_path / "tree"
+    (tree / ".ai" / "cockpit").mkdir(parents=True)
+    files = {
+        "requirements-dev.lock": b"lock",
+        ".ai/cockpit/sbom.json": b"sbom",
+        ".ai/cockpit/provenance.json": b"provenance",
+        "install.sh": b"#!/bin/sh\nexit 0\n",
+        "release.json": b'{"releaseTag":"v1.2.3"}\n',
+    }
+    for relative, payload in files.items():
+        path = tree / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(payload)
+    manifest = {
+        "format": "ai-cockpit-release-digests",
+        "version": 1,
+        "sourceCommit": "a" * 40,
+        "releaseTag": "v1.2.3",
+        "artifacts": {
+            relative: __import__("hashlib").sha256(payload).hexdigest()
+            for relative, payload in files.items()
+        },
+    }
+    manifest_bytes = (json.dumps(manifest, sort_keys=True) + "\n").encode()
+    (tree / ".ai/cockpit/release-digests.json").write_bytes(manifest_bytes)
+    assets = {
+        "sbom.json": files[".ai/cockpit/sbom.json"],
+        "provenance.json": files[".ai/cockpit/provenance.json"],
+        "release-digests.json": manifest_bytes,
+    }
+
+    assert (
+        release_distribution.public_release_asset_integrity_issues(
+            tag="v1.2.3",
+            tag_target="a" * 40,
+            tag_root=tree,
+            assets=assets,
+        )
+        == []
+    )
+
+
+def test_public_release_asset_integrity_rejects_missing_and_altered_assets(tmp_path):
+    tree = tmp_path / "tree"
+    tree.mkdir()
+    manifest = {
+        "format": "ai-cockpit-release-digests",
+        "version": 1,
+        "sourceCommit": "b" * 40,
+        "releaseTag": "v1.2.3",
+        "artifacts": {"release.json": "1" * 64},
+    }
+    manifest_bytes = (json.dumps(manifest) + "\n").encode()
+    (tree / "release.json").write_bytes(b"release")
+
+    issues = release_distribution.public_release_asset_integrity_issues(
+        tag="v1.2.3",
+        tag_target="c" * 40,
+        tag_root=tree,
+        assets={"release-digests.json": manifest_bytes, "sbom.json": b"tampered"},
+    )
+
+    joined = " ".join(issues)
+    assert "sourceCommit" in joined
+    assert "missing public asset: provenance.json" in joined
+    assert "missing artifact in tag tree" not in joined
+    assert "release.json" in joined
+
+
+def test_public_release_asset_integrity_rejects_manifest_path_escape(tmp_path):
+    tree = tmp_path / "tree"
+    tree.mkdir()
+    manifest_bytes = json.dumps(
+        {
+            "format": "ai-cockpit-release-digests",
+            "version": 1,
+            "sourceCommit": "a" * 40,
+            "releaseTag": "v1.2.3",
+            "artifacts": {"../outside": "0" * 64},
+        }
+    ).encode()
+
+    issues = release_distribution.public_release_asset_integrity_issues(
+        tag="v1.2.3",
+        tag_target="a" * 40,
+        tag_root=tree,
+        assets={"release-digests.json": manifest_bytes},
+    )
+
+    assert any("unsafe artifact path" in issue for issue in issues)
+
+
 IGNORES_SHA = b"""#!/bin/sh
 set -eu
 tmp=$(mktemp -d)

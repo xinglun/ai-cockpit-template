@@ -29,6 +29,18 @@ SUPPLY_CHAIN_FILES = {
     "sbomDigest": ROOT / ".ai" / "cockpit" / "sbom.json",
     "provenanceDigest": ROOT / ".ai" / "cockpit" / "provenance.json",
 }
+PUBLIC_ASSET_ARTIFACTS = {
+    "sbom.json": ".ai/cockpit/sbom.json",
+    "provenance.json": ".ai/cockpit/provenance.json",
+    "release-digests.json": ".ai/cockpit/release-digests.json",
+}
+REQUIRED_MANIFEST_ARTIFACTS = {
+    "requirements-dev.lock",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    "install.sh",
+    "release.json",
+}
 
 
 def clean_git_environment() -> dict[str, str]:
@@ -184,6 +196,93 @@ def release_asset_identity_issues(
         issues.append("release digest releaseTag is missing")
     elif digest_tag != tag:
         issues.append(f"release digest releaseTag {digest_tag!r} differs from tag {tag!r}")
+    return issues
+
+
+def public_release_asset_integrity_issues(
+    *,
+    tag: str,
+    tag_target: str,
+    tag_root: Path,
+    assets: dict[str, bytes],
+) -> list[str]:
+    """Validate downloaded release evidence against the immutable tag tree.
+
+    The release digest manifest is treated as a signed-by-content index only:
+    every listed path is still rehashed from the cloned tag, and each public
+    evidence asset is rehashed independently after download.
+    """
+    issues: list[str] = []
+    required_public_assets = set(PUBLIC_ASSET_ARTIFACTS)
+    missing_assets = required_public_assets - assets.keys()
+    for name in sorted(missing_assets):
+        issues.append(f"missing public asset: {name}")
+    try:
+        manifest = json.loads(assets["release-digests.json"].decode("utf-8"))
+    except (KeyError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        return [f"release-digests.json is invalid: {exc}"]
+    if not isinstance(manifest, dict):
+        return ["release-digests.json must contain an object"]
+    if manifest.get("format") != "ai-cockpit-release-digests" or manifest.get("version") != 1:
+        issues.append("release-digests.json has an unsupported format or version")
+    if manifest.get("sourceCommit") != tag_target:
+        issues.append(
+            f"release-digests.json sourceCommit {manifest.get('sourceCommit')!r} differs from tag target {tag_target!r}"
+        )
+    if manifest.get("releaseTag") != tag:
+        issues.append(
+            f"release-digests.json releaseTag {manifest.get('releaseTag')!r} differs from tag {tag!r}"
+        )
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, dict):
+        return issues + ["release-digests.json artifacts must contain an object"]
+    missing_manifest = REQUIRED_MANIFEST_ARTIFACTS - set(artifacts)
+    for relative in sorted(missing_manifest):
+        issues.append(f"release-digests.json is missing artifact entry: {relative}")
+
+    root = tag_root.resolve()
+    for relative, expected in artifacts.items():
+        if not isinstance(relative, str) or not isinstance(expected, str):
+            issues.append("release-digests.json contains a non-string artifact entry")
+            continue
+        candidate = (root / relative).resolve()
+        if candidate != root and root not in candidate.parents:
+            issues.append(f"unsafe artifact path in release-digests.json: {relative}")
+            continue
+        if not re.fullmatch(r"[0-9a-f]{64}", expected):
+            issues.append(f"invalid SHA-256 for manifest artifact: {relative}")
+            continue
+        if not candidate.is_file():
+            issues.append(f"missing artifact in tag tree: {relative}")
+            continue
+        actual = file_digest(candidate)
+        if actual != expected:
+            issues.append(
+                f"tag tree artifact digest mismatch for {relative} (expected={expected}, actual={actual})"
+            )
+
+    for asset_name, relative in PUBLIC_ASSET_ARTIFACTS.items():
+        payload = assets.get(asset_name)
+        if payload is None:
+            continue
+        expected = artifacts.get(relative)
+        actual = hashlib.sha256(payload).hexdigest()
+        if asset_name == "release-digests.json":
+            expected = (
+                actual
+                if (root / relative).is_file() and payload == (root / relative).read_bytes()
+                else None
+            )
+        if not isinstance(expected, str) or actual != expected:
+            issues.append(
+                f"public asset digest mismatch for {asset_name} (expected={expected!r}, actual={actual})"
+            )
+        tree_path = root / relative
+        if tree_path.is_file() and payload != tree_path.read_bytes():
+            issues.append(f"public asset bytes differ from tag tree: {asset_name}")
+    manifest_path = root / ".ai" / "cockpit" / "release-digests.json"
+    if manifest_path.is_file() and assets.get("release-digests.json") != manifest_path.read_bytes():
+        issues.append("public release-digests.json bytes differ from tag tree")
     return issues
 
 
@@ -552,6 +651,14 @@ def inspect_tagged_release(tag: str) -> tuple[dict[str, object], bytes, list[str
                         tag_target=tag_target,
                         provenance=provenance,
                         release_digests=release_digests,
+                    )
+                )
+                issues.extend(
+                    public_release_asset_integrity_issues(
+                        tag=tag,
+                        tag_target=tag_target,
+                        tag_root=clone_dir,
+                        assets=assets,
                     )
                 )
         return metadata, installer.read_bytes(), issues

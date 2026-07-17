@@ -445,6 +445,17 @@ def test_finish_evidence_redacts_and_replaces_existing_result(tmp_path, monkeypa
     )
 
 
+def test_finish_worktree_digest_is_stable_and_path_sensitive(tmp_path, monkeypatch):
+    monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
+    (tmp_path / "a.txt").write_text("a", encoding="utf-8")
+    (tmp_path / "b.txt").write_text("b", encoding="utf-8")
+
+    both = ai_finish.worktree_digest(["b.txt", "a.txt", "a.txt"])
+
+    assert both == ai_finish.worktree_digest(["a.txt", "b.txt"])
+    assert both != ai_finish.worktree_digest(["a.txt"])
+
+
 def test_finish_record_result_requires_active_summary(tmp_path, monkeypatch):
     active = tmp_path / ".ai" / "work-items" / "active"
     archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
@@ -636,12 +647,52 @@ def test_finish_main_stabilizes_successful_work_item(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
 
     assert ai_finish.main() == 0
-    assert len(executed) == 6
+    assert len(executed) == 10
     assert executed[0] == ["make", "quality"]
     assert executed[-1][:2] == ["make", "check-ai-change-summary"]
     recorded = json.loads(summary.read_text(encoding="utf-8"))["verification"]
     assert all(item["result"] == "passed" for item in recorded)
     assert {item["check"] for item in recorded} >= {"quality", "aiStatus", "aiSummary"}
+
+
+def test_finish_main_demotes_readiness_when_final_status_check_fails(tmp_path, monkeypatch):
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    contract = active / "task.contract.json"
+    summary = active / "task.summary.json"
+    contract.write_text(
+        json.dumps(
+            {
+                "contractVersion": 2,
+                "workItemId": "task",
+                "verification": [{"check": "quality", "required": True}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    summary.write_text(json.dumps({"verification": []}), encoding="utf-8")
+    monkeypatch.setattr(ai_finish, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(ai_finish, "ACTIVE_DIR", active)
+    monkeypatch.setattr(ai_finish, "current_head", lambda: "a" * 40)
+    monkeypatch.setattr(
+        ai_finish,
+        "render_check_command",
+        lambda check, **_kwargs: (f"make {check}", ["make", check]),
+    )
+    executed = []
+
+    def fail_final_status(command):
+        executed.append(command)
+        is_final_status = len(executed) > 6 and command[:2] == ["make", "check-ai-status"]
+        return (1, 2, "status failed") if is_final_status else (0, 2, "passed")
+
+    monkeypatch.setattr(ai_finish, "run", fail_final_status)
+    monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
+    monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
+
+    assert ai_finish.main() == 1
+    readiness = json.loads(summary.read_text(encoding="utf-8"))["reviewReadiness"]
+    assert readiness["status"] == "not_ready"
 
 
 def test_finish_main_fails_when_summary_is_missing(tmp_path, monkeypatch):

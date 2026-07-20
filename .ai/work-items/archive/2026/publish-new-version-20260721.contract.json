@@ -1,0 +1,159 @@
+{
+  "contractVersion": 2,
+  "workItemId": "publish-new-version-20260721",
+  "mode": "code",
+  "title": "Publish release containing completed remediation",
+  "baseCommit": "5b4e894af7f4ca18e3d6257b8dbb77ae35b090fa",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/publish-new-version-20260721.contract.json",
+    ".ai/work-items/active/publish-new-version-20260721.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "next-release.json",
+    "docs/releases/v0.5.33.md"
+  ],
+  "outOfScope": ["Changing release workflow security controls beyond release inputs.", "Execution-plan cleanup reserved for Work Item 8."],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Current published release identity and supply-chain contract."
+    },
+    {"path": ".github/workflows/release.yml", "reason": "Release workflow source identity and evidence requirements."},
+    {"path": "next-release.json", "reason": "Current candidate release metadata."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_identity"
+    ],
+    "reason": "Release metadata is bounded and the workflow remains the evidence authority."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized release publication after all remediation work items."
+  },
+  "preReviewWarnings": [
+    "Verify exact source commit, tag identity, lockfile, smoke, compatibility, SBOM, provenance, and digests."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release metadata identifies a new candidate tag v0.5.33 based on v0.5.32.",
+    "Release notes describe completed remediation without claiming enterprise certification.",
+    "The release workflow remains the authority for final publication evidence."
+  ],
+  "guidelines": [
+    "Preserve release source identity evidence.",
+    "Do not claim publication success without workflow evidence."
+  ],
+  "intent": {
+    "problem": "The completed remediation needs a new immutable release whose source identity and evidence are verifiable.",
+    "constraints": ["Use the existing release workflow as evidence authority.", "Do not publish or claim success if any release gate fails."],
+    "rationale": "Updating candidate metadata and release notes prepares a reproducible release while preserving workflow fail-closed controls."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Candidate metadata is internally consistent for v0.5.33.", "required": true, "status": "verified", "evidence": ["release.json", "next-release.json"]},
+    {"scenario": "Release workflow evidence remains required for final publication.", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic release publication, PR merge, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/publish-new-version-20260721.json",
+    "baseCommit": "5b4e894af7f4ca18e3d6257b8dbb77ae35b090fa",
+    "initialScopeDigest": "2ff19c2121524b438c1c8acd5b5404873f48574cdcaa3fdf26e4ad5fedb78f4f",
+    "contractSkeletonDigest": "d4c356dc0f09917da03ef09108260c642fe73900956cc9e13cc4ad96c970db2a"
+  }
+}
+

@@ -678,17 +678,16 @@ def exercise_public_distribution(
             cwd=project,
             env=isolated_env,
         )
-        if configured.returncode != 0:
+        paths = tuple(project / f".ai/work-items/active/configure_ai_cockpit.{kind}.json" for kind in ("contract", "summary"))  # fmt: skip
+        configuration_evidence = all(path.is_file() for path in paths + (project / ".ai/work-items/starts/configure_ai_cockpit.json",))  # fmt: skip
+        expected_enforced_stop = configured.returncode and configuration_evidence and "preflight gate blocked status: not_ready" in configured.stdout + configured.stderr  # fmt: skip
+        if configured.returncode and not expected_enforced_stop:
             raise RuntimeError(
                 f"{tag}: configuration Work Item creation failed:\n"
                 f"--- STDOUT ---\n{configured.stdout}\n"
                 f"--- STDERR ---\n{configured.stderr}"
             )
-        active = project / ".ai" / "work-items" / "active"
-        if (
-            not (active / "configure_ai_cockpit.contract.json").is_file()
-            or not (active / "configure_ai_cockpit.summary.json").is_file()
-        ):
+        if not expected_enforced_stop and not all(path.is_file() for path in paths):
             raise RuntimeError(f"{tag}: configuration Work Item pair is missing")
 
 

@@ -1,0 +1,168 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix-adoption-preflight-smoke",
+  "mode": "code",
+  "title": "Accept expected enforced preflight in adoption smoke",
+  "baseCommit": "1cb233d2a3eb94cc00f59e8e358e743893005e30",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/fix-adoption-preflight-smoke.contract.json",
+    ".ai/work-items/active/fix-adoption-preflight-smoke.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/check_release_distribution.py",
+    "tests/test_release_distribution.py"
+  ],
+  "outOfScope": [
+    "Changing enforced preflight behavior or weakening fail-closed adoption governance.",
+    "Changing release metadata or the public release workflow."
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Recognizes an expected enforced preflight stop after creating the configuration Work Item."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Covers the fail-closed configuration smoke behavior."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Defines the release-distribution smoke gate that exposed the mismatch."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_validation"],
+    "reason": "The change only classifies an expected fail-closed preflight result; it does not permit implementation or finish."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial remediation and automatic PR/branch lifecycle closure."
+  },
+  "preReviewWarnings": [
+    "Verify the smoke check remains fail-closed and only accepts the expected configuration preflight stop."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The adoption smoke check accepts the expected enforced preflight stop only after the configuration Work Item is created.",
+    "Unexpected command failures or missing configuration evidence remain failures.",
+    "A regression test covers the fail-closed result and passes with the fix.",
+    "Full project and AI governance checks pass."
+  ],
+  "guidelines": [
+    "Preserve fail-closed preflight behavior and require observable configuration evidence.",
+    "Do not treat an expected stop as successful implementation or finish."
+  ],
+  "intent": {
+    "problem": "After v0.5.33 publication, release-distribution smoke correctly stops a new adopter configuration Work Item at enforced preflight, but the checker incorrectly reports that expected stop as Work Item creation failure.",
+    "constraints": [
+      "Do not weaken enforced preflight or allow a not_ready Work Item into implementation.",
+      "Require the configuration Contract, Summary, and start receipt before accepting the expected stop."
+    ],
+    "rationale": "The smoke gate must distinguish a verified fail-closed boundary from an unexpected command failure."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Configuration Work Item is created, preflight stops at not_ready, and required evidence exists.", "required": true, "status": "verified", "evidence": ["scripts/check_release_distribution.py", "tests/test_release_distribution.py"]},
+    {"scenario": "Missing evidence or an unexpected command failure remains a smoke failure.", "required": true, "status": "verified", "evidence": ["scripts/check_release_distribution.py", "tests/test_release_distribution.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic serial remediation, PR merge, release, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/fix-adoption-preflight-smoke.json",
+    "baseCommit": "1cb233d2a3eb94cc00f59e8e358e743893005e30",
+    "initialScopeDigest": "3c53f9a2b969d19920a373920649b1f4261896b38f48e892d4ac47525ee03afc",
+    "contractSkeletonDigest": "5ef237f995f3797054cfc4b4b1ac1d9c7493570dcf54b0b7a3219d65d07d02f0"
+  }
+}

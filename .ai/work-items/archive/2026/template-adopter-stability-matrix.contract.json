@@ -1,0 +1,160 @@
+{
+  "contractVersion": 2,
+  "workItemId": "template-adopter-stability-matrix",
+  "mode": "code",
+  "title": "Strengthen template and adopter stability matrix",
+  "baseCommit": "723805eecefcab61d56e07bcfd90f061b382a45e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/template-adopter-stability-matrix.contract.json",
+    ".ai/work-items/active/template-adopter-stability-matrix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/template-adopter-stability-matrix.md",
+    "tests/test_adoption_e2e.py",
+    "tests/test_project_governance_journey.py",
+    ".github/workflows/compatibility.yml"
+  ],
+  "outOfScope": ["Trust Layer raw intent and multilingual detection reserved for Work Items 2 and 3.", "Release publication and execution-plan cleanup reserved for Work Items 7 and 8."],
+  "sources": [
+    {
+      "path": "user-provided-review:pasted-text.txt",
+      "reason": "Review requires template reliability and stable governance after project import."
+    },
+    {"path": "tests/test_adoption_e2e.py", "reason": "Existing first-adoption lifecycle evidence."},
+    {"path": "tests/test_project_governance_journey.py", "reason": "Existing adopter governance journey evidence."},
+    {"path": ".github/workflows/compatibility.yml", "reason": "Existing compatibility matrix execution."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "adoption_stability"
+    ],
+    "reason": "Documentation and existing end-to-end evidence are bounded to template and adopter lifecycle behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized automatic serial remediation."
+  },
+  "preReviewWarnings": [
+    "Review template bootstrap, adopter upgrade, rollback, and compatibility evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "docs/template-adopter-stability-matrix.md contains rows for template quality, compatibility, first adoption, governance journey, and lifecycle closure with evidence references.",
+    "The matrix references tests/test_adoption_e2e.py, tests/test_project_governance_journey.py, and .github/workflows/compatibility.yml.",
+    "The matrix explicitly limits claims to declared matrix entries and minimal adopter fixtures."
+  ],
+  "guidelines": [
+    "Preserve machine-readable lifecycle evidence.",
+    "Document evidence boundaries and residual adopter risk."
+  ],
+  "intent": {
+    "problem": "The repository has lifecycle checks but their template-versus-adopter coverage is not presented as one auditable stability matrix.",
+    "constraints": ["Use existing executable tests as evidence.", "Do not claim every external adopter stack is validated."],
+    "rationale": "A matrix makes reliability claims reviewable and exposes which lifecycle stages are actually exercised."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Template quality and compatibility matrix runs on supported stacks.", "required": true, "status": "verified", "evidence": [".github/workflows/compatibility.yml"]},
+    {"scenario": "Imported adopter project completes adoption and governance journey checks.", "required": true, "status": "verified", "evidence": ["tests/test_adoption_e2e.py", "tests/test_project_governance_journey.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic serial execution, PR merge, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/template-adopter-stability-matrix.json",
+    "baseCommit": "723805eecefcab61d56e07bcfd90f061b382a45e",
+    "initialScopeDigest": "fca1e64ebd7fe057ec5590d64924e0736d75fdbcfc20611e4d3b047ccc8725fe",
+    "contractSkeletonDigest": "0289e36de533f9db0148195552c18b260f554b5fd48fe95cb026461bf9409405"
+  }
+}

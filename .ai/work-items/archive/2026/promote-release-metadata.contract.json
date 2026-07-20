@@ -1,0 +1,183 @@
+{
+  "contractVersion": 2,
+  "workItemId": "promote-release-metadata",
+  "mode": "code",
+  "title": "Promote the verified release candidate metadata",
+  "baseCommit": "d279c09b6040d701ec3dabe06a1818708428506c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/promote-release-metadata.contract.json",
+    ".ai/work-items/active/promote-release-metadata.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "next-release.json",
+    "docs/releases/v0.5.33.md",
+    ".github/workflows/release.yml",
+    "docs/getting-started/installation.md",
+    "install.sh",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "tests/test_install_sh.py",
+    "tests/test_install_script.py"
+  ],
+  "outOfScope": [
+    "Changing release workflow security controls.",
+    "Executing the external release workflow before this PR is merged."
+  ],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Published release identity required by the release workflow."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Candidate metadata that must advance from the newly published release."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Workflow contract requiring release.json tag identity and candidate consistency."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_identity"
+    ],
+    "reason": "Metadata promotion is bounded and the release workflow remains the external evidence authority."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the complete serial remediation loop, including release preparation and cleanup."
+  },
+  "preReviewWarnings": [
+    "Verify published tag identity, candidate advancement, and no premature external operation."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json declares v0.5.33 as the release identity required by the workflow.",
+    "next-release.json advances to a v0.5.34 candidate based on v0.5.33.",
+    "The release workflow remains the authority for final publication evidence."
+  ],
+  "guidelines": [
+    "Preserve release source identity evidence.",
+    "Do not claim publication success without workflow evidence."
+  ],
+  "intent": {
+    "problem": "The release workflow requires the published metadata to match the tag input before it can produce v0.5.33 evidence.",
+    "constraints": ["Promote only metadata; do not change workflow security controls.", "Do not claim publication until the merged-main release workflow succeeds."],
+    "rationale": "Advancing published metadata and the next candidate makes the release workflow inputs internally consistent while preserving fail-closed evidence checks."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Published and next-candidate metadata form a valid sequential pair.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release.json", "next-release.json"]
+    },
+    {
+      "scenario": "External publication remains conditional on the release workflow.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".github/workflows/release.yml"]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic release preparation, PR merge, publication workflow, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/promote-release-metadata.json",
+    "baseCommit": "d279c09b6040d701ec3dabe06a1818708428506c",
+    "initialScopeDigest": "0734a15c5e2791bfe3d63eb0b4f23ad54a56fcd6de3558c39d788e2f51105bd8",
+    "contractSkeletonDigest": "125c7e7e8596f481a6831b2005e1516ce87001d1e6fd63032df04e1a1a282569"
+  }
+}

@@ -27,6 +27,10 @@ When a signal is missing, stale, contradictory, outside scope, or high risk, the
 
 The template uses the enforced Preflight profile by default. `.ai/guards/preflight_review_policy.yaml` sets `profile: enforced`, enables the gate, and blocks `needs_human_confirmation`, `human_decision_recorded`, and `not_ready`. Only a newly computed `ready` report can proceed through the governed start or finish path. An adopter may choose an explicit compatibility profile with `profile: advisory`, `gateEnabled: false`, and an empty `blockedStatuses` list, but advisory mode is not evidence that the Trust Layer can stop an agent at the protocol level.
 
+## Raw request and capability binding
+
+When a Work Item declares `rawUserRequest`, readiness also records the declared intent and requested capabilities. The guard checks those declarations against `.ai/project/capabilities.json` before scope-derived capabilities are considered. An explicitly unsupported operation, such as making a rocket, remains blocked even if the changed paths are only documentation or tests. The initial vocabulary is intentionally narrow; broader multilingual and hidden-risk interpretation is tracked separately and is not implied by this boundary check.
+
 ## Human decisions and recovery
 
 A decision request should state the blocked condition, evidence, risk, available options, recommendation, and the condition for resuming. The human decision is a workflow record, not proof that the underlying check passed. After recovery, run Preflight and the project checks again, then archive the resulting Summary.

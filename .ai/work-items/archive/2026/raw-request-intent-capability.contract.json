@@ -1,0 +1,199 @@
+{
+  "contractVersion": 2,
+  "workItemId": "raw-request-intent-capability",
+  "mode": "code",
+  "title": "Bind raw request to declared intent and repository capability",
+  "baseCommit": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/raw-request-intent-capability.contract.json",
+    ".ai/work-items/active/raw-request-intent-capability.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_check_work_item.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "tests/test_trust_guards.py",
+    "tests/test_preflight_review.py",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": [
+    "Broad multilingual and hidden-risk phrase coverage reserved for Work Item 3.",
+    "Release publication and execution-plan cleanup reserved for Work Items 7 and 8."
+  ],
+  "sources": [
+    {
+      "path": "user-provided-review:pasted-text.txt",
+      "reason": "Comprehensive review identifies scope-path inference as insufficient capability evidence."
+    },
+    {
+      "path": ".ai/project/capabilities.json",
+      "reason": "Repository capability and non-capability declaration."
+    },
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Current capability guard infers requirements from scope paths."
+    },
+    {
+      "path": "tests/test_trust_guards.py",
+      "reason": "Existing capability and intent guard regression coverage."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Preflight assembles Trust Layer signals and determines readiness."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "intent_capability_alignment"
+    ],
+    "reason": "Bounded guard change with explicit raw-request evidence and regression coverage."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized automatic serial remediation and the guard boundary is explicit."
+  },
+  "preReviewWarnings": [
+    "Review raw-request binding and fail-closed unsupported capability handling."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A raw user request is explicit evidence and cannot be replaced by scope-path interpretation.",
+    "Declared intent must be checked against repository capabilities before implementation continues.",
+    "Unsupported physical or external operations are fail-closed even when the requested scope contains documentation or tests.",
+    "Regression tests and Trust Layer documentation explain the boundary and reserve broad multilingual coverage for Work Item 3."
+  ],
+  "guidelines": [
+    "Preserve machine-readable Trust Layer evidence.",
+    "Keep raw-request binding deterministic and repository/project neutral."
+  ],
+  "intent": {
+    "problem": "The current Capability Guard derives required capabilities from changed path names, allowing an unsafe raw request to be reframed as documentation or test work.",
+    "constraints": [
+      "Raw user request evidence must remain persisted in the Work Item Contract.",
+      "Unsupported physical and external-operation boundaries must fail closed.",
+      "Do not attempt broad multilingual or hidden-risk interpretation in this Work Item."
+    ],
+    "rationale": "Checking raw-request boundary evidence before scope-derived capability inference prevents a request such as making a rocket from being made safe merely by choosing docs or tests as the declared scope."
+  },
+  "rawUserRequest": "Bind the raw request to declared intent and repository capability; do not reinterpret unsupported real-world operations as documentation or tests.",
+  "declaredIntent": {
+    "summary": "Make Trust Layer capability readiness reflect the user's request and the repository's declared boundaries.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "A supported governance request is accepted when raw request, intent, and capabilities align.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_trust_guards.py::test_raw_request_and_declared_intent_align"]
+    },
+    {
+      "scenario": "An unsupported rocket-building request is blocked despite a docs or tests scope.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_trust_guards.py::test_unsupported_real_world_request_is_fail_closed"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic serial execution, governance changes, PR merge, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/raw-request-intent-capability.json",
+    "baseCommit": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+    "initialScopeDigest": "893c362b7c9f7649a94af6c6781126f45621c7576535f5ffb2675fb51158c789",
+    "contractSkeletonDigest": "9167cc99785e521f82da988d7704bb90107bd4c74ed2fd0d956ecfcc7e80db10"
+  }
+}

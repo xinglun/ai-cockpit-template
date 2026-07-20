@@ -79,6 +79,85 @@ def capability_signal(contract: dict[str, Any], path: Path = CAPABILITIES_PATH) 
 
 _AMBIGUOUS_TERMS = re.compile(r"\b(?:something|maybe|somehow|as appropriate|if needed|etc)\b", re.I)
 
+# This is deliberately a small boundary vocabulary.  Broad multilingual and hidden-risk
+# interpretation is a separate Work Item; these explicit examples prevent scope-path
+# relabeling from turning an obviously unsupported physical request into documentation work.
+_UNSUPPORTED_OPERATION_TERMS = (
+    "build a rocket",
+    "make a rocket",
+    "manufacture a rocket",
+    "造一枚火箭",
+    "制造火箭",
+)
+
+
+def raw_request_signal(contract: dict[str, Any], path: Path = CAPABILITIES_PATH) -> dict[str, Any]:
+    """Bind raw request evidence to declared intent and repository boundaries."""
+    raw = contract.get("rawUserRequest")
+    if raw is None:
+        return _signal(
+            "Raw Request",
+            "Not Applicable",
+            ["no rawUserRequest is declared"],
+            ["contract.rawUserRequest"],
+        )
+    if not isinstance(raw, str) or not raw.strip():
+        return _signal(
+            "Raw Request",
+            "Inconsistent",
+            ["rawUserRequest must be a non-empty string"],
+            ["contract.rawUserRequest"],
+        )
+    payload, issues = _load_json(path)
+    if issues or not isinstance(payload, dict):
+        return _signal(
+            "Raw Request",
+            "Inconsistent",
+            issues or ["capability declaration must be an object"],
+            [display_path(path)],
+        )
+    try:
+        validate_payload("repository_capabilities", payload)
+    except ValidationError as exc:
+        return _signal("Raw Request", "Inconsistent", [str(exc)], [display_path(path)])
+    declared = contract.get("declaredIntent")
+    if not isinstance(declared, dict) or not isinstance(
+        declared.get("requestedCapabilities"), list
+    ):
+        return _signal(
+            "Raw Request",
+            "Inconsistent",
+            ["declaredIntent.requestedCapabilities must be declared before capability inference"],
+            ["contract.declaredIntent"],
+        )
+    requested = {item for item in declared["requestedCapabilities"] if isinstance(item, str)}
+    capabilities = set(payload["capabilities"])
+    missing = sorted(requested - capabilities)
+    if missing:
+        return _signal(
+            "Raw Request",
+            "Inconsistent",
+            [f"raw request declares unsupported capability: {item}" for item in missing],
+            [display_path(path), "contract.declaredIntent"],
+        )
+    normalized = raw.casefold()
+    matches = [term for term in _UNSUPPORTED_OPERATION_TERMS if term.casefold() in normalized]
+    if matches:
+        return _signal(
+            "Raw Request",
+            "Inconsistent",
+            [
+                f"unsupported operation must not be reframed as repository work: {', '.join(matches)}"
+            ],
+            ["contract.rawUserRequest", display_path(path)],
+        )
+    return _signal(
+        "Raw Request",
+        "Ready",
+        ["raw request, declared intent, and repository capabilities are aligned"],
+        ["contract.rawUserRequest", "contract.declaredIntent", display_path(path)],
+    )
+
 
 def intent_guard_signal(contract: dict[str, Any]) -> dict[str, Any]:
     intent = contract.get("intent")
@@ -189,6 +268,7 @@ def success_criteria_signal(
 
 def trust_signals(contract: dict[str, Any]) -> list[dict[str, Any]]:
     return [
+        raw_request_signal(contract),
         capability_signal(contract),
         intent_guard_signal(contract),
         constraint_conflict_signal(contract),

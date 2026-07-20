@@ -29,7 +29,7 @@ The installation flow has five stages. With `--create-adoption`, the installer f
 
 ### Phase 1. Pre-flight
 
-For an adopter project, the installer records the actual remote, default branch, and fetched base commit in the adoption Work Item Contract. The remote may not be named `origin`, and the default branch may not be `main`. The installer source should be a published template release tag such as `v0.5.32`, not a moving template work branch.
+For an adopter project, the installer records the actual remote, default branch, and fetched base commit in the adoption Work Item Contract. The remote may not be named `origin`, and the default branch may not be `main`. The installer source should be the published template release tag `v0.5.33`, not a moving template work branch.
 
 Before installing, run the checks that keep the installer from failing late:
 

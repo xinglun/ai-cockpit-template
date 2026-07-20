@@ -87,6 +87,7 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
 
     assert report["status"] == "ready"
     assert signal_map(report) == {
+        "Raw Request": "Not Applicable",
         "Intent": "Ready",
         "Intent Guard": "Ready",
         "Capability": "Ready",

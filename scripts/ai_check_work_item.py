@@ -51,6 +51,8 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "restrictedWriteApproval",
     "guidelines",
     "intent",
+    "rawUserRequest",
+    "declaredIntent",
     "problemStatement",
     "scenarioCoverage",
     "archiveIndexRepair",

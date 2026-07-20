@@ -1043,6 +1043,7 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
                 issues.append(f"signals[{index}] must be an object")
                 continue
             if signal.get("name") not in {
+                "Raw Request",
                 "Intent",
                 "Intent Guard",
                 "Unknowns",

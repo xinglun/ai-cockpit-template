@@ -1,0 +1,431 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "raw-request-intent-capability",
+  "contractPath": ".ai/work-items/archive/2026/raw-request-intent-capability.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/raw-request-intent-capability.contract.json",
+      "reason": "Defined raw-request, declared-intent, capability-boundary, and verification scope."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/raw-request-intent-capability.summary.json",
+      "reason": "Records implementation and lifecycle verification evidence."
+    },
+    {
+      "path": ".ai/work-items/starts/raw-request-intent-capability.json",
+      "reason": "Records the Work Item start receipt."
+    },
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Adds fail-closed raw-request and declared-intent capability binding."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Accepts and validates the new Raw Request Trust Layer signal."
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Allows rawUserRequest and declaredIntent as Contract v2 evidence fields."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Updates the guarded Python line budget for the new Trust Layer boundary code."
+    },
+    {
+      "path": "tests/test_trust_guards.py",
+      "reason": "Covers aligned supported requests and unsupported rocket requests."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Updates the deterministic signal contract for the new signal."
+    },
+    {
+      "path": "docs/trust-layer.md",
+      "reason": "Documents raw-request and capability binding boundaries."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "user-provided-review:pasted-text.txt",
+    ".ai/project/capabilities.json",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_check_work_item.py",
+    "tests/test_trust_guards.py",
+    "tests/test_preflight_review.py",
+    "docs/trust-layer.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "A supported governance request is accepted when raw request, intent, and capabilities align.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_trust_guards.py::test_raw_request_and_declared_intent_align"
+      ]
+    },
+    {
+      "scenario": "An unsupported rocket-building request is blocked despite a docs or tests scope.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_trust_guards.py::test_unsupported_real_world_request_is_fail_closed"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:36.056132+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "701f204c0851728604cbb4ab9ce26cc21301a3ac37ceb6e67f311929a9361118",
+      "commandHash": "7dacc87d8d69b8397be0d26ef4e34803ecbb04d0926944b19e1971604b18f9b6",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/raw-request-intent-capability.contract.json work item contract check passed: .ai/work-items/active/raw-request-intent-capability.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:36.191937+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "20d04238efa019af641b121301ccefc668fea34dd32afdf7f09ee3c46e2584d2",
+      "commandHash": "af8d60d3c773a529585d732699e00ab60096fa238791601b089b02ebfbae5efb",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/raw-request-intent-capability.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:36.350778+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "955ea71345e9d104792c8f4ac6359398e0916beab060da7a0436b21a6be30149",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/raw-request-intent-capability.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:36.594084+00:00",
+      "exitCode": 0,
+      "durationMs": 191,
+      "outputDigest": "dfb8fb588b855f12605501636654974c95a4edfe1bc71e5d870ba9eda688735f",
+      "commandHash": "d48c30be087d178357c068f8c89de44b808326f667287ed0c4cb6927387c68c2",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/raw-request-intent-capability.contract.json --summary .ai/work-items/active/raw-request-intent-capability.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `raw-request-intent-capability` - Contract Hash: `57dac27866135725` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:36.727558+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "70899ceefb0aec1ee804fc468a098ea0998ba336489f267d11b81338c30e8b25",
+      "commandHash": "76854167f1d04cde85fa4b16c6597a45a2b3bbbca84d01230b32cce276f8f851",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/raw-request-intent-capability.summary.json review policy matched 6 path(s) [review] .ai/work-items/starts/raw-request-intent-capability.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_check_work_item.py [review] scripts/ai_preflight_review.py [review] scripts/ai_trust_guards.py review focus recorded: 2 item(s) report: t"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:36.858644+00:00",
+      "exitCode": 0,
+      "durationMs": 84,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:37.014685+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:37.118838+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "3df7593a32496d350e4c6e9d98f782cb18542aed2c3f9ab50eb052308a0ec005",
+      "commandHash": "4ef58e026a0e4eaf50924007ec93e24ec640a5ded90de596194318b1b10e320b",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/raw-request-intent-capability.contract.json --summary .ai/work-items/active/raw-request-intent-capability.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:37.216366+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "937634872844905a05f6f00cd07a2561652b453d5b5f5ceb9d89b66b4d29353a",
+      "commandHash": "f034c3b3f6ed4c3ed1f56c78bb8d96ead4445b6080cec95e08d8f2830668652a",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/raw-request-intent-capability.contract.json --summary .ai/work-items/active/raw-request-intent-capability.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:21:37.441000+00:00",
+      "exitCode": 0,
+      "durationMs": 182,
+      "outputDigest": "c28e91d2378d38df7f57a399b5f6436ddf339e9ac8ab543a8b82a100a1769953",
+      "commandHash": "8974076a1de39dfe8d534d28ee1d2748208c175dcd1120cd6d842b48e50d1c28",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/raw-request-intent-capability.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/sta"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:23:34.954266+00:00",
+      "exitCode": 0,
+      "durationMs": 117462,
+      "outputDigest": "1ea7e998e9497a7bc73a2051817c0e79a2f026fac63f6d70e62fc66cf36f2ea0",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "1ac1d2b2318737dd9d721ef295f8f543dff400c3a6854fb3b6a38b41ce175e6b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 108 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 10%] ........................................................................ [ 21%] ............................................................"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:23:36.408829+00:00",
+      "exitCode": 0,
+      "durationMs": 226,
+      "outputDigest": "3c4eb991a15163d4b3c2f92146a08f4425657b0ddac938313fe264c31a80a098",
+      "commandHash": "b485c14c16092f3c5b8cd464da5c8c92e3d461e71728df5fd4a5a0e0259b6bd8",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "b1c9a76f16f5a557040baf1b4b7f8297c32ed50ed728623a46c1ea2755dd20b3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/raw-request-intent-capability.contract.json --summary .ai/work-items/active/raw-request-intent-capability.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:23:36.663438+00:00",
+      "exitCode": 0,
+      "durationMs": 206,
+      "outputDigest": "6aea4359f06e693be46af1526b9a4d2683bce9f8b3cd160c439b88187aaf3872",
+      "commandHash": "472883962641963a14e2b490eded314bc5662f6b24c0a56cfc3d4a29e888b2c7",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "b1c9a76f16f5a557040baf1b4b7f8297c32ed50ed728623a46c1ea2755dd20b3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/raw-request-intent-capability.contract.json --summary .ai/work-items/active/raw-request-intent-capability.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:23:36.750058+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "b1c9a76f16f5a557040baf1b4b7f8297c32ed50ed728623a46c1ea2755dd20b3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:23:36.852378+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "470ae914a7a2ca8b2ad4e9b64f481ae0e260016207d862253053937490cb7194",
+      "commandHash": "3f753c21e54e03ff76b1149723561f99a6afe88ed5fc206d61becf4e0313fda8",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "b1c9a76f16f5a557040baf1b4b7f8297c32ed50ed728623a46c1ea2755dd20b3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/raw-request-intent-capability.contract.json --summary .ai/work-items/active/raw-request-intent-capability.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/raw-request-intent-capability.summary.json CONTRACT=.ai/work-items/active/raw-request-intent-capability.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:23:37.580253+00:00",
+      "exitCode": 0,
+      "durationMs": 83,
+      "outputDigest": "a4189d5e57f18aa1ad60c7e392fc57234022279079d17fcd7de1ee550d2ac0bf",
+      "commandHash": "c890ee2ee778cf1a276d7a8939b0ef271de51bf2ed8ac1abb93da49f6c525e16",
+      "contractHash": "57dac27866135725dfbd13e39f7aa618c88c1e3646e35f2903cd8144d3f28194",
+      "commitSha": "685b74513d70ef46d8cdb910ee7a7ae8ad266fab",
+      "executionContractPath": ".ai/work-items/active/raw-request-intent-capability.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/raw-request-intent-capability.summary.json",
+      "worktreeDigest": "c1f31e3004cf81e1e0b17ff1f52d09d2c8b2f136b45ba61340879007f61f6141",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/raw-request-intent-capability.summary.json --contract .ai/work-items/active/raw-request-intent-capability.contract.json ai summary check passed: .ai/work-items/active/raw-request-intent-capability.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Preserve machine-readable Trust Layer evidence.",
+      "compliant": true,
+      "evidence": "Contract rawUserRequest and the Raw Request signal are machine-readable."
+    },
+    {
+      "guideline": "Keep raw-request binding deterministic and repository/project neutral.",
+      "compliant": true,
+      "evidence": "The guard uses explicit boundary terms and repository capability declarations."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Bounded deterministic guard change; broad multilingual coverage remains a later Work Item."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "coverage",
+      "detail": "Broad multilingual and hidden-risk interpretation is reserved for Work Item 3.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Fail-closed unsupported-operation handling",
+      "No overclaim about multilingual coverage"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract scope and raw-request boundary were reviewed before implementation.",
+      "contractHash": "57dac27866135725",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Focused guard and preflight tests passed before finish validation.",
+      "contractHash": "57dac27866135725",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "knownGaps": [
+    "Broad multilingual and hidden-risk interpretation is reserved for Work Item 3."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 151
+}

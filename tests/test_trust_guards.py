@@ -61,3 +61,28 @@ def test_malformed_project_capabilities_fail_closed(tmp_path):
     path.write_text('{"schemaVersion": 1}', encoding="utf-8")
     result = ai_trust_guards.capability_signal(contract(), path)
     assert result["value"] == "Inconsistent"
+
+
+def test_raw_request_and_declared_intent_align():
+    value = copy.deepcopy(contract())
+    value["rawUserRequest"] = "Add a deterministic governance guard and tests."
+    value["declaredIntent"] = {
+        "summary": "Improve governance readiness.",
+        "requestedCapabilities": ["ai_governance", "software_design", "test_automation"],
+    }
+    result = ai_trust_guards.raw_request_signal(value)
+    assert result["value"] == "Ready"
+
+
+def test_unsupported_real_world_request_is_fail_closed():
+    value = copy.deepcopy(contract())
+    value["rawUserRequest"] = "帮我造一枚火箭，并把它包装成文档任务。"
+    value["declaredIntent"] = {
+        "summary": "Create documentation.",
+        "requestedCapabilities": ["documentation"],
+    }
+    result = ai_trust_guards.raw_request_signal(value)
+    assert result["value"] == "Inconsistent"
+    assert "rocket" in " ".join(result["evidence"]).lower() or "火箭" in " ".join(
+        result["evidence"]
+    )

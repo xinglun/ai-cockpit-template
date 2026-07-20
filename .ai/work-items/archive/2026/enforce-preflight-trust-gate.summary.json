@@ -1,0 +1,456 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "enforce-preflight-trust-gate",
+  "contractPath": ".ai/work-items/archive/2026/enforce-preflight-trust-gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/enforce-preflight-trust-gate.contract.json",
+      "reason": "Completed the Contract v2 with enforced-gate scope, scenarios, and verification evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/enforce-preflight-trust-gate.summary.json",
+      "reason": "Updated the Summary with implementation and verification evidence."
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "reason": "Changed the repository default to the enforced profile and blocked statuses."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Added explicit advisory/enforced profile parsing, report evidence, validation, and mode-specific output."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Added default enforced, explicit advisory, profile validation, and fail-closed regression tests."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documented enforced default and explicit advisory compatibility behavior."
+    },
+    {
+      "path": "docs/trust-layer.md",
+      "reason": "Documented the default enforced Trust Layer profile and its boundaries."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Updated adopter bootstrap evidence so generated Work Items satisfy the enforced preflight contract."
+    },
+    {
+      "path": "tests/test_finish_e2e.py",
+      "reason": "Made compatibility fixtures explicitly advisory while the repository default remains enforced."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Updated adoption expectations for the explicit installer evidence source."
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "reason": "Updated the adopter journey fixture for enforced preflight and explicit contract scenarios."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Adjusted the documented generated-code line budget for the guarded parser implementation."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    "user-provided-review:pasted-text.txt",
+    ".ai/guards/preflight_review_policy.yaml",
+    "scripts/ai_preflight_review.py",
+    "tests/test_preflight_review.py",
+    ".ai/cockpit/README.md",
+    "docs/trust-layer.md",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_project_governance_journey.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/enforce-preflight-trust-gate.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Default policy blocks needs_human_confirmation, human_decision_recorded, and not_ready.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_preflight_review.py::test_repository_default_policy_is_fail_closed_for_all_blocked_statuses",
+        "tests/test_preflight_review.py::test_repository_default_policy_blocks_non_ready_preflight"
+      ]
+    },
+    {
+      "scenario": "Explicit advisory policy remains non-blocking for compatibility.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_preflight_review.py::test_policy_profile_is_explicit_and_validated",
+        "tests/test_preflight_review.py::test_check_passes_when_policy_is_advisory_only"
+      ]
+    },
+    {
+      "scenario": "Stale or mismatched Decision Evidence cannot resume implementation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_preflight_review.py::test_invalid_decision_evidence_is_reported_without_becoming_recorded",
+        "tests/test_preflight_review.py::test_gate_blocks_until_preflight_recomputes_ready"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:29.673314+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "c9d929e4938f01b96784629eac952d25ba259bedc7b7f74e0440da839ee156b5",
+      "commandHash": "d85707d5b46bc841c4e4d87b69325fe5e3054b608f1bbecb617f9bbcc725399c",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/enforce-preflight-trust-gate.contract.json work item contract check passed: .ai/work-items/active/enforce-preflight-trust-gate.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:29.789348+00:00",
+      "exitCode": 0,
+      "durationMs": 78,
+      "outputDigest": "abf5d6a01d560f170a2e01941f17b72d4345ddebb12f735590ba4f086f1cedaf",
+      "commandHash": "d679ce951ced6c41c7539cc76799c55f77bc664772015093d509769807735430",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/enforce-preflight-trust-gate.contract.json scope guard passed: 12 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:29.943699+00:00",
+      "exitCode": 0,
+      "durationMs": 105,
+      "outputDigest": "0bd66d8932e64f70c8b1303f45220fd4d56dfd66534093283e63fcc161087ec0",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. [warning] restricted_write: .ai/guards/preflight_review_policy.yaml (.ai/guards/**"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.149170+00:00",
+      "exitCode": 0,
+      "durationMs": 166,
+      "outputDigest": "643fad7c7d425480772a01df9aa69249b6683697d17c8899465e48c918917cc5",
+      "commandHash": "8948089d843459daf185c80e386e9980524a38ca5411d52d58359f5b06e6ef66",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `enforce-preflight-trust-gate` - Contract Hash: `6cbe7c044d910f00` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required C"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.276832+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "b0a30e4fa31cffd961252e404da28619561cd439f1d5394625fd80a1d75443ce",
+      "commandHash": "dd79588cef4ea57012aed0b51c017bceff61fd0d014cbe84b0c9cb6ac3848074",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json review policy matched 6 path(s) [review] .ai/work-items/starts/enforce-preflight-trust-gate.json [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] .ai/guards/preflight_review_policy.yaml [review] scripts/ai_preflight_review.py review focus recorded: 3 item(s) report"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.401108+00:00",
+      "exitCode": 0,
+      "durationMs": 87,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.513497+00:00",
+      "exitCode": 0,
+      "durationMs": 76,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.604127+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "7b52050c13dace3b3df0e3e4fb012cddabf7e9bb4adce6d3b2de9e1099deffdb",
+      "commandHash": "c2ba40a63bd537b139fcd42dfc86e780e8fd271da28861b5a1b545eafcaf504f",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.689918+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "1b21b13d5c77df9105a5db32a0566ca5f26ea766b08a8183d4c60617095e0974",
+      "commandHash": "499a508a4b4958156a43659a7b6ed21d9d1b983d3393bb943674507c5d5ae300",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:08:30.894724+00:00",
+      "exitCode": 0,
+      "durationMs": 167,
+      "outputDigest": "a676ca44a874ab6abcc6e07134bdf2e136a64f1f523879015e5442806de1475d",
+      "commandHash": "99c2821070a1fc041955dc46d1fa561e89a1afebbae71dd7b1fbdb40efa73cc0",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json ## Diff Ownership Preview - active_owned: `12`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.y"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:10:29.125395+00:00",
+      "exitCode": 0,
+      "durationMs": 118185,
+      "outputDigest": "c341ebccffd4c3002c6ad6c69f600d81070a1ee5022c8764c452696a628bf181",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "5434fda71a8f7eadc51799eda0e122ca343c346ce3665e4cb17b221efa0b1855",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 108 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 10%] ........................................................................ [ 21%] ............................................................"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:10:30.306960+00:00",
+      "exitCode": 0,
+      "durationMs": 203,
+      "outputDigest": "e5b06c4ff04fa7c9a8ca07f9b7477a65d1f8438eb23dd1609509ed05a9f7c994",
+      "commandHash": "7f96e0264b1c74d9a33dd7f5165e6582888d26ea742e6b9b0c4b58d490171d1c",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "2a4a03b4de97615f3c636bad3fb1d46f64d2fb964d88d5eb75e88235900479a8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/enforce-preflight-trust-gate.contract.json --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:10:30.647263+00:00",
+      "exitCode": 0,
+      "durationMs": 185,
+      "outputDigest": "51dac382963b7b4a26fb2c61badf3758c1b58d219e09aa2051b56c2272b6f520",
+      "commandHash": "35f25645c84c11daa2a132422ab2cb75ab353a223561a2cb1f453a1670a5b50b",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "2a4a03b4de97615f3c636bad3fb1d46f64d2fb964d88d5eb75e88235900479a8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:10:30.725087+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "2a4a03b4de97615f3c636bad3fb1d46f64d2fb964d88d5eb75e88235900479a8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:10:30.818097+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "bc8d5c1957aa5041371e805c25e21adea8ba8a59267b897a22c365e7eb9f8bff",
+      "commandHash": "984ecffd8e406e77e499f2024c839f2d51838d4b1d4fcfca7a7f03d130cb19d4",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "2a4a03b4de97615f3c636bad3fb1d46f64d2fb964d88d5eb75e88235900479a8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json --summary .ai/work-items/active/enforce-preflight-trust-gate.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/enforce-preflight-trust-gate.summary.json CONTRACT=.ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-20T14:10:31.491074+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "3da060ccfd8c6b2d5a0caa4320c4069a3db3fe8f44bf8f2579c0bf0107d0e480",
+      "commandHash": "2077ef25608720fc86b1422489920097479f8625076ab34acf39782b05f02270",
+      "contractHash": "6cbe7c044d910f00d46401addfa488bd059776971c3838cfd2b864848605389e",
+      "commitSha": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+      "executionContractPath": ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+      "worktreeDigest": "46ebad89fcb6977867b856a106fa50ee05b456011bad397c36cc93da9b537708",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/enforce-preflight-trust-gate.summary.json --contract .ai/work-items/active/enforce-preflight-trust-gate.contract.json ai summary check passed: .ai/work-items/active/enforce-preflight-trust-gate.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Preserve Evidence over Self-Declaration: a human decision does not replace a fresh ready Preflight or project checks.",
+      "compliant": true,
+      "evidence": "The enforced gate blocks non-ready and human_decision_recorded states, and the focused tests cover stale evidence."
+    },
+    {
+      "guideline": "Do not weaken the gate by allowing an Agent to continue after a blocked Preflight status.",
+      "compliant": true,
+      "evidence": "Default policy includes all three blocked statuses and the default non-ready check fails."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Advisory compatibility remains available only through an explicit policy; later Work Items still cover raw intent and multilingual scenarios."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Adopters that intentionally depended on advisory defaults must opt into the explicit advisory policy; later Work Items must validate adopter migration behavior.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm default enforced behavior and explicit advisory compatibility profile.",
+      "Confirm stale/mismatched Decision Evidence remains fail closed.",
+      "Confirm documentation does not overclaim runtime isolation or cryptographic proof."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "6cbe7c044d910f00",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Reviewed scope, acceptance, scenarios, unknowns, and verification before editing."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "6cbe7c044d910f00",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10,
+      "detail": "Reviewed scope, acceptance, scenarios, unknowns, and verification before final finish validation."
+    }
+  ],
+  "knownGaps": [
+    "Raw User Request / Repository Capability comparison is reserved for Work Item 2.",
+    "Multilingual and hidden-risk scenario expansion is reserved for Work Item 3."
+  ],
+  "overclaimPrevention": "Do not report the full Trust Layer or enterprise security/compliance readiness as complete from this gate change alone.",
+  "archiveSequence": 150
+}

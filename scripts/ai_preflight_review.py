@@ -148,10 +148,14 @@ def load_policy(path: Path) -> dict[str, Any]:
     lists = simple_yaml_lists(path)
     version = scalars.get("version", "1")
     gate_enabled = _is_truthy(scalars.get("gateEnabled"), default=False)
+    profile = scalars.get("profile", "enforced" if gate_enabled else "advisory")
+    if profile not in {"advisory", "enforced"}:
+        raise ValueError("invalid profile; expected advisory or enforced")
     blocked_statuses = [item for item in lists.get("blockedStatuses", []) if non_empty_string(item)]
     return {
         "path": path.as_posix(),
         "version": version,
+        "profile": profile,
         "gateEnabled": gate_enabled,
         "blockedStatuses": blocked_statuses,
         "raw": {"scalars": scalars, "lists": lists},
@@ -831,6 +835,7 @@ def derive_report(
         "policyVersion": policy["version"],
         "gate": {
             "enabled": policy["gateEnabled"],
+            "profile": policy["profile"],
             "blockedStatuses": policy["blockedStatuses"],
         },
         "status": status,
@@ -886,6 +891,13 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
     ]
     if report.get("status") != "ready":
+        enforced = report.get("gate", {}).get("profile") == "enforced"
+        mode_label = "Enforced mode:" if enforced else "Advisory mode:"
+        mode_message = (
+            "This command blocks automatically until the Preflight Review is ready."
+            if enforced
+            else "This command does not block automatically."
+        )
         lines.extend(
             [
                 "Preflight Review requires attention before implementation.",
@@ -894,8 +906,8 @@ def render_markdown(report: dict[str, Any]) -> str:
                 "",
                 f"Recommendation: {report['recommendation']}",
                 "",
-                "Advisory mode:",
-                "This command does not block automatically.",
+                mode_label,
+                mode_message,
                 "The agent must report this review to the user before coding.",
                 "",
             ]
@@ -1015,6 +1027,8 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
     else:
         if not isinstance(gate.get("enabled"), bool):
             issues.append("gate.enabled must be boolean")
+        if gate.get("profile") not in {"advisory", "enforced"}:
+            issues.append("gate.profile must be advisory or enforced")
         blocked = gate.get("blockedStatuses")
         if not isinstance(blocked, list):
             issues.append("gate.blockedStatuses must be a list")
@@ -1166,6 +1180,8 @@ def policy_issues(report: dict[str, Any], policy: dict[str, Any]) -> list[str]:
         issues.append("gate.enabled is true but blockedStatuses is empty")
     if policy["gateEnabled"] != gate.get("enabled"):
         issues.append("report gate.enabled does not match policy")
+    if policy["profile"] != gate.get("profile"):
+        issues.append("report gate.profile does not match policy")
     if policy["blockedStatuses"] != gate.get("blockedStatuses"):
         issues.append("report gate.blockedStatuses does not match policy")
     if report.get("policyHash") != policy_hash(Path(policy["path"])):

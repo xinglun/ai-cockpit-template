@@ -1,0 +1,207 @@
+{
+  "contractVersion": 2,
+  "workItemId": "enforce-preflight-trust-gate",
+  "mode": "code",
+  "title": "Enforce Preflight Trust Gate by default",
+  "baseCommit": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/enforce-preflight-trust-gate.contract.json",
+    ".ai/work-items/active/enforce-preflight-trust-gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/enforce-preflight-trust-gate.json",
+    ".ai/guards/preflight_review_policy.yaml",
+    "scripts/ai_preflight_review.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_preflight_review.py",
+    "tests/test_finish_e2e.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_project_governance_journey.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/README.md",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": [
+    "Raw User Request and Repository Capability schema changes reserved for Work Item 2",
+    "Multilingual scenario expansion reserved for Work Item 3",
+    "Release publication and execution-plan cleanup reserved for Work Items 7 and 8"
+  ],
+  "sources": [
+    {
+      "path": "user-provided-review:pasted-text.txt",
+      "reason": "P0 finding that the Trust Layer remains advisory and development direction for enforced profiles."
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "reason": "Current default gate policy is advisory-only."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Current gate evaluation and check-only behavior."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Existing advisory and explicit-gate regression coverage."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Current documentation that describes advisory default behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance",
+      "compatibility",
+      "verification"
+    ],
+    "reason": "The implementation is limited to the existing Preflight policy parser, gate presentation, focused regression tests, and boundary documentation; compatibility and fail-closed behavior are directly covered by the declared tests."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized serial implementation, PR, merge, and branch cleanup for the review remediation plan."
+  },
+  "preReviewWarnings": [
+    "Review fail-closed behavior, compatibility of the advisory profile, and stale/mismatched decision evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The default Preflight policy is enforced with gateEnabled true and blockedStatuses containing needs_human_confirmation, human_decision_recorded, and not_ready.",
+    "The Preflight check path fails closed for every blocked status and for invalid or stale Decision Evidence, while an explicit advisory policy remains testable for compatibility.",
+    "Regression tests cover default enforced behavior, explicit advisory behavior, matching ready evidence, and stale/mismatched evidence.",
+    "Trust Layer and Cockpit documentation describe enforced as the default and advisory as an explicit compatibility profile without claiming runtime isolation or cryptographic proof."
+  ],
+  "guidelines": [
+    "Preserve Evidence over Self-Declaration: a human decision does not replace a fresh ready Preflight or project checks.",
+    "Do not weaken the gate by allowing an Agent to continue after a blocked Preflight status."
+  ],
+  "intent": {
+    "problem": "The current default Preflight policy is advisory-only, so risk discovery still depends on the Agent obeying a pause instruction instead of the governance path preventing implementation.",
+    "constraints": [
+      "Default template and formal Trust Layer behavior must be enforced.",
+      "Advisory behavior may remain available only as an explicit compatibility profile.",
+      "Human Decision Evidence must remain bound to Work Item, Contract Hash, Decision ID, and Preflight Hash.",
+      "Do not change Raw User Request, Repository Capability, or multilingual interpretation in this Work Item."
+    ],
+    "rationale": "Fail-closed default behavior is the smallest change that converts the existing Trust Layer from an instruction to stop into a protocol-level gate while preserving an explicit compatibility escape hatch."
+  },
+  "problemStatement": "Make the default Preflight path protocol-enforced and prove it with regression scenarios before implementing the later intent and multilingual work items.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Default policy blocks needs_human_confirmation, human_decision_recorded, and not_ready.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_preflight_review.py::test_repository_default_policy_is_fail_closed_for_all_blocked_statuses", "tests/test_preflight_review.py::test_repository_default_policy_blocks_non_ready_preflight"]
+    },
+    {
+      "scenario": "Explicit advisory policy remains non-blocking for compatibility.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_preflight_review.py::test_policy_profile_is_explicit_and_validated", "tests/test_preflight_review.py::test_check_passes_when_policy_is_advisory_only"]
+    },
+    {
+      "scenario": "Stale or mismatched Decision Evidence cannot resume implementation.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_preflight_review.py::test_invalid_decision_evidence_is_reported_without_becoming_recorded", "tests/test_preflight_review.py::test_gate_blocks_until_preflight_recomputes_ready"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic serial execution, governance configuration changes, PR merge, and branch cleanup for the review remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/enforce-preflight-trust-gate.json",
+    "baseCommit": "8d8ec8cdf61eb9d64a248ad9b43dae745123c0e6",
+    "initialScopeDigest": "11ff577f6ff5ae6fec4e35bcc805fe42d76f6dc1aba7e93534b5bfda3e1ab63e",
+    "contractSkeletonDigest": "1aefb46bd3cf2ab6c6000f8bb21664ae9850b85815cf335a8aca4f99f1161c08"
+  }
+}

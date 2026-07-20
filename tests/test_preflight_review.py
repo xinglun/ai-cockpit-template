@@ -521,6 +521,57 @@ def test_check_passes_when_policy_is_advisory_only(tmp_path, monkeypatch):
     assert ai_preflight_review.main() == 0
 
 
+def test_repository_default_policy_is_fail_closed_for_all_blocked_statuses():
+    policy = ai_preflight_review.load_policy(ai_preflight_review.DEFAULT_POLICY)
+
+    assert policy["profile"] == "enforced"
+    assert policy["gateEnabled"] is True
+    assert policy["blockedStatuses"] == [
+        "needs_human_confirmation",
+        "human_decision_recorded",
+        "not_ready",
+    ]
+
+
+def test_repository_default_policy_blocks_non_ready_preflight(tmp_path, monkeypatch):
+    contract = tmp_path / "task.contract.json"
+    output = tmp_path / "ai_preflight_review.json"
+    write_contract(contract, conservative_contract())
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "ai_preflight_review.py",
+            "--check",
+            "--contract",
+            str(contract),
+            "--output",
+            str(output),
+        ],
+    )
+
+    assert ai_preflight_review.main() == 1
+
+
+def test_policy_profile_is_explicit_and_validated(tmp_path):
+    policy = tmp_path / "preflight_review_policy.yaml"
+    write_policy(policy, gate_enabled=False, blocked_statuses=[])
+    policy.write_text(
+        "version: 1\nprofile: advisory\ngateEnabled: false\nblockedStatuses: []\n",
+        encoding="utf-8",
+    )
+
+    assert ai_preflight_review.load_policy(policy)["profile"] == "advisory"
+
+    policy.write_text(
+        "version: 1\nprofile: unknown\ngateEnabled: false\nblockedStatuses: []\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="invalid profile"):
+        ai_preflight_review.load_policy(policy)
+
+
 def test_preflight_signal_helpers_cover_boundary_states():
     contract = ready_contract()
     contract["scope"] = []

@@ -33,6 +33,10 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
         update_makefile=False,
     )
     assert installer.install() == 0
+    (tmp_path / ".ai" / "guards" / "preflight_review_policy.yaml").write_text(
+        "version: 1\nprofile: advisory\ngateEnabled: false\nblockedStatuses: []\n",
+        encoding="utf-8",
+    )
     (tmp_path / "Makefile.ai.stack").write_text(
         "PROJECT_FORMAT_CHECK = true\nPROJECT_TEST = true\nPROJECT_LINT = true\n",
         encoding="utf-8",
@@ -61,6 +65,20 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
         {
             "scope": ["fixture.txt", ".ai/cockpit/current_status.md", ".ai/work-items/archive/**"],
             "sources": ["test fixture"],
+            "intent": {
+                "problem": "Exercise the Work Item finish lifecycle with a bounded fixture.",
+                "constraints": ["Keep the fixture limited to the declared files."],
+                "rationale": "The fixture must satisfy the enforced Preflight policy before testing finish behavior.",
+            },
+            "problemStatement": "Verify finish lifecycle behavior for a ready fixture.",
+            "scenarioCoverage": [
+                {
+                    "scenario": "Ready fixture can enter finish validation.",
+                    "required": True,
+                    "status": "verified",
+                    "evidence": ["test fixture"],
+                }
+            ],
             "unknowns": [],
             "notCodable": False,
             "agentCapability": {
@@ -71,6 +89,11 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
             },
             "executionDecision": {"status": "continue", "reason": "E2E fixture is complete."},
             "acceptance": ["finish lifecycle behaves correctly"],
+            "riskAssessment": {
+                "level": "low",
+                "riskTypes": ["verification"],
+                "reason": "The fixture is bounded and its lifecycle checks are explicit.",
+            },
         }
     )
     contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
@@ -102,6 +125,7 @@ def prepare_work_item(tmp_path: Path, *, archive_collision: bool = False):
         {
             "changedFiles": changed,
             "sourcesUsed": ["test fixture"],
+            "scenarioCoverage": contract["scenarioCoverage"],
             "unknownsRemaining": [],
             "risk": {"level": "low", "detail": "E2E fixture"},
             "generatedFiles": [],

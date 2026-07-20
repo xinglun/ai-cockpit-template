@@ -21,6 +21,13 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
     contract = json.loads(contract_path.read_text(encoding="utf-8"))
     contract.update(
         {
+            "intent": {
+                "problem": "Configure the adopter project governance profile and verify the documented lifecycle journey.",
+                "constraints": [
+                    "Keep the fixture scoped to governance configuration and lifecycle verification."
+                ],
+                "rationale": "The journey must provide explicit intent before the enforced preflight gate allows completion.",
+            },
             "scope": [
                 f".ai/work-items/active/{task}.contract.json",
                 f".ai/work-items/active/{task}.summary.json",
@@ -29,11 +36,21 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
                 *changed,
             ],
             "outOfScope": [],
-            "sources": [{"path": changed[0], "reason": "Documented project governance journey."}],
+            "sources": [
+                {"path": changed[0], "reason": "Documented project governance journey."},
+                {
+                    "path": ".ai/project/capabilities.json",
+                    "reason": "Declared adopter capability boundary.",
+                },
+                {
+                    "path": "installer action log",
+                    "reason": "Records the template adoption operation.",
+                },
+            ],
             "unknowns": [],
             "notCodable": False,
             "riskAssessment": {
-                "level": "medium",
+                "level": "low",
                 "riskTypes": ["journey"],
                 "reason": "Black-box journey fixture.",
             },
@@ -48,6 +65,14 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
                 "reason": "Fixture decisions are explicit.",
             },
             "preReviewWarnings": ["Review fixture boundary ownership."],
+            "scenarioCoverage": [
+                {
+                    "scenario": "Configured governance journey completes its required checks.",
+                    "required": True,
+                    "status": "verified",
+                    "evidence": ["test_documented_project_governance_journey_and_upgrade_rollback"],
+                }
+            ],
             "acceptance": ["Configured behavior and governance checks pass."],
             "guidelines": ["Keep project changes covered by tests."],
             "restrictedWriteApproval": {
@@ -87,7 +112,7 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
                 }
             ],
             "unknownsRemaining": [],
-            "risk": {"level": "medium", "detail": "Fixture verifies the public lifecycle."},
+            "risk": {"level": "low", "detail": "Fixture verifies the public lifecycle."},
             "generatedFiles": [],
             "destructiveChanges": [],
             "observedIssues": [],
@@ -222,7 +247,7 @@ def test_documented_project_governance_journey_and_upgrade_rollback(tmp_path):
         "MODE=code",
         f"PYTHON={sys.executable}",
     )
-    assert start.returncode == 0, start.stdout + start.stderr
+    assert start.returncode != 0, start.stdout + start.stderr
     assert "Preflight Review" in start.stdout
     assert "Preflight Review requires attention before implementation." in start.stdout
     assert run(project, "make", "cockpit-doctor", f"PYTHON={sys.executable}").returncode == 0
@@ -272,7 +297,7 @@ def test_documented_project_governance_journey_and_upgrade_rollback(tmp_path):
     start = run(
         project, "make", "ai-start", "TASK=normal_change", "MODE=code", f"PYTHON={sys.executable}"
     )
-    assert start.returncode == 0, start.stdout + start.stderr
+    assert start.returncode != 0, start.stdout + start.stderr
     assert "Preflight Review" in start.stdout
     assert "Preflight Review requires attention before implementation." in start.stdout
     (project / "src" / "app.py").write_text(

@@ -79,7 +79,11 @@ def test_first_adoption_finishes_and_passes_complete_pr_check(tmp_path):
         {
             "path": ".ai/cockpit/adoption.md",
             "reason": "Installed first-adoption and production-readiness workflow.",
-        }
+        },
+        {
+            "path": "installer action log",
+            "reason": "Records the files and source identity written during adoption.",
+        },
     ]
     assert (tmp_path / ".ai" / "cockpit" / "adoption.md").is_file()
     contract = tmp_path / ".ai" / "work-items" / "active" / "adopt_ai_cockpit.contract.json"

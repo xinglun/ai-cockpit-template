@@ -25,6 +25,8 @@ Intent → Contract → Preflight → Change → Verification → Summary → Hu
 
 When a signal is missing, stale, contradictory, outside scope, or high risk, the governed path stops. A human can resolve the uncertainty by recording a decision and new evidence; the next step re-runs the relevant checks rather than trusting the conversation alone.
 
+The template uses the enforced Preflight profile by default. `.ai/guards/preflight_review_policy.yaml` sets `profile: enforced`, enables the gate, and blocks `needs_human_confirmation`, `human_decision_recorded`, and `not_ready`. Only a newly computed `ready` report can proceed through the governed start or finish path. An adopter may choose an explicit compatibility profile with `profile: advisory`, `gateEnabled: false`, and an empty `blockedStatuses` list, but advisory mode is not evidence that the Trust Layer can stop an agent at the protocol level.
+
 ## Human decisions and recovery
 
 A decision request should state the blocked condition, evidence, risk, available options, recommendation, and the condition for resuming. The human decision is a workflow record, not proof that the underlying check passed. After recovery, run Preflight and the project checks again, then archive the resulting Summary.

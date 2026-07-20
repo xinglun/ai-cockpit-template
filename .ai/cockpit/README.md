@@ -53,15 +53,15 @@ These fields should remain explainable and conservative. Missing evidence should
 
 V2.6 adds a generic `Scenario Coverage` signal for medium/high risk Work Items. It distinguishes `complete`, `incomplete`, `not_required`, and `unknown` without hard-coding release/auth/installer scenario libraries into Core. The policy source lives in `.ai/guards/scenario_coverage_policy.yaml`; scenario content stays in the Work Item, while Cockpit only compresses the evidence into a reviewer-facing signal.
 
-V2.6.5 adds Preflight Review. It follows the principle of **Evidence over Self-Declaration**: implementation readiness is derived from Contract evidence, not from agent confidence. `make ai-start TASK=<task> TITLE="..." MODE=code` and `make ai-preflight` surface that review before implementation begins. By default the review is advisory; when it reports `needs_human_confirmation` or `not_ready`, the agent workflow must pause and report the review to the user before coding continues.
+V2.6.5 adds Preflight Review. It follows the principle of **Evidence over Self-Declaration**: implementation readiness is derived from Contract evidence, not from agent confidence. `make ai-start TASK=<task> TITLE="..." MODE=code` and `make ai-preflight` surface that review before implementation begins. The template default is the enforced profile: `needs_human_confirmation`, `human_decision_recorded`, and `not_ready` stop the governance path. A repository that needs compatibility behavior may explicitly use an advisory policy with `profile: advisory`, `gateEnabled: false`, and `blockedStatuses: []`; advisory mode is not the formal Trust Layer proof.
 
-When `.ai/guards/preflight_review_policy.yaml` sets `gateEnabled: true`, the pause becomes a fail-closed Human Decision Gate. Decision Evidence is stored in the active Summary under `decisionEvidence` with `decisionId`, `decision`, `workItemId`, `contractHash`, `preflightHash`, `recordedAt`, and `recordedBy`. Record a selected option from the current request with:
+When `.ai/guards/preflight_review_policy.yaml` uses the enforced profile, the pause is a fail-closed Human Decision Gate. Decision Evidence is stored in the active Summary under `decisionEvidence` with `decisionId`, `decision`, `workItemId`, `contractHash`, `preflightHash`, `recordedAt`, and `recordedBy`. Record a selected option from the current request with:
 
 ```text
 $(PYTHON) scripts/ai_preflight_review.py --contract .ai/work-items/active/<task>.contract.json --record-decision --decision A --recorded-by <person>
 ```
 
-The evidence is accepted only when its Work Item, Contract Hash, Decision ID, and Preflight Hash match the current report. After recording it, rerun Preflight; `human_decision_recorded` is still paused, and only a newly recomputed `ready` report permits implementation or finish. Missing, stale, or mismatched evidence causes the Gate to fail closed. With `gateEnabled: false`, the existing advisory behavior is preserved.
+The evidence is accepted only when its Work Item, Contract Hash, Decision ID, and Preflight Hash match the current report. After recording it, rerun Preflight; `human_decision_recorded` is still paused, and only a newly recomputed `ready` report permits implementation or finish. Missing, stale, or mismatched evidence causes the Gate to fail closed. Advisory compatibility is opt-in and must be visible in the selected policy.
 
 ## Core Files
 
@@ -100,7 +100,7 @@ The required order is: latest remote base, dedicated Work Item branch, implement
 8. Review the generated status and confirm the closure command reports `ready for next Work Item`.
 
 If you want the startup flow to surface readiness before implementation, run `make ai-preflight`.
-That target generates the advisory Preflight Review and then validates it. By default it stays advisory; when policy enables gating, `needs_human_confirmation` or `not_ready` can fail the check.
+That target generates the Preflight Review and then validates it. With the default enforced policy, `needs_human_confirmation`, `human_decision_recorded`, and `not_ready` fail the check; an explicit advisory policy keeps the compatibility behavior.
 `make generate-ai-preflight-review` still exists if you want to generate the report without the validation step.
 `make check-ai-preflight-review` validates the generated report structure and only acts as a gate when the policy enables it.
 

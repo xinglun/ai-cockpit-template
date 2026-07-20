@@ -1,0 +1,179 @@
+{
+  "contractVersion": 2,
+  "workItemId": "clean-execution-plan-documents",
+  "mode": "code",
+  "title": "Clean completed execution plan documents",
+  "baseCommit": "1cb233d2a3eb94cc00f59e8e358e743893005e30",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/clean-execution-plan-documents.contract.json",
+    ".ai/work-items/active/clean-execution-plan-documents.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+    "docs/superpowers/plans/README.md"
+  ],
+  "outOfScope": [
+    "Deleting Work Item Contracts, Summaries, Cockpit Status, review evidence, release evidence, or design specifications.",
+    "Changing implementation behavior, release metadata, or historical plan content beyond status and traceability updates."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Authoritative execution plan to mark completed work and preserve final traceability."
+    },
+    {
+      "path": "docs/superpowers/plans/README.md",
+      "reason": "Plan index and retention policy for active, completed, superseded, and historical plans."
+    },
+    {
+      "path": ".ai/work-items/archive/2026",
+      "reason": "Archived Work Item evidence used to verify completed plan items and PR links."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["documentation_traceability"],
+    "reason": "The change updates plan status and adds an index while retaining all audit evidence and referenced specifications."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial completion and cleanup of execution plan documents after all Work Items and release evidence are closed."
+  },
+  "preReviewWarnings": [
+    "Verify every plan classification, link target, and retained audit artifact before merging."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The comprehensive plan records the final outcome, actual PRs, release, and closure state without claiming unfinished work.",
+    "A plan index classifies every execution plan as completed, retained for audit, superseded, or historical, with no broken links.",
+    "All Work Item evidence and design specifications remain preserved; only safe status/index cleanup is performed.",
+    "Documentation scans and repository quality/governance checks pass."
+  ],
+  "guidelines": [
+    "Preserve audit evidence and do not delete authoritative Work Item records.",
+    "Use evidence-backed status language and avoid claiming enterprise security completion."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "The comprehensive plan accurately records all completed Work Items, PRs, release v0.5.33, and final closure state.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md", ".ai/work-items/archive/2026"]
+    },
+    {
+      "scenario": "The plan index classifies every execution plan and retains links to audit-relevant documents without broken references.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/README.md", "docs/superpowers/plans"]
+    }
+  ],
+  "intent": {
+    "problem": "The execution plan still presents the remediation loop as future work after all listed Work Items and the v0.5.33 release have been completed, and there is no index explaining which older plans remain authoritative or are retained for audit.",
+    "constraints": [
+      "Keep the plan and Work Item history traceable.",
+      "Do not delete contracts, summaries, status evidence, release evidence, or design specifications.",
+      "The final document must distinguish verified outcomes from the remaining enterprise NO-GO boundary."
+    ],
+    "rationale": "A status/index cleanup closes the documentation loop without rewriting historical evidence or making implementation changes."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic PRs, branch cleanup, and serial execution through the final execution-plan cleanup item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/clean-execution-plan-documents.json",
+    "baseCommit": "1cb233d2a3eb94cc00f59e8e358e743893005e30",
+    "initialScopeDigest": "baa95ff789fb11cc2ab1a8fb26d77ec51477f58872372f7d01dd4db60433367b",
+    "contractSkeletonDigest": "89225a525d9fbf38f98a4692d8b17a0c54d6e4370aba3f275c72c99f5a070d39"
+  }
+}

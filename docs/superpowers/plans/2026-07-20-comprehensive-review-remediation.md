@@ -12,6 +12,8 @@ keywords:
 
 # 最新全面评审整改执行计划
 
+> **当前状态（2026-07-21）：** 工单 1–7 已完成完整闭环；v0.5.33 已正式发布并验证。工单 8（本次文档清理）正在执行，完成后本计划归档，不再作为进行中的实现计划。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 将最新主分支全面评审转化为一组按优先级串行执行、逐单完整闭环的整改工单，直到 Trust Layer、导入项目治理稳定性和发布证据达到可验证状态。
@@ -22,7 +24,7 @@ keywords:
 
 ## Global Constraints
 
-- 基线为评审所述 main 最新提交 `4dea870`；执行每个工单前重新获取远端默认分支最新提交，不复用旧分支。
+- 评审基线为历史记录中的 main 提交；实际执行每个工单前均重新获取远端默认分支最新提交，不复用旧分支。
 - 一个工单对应一个专用工作分支和一个 PR，不把多个独立工单合并到同一分支或 PR。
 - 维持 AI Cockpit 的边界：Repository Governance Layer，不扩展为 Agent Runtime、Workflow Engine 或 Security Sandbox。
 - 以 Evidence over Self-Declaration 为准；Agent 解释、聊天确认和人工决定本身都不能替代底层检查证据。
@@ -86,12 +88,14 @@ keywords:
 
 任何一步失败都意味着当前工单未完成，必须留在当前工单内修复、复验和重新闭环；不得跳到下一个工单。
 
-## 有序工单列表
+## 有序工单列表与已执行结果
 
+截至本次文档清理，工单 1–6 已完成 Contract v2、验证、归档、PR 合并、`ai-close-work-item` 和分支清理；工单 7 也已闭环，并由 Release Workflow 发布并验证 [v0.5.33](https://github.com/spirex-ds-dev/ai-cockpit-template/releases/tag/v0.5.33)。可核验证据：[PR #133](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/133)、修复 PR [#134](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/134) 及 `.ai/work-items/archive/2026/`。
+
+企业级安全与合规结论仍保持 NO-GO；本计划完成不改变该边界。
 ### 工单 1：将 Preflight 从 advisory 提升为 enforced Trust Gate
 
 **优先级：** P0
-
 **目标：** 让 `needs_human_confirmation`、`human_decision_recorded` 和 `not_ready` 在协议路径上禁止进入 Implementation；同时提供明确的 `advisory` / `enforced` Profile，但正式模板、企业模板和经典 Demo 默认使用 `enforced`。
 
 **范围线索：** `.ai/guards/preflight_review_policy.yaml`、Preflight CLI、Make targets、Trust Layer 文档、相关测试和 Negative Scenario。
@@ -107,7 +111,6 @@ keywords:
 **工单闭环：** 完成上方“每个工单的强制完整流程”第 1–10 步；第 10 步通过后才进入工单 2。
 
 ### 工单 2：建立 Raw User Request → Declared Intent → Repository Capability 三层判定
-
 **优先级：** P0
 
 **目标：** Capability Guard 不再只从 `contract.scope` 路径反推能力；在 `interpretedDeliverable` 获得明确的人类确认前，不生成或接受实现 Scope。
@@ -243,4 +246,4 @@ keywords:
 - `make check-ai-status CONTRACT=.ai/work-items/active/latest-comprehensive-review-remediation-plan.contract.json SUMMARY=.ai/work-items/active/latest-comprehensive-review-remediation-plan.summary.json`、`make check-ai-status-consistency`
 - `make ai-finish TASK=latest-comprehensive-review-remediation-plan`
 
-本计划的“完成”仅表示计划已经形成、验证并归档；不表示工单 1–8 的实现已完成。后续执行必须按照本文顺序逐一闭环，直到工单 8 关闭。
+本计划的“完成”表示工单 1–8 已按强制流程逐一闭环、证据已归档、PR 与分支已清理。工单 1–7 的完成证据已归档；工单 8 完成后，计划本身进入历史保留状态。该状态不表示企业级安全与合规 NO-GO 已改变。

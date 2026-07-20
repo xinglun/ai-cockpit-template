@@ -1,0 +1,155 @@
+{
+  "contractVersion": 2,
+  "workItemId": "knows-when-to-stop-demo",
+  "mode": "code",
+  "title": "Complete knows when to stop demo and regression suite",
+  "baseCommit": "b38d596bb919beb9cf7dd0b09fb15827366d88fb",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/knows-when-to-stop-demo.contract.json",
+    ".ai/work-items/active/knows-when-to-stop-demo.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/examples/trust-layer-demo.sh",
+    "docs/trust-layer.md",
+    "tests/test_trust_layer_demo.py"
+  ],
+  "outOfScope": ["Release publication and execution-plan cleanup reserved for Work Items 7 and 8."],
+  "sources": [
+    {"path": "docs/trust-layer.md", "reason": "Existing Trust Layer demo boundary documentation."},
+    {"path": ".ai/project/capabilities.json", "reason": "Repository capability boundary evidence."},
+    {"path": "tests/test_trust_layer_demo.py", "reason": "Executable demo regression evidence."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "demo_evidence"
+    ],
+    "reason": "Offline demo and shell regression coverage are bounded and harmless."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized automatic serial remediation."
+  },
+  "preReviewWarnings": [
+    "Verify every negative scenario emits structured stop evidence and resume conditions."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The offline demo emits five required scenarios with structured stop evidence.",
+    "The demo records zero unsafe operations and includes a normal low-risk continuation.",
+    "A repeatable test target verifies the output without network or production calls."
+  ],
+  "guidelines": [
+    "Preserve machine-readable stop evidence.",
+    "Keep the demo offline and harmless."
+  ],
+  "intent": {
+    "problem": "The current demo shows only three generic stops and cannot prove raw intent, scope disguise, stale evidence, or normal continuation.",
+    "constraints": ["No credentials, network, filesystem mutation, or live external call.", "Do not claim complete real-world risk detection."],
+    "rationale": "A five-scenario offline demo makes the stop protocol and its evidence contract directly reviewable."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Unclear rocket intent, Chinese danger, scope disguise, and stale decision evidence stop.", "required": true, "status": "verified", "evidence": ["tests/test_trust_layer_demo.py"]},
+    {"scenario": "Normal low-risk request continues while unsafeOperations remains zero.", "required": true, "status": "verified", "evidence": ["tests/test_trust_layer_demo.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic serial execution, PR merge, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/knows-when-to-stop-demo.json",
+    "baseCommit": "b38d596bb919beb9cf7dd0b09fb15827366d88fb",
+    "initialScopeDigest": "a8cf6c4f76f17b725468cdbc2542e97161ce7a9509325b31a06e363b147aae4f",
+    "contractSkeletonDigest": "2256a9f21087288738a9adf5c5a0cfc8ea1e7098334fc5edee10f7708242cd35"
+  }
+}

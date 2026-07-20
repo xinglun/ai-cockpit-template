@@ -1,0 +1,117 @@
+{
+  "contractVersion": 2,
+  "workItemId": "revise-review-remediation-plan",
+  "mode": "code",
+  "title": "Revise 2026-07-20 review remediation execution plan",
+  "baseCommit": "bd206fe",
+  "baselineDirtyPaths": [
+    {"path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md", "status": "M", "fingerprint": "1e926388ca0ccb5a159d50dda9e121f737d5f7da5b51492bc44971f6bf4ee131"},
+    {"path": "docs/superpowers/plans/README.md", "status": "M", "fingerprint": "4525b9c7ab8a8802a5d22cba2e6e0bf1ad9e2e3b7f7250854bdf7a0ca62c4b0d"}
+  ],
+  "intent": {
+    "problem": "The existing execution plan carried forward stale completion claims and did not reflect the independent 2026-07-20 review based on bd206fe.",
+    "constraints": [
+      "Preserve the repository governance lifecycle and one Work Item per branch and PR.",
+      "Record the user's explicit approval for implementation, PR, release, and cleanup actions without fabricating external evidence."
+    ],
+    "rationale": "A corrected plan is required before serial execution can proceed safely."
+  },
+  "scope": [
+    "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+    "docs/superpowers/plans/README.md",
+    ".ai/work-items/starts/revise-review-remediation-plan.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    "src/**",
+    "release/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Existing execution plan being revised."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical governance terminology."
+    },
+    {
+      "path": "user-provided-review-2026-07-20-bd206fe",
+      "reason": "User-provided independent review based on bd206fe."
+    }
+  ],
+  "problemStatement": "Replace stale execution-plan claims with the latest review summary, fourteen ordered Work Items, explicit authorization, and a mandatory full lifecycle for every Work Item.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Plan records the independent review baseline and current GO/NO-GO boundaries",
+      "required": true,
+      "status": "verified",
+      "evidence": ["git diff --check", "reviewed plan sections"]
+    },
+    {
+      "scenario": "Each requested final item appears last in the Work Item list",
+      "required": true,
+      "status": "verified",
+      "evidence": ["rg '^### 工单' docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md"]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["documentation", "governance"],
+    "reason": "The Work Item changes only execution-plan documentation and its index."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": ["Review wording that records authorization and enterprise NO-GO boundaries."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit", "before_finish"],
+    "reason": "Keep the plan revision auditable before starting implementation Work Items."
+  },
+  "acceptance": [
+    "The plan uses bd206fe as the independent review baseline and records the review summary.",
+    "The plan contains fourteen ordered Work Items, with the four user-requested closing items last.",
+    "The plan states that every Work Item requires implementation, verification, PR, merge, archive, ai-close-work-item, branch cleanup, and base synchronization.",
+    "The plan records the user's authorization and preserves the enterprise security/compliance NO-GO boundary."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true},
+    {"check": "aiScope", "required": true},
+    {"check": "aiGuards", "required": true},
+    {"check": "aiCheckpoint", "required": true},
+    {"check": "aiAgentRisk", "required": true},
+    {"check": "aiReviewPolicy", "required": true},
+    {"check": "aiBacktrack", "required": true},
+    {"check": "aiCoverage", "required": true},
+    {"check": "aiScenarioCoverage", "required": true},
+    {"check": "aiGuidelines", "required": true},
+    {"check": "aiSummary", "required": true},
+    {"check": "aiStatus", "required": true},
+    {"check": "aiStatusCheck", "required": true},
+    {"check": "aiStatusConsistency", "required": true},
+    {"check": "aiDiffOwnership", "required": true},
+    {"check": "quality", "required": true},
+    {"check": "diffCheck", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized execution-plan modification and subsequent serial execution."},
+  "rollbackNote": "Revert this Work Item's documentation diff while retaining the review source and archived evidence."
+  ,"startReceipt": {
+    "path": ".ai/work-items/starts/revise-review-remediation-plan.json",
+    "baseCommit": "bd206fe",
+    "initialScopeDigest": "58d8f9c581c85c0108113a7b244e9d856a324b201250ef39a5546b835e089825",
+    "contractSkeletonDigest": "9cdb087a7c84e811e5c582f1428579d492893ec5fcf84756f19ee0c0e0754a26"
+  }
+}

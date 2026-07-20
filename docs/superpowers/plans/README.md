@@ -24,7 +24,7 @@ keywords:
 
 | 计划 | 状态 | 说明 |
 | --- | --- | --- |
-| [2026-07-20 全面评审整改](2026-07-20-comprehensive-review-remediation.md) | 工单 1–7 完成，工单 8 清理中 | 工单 8 关闭后转为历史保留。 |
+| [2026-07-20 全面评审整改（修订版）](2026-07-20-comprehensive-review-remediation.md) | 基于 bd206fe，待按 14 个工单串行执行 | 每个工单完成 PR、归档、`ai-close-work-item`、分支清理和主分支同步后，才进入下一工单。 |
 
 ## 历史保留计划
 

@@ -1,0 +1,156 @@
+{
+  "contractVersion": 2,
+  "workItemId": "enterprise-security-boundary-evidence",
+  "mode": "code",
+  "title": "Document enterprise security and compliance boundaries",
+  "baseCommit": "7d4fb0455af696ddad487bc4836e01ba3c4806f6",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/enterprise-security-boundary-evidence.contract.json",
+    ".ai/work-items/active/enterprise-security-boundary-evidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/enterprise-security-boundary.md"
+  ],
+  "outOfScope": ["Implementing runtime isolation, identity, cryptographic signing, or external compliance certification.", "Release publication and execution-plan cleanup reserved for Work Items 7 and 8."],
+  "sources": [
+    {
+      "path": "user-provided-review:pasted-text.txt",
+      "reason": "Review marks enterprise security/compliance as a boundary and current NO-GO claim."
+    },
+    {"path": "docs/trust-layer.md", "reason": "Current Trust Layer non-goals and boundaries."},
+    {"path": "docs/enterprise-security-boundary.md", "reason": "New evidence/control boundary document."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "security_boundary_documentation"
+    ],
+    "reason": "Documentation-only boundary clarification with explicit non-goals."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized automatic serial remediation."
+  },
+  "preReviewWarnings": [
+    "Record what the template governs and what requires external security/compliance controls."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The security boundary document distinguishes repository governance evidence from external security/compliance controls.",
+    "The document preserves the review's enterprise NO-GO and non-goal boundaries.",
+    "No runtime isolation, identity, cryptographic, or certification claim is introduced."
+  ],
+  "guidelines": [
+    "Preserve evidence boundaries.",
+    "Avoid security and compliance overclaims."
+  ],
+  "intent": {
+    "problem": "Review findings could be misread as enterprise security certification unless repository governance evidence is separated from external controls.",
+    "constraints": ["Document boundaries only; do not implement runtime security controls.", "Preserve explicit NO-GO claims."],
+    "rationale": "A control-boundary document makes the Trust Layer's evidence useful without implying it replaces identity, isolation, scanners, provider controls, or compliance assessment."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Repository governance evidence and external enterprise controls are explicitly separated.", "required": true, "status": "verified", "evidence": ["docs/enterprise-security-boundary.md"]},
+    {"scenario": "Runtime isolation, trusted identity, cryptographic proof, and certification remain documented non-goals.", "required": true, "status": "verified", "evidence": ["docs/enterprise-security-boundary.md", "docs/trust-layer.md"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized automatic serial execution, PR merge, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/enterprise-security-boundary-evidence.json",
+    "baseCommit": "7d4fb0455af696ddad487bc4836e01ba3c4806f6",
+    "initialScopeDigest": "cf74a418e1e21c495d00f8d76fa5d4162f507cea560e90e273a72bd7ae29bb6b",
+    "contractSkeletonDigest": "9305d17ba82b4f7a79a414b009def66a435c7a0bdc5924e11cc00ae097e83ee6"
+  }
+}

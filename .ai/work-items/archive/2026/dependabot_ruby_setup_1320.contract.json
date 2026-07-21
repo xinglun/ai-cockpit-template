@@ -1,0 +1,91 @@
+{
+  "contractVersion": 2,
+  "workItemId": "dependabot_ruby_setup_1320",
+  "mode": "code",
+  "title": "Refresh dependency update supply-chain evidence",
+  "baseCommit": "e6abe5ca301111e5d81d3fdd2a82451558e501bb",
+  "baselineDirtyPaths": [],
+  "intent": {
+    "problem": "Dependabot dependency updates changed the committed supply-chain evidence and the PR must retain repository governance evidence.",
+    "constraints": [
+      "Preserve the dependency update scope.",
+      "Keep release and supply-chain evidence internally consistent."
+    ],
+    "rationale": "Synchronize generated evidence and archive the governed Work Item required by PR policy."
+  },
+  "scope": [
+    "release.json",
+    ".ai/cockpit/**",
+    ".github/workflows/**",
+    ".ai/work-items/archive/2026/**",
+    ".ai/guards/**"
+  ],
+  "outOfScope": [
+    "Application behavior changes.",
+    "Changing main or release policy."
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_supply_chain.py",
+      "reason": "Generates and validates committed supply-chain evidence."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "Requires archived Work Item evidence in PR diffs."
+    },
+    {
+      "path": "release.json",
+      "reason": "Publishes the release evidence digests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "problemStatement": "Dependency update evidence must be synchronized and governed.",
+  "acceptance": [
+    "The dependency update and its supply-chain evidence remain internally consistent.",
+    "The PR contains an auditable archived Work Item pair."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": false
+    }
+  ],
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "dependency_update",
+      "evidence_refresh"
+    ],
+    "reason": "Only dependency pins, generated evidence, and governance archive records are changed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The PR CI governance check identified the missing archive evidence."
+  },
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Keep dependency and evidence synchronization reviewable."
+  },
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized processing the Dependabot PR and its governed evidence."
+  },
+  "rollbackNote": "Revert the dependency update and its generated evidence commit if CI or review identifies a regression."
+}

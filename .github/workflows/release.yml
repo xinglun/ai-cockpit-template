@@ -168,6 +168,16 @@ jobs:
           test "$(jq -r '.artifacts[".ai/cockpit/sbom.json"]' "$evidence/release-digests.json")" = "$sbom_digest"
           test "$(jq -r '.artifacts[".ai/cockpit/provenance.json"]' "$evidence/release-digests.json")" = "$provenance_digest"
 
+      - name: Bind the generated evidence bundle digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/release-evidence"
+          bundle_digest="$(find "$evidence" -maxdepth 1 -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)"
+          [[ "$bundle_digest" =~ ^[0-9a-f]{64}$ ]]
+          printf '%s\n' "$bundle_digest" > "$evidence/evidence-bundle-digest.txt"
+          echo "EVIDENCE_BUNDLE_DIGEST=$bundle_digest" >> "$GITHUB_ENV"
+
       - name: Dispatch strict smoke verification for verified source commit
         working-directory: ${{ github.workspace }}
         run: |

@@ -1,0 +1,64 @@
+{
+  "contractVersion": 2,
+  "workItemId": "real-evidence-digest",
+  "mode": "code",
+  "title": "Require real evidence bundle digests",
+  "baseCommit": "b88127e69454813173351961e1e0dfb703620b41",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/real-evidence-digest.contract.json",
+    ".ai/work-items/active/real-evidence-digest.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release-state.json",
+    "scripts/check_release_state_consistency.py",
+    "tests/test_release_state_consistency.py",
+    "tests/test_release_distribution.py",
+    ".github/workflows/release.yml",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md"
+  ],
+  "outOfScope": ["Changing provider asset generation format or release tag ordering", "Publishing a release or moving an existing tag", "Changing release.json and next-release.json schemas"],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-21-review-remediation.md", "reason": "Defines the real Evidence Digest acceptance."},
+    {"path": "release-state.json", "reason": "Currently contains a non-Digest evidence placeholder."},
+    {"path": "scripts/check_release_state_consistency.py", "reason": "Validates canonical release state and metadata references."},
+    {"path": ".github/workflows/release.yml", "reason": "Generates and verifies provider-bound release evidence."},
+    {"path": "tests/test_release_state_consistency.py", "reason": "Regression tests for release-state validation."},
+    {"path": "tests/test_release_distribution.py", "reason": "Existing release-state and publication behavior tests."},
+    {"path": ".ai/guards/governance_complexity_policy.yaml", "reason": "Keeps the reviewable repository complexity budget aligned with the validator change."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["release_evidence", "fail_closed"], "reason": "The change tightens digest validation and separates status from cryptographic evidence without changing publication ordering."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "The required digest rules are deterministic and bounded to release metadata validation."},
+  "preReviewWarnings": ["Verify candidate_prepared remains representable without provider evidence while later states reject placeholders."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record evidence validation checkpoints."},
+  "acceptance": [
+    "release-state.json separates evidenceStatus from evidenceBundleDigest; candidate_prepared may use a null digest and a non-success evidence status.",
+    "candidate_verified and release_published require a lowercase 64-character SHA-256 evidenceBundleDigest, and placeholders are rejected.",
+    "The release workflow and validator bind the digest to the generated provider evidence bundle before promotion, while failures leave state and tags unchanged.",
+    "English and Japanese distribution documentation explain status-versus-digest semantics and fail-closed evidence rules."
+    ,"The complexity budget remains explicit and sufficient for the bounded validator change."
+  ],
+  "rawUserRequest": "执行评审整改计划工单 3：禁止伪 Evidence Digest，继续循环执行直到全部工单完成。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21-continue-remediation", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Require real evidence bundle digests for verified and published release states while allowing prepared candidates to remain explicitly unverified.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "candidate_prepared without provider evidence", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "candidate_verified with placeholder digest", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "candidate_verified with valid digest", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "release_published evidence binding", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml", "tests/test_release_distribution.py"]}
+  ],
+  "guidelines": ["New public APIs must be documented.", "Do not import internal modules from other features."],
+  "intent": {"problem": "evidenceBundleDigest currently accepts a prose placeholder, so a release state can appear verified without a cryptographic bundle identity.", "constraints": ["Preserve candidate preparation without provider assets.", "Do not publish, move, or delete tags.", "Fail closed for verified and published states."], "rationale": "Make evidence status explicit and reserve the digest field for real SHA-256 evidence that can be bound to provider assets."},
+  "verification": [{"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "The user explicitly authorized release workflow, validator, test, and documentation changes in the execution plan."},
+  "rollbackNote": "Revert this Work Item diff and restore the prior placeholder behavior only as a temporary rollback; retain fail-closed publication controls.",
+  "startReceipt": {"path": ".ai/work-items/starts/real-evidence-digest.json", "baseCommit": "b88127e69454813173351961e1e0dfb703620b41", "initialScopeDigest": "a5615e9521d53d108600341f8ba346e774805df1c0db6d33577265152b83e1d3", "contractSkeletonDigest": "461da7f966c80cf1872507adb54d2f1b758450485956bd6d3624f88c825ad767"}
+}

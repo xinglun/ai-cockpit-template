@@ -65,6 +65,8 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 /path/to/ai-cockpit-template/install.sh --stack rust --update-makefile
 ```
 
+`release-state.json` の `evidenceStatus` は Provider 証拠が保留中、検証済み、公開済みのいずれかを示します。`candidate_prepared` では `evidenceBundleDigest` は `null` のまま許容されますが、`candidate_verified` と `release_published` では実際の 64 桁 SHA-256 が必須です。説明文を digest として受け入れることはなく、状態と digest の組み合わせが不正なら fail closed します。
+
 ## このページを使う場面
 
 - 導入ワークフローではなく配布物の動作を確認したい場合。

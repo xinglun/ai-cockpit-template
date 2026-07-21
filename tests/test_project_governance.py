@@ -58,6 +58,53 @@ def test_doctor_detects_spring_boot_and_infrastructure(tmp_path):
     assert report["projectSignals"]["ciReleaseDeployment"]
 
 
+def test_doctor_proposes_quality_commands_and_critical_domain_signals(tmp_path):
+    (tmp_path / "payments").mkdir()
+    (tmp_path / "src").mkdir()
+    (tmp_path / "tests").mkdir()
+    (tmp_path / "Makefile").write_text("quality: test lint\n\ntest:\n\nlint:\n", encoding="utf-8")
+    (tmp_path / "package.json").write_text(
+        json.dumps({"scripts": {"test": "vitest", "lint": "eslint ."}}), encoding="utf-8"
+    )
+
+    report = ai_project_doctor.scan_project(tmp_path)
+
+    commands = {item["value"] for item in report["projectSignals"]["qualityCommands"]}
+    domains = {item["value"] for item in report["projectSignals"]["criticalDomains"]}
+    assert {"make quality", "make test", "make lint", "npm test", "npm lint"} <= commands
+    assert "payments" in domains
+    assert all(
+        "evidence" in item and "confidence" in item
+        for item in report["projectSignals"]["criticalDomains"]
+    )
+
+
+def test_calibration_proposal_preserves_quality_and_critical_signals(tmp_path):
+    report = {
+        "reportVersion": 1,
+        "detectedFacts": {key: [] for key in ai_project_doctor.LANGUAGE_SIGNALS},
+        "suggestedBoundaries": {key: [] for key in ai_calibrate.BOUNDARY_KEYS},
+        "projectSignals": {
+            "qualityCommands": [
+                {"value": "make quality", "confidence": "high", "evidence": "Makefile:quality"}
+            ],
+            "criticalDomains": [
+                {"value": "payments", "confidence": "medium", "evidence": "payments"}
+            ],
+        },
+        "unknowns": [],
+    }
+    report_path = tmp_path / "report.json"
+    output = tmp_path / "proposal.yaml"
+    report_path.write_text(json.dumps(report), encoding="utf-8")
+
+    assert ai_calibrate.generate(tmp_path, report_path, output) == 0
+    text = output.read_text(encoding="utf-8")
+    assert "projectSignals:" in text
+    assert '"make quality"' in text
+    assert '"payments"' in text
+
+
 def test_doctor_detects_python_ai_and_keeps_unknown_boundaries(tmp_path):
     (tmp_path / "pyproject.toml").write_text(
         "dependencies = ['fastapi', 'torch']\n", encoding="utf-8"

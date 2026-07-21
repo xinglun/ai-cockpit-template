@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -53,6 +54,29 @@ INFRA_SIGNALS = {
 }
 STATE_MANAGEMENT_TERMS = ("riverpod", "provider", "flutter_bloc", "bloc", "redux", "mobx")
 NATIVE_ROOTS = ("android", "ios", "macos", "windows", "linux")
+QUALITY_TARGET_TERMS = (
+    "test",
+    "check",
+    "quality",
+    "lint",
+    "format",
+    "coverage",
+    "verify",
+    "audit",
+)
+CRITICAL_DOMAIN_TERMS = {
+    "payment": "payments",
+    "payments": "payments",
+    "billing": "billing",
+    "checkout": "payments",
+    "finance": "finance",
+    "payroll": "payroll",
+    "health": "health",
+    "medical": "health",
+    "identity": "identity",
+    "auth": "identity",
+    "security": "security",
+}
 
 
 def repository_entries(root: Path) -> list[Path]:
@@ -251,6 +275,56 @@ def project_signals(
     }
 
 
+def quality_command_candidates(root: Path) -> list[dict[str, str]]:
+    """Collect command-shaped quality candidates without executing them."""
+    result: list[dict[str, str]] = []
+    makefile = root / "Makefile"
+    if makefile.is_file():
+        for line in makefile.read_text(encoding="utf-8", errors="ignore").splitlines():
+            match = re.match(r"^([A-Za-z0-9_.-]+):", line)
+            if not match:
+                continue
+            target = match.group(1)
+            if target == ".PHONY" or not any(
+                term in target.lower() for term in QUALITY_TARGET_TERMS
+            ):
+                continue
+            result.append(
+                {"value": f"make {target}", "confidence": "high", "evidence": f"Makefile:{target}"}
+            )
+    package = root / "package.json"
+    if package.is_file():
+        try:
+            scripts = json.loads(package.read_text(encoding="utf-8")).get("scripts", {})
+        except (OSError, json.JSONDecodeError, AttributeError):
+            scripts = {}
+        if isinstance(scripts, dict):
+            for name in sorted(str(key) for key in scripts if isinstance(key, str)):
+                if any(term in name.lower() for term in QUALITY_TARGET_TERMS):
+                    result.append(
+                        {
+                            "value": f"npm {name}",
+                            "confidence": "high",
+                            "evidence": f"package.json:scripts.{name}",
+                        }
+                    )
+    return result
+
+
+def critical_domain_candidates(root: Path, entries: list[Path]) -> list[dict[str, str]]:
+    """Surface domain-sensitive path signals for explicit human review."""
+    found: dict[str, dict[str, str]] = {}
+    for path in entries:
+        relative = path.relative_to(root).as_posix().lower()
+        for term, domain in CRITICAL_DOMAIN_TERMS.items():
+            if re.search(rf"(^|[/_.-]){re.escape(term)}([/_.-]|$)", relative):
+                found.setdefault(
+                    domain,
+                    {"value": domain, "confidence": "medium", "evidence": relative},
+                )
+    return [found[key] for key in sorted(found)]
+
+
 def scan_project(root: Path) -> dict[str, Any]:
     entries = repository_entries(root)
     production = merge_boundary_candidates(
@@ -317,6 +391,9 @@ def scan_project(root: Path) -> dict[str, Any]:
                 {"kind": "critical", "path": item["path"], "evidence": item["evidence"]}
             )
     infrastructure = findings(root, INFRA_SIGNALS, entries)
+    signals = project_signals(root, infrastructure)
+    signals["qualityCommands"] = quality_command_candidates(root)
+    signals["criticalDomains"] = critical_domain_candidates(root, entries)
     return {
         "reportVersion": 1,
         "detectedFacts": {
@@ -325,7 +402,7 @@ def scan_project(root: Path) -> dict[str, Any]:
             "buildSystems": findings(root, BUILD_SIGNALS, entries),
             "infrastructure": infrastructure,
         },
-        "projectSignals": project_signals(root, infrastructure),
+        "projectSignals": signals,
         "suggestedBoundaries": {
             "productionRoots": production,
             "featureRoots": production,

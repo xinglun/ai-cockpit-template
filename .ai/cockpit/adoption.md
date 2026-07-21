@@ -35,8 +35,8 @@ make ai-onboard
 Or follow the local calibration checklist:
 
 1. **Adopt, then configure:** finish `adopt_ai_cockpit` in one commit, then start `configure_ai_cockpit` for Profile, Guard, quality commands, and CI.
-2. Run `make cockpit-doctor` to record project facts, evidence, confidence, candidate boundaries, Guard mismatches, and unknowns. Resolve every `blocking:` unknown in the confirmed Profile; doctor does not auto-approve boundaries.
-3. Run `make cockpit-calibrate`. Review the proposed Profile without treating suggestions as approvals.
+2. Run `make cockpit-doctor` to record project facts, evidence, confidence, candidate boundaries, Guard mismatches, quality-command candidates, critical-domain signals, and unknowns. Resolve every `blocking:` unknown in the confirmed Profile; doctor does not auto-approve boundaries.
+3. Run `make cockpit-calibrate`. Review the proposed Profile—including `projectSignals.qualityCommands` and `projectSignals.criticalDomains`—without treating suggestions as approvals.
 4. Create `.ai/project_profile.yaml` with explicitly confirmed boundaries and approval metadata.
 5. Validate the Profile and existing Guards with `make check-ai-project-profile` and `make check-ai-guard-calibration`.
 6. Replace every placeholder in `Makefile.ai.stack` and confirm `make ai-cockpit-quality` passes.
@@ -45,4 +45,4 @@ Or follow the local calibration checklist:
 9. Run a pilot Work Item if needed with quality optional, then promote quality and Coverage to blocking gates.
 10. Run `make check-ai-adoption-ready` to verify static configuration completeness.
 
-Doctor is read-only apart from its report under `target/`. Calibration writes only `.ai/project_profile.proposed.yaml` and never overwrites Guards. The confirmed Project Profile is project-owned and preserved across upgrades. `make check-ai-adoption-ready` is fail-closed, but neither Profile approval nor readiness is a security proof. Require successful `make ai-cockpit-quality` and `check-ai-pr` runs as independent CI checks.
+Doctor is read-only apart from its report under `target/`. It reports critical-domain signals for human review; a signal is not authorization or a production decision. Calibration writes only `.ai/project_profile.proposed.yaml` and never overwrites Guards. The confirmed Project Profile is project-owned and preserved across upgrades. `make check-ai-adoption-ready` is fail-closed, but neither Profile approval nor readiness is a security proof. Require successful `make ai-cockpit-quality` and `check-ai-pr` runs as independent CI checks.

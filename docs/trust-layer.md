@@ -29,7 +29,9 @@ The template uses the enforced Preflight profile by default. `.ai/guards/preflig
 
 ## Raw request and capability binding
 
-When a Work Item declares `rawUserRequest`, readiness also records the declared intent and requested capabilities. The guard checks those declarations against `.ai/project/capabilities.json` before scope-derived capabilities are considered. An explicitly unsupported operation, such as making a rocket, remains blocked even if the changed paths are only documentation or tests. The initial vocabulary is intentionally narrow; broader multilingual and hidden-risk interpretation is tracked separately and is not implied by this boundary check.
+For a full Contract v2 `MODE=code` Work Item, `rawUserRequest` is required evidence whenever the scope includes the active Work Item Contract. Omitting it is fail-closed; it cannot silently become `Not Applicable`. A registered exemption is allowed only for `system_maintenance`, `dependency_upgrade`, `release_metadata`, or `internal_governance` tasks, and the exemption must be explicit in `rawRequestExemption`.
+
+When `rawUserRequest` is present, the Contract must also include portable `rawRequestSource` evidence: `type` (`human`, `issue`, `pr_comment`, or `system`), `reference`, `capturedAt`, and `digest`. Readiness then records the declared intent and requested capabilities, and checks those declarations against `.ai/project/capabilities.json` before scope-derived capabilities are considered. An explicitly unsupported operation, such as making a rocket, remains blocked even if the changed paths are only documentation or tests. The initial vocabulary is intentionally narrow; broader multilingual and hidden-risk interpretation is tracked separately and is not implied by this boundary check.
 
 ## Human decisions and recovery
 

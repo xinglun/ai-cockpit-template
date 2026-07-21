@@ -1,0 +1,168 @@
+{
+  "contractVersion": 2,
+  "workItemId": "raw-user-request-required",
+  "mode": "code",
+  "title": "Require raw user request and source evidence for code Work Items",
+  "baseCommit": "b5912bc0530c7bec1f96e7d697bbdc3b69a2096d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/raw-user-request-required.contract.json",
+    ".ai/work-items/active/raw-user-request-required.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_trust_guards.py",
+    "tests/test_ai_check_work_item.py",
+    "tests/test_trust_guards.py",
+    "tests/test_project_governance_journey.py",
+    "docs/trust-layer.md",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Broad multilingual and hidden-risk semantic classification.",
+    "Domain × Operation critical-domain redesign.",
+    "Release publication and execution-plan cleanup."
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md", "reason": "Defines the P0 requirement that MODE=code raw requests are required and sourced."},
+    {"path": "scripts/ai_trust_guards.py", "reason": "Current Raw Request Guard treats an absent raw request as Not Applicable."},
+    {"path": "scripts/ai_check_work_item.py", "reason": "Contract validator is the fail-closed lifecycle entrypoint."},
+    {"path": "tests/test_trust_guards.py", "reason": "Trust guard regression coverage."},
+    {"path": "tests/test_ai_check_work_item.py", "reason": "Contract validation regression coverage."},
+    {"path": "tests/test_project_governance_journey.py", "reason": "Registered internal governance exemption compatibility coverage."},
+    {"path": "docs/trust-layer.md", "reason": "User-facing boundary documentation."},
+    {"path": ".ai/guards/governance_complexity_policy.yaml", "reason": "Recalibrated bounded complexity headroom for the new guard and regression coverage."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance", "contract-compatibility"],
+    "reason": "This is a bounded fail-closed entry condition with targeted regression coverage and no production runtime change."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope, sources, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Review the new required-field boundary for fail-closed behavior and exemption abuse."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "MODE=code Work Item Contracts with an active Work Item scope require a non-empty rawUserRequest or an explicit approved exemption.",
+    "A present rawUserRequest requires rawRequestSource.type/reference/capturedAt/digest with portable evidence.",
+    "Missing, malformed, or incomplete raw-request evidence is fail closed in Contract validation and Preflight.",
+    "Non-code contracts and legacy unit fixtures retain compatibility, while Trust Layer documentation states the new boundary."
+  ],
+  "guidelines": ["Keep raw-request evidence deterministic, portable, and repository-neutral.", "Do not weaken existing unsupported-operation fail-closed behavior."],
+  "intent": {
+    "problem": "The current Raw Request Guard returns Not Applicable when a MODE=code Work Item omits rawUserRequest, leaving a structural path back to self-declared intent only.",
+    "constraints": ["Require rawUserRequest for full Contract v2 MODE=code Work Items unless a declared maintenance exemption applies.", "Do not add semantic risk classification or broad multilingual coverage in this Work Item.", "Keep source evidence portable and never include machine-specific paths."],
+    "rationale": "A required, sourced raw request closes the omission path before later intent and capability guards evaluate the request."
+  },
+  "rawUserRequest": "Require a sourced rawUserRequest for MODE=code Work Items, with explicit exemptions only for system maintenance, dependency upgrades, release metadata, and registered internal governance tasks.",
+  "rawRequestSource": {"type": "human", "reference": "user-request:serial-review-remediation", "capturedAt": "2026-07-21", "digest": "sha256:6e6c0d94c8b962a15d5e9e5bb852bbf2329c9989fb2b8fd8e5a2ad5b45ea0d8"},
+  "declaredIntent": {"summary": "Make code Work Item entry require traceable raw user request evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "scenarioCoverage": [
+    {"scenario": "MODE=code Work Item without rawUserRequest", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py::test_code_work_item_requires_raw_request_and_source_evidence", "tests/test_ai_check_work_item.py::test_v2_code_work_item_requires_sourced_raw_request"]},
+    {"scenario": "Registered maintenance exemption", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py::test_code_work_item_allows_registered_raw_request_exemption"]},
+    {"scenario": "Non-code or legacy fixture compatibility", "required": true, "status": "verified", "evidence": ["PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user explicit authorization: serial execution through all Work Items",
+    "reason": "The user explicitly authorized the governed remediation loop, including governance policy calibration."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/raw-user-request-required.json",
+    "baseCommit": "b5912bc0530c7bec1f96e7d697bbdc3b69a2096d",
+    "initialScopeDigest": "7b4c4dd9ee29a730029c4883ae63d6237ef43e13725e76a4aefb917a9534662e",
+    "contractSkeletonDigest": "5c322740ad7ca6c3ce213a8ffe589fa471e72e8b0d1bbeb38b5d0a73d14a1f44"
+  }
+}

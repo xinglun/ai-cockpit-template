@@ -34,3 +34,27 @@ def test_problem_statement_is_optional_but_must_not_be_empty():
     contract["problemStatement"] = ""
     issues = ai_check_work_item.validate_contract(contract)
     assert "problemStatement must be a non-empty string" in issues
+
+
+def test_v2_code_work_item_requires_sourced_raw_request():
+    contract = valid_contract()
+    contract.update(
+        {
+            "contractVersion": 2,
+            "scope": [".ai/work-items/active/task.contract.json"],
+            "baseCommit": "1234567890abcdef",
+            "verification": [{"check": "quality", "required": True}],
+        }
+    )
+    issues = ai_check_work_item.validate_contract(contract)
+    assert any("rawUserRequest" in issue for issue in issues)
+
+    contract["rawUserRequest"] = "Add a deterministic governance guard."
+    contract["rawRequestSource"] = {
+        "type": "human",
+        "reference": "user-request:test",
+        "capturedAt": "2026-07-21",
+        "digest": "sha256:test",
+    }
+    issues = ai_check_work_item.validate_contract(contract)
+    assert not any("rawUserRequest" in issue or "rawRequestSource" in issue for issue in issues)

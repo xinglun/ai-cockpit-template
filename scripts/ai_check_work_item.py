@@ -52,6 +52,8 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "guidelines",
     "intent",
     "rawUserRequest",
+    "rawRequestSource",
+    "rawRequestExemption",
     "declaredIntent",
     "problemStatement",
     "scenarioCoverage",
@@ -302,6 +304,49 @@ def validate_intent(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+RAW_REQUEST_EXEMPTIONS = {
+    "system_maintenance",
+    "dependency_upgrade",
+    "release_metadata",
+    "internal_governance",
+}
+RAW_REQUEST_SOURCE_TYPES = {"human", "issue", "pr_comment", "system"}
+
+
+def validate_raw_request_requirement(data: dict[str, Any]) -> list[str]:
+    """Require portable raw-request provenance for full v2 code Work Items."""
+    scope = data.get("scope")
+    required = (
+        data.get("contractVersion") == 2
+        and data.get("mode") == "code"
+        and isinstance(scope, list)
+        and any(isinstance(item, str) and ".ai/work-items/active/" in item for item in scope)
+    )
+    raw = data.get("rawUserRequest")
+    exemption = data.get("rawRequestExemption")
+    if required and raw is None:
+        if exemption not in RAW_REQUEST_EXEMPTIONS:
+            return [
+                "rawUserRequest is required for MODE=code Work Items unless rawRequestExemption is registered"
+            ]
+        return []
+    if raw is None:
+        return []
+    issues: list[str] = []
+    if not isinstance(raw, str) or not raw.strip():
+        issues.append("rawUserRequest must be a non-empty string")
+    source = data.get("rawRequestSource")
+    if not isinstance(source, dict):
+        issues.append("rawRequestSource must be declared when rawUserRequest is present")
+        return issues
+    if source.get("type") not in RAW_REQUEST_SOURCE_TYPES:
+        issues.append("rawRequestSource.type must be human, issue, pr_comment, or system")
+    for field in ("reference", "capturedAt", "digest"):
+        if not isinstance(source.get(field), str) or not source[field].strip():
+            issues.append(f"rawRequestSource.{field} must be a non-empty string")
+    return issues
+
+
 def validate_contract(data: dict[str, Any], contract_path: str = "") -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -334,6 +379,7 @@ def validate_contract(data: dict[str, Any], contract_path: str = "") -> list[str
     issues.extend(validate_optional_readiness(data))
     issues.extend(validate_baseline_and_approvals(data))
     issues.extend(validate_intent(data))
+    issues.extend(validate_raw_request_requirement(data))
     if "problemStatement" in data and not non_empty_string(data.get("problemStatement")):
         issues.append("problemStatement must be a non-empty string")
 

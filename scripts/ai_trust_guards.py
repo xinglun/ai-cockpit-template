@@ -96,11 +96,57 @@ _UNSUPPORTED_OPERATION_TERMS = (
     "爆弾を作って",
 )
 
+_RAW_REQUEST_EXEMPTIONS = {
+    "system_maintenance",
+    "dependency_upgrade",
+    "release_metadata",
+    "internal_governance",
+}
+_RAW_REQUEST_SOURCE_TYPES = {"human", "issue", "pr_comment", "system"}
+
+
+def _requires_raw_request(contract: dict[str, Any]) -> bool:
+    scope = contract.get("scope")
+    return (
+        contract.get("contractVersion") == 2
+        and contract.get("mode") == "code"
+        and isinstance(scope, list)
+        and any(isinstance(item, str) and ".ai/work-items/active/" in item for item in scope)
+    )
+
+
+def _raw_request_source_issues(contract: dict[str, Any]) -> list[str]:
+    source = contract.get("rawRequestSource")
+    if not isinstance(source, dict):
+        return ["rawRequestSource must be declared when rawUserRequest is present"]
+    issues: list[str] = []
+    if source.get("type") not in _RAW_REQUEST_SOURCE_TYPES:
+        issues.append("rawRequestSource.type must be human, issue, pr_comment, or system")
+    for field in ("reference", "capturedAt", "digest"):
+        if not isinstance(source.get(field), str) or not source[field].strip():
+            issues.append(f"rawRequestSource.{field} must be a non-empty string")
+    return issues
+
 
 def raw_request_signal(contract: dict[str, Any], path: Path = CAPABILITIES_PATH) -> dict[str, Any]:
     """Bind raw request evidence to declared intent and repository boundaries."""
     raw = contract.get("rawUserRequest")
     if raw is None:
+        exemption = contract.get("rawRequestExemption")
+        if _requires_raw_request(contract) and exemption not in _RAW_REQUEST_EXEMPTIONS:
+            return _signal(
+                "Raw Request",
+                "Inconsistent",
+                ["rawUserRequest is required for MODE=code Work Items"],
+                ["contract.rawUserRequest", "contract.rawRequestExemption"],
+            )
+        if exemption in _RAW_REQUEST_EXEMPTIONS:
+            return _signal(
+                "Raw Request",
+                "Not Applicable",
+                [f"rawUserRequest is exempted for {exemption}"],
+                ["contract.rawRequestExemption"],
+            )
         return _signal(
             "Raw Request",
             "Not Applicable",
@@ -114,6 +160,9 @@ def raw_request_signal(contract: dict[str, Any], path: Path = CAPABILITIES_PATH)
             ["rawUserRequest must be a non-empty string"],
             ["contract.rawUserRequest"],
         )
+    source_issues = _raw_request_source_issues(contract)
+    if source_issues:
+        return _signal("Raw Request", "Inconsistent", source_issues, ["contract.rawRequestSource"])
     payload, issues = _load_json(path)
     if issues or not isinstance(payload, dict):
         return _signal(

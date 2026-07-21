@@ -52,9 +52,24 @@ tests:
     - "**/*.spec.tsx"
 ```
 
+## 4. Real TypeScript Web Fixture
+
+`examples/fixtures/typescript-web` is a small executable local project. From that directory run:
+
+```sh
+npm install --ignore-scripts --no-audit --no-fund
+npm run build
+npm test
+npm run lint
+npm run format:check
+npm run lifecycle
+```
+
+The lifecycle command records Install, Configure, Normal Work Item, Ambiguous Request, Critical Domain Change, Upgrade, Rollback, and Release Check. Ambiguous and critical-domain cases are blocked with resume conditions. External provider, identity, sandbox, immutable-audit, and enterprise-compliance evidence is intentionally `not_run`.
+
 ---
 
-## 4. 実践的な TypeScript 用 Contract 設計例 (`*.contract.json` 抜粋)
+## 5. 実践的な TypeScript 用 Contract 設計例 (`*.contract.json` 抜粋)
 
 以下は、典型的な TypeScript 機能追加時の Contract 設定例です。
 

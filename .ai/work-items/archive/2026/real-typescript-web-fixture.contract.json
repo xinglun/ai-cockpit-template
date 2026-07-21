@@ -1,0 +1,171 @@
+{
+  "contractVersion": 2,
+  "workItemId": "real-typescript-web-fixture",
+  "mode": "code",
+  "title": "Make TypeScript web fixture real",
+  "baseCommit": "d93a72a32fe7d1988a0f361767b864a2bc5a63ab",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/real-typescript-web-fixture.contract.json",
+    ".ai/work-items/active/real-typescript-web-fixture.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "examples/fixtures/typescript-web/**",
+    "examples/typescript/README.md",
+    "tests/test_fixture_harness.py",
+    "tests/test_typescript_fixture.py",
+    "docs/fixtures/real-fixture-evidence.md",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": ["Changing the generic fixture harness semantics", "Claiming external repository or enterprise control evidence"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Defines the real TypeScript fixture lifecycle acceptance criteria."
+    },
+    {"path": "docs/fixtures/real-fixture-evidence.md", "reason": "Defines the boundary between local fixture execution and external evidence."},
+    {"path": "tests/test_adoption_e2e.py", "reason": "Existing adoption lifecycle and rollback evidence patterns."},
+    {"path": "templates/stacks/typescript.mk", "reason": "TypeScript project quality command integration."},
+    {"path": ".ai/cockpit/adoption.md", "reason": "Adoption and evidence boundary documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "fixture_execution", "toolchain_evidence"
+    ],
+    "reason": "Adds an executable local TypeScript fixture; external provider and enterprise evidence remain explicitly out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized the serial remediation plan and local Node/TypeScript tooling is available for deterministic verification."
+  },
+  "preReviewWarnings": [
+    "Record real npm install/build/test/lint execution and mark unavailable external steps not_run."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The TypeScript fixture has a package manifest, lockfile, source, and executable test/build/lint commands.",
+    "Install, Configure, Normal Work Item, Ambiguous Request, Critical Domain Change, Upgrade, Rollback, and Release Check are locally reproducible.",
+    "Evidence records actual command results and distinguishes not_run external-provider steps.",
+    "Tests validate the fixture lifecycle and fail-closed boundary wording.",
+    "TypeScript adaptation documentation describes the real fixture without overclaiming."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The TypeScript Web fixture is only a manifest consumed by a dependency-free Python simulator, so it cannot evidence real install, build, test, lint, upgrade, or rollback execution.",
+    "constraints": ["Keep the fixture minimal and local.", "Use reproducible npm lockfile commands.", "Do not treat local execution as external repository, identity, sandbox, or compliance proof."],
+    "rationale": "Add a small executable TypeScript project with deterministic lifecycle scripts and evidence output that can be rerun in CI."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rawUserRequest": "继续执行评审整改计划工单 9：把 TypeScript Web Fixture 提升为真实可安装、可构建、可测试、可升级、可回滚的 Fixture，并按完整 PR 流程循环。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21-continue-remediation", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Provide executable local TypeScript lifecycle evidence instead of a manifest-only simulation.", "requestedCapabilities": ["ai_governance", "documentation", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "npm install/build/test/lint execute against the fixture", "required": true, "status": "verified", "evidence": ["tests/test_typescript_fixture.py"]},
+    {"scenario": "Ambiguous and critical-domain lifecycle cases block with resume conditions", "required": true, "status": "verified", "evidence": ["examples/fixtures/typescript-web/scripts/lifecycle.mjs"]},
+    {"scenario": "Upgrade and rollback are real local filesystem transitions", "required": true, "status": "verified", "evidence": ["examples/fixtures/typescript-web/scripts/lifecycle.mjs"]},
+    {"scenario": "External provider evidence is explicitly not_run rather than simulated", "required": true, "status": "verified", "evidence": ["examples/fixtures/typescript-web/evidence.json"]}
+  ],
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized the complete serial remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/real-typescript-web-fixture.json",
+    "baseCommit": "d93a72a32fe7d1988a0f361767b864a2bc5a63ab",
+    "initialScopeDigest": "ce346ff96d9a1da0e1ff359c7f440fd09b86d1760e4d3af76edd4767596e0c9d",
+    "contractSkeletonDigest": "25a00459c754c2c61775a9cefbfefc88917f235935b7cda603b081d346dad071"
+  }
+}

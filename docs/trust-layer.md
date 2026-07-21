@@ -47,6 +47,8 @@ Typical safe options are:
 
 The Trust Layer does not make an LLM's confidence authoritative, replace branch protection or CODEOWNERS, create trusted identity, run production operations, or replace tests, scanners, SBOM/provenance tooling, or release-provider evidence. Those systems remain responsible for the facts they produce; AI Cockpit records and governs how those facts support a repository decision.
 
+For structured critical-domain requests, the guard evaluates `target`, `action`, `environment`, and `effect` together. Documentation, read-only work, tests, and sandbox mocks can remain ready; explicit effects such as force-success, validation bypass, authorization bypass, or production execution are blocked with a signal ID, policy reference, evidence, safe alternative, and resume condition. This is deterministic boundary coverage, not complete semantic risk classification.
+
 Run the local failure-oriented demonstration:
 
 ```sh

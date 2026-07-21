@@ -1,0 +1,160 @@
+{
+  "contractVersion": 2,
+  "workItemId": "critical-domain-operation-model",
+  "mode": "code",
+  "title": "Model critical domain operation environment and effect",
+  "baseCommit": "05055285f8f792d3efae636e20de4767ebb57033",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/critical-domain-operation-model.contract.json",
+    ".ai/work-items/active/critical-domain-operation-model.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+    ,"scripts/ai_critical_domain_guards.py",
+    "tests/test_critical_domain_guards.py",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": ["Broad multilingual semantic classification.", "Release and execution-plan cleanup."],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Defines the Critical Domain × Operation × Environment × Effect acceptance."
+    },
+    {"path": "scripts/ai_critical_domain_guards.py", "reason": "Existing critical-domain keyword guard."},
+    {"path": "tests/test_critical_domain_guards.py", "reason": "Critical-domain regression coverage."},
+    {"path": "docs/trust-layer.md", "reason": "Trust Layer boundary documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["critical_domain_boundary"],
+    "reason": "Deterministic operation classification with explicit safe fixture allowances and fail-closed production effects."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial remediation and the operation matrix is bounded."
+  },
+  "preReviewWarnings": [
+    "Review safe test/sandbox allowances and fail-closed production effects."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Critical domain decisions use target domain, action, environment, and effect when requestedOperation is present.",
+    "Payment, authentication, authorization, personal-data, secrets, and production-release operations distinguish safe docs/tests/sandbox from force-success, validation bypass, and production execution.",
+    "Every block includes signalId, policy reference, evidence, safe alternatives, and resume condition; legacy keyword fixtures remain fail closed.",
+    "Regression tests and Trust Layer documentation record the deterministic boundary without claiming semantic completeness."
+  ],
+  "guidelines": ["Keep critical-domain policy deterministic and evidence-oriented.", "Do not weaken existing bypass, forgery, or production-operation guards."],
+  "intent": {
+    "problem": "Critical-domain guard currently blocks sensitive nouns without distinguishing harmless documentation/tests from dangerous operations and environments.",
+    "constraints": ["Use structured operation fields when available and retain the legacy keyword fallback.", "Do not claim broad semantic risk classification.", "Preserve fail-closed bypass, evidence-forgery, and production-operation behavior."],
+    "rationale": "A small domain × operation × environment × effect matrix reduces false positives for safe fixtures while blocking explicit dangerous effects."
+  },
+  "rawUserRequest": "Model critical domain operations by target, action, environment, and effect with safe alternatives and fail-closed evidence.",
+  "rawRequestSource": {"type": "human", "reference": "user-request:serial-review-remediation", "capturedAt": "2026-07-21", "digest": "sha256:critical-domain-v1"},
+  "declaredIntent": {"summary": "Distinguish safe critical-domain fixtures from dangerous effects using structured operations.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Payment sandbox mock and documentation are allowed", "required": true, "status": "verified", "evidence": ["tests/test_critical_domain_guards.py::test_safe_payment_sandbox_and_documentation_are_ready"]},
+    {"scenario": "Payment force-success and production execution are blocked with resumable evidence", "required": true, "status": "verified", "evidence": ["tests/test_critical_domain_guards.py::test_dangerous_payment_effect_is_blocked_with_structured_evidence"]},
+    {"scenario": "Authentication and personal-data safe tests remain distinguishable", "required": true, "status": "verified", "evidence": ["tests/test_critical_domain_guards.py::test_safe_authentication_test_is_ready"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/critical-domain-operation-model.json",
+    "baseCommit": "05055285f8f792d3efae636e20de4767ebb57033",
+    "initialScopeDigest": "1d0a21923942bd17c7ce511a2fb80649da455e9be4f5ce417ca8bf31bd66b6a7",
+    "contractSkeletonDigest": "e80793676801bc60db66c71177458b631029871eac1411c1c404b627f26cb613"
+  }
+}

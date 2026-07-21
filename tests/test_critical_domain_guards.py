@@ -35,3 +35,48 @@ def test_production_operations_are_rejected():
 def test_safe_contract_is_ready():
     results = ai_critical_domain_guards.critical_domain_signals(contract())
     assert all(item["value"] == "Ready" for item in results)
+
+
+def operation(target, action="test", environment="sandbox", effect="mock"):
+    value = contract("structured critical-domain operation")
+    value["requestedOperation"] = {
+        "target": target,
+        "action": action,
+        "environment": environment,
+        "effect": effect,
+        "authorityRequired": False,
+    }
+    return value
+
+
+def test_safe_payment_sandbox_and_documentation_are_ready():
+    assert (
+        ai_critical_domain_guards.critical_domain_signal(operation("payment", effect="mock"))[
+            "value"
+        ]
+        == "Ready"
+    )
+    assert (
+        ai_critical_domain_guards.critical_domain_signal(
+            operation("payment", action="document", effect="describe")
+        )["value"]
+        == "Ready"
+    )
+
+
+def test_dangerous_payment_effect_is_blocked_with_structured_evidence():
+    result = ai_critical_domain_guards.critical_domain_signal(
+        operation("payment", action="modify", environment="production", effect="force_success")
+    )
+    assert result["value"] == "Inconsistent"
+    evidence = " ".join(result["evidence"])
+    assert "signalId" in evidence and "policy" in evidence and "resume" in evidence
+
+
+def test_safe_authentication_test_is_ready():
+    assert (
+        ai_critical_domain_guards.critical_domain_signal(
+            operation("authentication", effect="mock")
+        )["value"]
+        == "Ready"
+    )

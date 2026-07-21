@@ -37,6 +37,8 @@ _FORGERY_TERMS = (
     "stale approval",
     "chat approval",
 )
+_SAFE_EFFECTS = {"mock", "describe", "document", "validate_test", "read_only"}
+_DANGEROUS_EFFECTS = {"force_success", "disable_validation", "bypass_authorization", "execute"}
 
 
 def _text(contract: dict[str, Any]) -> str:
@@ -54,6 +56,32 @@ def _matches(text: str, terms: tuple[str, ...]) -> list[str]:
 
 
 def critical_domain_signal(contract: dict[str, Any]) -> dict[str, Any]:
+    operation = contract.get("requestedOperation")
+    if isinstance(operation, dict):
+        target = str(operation.get("target", "")).casefold()
+        environment = str(operation.get("environment", "")).casefold()
+        effect = str(operation.get("effect", "")).casefold()
+        domains = sorted(domain for domain in _DOMAINS if domain in target)
+        if domains and effect in _SAFE_EFFECTS and environment in {"sandbox", "test", "repository"}:
+            return _signal(
+                "Critical Domain Guard",
+                "Ready",
+                [f"safe structured operation for {', '.join(domains)}: {effect} in {environment}"],
+                ["contract.requestedOperation", ".ai/project/capabilities.json"],
+            )
+        if domains and (environment in {"production", "live"} or effect in _DANGEROUS_EFFECTS):
+            return _signal(
+                "Critical Domain Guard",
+                "Inconsistent",
+                [
+                    "signalId: critical-domain.operation-effect.blocked",
+                    f"policy: critical-domain/{domains[0]}/dangerous-effect",
+                    f"evidence: target={target}, environment={environment}, effect={effect}",
+                    "safe alternative: use local fixtures, mocks, or a test environment",
+                    "resume condition: provide reviewed evidence for a non-production safe effect",
+                ],
+                ["contract.requestedOperation", ".ai/project/capabilities.json"],
+            )
     text = _text(contract)
     found = {domain: _matches(text, terms) for domain, terms in _DOMAINS.items()}
     found = {domain: terms for domain, terms in found.items() if terms}
@@ -64,12 +92,12 @@ def critical_domain_signal(contract: dict[str, Any]) -> dict[str, Any]:
             ["no critical-domain operation is declared"],
             ["contract.intent"],
         )
-    domains = ", ".join(sorted(found))
+    domains_text = ", ".join(sorted(found))
     return _signal(
         "Critical Domain Guard",
         "Inconsistent",
         [
-            f"critical domain requires structured approval before implementation: {domains}",
+            f"critical domain requires structured approval before implementation: {domains_text}",
             "safe alternative: use local fixtures, mocks, or a test environment",
         ],
         [".ai/project/capabilities.json", "contract.intent"],

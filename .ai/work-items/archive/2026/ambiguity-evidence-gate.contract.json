@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ambiguity-evidence-gate",
+  "mode": "code",
+  "title": "Block ambiguous requests without measurable evidence",
+  "baseCommit": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+    ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_trust_guards.py",
+    "tests/test_trust_guards.py",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": [
+    "Broad multilingual semantic classification",
+    "Changing existing capability or critical-domain policy",
+    "Release, documentation alignment, and plan cleanup work items"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Work Item 4 acceptance and sequencing source."
+    },
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Existing intent guard boundary to extend."
+    },
+    {
+      "path": "tests/test_trust_guards.py",
+      "reason": "Existing deterministic guard test contract."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["false_positive"],
+    "reason": "The guard must block unsupported ambiguity without rejecting valid concise intents."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The deterministic scope and verification evidence are declared."
+  },
+  "preReviewWarnings": [
+    "Review false-positive boundaries for concise but measurable intents."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Ambiguous wording such as '随便改改' or 'make it better' is Partial when the intent has no target, expected outcome, or measurable success evidence.",
+    "A concise intent with a concrete target and measurable acceptance evidence remains Ready.",
+    "The guard emits machine-readable evidence naming the missing evidence categories and preserves existing ambiguity behavior.",
+    "Tests cover ambiguous, measurable, and legacy keyword cases; trust-layer documentation describes the boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Requests that say to improve or change the repository without identifying a target, expected outcome, or measurable evidence can pass review without a deterministic implementation boundary.",
+    "constraints": [
+      "Keep the guard deterministic and evidence-oriented.",
+      "Do not attempt broad multilingual or hidden-risk semantic interpretation.",
+      "Preserve existing keyword ambiguity behavior and fail closed for missing evidence."
+    ],
+    "rationale": "A small evidence-category gate makes the existing intent signal actionable while keeping semantic scope explicit."
+  },
+  "rawUserRequest": "针对最新评审继续执行：缺失证据时判定模糊请求，不通过的话继续修改。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:2026-07-21",
+    "capturedAt": "2026-07-21",
+    "digest": "sha256:user-authorized-review-remediation"
+  },
+  "declaredIntent": {
+    "summary": "Add a deterministic ambiguity evidence gate to the Trust Layer.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/ambiguity-evidence-gate.json",
+    "baseCommit": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+    "initialScopeDigest": "574428f679a119da86ef325cecfd96957e7ffb23fea6e3978299dd0af0b2a03f",
+    "contractSkeletonDigest": "e310a52d58b156bcb289d6cc252bbff58c49f8b37bd7dbbfe06b71c0d70fb842"
+  }
+}

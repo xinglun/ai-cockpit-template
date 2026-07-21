@@ -28,6 +28,32 @@ def test_ambiguous_intent_is_not_ready():
     assert result["evidence"]
 
 
+def test_underspecified_intent_reports_missing_evidence_categories():
+    value = copy.deepcopy(contract())
+    value["intent"]["problem"] = "Make it better."
+    result = ai_trust_guards.intent_guard_signal(value)
+    assert result["value"] == "Partial"
+    evidence = " ".join(result["evidence"])
+    assert "target" in evidence
+    assert "expected outcome" in evidence
+    assert "measurable success evidence" in evidence
+
+
+def test_ambiguous_wording_with_explicit_evidence_is_still_reviewable():
+    value = copy.deepcopy(contract())
+    value["intent"].update(
+        {
+            "problem": "Improve something somehow.",
+            "target": "intent_guard_signal",
+            "expectedOutcome": "Return Partial for unsupported ambiguity.",
+            "successEvidence": "Tests assert signal value and evidence categories.",
+        }
+    )
+    result = ai_trust_guards.intent_guard_signal(value)
+    assert result["value"] == "Partial"
+    assert "ambiguous wording" in " ".join(result["evidence"])
+
+
 def test_conflicting_constraints_are_inconsistent():
     value = copy.deepcopy(contract())
     value["intent"]["constraints"] = [

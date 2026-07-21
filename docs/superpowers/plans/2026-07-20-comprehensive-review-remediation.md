@@ -9,7 +9,6 @@ keywords:
   - evidence-governance
   - work-item-lifecycle
 ---
-
 # 2026-07-20 最新评审整改执行计划（修订版）
 
 > **历史保留（2026-07-21）**：本计划已被 [2026-07-21 最新评审整改计划](2026-07-21-review-remediation.md) 替代。本文件仅作为审计历史保留，不再作为执行中的计划；后续工作必须创建新的独立计划和 Work Item。
@@ -36,7 +35,7 @@ keywords:
 ### 评审范围
 - 重新以 2026-07-20 最新 `main`、提交 `bd206fe` 为基准进行评审。
 - 不直接继承上次评审结论；本文件只记录本轮评审实际确认的修复和剩余问题。
-- 已确认本轮已完成的改进：默认 Enforced Preflight、Raw User Request 字段、中文/日文/英文已知风险短语、Trust Layer Stop Demo、企业安全边界与模板导入稳定性文档、v0.5.34 发布、Adoption Smoke 修复。
+- 已确认本轮已完成的改进：默认 Enforced Preflight、Raw User Request 字段、中文/日文/英文已知风险短语、Trust Layer Stop Demo、企业安全边界与模板导入稳定性文档、上一版发布、Adoption Smoke 修复。
 
 ### 当前总体结论
 | 评审对象 | 结论 |
@@ -158,7 +157,7 @@ keywords:
 **目标：** 用唯一状态机和 canonical 文件替代分散的 release/candidate/promotion 元数据推导。
 **范围线索：** Release Workflow、`release.json`、`next-release.json`、版本元数据、Release Schema、发布检查和文档。
 
-**验收：** 状态唯一经过 `development → candidate_prepared → candidate_verified → release_published`；canonical 文件至少记录 `state`、`releaseTag`、`sourceCommit`、`previousRelease`、`evidenceBundleDigest`；失败不发布、不移动 Tag、不删除证据；现有 v0.5.34 证据可兼容读取或有明确迁移记录。
+**验收：** 状态唯一经过 `development → candidate_prepared → candidate_verified → release_published`；canonical 文件至少记录 `state`、`releaseTag`、`sourceCommit`、`previousRelease`、`evidenceBundleDigest`；失败不发布、不移动 Tag、不删除证据；既有发布证据可兼容读取或有明确迁移记录。
 
 ### 工单 9：Guard 协议收敛
 **优先级：** P2

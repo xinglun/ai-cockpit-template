@@ -1,0 +1,201 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi14-release-v0535",
+  "mode": "code",
+  "title": "Publish v0.5.35",
+  "baseCommit": "8e7454e50d689827c9c3d067371283e10dc0e03b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/wi14-release-v0535.contract.json",
+    ".ai/work-items/active/wi14-release-v0535.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "next-release.json",
+    "release-state.json",
+    "docs/releases/v0.5.35.md",
+    "docs/releases/v0.5.34.md",
+    "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+    "docs/superpowers/plans/2026-07-21-review-remediation.md",
+    "docs/superpowers/plans/README.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "install.sh",
+    ".ai/cockpit/*.json",
+    "tests/test_install_script.py",
+    "tests/test_install_sh.py"
+  ],
+  "outOfScope": [
+    "Publishing the tag or GitHub Release before the release-preparation PR is merged and remote checks pass.",
+    "Changing application/runtime behavior or governance policy.",
+    "Deleting release or Work Item evidence."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+      "reason": "Requires release only after WI01-WI13 complete lifecycle closure."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published release contract that must declare the promoted tag."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Unpublished next-patch candidate projection."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Canonical release lifecycle and source-commit evidence."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Authoritative release workflow for exact source, tag, assets, and provider evidence."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Release sequence, source identity, asset, SBOM, provenance, and digest requirements."
+    },
+    {
+      "path": "docs/releases/v0.5.34.md",
+      "reason": "Previous release note used as the release-note format reference."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_identity", "provider_mutation"],
+    "reason": "Release publication creates an immutable tag and provider assets; the workflow must bind every artifact to the verified default-branch source commit and fail closed on mismatch."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorization explicitly includes release preparation, publication, verification, PR/merge, closure, and branch cleanup; provider publication remains gated by the merged PR and workflow evidence."
+  },
+  "preReviewWarnings": [
+    "Verify all prior Work Items are closed; promote only the exact next patch tag; bind source commit, remote/default branch, tag, release assets, SBOM, provenance, digest, workflow run, and strict smoke evidence; retain enterprise-security NO-GO wording."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All WI01-WI13 archive, PR merge, ai-close-work-item, branch cleanup, and default-branch synchronization evidence is present before publication.",
+    "v0.5.35 is the exact next patch after published v0.5.34 and release metadata is internally consistent.",
+    "The release workflow publishes only the verified default-branch source commit and creates matching tag and provider assets.",
+    "SBOM, provenance, release-digests, source identity, workflow, and strict smoke verification are recorded or externally verified.",
+    "The release note and installation references do not claim provider evidence or enterprise assurance before it exists."
+  ],
+  "guidelines": [
+    "Release metadata must remain machine-verifiable and source-bound.",
+    "Release evidence must distinguish local candidate baselines from provider-published assets.",
+    "Do not claim enterprise security, compliance, trusted identity, or production readiness from this release workflow."
+  ],
+  "intent": {
+    "problem": "WI01-WI13 are fully closed, and the prepared v0.5.35 candidate must now be promoted and published without mixing source commits, mutable branches, provider assets, or enterprise-assurance claims.",
+    "constraints": ["Use only the merged default-branch commit after WI13 closure.", "Do not rewrite v0.5.34 or any historical tag.", "Run local release-state, distribution, supply-chain, smoke, and quality checks before publication.", "Provider publication is allowed only through the repository release workflow after the PR is merged."],
+    "rationale": "The release workflow is the controlled boundary that can create immutable tags and source-bound provider assets; repository metadata must be prepared and reviewed before invoking it."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Prepare the next exact patch release v0.5.35 after WI01-WI13 closure, with source-bound provider evidence generated by the merged release workflow.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "all prior Work Items are archived, merged, closed, branch-cleaned, and default-branch synchronized", "required": true, "status": "verified", "evidence": [".ai/work-items/archive/index.json", "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md"]},
+    {"scenario": "candidate and published release metadata are exact next-patch and internally consistent", "required": true, "status": "verified", "evidence": ["release.json", "next-release.json", "release-state.json"]},
+    {"scenario": "provider tag/assets and source-bound evidence match the verified default-branch commit", "required": false, "status": "not_applicable", "evidence": [".github/workflows/release.yml", "docs/reference/distribution.md"], "reason": "Provider evidence is generated only by the merged release workflow after this preparation Work Item is reviewed."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "The user explicitly authorized release preparation/publication, verification, PR/merge, lifecycle closure, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi14-release-v0535.json",
+    "baseCommit": "8e7454e50d689827c9c3d067371283e10dc0e03b",
+    "initialScopeDigest": "595d8599174ad6396f66e8ac3a8095c8a7a545eb855cd7121db6b6d43c25102f",
+    "contractSkeletonDigest": "d12f15b14e4825593df1366af890a88a6514c9a60fb55d82211ddb11b8a72fcc"
+  }
+}

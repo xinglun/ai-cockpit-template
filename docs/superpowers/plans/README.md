@@ -7,7 +7,6 @@ keywords:
   - audit
   - work-item
 ---
-
 # Execution Plan Index
 
 本目录保存可审计的执行计划。完成计划保留，用于追溯 Work Item、PR、验证结果和发布证据。
@@ -36,6 +35,6 @@ keywords:
 - [2026-07-15 Supply Chain Evidence](2026-07-15-supply-chain-evidence.md)
 - [2026-07-16 Archive History Threshold](2026-07-16-decouple-archive-history-threshold.md)
 - [2026-07-20 全面评审整改（修订版）](2026-07-20-comprehensive-review-remediation.md) — 已被 2026-07-21 计划替代，保留审计历史。
-- [2026-07-21 最新评审整改](2026-07-21-review-remediation.md) — 工单 1–17 已完成，PR #168 合并，v0.5.34 已发布，最后工单已关闭。
+- [2026-07-21 最新评审整改](2026-07-21-review-remediation.md) — 工单 1–17 已完成，PR #168 合并，上一版已发布，最后工单已关闭。
 
 相邻的 `../specs/` 属于独立设计证据，不随计划清理删除。

@@ -14,6 +14,8 @@ AI Cockpit は **汎用テンプレート + ローカルキャリブレーショ
 
 `--create-adoption` によるインストールはトランザクション型です。バリデーションはブランチ変更より前に完了し、`--dry-run` は Git fetch やブランチ変更を一切行いません。失敗した場合は元のブランチまたは detached HEAD とファイルシステムを復元します。テンプレートのサプライチェーン証拠ファイル（`.ai/cockpit/release-digests.json`、`.ai/cockpit/sbom.json`、`.ai/cockpit/provenance.json`）は採用者ツリーにコピーされません。これらはテンプレートリポジトリ外では意味を持たないリリースアーティファクトのダイジェストや証明を記録したファイルです。
 
+インストーラーは `.ai/cockpit/adoption-runtime-verification.json` も作成します。この記録は採用者側の Contract、Summary、Start Receipt に結び付き、ソースのリリース識別子と実際のチェック結果を記録します。採用者固有のツールを実行できない場合は `not_run` のまま保持します。`projectQualityState: not_configured`、`readiness: not_ready`、`enterpriseAssurance: not_claimed` を明示し、後続の `configure_ai_cockpit` Work Item が完了するまで状態を昇格させません。テンプレート所有の SBOM、Provenance、release digest、baseline は採用者の証拠として扱いません。
+
 Bootstrap Wizard の状態機械は採用対象リポジトリの外部に保持する副作用のない Session です。`Detect → Propose → Configure → Review → Confirm`、`Back`、`Cancel`、`Resume` を扱い、上流の Revision が変わると下流の判断を無効化します。状態機械自身はリポジトリを書き込まず、Calibration や本番準備完了を主張しません。
 
 `scripts/bootstrap_repository.py` は Session が使う読み取り専用の事実を提供します。正規化された Root、Commit、Branch または detached HEAD、staged/unstaged/untracked と conflict のパス、remote の fetch/push URL、remote symbolic HEAD、local/remote branch、およびローカル Cockpit の存在を記録します。remote HEAD が無い場合は無いまま保持し、インストール済みであることを Adoption Ready と解釈しません。後続の Bootstrap 書き込み直前に `revalidate_repository` が確認済みの Root、Branch、Commit、dirty paths、remote の事実、Bootstrap Base Commit、conflict state を比較します。不一致が一つでもあれば stale confirmation として停止し、Session を Review に戻します。この検出器は conflict を解決せず、Evidence も書き込みません。

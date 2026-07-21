@@ -1,0 +1,426 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wi04-adoption-evidence",
+  "contractPath": ".ai/work-items/archive/2026/wi04-adoption-evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/wi04-adoption-evidence.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi04-adoption-evidence.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/ai_adoption_evidence.py",
+      "reason": "Added bound adopter Runtime Verification builder and fail-closed validator."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Generate adoption-runtime-verification.json after first adoption records and status."
+    },
+    {
+      "path": "tests/test_adoption_evidence.py",
+      "reason": "Cover valid bindings, not_run semantics, template evidence rejection, and receipt drift."
+    },
+    {
+      "path": "tests/test_adoption_e2e.py",
+      "reason": "Existing adoption lifecycle regression coverage exercised with the new runtime record."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Existing installer regression coverage exercised with the new runtime record."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Documented Runtime Verification provenance and non-readiness states."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Documented Runtime Verification provenance and non-readiness states in Japanese."
+    },
+    {
+      "path": ".ai/work-items/starts/wi04-adoption-evidence.json",
+      "reason": "Immutable Work Item start receipt bound to the base commit and initial scope."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi04-adoption-evidence.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/glossary.md",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_start_receipt.py",
+    "tests/test_adoption_e2e.py",
+    "tests/test_installer.py",
+    "docs/reference/distribution.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:44.762357+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "09272656d106260c1e530f9eb21b2d1c3ca30b6fd53aa7c70c6d1cae5ad2edfd",
+      "commandHash": "a1781325f94363d9b791f93613e684d6044abdbdb56aafe6d9c8481620cda23b",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wi04-adoption-evidence.contract.json work item contract check passed: .ai/work-items/active/wi04-adoption-evidence.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:44.900585+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "98060b9cb3ef62ba7328e55574dab11fde698deea1ababbe2c630336bdd9c62f",
+      "commandHash": "49f8a8f716a96805df59b7dddc303127a5473e0be75df168d7e914ce3c603e6f",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wi04-adoption-evidence.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:45.034193+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "cc1748b228c6343e18409c6c3030a04f528e6a9907124e7dad7aa2cf680d91e3",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wi04-adoption-evidence.contract.json [warning] restricted_write: .ai/cockpit/adoption.ja.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/adoption.md (.ai/**) - AI governance configuration. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:45.281110+00:00",
+      "exitCode": 0,
+      "durationMs": 197,
+      "outputDigest": "8f5cb369a4117c0459ee77b2d54532f3ddff6e15015813005a85fe9266a2af6f",
+      "commandHash": "22048149dcc3c3cccaadd5132edad3c47f00940a1469576e8cbc30b150bc4840",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wi04-adoption-evidence.contract.json --summary .ai/work-items/active/wi04-adoption-evidence.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wi04-adoption-evidence` - Contract Hash: `dd1f57851baff750` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` - Requ"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:45.451603+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "93ee57be7090ad32c071a3099f663aac2ab8e5e41660ada70293d6cf5d2a3ae8",
+      "commandHash": "cf3db4f60cede6e00594efaa4870c34c3887bb593ab1a44d3c90125f1887e19b",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wi04-adoption-evidence.summary.json review policy matched 5 path(s) [review] .ai/work-items/starts/wi04-adoption-evidence.json [review] scripts/ai_adoption_evidence.py [review] .ai/cockpit/adoption.ja.md [review] .ai/cockpit/adoption.md [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:45.575706+00:00",
+      "exitCode": 0,
+      "durationMs": 84,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:45.722718+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:45.843862+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "e7b764afef76c4f1579aed7f6cce1b7ca5bf073b05e5b580815c853c8d453aec",
+      "commandHash": "b39fab2ff1e29b39a2a9c66d161ccbf8a4cbc9960af64ec48153acab7f703bec",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wi04-adoption-evidence.contract.json --summary .ai/work-items/active/wi04-adoption-evidence.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:46.023101+00:00",
+      "exitCode": 0,
+      "durationMs": 131,
+      "outputDigest": "65ba3ffaf39427049365664f64342b74c69352b4989f618fb616202d1540cb94",
+      "commandHash": "6ceb340f91e25ff51c87e92c621ef9c6e7cafe166589a6ccd1352d92f3874418",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wi04-adoption-evidence.contract.json --summary .ai/work-items/active/wi04-adoption-evidence.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:59:46.258047+00:00",
+      "exitCode": 0,
+      "durationMs": 185,
+      "outputDigest": "0a735dbbbfc5bee6847bfe75dcfe1e8620a8418aa0909f868f4340dbcd6a9ce3",
+      "commandHash": "637413ad8d0d585976582b1813d3080b87167b3751178ceb8069548525793905",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wi04-adoption-evidence.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/adoption.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/adoption.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contr"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T15:02:20.357048+00:00",
+      "exitCode": 0,
+      "durationMs": 154042,
+      "outputDigest": "402ce764a8c33b87ef6157d4327dfb637e2c246835661d67ae2e602834f548f7",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2ce5758eed79ce9a3365e4c73602b82da4d8910c8429821543ff4b0b05716dcc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 128 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 19%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T15:02:21.636630+00:00",
+      "exitCode": 0,
+      "durationMs": 223,
+      "outputDigest": "e646cf674431b5391a7d8e7822a3a9a66a87f24f7d525e7a6e06e52c7729e545",
+      "commandHash": "e2bafe4d38412a1d262f05f98c72e66448c964b7b5f5d868a15f4236d36a7fba",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2e913206a1edd5918e0c3660d1982b9550fd6a75268365fa3b7b426815399f27",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wi04-adoption-evidence.contract.json --summary .ai/work-items/active/wi04-adoption-evidence.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T15:02:21.913690+00:00",
+      "exitCode": 0,
+      "durationMs": 230,
+      "outputDigest": "abe32f4810d43e15b1f7ecf51b975b96e41c76a23d180dc154107cac625c740d",
+      "commandHash": "8569f827b76981b7bad34e630356be5ea39684566ceea1ca2b3b741326ef904a",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2e913206a1edd5918e0c3660d1982b9550fd6a75268365fa3b7b426815399f27",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wi04-adoption-evidence.contract.json --summary .ai/work-items/active/wi04-adoption-evidence.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T15:02:22.001008+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2e913206a1edd5918e0c3660d1982b9550fd6a75268365fa3b7b426815399f27",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T15:02:22.092124+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "bb86e7d43115a2d1cc38a642fbeeb70d5c07999ad326c7a2864a14d4ace96511",
+      "commandHash": "3daa24d039f39b8a401bf57829d90ebcb058be4ca89e172ef31caf9fa44f57eb",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "2e913206a1edd5918e0c3660d1982b9550fd6a75268365fa3b7b426815399f27",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wi04-adoption-evidence.contract.json --summary .ai/work-items/active/wi04-adoption-evidence.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wi04-adoption-evidence.summary.json CONTRACT=.ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T15:02:23.078018+00:00",
+      "exitCode": 0,
+      "durationMs": 100,
+      "outputDigest": "36fb7e1145db093d3447333cf58575a9c2df64748bb0285b46d06e346236c8d1",
+      "commandHash": "fcc66d54ba7e79be95f95eda2dd9c2419f79cc9b25d95795c925b6223291f6d3",
+      "contractHash": "dd1f57851baff750a1bbc8b32274b0eaa85cf759260725debb815246552d60b1",
+      "commitSha": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+      "executionContractPath": ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+      "worktreeDigest": "c7d40115f872cef002d0a61ae62cfe16c7c0f9855ecedb0dcc71a1a129ccf3c3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wi04-adoption-evidence.summary.json --contract .ai/work-items/active/wi04-adoption-evidence.contract.json ai summary check passed: .ai/work-items/active/wi04-adoption-evidence.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Runtime Verification APIs have docstrings and are documented in English/Japanese adoption guides."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The new evidence module uses standard library JSON plus the existing receipt binding interface."
+    },
+    {
+      "guideline": "Adoption evidence must be derived from the adopter repository and must not claim template-owned evidence as adopter evidence.",
+      "compliant": true,
+      "evidence": "Builder rejects template-owned SBOM, provenance, release-digest, and baseline paths; project quality remains not_configured."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Adoption evidence is local and bound, but project quality and production readiness remain intentionally unconfigured.",
+    "mitigation": "Keep not_run, not_configured, not_ready, and not_claimed states until WI05 and later configuration checks complete."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/adoption-runtime-verification.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Contract/Summary/Receipt digest binding",
+      "template-owned evidence rejection",
+      "not_run and not_configured semantics"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "dd1f57851baff750",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Preflight, Contract, and Scope evidence established before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "dd1f57851baff750",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Full quality and governance checks passed before review."
+    }
+  ],
+  "knownGaps": [
+    "Adopter-specific quality tools remain not_run until the Configuration Work Item selects and verifies them."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 391
+}

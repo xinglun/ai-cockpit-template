@@ -1,0 +1,180 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi04-adoption-evidence",
+  "mode": "code",
+  "title": "Adoption Evidence",
+  "baseCommit": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_adoption_evidence.py",
+    "tests/test_adoption_evidence.py",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/work-items/active/wi04-adoption-evidence.contract.json",
+    ".ai/work-items/active/wi04-adoption-evidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Product source and project-specific quality configuration",
+    "Template SBOM, provenance, release digest, and other template-owned supply-chain files",
+    "Configuration readiness approval and production policy activation"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Adoption boundary and evidence claims."
+    },
+    {"path": ".ai/cockpit/adoption.ja.md", "reason": "Japanese adoption boundary and evidence claims."},
+    {"path": "scripts/install_ai_cockpit.py", "reason": "Existing adoption Contract, Summary, and Receipt generation."},
+    {"path": "scripts/ai_start_receipt.py", "reason": "Receipt schema and binding validation."},
+    {"path": "tests/test_adoption_e2e.py", "reason": "Existing end-to-end adoption lifecycle evidence."},
+    {"path": "tests/test_installer.py", "reason": "Installer behavior and generated-file boundaries."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "adoption_evidence_boundary"
+    ],
+    "reason": "Evidence is local, structured, and explicitly excludes template-owned supply-chain claims and project quality configuration."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the serial remediation plan and complete Work Item lifecycle."
+  },
+  "preReviewWarnings": [
+    "Review evidence provenance, receipt binding, runtime check results, and explicit not-configured project quality state."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "First adoption writes a structured Runtime Verification record bound to the adopter Contract, Summary, Receipt, and source identity.",
+    "Runtime verification records actual executed checks and uses not_run for unavailable project-specific tools; it never treats template evidence as adopter evidence.",
+    "The adoption Contract and Summary continue to state that project quality and production readiness require the later Configuration Work Item.",
+    "Focused tests cover valid evidence, missing/mismatched binding, forbidden template evidence, and not_run tool results."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Adoption evidence must be derived from the adopter repository and must not claim template-owned evidence as adopter evidence."
+  ],
+  "intent": {
+    "problem": "Adoption creates a Contract, Summary, and Start Receipt, but reviewers need one machine-readable Runtime Verification record that proves what the adopter installation actually checked without overstating readiness.",
+    "constraints": [
+      "Use standard-library JSON and existing receipt bindings.",
+      "Record adopter source identity and actual check outcomes; unavailable project tools are not_run.",
+      "Reject template SBOM, provenance, release-digest, and template baseline files as adopter evidence.",
+      "Do not modify product code or approve project quality configuration."
+    ],
+    "rationale": "A bound runtime record makes adoption evidence auditable and keeps the boundary between template release evidence and adopter-local evidence explicit."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Generate and validate adopter-local Runtime Verification evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "valid adopter evidence binds Contract, Summary, Receipt, and source identity", "required": true, "status": "verified", "evidence": ["tests/test_adoption_evidence.py"]},
+    {"scenario": "mismatched or missing bindings fail closed", "required": true, "status": "verified", "evidence": ["tests/test_adoption_evidence.py"]},
+    {"scenario": "template-owned supply-chain evidence is rejected", "required": true, "status": "verified", "evidence": ["tests/test_adoption_evidence.py"]},
+    {"scenario": "unavailable project tools remain not_run and do not become passed", "required": true, "status": "verified", "evidence": ["tests/test_adoption_evidence.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-plan-execution",
+    "reason": "User explicitly authorized governance code, tests, documentation, PR, merge, archive, close, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi04-adoption-evidence.json",
+    "baseCommit": "e960d44aa8640c121b74e67d53625e6e3fab7998",
+    "initialScopeDigest": "ebc0f5b63eca3a61d521aa74eff459fa38d3c61dc0893bec6e7f859f6f60919d",
+    "contractSkeletonDigest": "51dc96eca9d0236f212bbf82f13000e1c3e6477aabb890befc377041908e80dc"
+  }
+}

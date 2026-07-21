@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import cast
 
 from ai_generate_status import write_no_active_status
+from ai_adoption_evidence import build_runtime_verification
 from ai_upgrade_conflict_report import build_report
 from ai_preflight_review import upgrade_conflict_gate
 from ai_start_receipt import build_receipt, receipt_binding
@@ -36,6 +37,7 @@ STACKS = {
     "csharp",
 }
 SCRIPT_NAMES = {
+    "ai_adoption_evidence.py",
     "ai_doctor.py",
     "ai_check_adoption_ready.py",
     "ai_archive_work_item.py",
@@ -952,7 +954,9 @@ class Installer:
     def finalize_adoption_records(self) -> None:
         contract_path, summary_path = self.adoption_paths()
         status_path = self.target / ".ai" / "cockpit" / "current_status.md"
+        runtime_path = self.target / ".ai" / "cockpit" / "adoption-runtime-verification.json"
         self.record("write", status_path, "generate adoption Work Item status")
+        self.record("write", runtime_path, "write adopter Runtime Verification evidence")
         if self.dry_run:
             return
         if not status_path.exists():
@@ -984,6 +988,27 @@ class Installer:
         )
         if result.returncode != 0:
             raise ValueError(f"failed to generate adoption status: {result.stderr.strip()}")
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        receipt_path = self.target / contract["startReceipt"]["path"]
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        checks = [
+            {
+                "check": item["check"],
+                "result": "not_run",
+                "reason": "Adopter project quality is owned by configure_ai_cockpit.",
+            }
+            for item in contract.get("verification", [])
+            if isinstance(item, dict) and isinstance(item.get("check"), str)
+        ]
+        runtime = build_runtime_verification(
+            contract,
+            summary,
+            receipt,
+            source_release_tag=str(contract.get("sourceReleaseTag", "unknown")),
+            source_repository=str(contract.get("sourceRepository", "unknown")),
+            checks=checks,
+        )
+        self.write_json(runtime_path, runtime)
 
     def upgrade_preflight(self) -> bool:
         active_dir = self.target / ".ai" / "work-items" / "active"

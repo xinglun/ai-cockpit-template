@@ -1,0 +1,172 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-status",
+  "mode": "code",
+  "title": "Add read-only installed version status and update check",
+  "baseCommit": "4678ffac642775e0f767adb63b5b8071b7006a16",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_lifecycle_facts.py",
+    "scripts/ai_install_status.py",
+    "tests/test_install_status.py",
+    "Makefile",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/work-items/active/installed-lifecycle-status.contract.json",
+    ".ai/work-items/active/installed-lifecycle-status.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Update apply, rollback execution, disable/enable, uninstall, purge, release publication, and final plan cleanup."],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Defines the read-only version/status/update-check objective and acceptance scenarios."
+    },
+    {
+      "path": "scripts/ai_lifecycle_facts.py",
+      "reason": "Existing read-only lifecycle facts are extended with validated installed status."
+    },
+    {
+      "path": "scripts/ai_install_facts.py",
+      "reason": "Installed manifest and version facts are the source of truth for status queries."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Read-only status must fail closed on missing or invalid installation facts and never mutate the worktree."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial execution of all planned Work Items and this read-only status scope is bounded."
+  },
+  "preReviewWarnings": [
+    "Verify missing, malformed, and release-evidence mismatch cases remain read-only fail closed."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Read-only status reports the installed version, runtime state, configuration state, conflicts, and rollback availability.",
+    "The status model supports all planned lifecycle states without applying changes.",
+    "Missing or invalid Manifest/Version/Release Evidence fails closed without modifying the repository.",
+    "CLI usage and tests cover current, no-update, update-available, invalid-fact, and non-mutating scenarios."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The repository has lifecycle facts but no decision-grade installed version/status/update-check interface, so operators cannot inspect lifecycle state without re-deriving it or risking mutation.",
+    "constraints": ["Read-only only; do not apply update, rollback, disable, uninstall, or purge operations.", "Fail closed when installed facts or release evidence are absent or invalid.", "Do not write status, proposals, or runtime files during a check."],
+    "rationale": "A deterministic read-only status boundary is required before any mutating lifecycle operation can be safely proposed or confirmed."
+  },
+  "rawUserRequest": "查收评审，总结，工单列表（列表最后加上：清理执行计划文档），做成修改执行计划的文档。计划里明确写清楚，每个工单要走完整的流程（包括PR，清理分支），然后循环执行下一个工单，直到全部工单完整为止。需要跟我确认的，写清楚，已经得到我的授权。走完当前文档的流程。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:continue-installed-lifecycle-review-remediation", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-installed-lifecycle-plan"},
+  "declaredIntent": {"summary": "Serially implement the current Installed Lifecycle plan with full Work Item lifecycle closure.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Current version and lifecycle state are reported from validated installed facts without mutation.", "required": true, "status": "verified", "evidence": ["tests/test_install_status.py"]},
+    {"scenario": "No-update and update-available checks are deterministic and read-only.", "required": true, "status": "verified", "evidence": ["tests/test_install_status.py"]},
+    {"scenario": "Missing facts or release evidence mismatch fails closed without modifying the worktree.", "required": true, "status": "verified", "evidence": ["tests/test_install_status.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized all planned Work Item implementation, verification, PR, merge, closure, and branch cleanup actions."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-status.json",
+    "baseCommit": "4678ffac642775e0f767adb63b5b8071b7006a16",
+    "initialScopeDigest": "d55eabb404c420b38e2e0d82c5dee00ed2d42038bf1bd09ec1bac39e26fff5be",
+    "contractSkeletonDigest": "8ad3cf230dde8ea715a26e6282d7a8ae0e3cba9b759f566ffb7993e9e652c6ea"
+  }
+}

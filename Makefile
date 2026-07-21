@@ -205,6 +205,12 @@ ai-doctor:
 ai-lifecycle-facts:
 	$(AI_PYTHON) scripts/ai_lifecycle_facts.py --root .
 
+ai-cockpit-version:
+	$(AI_PYTHON) scripts/ai_install_status.py version --root .
+
+ai-cockpit-update-check:
+	$(AI_PYTHON) scripts/ai_install_status.py update-check --root . $(if $(TARGET_VERSION),--target-version $(TARGET_VERSION),)
+
 cross-stack-long-cycle:
 	$(AI_PYTHON) scripts/cross_stack_long_cycle.py --root . > target/cross-stack-long-cycle.json
 

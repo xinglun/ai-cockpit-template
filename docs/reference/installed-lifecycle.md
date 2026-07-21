@@ -33,3 +33,5 @@ Ownership is an installation fact, not a path heuristic. The supported classes a
 - `historical`: archived evidence that is immutable and never overwritten.
 
 Shared regions use matching markers such as `# BEGIN AI COCKPIT MANAGED REGION: ci` and `# END AI COCKPIT MANAGED REGION: ci`. Missing, duplicate, nested, unmatched, or drifted markers produce a fail-closed decision. Unknown ownership, project content, and historical evidence are never mutation-authorized by the ownership evaluator.
+
+Use `make ai-cockpit-version` for the installed version and `make ai-cockpit-update-check TARGET_VERSION=vX.Y.Z` for a read-only update check. Both commands consume validated facts, report `readOnly: true`, and return an error state without writing files when facts or Release Evidence are missing or invalid.

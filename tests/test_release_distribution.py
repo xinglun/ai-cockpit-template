@@ -952,3 +952,17 @@ def test_highest_semver_tag_uses_numeric_version_order():
 def test_highest_semver_tag_requires_release_tags():
     with pytest.raises(RuntimeError, match="no semantic-version tags"):
         highest_semver_tag("a refs/tags/latest")
+
+
+def test_canonical_release_state_has_single_state_machine_record():
+    state = json.loads(
+        (release_distribution.ROOT / "release-state.json").read_text(encoding="utf-8")
+    )
+    assert state["state"] in {
+        "development",
+        "candidate_prepared",
+        "candidate_verified",
+        "release_published",
+    }
+    for field in ("releaseTag", "sourceCommit", "previousRelease", "evidenceBundleDigest"):
+        assert field in state

@@ -44,6 +44,8 @@ Compatibility support claims are split between a fixed-version blocking baseline
 
 The documented public release is defined in `release.json`. Release preparation may use the separate `next-release.json` candidate record, which must be marked `releaseState: candidate`, `published: false`, and exactly one patch after the published tag. Quick Install and installer source metadata consume only `release.json`; the candidate record cannot redirect the public installation entry. Release preparation validates the candidate record without rewriting the published metadata.
 
+Release progression is recorded in canonical `release-state.json`: `development` → `candidate_prepared` → `candidate_verified` → `release_published`. It carries the release tag, source commit, previous release, and evidence bundle digest; failed verification must leave the state and tag unchanged.
+
 Installer and upgrade flows intentionally exclude the template's `sbom.json`, `provenance.json`, and `bandit_low_risk_baseline.json`. Those files describe the template release; an adopter must generate and verify project-owned evidence after adoption.
 
 - Public releases can verify the installer archive when `AI_COCKPIT_TEMPLATE_SHA256` is provided and supported by the published release metadata.

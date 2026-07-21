@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release-state-machine",
+  "mode": "code",
+  "title": "Converge release state machine and evidence",
+  "baseCommit": "6cd180f85a63cc415810c63377b129a2ac762e29",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release-state-machine.contract.json",
+    ".ai/work-items/active/release-state-machine.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release-state.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "tests/test_release_distribution.py",
+    "docs/reference/distribution.md"
+  ],
+  "outOfScope": ["Publishing a new release", "Changing immutable v0.5.33 evidence", "Plan cleanup"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Work Item 8 canonical release state objective."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published release metadata boundary."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Candidate release compatibility boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_integrity"],
+    "reason": "The canonical record must not imply publication before candidate verification."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Canonical state fields and compatibility evidence are declared."
+  },
+  "preReviewWarnings": [
+    "Verify state transitions and required canonical fields without mutating published release evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The canonical release-state.json uses only development, candidate_prepared, candidate_verified, or release_published.",
+    "The canonical record contains state, releaseTag, sourceCommit, previousRelease, and evidenceBundleDigest.",
+    "Existing release.json and next-release.json compatibility remains intact.",
+    "Focused release tests and distribution documentation cover the state machine."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Release and candidate metadata are currently distributed across files without one canonical state record.",
+    "constraints": ["Do not rewrite immutable published release evidence.", "Do not publish or move tags in this Work Item."],
+    "rationale": "One canonical state record makes release progression and evidence ownership auditable."
+  },
+  "rawUserRequest": "继续执行第 8 个工单：收敛 Release 状态机，统一 canonical 文件并保持现有 v0.5.33 证据兼容。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-review-remediation"},
+  "declaredIntent": {"summary": "Add one canonical release state record without publishing a release.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Development state record", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py"]},
+    {"scenario": "Legacy published/candidate metadata remains readable", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py"]},
+    {"scenario": "Invalid state is rejected", "required": true, "status": "verified", "evidence": ["tests/test_release_distribution.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the complete sequential remediation, including governance policy calibration."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release-state-machine.json",
+    "baseCommit": "6cd180f85a63cc415810c63377b129a2ac762e29",
+    "initialScopeDigest": "05c20dea49792aa9cad2bbf68de96c5b39c3e089085bd6f6548bcb495681bb36",
+    "contractSkeletonDigest": "cd8028120380218bd0dae04948a13b4dd05a61029ae1b5061c56bd20058603a5"
+  }
+}

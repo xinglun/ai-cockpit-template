@@ -1,0 +1,118 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi15-plan-cleanup",
+  "mode": "code",
+  "title": "Finalize execution plan and record release evidence",
+  "baseCommit": "0027d0977c3453950d43cf32fc6289431ab3f275",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+    "docs/superpowers/plans/README.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/wi15-plan-cleanup.contract.json",
+    ".ai/work-items/active/wi15-plan-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Deleting archived Work Item evidence or changing archived summaries.",
+    "Changing implementation, policy, CI, release artifacts, or publishing another version.",
+    "Removing historical plans without recording their disposition."
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md", "reason": "Plan being closed and marked historical."},
+    {"path": "docs/superpowers/plans/README.md", "reason": "Plan index and retention alignment."},
+    {"path": ".ai/work-items/archive/index.json", "reason": "Authoritative Work Item closure index."},
+    {"path": ".ai/work-items/archive/2026/wi14-release-v0535.archive-manifest.json", "reason": "Release Work Item archival evidence."},
+    {"path": "release.json", "reason": "Published release identity and source binding."},
+    {"path": ".github/workflows/release.yml", "reason": "Release workflow evidence contract."},
+    {"path": "README.md", "reason": "Current lifecycle wording."},
+    {"path": "README.zh-CN.md", "reason": "Current Chinese lifecycle wording."},
+    {"path": "README.ja.md", "reason": "Current Japanese lifecycle wording."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["plan_cleanup", "release_evidence_record"],
+    "reason": "Documentation-only closure work with append-only evidence and already-authorized release records."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized serial execution through plan cleanup, including release and branch lifecycle closure."
+  },
+  "preReviewWarnings": [
+    "Record only observed PR, merge, tag, workflow, smoke, asset, and digest evidence; do not infer provider guarantees.",
+    "Preserve archived evidence and keep the plan's final four requested items in order.",
+    "Do not describe governance records as enterprise compliance, trusted identity, immutable audit, or sandbox guarantees."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit", "before_finish"],
+    "reason": "Record checkpoints before editing and before closure to prevent plan/evidence drift."
+  },
+  "acceptance": [
+    "The execution plan is marked historical/completed and retains all WI01-WI15 goals plus the serial full-lifecycle loop.",
+    "The final requested items remain: delusion testing, existing-document alignment, new release, and execution-plan cleanup.",
+    "The plan records actual WI01-WI15 PR/closure evidence and v0.5.35 provider evidence: PR 186, tag target, workflow 29859327137, strict smoke 29859350164, and published asset digests.",
+    "The plan index is aligned without deleting archived Work Item evidence or changing archived summaries.",
+    "Documentation metadata, complexity budget, AI governance checks, project quality checks, and status consistency pass."
+  ],
+  "guidelines": [
+    "Use source-bound factual wording and label unavailable evidence not_run.",
+    "Keep archived Work Item records append-only and preserve user authorization evidence.",
+    "Do not introduce public APIs or implementation changes in this Work Item."
+  ],
+  "intent": {
+    "problem": "The approved Bootstrap Adoption review remediation plan has completed its serial Work Items and needs a final historical disposition with release evidence and no loss of audit records.",
+    "constraints": ["Every Work Item must have completed the governed branch/PR/merge/close lifecycle.", "This Work Item may modify only the declared plan/index and governance evidence paths."],
+    "rationale": "A concise historical ledger makes the completed workflow, release provenance, and retention decisions discoverable without pretending that the plan itself is an enterprise security proof."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Complete the current execution plan serially and close its final documentation cleanup Work Item.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "WI01-WI14 lifecycle evidence", "required": true, "status": "verified", "evidence": ["Archive index and manifests record merged PRs, closure, branch deletion, and base synchronization."]},
+    {"scenario": "v0.5.35 publication evidence", "required": true, "status": "verified", "evidence": ["Published tag/release, workflow 29859327137, strict smoke 29859350164, and asset digests were inspected."]},
+    {"scenario": "plan retention and alignment", "required": true, "status": "verified", "evidence": ["The scoped plan and index are the declared documentation closure sources."]}
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true},
+    {"check": "aiScope", "required": true},
+    {"check": "aiGuards", "required": true},
+    {"check": "aiCheckpoint", "required": true},
+    {"check": "aiAgentRisk", "required": true},
+    {"check": "aiReviewPolicy", "required": true},
+    {"check": "aiBacktrack", "required": true},
+    {"check": "aiCoverage", "required": true},
+    {"check": "aiScenarioCoverage", "required": true},
+    {"check": "aiGuidelines", "required": true},
+    {"check": "aiSummary", "required": true},
+    {"check": "aiStatus", "required": true},
+    {"check": "aiStatusCheck", "required": true},
+    {"check": "aiStatusConsistency", "required": true},
+    {"check": "aiDiffOwnership", "required": true},
+    {"check": "quality", "required": true}
+  ],
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized plan cleanup, documentation alignment, release publication, PR/merge, archive, and branch cleanup."
+  },
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "Revert the WI15 documentation diff; archived Work Item evidence and published release assets remain unchanged.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi15-plan-cleanup.json",
+    "baseCommit": "0027d0977c3453950d43cf32fc6289431ab3f275",
+    "initialScopeDigest": "d7e45be94a23d391528d2cecbfa25cf78897551581e7619452c87ce75eb1d0e7",
+    "contractSkeletonDigest": "c2f53812c1929a0f6db3530db1f6a1133c736ac17407abcf03829aa0c13bcdef"
+  }
+}

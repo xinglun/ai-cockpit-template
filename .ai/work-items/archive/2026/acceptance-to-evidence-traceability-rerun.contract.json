@@ -1,0 +1,197 @@
+{
+  "contractVersion": 2,
+  "workItemId": "acceptance-to-evidence-traceability-rerun",
+  "mode": "code",
+  "title": "Trace Success Criteria through Acceptance Checks and Evidence",
+  "baseCommit": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+    ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_acceptance_policy.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_finish.py",
+    ".ai/guards/summary_policy.yaml",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "docs/contract-fields.md",
+    "tests/test_acceptance_policy.py",
+    "tests/test_ai_check_summary.py",
+    "tests/test_finish_readiness.py"
+  ],
+  "outOfScope": [
+    "Product source code outside Contract/Summary governance",
+    "Bootstrap lifecycle and release state machine",
+    "Fixture repositories and plan cleanup"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Work Item 6 Success to Acceptance to Check to Evidence objective."
+    },
+    {
+      "path": "scripts/ai_acceptance_policy.py",
+      "reason": "Existing Acceptance mapping policy and compatibility boundary."
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Summary verification evidence validation entry point."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_evidence"],
+    "reason": "The change tightens mapping evidence while preserving historic v1 readability."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Mapping rules, compatibility, and verification evidence are declared."
+  },
+  "preReviewWarnings": [
+    "Review Acceptance ID completeness, executed verification binding, and historic v1 compatibility."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A1: Every v2 Acceptance item uses a stable identifier and maps exactly once in Summary acceptanceEvidence.",
+    "A2: Each evidence mapping references an existing repository-relative path and passed Verification ID.",
+    "A3: Missing IDs, duplicate mappings, unexecuted checks, and malformed evidence are rejected while historic v1 remains readable.",
+    "A4: Focused tests and Contract field documentation cover the mapping boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Verification results prove that checks ran but do not by themselves prove which Acceptance criterion they support or whether the referenced evidence executed.",
+    "constraints": [
+      "Use stable A<n>: Acceptance identifiers.",
+      "Keep historic v1 archive validation read-only compatible.",
+      "Evidence paths must be repository-relative and machine-portable.",
+      "Do not claim an Acceptance is complete from command presence alone."
+    ],
+    "rationale": "Explicit mapping makes each Acceptance auditable without replacing the registered Verification command model."
+  },
+  "rawUserRequest": "继续执行第 6 个工单：建立 Success → Acceptance → Check → Evidence 正式追踪，识别缺证据和 Digest 不匹配。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:2026-07-21",
+    "capturedAt": "2026-07-21",
+    "digest": "sha256:user-authorized-review-remediation"
+  },
+  "declaredIntent": {
+    "summary": "Make Acceptance evidence mappings explicit and tied to executed verification.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {"scenario": "Complete v2 Acceptance mapping", "required": true, "status": "verified", "evidence": ["tests/test_acceptance_policy.py"]},
+    {"scenario": "Missing or duplicate Acceptance ID", "required": true, "status": "verified", "evidence": ["tests/test_acceptance_policy.py"]},
+    {"scenario": "Historic v1 archive compatibility", "required": true, "status": "verified", "evidence": ["tests/test_ai_check_summary.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/acceptance-to-evidence-traceability-rerun.json",
+    "baseCommit": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+    "initialScopeDigest": "073e1c246ecb36aeeaffe31a3f8dcc8a700846e387d0396d5fc939aaf7830bd1",
+    "contractSkeletonDigest": "84a32e57f9a7f6063b766471bf668951e8e36ff50e1d7b38724d3ca244c5c61a"
+  }
+}

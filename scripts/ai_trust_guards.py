@@ -77,6 +77,76 @@ def capability_signal(contract: dict[str, Any], path: Path = CAPABILITIES_PATH) 
     )
 
 
+def intent_capability_signal(
+    contract: dict[str, Any], path: Path = CAPABILITIES_PATH
+) -> dict[str, Any]:
+    """Derive requested capability from a repository-owned operation policy."""
+    operation = contract.get("requestedOperation")
+    if operation is None:
+        return _signal(
+            "Intent Capability",
+            "Not Applicable",
+            ["no requestedOperation is declared"],
+            ["contract.requestedOperation"],
+        )
+    if not isinstance(operation, dict):
+        return _signal(
+            "Intent Capability",
+            "Inconsistent",
+            ["requestedOperation must be an object"],
+            ["contract.requestedOperation"],
+        )
+    fields = ("target", "action", "environment", "effect")
+    if any(
+        not isinstance(operation.get(field), str) or not operation[field].strip()
+        for field in fields
+    ) or not isinstance(operation.get("authorityRequired"), bool):
+        return _signal(
+            "Intent Capability",
+            "Inconsistent",
+            [
+                "requestedOperation must contain target/action/environment/effect and boolean authorityRequired"
+            ],
+            ["contract.requestedOperation"],
+        )
+    payload, issues = _load_json(path)
+    if issues or not isinstance(payload, dict):
+        return _signal(
+            "Intent Capability",
+            "Inconsistent",
+            issues or ["capability declaration must be an object"],
+            [display_path(path)],
+        )
+    try:
+        validate_payload("repository_capabilities", payload)
+    except ValidationError as exc:
+        return _signal("Intent Capability", "Inconsistent", [str(exc)], [display_path(path)])
+    mappings = payload.get("operationMappings")
+    key = f"{operation['target']}.{operation['action']}"
+    required = mappings.get(key) if isinstance(mappings, dict) else None
+    if not isinstance(required, list) or not required:
+        return _signal(
+            "Intent Capability",
+            "Inconsistent",
+            [f"requestedOperation is not mapped by repository policy: {key}"],
+            [display_path(path), "contract.requestedOperation"],
+        )
+    missing = sorted(set(required) - set(payload["capabilities"]))
+    if missing:
+        return _signal(
+            "Intent Capability",
+            "Partial",
+            [f"operation policy requires undeclared capability: {item}" for item in missing],
+            [display_path(path), f"operationMappings.{key}"],
+        )
+    return _signal(
+        "Intent Capability",
+        "Ready",
+        [f"operation policy {key} derives required capabilities: {', '.join(required)}"],
+        [display_path(path), f"operationMappings.{key}", "contract.requestedOperation"],
+    )
+
+
 _AMBIGUOUS_TERMS = re.compile(r"\b(?:something|maybe|somehow|as appropriate|if needed|etc)\b", re.I)
 
 # This is deliberately a small boundary vocabulary.  Broad multilingual and hidden-risk
@@ -324,6 +394,7 @@ def success_criteria_signal(
 def trust_signals(contract: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         raw_request_signal(contract),
+        intent_capability_signal(contract),
         capability_signal(contract),
         intent_guard_signal(contract),
         constraint_conflict_signal(contract),

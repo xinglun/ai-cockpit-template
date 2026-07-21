@@ -88,6 +88,7 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
     assert report["status"] == "ready"
     assert signal_map(report) == {
         "Raw Request": "Not Applicable",
+        "Intent Capability": "Not Applicable",
         "Intent": "Ready",
         "Intent Guard": "Ready",
         "Capability": "Ready",
@@ -111,6 +112,25 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
     assert report["context"]["outOfScope"]["value"] == "Ready"
 
 
+def test_preflight_exposes_intent_and_implementation_capability_signals(tmp_path):
+    contract = ready_contract()
+    contract["requestedOperation"] = {
+        "target": "repository_governance",
+        "action": "modify",
+        "environment": "repository",
+        "effect": "enforce",
+        "authorityRequired": False,
+    }
+    path = tmp_path / "task.contract.json"
+    write_contract(path, contract)
+    report = ai_preflight_review.derive_report(
+        contract, contract_path=path, policy_path=Path("/tmp/preflight_review_policy.yaml")
+    )
+    signals = signal_map(report)
+    assert signals["Intent Capability"] == "Ready"
+    assert signals["Capability"] == "Ready"
+
+
 def test_conservative_contract_stays_advisory(tmp_path):
     contract = tmp_path / "task.contract.json"
     write_contract(contract, conservative_contract())
@@ -124,6 +144,7 @@ def test_conservative_contract_stays_advisory(tmp_path):
     assert signal_map(report)["Intent"] == "Missing"
     assert signal_map(report)["Intent Guard"] == "Missing"
     assert signal_map(report)["Capability"] == "Ready"
+    assert signal_map(report)["Intent Capability"] == "Not Applicable"
     assert signal_map(report)["Constraint Guard"] == "Ready"
     assert signal_map(report)["Success Criteria"] == "Not Applicable"
     assert signal_map(report)["Unknowns"] == "Suspiciously Empty"

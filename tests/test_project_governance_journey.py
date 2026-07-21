@@ -37,6 +37,13 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
             ],
             "outOfScope": [],
             "rawRequestExemption": "internal_governance",
+            "requestedOperation": {
+                "target": "repository_governance",
+                "action": "modify",
+                "environment": "repository",
+                "effect": "enforce",
+                "authorityRequired": False,
+            },
             "sources": [
                 {"path": changed[0], "reason": "Documented project governance journey."},
                 {

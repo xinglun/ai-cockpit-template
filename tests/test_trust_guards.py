@@ -153,3 +153,44 @@ def test_code_work_item_allows_registered_raw_request_exemption():
     result = ai_trust_guards.raw_request_signal(value)
     assert result["value"] == "Not Applicable"
     assert "dependency_upgrade" in " ".join(result["evidence"])
+
+
+def test_intent_capability_uses_requested_operation_mapping():
+    value = contract()
+    value.update(
+        {
+            "contractVersion": 2,
+            "mode": "code",
+            "scope": [".ai/work-items/active/task.contract.json"],
+            "requestedOperation": {
+                "target": "repository_governance",
+                "action": "modify",
+                "environment": "repository",
+                "effect": "enforce",
+                "authorityRequired": False,
+            },
+        }
+    )
+    result = ai_trust_guards.intent_capability_signal(value)
+    assert result["value"] == "Ready"
+    assert "policy" in " ".join(result["evidence"]).lower()
+
+
+def test_unmapped_requested_operation_fails_closed():
+    value = contract()
+    value.update(
+        {
+            "contractVersion": 2,
+            "mode": "code",
+            "scope": [".ai/work-items/active/task.contract.json"],
+            "requestedOperation": {
+                "target": "unknown",
+                "action": "modify",
+                "environment": "repository",
+                "effect": "enforce",
+                "authorityRequired": False,
+            },
+        }
+    )
+    result = ai_trust_guards.intent_capability_signal(value)
+    assert result["value"] == "Inconsistent"

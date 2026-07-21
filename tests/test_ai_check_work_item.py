@@ -58,3 +58,28 @@ def test_v2_code_work_item_requires_sourced_raw_request():
     }
     issues = ai_check_work_item.validate_contract(contract)
     assert not any("rawUserRequest" in issue or "rawRequestSource" in issue for issue in issues)
+
+
+def test_code_work_item_requires_requested_operation():
+    contract = valid_contract()
+    contract.update(
+        {
+            "contractVersion": 2,
+            "scope": [".ai/work-items/active/task.contract.json"],
+            "baseCommit": "1234567890abcdef",
+            "verification": [{"check": "quality", "required": True}],
+            "rawUserRequest": "Change governance policy.",
+            "rawRequestSource": {
+                "type": "human",
+                "reference": "test:operation",
+                "capturedAt": "2026-07-21",
+                "digest": "sha256:test",
+            },
+            "declaredIntent": {
+                "summary": "Change governance policy.",
+                "requestedCapabilities": ["ai_governance"],
+            },
+        }
+    )
+    issues = ai_check_work_item.validate_contract(contract)
+    assert any("requestedOperation" in issue for issue in issues)

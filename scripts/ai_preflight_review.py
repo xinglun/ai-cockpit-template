@@ -1052,6 +1052,7 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
                 "Scenario Coverage",
                 "Verification",
                 "Capability",
+                "Intent Capability",
                 "Constraint Guard",
                 "Success Criteria",
                 "Critical Domain Guard",

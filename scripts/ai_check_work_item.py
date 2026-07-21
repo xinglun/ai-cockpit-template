@@ -55,6 +55,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "rawRequestSource",
     "rawRequestExemption",
     "declaredIntent",
+    "requestedOperation",
     "problemStatement",
     "scenarioCoverage",
     "archiveIndexRepair",
@@ -311,6 +312,7 @@ RAW_REQUEST_EXEMPTIONS = {
     "internal_governance",
 }
 RAW_REQUEST_SOURCE_TYPES = {"human", "issue", "pr_comment", "system"}
+REQUESTED_OPERATION_FIELDS = ("target", "action", "environment", "effect")
 
 
 def validate_raw_request_requirement(data: dict[str, Any]) -> list[str]:
@@ -347,6 +349,30 @@ def validate_raw_request_requirement(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_requested_operation(data: dict[str, Any]) -> list[str]:
+    required = (
+        data.get("contractVersion") == 2
+        and data.get("mode") == "code"
+        and isinstance(data.get("scope"), list)
+        and any(
+            isinstance(item, str) and ".ai/work-items/active/" in item for item in data["scope"]
+        )
+    )
+    operation = data.get("requestedOperation")
+    if not required and operation is None:
+        return []
+    if not isinstance(operation, dict):
+        return ["requestedOperation is required as an object for active MODE=code Work Items"]
+    issues = [
+        f"requestedOperation.{field} must be a non-empty string"
+        for field in REQUESTED_OPERATION_FIELDS
+        if not non_empty_string(operation.get(field))
+    ]
+    if not isinstance(operation.get("authorityRequired"), bool):
+        issues.append("requestedOperation.authorityRequired must be boolean")
+    return issues
+
+
 def validate_contract(data: dict[str, Any], contract_path: str = "") -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -380,6 +406,7 @@ def validate_contract(data: dict[str, Any], contract_path: str = "") -> list[str
     issues.extend(validate_baseline_and_approvals(data))
     issues.extend(validate_intent(data))
     issues.extend(validate_raw_request_requirement(data))
+    issues.extend(validate_requested_operation(data))
     if "problemStatement" in data and not non_empty_string(data.get("problemStatement")):
         issues.append("problemStatement must be a non-empty string")
 

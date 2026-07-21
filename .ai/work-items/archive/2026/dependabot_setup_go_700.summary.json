@@ -1,0 +1,94 @@
+{
+  "summaryVersion": 2,
+  "archiveSequence": 408,
+  "workItemId": "dependabot_setup_go_700",
+  "contractPath": ".ai/work-items/archive/2026/dependabot_setup_go_700.contract.json",
+  "title": "Refresh dependency update supply-chain evidence",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Changed as part of the dependency update and its governed evidence refresh."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Changed as part of the dependency update and its governed evidence refresh."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Changed as part of the dependency update and its governed evidence refresh."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Changed as part of the dependency update and its governed evidence refresh."
+    },
+    {
+      "path": "release.json",
+      "reason": "Changed as part of the dependency update and its governed evidence refresh."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Raised archive growth ceiling to admit this governed Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index for the new Work Item pair."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/check_supply_chain.py",
+    "scripts/ai_check_pr.py",
+    "release.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "result": "not_run"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Dependency and generated evidence changes are narrow; CI and Code Owner review remain required."
+  },
+  "generatedFiles": [
+    "release.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "PR governance requires an archived Work Item pair."
+  ],
+  "guidelinesCompliance": [],
+  "knownGaps": [
+    "Full GitHub Actions verification is pending."
+  ],
+  "issuesObserved": [
+    "Dependabot PR lacked archived Work Item evidence."
+  ],
+  "overclaimPrevention": "This archive records the governance boundary; it does not claim CI or review completion.",
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Ready for CI and Code Owner review after the archive evidence is included.",
+    "expectedReviewFocus": [
+      "Dependency pin change",
+      "Supply-chain digest consistency"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Dependency update evidence is governed and reviewable",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Verify in PR CI after push."
+    }
+  ],
+  "unverifiedScenarios": [
+    "Dependency update evidence is governed and reviewable"
+  ],
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": []
+}

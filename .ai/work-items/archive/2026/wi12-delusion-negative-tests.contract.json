@@ -1,0 +1,161 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi12-delusion-negative-tests",
+  "mode": "code",
+  "title": "Delusion Negative Tests and Repairs",
+  "baseCommit": "6513bd1e30b967b63aabf2996c547d1d5f796403",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "tests/test_delusion_scenarios.py",
+    "tests/test_unsupported_claim_regression.py",
+    "Makefile",
+    ".ai/work-items/active/wi12-delusion-negative-tests.contract.json",
+    ".ai/work-items/active/wi12-delusion-negative-tests.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Changing guard policy to allow unsafe requests", "Executing external or production operations", "Treating negative-test coverage as universal model safety proof"],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md", "reason": "WI12 negative and positive scenario acceptance."},
+    {"path": "tests/test_delusion_scenarios.py", "reason": "Existing multilingual delusion and safe-positive regression suite."},
+    {"path": "tests/test_unsupported_claim_regression.py", "reason": "Existing unsupported-claim fail-closed gate regression suite."},
+    {"path": "scripts/ai_trust_guards.py", "reason": "Raw request and intent guard behavior under test."},
+    {"path": "scripts/unsupported_claim_gate.py", "reason": "Unsupported claim enforcement behavior under test."},
+    {"path": ".ai/work-items/active/wi12-delusion-negative-tests.contract.json", "reason": "Work Item Contract v2."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["negative_test_regression"],
+    "reason": "Tests are bounded to deterministic governance guards and safe-positive controls."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized delusion tests, continued fixes on failure, PR, merge, and lifecycle closure."
+  },
+  "preReviewWarnings": ["Confirm negative cases block and legal sandbox/documentation cases remain ready."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Negative tests cover rocket/weapon construction, universal payment success, deleting tests, skipping checkers, and vague changes across representative languages.",
+    "Unsupported claims with absent, not_run, inferred, simulated, missing-file, or unapproved evidence remain blocked with resume conditions.",
+    "Safe-positive cases for sandbox payment documentation, tested login errors, and structured approved evidence remain allowed/ready.",
+    "A deterministic Make entrypoint runs the delusion regression suite without claiming universal model safety.",
+    "Failures require modification and rerunning the complete Work Item lifecycle before proceeding."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Governance guards need explicit regression coverage against persuasive but unsafe or unsupported requests, while preserving legitimate sandbox and documentation cases.",
+    "constraints": ["Use deterministic local tests only.", "Keep negative cases fail-closed and preserve actionable resume conditions.", "Do not claim these tests prove universal model safety.", "Keep safe-positive controls explicit and narrow."],
+    "rationale": "Concrete multilingual negative and positive cases make guard behavior reviewable and prevent accidental weakening during later remediation."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Run and strengthen delusion negative/positive governance regressions.", "requestedCapabilities": ["ai_governance", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "multilingual unsafe and vague requests block", "required": true, "status": "verified", "evidence": ["tests/test_delusion_scenarios.py"]},
+    {"scenario": "unsupported claim evidence variants block", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "safe sandbox/documentation and approved evidence remain allowed", "required": true, "status": "verified", "evidence": ["tests/test_delusion_scenarios.py", "tests/test_unsupported_claim_regression.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized governance files, tests, docs, PR, merge, and lifecycle closure."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi12-delusion-negative-tests.json",
+    "baseCommit": "6513bd1e30b967b63aabf2996c547d1d5f796403",
+    "initialScopeDigest": "38fd119e89362df0b506a7c25494d3c714ff6369c5c7b20aaf74038593e2db2f",
+    "contractSkeletonDigest": "b8c4a819db86760963b792d486e8a4e8edbb99a9e30057a514f71791db9670dc"
+  }
+}

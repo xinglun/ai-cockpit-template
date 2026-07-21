@@ -208,6 +208,9 @@ ai-lifecycle-facts:
 cross-stack-long-cycle:
 	$(AI_PYTHON) scripts/cross_stack_long_cycle.py --root . > target/cross-stack-long-cycle.json
 
+delusion-regression:
+	$(AI_PYTHON) -m pytest -q tests/test_delusion_scenarios.py tests/test_unsupported_claim_regression.py
+
 check-ai-adoption-ready:
 	$(AI_PYTHON) scripts/ai_check_adoption_ready.py --root .
 

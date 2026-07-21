@@ -148,6 +148,10 @@ def intent_capability_signal(
 
 
 _AMBIGUOUS_TERMS = re.compile(r"\b(?:something|maybe|somehow|as appropriate|if needed|etc)\b", re.I)
+_UNDERSPECIFIED_TERMS = re.compile(
+    r"(?:\bmake\s+(?:it|this)\s+better\b|\bimprove\s+(?:it|this)\b|随便改改|大概改一下)",
+    re.I,
+)
 
 # This is deliberately a small boundary vocabulary.  Broad multilingual and hidden-risk
 # interpretation is a separate Work Item; these explicit examples prevent scope-path
@@ -294,11 +298,34 @@ def intent_guard_signal(contract: dict[str, Any]) -> dict[str, Any]:
     constraints = intent.get("constraints", [])
     text = " ".join(str(item) for item in values if isinstance(item, str))
     text += " " + " ".join(str(item) for item in constraints if isinstance(item, str))
-    if _AMBIGUOUS_TERMS.search(text):
+    ambiguous = _AMBIGUOUS_TERMS.search(text)
+    underspecified = _UNDERSPECIFIED_TERMS.search(text)
+    if ambiguous or underspecified:
+        evidence = [
+            "intent contains ambiguous wording that cannot determine implementation behavior"
+        ]
+        if underspecified:
+            missing = [
+                label
+                for field, label in (
+                    ("target", "target"),
+                    ("expectedOutcome", "expected outcome"),
+                    ("successEvidence", "measurable success evidence"),
+                )
+                if not isinstance(intent.get(field), str) or not intent[field].strip()
+            ]
+            if missing:
+                evidence.append(
+                    "underspecified request is missing evidence categories: " + ", ".join(missing)
+                )
+            else:
+                evidence.append(
+                    "legacy ambiguity remains reviewable but requires explicit reviewer attention"
+                )
         return _signal(
             "Intent Guard",
             "Partial",
-            ["intent contains ambiguous wording that cannot determine implementation behavior"],
+            evidence,
             ["contract.intent"],
         )
     return _signal(

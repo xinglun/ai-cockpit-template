@@ -1,0 +1,389 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "ambiguity-evidence-gate",
+  "contractPath": ".ai/work-items/archive/2026/ambiguity-evidence-gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/ambiguity-evidence-gate.contract.json",
+      "reason": "Defined the evidence-gated ambiguity Work Item Contract."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ambiguity-evidence-gate.summary.json",
+      "reason": "Recorded implementation and verification evidence."
+    },
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Added deterministic missing-evidence categories for underspecified intent."
+    },
+    {
+      "path": "tests/test_trust_guards.py",
+      "reason": "Covered underspecified, measurable, and legacy ambiguity behavior."
+    },
+    {
+      "path": "docs/trust-layer.md",
+      "reason": "Documented the explicit evidence boundary and non-goals."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+    "scripts/ai_trust_guards.py",
+    "tests/test_trust_guards.py",
+    "docs/trust-layer.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.098346+00:00",
+      "exitCode": 0,
+      "durationMs": 37,
+      "outputDigest": "185cafb6393609f3e7f8581b972319561fb8785f12356c1fc74ab65a4af7a96c",
+      "commandHash": "ed54fe8b16bb47d20a08142fbe41ff578f0ad506962e3da76f60a0940a56020c",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/ambiguity-evidence-gate.contract.json work item contract check passed: .ai/work-items/active/ambiguity-evidence-gate.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.216711+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "db8aedf91988dbe29c7c2e0b4911c91ed39ef612a7a1857630db9fcba1e854af",
+      "commandHash": "9bfd91b1a4618571fea45c65539f9850ae5d8bbcac7777b1ef69fcd81c5cacc1",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/ambiguity-evidence-gate.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.348586+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "20fd9dd189c7667b079bc81733c1b12497e72801596f95f2c00744268d20e8c7",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.543459+00:00",
+      "exitCode": 0,
+      "durationMs": 152,
+      "outputDigest": "be6d15f6e3b434e0657a886ac3bbe5820130ee9122ac9202eee26602889b2626",
+      "commandHash": "c345b78644af1a0981e82ed47650d78f444ebe5d5116368dd0e649d691269cc6",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `ambiguity-evidence-gate` - Contract Hash: `b93d19bcead334d1` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `16` - R"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.666742+00:00",
+      "exitCode": 0,
+      "durationMs": 87,
+      "outputDigest": "98c5ebcf1adeb7c891a7c4182e6616e1f09279220ff92865ccc106cafaf1c8dc",
+      "commandHash": "2cad0aa92003c74ef25f8a0dc888e6c94c9f6a15457f58018964b5a964c634fa",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/ambiguity-evidence-gate.json [review] .ai/cockpit/current_status.md [review] scripts/ai_trust_guards.py review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.781243+00:00",
+      "exitCode": 0,
+      "durationMs": 77,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.890678+00:00",
+      "exitCode": 0,
+      "durationMs": 73,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:25.972421+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "d86f7019d2db1949ffb4bad2ceb692db8cdc623a6b6e9bde8f17c9dd97d6ea6f",
+      "commandHash": "66fda3eaa35298d5208faf56e78d4079f9f0f638c051b8233460393b8e22d34a",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:26.065182+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "47c2842dce9d20cd35a78fa7d1f08116b35f39a94f51984502af04618564813d",
+      "commandHash": "fff84f80b9df83d5b85b1c2ae6de71b202f16b2b26baee15647f32d778112c9b",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:53:26.264376+00:00",
+      "exitCode": 0,
+      "durationMs": 160,
+      "outputDigest": "9bd6235ccb075794ac6231dbd0205ff838b6496fe6f9e7daef7e14d6a5f488a3",
+      "commandHash": "87f101e7a001eb70e3f9b494424af150dfcbdcd9b25da1559188a3c8ccf0cdb9",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json ## Diff Ownership Preview - active_owned: `5`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/ambiguity-evidence-gate.json` — covered by Contract scope - [active_owned] `docs/trust-layer.m"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:55:22.930816+00:00",
+      "exitCode": 0,
+      "durationMs": 116627,
+      "outputDigest": "d71386b12633ea25e65cd06f2bf0ca6078afef5e46d776201a000b3bd53edf23",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "1b9c9e7bfeda90f9936bdc948e7c7684de2faaa629d5bc260f029f78450e090f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 109 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 10%] ........................................................................ [ 21%] ............................................................"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:55:24.189388+00:00",
+      "exitCode": 0,
+      "durationMs": 366,
+      "outputDigest": "4a00780d766d92c5a377904a12a088c22f14d6f05346e08dc0e9a8f113744c4c",
+      "commandHash": "03a57878fd554e83467af79b8f331ccc8dfe6cbe3f624befe01b4a5da2526ea8",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "b3b180f634e532ffca2cc18d84c802488b560c69c50f74ec06b92dedba068cc5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/ambiguity-evidence-gate.contract.json --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:55:24.400773+00:00",
+      "exitCode": 0,
+      "durationMs": 176,
+      "outputDigest": "54f5c1e26bb72db22bbfe0aefbc59d19b7cb084eea90b2a2aabb4642513eb640",
+      "commandHash": "60f725561751d5c591ff21f2aedd08cde44087e217abee5f1f55718e5a8daed3",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "b3b180f634e532ffca2cc18d84c802488b560c69c50f74ec06b92dedba068cc5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:55:24.478982+00:00",
+      "exitCode": 0,
+      "durationMs": 37,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "b3b180f634e532ffca2cc18d84c802488b560c69c50f74ec06b92dedba068cc5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:55:24.559117+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "a95db29c4f912a66c3a2e4d6d61acfae5386a446db304629154b95cbe7ca2e80",
+      "commandHash": "e2517ede931f12a4ea2e5d2cd8162e11278d035b6a84893a604ddee020aec74f",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "b3b180f634e532ffca2cc18d84c802488b560c69c50f74ec06b92dedba068cc5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json --summary .ai/work-items/active/ambiguity-evidence-gate.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ambiguity-evidence-gate.summary.json CONTRACT=.ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T00:55:25.223907+00:00",
+      "exitCode": 0,
+      "durationMs": 80,
+      "outputDigest": "6381345e290e3b1b3eaeb54418488a1d1e1e9ce385313567bc9ee62dac5b3bd5",
+      "commandHash": "eaec3dcb14b1e8d56a4f598b5c67598ea6f19e048f908f595d66c68fb0e7b2f3",
+      "contractHash": "b93d19bcead334d1a2fed97a5871d6d3bc8f1b496badc1b88c75de4e46d0c6f2",
+      "commitSha": "fd3bb0ec906d2765c9850dc9c128cf139fb4bf10",
+      "executionContractPath": ".ai/work-items/active/ambiguity-evidence-gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/ambiguity-evidence-gate.summary.json",
+      "worktreeDigest": "4842bb64c8c98d4baeea77d1d17925fc8d93bbd47dfc4b5047d100d55ed8e65d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/ambiguity-evidence-gate.summary.json --contract .ai/work-items/active/ambiguity-evidence-gate.contract.json ai summary check passed: .ai/work-items/active/ambiguity-evidence-gate.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The new signal behavior is documented in docs/trust-layer.md and covered by tests."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The implementation uses the existing ai_trust_guards module boundary and imports no new internal feature module."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The explicit vocabulary may not cover all multilingual ambiguity; broader classification remains out of scope."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "classification boundary",
+      "detail": "The explicit underspecified vocabulary is intentionally narrow and does not claim broad semantic coverage.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify missing evidence categories are reported for underspecified phrases.",
+      "Verify existing keyword ambiguity behavior remains Partial."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "b93d19bcead334d1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "evidence": "Preflight was ready and the scope/acceptance boundary was recorded before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "b93d19bcead334d1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "evidence": "Pre-finish checkpoint recorded before final governed verification."
+    }
+  ],
+  "knownGaps": [
+    "Broad multilingual semantic classification remains out of scope."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 356
+}

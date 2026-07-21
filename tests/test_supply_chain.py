@@ -248,6 +248,40 @@ def test_supply_chain_falls_back_to_checked_out_head_when_release_tag_is_absent(
     assert calls == [["git", "rev-parse", "v0.5.29^{commit}"], ["git", "rev-parse", "HEAD"]]
 
 
+def test_supply_chain_reuses_candidate_baseline_for_next_patch_preparation(monkeypatch):
+    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: "v0.5.34")
+    monkeypatch.setattr(
+        check_supply_chain,
+        "load_json",
+        lambda path: (
+            {
+                "releaseState": "candidate",
+                "published": False,
+                "releaseTag": "v0.5.35",
+                "basedOnReleaseTag": "v0.5.34",
+            }
+            if path.name == "next-release.json"
+            else {"releaseTag": "v0.5.34", "commitSha": "baseline-source"}
+        ),
+    )
+    calls = []
+
+    def fake_run(command, *, cwd, env, text, capture_output, check):
+        calls.append(command)
+        if command == ["git", "rev-parse", "v0.5.34^{commit}"]:
+            return subprocess.CompletedProcess(command, 128, stdout="", stderr="missing tag")
+        if command == ["git", "rev-parse", "baseline-source"]:
+            return subprocess.CompletedProcess(command, 0, stdout="baseline-source\n", stderr="")
+        raise AssertionError(f"unexpected command: {command}")
+
+    monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+    assert check_supply_chain.source_commit_sha() == "baseline-source"
+    assert calls == [
+        ["git", "rev-parse", "v0.5.34^{commit}"],
+        ["git", "rev-parse", "baseline-source"],
+    ]
+
+
 def test_supply_chain_does_not_reuse_recorded_provenance_source(tmp_path, monkeypatch):
     provenance = tmp_path / "provenance.json"
     provenance.write_text("{}", encoding="utf-8")

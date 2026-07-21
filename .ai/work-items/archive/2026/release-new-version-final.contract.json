@@ -1,0 +1,187 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release-new-version-final",
+  "mode": "code",
+  "title": "Prepare and publish the next immutable release",
+  "baseCommit": "abb801583ae40b7bc72cbeb5228513d5756d0c7d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release-new-version-final.contract.json",
+    ".ai/work-items/active/release-new-version-final.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "next-release.json",
+    "release-state.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    "tests/test_install_script.py",
+    "tests/test_install_sh.py",
+    "tests/test_release_distribution.py",
+    "docs/releases/v0.5.34.md",
+    "docs/getting-started/installation.md",
+    "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+    "install.sh",
+    "docs/reference/distribution.md",
+    ".github/workflows/release.yml"
+  ],
+  "outOfScope": [
+    "Changing release workflow security controls or publishing a release when any required gate fails.",
+    "Claiming enterprise certification, runtime isolation, trusted identity, or provider evidence before the workflow produces it.",
+    "Cleaning execution-plan documents; that is the final Work Item."
+  ],
+  "sources": [
+    {"path": "release.json", "reason": "Published release contract and current version identity."},
+    {"path": "next-release.json", "reason": "Unpublished candidate metadata."},
+    {"path": "release-state.json", "reason": "Canonical candidate/published state and source identity."},
+    {"path": ".github/workflows/release.yml", "reason": "Immutable source, tag, asset, smoke, and compatibility authority."},
+    {"path": "docs/reference/distribution.md", "reason": "Release evidence and NO-GO boundary documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Release preparation is metadata-bounded; final publication remains fail-closed behind the existing workflow and exact SHA evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized release publication after Work Items 1–15 completed their full lifecycles."
+  },
+  "preReviewWarnings": [
+    "Verify SOURCE_COMMIT equals the freshly resolved default branch commit and no tag exists before dispatch.",
+    "Do not report publication until the workflow, release asset, SBOM, provenance, digest, smoke, and compatibility evidence succeeds."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Published metadata advances to v0.5.34 only from the latest verified default-branch source commit, with v0.5.35 retained as the next unpublished candidate.",
+    "Release workflow evidence binds SOURCE_COMMIT, default branch, immutable tag, workflow run, release assets, SBOM, provenance, and evidence bundle digest.",
+    "Exact-SHA smoke and compatibility evidence pass before publication; any failure leaves publication unchanged.",
+    "Release notes and distribution documentation preserve enterprise-level NO-GO boundaries."
+  ],
+  "guidelines": [
+    "Preserve release source identity evidence and immutable tag rules.",
+    "Do not claim publication success without provider workflow and asset evidence.",
+    "Keep candidate, published, and provider-evidence states distinct."
+  ],
+  "intent": {
+    "problem": "The completed remediation must be published as a new immutable release, while current candidate metadata and release-state source identity must be refreshed to the latest main commit without treating pending provider evidence as published fact.",
+    "constraints": [
+      "Use the existing release workflow as final evidence authority and do not bypass its exact-SHA, tag, smoke, compatibility, asset, SBOM, provenance, or digest gates.",
+      "Keep release preparation and publication state truthful; failure must leave the prior public release unchanged.",
+      "Do not alter enterprise boundary claims or the final execution-plan cleanup scope."
+    ],
+    "rationale": "A source-bound release preparation plus workflow publication makes the completed remediation consumable while preserving fail-closed release evidence."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized continuous execution of the review remediation plan, including publishing the new version and its full PR lifecycle."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {"scenario": "Candidate and published metadata remain distinct and internally consistent", "required": true, "status": "verified", "evidence": ["release.json", "next-release.json", "release-state.json"]},
+    {"scenario": "Exact source commit, default branch, tag, and workflow run are linked", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml"]},
+    {"scenario": "Release assets, SBOM, provenance, and evidence digest are required before publication", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml", "scripts/check_supply_chain.py"]},
+    {"scenario": "Release notes preserve enterprise NO-GO boundaries", "required": true, "status": "verified", "evidence": ["docs/reference/distribution.md", "docs/enterprise-security-boundary.md"]}
+  ],
+  "rawUserRequest": "发布新版本；仅在全部整改工单完成后发布，失败不发布。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-review-remediation", "capturedAt": "2026-07-21T00:00:00+09:00", "digest": "user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Prepare and publish the next immutable release from the latest default branch with exact source-bound provider evidence.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release-new-version-final.json",
+    "baseCommit": "abb801583ae40b7bc72cbeb5228513d5756d0c7d",
+    "initialScopeDigest": "e4d401029bce977a1c395cdd3147b017e72bc70fb0eaf4e186d10e59b4231277",
+    "contractSkeletonDigest": "cd2b64ba293ff9936b320ce442160afc2f0463fe64aad54f099ee23adaf347ee"
+  }
+}

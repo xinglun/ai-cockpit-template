@@ -214,7 +214,7 @@ def source_commit_sha(explicit: str | None = None) -> str:
         pending_publication = (
             next_release.get("releaseState") == "candidate"
             and next_release.get("published") is False
-            and next_release.get("releaseTag") == tag
+            and next_release.get("releaseTag") != tag
             and next_release.get("basedOnReleaseTag") == tag
             and baseline.get("releaseTag") == tag
             and isinstance(baseline.get("commitSha"), str)

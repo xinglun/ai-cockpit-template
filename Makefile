@@ -17,7 +17,7 @@ AI_PYTHON = PYTHONDONTWRITEBYTECODE=1 $(PYTHON)
 	check-docs-metadata check-governance-complexity \
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
 	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
-	check-release-distribution \
+	check-release-distribution check-release-state-consistency \
 	check-lockfile-reproducibility \
 	check-trust-schemas check-trust-guards check-critical-domain-guards check-decision-protocol check-baseline-evidence \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
@@ -113,6 +113,9 @@ check-governance-complexity:
 
 check-release-distribution:
 	$(AI_PYTHON) scripts/check_release_distribution.py
+
+check-release-state-consistency:
+	$(AI_PYTHON) scripts/check_release_state_consistency.py --root .
 
 check-trust-schemas:
 	$(AI_PYTHON) scripts/ai_trust_schema.py --check

@@ -79,70 +79,40 @@ keywords:
 11. PR 合并后运行 `make ai-close-work-item TASK=<task>`，确认归档证据、PR/分支一对一归属、远端和本地分支删除、工作树清洁。
 12. 同步本地默认分支并验证与远端默认分支一致；只有得到 `ready for next Work Item`，才开始下一个工单。
 ## 四、串行工单列表
-### 工单 1：One Release Truth（P0）
-**目标：** 消除 `release-state.json`、`release.json`、`next-release.json` 的三重事实冲突，选择并实现真正的单一事实源或 Canonical Index 方案。
-**范围线索：** `release-state.json`、`release.json`、`next-release.json`、Release Schema、Release Workflow、发布检查、相关测试和分发文档。
+### 工单 1：One Release Truth（P0） **目标：** 消除 `release-state.json`、`release.json`、`next-release.json` 的三重事实冲突，选择并实现真正的单一事实源或 Canonical Index 方案。 **范围线索：** `release-state.json`、`release.json`、`next-release.json`、Release Schema、Release Workflow、发布检查、相关测试和分发文档。
 **验收：** 明确唯一事实源；`previousRelease` 与真实 published release 一致；candidate tag 不与 legacy candidate 冲突；published/candidate 状态唯一；引用 Digest 匹配；无跳号或重复 Candidate；新增并通过 `check-release-state-consistency`。
-### 工单 2：Candidate Source Commit 生命周期（P0）
-**目标：** 解决 Candidate PR 合并后 `sourceCommit` 立即过期的自引用问题。
-**范围线索：** Release Candidate Workflow、Candidate Schema、默认分支绑定检查、Tag/Draft Release 逻辑和发布文档。
+### 工单 2：Candidate Source Commit 生命周期（P0） **目标：** 解决 Candidate PR 合并后 `sourceCommit` 立即过期的自引用问题。 **范围线索：** Release Candidate Workflow、Candidate Schema、默认分支绑定检查、Tag/Draft Release 逻辑和发布文档。
 **验收：** 选择并固化“合并后 Commit 自动计算并写入外部 Artifact”或“Candidate 合并后冻结 Main 直至发布”的模型；发布前 `SOURCE_COMMIT == DEFAULT_BRANCH_COMMIT` 的检查语义明确；Candidate 不因自身合并而失效；失败不发布、不移动 Tag、不删除证据。
-### 工单 3：真实 Evidence Digest（P0）
-**目标：** 禁止把状态说明伪装成 `evidenceBundleDigest`。
-**范围线索：** Release State Schema、Evidence Bundle 生成器、Release Workflow、Provider Asset 校验和测试。
+### 工单 3：真实 Evidence Digest（P0） **目标：** 禁止把状态说明伪装成 `evidenceBundleDigest`。 **范围线索：** Release State Schema、Evidence Bundle 生成器、Release Workflow、Provider Asset 校验和测试。
 **验收：** 拆分 `evidenceStatus` 与 `evidenceBundleDigest`；`candidate_prepared` 可为 `null`；`candidate_verified` 必须是合法 sha256；`release_published` 必须存在且匹配 Provider Asset；校验器拒绝任意占位字符串。
-### 工单 4：Raw Request Exemption 结构化（P0）
-**目标：** 防止通过自由文本 `rawRequestExemption` 绕过原始请求证据。
-**范围线索：** Contract Schema、Raw Request Guard、`.ai/policies/raw-request-exemptions.yaml`、Release/Automation Contract、Preflight、Summary 和测试。
+### 工单 4：Raw Request Exemption 结构化（P0） **目标：** 防止通过自由文本 `rawRequestExemption` 绕过原始请求证据。 **范围线索：** Contract Schema、Raw Request Guard、`.ai/policies/raw-request-exemptions.yaml`、Release/Automation Contract、Preflight、Summary 和测试。
 **验收：** Exemption 使用受控 Enum，绑定 Policy Reference、Trigger Reference、适用范围和 `approvedBy`；高风险操作不得豁免；Exemption 出现在 Summary 和 Cockpit；未知、无来源或自由文本豁免 fail closed。
-### 工单 5：Requested Operation 接入 Policy（P0）
-**目标：** 使 `requestedOperation` 成为 Policy Evaluation 的输入，而不仅是 Contract 中的声明字段。
-**范围线索：** Requested Operation Schema、Critical Domain Guard、Capability Guard、Preflight、Policy Evaluation、Summary 和负例测试。
+### 工单 5：Requested Operation 接入 Policy（P0） **目标：** 使 `requestedOperation` 成为 Policy Evaluation 的输入，而不仅是 Contract 中的声明字段。 **范围线索：** Requested Operation Schema、Critical Domain Guard、Capability Guard、Preflight、Policy Evaluation、Summary 和负例测试。
 **验收：** 建立 `Requested Operation → Policy Evaluation → Actual Diff Classification → Consistency Check` 链；`target/action/environment/effect/authorityRequired` 的组合进入策略判定；不合法组合、缺失 authority 或 Policy 不允许的组合 fail closed；Summary 能证明实际 Diff 与声明一致。
-### 工单 6：Declared Operation vs Actual Change Guard（P0）
-**目标：** 让把危险运行时代码改动描述成安全文档改动的绕过方式 fail closed。
-**范围线索：** Diff 分类器、Contract scope/operation、文件边界 Guard、Preflight/Finish/PR Gate、测试。
+### 工单 6：Declared Operation vs Actual Change Guard（P0） **目标：** 让把危险运行时代码改动描述成安全文档改动的绕过方式 fail closed。 **范围线索：** Diff 分类器、Contract scope/operation、文件边界 Guard、Preflight/Finish/PR Gate、测试。
 **验收：** Contract 声明 `effect=document` 但实际修改运行时代码时 fail closed；实际领域、环境、权限和副作用与声明不一致时给出结构化 Signal；合法文档、测试和 sandbox mock 对照仍可通过；证据引用具体 Diff。
-### 工单 7：Guard 新旧协议单向映射（P1）
-**目标：** 将 Legacy `Ready/Partial/Inconsistent` 变为 Canonical State 的派生兼容层，消除双语义自由组合。
-**范围线索：** Guard 返回模型、Validator、Preflight/Finish/PR/Release Gate、旧消费者、Schema、测试和迁移文档。
+### 工单 7：Guard 新旧协议单向映射（P1） **目标：** 将 Legacy `Ready/Partial/Inconsistent` 变为 Canonical State 的派生兼容层，消除双语义自由组合。 **范围线索：** Guard 返回模型、Validator、Preflight/Finish/PR/Release Gate、旧消费者、Schema、测试和迁移文档。
 **验收：** Canonical State 使用统一枚举（至少 `allow/review/confirm/block/error/not_applicable`）；Legacy value 只能由 Canonical State 单向生成；Validator 拒绝不合法组合；所有 Gate 消费同一 Decision Model；既有 fail-closed 行为不削弱。
-### 工单 8：Immutable Archive Evidence Root（P1）
-**目标：** 通过不可变 `archive-manifest.json` 消除 Contract、Summary、Archive Path、Index 和 Digest 的循环修复。
-**范围线索：** Archive/Finish 脚本、Contract/Summary Hash 生成、Archive Index、Cockpit Status、Evidence Binding Gate 和测试。
+### 工单 8：Immutable Archive Evidence Root（P1） **目标：** 通过不可变 `archive-manifest.json` 消除 Contract、Summary、Archive Path、Index 和 Digest 的循环修复。 **范围线索：** Archive/Finish 脚本、Contract/Summary Hash 生成、Archive Index、Cockpit Status、Evidence Binding Gate 和测试。
 **验收：** 固化顺序为 Freeze Contract → Generate Summary（排除自引用）→ Hash Contract → Hash Summary → Generate Archive Manifest → Index 只引用 Manifest Hash；Summary 不含自身 Hash，Generated Status 不参与不可变链；重复运行结果稳定，旧归档可兼容读取。
-### 工单 9：真实 TypeScript Web Fixture（P1）
-**目标：** 将 TypeScript Web Fixture 从 Manifest Simulation 提升为可安装、可构建、可测试、可升级的最小真实 Fixture。
-**范围线索：** Fixture 目录、`package.json`、锁文件、源代码、测试、质量命令、Adoption Harness、证据文档。
+### 工单 9：真实 TypeScript Web Fixture（P1） **目标：** 将 TypeScript Web Fixture 从 Manifest Simulation 提升为可安装、可构建、可测试、可升级的最小真实 Fixture。 **范围线索：** Fixture 目录、`package.json`、锁文件、源代码、测试、质量命令、Adoption Harness、证据文档。
 **验收：** 真实执行 Install、Configure、Normal Work Item、Ambiguous Request、Critical Domain Change、Upgrade、Rollback、Release Check；记录 npm 安装、build、test、lint 和未执行步骤；生成可复核 Evidence Bundle，不虚构外部仓库证据。
-### 工单 10：真实 Java Multi-module Fixture（P1）
-**目标：** 将 Java multi-module Fixture 从 Manifest Simulation 提升为真实模块路径和生命周期执行证据。
-**范围线索：** Java Fixture、`pom.xml` 或 Gradle 文件、模块源代码与测试、升级/回滚脚本、CI 和证据文档。
+### 工单 10：真实 Java Multi-module Fixture（P1） **目标：** 将 Java multi-module Fixture 从 Manifest Simulation 提升为真实模块路径和生命周期执行证据。 **范围线索：** Java Fixture、`pom.xml` 或 Gradle 文件、模块源代码与测试、升级/回滚脚本、CI 和证据文档。
 **验收：** 至少两个模块真实安装、构建、测试、质量检查和升级/回滚；生命周期八阶段结果可追踪；工具链不可用时明确 `not_run`；不把 Manifest 记录写成真实执行。
-### 工单 11：Unsupported Claim Regression Gate（P1）
-**目标：** 将正式架构名称从“检测 LLM 内部妄想”收敛为“检测无证据或与证据矛盾的外部声明”。
-**范围线索：** Delusion Scenario Gate、Summary/Contract/Evidence Hash 校验、命名、Make/CI、测试和 Trust Layer 文档。
+### 工单 11：Unsupported Claim Regression Gate（P1） **目标：** 将正式架构名称从“检测 LLM 内部妄想”收敛为“检测无证据或与证据矛盾的外部声明”。 **范围线索：** Delusion Scenario Gate、Summary/Contract/Evidence Hash 校验、命名、Make/CI、测试和 Trust Layer 文档。
 **验收：** 覆盖“自信但无证据”“检查未跑却写通过”“把推断当事实”“引用不存在文件”“声称得到批准”“模拟结果冒充真实结果”；正式协议使用 `Unsupported Claim Regression Gate` 或 `Evidence Contradiction Gate`，Demo 可保留 Delusion 别名；不通过时让 Finish/PR/Release fail closed。
-### 工单 12：治理复杂度偿还机制（P2）
-**目标：** 防止每次新增能力都只通过提高预算来掩盖复杂度增长。
-**范围线索：** Complexity Policy、Budget Validator、Schema/Guard 统计、安装 Allowlist、Archive 增长统计、Make/CI 和开发文档。
+### 工单 12：治理复杂度偿还机制（P2） **目标：** 防止每次新增能力都只通过提高预算来掩盖复杂度增长。 **范围线索：** Complexity Policy、Budget Validator、Schema/Guard 统计、安装 Allowlist、Archive 增长统计、Make/CI 和开发文档。
 **验收：** 至少增加模块行数、单函数复杂度、Schema 数量、Guard 数量、重复协议字段、循环依赖、安装 Allowlist、Archive 增长量和 Generated Evidence 占比指标；每次预算上调必须同时删除重复概念或记录有责任人的偿还计划；预算检查仍是限制工具而非记录工具。
-### 工单 13：外部 Adopter Repository 长周期验证（P2）
-**目标：** 在独立 Git Repository 中验证安装、升级、回滚、PR 和跨版本回归，明确模板能力与企业控制的边界。
-**范围线索：** Adopter Harness、独立 Fixture Repository、安装/升级文档、CI、版本 Tag 和长期回归报告。
+### 工单 13：外部 Adopter Repository 长周期验证（P2） **目标：** 在独立 Git Repository 中验证安装、升级、回滚、PR 和跨版本回归，明确模板能力与企业控制的边界。 **范围线索：** Adopter Harness、独立 Fixture Repository、安装/升级文档、CI、版本 Tag 和长期回归报告。
 **验收：** 证据来自独立仓库和独立工作树；覆盖至少一个版本升级和回滚；记录默认分支、远端、基线 Commit、PR/合并和分支清理；不把受控 PoC 结果写成企业级身份、权限、审计或合规证明。
-### 工单 14：进行妄想测试，不通过的话继续修改（P1，强制门）
-**目标：** 对经典荒诞场景、变体和合法对照进行全量回归；任何失败都不得进入文档对齐、发布或计划清理。
+### 工单 14：进行妄想测试，不通过的话继续修改（P1，强制门） **目标：** 对经典荒诞场景、变体和合法对照进行全量回归；任何失败都不得进入文档对齐、发布或计划清理。
 **测试内容：** 造火箭（中/英/日及委婉等义表达）、支付永远成功（多语言、无敏感名词、不同路径包装）、删除所有测试、跳过 Checker、随便改改且没有可测成功标准；同时验证合法支付文档、sandbox mock、登录错误测试等对照。
 **验收：** 负例在 Enforced Profile 下于正确治理路径 fail closed，正例可通过；结果包含 state、原因、evidence、resume condition、policy reference；Make/CI 和 Summary 可复核；失败时留在本工单修复或创建新的单一修复工单，并重新走本计划第三节的完整流程，直到全部通过。
-### 工单 15：对齐现有文档（用户指定）
-**目标：** 对齐 README、Trust Layer、Architecture、Configuration、Installation、Upgrade、Release、Enterprise Boundary、Fixture、Guard 和中/日/英文文档。
+### 工单 15：对齐现有文档（用户指定） **目标：** 对齐 README、Trust Layer、Architecture、Configuration、Installation、Upgrade、Release、Enterprise Boundary、Fixture、Guard 和中/日/英文文档。
 **验收：** 准确区分 deterministic known-risk coverage 与 semantic risk classification；更新 Release State、Guard State、Archive Manifest、Fixture 等实际边界；不宣称 Sandbox、可信身份、不可篡改审计或企业合规；完成链接、术语、元数据和中/日/英一致性检查。
-### 工单 16：发布新版本（用户指定）
-**目标：** 仅在工单 1–15 全部 PR 合并、归档、分支清理和主分支同步后，基于最新远端默认分支发布新版本。
+### 工单 16：发布新版本（用户指定） **目标：** 仅在工单 1–15 全部 PR 合并、归档、分支清理和主分支同步后，基于最新远端默认分支发布新版本。
 **验收：** `SOURCE_COMMIT == DEFAULT_BRANCH_COMMIT`；版本、Tag、Detached checkout、Release Asset、Workflow Run、SBOM、Provenance、Evidence Bundle Digest 和兼容性证据精确关联；Candidate/Published 状态唯一；失败不发布；Release Notes 保持企业级 NO-GO 边界。
-### 工单 17：清理执行计划文档（用户指定，最后一项）
-**目标：** 在全部整改和新版本证据归档后，清理重复、过时或误导性的执行计划，同时保留审计历史。
+### 工单 17：清理执行计划文档（用户指定，最后一项） **目标：** 在全部整改和新版本证据归档后，清理重复、过时或误导性的执行计划，同时保留审计历史。
 **验收：** 逐份标记执行中、完成需保留、已被替代或可安全删除，并记录 Work Item/PR；不删除 Contract、Summary、Cockpit Status、评审/发布证据或仍被引用的设计；链接、索引和状态检查通过；本计划最终标记为历史保留，不再处于执行中；本工单关闭后不再创建新的整改工单。
 ## 五、计划级完成定义
 本计划只有在工单 1–17 严格按顺序完成，并且每个工单都有 Contract v2、验证结果、Summary、归档记录、唯一 PR、合并记录、`ai-close-work-item` 成功记录、分支清理记录和主分支同步证据时，才算完成。

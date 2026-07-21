@@ -1,0 +1,215 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release-one-truth",
+  "mode": "code",
+  "title": "Converge release metadata into one canonical truth",
+  "baseCommit": "c2022fa1d0c2d94ed3edf6c1d16a89260d3fd68f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release-one-truth.contract.json",
+    ".ai/work-items/active/release-one-truth.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release-state.json",
+    "scripts/check_release_state_consistency.py",
+    "tests/test_release_state_consistency.py",
+    "Makefile",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    "docs/superpowers/plans/2026-07-21-review-remediation.md"
+  ],
+  "outOfScope": [
+    "Changing release publication or tag creation workflow",
+    "Changing evidence digest semantics beyond consistency validation",
+    "Publishing a release or changing release.json and next-release.json schema"
+  ],
+  "sources": [
+    {
+      "path": "release-state.json",
+      "reason": "Canonical release state currently conflicts with legacy metadata."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published release metadata used to validate previousRelease."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Legacy candidate metadata used to validate candidate identity."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Existing release metadata validation and release claim semantics."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Existing canonical state and legacy metadata test coverage."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Current release state and metadata documentation."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Japanese release state and metadata documentation."
+    },
+    {
+      "path": "user-authorized review remediation plan dated 2026-07-21",
+      "reason": "Work Item 1 acceptance and dependency boundary."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Reduce redundant formatting lines so the active Work Item status remains within the existing complexity budget; preserve all 17 items and requirements."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_identity", "metadata_consistency"],
+    "reason": "The change modifies release-state validation and canonical metadata while leaving publication behavior unchanged."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of Work Item 1 and the plan defines the release truth boundary."
+  },
+  "preReviewWarnings": [
+    "Verify published and candidate identity, previousRelease, state uniqueness, digest references, and no stale v0.5.35-only claim remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release-state.json is the only canonical release state record for state, candidate tag, sourceCommit, and previousRelease.",
+    "check-release-state-consistency validates release-state.json against release.json and next-release.json and rejects conflicting identities, duplicate states, invalid references, and non-matching digests.",
+    "The current repository metadata passes the new consistency check without changing publication or tag creation behavior.",
+    "English and Japanese distribution documentation describe the canonical state and legacy metadata relationship accurately."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "release-state.json, release.json, and next-release.json currently express different published and candidate facts, so the repository has multiple competing release truths.",
+    "constraints": ["Preserve the public release contract consumed by installers.", "Do not publish, move, or delete tags.", "Keep digest placeholder semantics for the later Evidence Digest Work Item."],
+    "rationale": "A deterministic consistency checker and a corrected canonical state remove ambiguity before later source-commit and evidence-digest work."
+  },
+  "rawUserRequest": "执行评审整改计划工单 1：收敛 One Release Truth，继续循环执行直到全部工单完成。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:2026-07-21-continue-remediation",
+    "capturedAt": "2026-07-21",
+    "digest": "sha256:user-authorized-serial-remediation"
+  },
+  "declaredIntent": {
+    "summary": "Make release-state.json the canonical release truth and validate legacy metadata consistency.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {"scenario": "Published and candidate tags agree with canonical state", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "previousRelease equals the published release tag", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "Conflicting candidate, duplicate state, invalid digest reference, and skipped candidate are rejected", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "Release publication workflow behavior remains unchanged", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml", "tests/test_workflows.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User authorization in execution request",
+    "reason": "The user authorized serial remediation including Makefile and CI entrypoint changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release-one-truth.json",
+    "baseCommit": "c2022fa1d0c2d94ed3edf6c1d16a89260d3fd68f",
+    "initialScopeDigest": "216683d1f9c53fa815c67ca0e2eecd3d5960862ffcc56047131a4a9a4c677dc1",
+    "contractSkeletonDigest": "4c53e48ade6160324962432169c3c909a1e238fb5625c4308fe80a1ecff60551"
+  }
+}

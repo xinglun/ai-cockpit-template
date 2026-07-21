@@ -1,0 +1,193 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi01-bootstrap-wizard",
+  "mode": "code",
+  "title": "Bootstrap Wizard state machine",
+  "rawUserRequest": "完成 Bootstrap Adoption 评审整改执行计划，按计划逐项走完整 Work Item 闭环；当前工单实现 Bootstrap Wizard 状态机。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Implement a side-effect-free Bootstrap Wizard state machine with explicit review and resume transitions.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/bootstrap_wizard.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_bootstrap_wizard.py",
+    "tests/test_governance_complexity.py",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+    ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Repository detection implementation (WI02)",
+    "Filesystem write policy implementation (WI03)",
+    "Installer integration and adoption evidence persistence (WI04)",
+    "Changing configured complexity limits or repayment policy (WI07)"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Authoritative adoption lifecycle and phase boundary documentation."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository terminology and governance boundaries."
+    },
+    {
+      "path": "tests/test_ai_onboard.py",
+      "reason": "Existing lifecycle-state and onboarding behavior evidence."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Existing transactional adoption boundary and runtime entrypoint."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Complexity metric implementation whose generated-status boundary is calibrated here."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_bootstrap"],
+    "reason": "A pure state machine controls review/confirmation sequencing but does not perform repository writes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized execution of the full remediation plan; this Work Item is limited to a pure, testable state machine."
+  },
+  "preReviewWarnings": [
+    "Review that the state machine remains side-effect free and does not imply production readiness."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record before-edit and before-finish checkpoints for the first implementation Work Item."
+  },
+  "acceptance": [
+    "A repository-independent Session object can be created outside the target repository and records phase, revision, and proposal data.",
+    "The state machine supports Detect, Propose, Configure, Review, and Confirm, plus Back, Cancel, and Resume transitions.",
+    "Changing an upstream revision invalidates downstream proposal/configuration/review state and requires re-review before Confirm.",
+    "Unit tests cover legal transitions, rejected transitions, cancellation/resume, and upstream invalidation; adoption documentation names the state-machine boundary.",
+    "Generated .ai/cockpit/current_status.md is excluded from persistent Markdown complexity totals, with a regression test; configured limits are unchanged."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Preserve the distinction between adoption bootstrap, calibration, and governed development."
+  ],
+  "intent": {
+    "problem": "Bootstrap currently exposes transactional installation behavior but lacks an explicit, reusable state-machine model for an external session that can pause before any repository write.",
+    "constraints": [
+      "Keep the session data outside the target repository and keep transitions side-effect free.",
+      "Do not claim that a confirmed bootstrap is project configuration or production readiness.",
+      "Use standard-library-only code consistent with the template runtime."
+    ],
+    "rationale": "An explicit state machine makes Back/Cancel/Resume and stale-upstream invalidation testable before later Work Items add detection, write boundaries, and adoption evidence."
+  },
+  "problemStatement": "Provide a pure Bootstrap Wizard state machine that sequences proposal review and confirmation without writing to the adopter repository.",
+  "scenarioCoverage": [
+    {"scenario": "Happy path Detect → Propose → Configure → Review → Confirm", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_wizard.py"]},
+    {"scenario": "Back, Cancel, and Resume preserve or safely reset external session state", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_wizard.py"]},
+    {"scenario": "Upstream revision drift invalidates downstream state", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_wizard.py"]},
+    {"scenario": "No repository write occurs in the state machine", "required": true, "status": "verified", "evidence": ["scripts/bootstrap_wizard.py"]},
+    {"scenario": "Active generated status does not consume persistent Markdown budget", "required": true, "status": "verified", "evidence": ["tests/test_governance_complexity.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized",
+    "reason": "User explicitly authorized completing the full remediation plan, including governance documentation updates."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi01-bootstrap-wizard.json",
+    "baseCommit": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+    "initialScopeDigest": "2c9053eae18f8b016d9632e1d369a6f1efde2d688ad099bdd75f0b0369c0f2e9",
+    "contractSkeletonDigest": "fad796d96e7ff3e84e3ee20534600d03ecec0c2c39cf397e8ee6a1f5d6c6dbb9"
+  }
+}

@@ -14,6 +14,8 @@ AI Cockpit は **汎用テンプレート + ローカルキャリブレーショ
 
 `--create-adoption` によるインストールはトランザクション型です。バリデーションはブランチ変更より前に完了し、`--dry-run` は Git fetch やブランチ変更を一切行いません。失敗した場合は元のブランチまたは detached HEAD とファイルシステムを復元します。テンプレートのサプライチェーン証拠ファイル（`.ai/cockpit/release-digests.json`、`.ai/cockpit/sbom.json`、`.ai/cockpit/provenance.json`）は採用者ツリーにコピーされません。これらはテンプレートリポジトリ外では意味を持たないリリースアーティファクトのダイジェストや証明を記録したファイルです。
 
+Bootstrap Wizard の状態機械は採用対象リポジトリの外部に保持する副作用のない Session です。`Detect → Propose → Configure → Review → Confirm`、`Back`、`Cancel`、`Resume` を扱い、上流の Revision が変わると下流の判断を無効化します。状態機械自身はリポジトリを書き込まず、Calibration や本番準備完了を主張しません。
+
 インストールされる Cursor rule（`.cursor/rules/ai-cockpit.mdc`）は `alwaysApply: false` がデフォルトです。調査のみのセッションにも Work Item を強制したい場合は **Always Apply** を有効にしてください。
 
 AI Cockpit を本番ゲートとして必須化する前に、次を完了してください。

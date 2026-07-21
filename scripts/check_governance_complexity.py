@@ -413,7 +413,7 @@ def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[st
         "pythonLines": line_count(files, ".py"),
         "markdownLines": line_count(measured_files, ".md"),
         "pythonFiles": file_count(files, lambda path: path.suffix.lower() == ".py"),
-        "markdownFiles": file_count(files, lambda path: path.suffix.lower() == ".md"),
+        "markdownFiles": file_count(measured_files, lambda path: path.suffix.lower() == ".md"),
         "governanceScripts": file_count(
             files, lambda path: path.parent.name == "scripts" and path.name.startswith("ai_")
         ),

@@ -1,0 +1,413 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wi01-bootstrap-wizard",
+  "contractPath": ".ai/work-items/archive/2026/wi01-bootstrap-wizard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/wi01-bootstrap-wizard.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi01-bootstrap-wizard.summary.json",
+      "reason": "Records implementation and verification evidence for the Bootstrap Wizard."
+    },
+    {
+      "path": "scripts/bootstrap_wizard.py",
+      "reason": "Adds the external, side-effect-free Bootstrap Wizard Session state machine."
+    },
+    {
+      "path": "tests/test_bootstrap_wizard.py",
+      "reason": "Covers the happy path, Back, Cancel/Resume, invalidation, and rejected transitions."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Excludes generated current status from persistent Markdown complexity totals."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regresses the generated-status complexity boundary."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Documents the state-machine boundary in the English adoption guide."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Documents the state-machine boundary in the Japanese adoption guide."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi01-bootstrap-wizard.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+    ".ai/glossary.md",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    "scripts/install_ai_cockpit.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_ai_onboard.py",
+    "tests/test_adoption_e2e.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:31.665916+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "4acc58c75e50913cc1801e1f7f717a763e89e8914458c4a10dd8b00a03d7af20",
+      "commandHash": "41c57223457066bbe64c868ea8666b44a6e9d9df053a2f3707f15bb3217df7e4",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wi01-bootstrap-wizard.contract.json work item contract check passed: .ai/work-items/active/wi01-bootstrap-wizard.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:31.803696+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "10d16ed6d40f85877ae599419e80ecc19ee5876f9764b736f1f6109099641795",
+      "commandHash": "51cf10c3b63ea96c67349b09d862c6172133a8179d39b6d30f739f0e14a44c9b",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wi01-bootstrap-wizard.contract.json scope guard passed: 8 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:31.945008+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "6cdf8db3e5d277b1fafd4c5a2b9200b1132d2c293891fd1c26dcf101ff8154a8",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json [warning] restricted_write: .ai/cockpit/adoption.ja.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/adoption.md (.ai/**) - AI governance configuration. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:32.190639+00:00",
+      "exitCode": 0,
+      "durationMs": 196,
+      "outputDigest": "146e8cec4e6fa148aeb7b4686d1b4357e3b0597f2575eb71cdaa12f4c5c6bbdf",
+      "commandHash": "32b6722eb656bb81822a24592484d75fd127d19f72f75ea18c5ed89df3df901b",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wi01-bootstrap-wizard` - Contract Hash: `41d436f8de2af721` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:32.338712+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "1b33cbdba18078c3728154ba675ec9c3ec8954589fe4b4e578ddbb152698bd4f",
+      "commandHash": "4c861aee81ab1e2d421ae4dc571ba369be9fb3de9fad9ce566e06629dd774f41",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/wi01-bootstrap-wizard.json [review] .ai/cockpit/adoption.ja.md [review] .ai/cockpit/adoption.md [review] .ai/cockpit/current_status.md review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:32.490491+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:32.653604+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:32.749359+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "5328a3e09c5c2b7baefa9d87814e86a524fa1ddbe575352043ceffc6db74708c",
+      "commandHash": "5d402085b818716aa3565a53330db803ba11a043b6de584514e2b8cda4258da7",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:32.846031+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "f00fa9247097c65d732628ebc06dd3fb502bf4f93347a0dd8dd468bed0ea59dc",
+      "commandHash": "d4ddfc76ce08e0ec9226434accac43dde34fd14bc5fbe210a78609fde59c1b29",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:09:33.084649+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "e08499c265ab2553e044eca07b655f0491f51929b8f891933f10ab16941085cc",
+      "commandHash": "0b148d9a6f46201cdad92492f2df9de31d9d69c9f195cffd743a13aea7c97849",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json ## Diff Ownership Preview - active_owned: `8`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/adoption.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/adoption.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contra"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:12:13.965672+00:00",
+      "exitCode": 0,
+      "durationMs": 160824,
+      "outputDigest": "de53d165a108dfb571bb5a30ce7c0013c50fcd8a683860a4092d7521b52bfe5e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "d0a0d27d65c5348b4d179d0b10e9a9daa98056e9f64adf2a7d0adae2bb199ba3",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 122 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 19%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:12:15.671591+00:00",
+      "exitCode": 0,
+      "durationMs": 206,
+      "outputDigest": "863c86a158ee653a643d31c4d0c7767cef9a070f4af44472e630940743b8b8df",
+      "commandHash": "ccf9d7c33e77379e09a3a550be0a9257b601fd070e3a890ad38f9c2658abfcb0",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "f946eecbd6f4b216449bd3e77d61c16e1bb71adb973ce91ffcbb81f5cb935af5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wi01-bootstrap-wizard.contract.json --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:12:15.922683+00:00",
+      "exitCode": 0,
+      "durationMs": 205,
+      "outputDigest": "ba990cb51586799d962b9bd509c81b549c2e104d934cc9fe524193dc7e5725ae",
+      "commandHash": "1772b4c9efe7f260d9577141f089d6df063a850d12c028d9d7281d1d0d2c0566",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "f946eecbd6f4b216449bd3e77d61c16e1bb71adb973ce91ffcbb81f5cb935af5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:12:16.017742+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "f946eecbd6f4b216449bd3e77d61c16e1bb71adb973ce91ffcbb81f5cb935af5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:12:16.131063+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "8cbd969b526eaccdc1705aa7bb890b436c7930cc14ed5d758953b58b43062b3b",
+      "commandHash": "a92100fb4a1b950c9b3bc14364e9b672d7a2d427d30a4574674a0b3b6ee3718d",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "f946eecbd6f4b216449bd3e77d61c16e1bb71adb973ce91ffcbb81f5cb935af5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json --summary .ai/work-items/active/wi01-bootstrap-wizard.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wi01-bootstrap-wizard.summary.json CONTRACT=.ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:12:17.108283+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "0084cac590e8161befb48bbe7d1e7133a7e5085eab8ec5ec9cc211d408c952ac",
+      "commandHash": "d34ef1447ab6dbbde2e4e9fc14a267e6e562ba59dadda406b296df415ab76503",
+      "contractHash": "41d436f8de2af7211ebdc2672d47004587493301b974b555629216d26456cc55",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-bootstrap-wizard.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-bootstrap-wizard.summary.json",
+      "worktreeDigest": "304ed327eda509be0043b1b227b0823e746aa6dcbaa23fc31ecaa7394a7b106f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wi01-bootstrap-wizard.summary.json --contract .ai/work-items/active/wi01-bootstrap-wizard.contract.json ai summary check passed: .ai/work-items/active/wi01-bootstrap-wizard.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Public Session/Phase APIs have module and class docstrings; adoption.md and adoption.ja.md describe the boundary."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "bootstrap_wizard.py uses only standard-library dataclasses, enum, and typing."
+    },
+    {
+      "guideline": "Preserve the distinction between adoption bootstrap, calibration, and governed development.",
+      "compliant": true,
+      "evidence": "English and Japanese adoption guides explicitly state that the state machine does not claim calibration or production readiness."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The state machine is pure and side-effect free; installer integration and repository writes remain explicitly out of scope for later Work Items."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "integration",
+      "detail": "The new state machine is not yet wired to installer persistence; WI04 owns that integration.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm no state transition performs repository I/O or implies production readiness."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "41d436f8de2af721",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Scope and state-machine design reviewed before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "41d436f8de2af721",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Implementation, regression tests, documentation, and full lifecycle checks reviewed before finish."
+    }
+  ],
+  "knownGaps": [
+    "Installer persistence and repository drift/write checks are intentionally deferred to WI02–WI04."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 387
+}

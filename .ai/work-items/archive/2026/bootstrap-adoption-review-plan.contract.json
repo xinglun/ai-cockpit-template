@@ -1,0 +1,196 @@
+{
+  "contractVersion": 2,
+  "workItemId": "bootstrap-adoption-review-plan",
+  "mode": "author_todo",
+  "title": "Bootstrap Adoption and Project-Calibrated Complexity Review Plan",
+  "baseCommit": "51c65d257464b0966fdc4cbaa69522c22f56fca8",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+    ".ai/work-items/active/bootstrap-adoption-review-plan.contract.json",
+    ".ai/work-items/active/bootstrap-adoption-review-plan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/decisions/**"
+  ],
+  "outOfScope": [
+    "scripts/**",
+    "tests/**",
+    ".ai/work-items/archive/**",
+    "existing execution plan documents"
+  ],
+  "sources": [
+    {
+      "path": "user-provided-review/pasted-text.txt",
+      "reason": "User-provided review/specification for Bootstrap Adoption, Project Configuration, and calibrated complexity."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Historical remediation plan and lifecycle requirements."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Canonical Work Item, preflight, archive, PR, and closure workflow."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical governance terminology and architecture boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "problemStatement": "The supplied review requires a new execution plan that separates Bootstrap Adoption, Project Configuration, and Governed Development and makes every remediation Work Item independently closable.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Review requirements are represented in the plan",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md"]
+    },
+    {
+      "scenario": "Every Work Item includes PR merge, closure, branch cleanup, and next-item sequencing",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md"]
+    },
+    {
+      "scenario": "Production implementation of future Work Items",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "This Work Item authors the plan only."
+    }
+  ],
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation",
+      "governance_records"
+    ],
+    "reason": "This Work Item is limited to an execution plan and governance records; production implementation risks are deferred to future Work Item Contracts."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The requested deliverable is an implementation plan; no production implementation is authorized by this Work Item."
+  },
+  "preReviewWarnings": [
+    "Review that the four user-specified closing Work Items are last and that every Work Item requires PR merge, ai-close-work-item, branch cleanup, and base synchronization before the next Work Item."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Contract explicitly records scope, outOfScope, sources, unknowns, acceptance, and verification for plan authoring.",
+    "The new plan summarizes the supplied review and decomposes it into ordered, independently closable Work Items.",
+    "The final Work Items cover delusion testing with iterative repair, documentation alignment, a new release, and execution-plan cleanup.",
+    "The plan requires Contract, Preflight, verification, Summary, ai-finish, PR, merge, ai-close-work-item, branch cleanup, and base synchronization for every Work Item.",
+    "The plan records user authorization and separates authorization from evidence that must be produced during execution."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The review adds a complete adoption and calibration lifecycle that is not represented by the historical remediation plan.",
+    "constraints": [
+      "Preserve historical plans and evidence.",
+      "Keep the user-specified four closing Work Items last.",
+      "Do not claim future implementation, PR, or release evidence as completed."
+    ],
+    "rationale": "A new plan is required because the existing 2026-07-21 plan is explicitly historical and must not be rewritten."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized",
+    "reason": "User explicitly authorized completing the current document Work Item workflow, including its generated Preflight decision evidence."
+  },
+  "rollbackNote": "Revert only the new plan and this Work Item's active records; preserve historical plans, archived evidence, and unrelated user changes.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/bootstrap-adoption-review-plan.json",
+    "baseCommit": "51c65d257464b0966fdc4cbaa69522c22f56fca8",
+    "initialScopeDigest": "15396bf723cf2f71892f029b0953edf2fad7750984a3c8d672457039916d2247",
+    "contractSkeletonDigest": "b40553a6d6a1272f31f2002e5b6f03004d45907c542ac476aa5026ea713ff033"
+  }
+}

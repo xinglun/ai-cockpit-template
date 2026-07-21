@@ -44,6 +44,6 @@ Or follow the local calibration checklist:
 7. Review Coverage paths. For legacy or broad trees, start with `reportOnly: true` and narrowed include/exclude paths, then set `adoptionReviewed: true` when boundaries are stable.
 8. **Staged CI:** configure **L1** first—full Git history plus `make check-ai-pr`. After L1 is stable, add **L2** `make ai-cockpit-quality` as a separate required job.
 9. Run a pilot Work Item if needed with quality optional, then promote quality and Coverage to blocking gates.
-10. Run `make check-ai-adoption-ready` to verify static configuration completeness.
+10. Run `make check-ai-adoption-ready` to aggregate Profile, complexity policy, quality-command, Critical Domain, Guard, and unknown signals. Missing or `not_run` evidence remains visible and blocks required readiness; the command does not execute project checks.
 
 Doctor is read-only apart from its report under `target/`. It reports critical-domain signals for human review; a signal is not authorization or a production decision. Calibration writes only `.ai/project_profile.proposed.yaml` and never overwrites Guards. The confirmed Project Profile is project-owned and preserved across upgrades. `make check-ai-adoption-ready` is fail-closed, but neither Profile approval nor readiness is a security proof. Require successful `make ai-cockpit-quality` and `check-ai-pr` runs as independent CI checks.

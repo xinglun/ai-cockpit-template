@@ -9,3 +9,11 @@ def test_readiness_policy_does_not_call_installation_production_ready(tmp_path: 
     state = readiness_state(tmp_path)
     assert state["adoptionInstalled"] is True
     assert state["productionReady"] is False
+
+
+def test_readiness_policy_exposes_static_not_run_evidence(tmp_path: Path):
+    state = readiness_state(tmp_path)
+    evidence = state["readinessEvidence"]
+    assert evidence["qualityCommands"]["status"] == "not_run"
+    assert evidence["criticalDomains"]["status"] == "not_run"
+    assert evidence["complexityPolicy"]["status"] == "missing"

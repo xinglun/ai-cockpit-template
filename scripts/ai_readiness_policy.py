@@ -4,6 +4,35 @@
 from __future__ import annotations
 from typing import Any
 from pathlib import Path
+from ai_common import parse_yaml
+
+
+def readiness_evidence(root: Path) -> dict[str, Any]:
+    """Aggregate static adoption evidence without executing project commands."""
+    profile = root / ".ai" / "project_profile.yaml"
+    policy = root / ".ai" / "guards" / "governance_complexity_policy.yaml"
+    evidence: dict[str, Any] = {
+        "profile": {"status": "present" if profile.is_file() else "missing"},
+        "complexityPolicy": {"status": "missing"},
+        "qualityCommands": {
+            "status": "not_run",
+            "reason": "Static readiness does not execute project commands.",
+        },
+        "criticalDomains": {
+            "status": "not_run",
+            "reason": "Critical-domain review remains project-owned.",
+        },
+        "unknowns": {"status": "unknown"},
+    }
+    if policy.is_file():
+        try:
+            raw = parse_yaml(policy)
+            proposal = raw.get("proposal", {}) if isinstance(raw, dict) else {}
+            status = proposal.get("status") if isinstance(proposal, dict) else None
+            evidence["complexityPolicy"] = {"status": status or "unavailable"}
+        except (OSError, ValueError):
+            evidence["complexityPolicy"] = {"status": "unavailable"}
+    return evidence
 
 
 def readiness_state(root: Path) -> dict[str, Any]:
@@ -26,6 +55,7 @@ def readiness_state(root: Path) -> dict[str, Any]:
         "adoptionInstalled": installed,
         "calibrationComplete": calibrated,
         "productionReady": production_ready,
+        "readinessEvidence": readiness_evidence(root),
         "evidence": {
             "profile": profile.is_file(),
             "guards": guards.is_file(),

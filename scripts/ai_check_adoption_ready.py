@@ -10,7 +10,7 @@ from pathlib import Path
 
 from ai_check_guard_calibration import calibration_issues
 from ai_project_profile import load_profile
-from ai_readiness_policy import readiness_state
+from ai_readiness_policy import readiness_evidence, readiness_state
 
 
 PLACEHOLDER_MARKERS = ("configure PROJECT_", "No project")
@@ -98,6 +98,12 @@ def readiness_failures(root: Path) -> list[str]:
         failures.append(
             "template role is not enough for readiness exemption; run with AI_COCKPIT_EXECUTION_MODE=template_maintenance "
             "and retain verified template distribution evidence, or migrate to repositoryRole: adopted and calibrate Profile, Guards, quality commands, Coverage, and CI"
+        )
+
+    aggregated_evidence = readiness_evidence(root)
+    if aggregated_evidence["complexityPolicy"].get("status") != "confirmed" and role != "template":
+        failures.append(
+            "confirm governance complexity policy after proposal review; missing or unconfirmed policy is not readiness"
         )
 
     stack = root / "Makefile.ai.stack"

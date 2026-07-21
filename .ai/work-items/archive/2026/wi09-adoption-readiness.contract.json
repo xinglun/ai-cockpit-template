@@ -1,0 +1,195 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi09-adoption-readiness",
+  "mode": "code",
+  "title": "Adoption Readiness Execution Chain",
+  "baseCommit": "bbb1c53c0b256249c9c84f23b4994fa9c9e0c9ef",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_readiness_policy.py",
+    "tests/test_adoption_ready.py",
+    "tests/test_readiness_policy.py",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/work-items/active/wi09-adoption-readiness.contract.json",
+    ".ai/work-items/active/wi09-adoption-readiness.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Treating static readiness as a security, compliance, or production proof",
+    "Approving project-owned Profile, Guard, CI, or quality commands automatically",
+    "Changing product source code or external deployment state"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+      "reason": "WI09 readiness aggregation and fail-closed target."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Adoption readiness boundary and command guidance."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Japanese adoption readiness boundary and command guidance."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Existing static readiness aggregation and fail-closed checks."
+    },
+    {
+      "path": "scripts/ai_readiness_policy.py",
+      "reason": "Readiness state derivation and evidence boundary."
+    },
+    {
+      "path": "tests/test_adoption_ready.py",
+      "reason": "Readiness failure and successful configuration coverage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Readiness aggregates project-owned evidence and must remain fail-closed when required evidence is missing or not_run."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the serial remediation plan and complete Work Item lifecycle."
+  },
+  "preReviewWarnings": [
+    "Readiness must distinguish static completeness from runtime effectiveness and preserve not_run evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Readiness aggregates Profile, complexity policy, quality commands, critical domains, Guards, and unknowns into an explicit state with missing evidence blocking.",
+    "Unavailable or not_run project checks remain not_run and cannot satisfy readiness.",
+    "Template-maintenance exemption remains explicit and does not claim adopter production readiness.",
+    "Focused tests cover missing, placeholder, not_run, configured, and template-exemption readiness states.",
+    "English and Japanese adoption documentation describes the aggregated readiness state and its non-security boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Adoption Readiness currently checks many configuration facts separately, but the Configure workflow needs one evidence-backed fail-closed state that aggregates Profile, Policy, quality commands, Critical Domains, Guards, and unresolved unknowns without overclaiming runtime or production readiness.",
+    "constraints": [
+      "The checker is static and never executes arbitrary project quality commands.",
+      "Missing, unavailable, and not_run inputs are blocking states when required.",
+      "The template-maintenance exemption stays explicit and enterpriseAssurance stays not_claimed.",
+      "Use standard-library code and preserve the existing readiness schema and CLI."
+    ],
+    "rationale": "A single conservative readiness state gives Configure and ai-start a deterministic transition while keeping domain execution and human approval outside the static checker."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Aggregate adoption readiness evidence into a fail-closed, non-production-proof state.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "missing Profile, Policy, Guard, or quality evidence blocks readiness", "required": true, "status": "verified", "evidence": ["tests/test_adoption_ready.py"]},
+    {"scenario": "not_run or placeholder project checks cannot satisfy readiness", "required": true, "status": "verified", "evidence": ["tests/test_adoption_ready.py"]},
+    {"scenario": "explicit template-maintenance exemption remains narrow and non-production", "required": true, "status": "verified", "evidence": ["tests/test_adoption_ready.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-plan-execution",
+    "reason": "User explicitly authorized governance code, tests, documentation, PR, merge, archive, close, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi09-adoption-readiness.json",
+    "baseCommit": "bbb1c53c0b256249c9c84f23b4994fa9c9e0c9ef",
+    "initialScopeDigest": "5ccc6ffdcc1e096b00929687cd8907a6969211e768a3a0eedd0d77a65cf3a5d0",
+    "contractSkeletonDigest": "363fda02bb38fad16d4b679695b66943760cefa31295dfe472735e65c9438a87"
+  }
+}

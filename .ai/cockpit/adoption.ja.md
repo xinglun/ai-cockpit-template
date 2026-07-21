@@ -62,7 +62,7 @@ make ai-onboard PHASE=3
 7. Coverage パスをレビューする。レガシーまたは広いソースツリーでは、まず `reportOnly: true` と絞った include/exclude で開始し、境界が安定してから `adoptionReviewed: true` を設定する。
 8. **段階的 CI:** まず **L1**（完全 Git 履歴 + `make check-ai-pr`）のみを設定する。L1 が安定したら **L2** `make ai-cockpit-quality` を別必須 job として追加する。
 9. 必要なら quality を optional にした試行 Work Item を実行し、その後 quality と Coverage を blocking ゲートに昇格する。
-10. `make check-ai-adoption-ready` で静的設定の完全性を検証する。
+10. `make check-ai-adoption-ready` で Profile、Complexity Policy、品質コマンド、Critical Domain、Guard、unknowns を集約する。欠落または `not_run` の証拠は可視化したまま必須 readiness を block し、このコマンドはプロジェクト検査を実行しない。
 
 Doctor は `target/` 配下のレポート以外は読み取り専用です。Critical Domain シグナルは人間確認のための候補であり、認可や本番判断ではありません。Calibration は `.ai/project_profile.proposed.yaml` のみを書き込み、Guard は上書きしません。確定 Project Profile はプロジェクト所有で、アップグレード後も保持されます。
 

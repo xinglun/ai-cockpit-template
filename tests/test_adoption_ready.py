@@ -14,6 +14,7 @@ def test_readiness_separates_installation_from_production(tmp_path):
     (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
     (tmp_path / ".ai" / "cockpit" / "version.json").write_text("{}", encoding="utf-8")
     assert readiness_state(tmp_path)["state"] == "adoption_installed"
+    assert readiness_state(tmp_path)["readinessEvidence"]["qualityCommands"]["status"] == "not_run"
 
 
 def test_template_codeowners_uses_authorized_personal_owner():
@@ -111,6 +112,9 @@ def test_readiness_passes_only_after_explicit_configuration(tmp_path):
     write_ready_configuration(tmp_path)
 
     assert readiness_failures(tmp_path) == []
+    assert (
+        readiness_state(tmp_path)["readinessEvidence"]["complexityPolicy"]["status"] == "confirmed"
+    )
     result = subprocess.run(
         [
             sys.executable,

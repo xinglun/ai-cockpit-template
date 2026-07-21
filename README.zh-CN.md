@@ -261,3 +261,4 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - [设计思想](docs/design-philosophy.md)
 - [案例：AI rollback corruption](docs/case-study-ai-rollback-corruption.md)
 - [语言 examples](examples/)
+已知风险 Guard 只对明确声明的危险模式提供确定性覆盖；有限回归测试不等于能够识别所有未知语义风险。工单必须经过 Contract/Preflight、实现与检查、Summary/归档、PR、合并和分支清理的完整生命周期。

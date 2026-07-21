@@ -1,0 +1,208 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi03-write-boundary",
+  "mode": "code",
+  "title": "Write Boundary and Dry Run",
+  "baseCommit": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/bootstrap_write_boundary.py",
+    "tests/test_bootstrap_write_boundary.py",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/work-items/active/wi03-write-boundary.contract.json",
+    ".ai/work-items/active/wi03-write-boundary.summary.json",
+    ".ai/decisions/HDR-*.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Business source code, application CI, and production policy activation",
+    "Writing any file in the target repository before explicit confirmation",
+    "Adoption evidence generation and configuration readiness aggregation"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Cockpit workflow and write-boundary expectations."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Adoption write and dry-run behavior currently documented."
+    },
+    {
+      "path": "scripts/bootstrap_wizard.py",
+      "reason": "External session boundary consumed by the write planner."
+    },
+    {
+      "path": "scripts/bootstrap_repository.py",
+      "reason": "Repository facts and drift revalidation used before writes."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Existing installer dry-run and Makefile write semantics."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "restricted_write_boundary"
+    ],
+    "reason": "The implementation is a standard-library planner that rejects out-of-scope writes and performs no I/O until explicit confirmation."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized implementation, tests, documentation, PR, merge, closure, and branch cleanup."
+  },
+  "preReviewWarnings": [
+    "Review path allowlist, dry-run zero writes, Makefile managed-block ownership, confirmation value, and fail-closed behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A write plan exposes only explicitly allowed paths and rejects target paths outside the allowlist before I/O.",
+    "Dry-run and pre-confirmation execution perform zero filesystem writes and report planned actions.",
+    "A managed Makefile block appends or replaces content only through an exact marker and remains idempotent.",
+    "Non-interactive mode fails closed without an explicit confirmation value; confirmed execution revalidates repository drift before writing.",
+    "tests/test_bootstrap_write_boundary.py contains assertions for clean allowed writes, zero-write dry-run, traversal/symlink/marker rejection, drift rejection, non-interactive confirmation rejection, and idempotent managed Makefile updates; both adoption guides describe these boundaries."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "No write is permitted outside the declared allowlist or without explicit confirmation."
+  ],
+  "intent": {
+    "problem": "Bootstrap needs a narrow, auditable write boundary: proposal and confirmation must not mutate the adopter, dry-run must be genuinely read-only, and Makefile integration must not overwrite project-owned content.",
+    "constraints": [
+      "Use Python standard library only.",
+      "Keep the planner independent from business code and production policy activation.",
+      "Require a confirmed repository snapshot and an explicit confirmation value for writes; tests use local fixtures only.",
+      "Treat path traversal, symlinks, stale repository facts, and malformed managed markers as fail-closed conditions."
+    ],
+    "rationale": "A pure plan/execute boundary lets the wizard remain external and side-effect-free while making every later write inspectable, idempotent, and reversible."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-plan-execution",
+    "capturedAt": "2026-07-21",
+    "digest": "sha256:user-authorized-serial-remediation"
+  },
+  "declaredIntent": {
+    "summary": "Add a fail-closed, dry-run-capable write planner for Bootstrap adoption.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {"scenario": "clean repository with allowed files", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_write_boundary.py"]},
+    {"scenario": "dry-run and pre-confirmation produce zero writes", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_write_boundary.py"]},
+    {"scenario": "out-of-scope path, traversal, symlink, or malformed marker is rejected", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_write_boundary.py"]},
+    {"scenario": "dirty or drifted repository is rejected before execution", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_write_boundary.py"]},
+    {"scenario": "non-interactive execution without confirmation is rejected", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_write_boundary.py"]},
+    {"scenario": "managed Makefile block is idempotent and preserves project content", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_write_boundary.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-plan-execution",
+    "reason": "User explicitly authorized governance code, tests, documentation, structured decision evidence, PR, merge, archive, close, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi03-write-boundary.json",
+    "baseCommit": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+    "initialScopeDigest": "896e3c230ded8d382e7cd55ede466db1220bbc371ca6ad74b934cefabda8b97d",
+    "contractSkeletonDigest": "f14c806e499bb8601503f226fb13c2164234ae35cb62f47f9d080c3680920f24"
+  }
+}

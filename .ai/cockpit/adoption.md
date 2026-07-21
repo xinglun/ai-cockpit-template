@@ -18,6 +18,8 @@ The Bootstrap Wizard state machine is an external, side-effect-free session. It 
 
 `scripts/bootstrap_repository.py` supplies the read-only facts consumed by that session: canonical root, commit, branch or detached HEAD, staged/unstaged/untracked and conflict paths, remote fetch/push URLs, remote symbolic HEAD, local/remote branches, and local Cockpit presence. A missing remote HEAD remains missing; installed presence is not adoption readiness. Immediately before any later Bootstrap write, `revalidate_repository` compares the confirmed root, branch, commit, dirty paths, remote facts, bootstrap base commit, and conflict state. Any mismatch is a blocking stale-confirmation result and must return the session to Review; this detector does not resolve conflicts or write evidence.
 
+The write boundary is equally explicit. Bootstrap first builds a path-allowlisted write plan; proposal, review, dry-run, and unconfirmed execution perform zero filesystem writes. Paths that traverse outside the root, resolve through symlinks, or fall outside the allowlist fail closed. A managed Makefile section is bounded by `AI_COCKPIT_MANAGED_BEGIN/END` markers and is idempotent; malformed markers stop the operation rather than overwriting project-owned content. Non-interactive execution requires the exact confirmation value, and confirmed execution revalidates repository drift immediately before writing.
+
 The installed Cursor rule (`.cursor/rules/ai-cockpit.mdc`) defaults to `alwaysApply: false`. Enable **Always Apply** when you want Work Item governance on read-only investigation too.
 
 Before making AI Cockpit a required production gate, run the guided flow:

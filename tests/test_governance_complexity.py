@@ -51,6 +51,13 @@ def test_report_records_three_provenance_bound_baselines(monkeypatch):
     assert report["baselineEvidence"]["active"]["status"] == "resolved"
     assert report["baselineEvidence"]["workItem"]["status"] == "resolved"
     assert report["classification"]["historicalDebt"]["status"] == "unavailable"
+    assert report["policyActivation"]["status"] == "confirmed"
+
+
+def test_policy_activation_is_explicit_and_fail_closed(tmp_path):
+    policy_file = tmp_path / "policy.yaml"
+    policy_file.write_text("version: 1\nmax:\n  pythonLines: 1\n", encoding="utf-8")
+    assert check_governance_complexity.policy_activation(policy_file)["status"] == "unavailable"
 
 
 def policy(path: Path, **limits: int) -> None:

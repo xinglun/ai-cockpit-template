@@ -1,0 +1,209 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi08-complexity-policy-preflight",
+  "mode": "code",
+  "title": "Complexity Policy and Preflight",
+  "baseCommit": "81e4b3d4a1a27cdf770e5f6eb30c3426d8b6189d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_preflight_review.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_preflight_review.py",
+    "tests/test_governance_complexity.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/guards/preflight_review_policy.yaml",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    ".ai/work-items/active/wi08-complexity-policy-preflight.contract.json",
+    ".ai/work-items/active/wi08-complexity-policy-preflight.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Silently activating a proposed complexity policy",
+    "Removing the enforced Preflight Human Decision Gate",
+    "Changing product code or project-specific quality policy"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+      "reason": "WI08 policy proposal and Preflight activation target."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "English Preflight and human decision gate contract."
+    },
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "reason": "Japanese Preflight and human decision gate contract."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Current evidence-derived readiness and decision gate implementation."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Complexity policy limits and repayment enforcement."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Reviewable complexity maximums, baseline, and repayment records."
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "reason": "Enforced Preflight status gate."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Readiness, human decision, and fail-closed Preflight tests."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Complexity policy and repayment tests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Policy activation is decision-sensitive; stale or incomplete proposal evidence must block rather than silently allow."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the serial remediation plan and complete Work Item lifecycle."
+  },
+  "preReviewWarnings": [
+    "Policy proposals remain inactive until explicit human decision evidence matches the current Contract and Preflight hash."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Complexity policy proposals remain reviewable and inactive until explicit human confirmation; stale/missing decision evidence keeps the Preflight gate blocked.",
+    "Budget increases require a matching repayment record with owner, due date, previous/current values, and rationale; unrecorded increases fail closed.",
+    "Recomputed Preflight after policy or Contract changes invalidates prior decision evidence and requires a fresh decision or ready evidence.",
+    "Focused tests cover proposal, confirmation, stale decision, missing repayment, and valid repayment paths.",
+    "English and Japanese Cockpit documentation describes the policy proposal and re-Preflight boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Complexity budgets and Preflight decisions can drift when a policy maximum is changed without a proposal/confirmation boundary or when old decision evidence is reused after the Contract changes.",
+    "constraints": [
+      "Keep the enforced Preflight gate and fail closed on missing, stale, or contradictory evidence.",
+      "Require a repayment record for every policy budget increase.",
+      "Do not treat human decision metadata as proof that an underlying complexity or quality check passed.",
+      "Use standard-library implementation and preserve existing Contract/Summary/archive schemas."
+    ],
+    "rationale": "Binding policy changes and decisions to fresh evidence makes complexity governance reviewable without turning approval metadata into a false pass signal."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Enforce complexity policy proposal, repayment, and fresh Preflight decision evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "policy proposal or increase without repayment remains blocked", "required": true, "status": "verified", "evidence": ["tests/test_governance_complexity.py"]},
+    {"scenario": "stale or missing Preflight decision evidence cannot activate policy", "required": true, "status": "verified", "evidence": ["tests/test_preflight_review.py"]},
+    {"scenario": "fresh matching evidence permits only the explicitly selected safe continuation", "required": true, "status": "verified", "evidence": ["tests/test_preflight_review.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-plan-execution",
+    "reason": "User explicitly authorized governance code, tests, documentation, PR, merge, archive, close, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi08-complexity-policy-preflight.json",
+    "baseCommit": "81e4b3d4a1a27cdf770e5f6eb30c3426d8b6189d",
+    "initialScopeDigest": "4d6ab7c0038c25b3a41ac9ac196a037d083a05555006dfbc44354d0308194a16",
+    "contractSkeletonDigest": "1defdfdbcebcc1f19c40e3b4927ec6d44f33af18dec1e57b041dc42bcf78b738"
+  }
+}

@@ -202,6 +202,9 @@ ai-onboard:
 ai-doctor:
 	$(AI_PYTHON) scripts/ai_doctor.py --root .
 
+ai-lifecycle-facts:
+	$(AI_PYTHON) scripts/ai_lifecycle_facts.py --root .
+
 check-ai-adoption-ready:
 	$(AI_PYTHON) scripts/ai_check_adoption_ready.py --root .
 

@@ -62,6 +62,8 @@ V2.6.5 では Preflight Review を追加します。原則は **Evidence over Se
 
 `current_status.md` は生成物です。手編集しないでください。
 
+`make ai-lifecycle-facts` は、決定的で読み取り専用のライフサイクル事実を JSON として出力します。Bootstrap、Calibration、Governed Development、No Active Work Item とアクティブ Work Item 数を示します。`readiness` と `enterpriseAssurance` は `not_claimed`、プロバイダー資産と外部エンタープライズ保証は `not_run` のままです。
+
 Complexity Policy の変更も同じ境界に従います。提案は policy state が明示的に `confirmed` となり、レビュー証拠が揃うまで有効化しません。予算増加には返済記録を必須とし、記録の欠落や古さは Allow ではなく blocking として扱います。
 
 ## 初回導入のショートカット

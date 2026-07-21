@@ -1,0 +1,178 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi10-lifecycle-fact-source",
+  "mode": "code",
+  "title": "Lifecycle Fact Source",
+  "baseCommit": "c41b8541c320951553e11d1fe0e329030328729f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_lifecycle_facts.py",
+    "tests/test_lifecycle_facts.py",
+    "Makefile",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/README.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/fixtures/real-fixture-evidence.md",
+    "docs/fixtures/real-fixture-evidence.ja.md",
+    ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+    ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Changing product runtime behavior or external deployment state",
+    "Claiming lifecycle facts prove security, compliance, or production readiness",
+    "Replacing archived Work Item evidence or manually editing generated current_status.md"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md", "reason": "Serial remediation plan and WI10 acceptance."},
+    {"path": "scripts/ai_onboard.py", "reason": "Existing lifecycle state decision logic to expose without duplication."},
+    {"path": "scripts/ai_generate_status.py", "reason": "Generated status boundary and lifecycle rendering."},
+    {"path": "scripts/fixture_harness.py", "reason": "Existing fixture lifecycle evidence shape."},
+    {"path": ".ai/cockpit/README.md", "reason": "English lifecycle command documentation."},
+    {"path": "docs/reference/repository-workflow.md", "reason": "English repository workflow documentation."},
+    {"path": "docs/fixtures/real-fixture-evidence.md", "reason": "English fixture evidence boundary."},
+    {"path": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json", "reason": "Work Item Contract v2."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_consistency"],
+    "reason": "A read-only fact source must not diverge from existing lifecycle gates or overclaim evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial execution of the remediation plan, including code, docs, tests, PR, merge, and lifecycle closure."
+  },
+  "preReviewWarnings": ["Review that JSON facts are read-only observations and that not_run remains explicit."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A read-only lifecycle fact source emits deterministic machine-readable state for bootstrap, calibration, governed development, and no-active-work-item boundaries.",
+    "The CLI and Make target expose the same fact source without duplicating lifecycle decisions or claiming readiness.",
+    "Generated status and fixture evidence document the fact-source boundary, including explicit not_run and enterpriseAssurance not_claimed semantics.",
+    "English and Japanese lifecycle documentation describe the command, JSON fields, and evidence limits.",
+    "Focused tests cover each lifecycle state and deterministic JSON output."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Lifecycle state is currently computed in multiple command paths and is primarily rendered as human-readable status, making it easy for CLI, Smoke, and multilingual documentation to drift.",
+    "constraints": [
+      "The fact source is read-only and reuses existing lifecycle_state semantics.",
+      "It does not execute arbitrary project commands or infer security, compliance, production, or enterprise readiness.",
+      "Missing or not_run evidence remains explicit rather than being converted into passed facts.",
+      "Use standard-library code and preserve existing CLI behavior."
+    ],
+    "rationale": "One deterministic JSON fact source gives lifecycle consumers a shared vocabulary while keeping readiness and human approval as separate governed signals."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Add a deterministic read-only lifecycle fact source and align its CLI, status, smoke, and multilingual docs.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "scenarioCoverage": [
+    {"scenario": "bootstrap and calibration states", "required": true, "status": "verified", "evidence": ["tests/test_lifecycle_facts.py"]},
+    {"scenario": "governed and no-active states", "required": true, "status": "verified", "evidence": ["tests/test_lifecycle_facts.py"]},
+    {"scenario": "not_run and enterprise boundary remain explicit", "required": true, "status": "verified", "evidence": ["tests/test_lifecycle_facts.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized governance files, Makefile, tests, docs, PR, merge, and lifecycle closure."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi10-lifecycle-fact-source.json",
+    "baseCommit": "c41b8541c320951553e11d1fe0e329030328729f",
+    "initialScopeDigest": "0f07a6bde66d42f04d3193d6d77d8bfc2fa677cd011fc2a10a93554a2d84eba0",
+    "contractSkeletonDigest": "695bbba947b3d2a4690b3ca845ced4fb5edde83be63c2e8d468069513aed8eb7"
+  }
+}

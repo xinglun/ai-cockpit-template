@@ -43,3 +43,5 @@ make ai-close-work-item TASK=<task>
 ```
 
 このコマンドは archived Contract/Summary、PR 所有権、base の fast-forward 同期、ローカル/リモート branch の削除、clean worktree、base と remote base の一致を検証します。どれかが失敗した場合は fail closed です。
+
+`make ai-lifecycle-facts` はリポジトリのライフサイクル状態を提供する機械可読な事実源です。利用側は `state`、アクティブ Work Item 数、`notRun` を使い、状態を再計算しないでください。準備完了やエンタープライズ保証を主張するものではありません。

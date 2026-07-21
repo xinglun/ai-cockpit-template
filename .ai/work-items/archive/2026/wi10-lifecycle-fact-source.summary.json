@@ -1,0 +1,411 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wi10-lifecycle-fact-source",
+  "contractPath": ".ai/work-items/archive/2026/wi10-lifecycle-fact-source.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/wi10-lifecycle-fact-source.contract.json",
+      "reason": "Contract v2 for the lifecycle fact source."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi10-lifecycle-fact-source.summary.json",
+      "reason": "Evidence summary for the lifecycle fact source."
+    },
+    {
+      "path": "scripts/ai_lifecycle_facts.py",
+      "reason": "Added deterministic read-only lifecycle facts JSON and CLI."
+    },
+    {
+      "path": "tests/test_lifecycle_facts.py",
+      "reason": "Covered bootstrap, calibration, governed, no-active, boundary, and JSON behavior."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added the ai-lifecycle-facts entrypoint."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documented the English CLI and evidence boundary."
+    },
+    {
+      "path": ".ai/cockpit/README.ja.md",
+      "reason": "Documented the Japanese CLI and evidence boundary."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Documented the English machine-readable lifecycle fact source."
+    },
+    {
+      "path": "docs/reference/repository-workflow.ja.md",
+      "reason": "Documented the Japanese machine-readable lifecycle fact source."
+    },
+    {
+      "path": "docs/fixtures/real-fixture-evidence.md",
+      "reason": "Aligned English fixture evidence vocabulary and limits."
+    },
+    {
+      "path": "docs/fixtures/real-fixture-evidence.ja.md",
+      "reason": "Added Japanese fixture evidence boundary documentation."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi10-lifecycle-fact-source.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:00:59.279803+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "b643047e0bfb2f2ae61f4587b5ef23c0df69abf4e295a43a471933e32baeb19b",
+      "commandHash": "cf42d6f130da7c0e1313bfed9f54643bff127ad5c0868f2ad48b499585bfaae3",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wi10-lifecycle-fact-source.contract.json work item contract check passed: .ai/work-items/active/wi10-lifecycle-fact-source.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:00:59.460476+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "7d387166991dd001dd2b34274350fd73911628dbfde5714bae331e3bd8bb844f",
+      "commandHash": "5146e61edaefa6b6074840823a1c223b0c8d7d8f3d3f0a28c8b143cb2f02a7d0",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wi10-lifecycle-fact-source.contract.json scope guard passed: 11 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:00:59.626028+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "641f9371a3fb08fb5c410bdf4b6a7bc4940c72d54a83b5f19644c2b86766c23b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json [warning] restricted_write: .ai/cockpit/README.ja.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: Makefile (Makefile) - Shared local and CI command entrypoint. guard check completed: 3 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:00:59.868863+00:00",
+      "exitCode": 0,
+      "durationMs": 193,
+      "outputDigest": "747fa1c7c91214ba820f2c2d2aee255a483990b0b0e1231cb9412fe60813e39d",
+      "commandHash": "9dcaeb5967ea80dda557b7725b556f546289864d2789b6e0da9ec7fbc23ab10d",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wi10-lifecycle-fact-source` - Contract Hash: `37f6907ebef8a9de` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:01:00.021547+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "7bac99fd77dfa3c46dfbaeb24f0a1ca122262080dedb6e9da1d0313e87cd6cec",
+      "commandHash": "8845010e46d9f0324c1ec4b2aa681efa751b34a478f9163b8ae3b2f7eb70c30d",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json review policy matched 6 path(s) [review] .ai/work-items/starts/wi10-lifecycle-fact-source.json [review] scripts/ai_lifecycle_facts.py [review] .ai/cockpit/README.ja.md [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] Makefile review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:01:00.182035+00:00",
+      "exitCode": 0,
+      "durationMs": 113,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:01:00.313114+00:00",
+      "exitCode": 0,
+      "durationMs": 87,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:01:00.422547+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "256f231a249656d09eff84f601ad86c28f45acb618419a600fffd59b4cba2335",
+      "commandHash": "db3913dbd874d08a0b8da5796831177da439f36b5ffa21bffe26b450fb3e689f",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:01:00.522708+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "f6db5cd24f2cecd0daa90988c55b8a3e0931b68aa9ed0d9af13268eaf77ddc89",
+      "commandHash": "808a2d994d12fd86329516eb70e733ffcfe5b04f9bc6606bd1527638cf2f5ec2",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:01:00.767746+00:00",
+      "exitCode": 0,
+      "durationMs": 198,
+      "outputDigest": "7562a97a08edb0479031d0b8dd13af7339a8840177c34ca905d86ac0c55f5344",
+      "commandHash": "50d651f60a4bf9d7c382c432390fe3bfb1cdd6e0ea22a0531a64b4df8410339f",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json ## Diff Ownership Preview - active_owned: `11`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Cont"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:03:38.920524+00:00",
+      "exitCode": 0,
+      "durationMs": 158089,
+      "outputDigest": "9a46a2cb8bbe903f08f29f62db50d83ad712d14cc688bcb77a18e1f314162e0e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "216bc0dff6c6cf49fef6c588a3fb951ace0527b1e13d6d4ba7230fc79dfecb4a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 131 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 18%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:03:40.241815+00:00",
+      "exitCode": 0,
+      "durationMs": 238,
+      "outputDigest": "40d638c6285183eb3d2694f66496a65cbcc14af69faac3828bccda42da34a9a8",
+      "commandHash": "457099cf2fc28f25130dc345a9034370d01cb0be19b047686bf2d2e436fab86a",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "86806ec4ad3ffaf1f8cdf6d850e749137c0c44f01525953229c53ee94df72a16",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wi10-lifecycle-fact-source.contract.json --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:03:40.504157+00:00",
+      "exitCode": 0,
+      "durationMs": 215,
+      "outputDigest": "ed47829109b57d542f7189bc21e073be32d0c61b65d239bf7aa6a97a6e655b35",
+      "commandHash": "d1c3ef04451d4580006211e13bb1a6f1afb532a5fa5f0597a1e0cfe8ca2ecbcd",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "86806ec4ad3ffaf1f8cdf6d850e749137c0c44f01525953229c53ee94df72a16",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:03:40.627984+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "86806ec4ad3ffaf1f8cdf6d850e749137c0c44f01525953229c53ee94df72a16",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:03:40.738840+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "97e8fc47a26a8edd6e8a4f14c05ae1d77b4f0a56be545ff802f2c1fa561e7ea1",
+      "commandHash": "268ee52aa41e83bba2a673bc9b841a451c2c12a132a788460207fc930e610423",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "86806ec4ad3ffaf1f8cdf6d850e749137c0c44f01525953229c53ee94df72a16",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json --summary .ai/work-items/active/wi10-lifecycle-fact-source.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wi10-lifecycle-fact-source.summary.json CONTRACT=.ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T17:03:41.530625+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "6fdecde6e0691d31f517afb835dab51771b555a3d9b720a96b5c83f104ee3774",
+      "commandHash": "a6bd573ec24e6c6737dfc8f26bfe8a098749d4da2619e10f29d75b61a3f0a7f1",
+      "contractHash": "37f6907ebef8a9de2c6ebf33ba91507fdb094876da65b9b18be3131c92d1485b",
+      "commitSha": "c41b8541c320951553e11d1fe0e329030328729f",
+      "executionContractPath": ".ai/work-items/active/wi10-lifecycle-fact-source.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi10-lifecycle-fact-source.summary.json",
+      "worktreeDigest": "70fb8d62e4ae0886f880427e25eed903f836e3e8a34d11f37e2fc8a9b524845a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wi10-lifecycle-fact-source.summary.json --contract .ai/work-items/active/wi10-lifecycle-fact-source.contract.json ai summary check passed: .ai/work-items/active/wi10-lifecycle-fact-source.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "CLI and JSON fields are documented in English and Japanese Cockpit/workflow/fixture references."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The fact source imports the existing lifecycle_state decision helper and contains no feature-private cross-imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Read-only JSON observation; readiness and enterprise assurance remain explicitly unclaimed."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "evidence-boundary",
+      "detail": "External provider assets and enterprise assurance are intentionally not_run/not_claimed.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "state vocabulary",
+      "no readiness overclaim",
+      "English/Japanese documentation consistency"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "37f6907ebef8a9de",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "37f6907ebef8a9de",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 397
+}

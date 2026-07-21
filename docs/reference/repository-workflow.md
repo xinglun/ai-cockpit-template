@@ -46,6 +46,8 @@ to those values. `make check-ai-start-receipt` and the Contract/PR checks fail
 closed for a missing, malformed, digest-mismatched, base-mismatched, or
 untracked Receipt. The Receipt proves creation-time lifecycle state only; it
 does not prove implementation success, review approval, or merge status.
+
+`make ai-lifecycle-facts` is the machine-readable source for repository lifecycle state. Consumers should use its `state`, active Work Item counts, and explicit `notRun` fields instead of re-deriving lifecycle facts. It does not claim readiness or enterprise assurance.
 ## Adopter project
 An adopter project keeps its own Git history and branch policy:
 

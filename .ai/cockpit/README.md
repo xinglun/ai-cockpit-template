@@ -120,6 +120,8 @@ Unknowns and `notCodable` are valid outputs, not failures. Summary is both an au
 
 `current_status.md` is generated. Do not hand-edit it.
 
+Run `make ai-lifecycle-facts` to emit the deterministic, read-only lifecycle fact source as JSON. It reports bootstrap, calibration, governed development, or no-active-work-item state plus active Work Item counts. The output is an observation boundary: `readiness` and `enterpriseAssurance` remain `not_claimed`, and provider assets and external enterprise assurance remain `not_run`.
+
 ## Post-Install Onboarding
 
 After installation, consolidate doctor, calibration, and readiness guidance into three phases:

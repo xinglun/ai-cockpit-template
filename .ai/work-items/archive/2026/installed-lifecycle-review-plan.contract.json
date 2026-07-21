@@ -1,0 +1,212 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-review-plan",
+  "mode": "investigate",
+  "title": "Create Installed Lifecycle Management review remediation execution plan",
+  "baseCommit": "99184b8659b75fd08f4204971f8745ee80de3bea",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+    ".ai/work-items/active/installed-lifecycle-review-plan.contract.json",
+    ".ai/work-items/active/installed-lifecycle-review-plan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "生产代码、测试、CI、Makefile、Schema、发布资产和现有历史计划内容",
+    "实际创建、推送、审查、合并或关闭后续 Installed Lifecycle 工单"
+  ],
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "document",
+    "authorityRequired": false
+  },
+  "sources": [
+    {
+      "path": "user-provided attachment: pasted-text.txt",
+      "reason": "User-provided Installed Lifecycle Management design and requirements."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository terminology and architecture boundaries."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "AI Cockpit lifecycle and evidence requirements."
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "Repository governance entry point."
+    },
+    {
+      "path": "docs/superpowers/plans/README.md",
+      "reason": "Execution plan retention and index rules."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "评审结论能追溯到 Installed Lifecycle 设计材料和仓库治理规则",
+      "required": true,
+      "status": "verified",
+      "evidence": ["user-provided Installed Lifecycle Management design", ".ai/glossary.md", ".ai/cockpit/README.md"],
+      "reason": "计划必须引用用户材料、Glossary、Cockpit README 和计划索引规则。"
+    },
+    {
+      "scenario": "每个工单都明确完整闭环并在完成前阻止进入下一工单",
+      "required": true,
+      "status": "verified",
+      "evidence": ["AGENTS.md required Work Item lifecycle", "docs/superpowers/plans/README.md"],
+      "reason": "计划必须重复可执行的 12 步 Work Item 生命周期和 ready-for-next 门。"
+    },
+    {
+      "scenario": "用户授权与未来实际 PR/合并/发布/清理证据分离",
+      "required": true,
+      "status": "verified",
+      "evidence": ["user request explicitly grants the complete workflow scope"],
+      "reason": "计划必须记录已获授权，但禁止预填未来事件的事实证据。"
+    },
+    {
+      "scenario": "最后工单清理执行计划文档且保留审计历史",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/README.md retention rules"],
+      "reason": "计划最后一项必须是文档清理，并保留 Contract、Summary、PR 和发布证据。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "The deliverable is a planning document; implementation evidence for each future Work Item is intentionally deferred to those Work Items."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized creating the execution plan and the complete per-Work-Item lifecycle, including PR and branch cleanup."
+  },
+  "preReviewWarnings": [
+    "Plan must distinguish user authorization from evidence that can only be recorded after real PR, merge, release, digest, and branch-cleanup events."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The review summary reflects the supplied Installed Lifecycle Management material and repository boundaries.",
+    "The plan contains a serial Work Item list covering Install Manifest, Ownership, Update, Rollback, Disable/Enable, Uninstall, evidence, CLI, Cockpit, documentation, cross-version tests, and final plan cleanup.",
+    "Every Work Item explicitly includes the full lifecycle: latest remote base, dedicated branch, Contract/Preflight, scoped implementation, verification, Summary/ai-finish, PR, merge, ai-close-work-item, branch cleanup, and default-branch synchronization.",
+    "The plan states the user's authorization and identifies facts that must remain evidence-based.",
+    "The last Work Item is execution-plan document cleanup and preserves audit evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The supplied Installed Lifecycle Management design describes many lifecycle capabilities but does not yet provide a review summary, serial Work Item decomposition, or an explicit PR-and-branch-cleanup loop.",
+    "constraints": [
+      "Do not implement production behavior in this Work Item.",
+      "Keep existing historical plans and audit evidence intact.",
+      "Treat the user's granted scope as the boundary for this plan, not as proof that future PR, release, digest, or merge events occurred."
+    ],
+    "rationale": "A single auditable plan makes the lifecycle work executable in dependency order and prevents moving to the next Work Item before the current one is fully closed."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "用户明确授权创建本执行计划，并授权后续工单按完整流程执行，包括专用分支、PR、合并、ai-close-work-item、本地和远端分支清理；未来实际结果仍须以证据为准。"
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-review-plan.json",
+    "baseCommit": "99184b8659b75fd08f4204971f8745ee80de3bea",
+    "initialScopeDigest": "bfe8aedf6c91233dd3fadafe291f8f81cfa4bf758812c4094b8b04c62e3894f5",
+    "contractSkeletonDigest": "11d07db33c81c5eace2c2d223332bf361e455708bfa0ec2b6e093999a5a387b3"
+  }
+}

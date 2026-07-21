@@ -1,0 +1,210 @@
+{
+  "contractVersion": 2,
+  "workItemId": "complexity-budget-for-installed-lifecycle-plan",
+  "mode": "code",
+  "title": "Record complexity repayment for the Installed Lifecycle execution plan",
+  "baseCommit": "99184b8659b75fd08f4204971f8745ee80de3bea",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/complexity-budget-for-installed-lifecycle-plan.contract.json",
+    ".ai/work-items/active/complexity-budget-for-installed-lifecycle-plan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "生产代码、测试逻辑、Makefile、CI Workflow 和历史归档内容的重写",
+    "删除或隐藏复杂度指标、跳过复杂度检查、或直接修改当前计划 PR 的内容"
+  ],
+  "rawUserRequest": "走完当前文档的流程。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-current-document-workflow",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:user-authorized-current-document-workflow"
+  },
+  "declaredIntent": {
+    "summary": "Record a narrow, auditable complexity-budget repayment so the reviewed Installed Lifecycle execution plan PR can pass blocking governance checks.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current CI failure is caused by markdownLines and archiveGrowth limits being below the repository shape introduced by the current plan PR."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Defines the required repaymentRecords evidence for any threshold increase."
+    },
+    {
+      "path": "PR #196 CI failure logs",
+      "reason": "Observed failure: markdownLines=8574 exceeds 8300 and archiveGrowth=402 exceeds 401."
+    },
+    {
+      "path": ".ai/work-items/active/complexity-budget-for-installed-lifecycle-plan.contract.json",
+      "reason": "Updated Work Item Contract for the focused governance-policy change."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "The policy records a repayment entry for each increased limit",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/reference/governance-complexity.md"],
+      "reason": "Threshold increases must remain auditable and fail closed without repayment metadata."
+    },
+    {
+      "scenario": "The current plan PR shape passes complexity validation after the focused budget update",
+      "required": true,
+      "status": "verified",
+      "evidence": ["PR #196 CI failure logs", "make check-governance-complexity"],
+      "reason": "The two failing metrics are known and bounded by the requested policy update."
+    },
+    {
+      "scenario": "No complexity metric is removed or made observational-only by this change",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/guards/governance_complexity_policy.yaml"],
+      "reason": "The change preserves all existing metric keys and blocking behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "The change increases two explicit governance limits only to accommodate the reviewed plan PR and records repayment metadata for both increases."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized governance configuration changes and the complete current-document PR workflow."
+  },
+  "preReviewWarnings": [
+    "Confirm only the two observed limit increases and their repayment records; do not broaden the policy change."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The governance complexity policy raises markdownLines from 8300 to 8600 and archiveGrowth from 401 to 402, covering the measured current plan PR values markdownLines=8574 and archiveGrowth=402.",
+    "The policy adds a repaymentRecords entry for both increases with prior limit, new limit, owner, due date, and concrete reduction plan.",
+    "make check-governance-complexity passes with the existing pythonLines, markdownLines, testLines, shellLines, workflowLines, and archiveGrowth metric keys present and blocking; the full declared AI Cockpit and project quality checks are then recorded by ai-finish."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "PR #196 cannot merge because the current governance complexity limits reject the plan's measured markdown size and the next immutable archive entry.",
+    "constraints": [
+      "Change only the two observed policy limits and their repayment records.",
+      "Keep all complexity metrics blocking and keep archive/index integrity checks unchanged.",
+      "Do not modify or delete the current plan PR content as a workaround."
+    ],
+    "rationale": "The failure is a governance-budget mismatch, not a reason to bypass CI; a narrow, auditable budget adjustment lets the already-reviewed plan proceed while retaining a concrete repayment obligation."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized completing the current document workflow, including governance configuration, PR, merge, closure, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/complexity-budget-for-installed-lifecycle-plan.json",
+    "baseCommit": "99184b8659b75fd08f4204971f8745ee80de3bea",
+    "initialScopeDigest": "b216468621b1868661e8773e02d54a39d321539972e65fad28d205868b01b658",
+    "contractSkeletonDigest": "a0f521eff33b3af78aef63013b0671db6ed82e53170cba520848d08c4bf20d96"
+  }
+}

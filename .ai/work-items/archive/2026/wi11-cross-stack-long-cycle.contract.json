@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi11-cross-stack-long-cycle",
+  "mode": "code",
+  "title": "Cross-stack Long-cycle Validation",
+  "baseCommit": "c36926ae5835720334d6f3257b3d65a3564b79f1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/cross_stack_long_cycle.py",
+    "scripts/fixture_harness.py",
+    "scripts/external_adopter_long_cycle.py",
+    "tests/test_cross_stack_long_cycle.py",
+    "tests/test_fixture_harness.py",
+    "tests/test_external_adopter_long_cycle.py",
+    "tests/test_typescript_fixture.py",
+    "tests/test_java_fixture.py",
+    "Makefile",
+    "docs/reference/adopter-long-cycle-validation.md",
+    "docs/reference/adopter-long-cycle-validation.ja.md",
+    ".ai/work-items/active/wi11-cross-stack-long-cycle.contract.json",
+    ".ai/work-items/active/wi11-cross-stack-long-cycle.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Real cloud/provider deployment or identity verification", "Enterprise security/compliance certification", "Changing product runtime behavior"],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md", "reason": "WI11 serial plan acceptance."},
+    {"path": "scripts/fixture_harness.py", "reason": "Existing dependency-free cross-stack lifecycle harness."},
+    {"path": "scripts/external_adopter_long_cycle.py", "reason": "Existing independent adopter Git lifecycle harness."},
+    {"path": "docs/reference/adopter-long-cycle-validation.md", "reason": "English lifecycle evidence boundary."},
+    {"path": "tests/test_external_adopter_long_cycle.py", "reason": "Independent adopter lifecycle assertions."},
+    {"path": "tests/test_fixture_harness.py", "reason": "Cross-stack fixture phase assertions."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["evidence_boundary"],
+    "reason": "The work aggregates bounded local fixture and Git evidence without claiming external platform behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial remediation execution including fixture verification, docs, PR, merge, and closure."
+  },
+  "preReviewWarnings": ["Keep local fixture results distinct from not_run provider and enterprise evidence."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A single cross-stack command aggregates Python, Java, and TypeScript lifecycle phases and independent adopter Git evidence.",
+    "Install, Configure, Normal Work Item, Ambiguous Request, Critical Domain Change, Upgrade, Rollback, and Release Check are represented with pass/block semantics and resume conditions.",
+    "Provider, identity, enterprise assurance, performance, and multi-agent evidence remain explicitly not_run or not_claimed.",
+    "Tests verify the independent repository lifecycle and all available stack fixtures without inferring unavailable toolchains.",
+    "English and Japanese documentation describe the long-cycle command and evidence boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Long-cycle validation is split across fixture harnesses and adopter Git checks, so reviewers lack one repeatable cross-stack evidence bundle and a clear distinction between local execution and external not_run evidence.",
+    "constraints": ["Use isolated temporary repositories and bounded fixtures.", "Do not require cloud credentials or claim external provider execution.", "Preserve blocked ambiguous and critical-domain phases with actionable resume conditions.", "Use standard-library orchestration and keep existing fixture commands intact."],
+    "rationale": "A single evidence bundle makes cross-stack lifecycle coverage reviewable while preserving honest boundaries for unavailable tools and external systems."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Aggregate bounded cross-stack and independent adopter long-cycle evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Python, Java, and TypeScript lifecycle phases", "required": true, "status": "verified", "evidence": ["tests/test_cross_stack_long_cycle.py"]},
+    {"scenario": "independent adopter upgrade, rollback, and cleanup", "required": true, "status": "verified", "evidence": ["tests/test_external_adopter_long_cycle.py"]},
+    {"scenario": "external and unavailable evidence remains not_run/not_claimed", "required": true, "status": "verified", "evidence": ["tests/test_cross_stack_long_cycle.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized governance files, tests, docs, PR, merge, and lifecycle closure."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi11-cross-stack-long-cycle.json",
+    "baseCommit": "c36926ae5835720334d6f3257b3d65a3564b79f1",
+    "initialScopeDigest": "416809b9d061e8d590db7c90ad098dbd20c42b70e41b9b205055666c617b80f9",
+    "contractSkeletonDigest": "df4b5ef50a863fc3aebccc941aac1e81a8f1d61885b61500ed32803bfb346b9c"
+  }
+}

@@ -205,6 +205,9 @@ ai-doctor:
 ai-lifecycle-facts:
 	$(AI_PYTHON) scripts/ai_lifecycle_facts.py --root .
 
+cross-stack-long-cycle:
+	$(AI_PYTHON) scripts/cross_stack_long_cycle.py --root . --output target/cross-stack-long-cycle.json
+
 check-ai-adoption-ready:
 	$(AI_PYTHON) scripts/ai_check_adoption_ready.py --root .
 

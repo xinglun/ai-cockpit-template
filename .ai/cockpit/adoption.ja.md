@@ -18,6 +18,8 @@ Bootstrap Wizard の状態機械は採用対象リポジトリの外部に保持
 
 `scripts/bootstrap_repository.py` は Session が使う読み取り専用の事実を提供します。正規化された Root、Commit、Branch または detached HEAD、staged/unstaged/untracked と conflict のパス、remote の fetch/push URL、remote symbolic HEAD、local/remote branch、およびローカル Cockpit の存在を記録します。remote HEAD が無い場合は無いまま保持し、インストール済みであることを Adoption Ready と解釈しません。後続の Bootstrap 書き込み直前に `revalidate_repository` が確認済みの Root、Branch、Commit、dirty paths、remote の事実、Bootstrap Base Commit、conflict state を比較します。不一致が一つでもあれば stale confirmation として停止し、Session を Review に戻します。この検出器は conflict を解決せず、Evidence も書き込みません。
 
+書き込み境界も明示的です。Bootstrap は最初に許可パスだけの write plan を作成し、proposal、review、dry-run、未確認実行ではファイルを一切変更しません。root 外への traversal、symlink 経由、allowlist 外のパスは fail closed です。Makefile の管理部分は `AI_COCKPIT_MANAGED_BEGIN/END` マーカーで囲み、冪等に更新します。マーカーが壊れている場合は既存のプロジェクト内容を上書きせず停止します。非対話実行には明示的な確認値が必要で、確認済み実行の直前には Repository Drift を再検証します。
+
 インストールされる Cursor rule（`.cursor/rules/ai-cockpit.mdc`）は `alwaysApply: false` がデフォルトです。調査のみのセッションにも Work Item を強制したい場合は **Always Apply** を有効にしてください。
 
 AI Cockpit を本番ゲートとして必須化する前に、次を完了してください。

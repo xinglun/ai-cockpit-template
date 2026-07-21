@@ -1,0 +1,421 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wi03-write-boundary",
+  "contractPath": ".ai/work-items/archive/2026/wi03-write-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/wi03-write-boundary.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi03-write-boundary.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/bootstrap_write_boundary.py",
+      "reason": "Added fail-closed allowlisted write planning and confirmed execution."
+    },
+    {
+      "path": "tests/test_bootstrap_write_boundary.py",
+      "reason": "Added focused boundary, dry-run, marker, symlink, and drift tests."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Documented English write-boundary and dry-run guarantees."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Documented Japanese write-boundary and dry-run guarantees."
+    },
+    {
+      "path": ".ai/decisions/HDR-014c1dd9cb811f27-bbc7b307.request.json",
+      "reason": "Recorded the Preflight human decision request."
+    },
+    {
+      "path": ".ai/decisions/HDR-014c1dd9cb811f27-bbc7b307.evidence.json",
+      "reason": "Recorded the authorized continuation decision."
+    },
+    {
+      "path": ".ai/work-items/starts/wi03-write-boundary.json",
+      "reason": "Immutable Work Item start receipt bound to the base commit and initial scope."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi03-write-boundary.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    "scripts/bootstrap_wizard.py",
+    "scripts/bootstrap_repository.py",
+    "scripts/bootstrap_write_boundary.py",
+    "tests/test_bootstrap_write_boundary.py",
+    "docs/reference/distribution.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:14.187170+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "5495c0fbbe9f52442dc716fb36603fe181ef92d0e9accfc7412b4936957d4f12",
+      "commandHash": "215c9523972633bbdaa76826c242c68cf4329986ed7504b90020356190cc3b49",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wi03-write-boundary.contract.json work item contract check passed: .ai/work-items/active/wi03-write-boundary.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:14.329572+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "432d336416b3d382dfb170e81b9aa86f01532303d398eead8cd94664ee6a6853",
+      "commandHash": "7981a7be5673e73027e91f9a73db57e5e74580e29cb43317a02b2d71227f83cb",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wi03-write-boundary.contract.json scope guard passed: 8 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:14.504544+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "237ec79f37cd3641945711a9de7a2af01cbfc66101b58d7437ac52b7f06df42e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wi03-write-boundary.contract.json [warning] restricted_write: .ai/decisions/HDR-014c1dd9cb811f27-bbc7b307.evidence.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/decisions/HDR-014c1dd9cb811f27-bbc7b307.request.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/adoption.ja.md (.ai/**) - AI governance configuration. [warning] restric"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:14.750358+00:00",
+      "exitCode": 0,
+      "durationMs": 194,
+      "outputDigest": "cf8eaf0299be7be68b51cd1e6c067c88450ed6e84d96e9acbdefdd8a68ad24eb",
+      "commandHash": "22da4d2fd7220b6f80f2323b2a3bd6a3f3cf634f8fd699550c984d9bc72f1f3d",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wi03-write-boundary.contract.json --summary .ai/work-items/active/wi03-write-boundary.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wi03-write-boundary` - Contract Hash: `55f2d834ff1c8f76` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` - Required Chec"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:14.891811+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "214ae068ecc46b79a09e95acca5a2ace753cb75a78548c39db631089a6089e42",
+      "commandHash": "16b4d9ad2a9ec180e3cbf341e748dd47bd18494dd7343701c0a8f1571499c8a0",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wi03-write-boundary.summary.json review policy matched 6 path(s) [review] .ai/decisions/HDR-014c1dd9cb811f27-bbc7b307.evidence.json [review] .ai/decisions/HDR-014c1dd9cb811f27-bbc7b307.request.json [review] .ai/work-items/starts/wi03-write-boundary.json [review] .ai/cockpit/adoption.ja.md [review] .ai/cockpit/adoption.md [review] .ai/cockpit/current_status.md review focus recorded: 4 item"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:15.055007+00:00",
+      "exitCode": 0,
+      "durationMs": 109,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:15.182456+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:15.294091+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "7a9025eae7823e1044110df26e826a3b0009c35a51e093904dab9f77be298edd",
+      "commandHash": "f0be9926c132e07c57990b3ce73b95c1290af0da0925b84c411a83a6ddda5f99",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wi03-write-boundary.contract.json --summary .ai/work-items/active/wi03-write-boundary.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:15.390219+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "f72928a70f5cbae88f4179ff59f36d736b36dd7404b94b5eceb2777ba3c39a9c",
+      "commandHash": "b6f720e2a9cc28ba7104cbae0d3380744367c7908244ac843b91fa74f04bf25b",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wi03-write-boundary.contract.json --summary .ai/work-items/active/wi03-write-boundary.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:43:15.642082+00:00",
+      "exitCode": 0,
+      "durationMs": 205,
+      "outputDigest": "433cc6048ad3cc1d0810fcbbdb894e89ab6b33c8c9756be91bd01713f3cbc8a2",
+      "commandHash": "3b538c93462e031bebcd0fac1f6b69f64a50442ff3e78ec9e73c68731a64e628",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wi03-write-boundary.contract.json ## Diff Ownership Preview - active_owned: `8`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/adoption.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/adoption.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:45:43.085556+00:00",
+      "exitCode": 0,
+      "durationMs": 147392,
+      "outputDigest": "3529d39a48156986867d3669a296d02c64f800ecafcd64d6ab95b0fcedde324d",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "90f737aa28877a84ba1f108fcc68bdd1bd6bed3c135e7c1b74c377d199cbcf14",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 126 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 19%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:45:44.361979+00:00",
+      "exitCode": 0,
+      "durationMs": 223,
+      "outputDigest": "2962537a5155cbddd825c980f25536f005feaa53c5cf2d175ac1bcf9de0bde82",
+      "commandHash": "988879be1ee61fbf094443253731d1d84f34b0203ab11b17b400b522337cf387",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "68f397db9bce5ea690b84676635414384357fec0a410b63b5b5b699d9a00ce2b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wi03-write-boundary.contract.json --summary .ai/work-items/active/wi03-write-boundary.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:45:44.643249+00:00",
+      "exitCode": 0,
+      "durationMs": 224,
+      "outputDigest": "fc062d5091ea35fbf06651d92bd3b6d42fb85a60e7478a15af581734a84c43bd",
+      "commandHash": "315619ebd7cd4bb0fa4247106717f8c9f55a54b9f16543a789d24481e1271137",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "68f397db9bce5ea690b84676635414384357fec0a410b63b5b5b699d9a00ce2b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wi03-write-boundary.contract.json --summary .ai/work-items/active/wi03-write-boundary.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:45:44.998951+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "68f397db9bce5ea690b84676635414384357fec0a410b63b5b5b699d9a00ce2b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:45:45.195603+00:00",
+      "exitCode": 0,
+      "durationMs": 75,
+      "outputDigest": "84350b29abf67ff5f789a66a2ecbc34b33d5c4ca7f26eaf234c4e3febf2a91cf",
+      "commandHash": "ac440779c483a37d6f2e6b273f4a31813b211ddca5cbfcb53e0d565fbc43e1ea",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "68f397db9bce5ea690b84676635414384357fec0a410b63b5b5b699d9a00ce2b",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wi03-write-boundary.contract.json --summary .ai/work-items/active/wi03-write-boundary.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wi03-write-boundary.summary.json CONTRACT=.ai/work-items/active/wi03-write-boundary.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:45:45.950386+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "c5d9d5afe1ddf6850397cd7ada902d665f278788af6bbf9961e685e02c31f6ec",
+      "commandHash": "d7cfa5c521af65451f5e2b64e93f87c8941b9e17b2cc10863883642ce301e216",
+      "contractHash": "55f2d834ff1c8f76487023a552d7b396224f138d916a358da4ad8a9cd376208d",
+      "commitSha": "7cda7622f16d5d6682677bc7aca2de513bb94864",
+      "executionContractPath": ".ai/work-items/active/wi03-write-boundary.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi03-write-boundary.summary.json",
+      "worktreeDigest": "bffc8fa52ba79a8e92bc7d4cdea85ae9f5fde1390767644a3e3f5685dac52de7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wi03-write-boundary.summary.json --contract .ai/work-items/active/wi03-write-boundary.contract.json ai summary check passed: .ai/work-items/active/wi03-write-boundary.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Public planner and executor APIs have docstrings and are described in .ai/cockpit/adoption.md and adoption.ja.md."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "scripts/bootstrap_write_boundary.py uses only the Python standard library and accepts drift validation through a callable boundary."
+    },
+    {
+      "guideline": "No write is permitted outside the declared allowlist or without explicit confirmation.",
+      "compliant": true,
+      "evidence": "build_plan validates relative paths, symlinks, and allowlist membership; execute_plan requires CONFIRM and rechecks drift before writes."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Confirmed execution is intentionally limited to allowlisted text files; adopter-specific configuration and readiness remain out of scope.",
+    "mitigation": "Require a later configuration Work Item and repository drift callback before any real adoption write."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "allowlist and symlink boundary",
+      "zero-write dry-run",
+      "managed Makefile marker ownership",
+      "confirmation and drift fail-closed behavior"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "55f2d834ff1c8f76",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Preflight, Contract, and Scope evidence were established before implementation edits."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "55f2d834ff1c8f76",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Full quality and governance verification passed before review."
+    }
+  ],
+  "knownGaps": [
+    "The planner is not yet wired into the later adoption installer; that integration belongs to WI04 Adoption Evidence and subsequent Work Items."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 390
+}

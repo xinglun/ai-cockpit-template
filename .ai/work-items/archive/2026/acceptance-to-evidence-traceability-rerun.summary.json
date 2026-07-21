@@ -1,0 +1,427 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "acceptance-to-evidence-traceability-rerun",
+  "contractPath": ".ai/work-items/archive/2026/acceptance-to-evidence-traceability-rerun.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/acceptance-to-evidence-traceability-rerun.contract.json",
+      "reason": "Defined formal Acceptance-to-evidence mapping requirements."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/acceptance-to-evidence-traceability-rerun.summary.json",
+      "reason": "Recorded governed verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated current Work Item status."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+    "scripts/ai_acceptance_policy.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_finish.py",
+    "tests/test_acceptance_policy.py",
+    "tests/test_ai_check_summary.py",
+    "tests/test_finish_readiness.py",
+    "docs/contract-fields.md"
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_acceptance_policy.py",
+          "locator": "test_v2_acceptance_evidence_mapping_is_complete_and_executed",
+          "verification": "quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_acceptance_policy.py",
+          "locator": "test_acceptance_evidence_rejects_missing_ids_paths_and_execution",
+          "verification": "quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_ai_check_summary.py",
+          "locator": "test_summary_rejects_invalid_acceptance_evidence",
+          "verification": "quality"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "type": "test",
+          "path": "tests/test_finish_readiness.py",
+          "locator": "test_promote_review_readiness_requires_acceptance_evidence_for_v2",
+          "verification": "quality"
+        }
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:15.909686+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "252869311939cf7e2eaa2e9a3516a1aa36d4d36db42cb3a18948a0ba4abc821f",
+      "commandHash": "de1dc8adf798285f1ede728ce6997f672b8e187f93af224caa7da22cad64a7c5",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json work item contract check passed: .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.045051+00:00",
+      "exitCode": 0,
+      "durationMs": 86,
+      "outputDigest": "013f4255ee44e73af176bc311afa9d9744a3a66ac68d6969f6b9301f5cb4ab3b",
+      "commandHash": "86671f6dd93e8f8a32095c4a9af591674ab382d7e6e4369453c48c50dcbf01ef",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json scope guard passed: 2 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.193530+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "b88ca08a4921ce7858d62f3aec1ff56d8a712de391c7ca00b70911aa10a167ac",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.449753+00:00",
+      "exitCode": 0,
+      "durationMs": 207,
+      "outputDigest": "4b32d8290c0fda589c82e4fb0bc8041217cc77f38dc1fce0effa16e5c3c5057c",
+      "commandHash": "75d8878614adeb9cd312202cdd126c761aba71baff8433f9917b455398441c31",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `acceptance-to-evidence-traceability-rerun` - Contract Hash: `0bba6703818987f8` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.596147+00:00",
+      "exitCode": 0,
+      "durationMs": 96,
+      "outputDigest": "c3bbb115e0ae3179a3b0a8d993b8080fb1f84ff5102982c87bc0b1c1b5b7ac9e",
+      "commandHash": "7ca966e728f7497e4ef23b1cacee38403f3facf5a424b1101f64db8f1723ceac",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json review policy matched 2 path(s) [review] .ai/work-items/starts/acceptance-to-evidence-traceability-rerun.json [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.726305+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.862539+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:16.962295+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "9ad4863bb7313f1fd04a8642b240180d5637e8f08338aa850decb24c77ae489a",
+      "commandHash": "eb8c62550ca2fcd01d6398663c11e5ff234dbfa31fb8fe11d65dece63f6ed959",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:17.060193+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "f480df1fc7701790f5e0166c2809df34039ee040b953fcfc2349eacf7dbfd760",
+      "commandHash": "f94bbf2b16e90ef20ae0c760bcd1fefec2e1e978c359d32ac6a2d33bbb68596d",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:27:17.306137+00:00",
+      "exitCode": 0,
+      "durationMs": 192,
+      "outputDigest": "46c77ebb86f5555e453a559ff54b841fa1b9238b28defd0102a7a2f2150a3018",
+      "commandHash": "dad4f7a9a02a894c66abcebd8e2f7a4210b330d23cc475193947d3c776673231",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json ## Diff Ownership Preview - active_owned: `2`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/acceptance-to-evidence-traceability-rerun.json` — covered by Contract scope"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:29:19.565215+00:00",
+      "exitCode": 0,
+      "durationMs": 122213,
+      "outputDigest": "04e304156cff0688c8206bb6fab40d51541d7e96713a4057f834696b7b0b1c76",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "0fa4bf5c6cfad250599a5ef4ff381f990d3eef37a205a5c73f1862c74b4fe0a0",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 109 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 10%] ........................................................................ [ 21%] ............................................................"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:29:21.167836+00:00",
+      "exitCode": 0,
+      "durationMs": 195,
+      "outputDigest": "ca566b41af338952b23ba4c8cb402e7634c66304a41a2a45e735cdc7cb4f6234",
+      "commandHash": "c03075f1b4f63a8a239305387f5a7ba4ffa65656eef6efda6423b0699505e5ab",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "bb2bc67f6cc86f488db3d297a892fdbd36677f8017909713929254cef7230b6c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:29:21.429545+00:00",
+      "exitCode": 0,
+      "durationMs": 216,
+      "outputDigest": "64292e06decf8b5ea7f902d70ff6892b6bf213109f5630db82568c030c8b3ecf",
+      "commandHash": "6cb32db7f2e8f375b4a8f744f5c88a59c51081d53640bcb03345e4d347b119db",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "bb2bc67f6cc86f488db3d297a892fdbd36677f8017909713929254cef7230b6c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:29:21.526531+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "bb2bc67f6cc86f488db3d297a892fdbd36677f8017909713929254cef7230b6c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:29:21.634800+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "e28ad4dd34958aa27d32506c18a41cfd768fcb1cf1b4d0b1cf4f17f971c4b746",
+      "commandHash": "56f822ce35e7c6f8f8877324d4901917a4279309039d5a2fc9d26e6e02c044ff",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "bb2bc67f6cc86f488db3d297a892fdbd36677f8017909713929254cef7230b6c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json --summary .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json CONTRACT=.ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T01:29:22.390048+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "162623dedd5308d2c3df06006b3b75eb559c3031909320a84dfafe1ffbd5a5bd",
+      "commandHash": "f973e2365e2758c04016e2cf36af6ac3e2ed57ab7a65a757c3dc54e56c97ece9",
+      "contractHash": "0bba6703818987f8044e393827680581669654ba25a64cc20885cc57465aa2cd",
+      "commitSha": "0eae9def1ec50c489316cc5199f41fb80da6b018",
+      "executionContractPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json",
+      "worktreeDigest": "207c154f749932cd5ba0a84a471e866c33f94900a703fc3205b889e24e20be96",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json --contract .ai/work-items/active/acceptance-to-evidence-traceability-rerun.contract.json ai summary check passed: .ai/work-items/active/acceptance-to-evidence-traceability-rerun.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Acceptance mapping behavior is documented in Contract fields and covered by focused tests."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The existing acceptance policy module boundary is reused without new internal cross-feature imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Mapping rules are explicit; historic v1 records remain intentionally less strict."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "compatibility",
+      "detail": "Historic v1 archive records do not contain the v2 mapping fields by design.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify every v2 Acceptance maps exactly once to executed evidence.",
+      "Verify historic v1 records remain readable."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "0bba6703818987f8",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "evidence": "Preflight and scope were ready before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "0bba6703818987f8",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "evidence": "Pre-finish checkpoint recorded before final verification."
+    }
+  ],
+  "knownGaps": [
+    "Broader execution-record coverage is outside this Work Item boundary."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 358
+}

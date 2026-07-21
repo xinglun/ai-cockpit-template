@@ -1,0 +1,67 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi02-repository-detection",
+  "mode": "code",
+  "title": "Repository Detection and Drift Revalidation",
+  "rawUserRequest": "完成 Bootstrap Adoption 评审整改执行计划中的 Repository Detection 与 Drift 工单，并走完整 Work Item 闭环。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "为 Bootstrap Wizard 提供只读、可序列化的对象仓库事实快照，并在最终确认前 fail closed 地检测漂移。", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/bootstrap_repository.py",
+    "tests/test_bootstrap_repository.py",
+    ".ai/cockpit/bandit_low_risk_baseline.json",
+    ".ai/work-items/active/wi02-repository-detection.contract.json",
+    ".ai/work-items/active/wi02-repository-detection.summary.json",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/decisions/**",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Bootstrap write boundary, dry-run, installer integration, and adoption evidence persistence (WI03-WI04)",
+    "Project Doctor, complexity calibration, and formal configuration (WI05-WI08)",
+    "Changing business source code, CI policy, or release behavior"
+  ],
+  "sources": [
+    {"path": ".ai/cockpit/adoption.md", "reason": "Adoption lifecycle and Bootstrap boundary documentation."},
+    {"path": ".ai/glossary.md", "reason": "Repository terminology and governance boundaries."},
+    {"path": "scripts/bootstrap_wizard.py", "reason": "WI01 external session API that consumes detection facts."},
+    {"path": "scripts/install_ai_cockpit.py", "reason": "Existing Git snapshot and remote discovery behavior."},
+    {"path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md", "reason": "Authoritative repository plan for the Repository Detection and Drift work item."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["governance_bootstrap", "repository_state"], "reason": "The implementation is read-only and fail closed; later write-boundary work must consume its explicit facts rather than infer missing remote or readiness state."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "Human confirmation recorded from the user's explicit authorization to execute the full serial remediation plan, including tests, PR, merge, and cleanup; the listed repository-state unknowns are handled as fail-closed facts."},
+  "preReviewWarnings": ["Review that detection performs no writes and that any mismatch blocks confirmation."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record implementation checkpoints for the governed Work Item."},
+  "acceptance": [
+    "detect_repository returns a typed snapshot for a Git repository with at least one commit and raises BootstrapRepositoryError for a non-Git or no-commit path.",
+    "The snapshot contains root, commit, branch or detached HEAD, staged/unstaged/untracked paths, remotes with a read URL and a write URL, remote symbolic HEAD when available, local/remote branches, conflict paths, and installed Cockpit presence as explicit fields.",
+    "revalidate_repository compares root, branch, commit, dirty paths, remote URLs, remote HEAD, bootstrap base commit, and conflict state, returning every mismatch in a structured fail-closed result.",
+    "Detection and drift tests cover clean, dirty, detached, no-commit, remote, conflict, installed-state, and changed-state scenarios without writing to the inspected repository.",
+    "The English and Japanese adoption guides explicitly state that detection is read-only, missing remote HEAD remains null, installed state is not readiness, and stale confirmation returns to Review."
+  ],
+  "guidelines": ["New public APIs must be documented.", "Use standard-library-only implementation.", "Preserve the distinction between detection, confirmation, and later write/evidence Work Items."],
+  "intent": {"problem": "WI01 provides an external state machine but no repository-independent fact model for safely deciding whether its confirmation remains current.", "constraints": ["No repository writes; subprocess calls are read-only Git queries.", "Detached HEAD, missing remote, dirty paths, and merge conflicts must remain explicit facts.", "If remote symbolic HEAD is absent, store null and never infer a default branch.", "Conflict paths are recorded but never resolved by detection.", "Installed Cockpit is presence only, not adoption readiness or evidence."], "rationale": "A stable snapshot and explicit drift report let later write-boundary work stop on stale confirmation instead of applying a proposal to changed repository state."},
+  "problemStatement": "Implement read-only Repository Detection and final Drift Revalidation for Bootstrap Adoption.",
+  "scenarioCoverage": [
+    {"scenario": "Non-Git and no-commit repositories fail closed", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_repository.py"]},
+    {"scenario": "Clean, dirty, detached, remote, and conflict facts are captured", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_repository.py"]},
+    {"scenario": "Installed Cockpit state is detected without treating it as readiness", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_repository.py"]},
+    {"scenario": "Any final repository drift returns a structured blocking result", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_repository.py"]}
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user-authorized", "reason": "User explicitly authorized completing the full remediation plan, including governance documentation updates."},
+  "rollbackNote": "Revert this Work Item diff and restore the related tests and documentation.",
+  "startReceipt": {"path": ".ai/work-items/starts/wi02-repository-detection.json", "baseCommit": "5902efb92a8cae722eeeaa47932511f4a2c86dbc", "initialScopeDigest": "9f1016266ea0680dc90d6ce45199ce405d78d59ca5bcb56e1f26db7fcc68e7da", "contractSkeletonDigest": "0b3614b9041d8feaf12d3955fb055563e87e252ec7e2b85bc267c709f74cede8"}
+}

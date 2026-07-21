@@ -1,0 +1,451 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wi02-repository-detection",
+  "contractPath": ".ai/work-items/archive/2026/wi02-repository-detection.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/bootstrap_repository.py",
+      "reason": "Adds immutable read-only Git/repository facts and fail-closed drift comparison."
+    },
+    {
+      "path": "tests/test_bootstrap_repository.py",
+      "reason": "Covers detection failures, repository facts, conflicts, installation presence, and drift."
+    },
+    {
+      "path": ".ai/cockpit/bandit_low_risk_baseline.json",
+      "reason": "Updates the explicit low-risk Bandit baseline for the new subprocess-based read-only Git detector."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Documents the detection fact boundary and stale confirmation behavior in English."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Documents the same detection and drift facts in Japanese."
+    },
+    {
+      "path": ".ai/decisions/HDR-52981ad377f43bcd-0b9fd2b6.request.json",
+      "reason": "Records the structured Preflight human-decision request."
+    },
+    {
+      "path": ".ai/decisions/HDR-52981ad377f43bcd-0b9fd2b6.evidence.json",
+      "reason": "Records the user's authorized option A decision before implementation."
+    },
+    {
+      "path": ".ai/work-items/starts/wi02-repository-detection.json",
+      "reason": "Immutable Work Item start receipt bound to the base commit and initial scope."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi02-repository-detection.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi02-repository-detection.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi02-repository-detection.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/glossary.md",
+    ".ai/cockpit/adoption.md",
+    "scripts/bootstrap_wizard.py",
+    "scripts/install_ai_cockpit.py",
+    "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:27.414461+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "9d0707fc3f5085b725bbfa9a488c813d8c753e3b5b7f51c42dd4b18067326b78",
+      "commandHash": "bcd02b6ce4c3d5e07f033cb1303e3a6c63c572b1adcc649bfdd916f575fa319b",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wi02-repository-detection.contract.json work item contract check passed: .ai/work-items/active/wi02-repository-detection.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:27.557667+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "76ec20267b8e1133b37f27850aab8d636a956ebd1ef0d51d3c19abbf35d70488",
+      "commandHash": "16602a55e05d937c78831f9d956553babc794ed55c4aa7c33900899fe04e7b26",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wi02-repository-detection.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:27.735550+00:00",
+      "exitCode": 0,
+      "durationMs": 128,
+      "outputDigest": "3d592c6c9650bf3a25ebf111d63e66244d3fdc48e72f872ee2d9cbc68c0dd81e",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wi02-repository-detection.contract.json [warning] restricted_write: .ai/decisions/HDR-52981ad377f43bcd-0b9fd2b6.evidence.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/decisions/HDR-52981ad377f43bcd-0b9fd2b6.request.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/adoption.ja.md (.ai/**) - AI governance configuration. [warning] r"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:27.990638+00:00",
+      "exitCode": 0,
+      "durationMs": 204,
+      "outputDigest": "5f7396634773faa2470d92e3ec0062ab2c7ea50e97d3e4123a29ba008ab37917",
+      "commandHash": "4278bc3165cbcb2526fdc29c631105f29bcec5cbb3c617a5903ac098471ffceb",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wi02-repository-detection.contract.json --summary .ai/work-items/active/wi02-repository-detection.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wi02-repository-detection` - Contract Hash: `afcde541cd49080a` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `1"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:28.131891+00:00",
+      "exitCode": 0,
+      "durationMs": 93,
+      "outputDigest": "c72529c00fa9a6eb07948184e2f73f56a00f8032d972d8648ebfbb7c5a98f213",
+      "commandHash": "cd15b27bc06c97eff8ebbec89fda3c6223a3b343278d747f0971e251aa1f2944",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wi02-repository-detection.summary.json review policy matched 7 path(s) [review] .ai/decisions/HDR-52981ad377f43bcd-0b9fd2b6.evidence.json [review] .ai/decisions/HDR-52981ad377f43bcd-0b9fd2b6.request.json [review] .ai/work-items/starts/wi02-repository-detection.json [review] .ai/cockpit/adoption.ja.md [review] .ai/cockpit/adoption.md [review] .ai/cockpit/bandit_low_risk_baseline.json [revi"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:28.291915+00:00",
+      "exitCode": 0,
+      "durationMs": 109,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:28.416661+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:28.538162+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "bf5be3a7f81e0fdf0aa54ebc79a6f4420b912865219f47787dc9beb77ba119d3",
+      "commandHash": "f9c7f276404c4b1c6132d357b327707354bedb8a25cf97563a9cd381f4f3f5a5",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wi02-repository-detection.contract.json --summary .ai/work-items/active/wi02-repository-detection.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:28.636753+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "f687a1b59ee2856e8b0198f6953e836c365b34933cc3f51e4dfac10fbf5314cb",
+      "commandHash": "c4e0f4da16b965d4915de8fe9853af01e5331764ecf1e660825fca1925ac7a67",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wi02-repository-detection.contract.json --summary .ai/work-items/active/wi02-repository-detection.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:18:28.867263+00:00",
+      "exitCode": 0,
+      "durationMs": 186,
+      "outputDigest": "8f1a588b4f8ae417b4b96d5d6acfa23ba4323de7487f50242236760ec09f63e3",
+      "commandHash": "256b726487e0a472b336d2dbf34bf7cd6abdc9e4348ad5ad90a078bc5f0d8664",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wi02-repository-detection.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/adoption.ja.md` — covered by Contract scope - [active_owned] `.ai/cockpit/adoption.md` — covered by Contract scope - [active_owned] `.ai/cockpit/bandit_low_risk_baseline.json` — c"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:20:47.620895+00:00",
+      "exitCode": 0,
+      "durationMs": 138703,
+      "outputDigest": "ddeb9e47700ed9f5d609953368937bf292e94509613d868321ae620b3e5bea56",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "eba88c5af2fbccc508d93fbf25a9f4b1a3b35e9a21c58deba11f1f59f00f6256",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 124 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 19%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:20:49.248027+00:00",
+      "exitCode": 0,
+      "durationMs": 220,
+      "outputDigest": "80ba6adb12a422bf077fe1a7ca4555c09123f3f91c0fe3122bcedbffd7f37092",
+      "commandHash": "3938a97a1fba3471dd4c7ec2aaa6e7daa88fc26802ef29fcd28a68740442540d",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "229ef9059669120a0b6ba9d27032d2655ea1bd2aa519ad49284a279ae54031a5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wi02-repository-detection.contract.json --summary .ai/work-items/active/wi02-repository-detection.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:20:49.505592+00:00",
+      "exitCode": 0,
+      "durationMs": 212,
+      "outputDigest": "63558da0e718448687c12646042d2bc09a9facb6e0ab087b266330da1ec57fa9",
+      "commandHash": "e85322bd2eb81ea4dc0c81435d2baad2b6aa02d643027dd88c756ddeea9fd797",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "229ef9059669120a0b6ba9d27032d2655ea1bd2aa519ad49284a279ae54031a5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wi02-repository-detection.contract.json --summary .ai/work-items/active/wi02-repository-detection.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:20:49.635042+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "229ef9059669120a0b6ba9d27032d2655ea1bd2aa519ad49284a279ae54031a5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:20:49.734205+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "e8d651c83def59834be3eaeff29378a25689b9ce11460221ec62445cabcd345e",
+      "commandHash": "230018d2a777a2aa3d52e5a9f69bca1e77ee7a8c6e2aeb1f1f35904d92cc9c24",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "229ef9059669120a0b6ba9d27032d2655ea1bd2aa519ad49284a279ae54031a5",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wi02-repository-detection.contract.json --summary .ai/work-items/active/wi02-repository-detection.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wi02-repository-detection.summary.json CONTRACT=.ai/work-items/active/wi02-repository-detection.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T14:20:50.491698+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "4970378e3100f3b0550277c8a0f3ab1b7ce58277ce778784810e7b06ef5cfe01",
+      "commandHash": "979095cdf63b2238809ec5dd978c765c8c07ef99c03f5fe843d4aaa849bdf97b",
+      "contractHash": "afcde541cd49080a04653dd56fcffc287be3e99daade1fffe1a9925d8190dba2",
+      "commitSha": "5902efb92a8cae722eeeaa47932511f4a2c86dbc",
+      "executionContractPath": ".ai/work-items/active/wi02-repository-detection.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi02-repository-detection.summary.json",
+      "worktreeDigest": "f515592f081f95bb30c623e0a0fd169496399c0069f423c05b6626fbeea13d95",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wi02-repository-detection.summary.json --contract .ai/work-items/active/wi02-repository-detection.contract.json ai summary check passed: .ai/work-items/active/wi02-repository-detection.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Public detect_repository and revalidate_repository APIs are documented in the English and Japanese adoption guides: .ai/cockpit/adoption.md and .ai/cockpit/adoption.ja.md."
+    },
+    {
+      "guideline": "Use standard-library-only implementation.",
+      "compliant": true,
+      "evidence": "scripts/bootstrap_repository.py uses only Python standard-library modules."
+    },
+    {
+      "guideline": "Preserve the distinction between detection, confirmation, and later write/evidence Work Items.",
+      "compliant": true,
+      "evidence": "The detector is read-only, stale confirmation is blocking, and adoption evidence/write behavior remains out of scope in the adoption guide."
+    }
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Validated by read-only fact capture, fail-closed drift tests, and full quality checks."
+  },
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Read-only Git inspection and fail-closed comparison are covered by focused tests and the full project quality run."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "The repository Bandit low-risk baseline increased from 88 to 97 findings because the new detector uses standard subprocess Git calls; all findings are explicit low-risk baseline evidence and the baseline check passes."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "remote_provider",
+      "detail": "Remote provider permissions and PR evidence remain delegated to the subsequent PR lifecycle; local Git facts are complete.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Non-Git and no-commit repositories fail closed",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_bootstrap_repository.py"
+      ]
+    },
+    {
+      "scenario": "Clean, dirty, detached, remote, and conflict facts are captured",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_bootstrap_repository.py"
+      ]
+    },
+    {
+      "scenario": "Installed Cockpit presence is not readiness",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_bootstrap_repository.py",
+        ".ai/cockpit/adoption.md"
+      ]
+    },
+    {
+      "scenario": "Repository drift returns a blocking result without writing",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_bootstrap_repository.py",
+        "scripts/bootstrap_repository.py"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "afcde541cd49080a",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3,
+      "detail": "Preflight, Contract, and Scope evidence were established before implementation; the user-authorized decision protocol was recorded and the scope remained read-only detection/drift."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "afcde541cd49080a",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Full ai-cockpit-quality passed with 736 tests and 85.25% coverage; governance, status, supply-chain, type, lint, Bandit, and adopter-cycle checks passed."
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Read-only Git fact parsing and fail-closed drift comparison",
+      "English/Japanese adoption boundary wording"
+    ]
+  },
+  "archiveSequence": 389
+}

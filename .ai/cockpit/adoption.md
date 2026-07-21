@@ -16,6 +16,8 @@ First adoption with `--create-adoption` is transactional: validation finishes be
 
 The Bootstrap Wizard state machine is an external, side-effect-free session. It sequences `Detect → Propose → Configure → Review → Confirm` and supports `Back`, `Cancel`, and `Resume`; a changed upstream revision invalidates downstream decisions. It does not itself write the repository or claim calibration or production readiness.
 
+`scripts/bootstrap_repository.py` supplies the read-only facts consumed by that session: canonical root, commit, branch or detached HEAD, staged/unstaged/untracked and conflict paths, remote fetch/push URLs, remote symbolic HEAD, local/remote branches, and local Cockpit presence. A missing remote HEAD remains missing; installed presence is not adoption readiness. Immediately before any later Bootstrap write, `revalidate_repository` compares the confirmed root, branch, commit, dirty paths, remote facts, bootstrap base commit, and conflict state. Any mismatch is a blocking stale-confirmation result and must return the session to Review; this detector does not resolve conflicts or write evidence.
+
 The installed Cursor rule (`.cursor/rules/ai-cockpit.mdc`) defaults to `alwaysApply: false`. Enable **Always Apply** when you want Work Item governance on read-only investigation too.
 
 Before making AI Cockpit a required production gate, run the guided flow:

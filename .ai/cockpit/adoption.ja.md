@@ -16,6 +16,8 @@ AI Cockpit は **汎用テンプレート + ローカルキャリブレーショ
 
 Bootstrap Wizard の状態機械は採用対象リポジトリの外部に保持する副作用のない Session です。`Detect → Propose → Configure → Review → Confirm`、`Back`、`Cancel`、`Resume` を扱い、上流の Revision が変わると下流の判断を無効化します。状態機械自身はリポジトリを書き込まず、Calibration や本番準備完了を主張しません。
 
+`scripts/bootstrap_repository.py` は Session が使う読み取り専用の事実を提供します。正規化された Root、Commit、Branch または detached HEAD、staged/unstaged/untracked と conflict のパス、remote の fetch/push URL、remote symbolic HEAD、local/remote branch、およびローカル Cockpit の存在を記録します。remote HEAD が無い場合は無いまま保持し、インストール済みであることを Adoption Ready と解釈しません。後続の Bootstrap 書き込み直前に `revalidate_repository` が確認済みの Root、Branch、Commit、dirty paths、remote の事実、Bootstrap Base Commit、conflict state を比較します。不一致が一つでもあれば stale confirmation として停止し、Session を Review に戻します。この検出器は conflict を解決せず、Evidence も書き込みません。
+
 インストールされる Cursor rule（`.cursor/rules/ai-cockpit.mdc`）は `alwaysApply: false` がデフォルトです。調査のみのセッションにも Work Item を強制したい場合は **Always Apply** を有効にしてください。
 
 AI Cockpit を本番ゲートとして必須化する前に、次を完了してください。

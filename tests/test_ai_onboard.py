@@ -136,3 +136,16 @@ def test_onboard_exposes_non_production_readiness_state(tmp_path):
     passed, actions = readiness_actions(tmp_path, "en")
     assert passed == []
     assert any("production gate remains disabled" in item for item in actions)
+
+
+def test_lifecycle_state_distinguishes_bootstrap_calibration_and_governed(tmp_path):
+    from ai_onboard import lifecycle_state
+
+    assert lifecycle_state(tmp_path) == "bootstrap"
+    (tmp_path / ".ai").mkdir()
+    (tmp_path / ".ai" / "project_profile.proposed.yaml").write_text(
+        "version: 1\n", encoding="utf-8"
+    )
+    assert lifecycle_state(tmp_path) == "calibration"
+    (tmp_path / ".ai" / "project_profile.yaml").write_text("version: 1\n", encoding="utf-8")
+    assert lifecycle_state(tmp_path) == "governed_development"

@@ -1,0 +1,171 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governed-lifecycle-states",
+  "mode": "code",
+  "title": "Separate Bootstrap Calibration and Governed Development states",
+  "baseCommit": "7425b4cea3bf45b846cb0154df070dd74e6804f7",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/governed-lifecycle-states.contract.json",
+    ".ai/work-items/active/governed-lifecycle-states.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_onboard.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_project_doctor.py",
+    "tests/test_ai_onboard.py",
+    "tests/test_preflight_review.py",
+    "docs/installation.md"
+  ],
+  "outOfScope": ["Release state machine", "Fixture repositories", "Plan cleanup"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Work Item 7 lifecycle-state objective."
+    },
+    {
+      "path": "scripts/ai_onboard.py",
+      "reason": "Existing bootstrap and calibration lifecycle commands."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Existing governed development readiness gate."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["lifecycle_state"],
+    "reason": "State labels must prevent bootstrap or calibration from claiming governed readiness."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Lifecycle state boundaries and verification scenarios are declared."
+  },
+  "preReviewWarnings": [
+    "Verify Bootstrap and Calibration cannot report Governed Development readiness."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Bootstrap may create proposals and initial configuration but cannot report Ready.",
+    "Calibration requires explicit policy review and human confirmation before governed development.",
+    "Governed Development is the only lifecycle state that permits enforced implementation preflight.",
+    "CLI, smoke checks, documentation, and tests use the same state vocabulary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Installation and calibration currently risk being interpreted as governed development readiness, making adoption smoke behavior ambiguous.",
+    "constraints": ["Preserve fail-closed enforced development gates.", "Keep lifecycle states explicit and machine-readable."],
+    "rationale": "Separate state labels make bootstrap, human calibration, and governed implementation decisions auditable."
+  },
+  "rawUserRequest": "继续执行第 7 个工单：区分 Bootstrap、Calibration、Governed Development 生命周期，禁止前两者宣称 Ready。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-review-remediation"},
+  "declaredIntent": {"summary": "Separate bootstrap, calibration, and governed development lifecycle states.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Bootstrap proposal", "required": true, "status": "verified", "evidence": ["tests/test_ai_onboard.py"]},
+    {"scenario": "Calibration requires human confirmation", "required": true, "status": "verified", "evidence": ["tests/test_ai_onboard.py"]},
+    {"scenario": "Governed Development enforced preflight", "required": true, "status": "verified", "evidence": ["tests/test_preflight_review.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/governed-lifecycle-states.json",
+    "baseCommit": "7425b4cea3bf45b846cb0154df070dd74e6804f7",
+    "initialScopeDigest": "989d55eab082500f5c227adc92b8321c131716347206a56bbfd3b3148cd11829",
+    "contractSkeletonDigest": "a41c618173ff500ee730b825e82a865cabc43f9dca9fe4e5d646b927440cd387"
+  }
+}

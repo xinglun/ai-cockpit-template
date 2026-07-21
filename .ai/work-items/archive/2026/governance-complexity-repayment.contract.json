@@ -1,0 +1,227 @@
+{
+  "contractVersion": 2,
+  "workItemId": "governance-complexity-repayment",
+  "mode": "code",
+  "title": "Add governance complexity repayment mechanism",
+  "baseCommit": "3ca171c39b5c74a87d0ca19b23cc4a91f5d1e049",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/governance-complexity-repayment.contract.json",
+    ".ai/work-items/active/governance-complexity-repayment.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/check_governance_complexity.py",
+    "tests/test_governance_complexity.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "docs/reference/governance-complexity.md",
+    "docs/reference/governance-complexity.ja.md",
+    "Makefile"
+  ],
+  "outOfScope": [
+    "Changing critical-domain policy semantics.",
+    "Deleting or rewriting immutable archive evidence.",
+    "Measuring external adopter repositories in this Work Item."
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Existing complexity report and blocking budget evaluator."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Existing complexity and archive-integrity regression coverage."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current live complexity budget configuration."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Current governance complexity contract and reviewer guidance."
+    },
+    {
+      "path": "docs/reference/governance-complexity.ja.md",
+      "reason": "Japanese documentation alignment for the same policy boundary."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Quality and complexity check entrypoints."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Authorized Work Item 12 acceptance and sequence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_complexity"
+    ],
+    "reason": "The change expands deterministic repository-shape evidence and must prevent budget increases from masking unrepayed complexity."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the serial remediation plan and the requested operation is repository governance maintenance."
+  },
+  "preReviewWarnings": [
+    "Review that budget changes require a concrete repayment record and that reported metrics remain deterministic and fail-closed."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The report includes deterministic metrics for Python lines, per-function complexity, schema count, guard count, repeated protocol fields, dependency cycles, install allowlist size, archive growth, and generated evidence ratio.",
+    "Every budget increase is blocked unless the Contract records deleted duplicate concepts or an owner and due date for repayment; the report distinguishes budget enforcement from repayment evidence.",
+    "Tests cover metric collection, budget increase without repayment, repayment with owner and due date, and stable deterministic output.",
+    "English and Japanese governance-complexity documentation and the Make quality path describe the repayment rule without weakening archive integrity."
+  ],
+  "guidelines": [
+    "Keep complexity inventory deterministic, local, and read-only.",
+    "Do not use a budget increase as a substitute for repayment evidence.",
+    "Preserve immutable archive evidence and fail closed on malformed policy or repayment records."
+  ],
+  "intent": {
+    "problem": "The current complexity check has only a small number of aggregate budgets, so repeated protocol concepts and repository-shape growth can be hidden by raising a ceiling without recording how the complexity will be repaid.",
+    "constraints": [
+      "Do not delete or rewrite archived Contract, Summary, or manifest evidence.",
+      "The evaluator must remain deterministic and must not depend on network services.",
+      "Retain existing archive-integrity and fail-closed behavior."
+    ],
+    "rationale": "A multi-metric inventory plus explicit repayment evidence makes governance growth reviewable while keeping budgets as enforcement tools rather than a log of excuses."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "budget increase without repayment evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_governance_complexity.py"]
+    },
+    {
+      "scenario": "repayment record has owner and due date",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_governance_complexity.py"]
+    },
+    {
+      "scenario": "deterministic metric report and malformed policy fail closed",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_governance_complexity.py"]
+    }
+  ],
+  "rawUserRequest": "继续，循环到所有任务全部完成，中途不要停。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-authorized serial remediation execution",
+    "capturedAt": "2026-07-21T18:20:00+09:00",
+    "digest": "sha256:3a5fcead747b3c22381bc0d6a49601f4f21e5a0f34a7b6c0a8c0c2a490d4f1e1"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Make governance complexity growth measurable and require repayment evidence for budget increases.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]
+  },
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized continuous execution of the serial remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/governance-complexity-repayment.json",
+    "baseCommit": "3ca171c39b5c74a87d0ca19b23cc4a91f5d1e049",
+    "initialScopeDigest": "bdbc2d43942baa8326e74085a090e297fd303a8fce0c68af9b87d2cc26363c41",
+    "contractSkeletonDigest": "39ff0c0b02574096bbcad5f44eee774118d754863882bde2f875566a04431eb8"
+  }
+}

@@ -371,3 +371,75 @@ def test_main_returns_error_for_report_issues(tmp_path, monkeypatch, capsys):
 
     assert check_governance_complexity.main() == 1
     assert "[ERROR] bad" in capsys.readouterr().err
+
+
+def test_repository_shape_metrics_are_reported(tmp_path):
+    script = tmp_path / "scripts"
+    script.mkdir()
+    source = script / "sample.py"
+    source.write_text(
+        "def sample(value):\n    if value:\n        return True\n    return False\n",
+        encoding="utf-8",
+    )
+    schema = tmp_path / ".ai" / "trust" / "schema"
+    schema.mkdir(parents=True)
+    (schema / "sample.schema.json").write_text("{}", encoding="utf-8")
+    guard = tmp_path / ".ai" / "guards"
+    guard.mkdir(parents=True)
+    (guard / "sample.yaml").write_text("version: 1\n", encoding="utf-8")
+
+    metrics = check_governance_complexity.repository_shape_metrics(
+        tmp_path,
+        [source, schema / "sample.schema.json", guard / "sample.yaml"],
+        {"archiveContracts": 4},
+    )
+
+    assert metrics["functionComplexity"] == 2
+    assert metrics["schemaCount"] == 1
+    assert metrics["guardCount"] == 1
+    assert metrics["dependencyCycles"] == 0
+    assert metrics["archiveGrowth"] == 4
+    assert "generatedEvidenceRatio" in metrics
+
+
+def test_budget_increase_without_repayment_is_blocked(tmp_path, monkeypatch):
+    source = tmp_path / "x.py"
+    source.write_text("pass\n", encoding="utf-8")
+    policy_file = tmp_path / "policy.yaml"
+    policy_file.write_text(
+        "version: 1\nmax:\n  pythonLines: 2\nbaseline:\n  pythonLines: 1\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(check_governance_complexity, "tracked_files", lambda root: [source])
+    monkeypatch.setattr(
+        check_governance_complexity,
+        "archive_metrics",
+        lambda root: ({"archiveContracts": 0, "archiveSummaries": 0, "archiveIndexEntries": 0}, []),
+    )
+
+    _, issues = check_governance_complexity.build_report(tmp_path, policy_file)
+
+    assert any("lacks owner/due-date repayment record" in issue for issue in issues)
+
+
+def test_budget_increase_with_repayment_owner_and_due_date_passes(tmp_path, monkeypatch):
+    source = tmp_path / "x.py"
+    source.write_text("pass\n", encoding="utf-8")
+    policy_file = tmp_path / "policy.yaml"
+    policy_file.write_text(
+        "version: 1\nmax:\n  pythonLines: 2\nbaseline:\n  pythonLines: 1\n"
+        "repaymentRecords:\n"
+        "  - wi|pythonLines|1|2|owner|2026-08-01|remove duplicate concepts\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(check_governance_complexity, "tracked_files", lambda root: [source])
+    monkeypatch.setattr(
+        check_governance_complexity,
+        "archive_metrics",
+        lambda root: ({"archiveContracts": 0, "archiveSummaries": 0, "archiveIndexEntries": 0}, []),
+    )
+
+    report, issues = check_governance_complexity.build_report(tmp_path, policy_file)
+
+    assert issues == []
+    assert report["complexityDelta"]["budgetIncreases"] == {"pythonLines": 1.0}

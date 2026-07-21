@@ -14,9 +14,10 @@ keywords:
 
 ## 観測する指標
 
-- tracked file 数
-- Python 行数
-- Markdown 行数
+- Python/Markdown 行数
+- 関数ごとの最大複雑度
+- Trust schema 数、Guard 数、重複 protocol field 数、依存サイクル数
+- Installer allowlist エントリ数、アーカイブ増加量、Generated Evidence 比率
 - アーカイブ済み Contract/Summary の数
 - アーカイブインデックスのエントリ数と整合性
 
@@ -34,5 +35,6 @@ make check-governance-complexity
 
 - アーカイブ済み Contract/Summary は監査履歴として保持する。
 - 現在の PR に含まれるアーカイブ証拠の所有権は `make check-ai-pr AI_BASE_COMMIT=<merge-base>` で確認する。
-- 複雑度の閾値を緩める場合は、何を観測値にし、何を blocking に残すかを記録する。
+- 複雑度の予算を増やす場合は、Contract に旧値・新値・担当者・期限・具体的な削減計画を `repaymentRecords` として記録する。記録なしの予算増加は fail closed になる。
+- 予算は制限のための機構であり、複雑度を追加した理由の記録場所ではない。
 - 履歴の圧縮や削除は、独立した提案と人間のレビューなしに実施しない。

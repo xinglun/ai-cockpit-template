@@ -115,7 +115,9 @@ def _summary_worktree_digest(summary: dict[str, object]) -> str:
 
 
 def _current_worktree_digest(contract: dict[str, object]) -> str:
-    return _worktree_digest(changed_paths(contract))
+    summary_path = str(contract.get("summaryPath", ""))
+    paths = [path for path in changed_paths(contract) if path != summary_path]
+    return _worktree_digest(paths)
 
 
 def _next_archive_sequence() -> int:
@@ -397,7 +399,9 @@ def main() -> int:
 
     if has_summary:
         recorded_digest = _summary_worktree_digest(summary or {})
-        current_digest = _current_worktree_digest(contract)
+        digest_contract = dict(contract)
+        digest_contract["summaryPath"] = summary_path.relative_to(PROJECT_ROOT).as_posix()
+        current_digest = _current_worktree_digest(digest_contract)
         if recorded_digest and recorded_digest != current_digest:
             print(
                 "ERROR: Summary worktreeDigest does not match current Work Item state; re-run ai-finish before archiving.",

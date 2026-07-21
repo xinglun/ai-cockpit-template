@@ -165,6 +165,11 @@ def worktree_digest(paths: list[str]) -> str:
     return digest.hexdigest()
 
 
+def worktree_digest_for_finish(paths: list[str], summary_path: str) -> str:
+    """Hash the Work Item state without the self-referential Summary file."""
+    return worktree_digest([path for path in paths if path != summary_path])
+
+
 def record_result(summary_path: Path, item: dict[str, Any]) -> None:
     if not summary_path.exists():
         raise FileNotFoundError(f"summary not found: {summary_path.relative_to(PROJECT_ROOT)}")
@@ -574,7 +579,7 @@ def main() -> int:
             commit_sha=commit_sha,
             execution_contract_path=contract,
             execution_summary_path=summary,
-            worktree_digest=worktree_digest(changed_paths(contract_data)),
+            worktree_digest=worktree_digest_for_finish(changed_paths(contract_data), summary),
         ),
     )
 

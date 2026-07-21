@@ -1,0 +1,210 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-manifest",
+  "mode": "code",
+  "title": "Generate Installed Lifecycle manifest and baseline facts",
+  "baseCommit": "b556e066d59114575bd7e26dd1ed3900273e811c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_install_facts.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_archive_work_item.py",
+    "tests/test_ai_archive_work_item.py",
+    "tests/test_install_facts.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/bandit_low_risk_baseline.json",
+    "templates/**",
+    ".ai/work-items/active/installed-lifecycle-manifest.contract.json",
+    ".ai/work-items/active/installed-lifecycle-manifest.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Update, rollback, disable/enable, uninstall, purge, release publication, and final plan cleanup behavior",
+    "Project-owned files in an adopter repository"
+  ],
+  "rawUserRequest": "请开始循环执行上面的计划，一直到全部工单完成为止，中途不要停。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:continue-installed-lifecycle-review-remediation",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:user-authorized-serial-installed-lifecycle-plan"
+  },
+  "declaredIntent": {
+    "summary": "Implement the first Installed Lifecycle Work Item: durable installation facts for later governed update, rollback, and uninstall operations.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Work Item 1 requires four durable installation fact files and fail-closed validation."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Existing installer is the installation transaction boundary."
+    },
+    {
+      "path": "scripts/ai_lifecycle_facts.py",
+      "reason": "Existing lifecycle fact source is the read-only status integration point."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Existing installer tests cover transactional install behavior."
+    },
+    {
+      "path": "tests/test_lifecycle_facts.py",
+      "reason": "Existing lifecycle fact tests cover generated state integration."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The measured implementation and regression tests require a bounded Python budget increase with repayment evidence."
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Fresh install writes manifest, version, managed-regions, and rollback-baseline facts", "required": true, "status": "verified", "evidence": ["tests/test_install_facts.py"], "reason": "Primary acceptance path."},
+    {"scenario": "Repeated read produces stable hashes and ownership facts", "required": true, "status": "verified", "evidence": ["tests/test_install_facts.py"], "reason": "Facts must be deterministic."},
+    {"scenario": "Missing, malformed, or tampered facts fail closed", "required": true, "status": "verified", "evidence": ["tests/test_install_facts.py"], "reason": "Later destructive operations must not guess from paths."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "The new fact schema must remain compatible with future Work Items; all later operations are explicitly out of scope here."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial execution of all plan Work Items and this Work Item has bounded scope and evidence."
+  },
+  "preReviewWarnings": [
+    "Validate deterministic hashes, ownership vocabulary, and fail-closed behavior before any future destructive lifecycle Work Item."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Fresh installation creates .ai/install/manifest.json, version.json, managed-regions.json, and rollback-baseline.json with installationId, source/version, timestamps, ownership, source paths, and installed digests.",
+    "Manifest hash is recorded in version.json and all fact files are schema-validated, deterministically serialized, and read back with stable hashes; the measured Python budget change has an auditable repayment record.",
+    "Missing, malformed, or digest-tampered fact files cause a fail-closed validation result without guessing ownership or modifying project-owned content.",
+    "Installer and lifecycle documentation explain the fact files and tests cover fresh, repeated, malformed, and tampered cases."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The installer currently records only distribution version metadata; later lifecycle operations would have to guess ownership, managed regions, and rollback state from paths.",
+    "constraints": [
+      "Keep the first Work Item limited to durable fact generation and validation; do not implement update or removal behavior yet.",
+      "Preserve project-owned and historical content and use deterministic SHA-256 facts.",
+      "Do not claim external provider, adopter, or release execution evidence."
+    ],
+    "rationale": "A durable, validated fact source is the prerequisite for safe three-way update, rollback, disable, and evidence-preserving uninstall operations."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized implementation, tests, docs, PRs, merges, lifecycle closure, and branch cleanup for the serial plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-manifest.json",
+    "baseCommit": "b556e066d59114575bd7e26dd1ed3900273e811c",
+    "initialScopeDigest": "876044fcacb6872a865845813c481a0dce2139b43d883a5f25d0d169e42806e6",
+    "contractSkeletonDigest": "2de1bf4f517d3a127f0b898b522e8371cee945e968eed953281f4478d5b9a853"
+  }
+}

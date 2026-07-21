@@ -1,0 +1,399 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "installed-lifecycle-ownership",
+  "contractPath": ".ai/work-items/archive/2026/installed-lifecycle-ownership.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/installed-lifecycle-ownership.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installed-lifecycle-ownership.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": "scripts/ai_ownership.py",
+      "reason": "Added explicit ownership decisions and fail-closed managed-region parsing."
+    },
+    {
+      "path": "tests/test_ownership.py",
+      "reason": "Covered all ownership classes, path lookalikes, region drift, and protected historical/project content."
+    },
+    {
+      "path": "docs/reference/installed-lifecycle.md",
+      "reason": "Documented ownership classes and managed-region safety boundaries."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/starts/installed-lifecycle-ownership.json",
+      "reason": "Recorded the Work Item start receipt and baseline."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Recorded the bounded documentation budget increment and repayment obligation for the ownership model documentation."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installed-lifecycle-ownership.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+    "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+    "scripts/ai_install_facts.py",
+    "scripts/install_ai_cockpit.py",
+    ".ai/glossary.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:11.432859+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "5c75f4adba2f45252dc9bae8a94776a92238054560491937870e3db65858dc2b",
+      "commandHash": "4837bd206673024e667330515384caf92c950f8cd8ad096efacc9bf68312b3d8",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/installed-lifecycle-ownership.contract.json work item contract check passed: .ai/work-items/active/installed-lifecycle-ownership.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:11.591393+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "7c1d815ce8ee4b40481ea8ea24a4623c662ac714bdc6819eaa066ef2d734cf2d",
+      "commandHash": "15815d4e4fa25d0e4345af1a6def367c5488d57930fd8ce9d8d7d469ec1f42a3",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/installed-lifecycle-ownership.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:11.757796+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "910e970203211e19dec58e2ecfbfe97ebc7430dbf176af3f42be44c16e711071",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.012455+00:00",
+      "exitCode": 0,
+      "durationMs": 200,
+      "outputDigest": "19bae1d8ec9bc224b5783c1897a2ff6b6e8eb5cfefce36bf731be0b5bd2a57a4",
+      "commandHash": "e4a12e17aca9cca06eb112406c44b7a41c2c00abafc269318beb6e0951b4a956",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `installed-lifecycle-ownership` - Contract Hash: `f7431a233a90dc57` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.174639+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "e92844947d221e1fdd80cfe14f8635060c10a41c5c25559ef7e4e961b29de3fe",
+      "commandHash": "235c752d6ce30e53e72ed1063dd44f5c8ca4ccbdcd94117ae8eb1a3f2df0de59",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/installed-lifecycle-ownership.json [review] scripts/ai_ownership.py [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.339071+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.491979+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.589269+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "32e60c3bdc688d1dc057f0e43f8e9ed0dae790271cc8b143b2e20f388d55bc7f",
+      "commandHash": "7dc4882ee887743418b2f474182de534522c3c06dc3958e6d6cd0a11f6864796",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.685895+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "94ea2e88b43799cc656d614dfd71381ef81ca91094911b5b2329ee8bbe112ca6",
+      "commandHash": "ab7faa42e0eace849ff29cd8958625260805377a37dd6629763075c4e23c9241",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:22:12.912577+00:00",
+      "exitCode": 0,
+      "durationMs": 180,
+      "outputDigest": "1fd3422ac417a576a1d3f9b8f4f0058c693be1897b77af92282b1319eeda64a4",
+      "commandHash": "401d15fcdaef2df846e71cc319fe2fcb61310f76ec5f104e28c0814abfb073b9",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/sta"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:24:54.178459+00:00",
+      "exitCode": 0,
+      "durationMs": 161221,
+      "outputDigest": "1b0a6d192705167524526174dd40e0fec450cd8ff17275559e317de785ab6584",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "56ddfb4aec13c4da8faef94be8c1fefc518a9b8c44432fe65289f0f405c26bdc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 137 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 18%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:24:55.390299+00:00",
+      "exitCode": 0,
+      "durationMs": 212,
+      "outputDigest": "6548720bac8fbc59e54891378f33e1b9a352b59107c17ba6449a4edfbe0a4922",
+      "commandHash": "707a9565bff5bc1703aee3ad911ca6c158807b4aaec81af12a73409de013c08d",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "f689c7446270bd6b551113ff9eb1e68aebece7340c8a32081c2fe4d6d07df89c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/installed-lifecycle-ownership.contract.json --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:24:55.628095+00:00",
+      "exitCode": 0,
+      "durationMs": 196,
+      "outputDigest": "9b59e12687495c434f720212a4453e2645cfcbef6fd2227ddd67802575b22f61",
+      "commandHash": "d587465cae13a5d7123486983cca723d81becf116c2a626c27752193d059ffd2",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "f689c7446270bd6b551113ff9eb1e68aebece7340c8a32081c2fe4d6d07df89c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:24:55.709751+00:00",
+      "exitCode": 0,
+      "durationMs": 38,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "f689c7446270bd6b551113ff9eb1e68aebece7340c8a32081c2fe4d6d07df89c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:24:55.794247+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "016f6d1b8e8fcaa3abf2aac151d53220ed8014e08dfee6140631e94eecf67cc4",
+      "commandHash": "989b8e37f6b471b5bd2776f8348bac40e3f44cccecff0233395db604ba68f690",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "f689c7446270bd6b551113ff9eb1e68aebece7340c8a32081c2fe4d6d07df89c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json --summary .ai/work-items/active/installed-lifecycle-ownership.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/installed-lifecycle-ownership.summary.json CONTRACT=.ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T23:24:56.513149+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "87fa6187354247df63c0d4d6a86184699707f433f44c18c55aacaa0ed7d47ed9",
+      "commandHash": "2e3364661a6d642c7837a53f0db0d91878c6c2deae104a428064e9fdd8b2c2ee",
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "commitSha": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+      "worktreeDigest": "bc4d59d1c8b92c8db60e0aa736c5fd130f4df3350d8c1f5595195c72273bbcd9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/installed-lifecycle-ownership.summary.json --contract .ai/work-items/active/installed-lifecycle-ownership.contract.json ai summary check passed: .ai/work-items/active/installed-lifecycle-ownership.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Public ownership and region helpers are documented in docs/reference/installed-lifecycle.md."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The ownership module is a dedicated standard-library boundary with no feature-internal imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Future update and uninstall Work Items must consume declared ownership and region evidence rather than infer authority from paths."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "Future lifecycle consumers could regress to path heuristics if they bypass the ownership evaluator.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm that future lifecycle consumers use declared ownership and never infer mutation authority from paths."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "detail": "Preflight ready and scope confirmed before implementing ownership and managed-region evidence."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "f7431a233a90dc57f447ad51b7f726abdc403b8cb881fa0092439a8e7334eaf6",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "detail": "Full AI Cockpit quality and required Work Item checks passed before archival."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 414
+}

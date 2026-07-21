@@ -1,0 +1,212 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-ownership",
+  "mode": "code",
+  "title": "Define Ownership Model and Managed Region boundaries",
+  "baseCommit": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_install_facts.py",
+    "scripts/ai_ownership.py",
+    "tests/test_ownership.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-ownership.contract.json",
+    ".ai/work-items/active/installed-lifecycle-ownership.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Update, rollback, disable/enable, uninstall, purge, release publication, and final plan cleanup behavior",
+    "Adopter project-owned files outside the template repository"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Defines the Ownership and Managed Region objectives, scope, acceptance, and negative scenarios."
+    },
+    {
+      "path": "scripts/ai_install_facts.py",
+      "reason": "Existing fact bundle is the persistence boundary that the ownership classifier must validate."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Existing installer classification and shared-file handling establish compatibility boundaries."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines repository governance and evidence terminology."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Ownership classification and marker parsing are fail-closed boundaries for future update and uninstall Work Items."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of all plan Work Items and this Work Item is ready for bounded implementation."
+  },
+  "preReviewWarnings": [
+    "Unknown ownership, missing markers, region drift, and historical evidence must fail closed without mutation."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The ownership schema exposes template, project, shared, generated, and historical decisions with explicit reasons.",
+    "Shared files accept only explicit BEGIN/END AI Cockpit managed regions and reject missing, duplicate, nested, or drifted boundaries.",
+    "Project-owned and historical files are preserved by default; unknown ownership or invalid regions produces a fail-closed decision.",
+    "Positive and negative ownership/region tests and reference documentation cover path-misclassification and historical-modification scenarios."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The installed fact bundle currently records ownership labels but does not provide a decision-grade classifier or explicit managed-region boundary parser, so later update and uninstall operations could fall back to path guessing.",
+    "constraints": [
+      "Keep this Work Item limited to ownership and managed-region facts; do not implement lifecycle mutations.",
+      "Treat project-owned and historical evidence as protected and fail closed on ambiguity or marker drift.",
+      "Use deterministic standard-library behavior and document every public helper."
+    ],
+    "rationale": "Explicit ownership and region evidence is the safety boundary that lets later lifecycle operations preserve project content and historical audit evidence."
+  },
+  "rawUserRequest": "查收评审，总结，工单列表（列表最后加上：清理执行计划文档），做成修改执行计划的文档。计划里明确写清楚，每个工单要走完整的流程（包括PR，清理分支），然后循环执行下一个工单，直到全部工单完整为止。需要跟我确认的，写清楚，已经得到我的授权。走完当前文档的流程。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:continue-installed-lifecycle-review-remediation",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:user-authorized-serial-installed-lifecycle-plan"
+  },
+  "declaredIntent": {
+    "summary": "Serially implement the current Installed Lifecycle plan with full Work Item lifecycle closure.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "All five ownership classes are classified with explicit evidence.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ownership.py"]
+    },
+    {
+      "scenario": "Shared managed-region missing, duplicate, nested, or drifted markers fail closed.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ownership.py"]
+    },
+    {
+      "scenario": "Path lookalikes and historical evidence are protected from update/uninstall decisions.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ownership.py", "docs/reference/installed-lifecycle.md"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the serial Installed Lifecycle plan execution, including governance, tests, docs, PRs, merges, closure, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-ownership.json",
+    "baseCommit": "78e801f73b4a62fe5e2cee3c3e6700f1d2d19dac",
+    "initialScopeDigest": "3d3471e280fd7fb420595dfb049975c32bb9a36b0802b12c28ed5d256c960a9e",
+    "contractSkeletonDigest": "2ee9ef8a8dd29c15182a95258cd8bfb22e4855b380d7878e02d32a7add924049"
+  }
+}

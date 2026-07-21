@@ -1,0 +1,162 @@
+{
+  "contractVersion": 2,
+  "workItemId": "guard-protocol-mapping",
+  "mode": "code",
+  "title": "Unify guard protocol mapping",
+  "baseCommit": "c30428df55fcb094241acca78446e6a5d7308a97",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/guard-protocol-mapping.contract.json",
+    ".ai/work-items/active/guard-protocol-mapping.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_preflight_review.py",
+    "tests/test_trust_guards.py",
+    "tests/test_preflight_review.py",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": ["Changing legacy evidence wording outside the mapping layer", "Changing unrelated gate behavior"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Defines canonical guard state and one-way legacy mapping acceptance."
+    },
+    {"path": "scripts/ai_trust_guards.py", "reason": "Shared signal envelope currently maps legacy values to canonical state."},
+    {"path": "tests/test_trust_guards.py", "reason": "Regression coverage for shared guard signals."},
+    {"path": "tests/test_preflight_review.py", "reason": "Gate consumers assert signal compatibility."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["protocol_consistency", "fail_closed"],
+    "reason": "Makes existing legacy labels derived compatibility output for canonical guard states."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Canonical state mapping is deterministic and preserves fail-closed consumers."
+  },
+  "preReviewWarnings": [
+    "Verify invalid legacy/canonical combinations are rejected."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Canonical guard states use allow/review/confirm/block/error/not_applicable.",
+    "Legacy values are generated only from canonical states and invalid combinations fail closed.",
+    "Existing gate consumers use the shared canonical envelope without weakening behavior.",
+    "Tests and Trust Layer documentation cover the mapping."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "rawUserRequest": "执行评审整改计划工单 7：统一 Guard 新旧协议为 Canonical State 单向映射，继续循环执行直到全部工单完成。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21-continue-remediation", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Make canonical guard states authoritative and expose legacy labels only as derived compatibility output.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "intent": {
+    "problem": "Legacy Ready/Partial/Inconsistent labels and canonical states can drift if consumers interpret them independently.",
+    "constraints": ["Preserve existing fail-closed outcomes.", "Keep legacy labels only as derived compatibility output.", "Do not create a second decision protocol."],
+    "rationale": "Centralize the one-way legacy-to-canonical compatibility mapping in the shared signal envelope."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Canonical allow maps to Ready", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]},
+    {"scenario": "Canonical defer maps to Partial", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]},
+    {"scenario": "Canonical block maps to Inconsistent", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]},
+    {"scenario": "Invalid protocol combination fails closed", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "The user explicitly authorized the complete serial remediation plan."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/guard-protocol-mapping.json",
+    "baseCommit": "c30428df55fcb094241acca78446e6a5d7308a97",
+    "initialScopeDigest": "06350a216bcc0aa1029ec3cc75e8dc3e4e20a5893ac5ba3f29a4994790e75303",
+    "contractSkeletonDigest": "2d34b9ccf41e3a39e2afce41884f87d5fc6c4a417fed23aa9db49a6d69dd11a1"
+  }
+}

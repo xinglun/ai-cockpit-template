@@ -15,6 +15,14 @@ from ai_critical_domain_guards import critical_domain_signals
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CAPABILITIES_PATH = PROJECT_ROOT / ".ai" / "project" / "capabilities.json"
 SUCCESS_CRITERIA_PATH = PROJECT_ROOT / ".ai" / "project" / "success_criteria.json"
+CANONICAL_STATES = {"allow", "review", "confirm", "defer", "block", "error", "not_applicable"}
+LEGACY_TO_CANONICAL = {
+    "Ready": "allow",
+    "Partial": "defer",
+    "Missing": "block",
+    "Inconsistent": "block",
+    "Not Applicable": "not_applicable",
+}
 
 
 def display_path(path: Path) -> str:
@@ -26,13 +34,7 @@ def display_path(path: Path) -> str:
 
 
 def _signal(name: str, value: str, evidence: list[str], sources: list[str]) -> dict[str, Any]:
-    state = {
-        "Ready": "allow",
-        "Partial": "defer",
-        "Missing": "block",
-        "Inconsistent": "block",
-        "Not Applicable": "not_applicable",
-    }.get(value, "defer")
+    state = LEGACY_TO_CANONICAL.get(value, "error")
     return {
         "name": name,
         "value": value,

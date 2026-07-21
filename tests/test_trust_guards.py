@@ -79,6 +79,12 @@ def test_guard_signal_has_shared_protocol_envelope():
     assert result["safeAlternatives"] == []
 
 
+def test_legacy_values_map_only_to_canonical_states():
+    assert ai_trust_guards.LEGACY_TO_CANONICAL["Ready"] == "allow"
+    assert ai_trust_guards.LEGACY_TO_CANONICAL["Inconsistent"] == "block"
+    assert set(ai_trust_guards.LEGACY_TO_CANONICAL.values()) <= ai_trust_guards.CANONICAL_STATES
+
+
 def test_task_owned_success_criteria_is_preferred(tmp_path):
     value = copy.deepcopy(contract())
     value["workItemId"] = "task_owned"

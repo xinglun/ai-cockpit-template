@@ -1,0 +1,220 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi06-project-doctor-profile",
+  "mode": "code",
+  "title": "Project Doctor and Profile",
+  "baseCommit": "42e849fe1c049066c573525110e9f54c68a469ff",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_project_doctor.py",
+    "scripts/ai_calibrate.py",
+    "scripts/ai_project_profile.py",
+    "tests/test_ai_project_doctor.py",
+    "tests/test_project_governance.py",
+    ".ai/cockpit/adoption.md",
+    ".ai/cockpit/adoption.ja.md",
+    ".ai/work-items/active/wi06-project-doctor-profile.contract.json",
+    ".ai/work-items/active/wi06-project-doctor-profile.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Automatic approval of Project Profile boundaries, Guards, quality commands, or Adoption Readiness",
+    "Product source code, deployment configuration, and external production operations",
+    "Claims that Doctor/Profile evidence is a security, compliance, sandbox, identity, or tamper-proof audit guarantee"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+      "reason": "Serial remediation plan and WI06 acceptance target."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository Governance Layer, Profile, evidence, and boundary terminology."
+    },
+    {
+      "path": "scripts/ai_project_doctor.py",
+      "reason": "Existing read-only project fact scanner and proposal inputs."
+    },
+    {
+      "path": "scripts/ai_project_profile.py",
+      "reason": "Confirmed Profile schema and approval validation."
+    },
+    {
+      "path": "scripts/ai_calibrate.py",
+      "reason": "Proposal generation and explicit confirmation boundary."
+    },
+    {
+      "path": "tests/test_project_governance.py",
+      "reason": "Existing stack detection, Profile, and calibration behavior tests."
+    },
+    {
+      "path": ".ai/cockpit/adoption.md",
+      "reason": "Adoption Configure workflow and human confirmation boundary."
+    },
+    {
+      "path": ".ai/cockpit/adoption.ja.md",
+      "reason": "Japanese adoption Configure workflow and human confirmation boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Project facts and boundary proposals can be incomplete or ambiguous; no proposal may be treated as approval."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the serial remediation plan and complete Work Item lifecycle."
+  },
+  "preReviewWarnings": [
+    "Doctor remains read-only; calibration writes only a new proposal; critical-domain and unknown findings stay visible until explicit human confirmation."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Project Doctor detects Python, Flutter/Dart, TypeScript/JavaScript, Java/Kotlin, and Go signals with evidence and confidence, without modifying project files.",
+    "Doctor and calibration produce a reviewable Profile Proposal containing detected facts, candidate module boundaries, quality-command candidates, critical-domain signals, and unresolved unknowns; proposals are never treated as confirmed configuration.",
+    "Confirmed Profile validation requires explicit approval metadata and blocks unresolved blocking unknowns; calibration does not overwrite Guards or an existing proposal.",
+    "Focused tests cover positive stack detection, ambiguous or missing evidence, critical-domain/unknown visibility, read-only Doctor behavior, and explicit Profile approval.",
+    "English and Japanese adoption documentation describes Doctor, proposal review, confirmation, and the boundary that project-specific quality commands remain unconfigured until confirmation."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The Configure Work Item needs an evidence-backed, project-calibrated view of languages, modules, quality commands, and critical domains before a project Profile can be confirmed. Existing detection and proposal paths must make ambiguity and unknowns visible without silently approving boundaries or mutating project-owned configuration.",
+    "constraints": [
+      "Doctor is read-only except for its explicitly requested report under target/.",
+      "Calibration may create a new project_profile.proposed.yaml only when the target does not already exist; it must not overwrite Guards or confirmed project configuration.",
+      "Detected, proposed, required user input, and confirmed values remain distinct; missing or ambiguous evidence is not equivalent to Allow or Ready.",
+      "Use standard-library implementation and preserve template-maintenance behavior, existing Profile schema, and explicit human approval semantics.",
+      "Do not modify product source code or claim security, compliance, sandbox, or production-readiness guarantees."
+    ],
+    "rationale": "A conservative Doctor/Profile proposal gives the adopter a concrete review surface while preserving human ownership of project boundaries and quality policy."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-plan-execution",
+    "capturedAt": "2026-07-21",
+    "digest": "sha256:user-authorized-serial-remediation"
+  },
+  "declaredIntent": {
+    "summary": "Detect project stacks and boundaries and generate a conservative Project Profile proposal for explicit human confirmation.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {"scenario": "supported stack signals produce evidence and confidence", "required": true, "status": "verified", "evidence": ["tests/test_ai_project_doctor.py", "tests/test_project_governance.py"]},
+    {"scenario": "missing or ambiguous project evidence remains visible as unknown and does not auto-approve", "required": true, "status": "verified", "evidence": ["tests/test_ai_project_doctor.py", "tests/test_project_governance.py"]},
+    {"scenario": "Doctor and calibration preserve read-only and no-overwrite boundaries", "required": true, "status": "verified", "evidence": ["tests/test_project_governance.py", "tests/test_ai_onboard.py"]},
+    {"scenario": "confirmed Profile requires explicit approval and resolved blocking unknowns", "required": true, "status": "verified", "evidence": ["tests/test_project_governance.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-plan-execution",
+    "reason": "User explicitly authorized governance code, tests, documentation, PR, merge, archive, close, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi06-project-doctor-profile.json",
+    "baseCommit": "42e849fe1c049066c573525110e9f54c68a469ff",
+    "initialScopeDigest": "cefcc67b4680386a6d9769da0d1a7a32b1b0ee5a89ab3abfd3124eddd41a0071",
+    "contractSkeletonDigest": "33ac6e9b5716b656e8b946372940cb534830f87ce9035cd63eebfa84bcb492a3"
+  }
+}

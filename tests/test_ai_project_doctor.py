@@ -80,6 +80,18 @@ def test_doctor_keeps_filesystem_fallback_for_non_git_fixture(tmp_path):
     assert report["suggestedBoundaries"]["productionRoots"][0]["evidence"] == "src"
 
 
+def test_doctor_surfaces_quality_commands_and_critical_domains(tmp_path):
+    (tmp_path / "billing").mkdir()
+    (tmp_path / "src").mkdir()
+    (tmp_path / "tests").mkdir()
+    (tmp_path / "Makefile").write_text("quality:\n", encoding="utf-8")
+
+    report = ai_project_doctor.scan_project(tmp_path)
+
+    assert report["projectSignals"]["qualityCommands"][0]["value"] == "make quality"
+    assert report["projectSignals"]["criticalDomains"][0]["value"] == "billing"
+
+
 def test_cockpit_doctor_uses_template_maintenance_context(tmp_path, monkeypatch):
     import ai_doctor
 

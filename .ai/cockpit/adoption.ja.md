@@ -53,8 +53,8 @@ make ai-onboard PHASE=3
 ## ローカルキャリブレーションのチェックリスト
 
 1. **Adopt → Configure:** `adopt_ai_cockpit` を単独コミットで完了し、続けて `configure_ai_cockpit` で Profile、Guard、品質コマンド、CI を適応する。
-2. `make cockpit-doctor` でプロジェクト事実、証拠、信頼度、候補境界、Guard 不一致、unknowns を記録する。確定 Profile で `blocking:` unknowns をすべて解消する。doctor は境界を自動承認しない。
-3. `make cockpit-calibrate` を実行する。提案された Profile を承認済みとみなさない。
+2. `make cockpit-doctor` でプロジェクト事実、証拠、信頼度、候補境界、Guard 不一致、品質コマンド候補、Critical Domain シグナル、unknowns を記録する。確定 Profile で `blocking:` unknowns をすべて解消する。doctor は境界を自動承認しない。
+3. `make cockpit-calibrate` を実行する。提案 Profile の `projectSignals.qualityCommands` と `projectSignals.criticalDomains` を確認し、承認済みとみなさない。
 4. 明示的に確認した境界と承認メタデータで `.ai/project_profile.yaml` を作成する。
 5. `make check-ai-project-profile` と `make check-ai-guard-calibration` で Profile と Guard を検証する。
 6. `Makefile.ai.stack` のプレースホルダを置き換え、`make ai-cockpit-quality` が成功することを確認する。
@@ -63,7 +63,7 @@ make ai-onboard PHASE=3
 9. 必要なら quality を optional にした試行 Work Item を実行し、その後 quality と Coverage を blocking ゲートに昇格する。
 10. `make check-ai-adoption-ready` で静的設定の完全性を検証する。
 
-Doctor は `target/` 配下のレポート以外は読み取り専用です。Calibration は `.ai/project_profile.proposed.yaml` のみを書き込み、Guard は上書きしません。確定 Project Profile はプロジェクト所有で、アップグレード後も保持されます。
+Doctor は `target/` 配下のレポート以外は読み取り専用です。Critical Domain シグナルは人間確認のための候補であり、認可や本番判断ではありません。Calibration は `.ai/project_profile.proposed.yaml` のみを書き込み、Guard は上書きしません。確定 Project Profile はプロジェクト所有で、アップグレード後も保持されます。
 
 `make check-ai-adoption-ready` は fail-closed ですが、Profile 承認や readiness 自体はセキュリティ証明ではありません。`make ai-cockpit-quality` と `check-ai-pr` の CI 成功を独立した必須チェックとして要求してください。
 

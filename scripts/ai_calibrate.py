@@ -52,6 +52,14 @@ def proposed_profile(report: dict[str, Any]) -> str:
             key,
             values(suggestions.get(key, []) if isinstance(suggestions, dict) else [], "path"),
         )
+    project_signals = report.get("projectSignals", {})
+    lines.extend(["", "projectSignals:"])
+    for key in ("qualityCommands", "criticalDomains"):
+        items = project_signals.get(key, []) if isinstance(project_signals, dict) else []
+        values_list = [
+            str(item.get("value")) for item in items if isinstance(item, dict) and item.get("value")
+        ]
+        render_key_list(lines, "  ", key, sorted(set(values_list)))
     lines.extend(["", "approvedBoundaries:"])
     for key in BOUNDARY_KEYS:
         render_key_list(lines, "  ", key, [])

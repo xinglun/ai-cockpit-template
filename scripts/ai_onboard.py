@@ -151,6 +151,16 @@ def profile_status(root: Path, locale: str) -> tuple[str, list[str]]:
     return "missing", actions
 
 
+def lifecycle_state(root: Path) -> str:
+    """Return the explicit adoption lifecycle state without claiming readiness."""
+    profile = root / ".ai"
+    if (profile / "project_profile.yaml").is_file():
+        return "governed_development"
+    if (profile / "project_profile.proposed.yaml").is_file():
+        return "calibration"
+    return "bootstrap"
+
+
 def readiness_actions(root: Path, locale: str) -> tuple[list[str], list[str]]:
     passed: list[str] = []
     actions: list[str] = []
@@ -197,6 +207,7 @@ def print_section(title: str) -> None:
 def phase_environment(root: Path, locale: str) -> int:
     label = PHASE_LABELS[locale][1]
     print_section(msg(locale, "phase_header", phase=1, label=label))
+    print(f"[STATE] {lifecycle_state(root)}")
     passed, warnings, failures = diagnose(root)
     for item in passed:
         print(f"[PASS] {item}")
@@ -228,6 +239,7 @@ def phase_environment(root: Path, locale: str) -> int:
 def phase_calibration(root: Path, locale: str, *, run_calibrate: bool) -> int:
     label = PHASE_LABELS[locale][2]
     print_section(msg(locale, "phase_header", phase=2, label=label))
+    print(f"[STATE] {lifecycle_state(root)}")
     status, messages = profile_status(root, locale)
     for message in messages:
         print(f"[INFO] {message}")
@@ -262,6 +274,7 @@ def phase_calibration(root: Path, locale: str, *, run_calibrate: bool) -> int:
 def phase_readiness(root: Path, locale: str, *, run_checks: bool) -> int:
     label = PHASE_LABELS[locale][3]
     print_section(msg(locale, "phase_header", phase=3, label=label))
+    print(f"[STATE] {lifecycle_state(root)}")
     passed, actions = readiness_actions(root, locale)
     for item in passed:
         print(f"[PASS] {item}")

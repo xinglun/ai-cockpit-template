@@ -1,0 +1,171 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi01-ci-stabilization",
+  "mode": "code",
+  "title": "Stabilize CI complexity and coverage after Bootstrap Wizard",
+  "rawUserRequest": "完成 Bootstrap Adoption 评审整改执行计划，当前工单修复工单 1 提交后暴露的 CI 复杂度与覆盖率回归。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Calibrate the existing complexity budget for the committed Bootstrap Wizard increment and add coverage for new state-machine paths.", "requestedCapabilities": ["ai_governance", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_governance_complexity.py",
+    "tests/test_ai_onboard.py",
+    "tests/test_governance_complexity.py",
+    ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+    ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Changing the Bootstrap Wizard feature behavior.", "Full complexity baseline redesign assigned to WI07."],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Configured complexity budget and repayment evidence."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Generated status must not inflate persistent Markdown complexity budgets."
+    },
+    {
+      "path": "tests/test_ai_onboard.py",
+      "reason": "Existing onboarding branches provide clean-checkout coverage headroom without changing Bootstrap Wizard behavior."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Complexity metric regression tests."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_complexity", "cross_platform_quality"],
+    "reason": "The change is limited to explicit budget evidence and regression coverage; no product behavior changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the remediation loop and this stabilization is required by failed PR evidence."
+  },
+  "preReviewWarnings": ["Review that the budget increase is evidence-bound and temporary, with WI07 owning final baseline calibration."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record before-edit and before-finish checkpoints for a CI stabilization change."
+  },
+  "acceptance": [
+    "The configured Python complexity limit covers the committed WI01 increment with an explicit owner, due date, and repayment record; no unbounded threshold is introduced.",
+    "Bootstrap Wizard tests cover the remaining transition/error paths needed for Python 3.12+ coverage.",
+    "Local quality passes and the exact CI failure modes are covered by regression tests."
+  ],
+  "guidelines": [
+    "Do not weaken the configured coverage floor.",
+    "Every complexity budget increase must have a repayment record.",
+    "Do not change Bootstrap Wizard behavior in a stabilization Work Item."
+  ],
+  "intent": {
+    "problem": "The first WI01 PR passed local finish before its new Python files were committed, but clean CI counted those files and failed the 32000-line complexity ceiling and Python 3.12 coverage floor.",
+    "constraints": ["Do not change Bootstrap Wizard behavior.", "Do not remove tests or weaken the coverage floor.", "Keep the budget increase bounded and assign repayment to WI07."],
+    "rationale": "CI must evaluate the same committed repository shape as local gates; the correction needs explicit evidence rather than an untracked local approximation."
+  },
+  "problemStatement": "Stabilize the committed WI01 change against clean CI by recording a bounded complexity budget increment and adding missing branch coverage.",
+  "scenarioCoverage": [
+    {"scenario": "Committed Python line count is within a documented bounded limit", "required": true, "status": "verified", "evidence": ["tests/test_governance_complexity.py"]},
+    {"scenario": "Python 3.12 coverage remains at or above 85%", "required": true, "status": "verified", "evidence": ["tests/test_bootstrap_wizard.py", "make quality"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized",
+    "reason": "User explicitly authorized completing the full remediation plan and CI stabilization required by its failed PR evidence."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi01-ci-stabilization.json",
+    "baseCommit": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+    "initialScopeDigest": "e854b2a03c8be46789b4958401707f71fc1c973a8998b9adbcc0ea904ad051c1",
+    "contractSkeletonDigest": "6921f02976f0655cd6822bb1b80880a0c89edaff081abceeb9816fc0affe9f3b"
+  }
+}

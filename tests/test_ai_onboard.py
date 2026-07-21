@@ -115,6 +115,36 @@ def test_onboard_phase_calibration_runs_profile_checks(tmp_path, monkeypatch):
     assert calls == ["check-ai-project-profile", "check-ai-guard-calibration"]
 
 
+def test_onboard_phase_calibration_runs_calibrate_then_waits_for_confirmation(
+    tmp_path, monkeypatch
+):
+    (tmp_path / ".ai").mkdir()
+    calls: list[str] = []
+
+    def fake_make(_root: Path, target: str) -> tuple[int, str]:
+        calls.append(target)
+        (tmp_path / ".ai" / "project_profile.proposed.yaml").write_text(
+            "version: 1\n", encoding="utf-8"
+        )
+        return 0, "calibrated"
+
+    monkeypatch.setattr(ai_onboard, "run_make", fake_make)
+    assert ai_onboard.phase_calibration(tmp_path, "en", run_calibrate=True) == 0
+    assert calls == ["cockpit-calibrate"]
+
+
+def test_onboard_phase_environment_returns_failure_when_doctor_fails(tmp_path, monkeypatch):
+    monkeypatch.setattr(ai_onboard, "diagnose", lambda _root: ([], [], ["broken environment"]))
+    monkeypatch.setattr(ai_onboard, "run_make", lambda *_args: (0, "doctor ok"))
+    assert ai_onboard.phase_environment(tmp_path, "en") == 1
+
+
+def test_onboard_phase_readiness_propagates_check_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(ai_onboard, "readiness_actions", lambda *_args: (["ready"], []))
+    monkeypatch.setattr(ai_onboard, "run_make", lambda *_args: (3, "adoption check failed"))
+    assert ai_onboard.phase_readiness(tmp_path, "en", run_checks=True) == 3
+
+
 def test_onboard_nested_make_and_phase_failures_are_reported(tmp_path, monkeypatch):
     def raise_os_error(*_args, **_kwargs):
         raise OSError("missing make")

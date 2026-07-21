@@ -1,0 +1,402 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wi01-ci-stabilization",
+  "contractPath": ".ai/work-items/archive/2026/wi01-ci-stabilization.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Raised the bounded Python budget from 32000 to 32400 with owner, due date, and WI07 repayment record."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Excluded generated current_status.md from persistent Markdown complexity measurement."
+    },
+    {
+      "path": "tests/test_ai_onboard.py",
+      "reason": "Added branch and failure-path coverage to create clean-checkout coverage headroom."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Added a regression test for generated status exclusion."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi01-ci-stabilization.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi01-ci-stabilization.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wi01-ci-stabilization.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_governance_complexity.py",
+    "tests/test_ai_onboard.py",
+    "tests/test_governance_complexity.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:21.543349+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "717307b0160d63076c2a427112a02510488197bf13284986fd010fa3d2563a46",
+      "commandHash": "1293e3f3d7e598adbe8b45334c1e025fca566d9d659620057084f91d1ab12273",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wi01-ci-stabilization.contract.json work item contract check passed: .ai/work-items/active/wi01-ci-stabilization.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:21.682522+00:00",
+      "exitCode": 0,
+      "durationMs": 94,
+      "outputDigest": "48970b6aa82149c7442d227192d081dabb0f956af7ed457349a146b4941d512c",
+      "commandHash": "ef1cd9bc4a56c42a7d106bac0cb1913e61fa3318cc8a92dd412cc7a8599a46b9",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wi01-ci-stabilization.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:21.835251+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "5982ad29ea75e0e86cbd3709af308561d77bd0d2c682dbe6bc3e9f5a5c54b75b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wi01-ci-stabilization.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.073276+00:00",
+      "exitCode": 0,
+      "durationMs": 183,
+      "outputDigest": "143d1b25622a9a13063566ccf28498daf483a69ba9c0f9cc17c599e57afed91f",
+      "commandHash": "b8e8c77ea7a6141dd572e53086c5c80ef14635c99bad596d0b2c6f4f77e8df27",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wi01-ci-stabilization.contract.json --summary .ai/work-items/active/wi01-ci-stabilization.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wi01-ci-stabilization` - Contract Hash: `18e39c55691d9915` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `3` - Unknown Count: `0` - Required Checks: `16` - Require"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.220128+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "578a6496274bb862b57b0cf30e72ac6521d18a259b6d2d1a762c952a03d1380a",
+      "commandHash": "52204fd1374d6323aeb15973fefae4bebee3312d2b34efa23cd92aa58d9b8e6e",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wi01-ci-stabilization.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/wi01-ci-stabilization.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.362571+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.521751+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.626810+00:00",
+      "exitCode": 0,
+      "durationMs": 56,
+      "outputDigest": "194cc94a9b814688a72d2bbdcf0e59253d66b553c92f6875220ced9952513a45",
+      "commandHash": "8a9392cb853d4588ca26343c61d51c29b2d4f3b757108106ed264d6f68579971",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wi01-ci-stabilization.contract.json --summary .ai/work-items/active/wi01-ci-stabilization.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.720554+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "3ca63b5ff62916f588e2156dc84302025faeff3dde725598fbd27ddcf0e11a53",
+      "commandHash": "99db4ba8c418f745fda20226e199ae8bca652259a25a2b95e513c465db4259e6",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wi01-ci-stabilization.contract.json --summary .ai/work-items/active/wi01-ci-stabilization.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:27:22.952367+00:00",
+      "exitCode": 0,
+      "durationMs": 189,
+      "outputDigest": "e01f985e75e913aa6cef4cb192370d1af3fce207268059156d05fadb2d0f9513",
+      "commandHash": "e9d45d8ca8b123ebb60b555877639edcdcf462c4f6d488ffe8788ba4d14bb1c0",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wi01-ci-stabilization.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/starts/wi01"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:29:48.850934+00:00",
+      "exitCode": 0,
+      "durationMs": 145847,
+      "outputDigest": "20c09084ab610bf3e7de2ac5635b28cb0613c423f93d3f8f581c70c77661c3d8",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "73c8c44df0472c3bc5a93d4f6a335675ceb42a3f86de0084b275d7b009a8bf91",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 120 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 9%] ........................................................................ [ 19%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:29:50.154443+00:00",
+      "exitCode": 0,
+      "durationMs": 253,
+      "outputDigest": "a886646318a29b9b70c7f23b1fe3dc14202baf4251e931da99f35bd22b69d126",
+      "commandHash": "9a8bf3d35e8ee15ad49e1b56af779e790541c5f98d43ab0d9b8788de72d0c476",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "ec9213f6238287f0d9ac1ebb0e9ef248a31517d24ea954477f42d2005d54a145",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wi01-ci-stabilization.contract.json --summary .ai/work-items/active/wi01-ci-stabilization.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:29:50.427427+00:00",
+      "exitCode": 0,
+      "durationMs": 225,
+      "outputDigest": "d5cff4f74ba9ca9b005b49fcdb8dee2ad40ebaa5e12809aaf8df833938ee10ac",
+      "commandHash": "5014ecbfcf159f480b3ce7780e95402d3f1bda571eea5c8b13f59337b5ecc066",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "ec9213f6238287f0d9ac1ebb0e9ef248a31517d24ea954477f42d2005d54a145",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wi01-ci-stabilization.contract.json --summary .ai/work-items/active/wi01-ci-stabilization.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:29:50.534606+00:00",
+      "exitCode": 0,
+      "durationMs": 60,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "ec9213f6238287f0d9ac1ebb0e9ef248a31517d24ea954477f42d2005d54a145",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:29:50.632731+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "1a74d01114f614366c20a8881a27933095b385e3a87795b253873ca55c9436d4",
+      "commandHash": "83baf363ef948de9ca066fa43adbe5ee16f61ce3a80d30b8faf53bf4531ab9d8",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "ec9213f6238287f0d9ac1ebb0e9ef248a31517d24ea954477f42d2005d54a145",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wi01-ci-stabilization.contract.json --summary .ai/work-items/active/wi01-ci-stabilization.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wi01-ci-stabilization.summary.json CONTRACT=.ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T13:29:51.408442+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "98a66e2144c8025e6153dc290f1383f1e564ec6470b31cfcc095bc93e2480f78",
+      "commandHash": "f855b9b160bbe14d63f650a765534910243b340cd9da7df505c5835ee3804021",
+      "contractHash": "18e39c55691d99154a751b5c286b58174d492d2524d5b9d7d99856d88ef4d32d",
+      "commitSha": "c4afc4777a3b5d57116d1fc54d3c7bb1ab78219e",
+      "executionContractPath": ".ai/work-items/active/wi01-ci-stabilization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wi01-ci-stabilization.summary.json",
+      "worktreeDigest": "d3fc150d4e5d2b3881ff7532a1d91799c086cbd2d8409d75b1509c9d52234127",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wi01-ci-stabilization.summary.json --contract .ai/work-items/active/wi01-ci-stabilization.contract.json ai summary check passed: .ai/work-items/active/wi01-ci-stabilization.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Do not weaken the configured coverage floor.",
+      "compliant": true,
+      "evidence": "Coverage policy was not changed; tests/test_ai_onboard.py adds failure and branch coverage."
+    },
+    {
+      "guideline": "Every complexity budget increase must have a repayment record.",
+      "compliant": true,
+      "evidence": "governance_complexity_policy.yaml records wi01-ci-stabilization|pythonLines|32000|32400|governance-maintainers|2026-08-01 with WI07 repayment ownership."
+    },
+    {
+      "guideline": "Do not change Bootstrap Wizard behavior in a stabilization Work Item.",
+      "compliant": true,
+      "evidence": "Only governance measurement and existing onboarding/complexity tests changed; Bootstrap Wizard implementation is untouched."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Bounded governance and test-only stabilization; no product behavior changes."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "PR #172 must be rechecked on the stabilized base before merging the Bootstrap Wizard Work Item.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify the temporary budget increment and clean CI coverage result."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract scope and clean-CI failure evidence were reviewed before stabilization edits.",
+      "contractHash": "18e39c55691d9915",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "detail": "Bounded policy, coverage tests, and full local quality evidence were reviewed before archival.",
+      "contractHash": "18e39c55691d9915",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "knownGaps": [
+    "The dependent Bootstrap Wizard PR must be rechecked on this stabilized base before merge."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 387
+}

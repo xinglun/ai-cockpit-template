@@ -9,6 +9,23 @@ import pytest
 import check_governance_complexity
 
 
+def test_generated_current_status_is_not_persistent_markdown_complexity(monkeypatch, tmp_path):
+    generated = tmp_path / ".ai" / "cockpit" / "current_status.md"
+    persisted = tmp_path / "README.md"
+    generated.parent.mkdir(parents=True)
+    generated.write_text("generated\n" * 20, encoding="utf-8")
+    persisted.write_text("persisted\n", encoding="utf-8")
+    monkeypatch.setattr(
+        check_governance_complexity, "tracked_files", lambda _root: [generated, persisted]
+    )
+    assert (
+        check_governance_complexity.line_count(
+            check_governance_complexity.complexity_files(tmp_path, [generated, persisted]), ".md"
+        )
+        == 1
+    )
+
+
 def test_complexity_report_records_increment(monkeypatch):
     monkeypatch.setenv("AI_COMPLEXITY_BASELINE_PYTHON_LINES", "1")
     report, issues = check_governance_complexity.build_report(

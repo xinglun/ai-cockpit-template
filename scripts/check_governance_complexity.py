@@ -73,6 +73,12 @@ def line_count(paths: list[Path], suffix: str) -> int:
     return total
 
 
+def complexity_files(root: Path, paths: list[Path]) -> list[Path]:
+    """Exclude generated Cockpit status from persistent complexity budgets."""
+    generated_status = root / ".ai" / "cockpit" / "current_status.md"
+    return [path for path in paths if path != generated_status]
+
+
 def file_count(paths: list[Path], predicate: Any) -> int:
     return sum(1 for path in paths if path.is_file() and predicate(path))
 
@@ -400,11 +406,12 @@ def repayment_issues(
 
 def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[str]]:
     files = tracked_files(root)
+    measured_files = complexity_files(root, files)
     archive, archive_issues = archive_metrics(root)
     metrics = {
         "trackedFiles": len(files),
         "pythonLines": line_count(files, ".py"),
-        "markdownLines": line_count(files, ".md"),
+        "markdownLines": line_count(measured_files, ".md"),
         "pythonFiles": file_count(files, lambda path: path.suffix.lower() == ".py"),
         "markdownFiles": file_count(files, lambda path: path.suffix.lower() == ".md"),
         "governanceScripts": file_count(

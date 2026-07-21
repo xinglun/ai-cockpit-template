@@ -1,0 +1,213 @@
+{
+  "contractVersion": 2,
+  "workItemId": "execution-plan-cleanup-final-20260721",
+  "mode": "code",
+  "title": "Finalize execution plan document cleanup",
+  "baseCommit": "a44613528f2af85ad56d246472eedf236afced41",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/execution-plan-cleanup-final-20260721.contract.json",
+    ".ai/work-items/active/execution-plan-cleanup-final-20260721.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+    ,"docs/superpowers/plans/README.md",
+    "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+    "docs/superpowers/plans/2026-07-21-review-remediation.md"
+  ],
+  "outOfScope": [
+    "Deleting Work Item Contracts, Summaries, Cockpit Status, review evidence, release evidence, or design specifications.",
+    "Changing implementation, tests, release metadata, or published release assets.",
+    "Deleting historical plans or any plan with unresolved inbound references."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/README.md",
+      "reason": "Authoritative execution-plan index and retention policy."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "User-authorized serial remediation plan whose final Work Item is this cleanup."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Earlier plan already marked historical and used to verify supersession."
+    },
+    {
+      "path": ".ai/work-items/archive/2026",
+      "reason": "Archived Contracts, Summaries, PR and release evidence used for classification."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/168",
+      "reason": "Merged release-preparation PR evidence."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/releases/tag/v0.5.34",
+      "reason": "Published release evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "rawUserRequest": "继续按已授权的串行整改计划执行，完成最后的执行计划文档清理工单；每个工单都必须完成 PR、合并、ai-close-work-item、分支清理和主分支同步，直到全部任务完成。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-serial-remediation",
+    "capturedAt": "2026-07-21T00:00:00+09:00",
+    "digest": "user-authorized-plan-execution"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "document",
+    "authorityRequired": false
+  },
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_traceability"
+    ],
+    "reason": "Only status/index documentation is being updated; authoritative evidence is retained."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized serial execution through final execution-plan cleanup after release publication."
+  },
+  "preReviewWarnings": [
+    "Verify every indexed plan classification and retain all referenced audit artifacts."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The execution-plan index classifies every plan as current, completed-retained, superseded, or historical, with no broken links.",
+    "The 2026-07-21 plan records Work Items 1–17 as complete, including PR #168, release workflow 29825891328, published v0.5.34, closure, and branch cleanup evidence.",
+    "The 2026-07-20 plan remains historical and is explicitly superseded by the 2026-07-21 plan; no Contract, Summary, Status, review evidence, release evidence, or design document is deleted.",
+    "Documentation, governance, status-consistency, and full quality checks pass after cleanup."
+  ],
+  "guidelines": [
+    "Preserve audit evidence and do not delete authoritative Work Item records.",
+    "Use evidence-backed status language and preserve the enterprise security NO-GO boundary."
+  ],
+  "intent": {
+    "problem": "The repository contains several dated remediation plans, and the latest plan still describes its final cleanup as future work. Readers need one indexed, evidence-backed status view without losing historical audit records.",
+    "constraints": [
+      "Keep all Contracts, Summaries, generated status, review evidence, release evidence, and referenced design specifications.",
+      "Do not claim enterprise security, universal semantic intent detection, or unpublished release facts.",
+      "Perform this as the final Work Item and do not create another remediation item after closure."
+    ],
+    "rationale": "A small index/status update closes the documentation loop while preserving the immutable Work Item and release trail."
+  },
+  "declaredIntent": {
+    "summary": "Classify and close the repository's execution-plan documentation after the authorized remediation loop and v0.5.34 publication.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Every plan file is reachable from the index and classified without deleting audit evidence.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/README.md", "docs/superpowers/plans"]
+    },
+    {
+      "scenario": "The latest plan records actual release and Work Item closure evidence rather than future intent.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-21-review-remediation.md", ".ai/work-items/archive/2026", "https://github.com/spirex-ds-dev/ai-cockpit-template/releases/tag/v0.5.34"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "User explicitly authorized serial execution through the final execution-plan cleanup item, including PR, merge, closure, and branch cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/execution-plan-cleanup-final-20260721.json",
+    "baseCommit": "a44613528f2af85ad56d246472eedf236afced41",
+    "initialScopeDigest": "5c6f1fc9f61454b38620efbab5f5aee80a84729a2a20c0108bf750422461dfa2",
+    "contractSkeletonDigest": "28d08681c2cbc1c34b6ed58b06e219288ad3090ff0432b2fd236f84b9698834e"
+  }
+}

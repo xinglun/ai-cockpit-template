@@ -12,7 +12,7 @@ keywords:
 
 # 2026-07-20 最新评审整改执行计划（修订版）
 
-> **历史保留（2026-07-21）**：本计划的工单 1–14 已按独立 Contract、专用分支、PR、合并、归档、`ai-close-work-item` 和主分支同步流程完成。本文件仅作为审计历史保留，不再作为执行中的计划；后续工作必须创建新的独立计划和 Work Item。
+> **历史保留（2026-07-21）**：本计划已被 [2026-07-21 最新评审整改计划](2026-07-21-review-remediation.md) 替代。本文件仅作为审计历史保留，不再作为执行中的计划；后续工作必须创建新的独立计划和 Work Item。
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 

@@ -14,6 +14,8 @@ keywords:
 **Goal:** 以 2026-07-21 最新 `main`、提交 `41b5f66` 为基准，把本轮评审发现的多重事实源、双重决策语义、可伪造证据占位符和不完整 Fixture 证据收敛为可审计的串行整改闭环。
 **Architecture:** 继续保持 AI Cockpit 是 Repository Governance Layer，而不是 Agent Runtime、Sandbox、身份系统或企业合规产品。整改顺序先处理发布真相和证据根，再处理 Guard 决策模型、操作声明与实际 Diff 的一致性，随后补齐真实技术栈执行证据、复杂度偿还和正式命名；最后执行妄想/无证据声明回归、文档对齐、发布和计划清理。每个 Work Item 都独立完成 Contract → 实现 → 验证 → Summary → `ai-finish` → PR → 合并 → `ai-close-work-item` → 分支清理 → 主分支同步，完成后才进入下一个。
 **Tech Stack:** Python、pytest、Make、JSON/YAML、Markdown、GitHub PR/Release、Work Item Contract v2。
+
+> **历史保留（2026-07-21）**：本计划工单 1–17 已按独立 Contract、专用分支、PR、合并、归档、`ai-close-work-item`、分支清理和主分支同步流程全部完成。PR #168 已合并，发布工作流 `29825891328` 成功，v0.5.34 已发布；本文件仅作为审计历史保留，不再处于执行中。
 ## Global Constraints
 - 评审基准固定为 2026-07-21 的 `main` 提交 `41b5f66`；执行每个工单前重新获取远端默认分支最新提交，并在 Contract 记录 `baseRemote`、`baseBranch`、`baseCommit`。
 - 一个工单对应一个 Work Item、一个专用分支和一个 PR；不并行、不跨工单共享分支、不用本地直接合并替代 PR。
@@ -134,3 +136,11 @@ make check-ai-status-consistency
 ```
 另须运行各工单声明的项目测试、`check-release-state-consistency`、Archive Manifest 检查、Fixture 测试、Unsupported Claim Regression Gate、文档链接/术语检查和最终发布验证。所有未运行命令必须写明原因和影响。
 计划完成不改变企业级安全与合规 NO-GO，也不产生“能够识别所有未知危险意图”的产品承诺。若未来要改变该结论，必须另有可信身份、独立审批、权限控制、不可篡改审计、隔离、秘密管理和合规证据。
+
+## 六、最终执行证据
+
+- 工单 1–13：对应 Contract/Summary 已归档，PR 已合并，`ai-close-work-item` 已成功，分支已清理，main 已同步。
+- 工单 14 妄想/无证据声明回归：通过后才进入文档对齐与发布；对应归档证据为 `delusion-test-gate-final`。
+- 工单 15 文档对齐：PR #167 已合并并关闭。
+- 工单 16 发布新版本：PR #168 已合并并关闭；发布工作流 `29825891328` 成功；Release [v0.5.34](https://github.com/spirex-ds-dev/ai-cockpit-template/releases/tag/v0.5.34) 为非草稿正式发布，tag 指向合并后的 main 提交。
+- 工单 17 计划清理：本 Work Item 完成后本文件和索引均标记为历史保留；不删除 Work Item、评审、发布或设计证据，且不再创建后续整改工单。

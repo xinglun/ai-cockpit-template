@@ -24,7 +24,7 @@ keywords:
 
 | 计划 | 状态 | 说明 |
 | --- | --- | --- |
-| [2026-07-20 全面评审整改（修订版）](2026-07-20-comprehensive-review-remediation.md) | 基于 bd206fe，待按 14 个工单串行执行 | 每个工单完成 PR、归档、`ai-close-work-item`、分支清理和主分支同步后，才进入下一工单。 |
+| 无 | 已完成 | 最后一个计划清理工单已关闭；后续整改必须另立计划和 Work Item。 |
 
 ## 历史保留计划
 
@@ -35,5 +35,7 @@ keywords:
 - [2026-07-15 治理整改](2026-07-15-governance-remediation.md)
 - [2026-07-15 Supply Chain Evidence](2026-07-15-supply-chain-evidence.md)
 - [2026-07-16 Archive History Threshold](2026-07-16-decouple-archive-history-threshold.md)
+- [2026-07-20 全面评审整改（修订版）](2026-07-20-comprehensive-review-remediation.md) — 已被 2026-07-21 计划替代，保留审计历史。
+- [2026-07-21 最新评审整改](2026-07-21-review-remediation.md) — 工单 1–17 已完成，PR #168 合并，v0.5.34 已发布，最后工单已关闭。
 
 相邻的 `../specs/` 属于独立设计证据，不随计划清理删除。

@@ -1,0 +1,162 @@
+{
+  "contractVersion": 2,
+  "workItemId": "declared-vs-actual-change",
+  "mode": "code",
+  "title": "Guard declared operation against actual changes",
+  "baseCommit": "502ea01dc2c5a8fd1591948179b315471bf6ccd3",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/declared-vs-actual-change.contract.json",
+    ".ai/work-items/active/declared-vs-actual-change.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_diff_ownership.py",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_finish.py",
+    "tests/test_diff_ownership.py",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": ["Changing release behavior", "Changing unrelated operation policy mappings"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Defines declared-operation versus actual-change guard acceptance."
+    },
+    {"path": "scripts/ai_check_diff_ownership.py", "reason": "Classifies actual changed paths."},
+    {"path": "scripts/ai_trust_guards.py", "reason": "Provides declared operation signals."},
+    {"path": "tests/test_diff_ownership.py", "reason": "Existing ownership guard regression coverage."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["scope_mismatch", "fail_closed"],
+    "reason": "Adds deterministic mismatch detection between declared operation and actual diff paths."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Declared-versus-actual path classification is deterministic."
+  },
+  "preReviewWarnings": [
+    "Verify document-only declarations cannot cover runtime code changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Declared document effects fail closed when runtime code paths are changed.",
+    "Domain, environment, authority, and side-effect mismatches produce structured signals.",
+    "Legal documentation, tests, and sandbox mock changes remain allowed.",
+    "Tests and Trust Layer documentation describe the actual-diff evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "rawUserRequest": "执行评审整改计划工单 6：让声明操作与实际 Diff 分类一致，继续循环执行直到全部工单完成。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21-continue-remediation", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Reject declared operation semantics that do not match actual changed paths.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "intent": {
+    "problem": "A safe declared operation can currently obscure a dangerous actual diff classification.",
+    "constraints": ["Fail closed on runtime/domain mismatches.", "Preserve legal documentation and test-only changes.", "Use concrete diff evidence, not chat claims."],
+    "rationale": "Compare declared operation semantics with actual changed paths before finish and PR gates."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Document effect with runtime code diff", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]},
+    {"scenario": "Legal documentation-only diff", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]},
+    {"scenario": "Domain or environment mismatch", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]},
+    {"scenario": "Sandbox test/mock diff", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "The user explicitly authorized the complete serial remediation plan."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/declared-vs-actual-change.json",
+    "baseCommit": "502ea01dc2c5a8fd1591948179b315471bf6ccd3",
+    "initialScopeDigest": "061136784d69ffa67ee363486a2b0caf655e2a617b31e0d0cd1ac69a29d4a238",
+    "contractSkeletonDigest": "f86bc6690642c5e136dd8b04d227354f4f28bb4d0dc94c0bcd8e361f9a25e765"
+  }
+}

@@ -266,4 +266,4 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 - [設計思想](docs/design-philosophy.md)
 - [ケーススタディ: AI rollback corruption](docs/case-study-ai-rollback-corruption.md)
 - [各言語のサンプル](examples/)
-既知リスク Guard は宣言された危険パターンを決定的に扱うもので、有限な回帰テストは未知の意味的リスクをすべて検出する証明ではありません。Work Item は Contract/Preflight、実装と検証、Summary/アーカイブ、PR、マージ、ブランチ清掃の完全なライフサイクルを通過します。
+既知リスク Guard は宣言された危険パターンを決定的に扱うもので、有限な回帰テストは未知の意味的リスクをすべて検出する証明ではありません。Work Item は、最新のリモート基盤 → 専用ブランチ → Contract/Preflight → 実装と検証 → Summary/アーカイブ → push → PR → merge → `make ai-close-work-item` → base 同期とブランチ清掃、という完全なライフサイクルを通過します。

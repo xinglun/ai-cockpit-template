@@ -1,0 +1,226 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wi13-documentation-alignment",
+  "mode": "code",
+  "title": "Final Documentation Alignment",
+  "baseCommit": "dc8cf38447de30dfcad8094b99299e000cd75938",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/wi13-documentation-alignment.contract.json",
+    ".ai/work-items/active/wi13-documentation-alignment.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/trust-layer.md",
+    "docs/architecture.md",
+    "docs/architecture.ja.md",
+    "docs/configuration.md",
+    "docs/configuration.ja.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/upgrade.md",
+    "docs/reference/upgrade.ja.md",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    "docs/enterprise-security-boundary.md",
+    "docs/fixtures/real-fixture-evidence.md",
+    "docs/fixtures/real-fixture-evidence.ja.md",
+    ".ai/guards/*.yaml"
+  ],
+  "outOfScope": [
+    "Application/runtime behavior and tests unrelated to documentation facts.",
+    "Release tag creation and provider publication; reserved for WI14.",
+    "Deletion of historical evidence or execution-plan records; reserved for WI15."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+      "reason": "Defines WI13 documentation alignment scope and serial lifecycle requirements."
+    },
+    {
+      "path": "README.md",
+      "reason": "Canonical English product boundary, lifecycle, installation, and release claims."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Chinese counterpart requiring lifecycle and boundary parity."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Japanese counterpart requiring lifecycle and boundary parity."
+    },
+    {
+      "path": "docs/reference/repository-workflow.md",
+      "reason": "Canonical branch, PR, merge, and closure procedure."
+    },
+    {
+      "path": "docs/reference/repository-workflow.ja.md",
+      "reason": "Japanese workflow procedure."
+    },
+    {
+      "path": "docs/trust-layer.md",
+      "reason": "Trust boundary and finite negative-test coverage claims."
+    },
+    {
+      "path": "docs/enterprise-security-boundary.md",
+      "reason": "Explicit enterprise-security and compliance NO-GO boundary."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Published release/tag/provider evidence facts."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Japanese distribution and release facts."
+    },
+    {
+      "path": "docs/fixtures/real-fixture-evidence.md",
+      "reason": "Fixture execution versus not_run/not_claimed evidence boundary."
+    },
+    {
+      "path": "docs/fixtures/real-fixture-evidence.ja.md",
+      "reason": "Japanese fixture evidence boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["documentation_drift", "localization_drift"],
+    "reason": "Changes are limited to factual documentation alignment; no runtime behavior or evidence deletion is in scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorization covers documentation alignment, verification, PR/merge, closure, and branch cleanup."
+  },
+  "preReviewWarnings": [
+    "Review canonical lifecycle ordering, English/Chinese/Japanese parity, valid command/path references, release evidence wording, finite negative-test claims, and enterprise-security NO-GO wording."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All targeted documentation states the canonical Work Item lifecycle through ai-close-work-item and branch/base synchronization.",
+    "English, Chinese, and Japanese user-facing guidance uses aligned product, release, fixture, and enterprise-boundary facts.",
+    "Commands, paths, guard names, release tags, and not_run/not_claimed claims are checked against the repository.",
+    "Documentation metadata and repository quality checks pass; no evidence files are deleted."
+  ],
+  "guidelines": [
+    "Documentation changes remain within the declared documentation, guard-reference, and Work Item evidence scope.",
+    "Do not claim enterprise assurance, trusted identity, sandbox isolation, or provider release evidence from local repository records.",
+    "Use the lifecycle fact source and existing command names as the documentation authority."
+  ],
+  "intent": {
+    "problem": "WI01-WI12 added bootstrap, adoption, complexity, lifecycle facts, cross-stack validation, and delusion gates, but the documentation set must be checked for stale or contradictory workflow and boundary wording before release.",
+    "constraints": ["Keep changes documentation-only except Work Item evidence and generated status required by the governed workflow.", "Preserve enterprise-security and compliance NO-GO language.", "Keep documented not_run and not_claimed states explicit.", "Do not delete historical evidence."],
+    "rationale": "A focused cross-language documentation alignment pass prevents the release from advertising behavior or assurance that the implementation does not provide."
+  },
+  "rawUserRequest": "先走完当前文档的流程。用户已授权按计划逐工单执行，包含修改代码、测试、文档、PR、合并、ai-close-work-item、分支清理；妄想测试失败继续修改。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-plan-execution", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Align the repository's current English, Chinese, and Japanese documentation with the implemented lifecycle, trust, release, fixture, and guard facts.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "canonical Work Item branch/PR/merge/ai-close-work-item lifecycle is documented", "required": true, "status": "verified", "evidence": ["README.md", "docs/reference/repository-workflow.md"]},
+    {"scenario": "English, Chinese, and Japanese boundary/release/fixture wording is aligned", "required": true, "status": "verified", "evidence": ["README.md", "README.zh-CN.md", "README.ja.md"]},
+    {"scenario": "finite guard coverage and not_run/not_claimed enterprise boundary remain explicit", "required": true, "status": "verified", "evidence": ["docs/trust-layer.md", "docs/enterprise-security-boundary.md", "docs/fixtures/real-fixture-evidence.md"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-serial-remediation",
+    "reason": "The user explicitly authorized documentation, governance records, verification, PR/merge, ai-close-work-item, branch cleanup, release, and plan cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/wi13-documentation-alignment.json",
+    "baseCommit": "dc8cf38447de30dfcad8094b99299e000cd75938",
+    "initialScopeDigest": "43d3de4e2905a88c155831d896c87de052d198f8c4c51d3691dc9cd11db23cba",
+    "contractSkeletonDigest": "c262414d86bc728d31649634eb59fc1e04492efe9ea2d1da2ab28b1aa26fa77f"
+  }
+}

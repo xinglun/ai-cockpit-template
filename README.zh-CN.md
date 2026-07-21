@@ -50,7 +50,7 @@ Calibrated trust（校准信任）不意味着最大化对 agent 的信任，而
 
 其哲学是 **Evidence over Self-Declaration（证据优于自我声明）**。其机制是 **Evidence Governance**：AI Cockpit 创建治理记录、评估委派证据，并将两者压缩为 Human Decision State。
 
-AI Cockpit 是写入后的差分治理流程，不是文件系统权限边界或安全沙箱。它通过显式 scope、委派式 checks、review 证据和可审计的任务记录来提供 AI Change Governance。
+AI Cockpit 是写入后的差分治理流程，不是文件系统权限边界或安全沙箱。它通过显式 scope、委派式 checks、review 证据和可审计的任务记录来提供 AI Change Governance。Work Item 的完整流程是：最新远端基线 → 专用分支 → Contract/Preflight → 实现与检查 → Summary/归档 → push → PR → merge → `make ai-close-work-item` → 同步干净基线并清理分支。
 
 AI Cockpit 提供：
 

@@ -62,7 +62,7 @@ AI Cockpit does not replace agents like Claude Code, Codex, Cursor, or Gemini CL
 
 AI Cockpit checks diffs after writes; it is not a filesystem permission boundary or security sandbox.
 
-Its known-risk guards provide deterministic coverage for declared dangerous patterns and fail closed when evidence is missing or contradictory; finite regression tests are not universal semantic-risk detection. Work Items follow the governed lifecycle: Contract and Preflight → implementation and checks → Summary/archive → PR → merge → branch cleanup. Release evidence remains separate from repository-local governance evidence.
+Its known-risk guards provide deterministic coverage for declared dangerous patterns and fail closed when evidence is missing or contradictory; finite regression tests are not universal semantic-risk detection. Work Items follow the governed lifecycle: latest remote base → dedicated branch → Contract/Preflight → implementation and checks → Summary/archive → push → PR → merge → `make ai-close-work-item` → synchronized clean base and branch cleanup. Release evidence remains separate from repository-local governance evidence.
 
 AI Cockpit governs evidence; it does not replace evidence-producing tools. The Native Governance Evidence / Delegated Domain Evidence model and release boundary are defined in [Design Philosophy](docs/philosophy/design-philosophy.md).
 

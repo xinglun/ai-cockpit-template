@@ -91,7 +91,10 @@ project-test:
 	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85
 	$(AI_PYTHON) scripts/check_critical_coverage.py
 
-test: project-test unsupported-claim-regression
+test: project-test unsupported-claim-regression adopter-long-cycle
+
+adopter-long-cycle:
+	$(AI_PYTHON) scripts/external_adopter_long_cycle.py
 
 unsupported-claim-regression:
 	$(AI_PYTHON) scripts/unsupported_claim_gate.py
@@ -175,7 +178,7 @@ check-ai-project-profile:
 check-ai-guard-calibration: check-ai-project-profile
 	$(AI_PYTHON) scripts/ai_check_guard_calibration.py --root .
 
-quality: project-format-check project-test unsupported-claim-regression project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning check-dependency-vulnerabilities check-trust-schemas check-trust-guards check-critical-domain-guards check-decision-protocol check-baseline-evidence
+quality: project-format-check project-test unsupported-claim-regression adopter-long-cycle project-lint diff-check check-docs-metadata check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration check-ai-status-consistency check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning check-dependency-vulnerabilities check-trust-schemas check-trust-guards check-critical-domain-guards check-decision-protocol check-baseline-evidence
 
 ai-cockpit-project-format-check: project-format-check
 

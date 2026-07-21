@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "external-adopter-long-cycle-validation",
+  "mode": "code",
+  "title": "Validate external adopter repository over a long cycle",
+  "baseCommit": "6cf213df210e05d4f725c48d6aec32116a99af91",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/external-adopter-long-cycle-validation.contract.json",
+    ".ai/work-items/active/external-adopter-long-cycle-validation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/external_adopter_long_cycle.py",
+    "tests/test_external_adopter_long_cycle.py",
+    "docs/reference/adopter-long-cycle-validation.md",
+    "Makefile",
+    ".ai/cockpit/bandit_low_risk_baseline.json"
+  ],
+  "outOfScope": [
+    "Enterprise identity, permissions, audit immutability, or compliance certification.",
+    "Publishing to an external adopter repository or claiming provider-hosted evidence.",
+    "Changing installation semantics for real adopters."
+  ],
+  "sources": [
+    {
+      "path": "scripts/external_adopter_long_cycle.py",
+      "reason": "Deterministic isolated adopter repository lifecycle harness."
+    },
+    {
+      "path": "tests/test_external_adopter_long_cycle.py",
+      "reason": "Lifecycle, upgrade, rollback, PR, and cleanup regression coverage."
+    },
+    {
+      "path": "docs/reference/adopter-long-cycle-validation.md",
+      "reason": "Evidence boundary and independent repository validation guidance."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-21-review-remediation.md",
+      "reason": "Authorized Work Item 13 acceptance."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "adopter_validation"
+    ],
+    "reason": "A local isolated Git repository provides deterministic long-cycle evidence without external provider claims."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial execution and this is bounded repository validation."
+  },
+  "preReviewWarnings": [
+    "Review that the harness evidence is independent-worktree evidence and is not presented as enterprise assurance."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "An isolated Git adopter repository and independent worktree execute install, upgrade, rollback, PR, merge, and branch cleanup lifecycle steps.",
+    "Evidence records default branch, remote, baseline commit, PR/merge, and cleanup results with no fabricated provider evidence.",
+    "Tests cover successful lifecycle and fail-closed cleanup or missing evidence cases.",
+    "Documentation states the boundary between controlled adopter validation and enterprise identity, authorization, audit, or compliance claims."
+  ],
+  "guidelines": [
+    "Keep lifecycle evidence deterministic, local, and reproducible.",
+    "Never present a controlled fixture as an enterprise assurance or external-provider result.",
+    "Fail closed when required Git lifecycle evidence is missing."
+  ],
+  "intent": {
+    "problem": "The repository has fixture evidence but lacks a long-cycle adopter validation that proves installation, upgrade, rollback, PR, and cleanup evidence in an independent Git repository.",
+    "constraints": [
+      "Use a temporary isolated repository and worktree; do not mutate external repositories.",
+      "Record observable local Git evidence only.",
+      "Keep enterprise identity, permissions, audit, and compliance claims explicitly out of scope."
+    ],
+    "rationale": "A reproducible local adopter harness makes the template lifecycle boundary testable while keeping unsupported enterprise claims fail closed."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "independent repository install and baseline commit", "required": true, "status": "verified", "evidence": ["tests/test_external_adopter_long_cycle.py"]},
+    {"scenario": "upgrade and rollback in an independent worktree", "required": true, "status": "verified", "evidence": ["tests/test_external_adopter_long_cycle.py"]},
+    {"scenario": "PR merge and local/remote branch cleanup evidence", "required": true, "status": "verified", "evidence": ["tests/test_external_adopter_long_cycle.py"]}
+  ],
+  "rawUserRequest": "继续，循环到所有任务全部完成，中途不要停。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized serial remediation execution", "capturedAt": "2026-07-21T18:40:00+09:00", "digest": "sha256:3a5fcead747b3c22381bc0d6a49601f4f21e5a0f34a7b6c0a8c0c2a490d4f1e1"},
+  "declaredIntent": {"summary": "Validate a local adopter repository over an independent long lifecycle.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized continuous execution of the serial remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/external-adopter-long-cycle-validation.json",
+    "baseCommit": "6cf213df210e05d4f725c48d6aec32116a99af91",
+    "initialScopeDigest": "2ffc44aac0b9696943cc2f7855c6363bef000749a13b4bc84b525ff6291f0f64",
+    "contractSkeletonDigest": "131d3d8eb7e78d78685c3049527790af487849fc59b70c2a114633687cf444cf"
+  }
+}

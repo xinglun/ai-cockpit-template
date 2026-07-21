@@ -1,0 +1,172 @@
+{
+  "contractVersion": 2,
+  "workItemId": "unsupported-claim-regression-gate",
+  "mode": "code",
+  "title": "Add Unsupported Claim Regression Gate",
+  "baseCommit": "4f020a71b79271b256c81759aee1243a37c91c11",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/unsupported-claim-regression-gate.contract.json",
+    ".ai/work-items/active/unsupported-claim-regression-gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+    ,"scripts/unsupported_claim_gate.py"
+    ,"tests/test_unsupported_claim_regression.py"
+    ,"docs/trust-layer.md"
+    ,"Makefile"
+  ],
+  "outOfScope": ["Universal semantic understanding or LLM-internal state detection.", "Changing critical-domain policy semantics."],
+  "sources": [
+    {
+      "path": "tests/test_delusion_scenarios.py",
+      "reason": "Existing known-risk scenario coverage to preserve while formalizing the gate name."
+    },
+    {"path": "scripts/ai_trust_guards.py", "reason": "Existing evidence and trust signal boundary."},
+    {"path": "scripts/ai_critical_domain_guards.py", "reason": "Existing fail-closed policy boundary."},
+    {"path": "docs/trust-layer.md", "reason": "Trust Layer evidence and non-goal terminology."},
+    {"path": "Makefile", "reason": "Repository quality and CI entrypoints."},
+    {"path": "docs/superpowers/plans/2026-07-21-review-remediation.md", "reason": "Authorized Work Item 11 acceptance."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "known_risk_regression"
+    ],
+    "reason": "Deterministic local evidence gate with explicit semantic coverage limits."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the serial remediation plan and this is a local regression gate."
+  },
+  "preReviewWarnings": [
+    "Review that the gate detects unsupported external claims, not internal model state, and preserves the known-risk boundary."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Formal naming uses Unsupported Claim Regression Gate while Delusion remains only a compatibility/demo alias.",
+    "The gate blocks six unsupported-claim scenarios and allows an evidence-backed claim.",
+    "Every result records state, reason, evidence, resume condition, and policy reference.",
+    "The Make quality path runs the enforced gate and documentation states its limits."
+  ],
+  "guidelines": [
+    "Use evidence-backed external claim terminology; never claim LLM-internal detection.",
+    "Keep the regression gate deterministic, local, and fail-closed."
+  ],
+  "intent": {
+    "problem": "The existing regression suite uses Delusion terminology and does not provide a dedicated executable gate for unsupported external claims.",
+    "constraints": ["Do not change critical-domain policy semantics.", "Do not infer universal multilingual or internal-model behavior."],
+    "rationale": "A deterministic evidence evaluator and enforced Make target make unsupported claims reviewable without overstating what the repository can detect."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "confident claim without evidence", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "not_run check claimed as passed", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "inference presented as fact", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "missing file cited as evidence", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "approval claimed without decision evidence", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "simulation presented as real result", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]}
+  ],
+  "rawUserRequest": "继续，循环到所有任务全部完成，中途不要停。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21-continue-remediation", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-serial-remediation"},
+  "declaredIntent": {"summary": "Formalize the unsupported external claim regression gate and preserve known-risk boundaries.", "requestedCapabilities": ["ai_governance", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the serial remediation plan and full Work Item lifecycle."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/unsupported-claim-regression-gate.json",
+    "baseCommit": "4f020a71b79271b256c81759aee1243a37c91c11",
+    "initialScopeDigest": "c6d46289f15b1cb1e639ec12dcd56febac01339769ef0fcfa128358a6ee0da7d",
+    "contractSkeletonDigest": "92b7c9ec0e6fcab1c459d031387984db2d34ad64a64e9fcefc4becaad5a3ea31"
+  }
+}

@@ -13,6 +13,8 @@ keywords:
 
 AI Cockpit's Trust Layer answers one operational question: **does the available evidence support continuing, or must the agent stop?** It governs repository changes; it does not grant an agent authority to deploy, approve itself, or replace security and quality tools.
 
+The formal regression entrypoint is the **Unsupported Claim Regression Gate** (`make unsupported-claim-regression`). It blocks claims with missing evidence, `not_run` checks described as passed, inference presented as fact, nonexistent files, unsupported approval claims, and simulation presented as real execution. A claim backed by an existing structured evidence file may pass. This gate evaluates external repository claims; it does not detect an LLM's internal state or provide universal semantic coverage. “Delusion” is retained only as a legacy/demo label.
+
 ## What is evidence?
 
 Evidence is a reviewable record produced by a repository or an independent verification tool: a Contract, a diff, a test result, a coverage report, a baseline comparison, a signed platform review, or an archived Summary. An agent explanation can help a reviewer understand a result, but it is not evidence by itself. A screenshot, a chat assertion, or a self-declared approval is likewise not an independent authorization.

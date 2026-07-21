@@ -16,6 +16,7 @@ STATES = {"development", "candidate_prepared", "candidate_verified", "release_pu
 TAG_PATTERN = re.compile(r"^v\d+\.\d+\.\d+$")
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 DIGEST_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+EVIDENCE_STATUSES = {"not_started", "pending_provider_assets", "verified", "published"}
 
 
 def load_object(path: Path, label: str, issues: list[str]) -> dict[str, Any]:
@@ -58,8 +59,25 @@ def check_repository(root: Path) -> list[str]:
     previous = state.get("previousRelease")
     if not isinstance(previous, str) or not TAG_PATTERN.fullmatch(previous):
         issues.append("release-state.json previousRelease must be a semantic version tag")
-    if "evidenceBundleDigest" not in state:
-        issues.append("release-state.json evidenceBundleDigest is required")
+    evidence_status = state.get("evidenceStatus")
+    if evidence_status not in EVIDENCE_STATUSES:
+        issues.append(
+            f"release-state.json evidenceStatus must be one of {sorted(EVIDENCE_STATUSES)}"
+        )
+    evidence_digest = state.get("evidenceBundleDigest")
+    expected_status = {
+        "development": "not_started",
+        "candidate_prepared": "pending_provider_assets",
+        "candidate_verified": "verified",
+        "release_published": "published",
+    }.get(state_name if isinstance(state_name, str) else "")
+    digest_valid = isinstance(evidence_digest, str) and DIGEST_PATTERN.fullmatch(evidence_digest)
+    if state_name in {"development", "candidate_prepared"}:
+        if evidence_status != expected_status or evidence_digest is not None:
+            issues.append(f"{state_name} must have {expected_status} evidence and null digest")
+    elif state_name in {"candidate_verified", "release_published"}:
+        if evidence_status != expected_status or not digest_valid:
+            issues.append(f"{state_name} must have {expected_status} evidence and a SHA-256 digest")
 
     published_tag = published.get("releaseTag")
     candidate_tag = candidate.get("releaseTag")

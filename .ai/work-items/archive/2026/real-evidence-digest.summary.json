@@ -1,0 +1,421 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "real-evidence-digest",
+  "contractPath": ".ai/work-items/archive/2026/real-evidence-digest.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/real-evidence-digest.contract.json",
+      "reason": "Defined digest status, state transitions, and provider-evidence boundaries."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/real-evidence-digest.summary.json",
+      "reason": "Records implementation and verification evidence."
+    },
+    {
+      "path": ".ai/work-items/starts/real-evidence-digest.json",
+      "reason": "Generated Work Item start receipt."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated cockpit status during governed execution."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Keeps the explicit complexity budget sufficient for the bounded validator change."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive index update during lifecycle closure."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Replaced prose evidence placeholder with explicit pending status and null digest."
+    },
+    {
+      "path": "scripts/check_release_state_consistency.py",
+      "reason": "Enforces state-specific evidence status and real SHA-256 digest rules."
+    },
+    {
+      "path": "tests/test_release_state_consistency.py",
+      "reason": "Adds regressions for prepared null evidence, verified placeholders, and valid digests."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Existing release behavior remains covered by the full targeted suite."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Computes a cryptographic digest over generated release evidence before promotion."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documents evidenceStatus and digest semantics in English."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Documents evidenceStatus and digest semantics in Japanese."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/real-evidence-digest.contract.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "release-state.json",
+    "scripts/check_release_state_consistency.py",
+    ".github/workflows/release.yml",
+    "tests/test_release_state_consistency.py",
+    "tests/test_release_distribution.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:37.550670+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "b9238334574f5ce88c17139a54af1be8df5ceb0e02636402a449b2076445ba9f",
+      "commandHash": "fa02abfb67284039635f734e997e1adae8de74f176c2aed58e467406f5bf49ef",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/real-evidence-digest.contract.json work item contract check passed: .ai/work-items/active/real-evidence-digest.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:37.672264+00:00",
+      "exitCode": 0,
+      "durationMs": 78,
+      "outputDigest": "486102c08729cf5d9ddfdc78afa4646642d334485f4108c3a421b8de909ddff6",
+      "commandHash": "ecbba8fbd5a60897c633ecd87c2ed201e8998310892154a0583f5dbaa1cf92cb",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/real-evidence-digest.contract.json scope guard passed: 9 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:37.823109+00:00",
+      "exitCode": 0,
+      "durationMs": 105,
+      "outputDigest": "4609513357c5388d98702cd530bd238a4606f9d3914341d90824882ea6ef61d9",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/real-evidence-digest.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 2 warning(s) report: target/ai_guard_report.jso"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.015709+00:00",
+      "exitCode": 0,
+      "durationMs": 153,
+      "outputDigest": "1707919b48cc14e8dc108dc052f2c34be1866ca79d9115fd9c7b87e1a961dc4a",
+      "commandHash": "069c1341eecf9c7f03ae8c766cf1a9426034d03ad96331ad40d4c36a1cc49a0b",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/real-evidence-digest.contract.json --summary .ai/work-items/active/real-evidence-digest.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `real-evidence-digest` - Contract Hash: `0aaa58e84cbaa42c` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks: `16` - Required C"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.144370+00:00",
+      "exitCode": 0,
+      "durationMs": 87,
+      "outputDigest": "886a8bedf27acbd08d2a7597782adcb14cccf70843e4ad4688881a763f0b8020",
+      "commandHash": "3a56f674f9aac90f400a45f046805df7ac85df636cd413c05155cfa5d550f8b7",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/real-evidence-digest.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/real-evidence-digest.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] .github/workflows/release.yml review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.283876+00:00",
+      "exitCode": 0,
+      "durationMs": 83,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.420488+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.526953+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "8bc56c77524995d9a8882e6ba4872ff06f9273c43360b1228300d6f9942b5979",
+      "commandHash": "81ab9a891a89774ab1b0147cfeaa2ab64306b1bdf00beb5d916143fe22c96cd4",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/real-evidence-digest.contract.json --summary .ai/work-items/active/real-evidence-digest.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.626787+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "b5e780566535d1813e4adfcac39ee29f1c5c28129e2fa2c338357dac352abc04",
+      "commandHash": "2689b89ed4d53ed95091e5b7dceabe8499b682fb02e49cef5e3455e89e207fae",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/real-evidence-digest.contract.json --summary .ai/work-items/active/real-evidence-digest.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:10:38.835255+00:00",
+      "exitCode": 0,
+      "durationMs": 171,
+      "outputDigest": "a627e4fa18eda08fc48e1d56c1c885e750571e9dd61e73fd357e6f2cb8e90827",
+      "commandHash": "51cd64c2108a5a1a72b3ac121bcf3bcc43429260347e262d94b1c544f7f1ba19",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/real-evidence-digest.contract.json ## Diff Ownership Preview - active_owned: `9`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/starts/real-"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:12:41.087289+00:00",
+      "exitCode": 0,
+      "durationMs": 122070,
+      "outputDigest": "8df3510091978746b3754a89cb05b98988c2cd3c1d930428d88a5cb2d085897e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "8a7a36e1767bf54d6e053b408242bfe336e7df364a1eebd02eb9dc76544b7aea",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 114 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 10%] ........................................................................ [ 20%] ............................................................"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:12:42.474415+00:00",
+      "exitCode": 0,
+      "durationMs": 200,
+      "outputDigest": "5a36649992b2bba723e4e210ad3153c2f5f85ca2d07c10f06a041abe3a4b6479",
+      "commandHash": "a27538267356948f650d7edae04ca810997c9a14307433dbd698940822d3cf76",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "881fed692cd6229590fe2764a20d818446e969c5c2ac7022f3c2324fcf53068a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/real-evidence-digest.contract.json --summary .ai/work-items/active/real-evidence-digest.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:12:42.695592+00:00",
+      "exitCode": 0,
+      "durationMs": 180,
+      "outputDigest": "7737398692f453cfc34ed54abb9569037d4f89f6ec4acd312f70164042118138",
+      "commandHash": "409990b44d6c78b532c76c98400f0eae59786fc93ab1bbb5945e666764973543",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "881fed692cd6229590fe2764a20d818446e969c5c2ac7022f3c2324fcf53068a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/real-evidence-digest.contract.json --summary .ai/work-items/active/real-evidence-digest.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:12:42.776376+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "881fed692cd6229590fe2764a20d818446e969c5c2ac7022f3c2324fcf53068a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:12:42.867213+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "30153a81fcab60409adbf46a10c8cebf926706d14e5e4f74a8e2f5043e56780f",
+      "commandHash": "73dc6482e9201f89dc62f98ad7cf8ea1d3b32d89028c6a5d1dfa3825b06f2e4d",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "881fed692cd6229590fe2764a20d818446e969c5c2ac7022f3c2324fcf53068a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/real-evidence-digest.contract.json --summary .ai/work-items/active/real-evidence-digest.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/real-evidence-digest.summary.json CONTRACT=.ai/work-items/active/real-evidence-digest.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T05:12:43.568908+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "d0d96d657ffffe4b14880dca3a6557031894eb081630e59b02b4b9d37ef95ccc",
+      "commandHash": "40dece699f271874e49d20b71ad20cfff00ded019929dc4c3a0cb0d253a4742a",
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "commitSha": "b88127e69454813173351961e1e0dfb703620b41",
+      "executionContractPath": ".ai/work-items/active/real-evidence-digest.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/real-evidence-digest.summary.json",
+      "worktreeDigest": "0b85701e77125913b50d67229bfef1f2ff49217b6f3f23fe39fe7c85edf31e56",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/real-evidence-digest.summary.json --contract .ai/work-items/active/real-evidence-digest.contract.json ai summary check passed: .ai/work-items/active/real-evidence-digest.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Digest status and validation behavior are documented in English and Japanese distribution references."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The validator remains standard-library-only and workflow changes do not add internal imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Prepared candidates remain explicitly unverified; verified and published states cannot carry prose or missing digests."
+  },
+  "generatedFiles": [
+    ".ai/work-items/starts/real-evidence-digest.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "provider-assets",
+      "detail": "Final provider asset publication and external evidence authority remain covered by the release workflow and later release work item.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify prepared-state null semantics.",
+      "Verify generated evidence bundle digest is computed before promotion."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "updated_docs",
+    "persistence": "release_metadata_validated",
+    "localization": "updated",
+    "generatedArtifacts": "evidence-bundle-digest.txt",
+    "makeEntrypoints": "existing_target"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "recordedAt": "2026-07-21",
+      "evidence": "Preflight reached ready before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "0aaa58e84cbaa42cd4366397e433967f6a7c6f88b8d94d7dc84023e05dd1c1db",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "recordedAt": "2026-07-21",
+      "evidence": "Targeted release-state and workflow tests passed; full finish checks remain pending."
+    }
+  ],
+  "knownGaps": [
+    "Provider asset publication remains an external release operation and is not claimed by this Work Item."
+  ],
+  "overclaimPrevention": "Do not report verified or published evidence until a real SHA-256 bundle digest is generated and bound to provider evidence.",
+  "archiveSequence": 370
+}

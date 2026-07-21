@@ -62,6 +62,8 @@ V2.6.5 では Preflight Review を追加します。原則は **Evidence over Se
 
 `current_status.md` は生成物です。手編集しないでください。
 
+Complexity Policy の変更も同じ境界に従います。提案は policy state が明示的に `confirmed` となり、レビュー証拠が揃うまで有効化しません。予算増加には返済記録を必須とし、記録の欠落や古さは Allow ではなく blocking として扱います。
+
 ## 初回導入のショートカット
 
 インストール後の設定は、個別コマンドの羅列ではなく次の 3 フェーズに整理できます。

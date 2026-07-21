@@ -63,6 +63,8 @@ $(PYTHON) scripts/ai_preflight_review.py --contract .ai/work-items/active/<task>
 
 The evidence is accepted only when its Work Item, Contract Hash, Decision ID, and Preflight Hash match the current report. After recording it, rerun Preflight; `human_decision_recorded` is still paused, and only a newly recomputed `ready` report permits implementation or finish. Missing, stale, or mismatched evidence causes the Gate to fail closed. Advisory compatibility is opt-in and must be visible in the selected policy.
 
+Complexity policy changes follow the same boundary: a proposal remains inactive until its policy state is explicitly `confirmed` with review evidence. Every budget increase must include a repayment record; a missing or stale record is a blocking signal, not an allow result.
+
 ## Core Files
 
 - `checks.yaml`: check catalog and project-specific command selection guidance.

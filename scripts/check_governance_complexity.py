@@ -444,6 +444,19 @@ def baseline_evidence(root: Path) -> dict[str, dict[str, str]]:
     return {"adoption": adoption, "active": active, "workItem": work_item}
 
 
+def policy_activation(policy_path: Path) -> dict[str, str]:
+    """Expose whether a complexity policy is proposed or explicitly confirmed."""
+    raw = parse_yaml(policy_path)
+    proposal = raw.get("proposal", {}) if isinstance(raw, dict) else {}
+    if not isinstance(proposal, dict) or proposal.get("status") not in {"proposed", "confirmed"}:
+        return {"status": "unavailable", "reason": "Policy activation state is not declared."}
+    result = {"status": str(proposal["status"])}
+    for key in ("confirmedBy", "reason", "contractHash", "preflightHash"):
+        if proposal.get(key):
+            result[key] = str(proposal[key])
+    return result
+
+
 def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[str]]:
     files = tracked_files(root)
     measured_files = complexity_files(root, files)
@@ -484,6 +497,7 @@ def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[st
             },
         },
         "baselineEvidence": baseline_evidence(root),
+        "policyActivation": policy_activation(policy_path),
         "classification": {
             "historicalDebt": {
                 "status": "unavailable",

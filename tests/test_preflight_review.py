@@ -86,6 +86,20 @@ def test_ready_contract_derives_ready_preflight_review(tmp_path):
     )
 
     assert report["status"] == "ready"
+
+
+def test_preflight_signals_expose_shared_protocol_envelope(tmp_path):
+    contract = ready_contract()
+    path = tmp_path / "task.contract.json"
+    write_contract(path, contract)
+    report = ai_preflight_review.derive_report(
+        contract, contract_path=path, policy_path=Path("/tmp/preflight_review_policy.yaml")
+    )
+    signal = next(item for item in report["signals"] if item["name"] == "Capability")
+    assert signal["signalId"] == "guard.capability"
+    assert signal["state"] == "allow"
+    assert signal["confidence"] == "deterministic"
+    assert signal["safeAlternatives"] == []
     assert signal_map(report) == {
         "Raw Request": "Not Applicable",
         "Intent Capability": "Not Applicable",

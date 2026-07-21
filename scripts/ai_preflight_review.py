@@ -63,6 +63,33 @@ class Signal:
     value: str
     evidence: list[str]
     sources: list[str]
+    signalId: str | None = None
+    state: str | None = None
+    confidence: str = "deterministic"
+    policyReference: str | None = None
+    humanDecisionAllowed: bool = False
+    safeAlternatives: list[str] | None = None
+
+    def __post_init__(self) -> None:
+        state = {
+            "Ready": "allow",
+            "Partial": "defer",
+            "Missing": "block",
+            "Inconsistent": "block",
+            "Not Applicable": "not_applicable",
+        }.get(self.value, "defer")
+        if self.signalId is None:
+            object.__setattr__(self, "signalId", f"preflight.{self.name.lower().replace(' ', '_')}")
+        if self.state is None:
+            object.__setattr__(self, "state", state)
+        if self.policyReference is None:
+            object.__setattr__(
+                self,
+                "policyReference",
+                self.sources[0] if self.sources else "preflight.default",
+            )
+        if self.safeAlternatives is None:
+            object.__setattr__(self, "safeAlternatives", [])
 
 
 def _dict(value: Any) -> dict[str, Any]:

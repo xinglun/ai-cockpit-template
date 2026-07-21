@@ -69,6 +69,16 @@ def test_success_criteria_are_complete_for_task():
     assert result["value"] == "Ready"
 
 
+def test_guard_signal_has_shared_protocol_envelope():
+    result = ai_trust_guards.capability_signal(contract())
+    assert result["signalId"] == "guard.capability"
+    assert result["state"] == "allow"
+    assert result["confidence"] == "deterministic"
+    assert result["policyReference"]
+    assert result["humanDecisionAllowed"] is False
+    assert result["safeAlternatives"] == []
+
+
 def test_task_owned_success_criteria_is_preferred(tmp_path):
     value = copy.deepcopy(contract())
     value["workItemId"] = "task_owned"

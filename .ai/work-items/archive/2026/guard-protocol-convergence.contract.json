@@ -1,0 +1,172 @@
+{
+  "contractVersion": 2,
+  "workItemId": "guard-protocol-convergence",
+  "mode": "code",
+  "title": "Converge Guard signal protocol and lifecycle gate evidence",
+  "baseCommit": "351f06f952a07896cf358295ecb00f69b6d18991",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/guard-protocol-convergence.contract.json",
+    ".ai/work-items/active/guard-protocol-convergence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_critical_domain_guards.py",
+    "scripts/ai_preflight_review.py",
+    "tests/test_trust_guards.py",
+    "tests/test_critical_domain_guards.py",
+    "tests/test_preflight_review.py",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": ["Changing fail-closed decisions", "Release and fixture work", "Plan cleanup"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-20-comprehensive-review-remediation.md",
+      "reason": "Work Item 9 unified Guard protocol objective."
+    },
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Existing Trust Layer signal construction boundary."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Existing lifecycle gate decision boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["protocol_compatibility"],
+    "reason": "Signals need a shared evidence shape without weakening existing block/ready behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Shared signal metadata and compatibility constraints are declared."
+  },
+  "preReviewWarnings": [
+    "Verify protocol metadata is additive and fail-closed decisions remain unchanged."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Guard signals expose signalId, state, confidence, evidence, policyReference, humanDecisionAllowed, and safeAlternatives.",
+    "Preflight and finish continue to interpret block, ready, partial, and inconsistent decisions without weakening existing guards.",
+    "Tests cover protocol shape and existing fail-closed paths.",
+    "Trust Layer documentation describes the shared protocol."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Guard signals currently carry evidence but do not expose one shared metadata protocol for policy references, confidence, safe alternatives, and human-decision boundaries.",
+    "constraints": ["Keep existing signal values and fail-closed behavior.", "Use additive machine-readable metadata.", "Confidence metadata must not change gate decisions."],
+    "rationale": "A shared signal envelope reduces cross-Guard interpretation drift while preserving each Guard's domain policy."
+  },
+  "rawUserRequest": "继续执行第 9 个工单：统一 Guard 协议，补齐 Signal、Policy、Decision、Evidence Reference 和 Lifecycle Gate 接口，不削弱 fail-closed。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-21", "capturedAt": "2026-07-21", "digest": "sha256:user-authorized-review-remediation"},
+  "declaredIntent": {"summary": "Add a shared additive Guard signal protocol without weakening decisions.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Ready Guard signal has shared metadata", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py", "tests/test_preflight_review.py"]},
+    {"scenario": "Blocked critical-domain signal retains fail-closed decision", "required": true, "status": "verified", "evidence": ["tests/test_critical_domain_guards.py"]},
+    {"scenario": "Human decision metadata does not authorize bypass", "required": true, "status": "verified", "evidence": ["tests/test_preflight_review.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "User authorization in execution request",
+    "reason": "User authorized continuous execution of the complete remediation plan."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/guard-protocol-convergence.json",
+    "baseCommit": "351f06f952a07896cf358295ecb00f69b6d18991",
+    "initialScopeDigest": "c5304e14322d48fd797834daffcd9a244d490cbd3c42fb2cec3db29e61c586f3",
+    "contractSkeletonDigest": "d66e6fd6d7b3424d25f505ee123c7b13356b917e41d12c43ac97e2e01a4d26c5"
+  }
+}

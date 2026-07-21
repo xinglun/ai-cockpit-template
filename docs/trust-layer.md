@@ -25,6 +25,8 @@ Intent → Contract → Preflight → Change → Verification → Summary → Hu
 
 When a signal is missing, stale, contradictory, outside scope, or high risk, the governed path stops. A human can resolve the uncertainty by recording a decision and new evidence; the next step re-runs the relevant checks rather than trusting the conversation alone.
 
+All Trust Layer Guard signals use a shared additive envelope: `signalId`, `state`, `confidence`, `evidence`, `policyReference`, `humanDecisionAllowed`, and `safeAlternatives`, alongside the legacy `name`, `value`, and `sources` fields. This metadata standardizes explanation and lifecycle-gate handling; confidence is deterministic evidence quality, never authorization, and a human decision cannot turn a blocked signal into an unverified pass.
+
 The template uses the enforced Preflight profile by default. `.ai/guards/preflight_review_policy.yaml` sets `profile: enforced`, enables the gate, and blocks `needs_human_confirmation`, `human_decision_recorded`, and `not_ready`. Only a newly computed `ready` report can proceed through the governed start or finish path. An adopter may choose an explicit compatibility profile with `profile: advisory`, `gateEnabled: false`, and an empty `blockedStatuses` list, but advisory mode is not evidence that the Trust Layer can stop an agent at the protocol level.
 
 ## Raw request and capability binding

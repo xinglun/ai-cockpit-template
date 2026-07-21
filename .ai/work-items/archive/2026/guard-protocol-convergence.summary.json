@@ -1,0 +1,396 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "guard-protocol-convergence",
+  "contractPath": ".ai/work-items/archive/2026/guard-protocol-convergence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/guard-protocol-convergence.contract.json",
+      "reason": "Declared the protocol scope, acceptance, evidence, and authorized execution boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/guard-protocol-convergence.summary.json",
+      "reason": "Records verification and review evidence for this Work Item."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated lifecycle status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/starts/guard-protocol-convergence.json",
+      "reason": "Records the governed Work Item start receipt."
+    },
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Adds the shared additive Guard signal envelope."
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Consumes and emits the shared signal envelope while preserving legacy values."
+    },
+    {
+      "path": "tests/test_trust_guards.py",
+      "reason": "Verifies Guard protocol metadata."
+    },
+    {
+      "path": "tests/test_preflight_review.py",
+      "reason": "Verifies Preflight protocol metadata and compatibility."
+    },
+    {
+      "path": "docs/trust-layer.md",
+      "reason": "Documents the shared signal envelope and confidence boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/guard-protocol-convergence.contract.json",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_preflight_review.py",
+    "docs/trust-layer.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:16.242261+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "512c6fb544b0393a008dd7fec35ce01a0c55bef1c2904c23a6ea0679c1104308",
+      "commandHash": "4ddb35c75cc9101896c0f61f5a8b0bf60a0c1c68511712df23253bd87ea8131b",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/guard-protocol-convergence.contract.json work item contract check passed: .ai/work-items/active/guard-protocol-convergence.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:16.598775+00:00",
+      "exitCode": 0,
+      "durationMs": 290,
+      "outputDigest": "e7b06365fdf7f90b280b5b876490cdc19c4b0b1d54144f019e4fb85e90ee0a67",
+      "commandHash": "52d3ecccb679a57134b05fee9dc79549a0f320f9859d4ef9c686b3548421c70d",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/guard-protocol-convergence.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:16.789834+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "054ac60bf020aa3c3e320bc9f7ae21c1f727c9b39d1271ae1f4c0e6bfecbc8c6",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/guard-protocol-convergence.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:17.085440+00:00",
+      "exitCode": 0,
+      "durationMs": 239,
+      "outputDigest": "365970834717b598816e41bb8c1441031115b1475084384b15e8d87f3225a72f",
+      "commandHash": "4e0cf7d757bf0b564b659a58d1a833778c33f4c871972ab894fbb49dc66ef31c",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/guard-protocol-convergence.contract.json --summary .ai/work-items/active/guard-protocol-convergence.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `guard-protocol-convergence` - Contract Hash: `a5ad80d8d53f8888` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:17.294718+00:00",
+      "exitCode": 0,
+      "durationMs": 141,
+      "outputDigest": "69ef9caa7325fdda4a59519832f69b6dd1e7f933e90325e186af373bbb83f42d",
+      "commandHash": "33bfe7a32bf9d2ee8d59c5a9e4c04bd8746ddce86f9ee9ea30485847b0cefe8e",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/guard-protocol-convergence.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/guard-protocol-convergence.json [review] .ai/cockpit/current_status.md [review] scripts/ai_preflight_review.py [review] scripts/ai_trust_guards.py review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:17.446408+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:17.597083+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:17.714532+00:00",
+      "exitCode": 0,
+      "durationMs": 67,
+      "outputDigest": "edb8c5e21e2c0fc646d230e3b7d3767f649ebcd0eff548f5dd2c91375d784115",
+      "commandHash": "91aadb5f6850bf676704baf63eb182c0e88942831259306f1e71156969949edb",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/guard-protocol-convergence.contract.json --summary .ai/work-items/active/guard-protocol-convergence.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:17.823396+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "986b97ad4e30810a2008579705a912d08ed17e9bf659f97c9e4a35892e9f4cd2",
+      "commandHash": "1c7647585103b8438acb36f945d95fb4584edfcb4cdaf0fc99ad541f22626687",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/guard-protocol-convergence.contract.json --summary .ai/work-items/active/guard-protocol-convergence.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:18.079107+00:00",
+      "exitCode": 0,
+      "durationMs": 209,
+      "outputDigest": "fba7c52cc5a78afc3f6ee0a7d666882871f06a870ee115679e29cd0fff57d895",
+      "commandHash": "30cdad2a2029d7d9970c28a606e6bd6aa6964ff02bbcb914a0fc0e00f0ec83a3",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/guard-protocol-convergence.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/guard-protocol-convergence.json` — covered by Contract scope - [active_owned] `docs/trust-l"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:33.037043+00:00",
+      "exitCode": 0,
+      "durationMs": 147736,
+      "outputDigest": "97f9548436428b10b926747d6f8680ffe22dcac6ecd1bfe40b996f4bed12f14e",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "aaa9ed8cc7a878f35316d083b84408c63dcccc1c4320dfe167971dc1cfdb497d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 109 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 10%] ........................................................................ [ 20%] ............................................................"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:37.077564+00:00",
+      "exitCode": 0,
+      "durationMs": 637,
+      "outputDigest": "4cb07d28b63600e31d9b18d5cd0bc53d5f6d35614506152168958ac02aec6616",
+      "commandHash": "0094e7d992d8dd97aa8959f0940b4150569e7f36843fb526ed55e80902c3f3ab",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "d3993b56a89942e8b98114ef5ba7eda1dd2ef336e2164f4e13d5284884c22029",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/guard-protocol-convergence.contract.json --summary .ai/work-items/active/guard-protocol-convergence.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:37.758898+00:00",
+      "exitCode": 0,
+      "durationMs": 487,
+      "outputDigest": "2d8f1147484bda4d32c5a30ffc41ce0ea887f5ed5b13af36248b7763f9b0cb9d",
+      "commandHash": "3800aa9ff827461f0a0f3a94c305208326c813a2f5b34670fd1e7d2f3607fefc",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "d3993b56a89942e8b98114ef5ba7eda1dd2ef336e2164f4e13d5284884c22029",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/guard-protocol-convergence.contract.json --summary .ai/work-items/active/guard-protocol-convergence.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:37.925194+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "d3993b56a89942e8b98114ef5ba7eda1dd2ef336e2164f4e13d5284884c22029",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:38.031212+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "9a7e0d804fc752917bfa611f746ac0fdd36bd286d95b57aa01bda9a371f51446",
+      "commandHash": "cd338eb45c75881269acc0942bb7a04badeaf0a5a560116e70cc64cf0dd75199",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "d3993b56a89942e8b98114ef5ba7eda1dd2ef336e2164f4e13d5284884c22029",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/guard-protocol-convergence.contract.json --summary .ai/work-items/active/guard-protocol-convergence.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/guard-protocol-convergence.summary.json CONTRACT=.ai/work-items/active/guard-protocol-convergence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-21T02:12:38.956045+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "d939393e5bce4841ef0608e86766edebb2cf9edd4c08f29e7c13b5ffa49dcaf5",
+      "commandHash": "eddf59d15ab4c4e098ad963f5f6564c45a67d1e17daba8d7a0ef558b255dd349",
+      "contractHash": "a5ad80d8d53f8888ca1e07eb954ffe83c9ac729c031240954142ed51ae261ee9",
+      "commitSha": "351f06f952a07896cf358295ecb00f69b6d18991",
+      "executionContractPath": ".ai/work-items/active/guard-protocol-convergence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/guard-protocol-convergence.summary.json",
+      "worktreeDigest": "9f8becb3ae68ca5eae36c4718171f9644f49c69e2dca9e53cd2c818219969825",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/guard-protocol-convergence.summary.json --contract .ai/work-items/active/guard-protocol-convergence.contract.json ai summary check passed: .ai/work-items/active/guard-protocol-convergence.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Shared protocol metadata is documented in docs/trust-layer.md."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "Implementation uses existing Guard and Preflight module boundaries."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Protocol fields are additive; existing signal values and fail-closed decisions remain covered by tests."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "protocol compatibility",
+      "detail": "Consumers that ignore new metadata continue to receive the legacy name, value, evidence, and sources fields.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm additive signal envelope and unchanged fail-closed behavior."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "a5ad80d8d53f8888",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "a5ad80d8d53f8888",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 361
+}

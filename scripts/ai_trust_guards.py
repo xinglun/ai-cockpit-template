@@ -26,7 +26,25 @@ def display_path(path: Path) -> str:
 
 
 def _signal(name: str, value: str, evidence: list[str], sources: list[str]) -> dict[str, Any]:
-    return {"name": name, "value": value, "evidence": evidence, "sources": sources}
+    state = {
+        "Ready": "allow",
+        "Partial": "defer",
+        "Missing": "block",
+        "Inconsistent": "block",
+        "Not Applicable": "not_applicable",
+    }.get(value, "defer")
+    return {
+        "name": name,
+        "value": value,
+        "signalId": f"guard.{name.lower().replace(' ', '_')}",
+        "state": state,
+        "confidence": "deterministic",
+        "evidence": evidence,
+        "sources": sources,
+        "policyReference": sources[0] if sources else "guard.default",
+        "humanDecisionAllowed": value == "Partial",
+        "safeAlternatives": [],
+    }
 
 
 def _load_json(path: Path) -> tuple[Any | None, list[str]]:

@@ -198,6 +198,7 @@ def classify(
     ownership: dict[str, dict[str, str]],
     *,
     pr_mode: bool = False,
+    contract: dict[str, Any] | None = None,
 ) -> Ownership:
     covering: list[Owner] = []
     excluded: list[Owner] = []
@@ -236,6 +237,21 @@ def classify(
             )
         return Ownership(path, "unowned", [], "no active or archived evidence covers this path")
     owner = covering[0]
+    operation = contract.get("requestedOperation") if isinstance(contract, dict) else None
+    if (
+        isinstance(operation, dict)
+        and operation.get("effect") == "document"
+        and (
+            path.startswith(("scripts/", "lib/", "src/"))
+            and path.endswith((".py", ".js", ".ts", ".go", ".rs", ".java"))
+        )
+    ):
+        return Ownership(
+            path,
+            "out_of_scope",
+            labels,
+            "declared document effect conflicts with runtime code diff",
+        )
     match = first_match(path, ownership)
     if match and match[1].get("aiWrite") == "forbidden":
         return Ownership(path, "unowned", labels, "forbidden ownership cannot be claimed")
@@ -305,7 +321,7 @@ def preview(*, base: str = "", contract: dict[str, Any] | None = None) -> list[O
         elif path in audit_paths:
             continue
         else:
-            values.append(classify(path, candidates, policy, pr_mode=bool(base)))
+            values.append(classify(path, candidates, policy, pr_mode=bool(base), contract=contract))
     return sorted(values, key=lambda item: item.path)
 
 

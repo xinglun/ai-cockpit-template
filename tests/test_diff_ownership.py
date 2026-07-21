@@ -393,3 +393,15 @@ def test_pr_preview_skips_clean_no_op_archive_restore(monkeypatch):
 
     assert [item.path for item in items] == ["docs/guide.md"]
     assert items[0].state == "active_owned"
+
+
+def test_document_effect_rejects_runtime_code_diff():
+    owner = ownership.Owner("active", "task", contract(["scripts/**"]), None)
+    result = ownership.classify(
+        "scripts/runtime.py",
+        [owner],
+        {},
+        contract={"requestedOperation": {"effect": "document"}},
+    )
+    assert result.state == "out_of_scope"
+    assert "runtime code" in result.detail

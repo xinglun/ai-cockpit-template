@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import ast
+from collections import Counter, defaultdict
 import hashlib
 import json
 import os
@@ -237,28 +239,163 @@ def archive_metrics(root: Path) -> tuple[dict[str, int], list[str]]:
     }, issues
 
 
-def load_policy(path: Path) -> dict[str, int]:
+def function_complexity(paths: list[Path]) -> int:
+    """Return the maximum deterministic branch complexity of a Python function."""
+    maximum = 0
+    for path in paths:
+        if path.suffix.lower() != ".py" or not path.is_file():
+            continue
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, SyntaxError):
+            continue
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            branches = sum(
+                isinstance(item, (ast.If, ast.For, ast.AsyncFor, ast.While, ast.Try, ast.Match))
+                for item in ast.walk(node)
+            )
+            maximum = max(maximum, 1 + branches)
+    return maximum
+
+
+def repository_shape_metrics(
+    root: Path, files: list[Path], archive: dict[str, int]
+) -> dict[str, Any]:
+    schema_count = sum(
+        1 for path in files if ".ai/trust/schema/" in path.as_posix() and path.suffix == ".json"
+    )
+    guard_count = sum(1 for path in files if ".ai/guards/" in path.as_posix() and path.is_file())
+    field_counts: Counter[str] = Counter()
+    for path in files:
+        if not path.name.endswith(".contract.json"):
+            continue
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        if isinstance(value, dict):
+            field_counts.update(value.keys())
+    repeated_fields = sum(1 for count in field_counts.values() if count > 1)
+    graph: dict[str, set[str]] = defaultdict(set)
+    script_names = {
+        path.stem for path in files if path.parent.name == "scripts" and path.suffix == ".py"
+    }
+    for path in files:
+        if path.parent.name != "scripts" or path.suffix != ".py":
+            continue
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, SyntaxError):
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                names = [alias.name.split(".")[0] for alias in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                names = [node.module.split(".")[0]]
+            else:
+                continue
+            graph[path.stem].update(name for name in names if name in script_names)
+    cycles = 0
+    for start in graph:
+        stack = [(start, {start})]
+        while stack:
+            current, seen = stack.pop()
+            for target in graph.get(current, set()):
+                if target == start:
+                    cycles += 1
+                elif target not in seen:
+                    stack.append((target, seen | {target}))
+    allowlist_entries = sum(
+        1
+        for path in files
+        if path.name == "install_ai_cockpit.py"
+        for line in path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        if "allow" in line.lower()
+    )
+    total_evidence = 0
+    generated_evidence = 0
+    archive_dir = root / ".ai" / "work-items" / "archive"
+    for summary in archive_files(root, archive_dir, "*.summary.json"):
+        try:
+            value = json.loads(summary.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        for record in value.get("verification", []) if isinstance(value, dict) else []:
+            if not isinstance(record, dict):
+                continue
+            total_evidence += 1
+            generated_evidence += int("executionContractPath" in record)
+    evidence_ratio = generated_evidence / total_evidence if total_evidence else 0.0
+    return {
+        "functionComplexity": function_complexity(files),
+        "schemaCount": schema_count,
+        "guardCount": guard_count,
+        "repeatedProtocolFields": repeated_fields,
+        "dependencyCycles": cycles,
+        "installAllowlistEntries": allowlist_entries,
+        "archiveGrowth": archive.get("archiveContracts", 0),
+        "generatedEvidenceRatio": round(evidence_ratio, 6),
+    }
+
+
+def load_policy(path: Path) -> tuple[dict[str, float], dict[str, float], list[str]]:
     raw = parse_yaml(path)
     if not isinstance(raw, dict) or not isinstance(raw.get("max"), dict):
         raise ValueError("policy must contain a max mapping")
     values = raw["max"]
-    # trackedFiles remains in the report for repository-shape observation, but
-    # immutable archive evidence makes a fixed ceiling unsuitable as a gate.
-    metrics = (
-        "pythonLines",
-        "markdownLines",
-    )
-    result: dict[str, int] = {}
+    metrics = tuple(metric for metric in values.keys() if metric != "trackedFiles")
+    result: dict[str, float] = {}
     for metric in metrics:
-        value = values.get(metric)
+        value = values[metric]
         try:
-            value = int(value)
+            value = float(value)
         except (TypeError, ValueError):
-            value = 0
-        if value < 1:
-            raise ValueError(f"max.{metric} must be a positive integer")
+            raise ValueError(f"max.{metric} must be numeric") from None
+        if value < 0:
+            raise ValueError(f"max.{metric} must be non-negative")
         result[metric] = value
-    return result
+    baseline_raw = raw.get("baseline", {})
+    baseline: dict[str, float] = {}
+    if isinstance(baseline_raw, dict):
+        for metric, value in baseline_raw.items():
+            try:
+                baseline[metric] = float(value)
+            except (TypeError, ValueError):
+                raise ValueError(f"baseline.{metric} must be numeric") from None
+    records = raw.get("repaymentRecords", [])
+    return result, baseline, records if isinstance(records, list) else []
+
+
+def repayment_issues(
+    limits: dict[str, float], baseline: dict[str, float], records: list[Any]
+) -> list[str]:
+    issues: list[str] = []
+    for metric, limit in limits.items():
+        previous = baseline.get(metric)
+        if previous is None or limit <= previous:
+            continue
+        matched = False
+        for record in records:
+            parts = str(record).split("|", 6)
+            if len(parts) < 6:
+                continue
+            _, record_metric, old, new, owner, due_date, *_ = parts
+            if (
+                record_metric == metric
+                and float(old) == previous
+                and float(new) == limit
+                and owner.strip()
+                and due_date.strip()
+            ):
+                matched = True
+                break
+        if not matched:
+            issues.append(
+                f"{metric} budget increase {previous:g}->{limit:g} lacks owner/due-date repayment record"
+            )
+    return issues
 
 
 def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[str]]:
@@ -276,20 +413,29 @@ def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[st
         "guardFiles": file_count(files, lambda path: ".ai/guards/" in path.as_posix()),
         **archive,
     }
+    metrics.update(repository_shape_metrics(root, files, archive))
     baseline = int(os.environ.get("AI_COMPLEXITY_BASELINE_PYTHON_LINES", metrics["pythonLines"]))
-    limits = load_policy(policy_path)
+    limits, policy_baseline, repayment_records = load_policy(policy_path)
     issues = list(archive_issues)
     issues.extend(
-        f"{metric}={metrics[metric]} exceeds configured maximum {limit}"
+        f"{metric}={metrics[metric]} exceeds configured maximum {limit:g}"
         for metric, limit in limits.items()
-        if metrics[metric] > limit
+        if metric in metrics and metrics[metric] > limit
     )
+    issues.extend(repayment_issues(limits, policy_baseline, repayment_records))
     return {
-        "reportVersion": 1,
+        "reportVersion": 2,
         "policy": str(policy_path.relative_to(root)),
         "metrics": metrics,
         "limits": limits,
-        "complexityDelta": {"pythonLines": metrics["pythonLines"] - baseline},
+        "complexityDelta": {
+            "pythonLines": metrics["pythonLines"] - baseline,
+            "budgetIncreases": {
+                metric: limits[metric] - policy_baseline[metric]
+                for metric in limits
+                if metric in policy_baseline and limits[metric] > policy_baseline[metric]
+            },
+        },
         "issues": issues,
     }, issues
 

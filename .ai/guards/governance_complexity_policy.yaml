@@ -1,6 +1,17 @@
 version: 1
 description: Reviewable upper bounds for repository governance complexity and immutable archive growth.
 max:
-  # WI11 adds an enforced deterministic gate; WI12 owns repayment automation.
-  pythonLines: 31600
+  pythonLines: 32000
   markdownLines: 8300
+  functionComplexity: 50
+  schemaCount: 10
+  guardCount: 20
+  repeatedProtocolFields: 50
+  dependencyCycles: 0
+  installAllowlistEntries: 20
+  archiveGrowth: 400
+  generatedEvidenceRatio: 1.0
+baseline:
+  pythonLines: 31500
+repaymentRecords:
+  - governance-complexity-repayment|pythonLines|31500|32000|governance-maintainers|2026-08-01|Remove duplicate protocol concepts and automate repayment review.

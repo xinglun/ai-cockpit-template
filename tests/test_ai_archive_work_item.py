@@ -49,6 +49,21 @@ def test_archive_manifest_is_stable_and_excludes_generated_status(tmp_path, monk
     )
 
 
+def test_current_worktree_digest_excludes_self_referential_summary(monkeypatch):
+    monkeypatch.setattr(
+        ai_archive_work_item,
+        "changed_paths",
+        lambda _contract: ["src/app.py", ".ai/work-items/active/task.summary.json"],
+    )
+    monkeypatch.setattr(ai_archive_work_item, "path_fingerprint", lambda path: f"digest:{path}")
+
+    digest = ai_archive_work_item._current_worktree_digest(
+        {"summaryPath": ".ai/work-items/active/task.summary.json"}
+    )
+
+    assert digest == ai_archive_work_item._worktree_digest(["src/app.py"])
+
+
 def test_archive_entry_references_manifest_digest(tmp_path, monkeypatch):
     monkeypatch.setattr(ai_archive_work_item, "PROJECT_ROOT", tmp_path)
     target = tmp_path / ".ai" / "work-items" / "archive" / "2026"

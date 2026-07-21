@@ -20,6 +20,7 @@ from ai_adoption_evidence import build_runtime_verification
 from ai_upgrade_conflict_report import build_report
 from ai_preflight_review import upgrade_conflict_gate
 from ai_start_receipt import build_receipt, receipt_binding
+from ai_install_facts import FACT_NAMES, write_fact_bundle
 
 STACKS = {
     "generic",
@@ -83,6 +84,7 @@ SCRIPT_NAMES = {
     "ai_calibrate.py",
     "ai_check_guard_calibration.py",
     "ai_upgrade_conflict_report.py",
+    "ai_install_facts.py",
 }
 AGENT_MARKER = "<!-- AI_COCKPIT_SECTION -->"
 AGENT_END_MARKER = "<!-- /AI_COCKPIT_SECTION -->"
@@ -311,6 +313,7 @@ class Installer:
             if self.update_makefile:
                 self.append_makefile_include()
             self.install_initial_status()
+            self.install_lifecycle_facts()
             self.validate_managed_installation()
             if self.create_adoption:
                 self.finalize_adoption_records()
@@ -1399,6 +1402,21 @@ class Installer:
             write_no_active_status(dst)
         if not existed:
             self.created_paths.add(dst)
+
+    def install_lifecycle_facts(self) -> None:
+        if self.dry_run:
+            return
+        fact_paths = [self.target / ".ai" / "install" / name for name in FACT_NAMES]
+        for path in fact_paths:
+            self.record("write", path, "write installed lifecycle fact")
+        write_fact_bundle(
+            source=self.source,
+            target=self.target,
+            distribution_version=self.load_version(
+                self.source / ".ai" / "cockpit" / "version.json"
+            ),
+        )
+        self.created_paths.update(self.target / ".ai" / "install" / name for name in FACT_NAMES)
 
     def copy_scripts(self) -> None:
         for name in sorted(SCRIPT_NAMES):

@@ -23,26 +23,15 @@ def run(root: Path) -> dict[str, object]:
         "schemaVersion": 1,
         "fixtures": fixtures,
         "adopterRepository": run_adopter(),
-        "evidenceBoundary": {
-            "providerEvidence": "not_run",
-            "identityEvidence": "not_run",
-            "enterpriseAssurance": "not_claimed",
-            "performance": "not_run_or_not_applicable",
-            "multiAgentConflict": "not_run",
-        },
+        "evidenceBoundary": {"providerEvidence": "not_run", "enterpriseAssurance": "not_claimed"},
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    payload = json.dumps(run(args.root.resolve()), ensure_ascii=False, indent=2) + "\n"
-    if args.output:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(payload, encoding="utf-8")
-    print(payload, end="")
+    print(json.dumps(run(args.root.resolve()), ensure_ascii=False, indent=2))
     return 0
 
 

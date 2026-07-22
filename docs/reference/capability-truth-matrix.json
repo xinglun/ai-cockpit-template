@@ -25,19 +25,17 @@
     },
     {
       "id": "ten_stage_calibration_session",
-      "status": "planned",
-      "claim": "A resumable ten-stage calibration session with review, pause/resume, and evidence is not yet proven by the current implementation.",
-      "evidence": ["scripts/ai_calibrate.py", "docs/getting-started/installation.md"],
-      "verification": [],
-      "missingEvidence": "No adopter-executable ten-stage Session/Checklist state machine and end-to-end evidence exists yet."
+      "status": "implemented",
+      "claim": "The Runtime provides an adopter-executable, Japanese-default ten-stage calibration Session with pause/resume, review, checks, evidence, and fail-closed Candidate activation.",
+      "evidence": ["scripts/ai_calibrate.py", "templates/make/Makefile.ai", "docs/reference/calibration-session.md", "docs/getting-started/installation.md"],
+      "verification": ["tests/test_calibration_session.py", "tests/test_project_governance_journey.py"]
     },
     {
       "id": "candidate_activation_and_active_preservation",
-      "status": "planned",
-      "claim": "Candidate activation with preservation of the previous Active configuration is a future remediation capability.",
-      "evidence": ["README.md", "docs/reference/upgrade.md"],
-      "verification": [],
-      "missingEvidence": "No verified Candidate activation transaction and failure-preservation test exists yet."
+      "status": "implemented",
+      "claim": "Calibration Candidate activation is atomic and preserves the previous Active configuration when activation fails.",
+      "evidence": ["scripts/ai_calibrate.py", "docs/reference/calibration-session.md"],
+      "verification": ["tests/test_calibration_session.py"]
     },
     {
       "id": "bootstrap_wizard_lifecycle",

@@ -11,7 +11,7 @@ keywords:
 
 # Installation
 
-Installing the Runtime copies governance entrypoints; it does not complete calibration. The current `configure_ai_cockpit` flow creates and validates a Project Profile proposal. Review the proposal and treat the resumable ten-stage calibration session and Candidate activation as planned until their dedicated Work Items provide adopter evidence. See the [Capability Truth Matrix](../reference/capability-truth-matrix.md). The default documentation language is Japanese.
+Installing the Runtime copies governance entrypoints; it does not complete calibration. The `configure_ai_cockpit` flow can now execute the resumable ten-stage calibration Session described in [Calibration Session](../reference/calibration-session.md), while Project Profile approval remains a separate human decision. Candidate activation is atomic and preserves the previous Active configuration if it fails. See the [Capability Truth Matrix](../reference/capability-truth-matrix.md). The default documentation language is Japanese.
 
 Install a fixed release of AI Cockpit into an existing repository. Start with the Quick Install entry in [README.md](../../README.md), then use this guide to confirm the repository is ready for adoption.
 
@@ -142,7 +142,7 @@ Include `.gitlab-ci.yml` when the repository uses GitLab CI; include `.github/wo
 
 Also replace skeleton unknowns, capability, execution decision, acceptance, and guideline fields before the `before_edit` checkpoint. The second Contract owns all Project Profile, Guard, quality-command, and CI changes; the archived installation Contract does not.
 
-Do not treat `make ai-onboard` as an unattended acceptance step. The generated proposal and the stack calibration both require human review, especially `target/ai_project_doctor_report.json`, `.ai/project_profile.proposed.yaml`, `Makefile.ai.stack`, and any `blocking:` unknowns that the calibration step surfaces.
+Do not treat `make ai-onboard` as an unattended acceptance step. The generated proposal and the stack calibration both require human review, especially `target/ai_project_doctor_report.json`, `.ai/project_profile.proposed.yaml`, `Makefile.ai.stack`, and any `blocking:` unknowns that the calibration step surfaces. The ten-stage Session records evidence but does not claim enterprise security, sandboxing, identity, or compliance.
 
 Then calibrate the runtime before starting normal development:
 
@@ -151,6 +151,10 @@ make ai-onboard
 # Or step by step:
 make cockpit-doctor
 make cockpit-calibrate
+# Optional resumable Session commands (default language: Japanese):
+make cockpit-calibrate-session ARGS="start --session-id first-calibration"
+make cockpit-calibrate-session ARGS="answer --stage repository_role --answer Y --answer-type yes_no"
+# Continue with answer/review/pause/resume/check/confirm/activate commands.
 # Review the proposal, then explicitly create and edit the project-owned confirmation.
 cp .ai/project_profile.proposed.yaml .ai/project_profile.yaml
 ${EDITOR:-vi} .ai/project_profile.yaml

@@ -82,7 +82,7 @@ def run_remote_install(tmp_path: Path, expected_sha256: str) -> subprocess.Compl
     (source_dir / "release.json").write_text(
         json.dumps(
             {
-                "releaseTag": "v0.5.38",
+                "releaseTag": "v0.5.39",
                 "sourceCommit": source_commit,
                 "installerDigest": hashlib.sha256((ROOT / "install.sh").read_bytes()).hexdigest(),
                 "releaseArchive": {

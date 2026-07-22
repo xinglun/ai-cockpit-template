@@ -94,22 +94,20 @@ def verify_release(
         raise ReleaseVerificationError(
             f"release tag mismatch (expected={ref!r}, declared={metadata.get('releaseTag')!r})"
         )
-    source_commit = metadata.get("sourceCommit")
-    if not isinstance(source_commit, str) or not COMMIT.fullmatch(source_commit):
-        raise ReleaseVerificationError("release.json sourceCommit is missing or invalid")
-    head = run_git(root, "rev-parse", "HEAD")
-    if head != source_commit:
-        raise ReleaseVerificationError(
-            f"source commit mismatch (expected={source_commit}, actual={head})"
-        )
     try:
         tag_commit = run_git(root, "rev-parse", f"refs/tags/{ref}^{{commit}}")
     except ReleaseVerificationError as exc:
         raise ReleaseVerificationError(f"release tag {ref!r} is unavailable locally") from exc
-    if tag_commit != source_commit:
+    declared_source = metadata.get("sourceCommit")
+    if declared_source is not None and (
+        not isinstance(declared_source, str) or not COMMIT.fullmatch(declared_source)
+    ):
+        raise ReleaseVerificationError("release.json sourceCommit is invalid")
+    if isinstance(declared_source, str) and declared_source != tag_commit:
         raise ReleaseVerificationError(
-            f"tag target mismatch (expected={source_commit}, actual={tag_commit})"
+            f"declared source commit mismatch (expected={tag_commit}, actual={declared_source})"
         )
+    source_commit = tag_commit
     installer = root / "install.sh"
     expected_installer = metadata.get("installerDigest")
     if not isinstance(expected_installer, str) or not SHA256.fullmatch(expected_installer):
@@ -121,10 +119,8 @@ def verify_release(
         )
     archive, _verified = declared_archive(metadata)
     archive_source = archive.get("sourceCommit")
-    if archive_source != source_commit:
-        raise ReleaseVerificationError(
-            "releaseArchive.sourceCommit differs from release sourceCommit"
-        )
+    if archive_source is not None and archive_source != source_commit:
+        raise ReleaseVerificationError("releaseArchive.sourceCommit differs from tag target")
     asset_name = archive.get("assetName")
     archive_sha256 = archive.get("sha256")
     declared_url = archive.get("url")

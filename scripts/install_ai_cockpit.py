@@ -84,6 +84,7 @@ SCRIPT_NAMES = {
     "ai_project_profile.py",
     "ai_project_doctor.py",
     "ai_calibrate.py",
+    "ai_calibration_inventory.py",
     "ai_check_guard_calibration.py",
     "ai_upgrade_conflict_report.py",
     "ai_install_facts.py",

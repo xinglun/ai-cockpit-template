@@ -11,7 +11,7 @@ keywords:
 
 # Installation
 
-Installing the Runtime copies governance entrypoints; it does not complete calibration. The `configure_ai_cockpit` flow can now execute the resumable ten-stage calibration Session described in [Calibration Session](../reference/calibration-session.md), while Project Profile approval remains a separate human decision. Candidate activation is atomic and preserves the previous Active configuration if it fails. See the [Capability Truth Matrix](../reference/capability-truth-matrix.md). The default documentation language is Japanese.
+Installing the Runtime copies governance entrypoints; it does not complete calibration. The `configure_ai_cockpit` flow can now execute the resumable ten-stage calibration Session described in [Calibration Session](../reference/calibration-session.md), while Project Profile approval remains a separate human decision. Candidate activation is atomic and preserves the previous Active configuration if it fails. Use the shared [Calibration Inventory](../reference/calibration-inventory.md) to distinguish complete, warning, incomplete, unknown, and not-applicable evidence before relying on readiness or status. See the [Capability Truth Matrix](../reference/capability-truth-matrix.md). The default documentation language is Japanese.
 
 Install a fixed release of AI Cockpit into an existing repository. Start with the Quick Install entry in [README.md](../../README.md), then use this guide to confirm the repository is ready for adoption.
 
@@ -153,6 +153,7 @@ make cockpit-doctor
 make cockpit-calibrate
 # Optional resumable Session commands (default language: Japanese):
 make cockpit-calibrate-session ARGS="start --session-id first-calibration"
+make cockpit-calibration-inventory ARGS="--output target/calibration-inventory.json --check"
 make cockpit-calibrate-session ARGS="answer --stage repository_role --answer Y --answer-type yes_no"
 # Continue with answer/review/pause/resume/check/confirm/activate commands.
 # Review the proposal, then explicitly create and edit the project-owned confirmation.

@@ -1,0 +1,273 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_calibration_inventory_status_matrix",
+  "mode": "code",
+  "title": "Unify calibration inventory and status matrix",
+  "baseCommit": "97161ce318699a394ec9b36e4ff2c87b728f676d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_calibration_inventory_status_matrix.contract.json",
+    ".ai/work-items/active/conditional_go_calibration_inventory_status_matrix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_calibration_inventory.py",
+    "scripts/ai_readiness_policy.py",
+    "scripts/ai_check_adoption_ready.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_governance_compression.py",
+    ".ai/guards/coverage_policy.yaml",
+    "scripts/install_ai_cockpit.py",
+    "templates/make/Makefile.ai",
+    "Makefile",
+    "tests/test_calibration_inventory.py",
+    "tests/test_readiness_policy.py",
+    "tests/test_adoption_ready.py",
+    "docs/reference/calibration-inventory.md",
+    "docs/getting-started/installation.md",
+    "docs/reference/capability-truth-matrix.md",
+    "docs/reference/capability-truth-matrix.json"
+  ],
+  "outOfScope": [
+    "Bootstrap Wizard and lifecycle schema changes (Work Item 7).",
+    "Ownership Manifest and update/rollback/disable/enable/uninstall implementation (Work Item 8).",
+    "CI/Release Evidence implementation (Work Item 9).",
+    "Installer decomposition and complexity repayment (Work Item 10).",
+    "Plan cleanup and release publication."
+  ],
+  "rawUserRequest": "开始实施 2026-07-22 Conditional GO 全面评审整改计划，严格按顺序完成当前工单及其完整 PR、合并、ai-close-work-item、分支清理和默认分支同步；当前执行工单 6 Calibration Inventory 与 Status Matrix，不启动后续工单。用户已授权完整串行计划实施及最终发布，不得跳过任何计划内工单。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-goal:2026-07-23-start-all-conditional-go-remediation",
+    "capturedAt": "2026-07-23",
+    "digest": "sha256:start-all-conditional-go-remediation"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Unify calibration, adoption readiness, and Cockpit Status around one conservative evidence inventory with explicit provenance and stale handling.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "documentation",
+      "test_automation"
+    ]
+  },
+  "predecessorWorkItem": {
+    "workItemId": "conditional_go_calibration_scaffold_core",
+    "status": "closed",
+    "pr": {
+      "number": 248,
+      "merged": true,
+      "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/248",
+      "mergeCommit": "97161ce318699a394ec9b36e4ff2c87b728f676d"
+    },
+    "closure": {
+      "succeeded": true,
+      "localBranchDeleted": true,
+      "remoteBranchDeleted": true,
+      "baseSynchronized": true,
+      "evidence": "make ai-close-work-item TASK=conditional_go_calibration_scaffold_core reported ready for next Work Item on synchronized main."
+    }
+  },
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Work Item 6 goal and acceptance requirements."
+    },
+    {
+      "path": "scripts/ai_readiness_policy.py",
+      "reason": "Existing readiness aggregation is the compatibility boundary that will delegate to the shared inventory."
+    },
+    {
+      "path": "scripts/ai_check_adoption_ready.py",
+      "reason": "Adoption readiness must consume the same matrix rather than recomputing independent statuses."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Cockpit Status is a required consumer of the unified inventory evidence."
+    },
+    {
+      "path": "scripts/ai_governance_compression.py",
+      "reason": "Governance Status is the generated reviewer-facing status boundary."
+    },
+    {
+      "path": "docs/reference/capability-truth-matrix.json",
+      "reason": "Capability claims and evidence vocabulary must remain aligned with the inventory."
+    },
+    {
+      "path": "tests/test_readiness_policy.py",
+      "reason": "Existing readiness behavior and compatibility expectations."
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "reason": "Adopter fixture boundary for installed and configured evidence."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical Evidence Governance and calibrated-trust terminology."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["evidence_provenance", "status_derivation", "adopter_compatibility"],
+    "reason": "The matrix changes readiness and reviewer-facing status derivation; all statuses must remain fail-closed and distinguish static configuration from command or human evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized serial execution of the remediation plan; the predecessor is closed and this Contract defines the next bounded Work Item."
+  },
+  "preReviewWarnings": [
+    "Review that static file presence is never reported as command or human confirmation, and that every matrix item retains source, evidence, owner, and stale semantics."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A shared Calibration Inventory defines exactly the statuses complete, warning, incomplete, unknown, and not_applicable, and every item records source, confirmation, evidence, staleAt, owner, and blockingReason.",
+    "The inventory covers profile, guards, quality, coverage, complexity, review, security, CI, installed lifecycle, and documentation without treating defaults, static file presence, human confirmation, or command execution as interchangeable evidence.",
+    "Adoption Readiness and readiness_state consume the shared inventory while preserving existing compatibility fields and fail-closed behavior for missing or stale evidence.",
+    "Generated Cockpit Status includes a deterministic inventory summary sourced from the same matrix, and documentation/Capability Truth Matrix links the schema and status boundary.",
+    "An adopter-oriented fixture verifies complete, warning, incomplete, unknown, and not_applicable transitions, source/confirmation metadata, stale evidence, and blocking reasons.",
+    "The public Make command and installed template command surface expose inventory generation/checking without claiming that static inventory alone proves production readiness."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Calibration, Adoption Readiness, and Cockpit Status currently aggregate separate partial facts, so a reviewer cannot tell whether a result is complete, merely configured, stale, unknown, or not applicable, nor whether it came from a command, static scan, or human confirmation.",
+    "constraints": [
+      "Keep AI Cockpit within the Repository Governance Layer boundary.",
+      "Preserve existing readiness_state and readiness_evidence compatibility fields while making the shared inventory authoritative.",
+      "Fail closed on missing, stale, contradictory, or unverifiable evidence; do not infer command success from file presence.",
+      "Do not implement later Bootstrap, Ownership Manifest, CI/Release Evidence, Installer decomposition, or plan cleanup Work Items."
+    ],
+    "rationale": "A single evidence matrix lets readiness, status, documentation, and future CI consumers use the same conservative facts and prevents the review from mistaking template/static evidence for adopter runtime proof."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {"check": "quality", "required": true},
+    {"check": "aiProjectProfile", "required": true},
+    {"check": "aiGuardCalibration", "required": true},
+    {"check": "docsMetadata", "required": true}
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "configured_adopter_inventory_has_complete_and_warning_items",
+      "required": true,
+      "riskDomain": "evidence_provenance",
+      "status": "verified",
+      "evidence": ["tests/test_calibration_inventory.py: configured adopter fixture derives complete and warning statuses with distinct confirmations."]
+    },
+    {
+      "scenario": "missing_or_stale_evidence_is_not_reported_as_complete",
+      "required": true,
+      "riskDomain": "status_derivation",
+      "status": "verified",
+      "evidence": ["tests/test_calibration_inventory.py: missing, stale, and contradictory evidence remain incomplete or unknown with blocking reasons."]
+    },
+    {
+      "scenario": "template_not_applicable_boundary_is_preserved",
+      "required": true,
+      "riskDomain": "adopter_compatibility",
+      "status": "verified",
+      "evidence": ["tests/test_calibration_inventory.py: template-only quality/lifecycle facts use not_applicable or warning without production claims."]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized the complete serial remediation plan, including shared governance evidence and status changes required by Work Item 6."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_calibration_inventory_status_matrix.json",
+    "baseCommit": "97161ce318699a394ec9b36e4ff2c87b728f676d",
+    "initialScopeDigest": "5b05ac4c4e11b30ab192f6710ed4fdda040c965c81fc246f0ea32d87a49a987a",
+    "contractSkeletonDigest": "114624b6e1244a267194391b1d3f1a2b5d894a26f99bba75804baa3d3f3dfc89"
+  }
+}

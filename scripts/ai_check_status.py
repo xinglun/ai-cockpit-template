@@ -24,6 +24,7 @@ from ai_generate_status import (
 )
 from ai_governance_compression import derive_governance_status, render_active_status
 from ai_check_diff_ownership import counts as ownership_counts_for, preview as ownership_preview
+from ai_calibration_inventory import build_inventory
 
 
 REQUIRED_FIELDS = ("workItemId", "mode")
@@ -39,6 +40,13 @@ def required_commands(contract: dict[str, Any]) -> list[str]:
 
 def normalize_generated_at(text: str) -> str:
     return re.sub(r"- Generated At: `[^`]+`", "- Generated At: `<timestamp>`", text)
+
+
+def inventory_root(contract_path: Path, status_path: Path) -> Path:
+    """Resolve the repository root for both real and fixture Contract layouts."""
+    if contract_path.parent.name == "active" and contract_path.parent.parent.name == "work-items":
+        return contract_path.parent.parent.parent.parent
+    return status_path.parent
 
 
 def parse_args() -> argparse.Namespace:
@@ -98,6 +106,11 @@ def main() -> int:
                 "summary": model["evidence"].get("summary", []) + [blockers[0]],
             },
         }
+    inventory = (
+        build_inventory(inventory_root(Path(args.contract), status_path))
+        if "## Calibration Inventory" in status
+        else None
+    )
     expected = render_active_status(
         model,
         work_item_id=str(contract.get("workItemId", "")),
@@ -120,6 +133,7 @@ def main() -> int:
         ),
         preflight_review=preflight_review,
         ownership_counts=ownership_counts,
+        calibration_inventory=inventory,
     )
 
     if normalize_generated_at(status) != normalize_generated_at(expected):

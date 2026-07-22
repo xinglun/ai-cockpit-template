@@ -18,6 +18,7 @@ from ai_review_readiness_policy import review_readiness_signal
 from ai_verification_policy import verification_signal
 from ai_acceptance_policy import acceptance_signal
 from ai_intent_policy import intent_alignment_signal
+from ai_calibration_inventory import STATUS_VALUES
 
 
 RECOMMENDATIONS = {
@@ -666,6 +667,7 @@ def render_active_status(
     backtrack_items: list[dict[str, Any]] | None = None,
     preflight_review: dict[str, Any] | None = None,
     ownership_counts: dict[str, int] | None = None,
+    calibration_inventory: dict[str, Any] | None = None,
 ) -> str:
     timestamp = generated_at or datetime.now(timezone.utc).isoformat()
     lines = [
@@ -771,6 +773,26 @@ def render_active_status(
             lines.append(f"- {EVIDENCE_LABELS.get(key, key)}: `{entries[0]}`")
         else:
             lines.append(f"- {EVIDENCE_LABELS.get(key, key)}: `{'; '.join(entries)}`")
+
+    if isinstance(calibration_inventory, dict):
+        lines.extend(["", "## Calibration Inventory", ""])
+        lines.append(f"- Schema Version: `{calibration_inventory.get('schemaVersion', 'unknown')}`")
+        summary = calibration_inventory.get("summary", {})
+        if isinstance(summary, dict):
+            lines.append(
+                "- Summary: `"
+                + ", ".join(f"{status}={summary.get(status, 0)}" for status in STATUS_VALUES)
+                + "`"
+            )
+        items = calibration_inventory.get("items", {})
+        if isinstance(items, dict):
+            for key, item in items.items():
+                if not isinstance(item, dict):
+                    continue
+                lines.append(
+                    f"- {key}: `{item.get('status', 'unknown')}` "
+                    f"(confirmation=`{item.get('confirmation', 'none')}`, source=`{item.get('source', '')}`)"
+                )
 
     lines.extend(["", "## Decision Drivers", ""])
     if model["decisionDrivers"]:

@@ -15,6 +15,7 @@ from ai_common import PROJECT_ROOT, changed_paths, load_json
 from ai_check_diff_ownership import counts as ownership_counts_for, preview as ownership_preview
 from ai_observability import DEFAULT_LOG_PATH, create_observability
 from ai_governance_compression import derive_governance_status, render_active_status
+from ai_calibration_inventory import build_inventory
 
 
 DEFAULT_OUTPUT = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
@@ -240,6 +241,7 @@ def write_active_status(
     model = apply_ownership_reconciliation(
         derive_governance_status(contract, summary), ownership_counts
     )
+    calibration_inventory = build_inventory(PROJECT_ROOT)
     if state == "blocked" and blockers and blockers[0].startswith("retry circuit breaker"):
         decision_drivers = list(model.get("decisionDrivers", []))
         for blocker in blockers:
@@ -275,6 +277,7 @@ def write_active_status(
         ),
         preflight_review=preflight_review,
         ownership_counts=ownership_counts,
+        calibration_inventory=calibration_inventory,
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(status_text, encoding="utf-8")

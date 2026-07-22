@@ -16,7 +16,7 @@ AI_PREFLIGHT_VALIDATE_CONTRACT ?= true
 	test project-format-check project-test project-lint diff-check quality \
 	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	check-docs-metadata check-governance-complexity \
-	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-validate-calibration \
+	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-calibration-inventory cockpit-validate-calibration \
 	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
 	check-release-distribution check-release-state-consistency \
 	check-lockfile-reproducibility \
@@ -177,6 +177,9 @@ cockpit-doctor:
 
 cockpit-calibrate:
 	$(AI_PYTHON) scripts/ai_calibrate.py generate --root .
+
+cockpit-calibration-inventory:
+	$(AI_PYTHON) scripts/ai_calibration_inventory.py --root . $(ARGS)
 
 cockpit-validate-calibration:
 	$(AI_PYTHON) scripts/ai_calibrate.py validate --profile "$(or $(PROFILE),.ai/project_profile.proposed.yaml)" $(ARGS)

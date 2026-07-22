@@ -1,0 +1,110 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-candidate-source-commit",
+  "mode": "code",
+  "title": "Candidate source commit lifecycle",
+  "baseCommit": "9b1fa0c5cc146ddeef85043cb03be8bd59858937",
+  "baselineDirtyPaths": [],
+  "rawUserRequest": "按序执行工单 2：解决 Candidate PR 合并后 sourceCommit 过期问题，完成完整 Work Item/PR 生命周期，但不启动后续工单。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-serial-lifecycle-execution",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:user-authorized-serial-lifecycle-execution"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "固化 Candidate 合并后的来源 Commit 生命周期，确保发布只绑定 freshly resolved default-branch Commit，并在任何身份不一致时保持 fail closed。",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    ".ai/work-items/active/project-calibration-candidate-source-commit.contract.json",
+    ".ai/work-items/active/project-calibration-candidate-source-commit.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "release-state canonical schema and evidence digest semantics (工单 1 and 工单 3)",
+    "provider identity, trusted signing, sandbox, and enterprise-security claims",
+    "actual release dispatch, tag movement, or release deletion",
+    "工单 4 及之后的 implementation"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md", "reason": "工单 2 goal, scope clues, and acceptance criteria."},
+    {"path": ".github/workflows/release.yml", "reason": "Current source resolution, checkout, evidence, tag, and release mutation order."},
+    {"path": "tests/test_workflows.py", "reason": "Existing executable workflow contract tests."},
+    {"path": "docs/reference/distribution.md", "reason": "English release lifecycle documentation."},
+    {"path": "docs/reference/distribution.ja.md", "reason": "Japanese release lifecycle documentation."},
+    {"path": "release-state.json", "reason": "Canonical release state boundary established by the preceding Work Item."},
+    {"path": ".ai/glossary.md", "reason": "Repository governance terminology and evidence boundary."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_integrity", "workflow_ordering", "fail_closed_boundary"],
+    "reason": "A stale or ambiguous source commit could publish artifacts for a different default-branch state; the workflow must reject before any tag, release, or evidence cleanup mutation."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution and the lifecycle model is selected as post-merge automatic resolution from the freshly fetched default branch."
+  },
+  "preReviewWarnings": [
+    "Review the ordering of all release mutations against source identity and evidence checks.",
+    "Confirm supplied source_commit remains an assertion and cannot override the freshly resolved default-branch commit."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit", "before_finish"],
+    "reason": "Record checkpoints before implementation and before archival to prevent lifecycle drift."
+  },
+  "acceptance": [
+    "The release workflow automatically resolves SOURCE_COMMIT from the freshly obtained remote default branch after Candidate PR merge; an optional source_commit input is only an equality assertion.",
+    "The workflow validates SOURCE_COMMIT == DEFAULT_BRANCH_COMMIT and checks out that immutable SHA before source-bound evidence generation.",
+    "A source identity mismatch or missing exact-source evidence fails before tag creation, Draft Release creation, publication, or evidence deletion.",
+    "Workflow tests assert source resolution and mutation ordering, and the English/Japanese distribution references state the post-merge source rule and fail-closed mutation boundary."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "freshly merged Candidate is released from current default branch", "riskDomain": "release_integrity", "status": "verified", "required": true, "evidence": ["tests/test_workflows.py::test_release_workflow_is_exact_sha_and_action_dependency_free"]},
+    {"scenario": "stale supplied source_commit is rejected before checkout or mutation", "riskDomain": "fail_closed_boundary", "status": "verified", "required": true, "evidence": ["tests/test_workflows.py::test_release_workflow_rejects_stale_source_before_mutations"]},
+    {"scenario": "tag and Draft Release occur only after source-bound evidence and strict smoke", "riskDomain": "workflow_ordering", "status": "verified", "required": true, "evidence": ["tests/test_workflows.py::test_release_workflow_runs_strict_smoke_before_tag_and_release_mutations"]}
+  ],
+  "guidelines": [
+    "Document the release identity contract in both supported reference languages.",
+    "Keep release evidence source-bound and do not claim provider or enterprise security guarantees outside this Work Item."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized an independent budget repair Work Item/PR and continued serial Work Item execution; this release-workflow change is within the authorized plan."},
+  "rollbackNote": "Revert this Work Item diff and restore the prior release workflow tests and documentation.",
+  "intent": {
+    "problem": "Candidate metadata is prepared before its PR merges, so a sourceCommit captured at preparation can immediately lag behind main after merge. Publishing from that stale identity can bind evidence to the wrong tree.",
+    "constraints": ["Only the freshly fetched remote default branch may determine the release source.", "No tag, Draft Release, publication, or evidence deletion may occur before identity and evidence checks pass.", "Do not start later Work Items in this branch."],
+    "rationale": "Post-merge automatic source resolution preserves PR-first development while avoiding a frozen-main operational lock."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-candidate-source-commit.json",
+    "baseCommit": "9b1fa0c5cc146ddeef85043cb03be8bd59858937",
+    "initialScopeDigest": "95d6316f9ed5dc0b537a092aeef03baf04adcb91f01af7a747b8849ec9c0a192",
+    "contractSkeletonDigest": "4553b77be862f1b30a5f15d5357aadb1c8a1532af7b72efc4d6c81b3fd356474"
+  }
+}

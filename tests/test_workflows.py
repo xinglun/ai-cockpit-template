@@ -127,6 +127,20 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "GITHUB_RUN_ID" in workflow
 
 
+def test_release_workflow_rejects_stale_source_before_mutations():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    mismatch = workflow.index("source_commit must equal the freshly resolved default branch commit")
+    checkout = workflow.index('git checkout --detach --quiet "${SOURCE_COMMIT}"')
+    evidence = workflow.index("Generate source-bound release evidence")
+    tag = workflow.index('git push origin "$SOURCE_COMMIT:refs/tags/$RELEASE_TAG"')
+    draft = workflow.index("gh release create")
+    publish = workflow.index('gh release edit "$RELEASE_TAG"')
+
+    assert mismatch < checkout < evidence < tag < draft < publish
+    assert "rm " not in workflow
+    assert "unlink" not in workflow
+
+
 def test_release_workflow_runs_strict_smoke_before_tag_and_release_mutations():
     workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
     smoke = workflow.index("Dispatch strict smoke verification")

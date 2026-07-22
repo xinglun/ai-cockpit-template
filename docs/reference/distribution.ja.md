@@ -23,7 +23,7 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 
 変更は Pull Request を経由して `main` に入ります。`smoke` と `compatibility` は `main` への push でも実行されます。保守担当者は検証済みの `main` の SHA と新しいタグを指定して `.github/workflows/release.yml` を実行します。ワークフローは既存タグ、ソース SHA、smoke/compatibility の成功、`release.json` を確認してからタグと GitHub Release を作成します。
 
-過去のリリースタグは不変の証拠として扱い、書き換えません。導入先プロジェクトは自身のリモート既定ブランチから導入・アップグレード用ブランチを作成し、公開済みリリースタグを利用します。
+過去のリリースタグは不変の証拠として扱い、書き換えません。導入先プロジェクトは自身のリモート既定ブランチから導入・アップグレード用ブランチを作成し、公開済みリリースタグを利用します。Candidate PR の準備時スナップショットは、リリースの Source of Truth ではありません。PR のマージ後、Workflow はリモートの既定ブランチを解決して最新コミットを取得し、そのコミットを `SOURCE_COMMIT` に設定します。指定された `source_commit` は一致確認のためだけに使い、古い値は checkout、証拠生成、tag 作成、Draft Release 作成、公開、証拠の削除より前に fail closed します。このため採用するモデルはマージ後の自動計算であり、`main` を凍結する必要はありません。
 
 ## アーカイブ証拠インデックス
 

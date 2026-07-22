@@ -128,7 +128,14 @@ def stack_errors(root: Path) -> list[str]:
 def installation_command_errors(root: Path) -> list[str]:
     release = json.loads((root / "release.json").read_text(encoding="utf-8"))
     release_tag = release["releaseTag"]
-    sha256_published = release["capabilities"]["sha256ArchiveVerification"]
+    archive_capability = release["capabilities"]["sha256ArchiveVerification"]
+    if isinstance(archive_capability, dict):
+        sha256_published = (
+            archive_capability.get("supported") is True
+            and archive_capability.get("verified") is True
+        )
+    else:
+        sha256_published = archive_capability is True
     quality_target = release["publicContract"]["projectQualityTarget"]
     quality_marker = f"<!-- public-quality-target: {quality_target} -->"
     errors = []
@@ -228,6 +235,9 @@ def installation_command_errors(root: Path) -> list[str]:
                 not sha256_published
                 and "AI_COCKPIT_TEMPLATE_SHA256" in line
                 and "does **not** implement" not in line
+                and "additional assertion" not in line
+                and "追加のアサーション" not in line
+                and "附加断言" not in line
             ):
                 errors.append(
                     f"{relative}:{number}: SHA256 verification is not published for {release_tag}"

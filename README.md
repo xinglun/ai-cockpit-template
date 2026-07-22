@@ -306,7 +306,7 @@ Installation deploys the runtime; it does not complete production adaptation. Th
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-The current public release includes auditable first-adoption bootstrap and caller-provided SHA256 verification. The release-distribution check fails closed if the tagged source is not reachable through the configured public release metadata. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
+The public release contract includes auditable first-adoption bootstrap and strict Quick Install binding to the published tag, source commit, installer digest, and downloadable release-archive SHA256. Quick Install fails closed when any binding or archive asset is missing or mismatched; the caller-provided `AI_COCKPIT_TEMPLATE_SHA256` is only an additional assertion. Project-specific quality, Coverage paths, and CI still require explicit adaptation.
 
 ## Runtime Requirements
 

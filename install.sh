@@ -19,7 +19,7 @@ Environment:
   AI_COCKPIT_TEMPLATE_SOURCE=/path/to/ai-cockpit-template
   AI_COCKPIT_TEMPLATE_REPO=spirex-ds-dev/ai-cockpit-template
   AI_COCKPIT_TEMPLATE_REF=v0.5.38
-  AI_COCKPIT_TEMPLATE_SHA256=<expected archive SHA256>
+  AI_COCKPIT_TEMPLATE_SHA256=<optional assertion; release.json remains authoritative>
 
 Common options passed through to the Python installer:
   --stack generic|rust|flutter|typescript|python|go|java|android|kotlin|swift|ruby|php|csharp
@@ -77,24 +77,23 @@ if [ -z "$SOURCE" ]; then
     exit 2
   fi
   git clone --depth 1 --branch "$REF" --single-branch "$URL" "$SOURCE"
-  if [ -n "$EXPECTED_SHA256" ]; then
-    ARCHIVE="$TMPDIR_AI_COCKPIT/source.tar.gz"
-    git -C "$SOURCE" archive --format=tar.gz --prefix=ai-cockpit/ HEAD -o "$ARCHIVE"
-    if command -v sha256sum >/dev/null 2>&1; then
-      ACTUAL_SHA256=$(sha256sum "$ARCHIVE" | awk '{print $1}')
-    elif command -v shasum >/dev/null 2>&1; then
-      ACTUAL_SHA256=$(shasum -a 256 "$ARCHIVE" | awk '{print $1}')
-    else
-      echo "ERROR: SHA256 verification requested but sha256sum or shasum is required." >&2
-      exit 2
-    fi
-    if [ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]; then
-      echo "ERROR: archive SHA256 mismatch for $URL" >&2
-      echo "expected: $EXPECTED_SHA256" >&2
-      echo "actual:   $ACTUAL_SHA256" >&2
-      exit 2
-    fi
-    echo "Verified archive SHA256: $ACTUAL_SHA256"
+  # The release contract, not a caller-provided flag, is the default trust root.
+  # The optional URL override exists only for deterministic contract tests.
+  if [ -n "${AI_COCKPIT_TEMPLATE_RELEASE_ASSET_URL:-}" ] && [ -n "$EXPECTED_SHA256" ]; then
+    python3 "$SOURCE/scripts/verify_quick_install_release.py" \
+      --root "$SOURCE" --ref "$REF" \
+      --asset-url "$AI_COCKPIT_TEMPLATE_RELEASE_ASSET_URL" \
+      --expected-archive-sha256 "$EXPECTED_SHA256"
+  elif [ -n "${AI_COCKPIT_TEMPLATE_RELEASE_ASSET_URL:-}" ]; then
+    python3 "$SOURCE/scripts/verify_quick_install_release.py" \
+      --root "$SOURCE" --ref "$REF" \
+      --asset-url "$AI_COCKPIT_TEMPLATE_RELEASE_ASSET_URL"
+  elif [ -n "$EXPECTED_SHA256" ]; then
+    python3 "$SOURCE/scripts/verify_quick_install_release.py" \
+      --root "$SOURCE" --ref "$REF" \
+      --expected-archive-sha256 "$EXPECTED_SHA256"
+  else
+    python3 "$SOURCE/scripts/verify_quick_install_release.py" --root "$SOURCE" --ref "$REF"
   fi
 fi
 

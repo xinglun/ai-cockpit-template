@@ -238,7 +238,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-当前公开版本已经包含可审计的首次采用流程，以及调用方提供 SHA256 时的校验能力。发行分发检查会以匿名方式运行，并在标签源不可公开访问时失败关闭。项目质量命令、Coverage 路径和 CI 仍需针对目标工程明确适配。
+公开发行契约包含可审计的首次采用流程，并要求快速安装同时绑定公开标签、源提交、安装器摘要以及可下载发行归档的 SHA256。任一绑定或归档资产缺失、错误时，快速安装都会失败关闭；调用方提供的 `AI_COCKPIT_TEMPLATE_SHA256` 只是附加断言。项目质量命令、Coverage 路径和 CI 仍需针对目标工程明确适配。
 
 ## 运行环境要求
 

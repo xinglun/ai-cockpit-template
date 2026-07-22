@@ -240,7 +240,7 @@ generic, rust, flutter, typescript, python, go, java, android, kotlin, swift, ru
 <!-- release-capabilities: auditable-adoption,sha256-verification -->
 <!-- public-quality-target: ai-cockpit-quality -->
 
-現在の公開版には、監査可能な初回導入フローと、利用者が指定した SHA256 による検証機能が含まれています。リリース分配チェックは匿名で実行され、タグ元に公開アクセスできない場合は失敗として終了します。プロジェクト固有の品質コマンド、Coverage 対象パス、CI は引き続き明示的な調整が必要です。
+公開リリース契約には監査可能な初回導入フローが含まれ、Quick Install は公開タグ、ソースコミット、インストーラーのダイジェスト、ダウンロード可能なリリースアーカイブの SHA256 を相互に結び付けます。いずれかの結び付きやアーカイブ Asset が欠落・不一致なら fail closed し、`AI_COCKPIT_TEMPLATE_SHA256` は追加のアサーションとしてだけ扱います。プロジェクト固有の品質コマンド、Coverage 対象パス、CI は引き続き明示的な調整が必要です。
 
 ## 動作環境要件
 

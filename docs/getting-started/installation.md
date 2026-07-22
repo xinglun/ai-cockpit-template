@@ -17,6 +17,8 @@ Install a fixed release of AI Cockpit into an existing repository. Start with th
 
 Quick Install consumes the published `release.json` only. Release preparation may maintain a separate `next-release.json` candidate record, but that file is never used to choose the public installer tag; candidate testing must pass an explicit ref.
 
+For a remote install, the tagged `release.json` is the trust root: the installer verifies the tag target, source commit, installer digest, and the exact downloadable release-archive asset and SHA256 before applying changes. Missing or mismatched archive evidence fails closed. `AI_COCKPIT_TEMPLATE_SHA256` is an additional assertion, but it cannot replace the published metadata; local or explicitly configured source installs are an intentional non-public path.
+
 ## Installation Flow
 
 Installation is performed in the adopter repository, not in the template repository's working branch. The adopter repository keeps its own history and branch policy.
@@ -215,7 +217,6 @@ INSTALLER="$(mktemp)"
 trap 'rm -f "$INSTALLER"' EXIT
 curl -fsSL "${AI_COCKPIT_TEMPLATE_RAW_BASE:?set AI_COCKPIT_TEMPLATE_RAW_BASE to the matching raw-content base}/$TARGET_VERSION/install.sh" -o "$INSTALLER"
 AI_COCKPIT_TEMPLATE_REF="$TARGET_VERSION" \
-AI_COCKPIT_TEMPLATE_SHA256="${AI_COCKPIT_TEMPLATE_SHA256:?set AI_COCKPIT_TEMPLATE_SHA256 to the published archive digest}" \
   sh "$INSTALLER" --upgrade --stack rust
 ```
 

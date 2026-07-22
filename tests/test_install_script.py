@@ -44,6 +44,8 @@ def make_fake_git(bin_dir: Path) -> Path:
         "elif cmd == 'archive':\n"
         "    out = rest[rest.index('-o') + 1]\n"
         "    shutil.copy2(os.environ['FAKE_ARCHIVE'], out)\n"
+        "elif cmd == 'rev-parse':\n"
+        "    print(os.environ['FAKE_SOURCE_COMMIT'])\n"
         "else:\n"
         "    print(f'unexpected git invocation: {args!r}', file=sys.stderr)\n"
         "    sys.exit(1)\n",
@@ -69,8 +71,33 @@ def run_remote_install(tmp_path: Path, expected_sha256: str) -> subprocess.Compl
         "#!/usr/bin/env python3\nimport sys\nprint('stub installer')\nsys.exit(0)\n",
         encoding="utf-8",
     )
+    (source_dir / "install.sh").write_bytes((ROOT / "install.sh").read_bytes())
+    (source_dir / "install.sh").chmod(0o755)
+    verifier = source_dir / "scripts" / "verify_quick_install_release.py"
+    verifier.write_bytes((ROOT / "scripts" / "verify_quick_install_release.py").read_bytes())
+    verifier.chmod(0o755)
     archive = tmp_path / "source.tar.gz"
     make_archive(archive)
+    source_commit = "a" * 40
+    (source_dir / "release.json").write_text(
+        json.dumps(
+            {
+                "releaseTag": "v0.5.38",
+                "sourceCommit": source_commit,
+                "installerDigest": hashlib.sha256((ROOT / "install.sh").read_bytes()).hexdigest(),
+                "releaseArchive": {
+                    "assetName": archive.name,
+                    "sourceCommit": source_commit,
+                    "sha256": hashlib.sha256(archive.read_bytes()).hexdigest(),
+                    "url": archive.as_uri(),
+                },
+                "capabilities": {
+                    "sha256ArchiveVerification": {"supported": True, "verified": True}
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
     if expected_sha256 == "MATCH":
         expected_sha256 = hashlib.sha256(archive.read_bytes()).hexdigest()
     make_fake_git(fake_bin)
@@ -81,6 +108,7 @@ def run_remote_install(tmp_path: Path, expected_sha256: str) -> subprocess.Compl
             "FAKE_SOURCE_DIR": str(source_dir),
             "FAKE_ARCHIVE": str(archive),
             "URL_LOG": str(tmp_path / "url.txt"),
+            "FAKE_SOURCE_COMMIT": "a" * 40,
             "AI_COCKPIT_TEMPLATE_SHA256": expected_sha256,
         }
     )
@@ -99,14 +127,14 @@ def test_remote_install_defaults_to_fixed_release_and_accepts_matching_sha256(tm
 
     assert result.returncode == 0, result.stdout + result.stderr
     assert (tmp_path / "url.txt").read_text(encoding="utf-8").endswith("ai-cockpit-template.git")
-    assert "Verified archive SHA256:" in result.stdout
+    assert '"archiveSha256":' in result.stdout
 
 
 def test_remote_install_rejects_sha256_mismatch_before_extraction(tmp_path):
     result = run_remote_install(tmp_path, "0" * 64)
 
     assert result.returncode == 2
-    assert "archive SHA256 mismatch" in result.stderr
+    assert "caller archive SHA256 assertion differs" in result.stderr
     assert "stub installer" not in result.stdout
 
 

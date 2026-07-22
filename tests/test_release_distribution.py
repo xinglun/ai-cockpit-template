@@ -169,7 +169,7 @@ def test_release_claims_excludes_generated_supply_chain_digests():
     assert release_claims(metadata) == {
         "releaseTag": "v1.2.3",
         "publicContract": {"projectQualityTarget": "quality"},
-        "capabilities": {"sha256ArchiveVerification": True},
+        "capabilities": {"sha256ArchiveVerification": {"supported": True}},
     }
 
 

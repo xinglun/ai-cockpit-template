@@ -38,7 +38,8 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 
 公開リリースの状態に関する唯一の Canonical Record は `release-state.json`（`schemaVersion: 1`、`canonical: true`）です。状態遷移、リリースタグ、前回リリース、ソース識別子、証拠参照を所有します。`release.json` は公開インストーラー契約、`next-release.json` は未公開 Candidate の投影であり、独立した Release Truth ではありません。`make check-release-state-consistency` は Canonical マーカー、投影先、公開/Candidate タグ、`previousRelease`、Candidate 状態、および旧メタデータの SHA-256 参照が一致することを確認します。
 
-- `AI_COCKPIT_TEMPLATE_SHA256` を指定した場合、公開インストーラーアーカイブを検証できます。
+- 公開 Quick Install は `release.json` が宣言するタグ対象コミット、インストーラーのダイジェスト、ダウンロード可能なリリースアーカイブ Asset と SHA256 を検証し、欠落・不一致なら fail closed します。
+- `AI_COCKPIT_TEMPLATE_SHA256` は追加のアサーションであり、公開アーカイブメタデータの代替にはなりません。
 - `make check-release-distribution` は実際のインストーラーが配布契約を満たすか確認します。
 - 導入先では、テンプレートの SBOM や provenance をそのまま使用せず、プロジェクト固有の証拠を生成します。
 - ダイジェストマニフェストはリポジトリ内部の整合性だけを証明します。署名や Sigstore/provenance attestation の代替ではありません。

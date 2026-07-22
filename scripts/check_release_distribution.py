@@ -8,6 +8,7 @@ import json
 import os
 import hashlib
 import re
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -198,7 +199,65 @@ def release_claims(metadata: dict[str, object]) -> dict[str, object]:
     Excluding them here permits an unreleased worktree to regenerate evidence
     without claiming that the historical public tag already contains it.
     """
-    return {key: metadata.get(key) for key in ("releaseTag", "publicContract", "capabilities")}
+    capabilities = metadata.get("capabilities")
+    normalized_capabilities: object = capabilities
+    if isinstance(capabilities, dict):
+        archive_capability = capabilities.get("sha256ArchiveVerification")
+        if isinstance(archive_capability, dict):
+            normalized_capabilities = {
+                **capabilities,
+                "sha256ArchiveVerification": {
+                    "supported": archive_capability.get("supported") is True
+                },
+            }
+        elif isinstance(archive_capability, bool):
+            normalized_capabilities = {
+                **capabilities,
+                "sha256ArchiveVerification": {"supported": archive_capability},
+            }
+    return {
+        "releaseTag": metadata.get("releaseTag"),
+        "publicContract": metadata.get("publicContract"),
+        "capabilities": normalized_capabilities,
+    }
+
+
+def archive_verification_supported(metadata: dict[str, object]) -> bool:
+    capability = metadata.get("capabilities")
+    if not isinstance(capability, dict):
+        return False
+    value = capability.get("sha256ArchiveVerification")
+    if isinstance(value, dict):
+        return value.get("supported") is True
+    return value is True
+
+
+def release_archive_issues(
+    metadata: dict[str, object], *, tag: str, tag_target: str, assets: dict[str, bytes]
+) -> list[str]:
+    """Validate the source archive contract when a release publishes one."""
+    archive = metadata.get("releaseArchive")
+    if archive is None:
+        return []
+    if not isinstance(archive, dict):
+        return ["release.json releaseArchive must be an object"]
+    issues: list[str] = []
+    source_commit = archive.get("sourceCommit")
+    if source_commit != tag_target:
+        issues.append("releaseArchive.sourceCommit differs from tag target")
+    asset_name = archive.get("assetName")
+    if not isinstance(asset_name, str) or not asset_name or "/" in asset_name:
+        issues.append("releaseArchive.assetName is missing or unsafe")
+        return issues
+    expected = archive.get("sha256")
+    if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+        issues.append("releaseArchive.sha256 is missing or invalid")
+    payload = assets.get(asset_name)
+    if payload is None:
+        issues.append(f"published release is missing archive asset: {asset_name}")
+    elif isinstance(expected, str) and hashlib.sha256(payload).hexdigest() != expected:
+        issues.append(f"release archive asset digest mismatch for {asset_name}")
+    return issues
 
 
 def release_source_identity_issues(
@@ -381,7 +440,9 @@ def public_release_asset_integrity_issues(
     return issues
 
 
-def fetch_published_release_assets(tag: str) -> dict[str, bytes]:
+def fetch_published_release_assets(
+    tag: str, *, extra_asset_names: set[str] | None = None
+) -> dict[str, bytes]:
     """Download the public release evidence assets for *tag*."""
     parsed = urllib.parse.urlsplit(PUBLIC_REPOSITORY)
     repository_path = parsed.path.rstrip("/")
@@ -402,14 +463,14 @@ def fetch_published_release_assets(tag: str) -> dict[str, bytes]:
     if not isinstance(assets, list):
         raise RuntimeError(f"{tag}: published release assets are missing")
     payloads: dict[str, bytes] = {}
+    requested_assets = {"provenance.json", "release-digests.json", "sbom.json"}
+    requested_assets.update(extra_asset_names or set())
     for asset in assets:
         if not isinstance(asset, dict):
             continue
         name = asset.get("name")
         url = asset.get("browser_download_url")
-        if name in {"provenance.json", "release-digests.json", "sbom.json"} and isinstance(
-            url, str
-        ):
+        if name in requested_assets and isinstance(url, str):
             asset_request = urllib.request.Request(
                 url,
                 headers={
@@ -461,6 +522,8 @@ def fake_git(path: Path) -> None:
         "    out = rest[rest.index('-o') + 1]\n"
         "    archive = os.environ.get('RELEASE_CONTRACT_ARCHIVE') or os.environ['FAKE_ARCHIVE']\n"
         "    shutil.copy2(archive, out)\n"
+        "elif cmd == 'rev-parse':\n"
+        "    print(os.environ['FAKE_SOURCE_COMMIT'])\n"
         "else:\n"
         "    print(f'unexpected git invocation: {args!r}', file=sys.stderr)\n"
         "    sys.exit(1)\n",
@@ -481,25 +544,54 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
         installer = temp / "install.sh"
         installer.write_bytes(script)
         installer.chmod(0o755)
+        shutil.copy2(
+            ROOT / "scripts" / "verify_quick_install_release.py",
+            source_dir / "scripts" / "verify_quick_install_release.py",
+        )
         (source_dir / "scripts" / "install_ai_cockpit.py").write_text(
             "#!/usr/bin/env python3\nimport sys\nprint('release contract fixture')\nsys.exit(0)\n",
             encoding="utf-8",
         )
         archive = temp / "source.tar.gz"
         fixture_archive(archive)
+        source_commit = "a" * 40
+        (source_dir / "release.json").write_text(
+            json.dumps(
+                {
+                    "releaseTag": tag,
+                    "sourceCommit": source_commit,
+                    "installerDigest": hashlib.sha256(script).hexdigest(),
+                    "releaseArchive": {
+                        "assetName": archive.name,
+                        "sourceCommit": source_commit,
+                        "sha256": file_digest(archive),
+                        "url": archive.as_uri(),
+                    },
+                    "capabilities": {
+                        "sha256ArchiveVerification": {
+                            "supported": True,
+                            "verified": True,
+                        }
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
         fake_git(bin_dir / "git")
         env = os.environ.copy()
         env.update(
             {
                 "PATH": f"{bin_dir}{os.pathsep}{env['PATH']}",
                 "AI_COCKPIT_TEMPLATE_REF": tag,
-                "AI_COCKPIT_TEMPLATE_SHA256": "0" * 64,
                 "FAKE_SOURCE_DIR": str(source_dir),
                 "RELEASE_CONTRACT_ARCHIVE": str(archive),
                 "URL_LOG": str(temp / "url.txt"),
+                "FAKE_SOURCE_COMMIT": source_commit,
             }
         )
         env.pop("AI_COCKPIT_TEMPLATE_SOURCE", None)
+        if sha256_supported:
+            env["AI_COCKPIT_TEMPLATE_SHA256"] = "0" * 64
         result = subprocess.run(
             [str(installer), "--stack", "generic"],
             cwd=target,
@@ -508,7 +600,7 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
             capture_output=True,
             check=False,
         )
-    rejected_digest = result.returncode != 0 and "SHA256 mismatch" in result.stderr
+    rejected_digest = result.returncode != 0 and "archive SHA256" in result.stderr
     if rejected_digest != sha256_supported:
         raise RuntimeError(
             f"{tag}: SHA256 behavior disagrees with release.json "
@@ -732,8 +824,14 @@ def inspect_tagged_release(tag: str) -> tuple[dict[str, object], bytes, list[str
             tag_target = run_command(
                 ["git", "rev-parse", "HEAD"], cwd=clone_dir, env=clone_git_environment()
             ).stdout.strip()
+            archive_metadata = metadata.get("releaseArchive")
+            extra_assets = set()
+            if isinstance(archive_metadata, dict) and isinstance(
+                archive_metadata.get("assetName"), str
+            ):
+                extra_assets.add(archive_metadata["assetName"])
             try:
-                assets = fetch_published_release_assets(tag)
+                assets = fetch_published_release_assets(tag, extra_asset_names=extra_assets)
                 provenance = json.loads(assets["provenance.json"].decode("utf-8"))
                 release_digests = json.loads(assets["release-digests.json"].decode("utf-8"))
             except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
@@ -752,6 +850,14 @@ def inspect_tagged_release(tag: str) -> tuple[dict[str, object], bytes, list[str
                         tag=tag,
                         tag_target=tag_target,
                         tag_root=clone_dir,
+                        assets=assets,
+                    )
+                )
+                issues.extend(
+                    release_archive_issues(
+                        metadata,
+                        tag=tag,
+                        tag_target=tag_target,
                         assets=assets,
                     )
                 )
@@ -806,7 +912,7 @@ def main() -> int:
     metadata_path = RELEASE
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     tag = metadata["releaseTag"]
-    supported = metadata["capabilities"]["sha256ArchiveVerification"]
+    supported = archive_verification_supported(metadata)
     quality_target = metadata["publicContract"]["projectQualityTarget"]
     local_source = os.environ.get("AI_COCKPIT_TEMPLATE_SOURCE")
     try:

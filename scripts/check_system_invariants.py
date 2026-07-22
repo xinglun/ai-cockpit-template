@@ -260,10 +260,18 @@ def invariant_issues(root: Path = ROOT) -> list[str]:
     for path in documentation:
         issues.extend(local_link_issues(root, path))
     try:
+        archive_capability = release["capabilities"]["sha256ArchiveVerification"]
+        if isinstance(archive_capability, dict):
+            sha256_supported = (
+                archive_capability.get("supported") is True
+                and archive_capability.get("verified") is True
+            )
+        else:
+            sha256_supported = archive_capability is True
         exercise_installer(
             (root / "install.sh").read_bytes(),
             tag=str(release["releaseTag"]),
-            sha256_supported=bool(release["capabilities"]["sha256ArchiveVerification"]),
+            sha256_supported=sha256_supported,
         )
     except (KeyError, TypeError, RuntimeError) as exc:
         issues.append(f"local distribution capability contract failed: {exc}")

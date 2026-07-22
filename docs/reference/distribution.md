@@ -48,12 +48,13 @@ Release progression has one canonical record: `release-state.json` (`schemaVersi
 
 Installer and upgrade flows intentionally exclude the template's `sbom.json`, `provenance.json`, and `bandit_low_risk_baseline.json`. Those files describe the template release; an adopter must generate and verify project-owned evidence after adoption.
 
-- Public releases can verify the installer archive when `AI_COCKPIT_TEMPLATE_SHA256` is provided and supported by the published release metadata.
+- Public Quick Install verifies the tagged source commit, installer digest, and exact downloadable release-archive asset declared by `release.json`; missing or mismatched evidence fails closed.
+- `AI_COCKPIT_TEMPLATE_SHA256` is an optional additional assertion and cannot replace the published archive metadata.
 - `make check-release-distribution` validates the documented distribution contract against the real installer.
 - Worktree capabilities are only public when the installed release passes the published distribution check.
 - The repository also maintains supply-chain evidence checks for the dev dependency lockfile, SBOM/provenance baselines, and secret scanning. The local `make check-secret-scanning` command is a fast lightweight guard over the current checkout. The release-blocking `smoke` workflow additionally builds and runs Gitleaks from a pinned upstream commit over the full checkout history as delegated evidence; the repository does not claim that local pattern matching replaces professional secret-scanning coverage or that GitHub Secret Scanning is enabled by repository content alone.
 
-The digest manifest proves repository-internal consistency only. The project does not currently publish trusted archive checksum files, cryptographic signatures, or provenance attestations; a release pipeline must provide an independently verifiable signature or Sigstore/provenance attestation and publish its verification material. Treat caller-provided SHA256 comparison and this manifest as additional checks, not as an external trust root.
+The digest manifest proves repository-internal consistency only. The release archive asset and its SHA256 are the public Quick Install binding, not a cryptographic signature or provenance attestation; a release pipeline must provide an independently verifiable signature or Sigstore/provenance attestation and publish its verification material. Treat caller-provided SHA256 comparison and this manifest as additional checks, not as an external trust root.
 An unreleased worktree may regenerate its local SBOM, provenance, and digest manifest before the next public tag. `check-release-distribution` validates the historical tag's own evidence separately and does not equate those unreleased digests with the tag's public claims.
 
 ## Installer Options

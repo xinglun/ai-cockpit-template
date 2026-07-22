@@ -85,6 +85,12 @@ jobs:
           fi
           declared_tag="$(git show "${SOURCE_COMMIT}:release.json" | python3 -c 'import json, sys; print(json.load(sys.stdin)["releaseTag"])')"
           [[ "$declared_tag" == "$RELEASE_TAG" ]]
+          release_archive_source="$(git show "${SOURCE_COMMIT}:release.json" | jq -r '.releaseArchive.sourceCommit // empty')"
+          release_archive_name="$(git show "${SOURCE_COMMIT}:release.json" | jq -r '.releaseArchive.assetName // empty')"
+          release_archive_sha="$(git show "${SOURCE_COMMIT}:release.json" | jq -r '.releaseArchive.sha256 // empty')"
+          [[ "$release_archive_source" == "$SOURCE_COMMIT" ]]
+          [[ "$release_archive_name" =~ ^[A-Za-z0-9_.-]+$ ]]
+          [[ "$release_archive_sha" =~ ^[0-9a-f]{64}$ ]]
           if git cat-file -e "${SOURCE_COMMIT}:next-release.json" 2>/dev/null; then
             git show "${SOURCE_COMMIT}:next-release.json" > "$RUNNER_TEMP/next-release.json"
             python3 - "$RUNNER_TEMP/next-release.json" "${SOURCE_COMMIT}:release.json" <<'PY'
@@ -149,6 +155,12 @@ jobs:
             --workflow-run-sha "$GITHUB_SHA" \
             --release-tag "$RELEASE_TAG" \
             --output-dir "$RUNNER_TEMP/release-evidence"
+          archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
+          git archive --format=tar.gz --prefix="ai-cockpit/" "$SOURCE_COMMIT" \
+            -o "$RUNNER_TEMP/release-evidence/$archive_name"
+          archive_sha="$(sha256sum "$RUNNER_TEMP/release-evidence/$archive_name" | cut -d' ' -f1)"
+          test "$archive_sha" = "$(jq -r '.releaseArchive.sha256' release.json)"
+          test "$(jq -r '.releaseArchive.sourceCommit' release.json)" = "$SOURCE_COMMIT"
 
       - name: Verify source-bound release evidence subjects
         shell: bash
@@ -167,6 +179,9 @@ jobs:
           provenance_digest="$(sha256sum "$evidence/provenance.json" | cut -d' ' -f1)"
           test "$(jq -r '.artifacts[".ai/cockpit/sbom.json"]' "$evidence/release-digests.json")" = "$sbom_digest"
           test "$(jq -r '.artifacts[".ai/cockpit/provenance.json"]' "$evidence/release-digests.json")" = "$provenance_digest"
+          archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
+          test "$(jq -r '.releaseArchive.sourceCommit' release.json)" = "$SOURCE_COMMIT"
+          test "$(jq -r '.releaseArchive.sha256' release.json)" = "$(sha256sum "$evidence/$archive_name" | cut -d' ' -f1)"
 
       - name: Bind the generated evidence bundle digest
         shell: bash
@@ -220,7 +235,8 @@ jobs:
             "$RUNNER_TEMP/release-evidence/sbom.json#sbom.json" \
             "$RUNNER_TEMP/release-evidence/provenance.json#provenance.json" \
             "$RUNNER_TEMP/release-evidence/release-digests.json#release-digests.json" \
-            "$RUNNER_TEMP/release-source.json#release-source.json"
+            "$RUNNER_TEMP/release-source.json#release-source.json" \
+            "$RUNNER_TEMP/release-evidence/$(jq -r '.releaseArchive.assetName' release.json)#$(jq -r '.releaseArchive.assetName' release.json)"
 
       - name: Verify Draft tag target and release asset subjects
         working-directory: ${{ github.workspace }}

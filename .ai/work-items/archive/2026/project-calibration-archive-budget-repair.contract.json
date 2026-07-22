@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-archive-budget-repair",
+  "mode": "code",
+  "title": "Repair archive growth budget",
+  "baseCommit": "67384be0e1afbb97c7ced9cf5e6c49fb4eb02383",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-archive-budget-repair.contract.json",
+    ".ai/work-items/active/project-calibration-archive-budget-repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Do not change product behavior, release metadata, or published tags/assets.",
+    "Do not combine this budget repair with the One Release Truth implementation."
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Archive growth budget exceeded by the newly created Work Item archive."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Governance evidence and repayment terminology."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Executable budget and repayment validation."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression tests that fail when archiveGrowth exceeds the configured maximum."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_complexity"
+    ],
+    "reason": "Documentation-only governance budget adjustment with no runtime or release behavior change."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User previously authorized independent budget repairs for measured governance evidence growth."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "archiveGrowth maximum is raised from 450 to 460 with a repayment record for the measured archive count of 451.",
+    "The complexity check passes and no release or runtime behavior changes are included.",
+    "The Work Item has a Contract v2/Summary, passes its declared checks, and is independently archived before its PR is merged and closed."
+  ],
+  "guidelines": [
+    "Keep budget changes bounded, attributable, and paired with a repayment record.",
+    "Do not use a budget repair to mask unrelated verification failures."
+  ],
+  "intent": {
+    "problem": "The additional Work Item 1 archive raises immutable archiveGrowth from 450 to 451, causing the governance complexity gate and CI matrix to fail closed.",
+    "constraints": [
+      "Change only the bounded archive budget and its repayment evidence.",
+      "Preserve the measured archive count and do not loosen unrelated limits.",
+      "Keep release behavior and Work Item 1 implementation out of scope."
+    ],
+    "rationale": "A separately reviewed budget repair keeps the one-Work-Item/one-PR boundary intact while making the measured lifecycle evidence growth explicit."
+  },
+  "rawUserRequest": "已授权创建独立预算修复 Work Item/PR；修复后继续工单流程。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-budget-repair", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-budget-repair"},
+  "declaredIntent": {"summary": "Repair only the measured archive growth budget required by the new Work Item archive.", "requestedCapabilities": ["ai_governance"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Measured archive growth is within the explicitly raised ceiling and repayment is recorded.", "required": true, "status": "verified", "evidence": [".ai/guards/governance_complexity_policy.yaml"]},
+    {"scenario": "No unrelated release or runtime behavior changes are included.", "required": true, "status": "verified", "evidence": ["git diff"]},
+    {"scenario": "Governance complexity validation passes after the repair.", "required": true, "status": "verified", "evidence": ["scripts/check_governance_complexity.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the independent budget repair Work Item/PR."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-archive-budget-repair.json",
+    "baseCommit": "67384be0e1afbb97c7ced9cf5e6c49fb4eb02383",
+    "initialScopeDigest": "7b0f9826f3494ce9b704bbc4783759cebf1b5701288fc4a588d1a3506bdb9cd6",
+    "contractSkeletonDigest": "dccea3512539af4669cdf5da6d81d9396f60c6e1773823f88ed07063aecb0fc4"
+  }
+}

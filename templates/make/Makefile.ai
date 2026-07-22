@@ -63,6 +63,9 @@ ai-cockpit-diff-check:
 
 ai-cockpit-quality: ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check
 
+unsupported-claim-regression:
+	$(AI_PYTHON) scripts/unsupported_claim_gate.py
+
 ai-start:
 	$(AI_PYTHON) scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"
 

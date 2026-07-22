@@ -8,6 +8,16 @@ from typing import Any
 
 
 POLICY = "unsupported-claim-evidence-policy"
+NEGATIVE_CASES = (
+    "confident_without_evidence",
+    "not_run_as_passed",
+    "failed_as_passed",
+    "inference_as_fact",
+    "missing_file",
+    "approval_without_decision",
+    "simulation_as_real",
+)
+POSITIVE_CASES = ("supported_claim", "approved_claim")
 
 
 def evaluate_claim(claim: dict[str, Any], *, root: Path) -> dict[str, Any]:
@@ -22,6 +32,8 @@ def evaluate_claim(claim: dict[str, Any], *, root: Path) -> dict[str, Any]:
                 continue
             if item.get("status") == "not_run":
                 reasons.append("claim cites a check that was not_run")
+            if item.get("status") in {"failed", "blocked", "error"}:
+                reasons.append("claim cites a non-passing check")
             if item.get("kind") == "inference":
                 reasons.append("inference is presented as fact")
             if item.get("kind") == "simulation":
@@ -47,6 +59,7 @@ def run_regression(root: Path) -> dict[str, Any]:
     cases: list[dict[str, Any]] = [
         {"name": "confident_without_evidence", "claim": {}},
         {"name": "not_run_as_passed", "claim": {"evidence": [{"status": "not_run"}]}},
+        {"name": "failed_as_passed", "claim": {"evidence": [{"status": "failed"}]}},
         {"name": "inference_as_fact", "claim": {"evidence": [{"kind": "inference"}]}},
         {"name": "missing_file", "claim": {"evidence": [{"path": "missing-evidence.json"}]}},
         {
@@ -58,6 +71,19 @@ def run_regression(root: Path) -> dict[str, Any]:
             "name": "supported_claim",
             "claim": {
                 "evidence": [{"path": "scripts/unsupported_claim_gate.py", "status": "passed"}]
+            },
+        },
+        {
+            "name": "approved_claim",
+            "claim": {
+                "evidence": [
+                    {
+                        "kind": "approval",
+                        "approved": True,
+                        "path": "scripts/unsupported_claim_gate.py",
+                        "status": "passed",
+                    }
+                ]
             },
         },
     ]
@@ -72,9 +98,8 @@ def run_regression(root: Path) -> dict[str, Any]:
 def main() -> int:
     report = run_regression(Path(__file__).resolve().parents[1])
     expected = {item["name"]: item["state"] for item in report["results"]}
-    if (
-        any(expected[name] != "blocked" for name in list(expected)[:6])
-        or expected["supported_claim"] != "allowed"
+    if any(expected.get(name) != "blocked" for name in NEGATIVE_CASES) or any(
+        expected.get(name) != "allowed" for name in POSITIVE_CASES
     ):
         print(json.dumps(report, indent=2, sort_keys=True))
         return 1

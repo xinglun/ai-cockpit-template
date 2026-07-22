@@ -54,3 +54,7 @@ make ai-cockpit-update-apply PROPOSAL=.ai/upgrade/proposals/upgrade-2026-07.json
 ```
 
 The first command is read-only and returns the confirmation options. The confirmed command checks repository drift, creates `.ai/upgrade/snapshots/<upgrade-id>/`, applies only safe/new files, retains project-owned and historical content, updates validated facts, and writes an ordered Update Summary. Drift or unresolved conflicts stop before any write. Migration, generated regeneration, readiness, and smoke-test steps remain explicit deferred stages for their dedicated Work Items.
+
+## Schema migration
+
+Project-owned configuration migrations use a versioned registry and produce a plan containing old/new fields, defaults, non-migratable content, policy impact, and reconfirmation items. Policy strengthening, critical-threshold changes, baseline changes, and other high-risk changes return `needs_human_confirmation`; unsupported reverse migrations return `partial_rollback` and do not write configuration. The migration planner is `scripts/ai_schema_migration.py` and is intentionally separate from update application.

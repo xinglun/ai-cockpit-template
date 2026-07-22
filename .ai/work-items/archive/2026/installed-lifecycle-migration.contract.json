@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-migration",
+  "mode": "code",
+  "title": "installed-lifecycle-migration",
+  "baseCommit": "76b5aa56555ec3074e920b9d2d91e6bd1c6ee2f4",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_schema_migration.py",
+    "tests/test_schema_migration.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-migration.contract.json",
+    ".ai/work-items/active/installed-lifecycle-migration.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Runtime update apply", "Rollback execution", "Uninstall and purge"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/installed-lifecycle-migration.contract.json",
+      "reason": "Approved lifecycle plan and installed fact/ownership boundaries."
+    },
+    {"path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "reason": "Defines migration proposal, policy re-confirmation, and partial rollback requirements."},
+    {"path": "scripts/ai_install_facts.py", "reason": "Installation fact and baseline schema boundary."},
+    {"path": "scripts/ai_upgrade_apply.py", "reason": "Apply workflow handoff and migration deferral boundary."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "schema_migration_policy"
+    ],
+    "reason": "Initial skeleton; replace with task-specific implementation and review risks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial execution; migration explicitly re-confirms policy changes and blocks unsupported reverse migration."
+  },
+  "preReviewWarnings": [
+    "Review defaults, policy-strength changes, critical thresholds, and partial rollback behavior."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Migration plans identify old fields, new fields, defaults, non-migratable content, policy changes, and reconfirmation items.",
+    "Automatic migration is explicit and unsupported reverse migration returns partial_rollback or blocked.",
+    "Tests cover automatic, confirmation-required, impossible, defaults, policy changes, and invalid schemas.",
+    "CLI/documentation describe the migration schema and confirmation boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Project-owned configuration cannot be silently reshaped during an update; migrations need an explicit diff, defaults, policy impact, and rollback posture.",
+    "constraints": ["Use a versioned registry and JSON-only deterministic plans.", "Never silently modify project-owned configuration.", "Policy strengthening, critical thresholds, and baseline changes require reconfirmation.", "Unsupported reverse migration must block or report partial_rollback."],
+    "rationale": "A migration plan separates schema reasoning from update application and makes non-reversible changes reviewable."
+  },
+  "rawUserRequest": "走完当前文档的流程；按计划逐个工单执行完整生命周期，包括 PR、合并、清理分支，直到全部工单完成。用户已授权所需确认范围。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-lifecycle-execution", "capturedAt": "2026-07-22T00:00:00+09:00", "digest": "sha256:user-authorized-serial-lifecycle-execution"},
+  "declaredIntent": {"summary": "Implement an explicit, confirmation-aware schema migration planner.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Automatic field migration and defaults are represented deterministically", "required": true, "status": "verified", "evidence": ["tests/test_schema_migration.py"], "reason": "Focused migration tests."},
+    {"scenario": "Policy or critical-domain strengthening requires reconfirmation", "required": true, "status": "verified", "evidence": ["tests/test_schema_migration.py"], "reason": "Focused policy-diff tests."},
+    {"scenario": "Non-migratable content and invalid schema fail closed", "required": true, "status": "verified", "evidence": ["tests/test_schema_migration.py"], "reason": "Focused negative tests."},
+    {"scenario": "Unsupported reverse migration returns partial_rollback", "required": true, "status": "verified", "evidence": ["tests/test_schema_migration.py"], "reason": "Focused reverse-migration test."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete serial lifecycle plan, including governance policy changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-migration.json",
+    "baseCommit": "76b5aa56555ec3074e920b9d2d91e6bd1c6ee2f4",
+    "initialScopeDigest": "d853e399ad7f5f87aa0a33c6d287d94ccca970e3b98817ad01148da6c56f05fa",
+    "contractSkeletonDigest": "5fb138e69cab9f558bfddf75ce42bd339a172612c1b5f10fdf02dfcd99e7e720"
+  }
+}

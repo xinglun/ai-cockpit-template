@@ -27,10 +27,10 @@ jq -n '{releaseTag:"v0.5.34",releaseState:"candidate",published:false,basedOnRel
 pub_digest="$(sha256sum "$tmp/release/release.json" | cut -d' ' -f1)"
 candidate_digest="$(sha256sum "$tmp/release/next-release.json" | cut -d' ' -f1)"
 jq -n --arg source "$head" --arg pub "$pub_digest" --arg candidate "$candidate_digest" --slurpfile evidence "$valid" '{schemaVersion:1,canonical:true,projections:{published:"release.json",candidate:"next-release.json"},state:"candidate_verified",releaseTag:"v0.5.34",sourceCommit:$source,previousRelease:"v0.5.33",evidenceStatus:"verified",evidenceBundleDigest:("a"*64),metadataDigests:{published:$pub,candidate:$candidate},ciEvidence:$evidence[0]}' > "$tmp/release/release-state.json"
-PYTHONDONTWRITEBYTECODE=1 "$root/.venv/bin/python" "$root/scripts/check_release_state_consistency.py" --root "$tmp/release"
+PYTHONDONTWRITEBYTECODE=1 python3 "$root/scripts/check_release_state_consistency.py" --root "$tmp/release"
 jq '.ciEvidence.evidenceSource = "pr_body"' "$tmp/release/release-state.json" > "$tmp/release/bad.json"
 mv "$tmp/release/bad.json" "$tmp/release/release-state.json"
-if PYTHONDONTWRITEBYTECODE=1 "$root/.venv/bin/python" "$root/scripts/check_release_state_consistency.py" --root "$tmp/release"; then
+if PYTHONDONTWRITEBYTECODE=1 python3 "$root/scripts/check_release_state_consistency.py" --root "$tmp/release"; then
   echo 'PR Body-only canonical evidence unexpectedly passed' >&2
   exit 1
 fi

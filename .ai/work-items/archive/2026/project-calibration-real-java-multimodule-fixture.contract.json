@@ -1,0 +1,168 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-real-java-multimodule-fixture",
+  "mode": "code",
+  "title": "project-calibration-real-java-multimodule-fixture",
+  "rawUserRequest": "执行项目校准计划工单 10：建立至少两个模块的真实 Java Fixture，执行安装、构建、测试、质量检查、升级和回滚，追踪八阶段生命周期；工具链不可用时明确 not_run，不能把 Manifest 记录冒充执行证据；不启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Make the Java multi-module fixture execute real local compilation/tests and expose explicit unavailable-toolchain evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+    ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "examples/fixtures/java-multimodule/**",
+    "tests/test_java_fixture.py",
+    "docs/reference/adopter-long-cycle-validation.md",
+    "docs/reference/adopter-long-cycle-validation.ja.md"
+  ],
+  "outOfScope": ["External provider, Maven repository, or enterprise identity evidence", "Changing TypeScript/Python fixture behavior", "Starting Work Item 1 or later Work Items"],
+  "sources": [
+    {
+      "path": "tests/test_java_fixture.py",
+      "reason": "Executes the multi-module Java lifecycle and validates evidence boundaries."
+    },
+    {
+      "path": "docs/reference/adopter-long-cycle-validation.md",
+      "reason": "Documents controlled fixture evidence and non-claims."
+    },
+    {
+      "path": "docs/reference/installed-lifecycle.md",
+      "reason": "Defines local_real_execution, not_run, and simulation evidence kinds."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["toolchain_boundary"],
+    "reason": "The fixture is dependency-free across two Java modules; missing JDK/Maven capabilities must remain explicit not_run evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of this bounded fixture Work Item."
+  },
+  "preReviewWarnings": [
+    "Reject declarative phase records as execution evidence; verify module compilation, tests, upgrade/rollback, and unavailable-toolchain handling."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Java fixture executes two module compilation and test paths with real javac/java commands and records Maven unavailability separately.",
+    "All eight lifecycle phases are represented with explicit local_real_execution, blocked, or not_run evidence and resume conditions.",
+    "Tests and documentation distinguish executable local evidence from provider/identity/sandbox evidence that remains not_run."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The Java fixture has two modules and a shell lifecycle, but phase records use ad hoc executed labels and do not uniformly identify real execution versus unavailable or simulated evidence.",
+    "constraints": ["Keep the fixture dependency-free and local; do not claim Maven provider, identity, sandbox, immutable audit, or enterprise evidence.", "Record missing JDK/Maven as not_run with a reason.", "Do not start Work Item 1 or later Work Items."],
+    "rationale": "Explicit evidence kinds and real two-module commands make the Java lifecycle reproducible without overstating external capabilities."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Both core and app modules compile and executable tests pass with JDK available", "required": true, "status": "verified", "evidence": ["tests/test_java_fixture.py"]},
+    {"scenario": "Ambiguous and critical-domain phases remain blocked with resume conditions", "required": true, "status": "verified", "evidence": ["tests/test_java_fixture.py"]},
+    {"scenario": "Maven/provider/identity/sandbox availability is explicit not_run", "required": true, "status": "verified", "evidence": ["docs/reference/installed-lifecycle.md", "examples/fixtures/java-multimodule/evidence.json"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized serial execution of the recalibration plan, including this fixture Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-real-java-multimodule-fixture.json",
+    "baseCommit": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+    "initialScopeDigest": "c197e34d56db734269bb74867bae394fe5f4040b17261dae134c265585ae2913",
+    "contractSkeletonDigest": "44e38c32994320dcb268e68265568a51861d6f01eb4dd5bd52420c6cd26dd729"
+  }
+}

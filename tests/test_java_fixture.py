@@ -28,11 +28,16 @@ def test_java_multimodule_lifecycle() -> None:
         "Rollback",
         "Release Check",
     ]
-    assert phases["Normal Work Item"]["status"] == "executed"
+    assert phases["Normal Work Item"]["status"] == "passed"
+    assert phases["Normal Work Item"]["executionKind"] == "local_real_execution"
     assert phases["Ambiguous Request"]["status"] == "blocked"
     assert phases["Critical Domain Change"]["status"] == "blocked"
     assert phases["Ambiguous Request"]["resumeCondition"]
     assert phases["Critical Domain Change"]["resumeCondition"]
+    assert phases["Ambiguous Request"]["executionKind"] == "blocked"
+    assert phases["Critical Domain Change"]["executionKind"] == "blocked"
+    assert phases["Upgrade"]["executionKind"] == "local_real_execution"
+    assert phases["Rollback"]["executionKind"] == "local_real_execution"
     assert "provider release:not_run" in phases["Release Check"]["evidence"]
 
 

@@ -1,0 +1,404 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "project-calibration-real-java-multimodule-fixture",
+  "contractPath": ".ai/work-items/archive/2026/project-calibration-real-java-multimodule-fixture.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/project-calibration-real-java-multimodule-fixture.contract.json",
+      "reason": "Defined two-module Java fixture scope, lifecycle phases, toolchain boundaries, and non-claims."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/project-calibration-real-java-multimodule-fixture.summary.json",
+      "reason": "Records real Java lifecycle execution and verification handoff."
+    },
+    {
+      "path": "examples/fixtures/java-multimodule/scripts/lifecycle.sh",
+      "reason": "Executes core/app javac/java paths and verifies temporary upgrade/rollback transitions with explicit evidence kinds."
+    },
+    {
+      "path": "examples/fixtures/java-multimodule/evidence.json",
+      "reason": "Declares executable local evidence and Maven/provider/identity not_run boundaries."
+    },
+    {
+      "path": "tests/test_java_fixture.py",
+      "reason": "Runs the Java fixture and verifies phase status and evidence kinds."
+    },
+    {
+      "path": "docs/reference/adopter-long-cycle-validation.md",
+      "reason": "Documents real Java module execution versus simulation and external not_run evidence."
+    },
+    {
+      "path": "docs/reference/adopter-long-cycle-validation.ja.md",
+      "reason": "Aligns Japanese lifecycle documentation with Java fixture evidence boundaries."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/project-calibration-real-java-multimodule-fixture.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+    "examples/fixtures/java-multimodule/evidence.json",
+    "tests/test_java_fixture.py",
+    "docs/reference/installed-lifecycle.md",
+    "docs/reference/adopter-long-cycle-validation.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:56.519107+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "5ce32349c5c8625f94af78c3a3a680de07b2a3ec25ff883bc43539c139820d94",
+      "commandHash": "b9bee50ed8a8b7778a03abcdd47ea9a6c5a9b823d575d034c6e0cfa91e067456",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json work item contract check passed: .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:56.683266+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "410e78dd94fbcccb526ce1d5941d4279202ebbccd91c2d6ee32d1f57933158fa",
+      "commandHash": "c1723d1655d23201f7eb7fa26e6493bba969677d544ac15a89a2a8b2d54b18ce",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:56.857853+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "bceade10d913ee8149d036f1b837adc7e00f11f709ac39390e5af0b2a4fbd2ae",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:57.104472+00:00",
+      "exitCode": 0,
+      "durationMs": 189,
+      "outputDigest": "078de6da4593a0c147218785280439e8735a06131989e357d44543b55274e9ac",
+      "commandHash": "63e5bbe254722102645bb4ffbdf634de4961f11a7a9fafb021212a0941d5f70a",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `project-calibration-real-java-multimodule-fixture` - Contract Hash: `fb8f66411b6a6546` - Mode: `code` - notCodable: `False` - Execution Decision: `cont"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:57.281600+00:00",
+      "exitCode": 0,
+      "durationMs": 122,
+      "outputDigest": "8845b68e2edcb3e3d16c7a16193379606a91a88e7e5dcfed29a56ca903f64584",
+      "commandHash": "93a7e2629fcd91c00123120a9756f448106400c836ce255d17f3400a8cc33123",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json review policy matched 2 path(s) [review] .ai/work-items/starts/project-calibration-real-java-multimodule-fixture.json [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:57.476486+00:00",
+      "exitCode": 0,
+      "durationMs": 140,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:57.625768+00:00",
+      "exitCode": 0,
+      "durationMs": 96,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:57.725717+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "6ce6f675c10797a969569bec993be2fac3831312c3fd2264755c71d8cfa0a943",
+      "commandHash": "c70f4c4a40a88917d1ecbefcbe10ee1c6caf5f36887bffdf7783f3de255593d6",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:57.823816+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "73fd3c6c866089f219072c76e1920fae1c577da55512efccdcdecd18017c2be3",
+      "commandHash": "b97f65b12e1bbe8c3d1b99479e3ba8637fe295766395c041b2c51a976bc60da7",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:07:58.073275+00:00",
+      "exitCode": 0,
+      "durationMs": 201,
+      "outputDigest": "89ba571e1ff7ee8346bdf7cb3ca582ecb64adbb88dc5c43aea2964e8f2f372e4",
+      "commandHash": "f2f38af45b3634fde197a8048971ad716b998d35b4220add484e1f77c5bcb606",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/project-calibration-real-java-multimodule-fixture.json` — covered by"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:10:54.883410+00:00",
+      "exitCode": 0,
+      "durationMs": 176755,
+      "outputDigest": "73a02d811ad08ac496637a58d39835f6ca107123ef19428da38753bec94fa504",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "692648f5e6c94cc134164121f738423a782154050cdc103ed360278c9b8aaacb",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 159 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 8%] ........................................................................ [ 17%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:10:56.156453+00:00",
+      "exitCode": 0,
+      "durationMs": 271,
+      "outputDigest": "c4ddc83e3e42431d2e5ca74303f12606d1dcae1711964f9b4a9f7703dae0d2e0",
+      "commandHash": "b92b4e53a9908c9439e63a6a3d59ee77dac26544c3f37b55a6d5f7c6838a225d",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "0b1b0383204e48e731b2a5a4dbee2a6578561d037b6141daa8b444cbef9c0459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:10:56.429365+00:00",
+      "exitCode": 0,
+      "durationMs": 224,
+      "outputDigest": "3d172dcb0db6d7384478613b68f12f94d51dcecbca1186c4dbfc1482587382de",
+      "commandHash": "febe3ccb2afe09d031477a0fca2adb972c2c49f4b21ee52484fd69abb09c36e1",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "0b1b0383204e48e731b2a5a4dbee2a6578561d037b6141daa8b444cbef9c0459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:10:56.525804+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "0b1b0383204e48e731b2a5a4dbee2a6578561d037b6141daa8b444cbef9c0459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:10:56.639591+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "f8edb265dd176d2519ede83666136de2620df2a6589dfe7fd2d86fc68ba05075",
+      "commandHash": "61bf264fb442f8fb240d1c389113edd2d203e612f43d8c1f0de65230ad1295ca",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "0b1b0383204e48e731b2a5a4dbee2a6578561d037b6141daa8b444cbef9c0459",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json --summary .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json CONTRACT=.ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T10:10:57.452018+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "a432459243dcbadb5810b1010ee0aacbefa56d7e42eeab23b9834e4951bf4c16",
+      "commandHash": "c216a317c50a633ed9c8267b07e4d2b509687c9af1e46bf2818cdbdfb0692d57",
+      "contractHash": "fb8f66411b6a65464fde395ec222f2a618bef794b14a5d57cb1c9e8e14b10a0c",
+      "commitSha": "b2ecc050e8707d0d2ed3d64046398ecc9a18d6a7",
+      "executionContractPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json",
+      "worktreeDigest": "5259320fbda6747a170343f52ae735bcfffd23c6e8a21b124678aab785a57115",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json --contract .ai/work-items/active/project-calibration-real-java-multimodule-fixture.contract.json ai summary check passed: .ai/work-items/active/project-calibration-real-java-multimodule-fixture.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Java lifecycle and evidence boundaries are documented in docs/reference/adopter-long-cycle-validation.md."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The fixture is isolated and dependency-free; no internal feature modules are imported."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "JDK is executed locally; Maven, provider, identity, and sandbox evidence remain explicitly not_run."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "toolchain_boundary",
+      "detail": "The fixture proves only local two-module Java behavior and temporary file transition checks.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Real core/app javac/java evidence",
+      "Maven and external evidence remain not_run"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "fb8f66411b6a6546",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "recordedAt": "2026-07-22",
+      "evidence": "make ai-checkpoint before_edit passed before implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "fb8f66411b6a6546",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "recordedAt": "2026-07-22",
+      "evidence": "make ai-checkpoint before_finish passed before final verification."
+    }
+  ],
+  "knownGaps": [
+    "No known gaps before full quality and lifecycle checks."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 446
+}

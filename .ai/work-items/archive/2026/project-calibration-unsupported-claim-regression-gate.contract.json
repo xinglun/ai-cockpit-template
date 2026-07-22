@@ -1,0 +1,180 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-unsupported-claim-regression-gate",
+  "mode": "code",
+  "title": "project-calibration-unsupported-claim-regression-gate",
+  "rawUserRequest": "执行项目校准计划工单 11：将正式协议限定为无证据或与证据矛盾的外部声明，覆盖无证据、自信但无证据、未执行却写通过、推断当事实、引用不存在文件、虚假批准和模拟结果冒充真实结果；负例在 Finish/PR/Release 阶段 fail closed，合法文档、sandbox mock 和错误测试对照通过；不启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Make unsupported external claim regression explicit, extensible, and fail closed at quality boundaries.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "e4d1bdfd6c22266645e734d32c8436225dbb4466",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-unsupported-claim-regression-gate.contract.json",
+    ".ai/work-items/active/project-calibration-unsupported-claim-regression-gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/unsupported_claim_gate.py",
+    "tests/test_unsupported_claim_regression.py",
+    "tests/test_delusion_scenarios.py",
+    "Makefile",
+    "templates/make/Makefile.ai",
+    ".ai/cockpit/checks.yaml",
+    "docs/trust-layer.md"
+  ],
+  "outOfScope": ["Universal semantic risk detection or model-internal state claims", "Changing legitimate sandbox mock behavior", "Starting Work Item 1 or later Work Items"],
+  "sources": [
+    {
+      "path": "scripts/unsupported_claim_gate.py",
+      "reason": "Formal unsupported external claim evaluator and regression entrypoint."
+    },
+    {
+      "path": "tests/test_unsupported_claim_regression.py",
+      "reason": "Positive and negative regression coverage for evidence contradictions."
+    },
+    {
+      "path": "tests/test_delusion_scenarios.py",
+      "reason": "Known dangerous and underspecified scenario comparison coverage."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Quality, Finish, and release-facing regression gate wiring."
+    },
+    {
+      "path": "docs/trust-layer.md",
+      "reason": "Formal protocol name and bounded non-claim documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["evidence_integrity"],
+    "reason": "The gate evaluates a finite structured claim vocabulary and must fail closed without claiming universal semantic coverage."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of this bounded evidence regression Work Item."
+  },
+  "preReviewWarnings": [
+    "Ensure every negative case is blocked, supported evidence is allowed, and the formal gate is wired into quality/CI/release boundaries."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The formal gate blocks all enumerated unsupported external claim classes and allows structured existing evidence.",
+    "A failed or not_run check cannot be presented as passed evidence, and malformed/missing/approval/simulation/inference contradictions fail closed.",
+    "Finish, PR/CI quality, and release-facing quality invoke the formal Unsupported Claim Regression Gate without claiming universal semantic coverage."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Unsupported external claims can be expressed as confident prose even when evidence is missing, stale, inferred, simulated, or contradictory; the repository needs a finite, explicit regression gate with fail-closed wiring.",
+    "constraints": ["Use the formal name Unsupported Claim Regression Gate; retain Delusion only as a bounded compatibility label.", "Do not claim to detect model-internal states or provide universal semantic risk coverage.", "Do not start Work Item 1 or later Work Items."],
+    "rationale": "A structured negative/positive regression suite and mandatory quality target makes evidence contradictions visible at Finish, PR/CI, and release boundaries."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Missing, not_run, failed, inferred, missing-file, false-approval, and simulation claims are blocked", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py", "scripts/unsupported_claim_gate.py"]},
+    {"scenario": "Existing structured evidence and approved evidence are allowed", "required": true, "status": "verified", "evidence": ["tests/test_unsupported_claim_regression.py"]},
+    {"scenario": "Known dangerous/underspecified scenario gate remains bounded and non-universal", "required": true, "status": "verified", "evidence": ["tests/test_delusion_scenarios.py", "docs/trust-layer.md"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized serial execution of the recalibration plan, including this regression gate Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-unsupported-claim-regression-gate.json",
+    "baseCommit": "e4d1bdfd6c22266645e734d32c8436225dbb4466",
+    "initialScopeDigest": "a626d0c01859027b0bea2d6b9177d170b7d06bcc17b427babff0a8a71e2fd485",
+    "contractSkeletonDigest": "2124478b380bce618caffad901f1aaa7385b83e02d41f8047e48f4d16257a737"
+  }
+}

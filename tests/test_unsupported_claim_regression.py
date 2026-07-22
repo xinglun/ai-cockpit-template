@@ -14,8 +14,9 @@ import unsupported_claim_gate  # noqa: E402
 def test_gate_blocks_six_unsupported_claims_and_allows_supported_claim() -> None:
     report = unsupported_claim_gate.run_regression(ROOT)
     states = {item["name"]: item["state"] for item in report["results"]}
-    assert all(states[name] == "blocked" for name in list(states)[:6])
+    assert all(states[name] == "blocked" for name in unsupported_claim_gate.NEGATIVE_CASES)
     assert states["supported_claim"] == "allowed"
+    assert states["approved_claim"] == "allowed"
     for item in report["results"]:
         assert item["reason"]
         assert item["evidence"] is not None
@@ -47,6 +48,15 @@ def test_gate_handles_malformed_and_approved_structured_evidence() -> None:
     )
     assert malformed["state"] == "blocked"
     assert approved["state"] == "allowed"
+
+
+def test_gate_blocks_failed_check_even_when_evidence_file_exists() -> None:
+    failed = unsupported_claim_gate.evaluate_claim(
+        {"evidence": [{"path": "scripts/unsupported_claim_gate.py", "status": "failed"}]},
+        root=ROOT,
+    )
+    assert failed["state"] == "blocked"
+    assert "non-passing" in failed["reason"]
 
 
 def test_gate_cli_returns_failure_for_a_bad_regression(monkeypatch, capsys) -> None:

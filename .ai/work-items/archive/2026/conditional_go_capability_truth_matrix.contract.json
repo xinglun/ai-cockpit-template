@@ -1,0 +1,217 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_capability_truth_matrix",
+  "mode": "code",
+  "title": "Align Capability Truth Matrix and documentation claims",
+  "baseCommit": "8c874e7f44fd25ae179bcc698b7708df2ebfba13",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_capability_truth_matrix.contract.json",
+    ".ai/work-items/active/conditional_go_capability_truth_matrix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/reference/capability-truth-matrix.md",
+    "docs/reference/capability-truth-matrix.json",
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/configuration.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/reference/upgrade.md",
+    "docs/reference/installed-lifecycle.md",
+    "tests/test_capability_truth_matrix.py",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Implementing calibration runtime, Quick Install digest verification, Bootstrap Wizard, Ownership Manifest, Update/Uninstall lifecycle, CI release evidence, or Installer decomposition",
+    "Changing release metadata, installer behavior, or product runtime code",
+    "Deleting historical Work Item, review, or release evidence"
+  ],
+  "sources": [
+    {
+      "path": "README.md",
+      "reason": "Current public capability and boundary claims to align with repository evidence."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Installation and calibration claims that must distinguish current runtime from planned behavior."
+    },
+    {
+      "path": "docs/reference/installed-lifecycle.md",
+      "reason": "Installed lifecycle evidence and explicit deferred-stage boundaries."
+    },
+    {
+      "path": "scripts/ai_calibrate.py",
+      "reason": "Authoritative current calibration implementation boundary."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Authoritative installer/runtime surface for the template repository."
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "Adopter-installed command surface and parity evidence."
+    },
+    {
+      "path": "tests/test_capability_truth_matrix.py",
+      "reason": "Regression checks for matrix schema, status vocabulary, and documented current/planned claims."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Confirmed bounded Markdown budget reservation for the new evidence matrix and aligned documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "documentation_truth",
+      "scope"
+    ],
+    "reason": "This Work Item changes the authoritative capability matrix and documentation claims only; later runtime implementation remains explicitly out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized serial implementation of the full Conditional GO remediation plan, starting with the capability truth boundary."
+  },
+  "preReviewWarnings": [
+    "Reviewers must verify that every current claim links to a command, source, test, or release evidence, and that deferred runtime capabilities remain planned."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Create docs/reference/capability-truth-matrix.md with exactly the four status values defined by this Contract; every capability row names at least one command/source/test/release evidence path or an explicit missing-evidence reason.",
+    "Update README.md, README.zh-CN.md, README.ja.md, docs/getting-started/installation.md, docs/getting-started/installation.ja.md, docs/configuration.md, docs/reference/upgrade.md, and docs/reference/installed-lifecycle.md to link the matrix and label the ten-stage calibration, Candidate activation, Wizard, ownership manifest, and full lifecycle items as planned or evidence-bounded where current proof is absent.",
+    "Add tests/test_capability_truth_matrix.py with assertions for the four allowed statuses, required evidence fields, and explicit planned status for calibration, bootstrap, ownership, and release-evidence capabilities.",
+    "Run pytest -q tests/test_capability_truth_matrix.py and record the result as evidence for the matrix schema and deferred-status assertions.",
+    "Run make check-docs-metadata and make check-governance-complexity; both must pass with no documentation metadata or complexity-budget violation.",
+    "Run the Contract verification list through make ai-finish; no diff path may modify scripts/install_ai_cockpit.py, templates/make/Makefile.ai, release metadata, or runtime behavior."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The Conditional GO review found that public README and design language leads the actual template/adopter capability in calibration, lifecycle, bootstrap, ownership, quick install, and release evidence. A single evidence-backed matrix is needed before implementing the later runtime Work Items.",
+    "constraints": [
+      "Start from the latest origin/main after the completed plan-document Work Item.",
+      "Document current evidence conservatively and label unsupported capabilities planned; do not implement later Work Item scope.",
+      "Preserve the Repository Governance Layer boundary and enterprise-security NO-GO boundary.",
+      "Keep all historical Work Item and release evidence intact."
+    ],
+    "rationale": "A truth matrix makes documentation claims reviewable and gives later runtime Work Items a stable baseline; without it, implementation and release evidence can continue to mix template, installed, and planned states."
+  },
+  "scenarioCoverage": [
+    {"scenario": "A documented current capability has a repository evidence reference.", "required": false, "status": "not_applicable", "evidence": [], "reason": "This Work Item changes documentation and static regression checks; it does not execute an adopter runtime scenario."},
+    {"scenario": "Deferred calibration/runtime capabilities are not classified as implemented without evidence.", "required": false, "status": "not_applicable", "evidence": [], "reason": "This Work Item changes documentation and static regression checks; runtime behavior belongs to later serial Work Items."}
+  ],
+  "budgetImpact": {"expectedMetrics": {"markdownLines": 38, "pythonLines": 35}, "approved": true, "repaymentWorkItem": "conditional_go_plan_cleanup", "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]},
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "rawUserRequest": "开始实施上面的全部计划，严格按顺序完成每个工单、PR、合并、ai-close-work-item、分支清理和默认分支同步，完成以后发布新版本；不要跳过任何计划内工单。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:implement-conditional-go-review-remediation", "capturedAt": "2026-07-23", "digest": "sha256:implement-full-conditional-go-plan"},
+  "declaredIntent": {"summary": "Establish the evidence-backed Capability Truth Matrix and align public documentation before later runtime remediation Work Items.", "requestedCapabilities": ["ai_governance", "documentation", "test_automation"]},
+  "requestedOperation": {"target": "documentation", "action": "modify", "environment": "repository", "effect": "document", "authorityRequired": false},
+  "predecessorWorkItem": {
+    "workItemId": "conditional_go_review_execution_plan",
+    "status": "closed",
+    "pr": {"number": 242, "merged": true, "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/242", "mergeCommit": "8c874e7f"},
+    "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": "make ai-close-work-item TASK=conditional_go_review_execution_plan reported ready for next Work Item on synchronized main."}
+  },
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized implementation of the complete serial remediation plan, including documentation, tests, governance files, PRs, closure, and release."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_capability_truth_matrix.json",
+    "baseCommit": "8c874e7f44fd25ae179bcc698b7708df2ebfba13",
+    "initialScopeDigest": "4eeb66331b237976196acb85fa6ecb8804696b3cd40fa00a6fc0303f617f5180",
+    "contractSkeletonDigest": "9bfda3855f3c94782f9428888534f3f1ee03684f5ed84a9fea3ad565d37b259b"
+  }
+}

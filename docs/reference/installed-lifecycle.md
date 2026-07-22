@@ -11,7 +11,7 @@ keywords:
 
 # Installed Lifecycle Facts
 
-Every fresh AI Cockpit installation records its durable lifecycle facts under `.ai/install/`:
+An installation may record durable lifecycle facts under `.ai/install/`; their presence is an installed-repository fact, not proof that every update, rollback, disable/enable, or uninstall path is complete. The current capability boundary is maintained in the [Capability Truth Matrix](capability-truth-matrix.md):
 
 - `manifest.json` records the installation identity, source/version, timestamp, installed paths, source paths, ownership class, and SHA-256 digest.
 - `version.json` records the installed distribution and Contract schema versions, Runtime State, and the SHA-256 binding to the manifest.

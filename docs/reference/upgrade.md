@@ -11,7 +11,7 @@ keywords:
 
 # Upgrade
 
-An upgrade is a repository change, not a Ready signal. Run Impact Assessment before recalibration, keep the old Active Configuration until Candidate activation succeeds, and preserve it when activation fails. Runtime installation alone never proves calibration completion.
+An upgrade is a repository change, not a Ready signal. Run Impact Assessment before any recalibration proposal. Candidate activation and preservation of the old Active Configuration are planned capabilities until the corresponding Work Item evidence exists; runtime installation alone never proves calibration completion. See the [Capability Truth Matrix](capability-truth-matrix.md).
 
 Use `--upgrade` when the target repository already contains AI Cockpit files and you want the managed runtime, policy, and marker files replaced in a controlled way. Treat the upgrade as its own adopter-project Work Item and dedicated branch. Record the adopter remote/default branch/base commit and the target release tag before changing files.
 

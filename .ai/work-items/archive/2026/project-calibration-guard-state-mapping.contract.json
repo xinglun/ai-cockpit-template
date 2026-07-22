@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-guard-state-mapping",
+  "mode": "code",
+  "title": "Unify guard canonical and legacy state mapping",
+  "rawUserRequest": "执行项目校准计划工单 7：把旧 Ready/Partial/Inconsistent 降级为由 Canonical State 派生的兼容层，统一 Decision Model，并保持 fail-closed；不启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Make canonical guard states authoritative and legacy values derived only.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "dca513ad08b5de4c493edd9656d6af3ed3d4f16a",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-guard-state-mapping.contract.json",
+    ".ai/work-items/active/project-calibration-guard-state-mapping.summary.json",
+    "scripts/ai_trust_guards.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_trust_schema.py",
+    "tests/test_trust_guards.py",
+    "tests/test_preflight_review.py",
+    "tests/test_trust_schema.py",
+    "docs/trust-layer.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Changing unrelated product behavior", "Starting Work Item 1 or later Work Items"],
+  "sources": [
+    {
+      "path": "scripts/ai_trust_guards.py",
+      "reason": "Canonical and legacy guard state mapping."
+    },
+    {"path": "scripts/ai_trust_schema.py", "reason": "Decision Model validation boundary."},
+    {"path": "tests/test_trust_guards.py", "reason": "State mapping regression coverage."},
+    {"path": "tests/test_trust_schema.py", "reason": "Invalid state combination rejection coverage."},
+    {"path": "docs/trust-layer.md", "reason": "Documents canonical state ownership."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "state_protocol"
+    ],
+    "reason": "State derivation is deterministic and preserves existing fail-closed mappings."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of this bounded governance Work Item."
+  },
+  "preReviewWarnings": [
+    "Reject dual semantic combinations and verify all gate consumers use canonical state."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Canonical state is authoritative and includes allow/review/confirm/block/error/not_applicable.",
+    "Legacy Ready/Partial/Inconsistent values are one-way derived compatibility output; invalid combinations fail closed.",
+    "Trust schema, guards, tests, and documentation prove consumers use the same Decision Model."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Legacy and canonical state fields can drift or express two meanings, making downstream gates inconsistent.",
+    "constraints": ["Preserve fail-closed behavior and existing legacy compatibility output.", "Do not add a second independent decision model.", "Do not start Work Item 1 or later Work Items."],
+    "rationale": "A single canonical state makes every gate consume the same decision semantics."
+  },
+  "scenarioCoverage": [
+    {"scenario": "allowed canonical state with derived legacy value", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]},
+    {"scenario": "invalid dual semantic combination", "required": true, "status": "verified", "evidence": ["tests/test_trust_schema.py"]},
+    {"scenario": "fail-closed block remains block", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized serial execution of the recalibration plan, including this state protocol Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-guard-state-mapping.json",
+    "baseCommit": "dca513ad08b5de4c493edd9656d6af3ed3d4f16a",
+    "initialScopeDigest": "13d38f439075b169fdf0825de8753999d6ba6c853e4cb707c20220f62c1f84ce",
+    "contractSkeletonDigest": "885cea941a64fd84ccd31453bc47575f8bb9d6b432a7aad2ac306bd3a2d7fb7e"
+  }
+}

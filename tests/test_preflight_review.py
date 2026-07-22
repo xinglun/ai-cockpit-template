@@ -696,3 +696,8 @@ def test_upgrade_conflict_gate_requires_confirmation_and_accepts_it():
     }
     assert ai_preflight_review.upgrade_conflict_gate(report, confirmed=False)
     assert ai_preflight_review.upgrade_conflict_gate(report, confirmed=True) == []
+
+
+def test_partial_preflight_signal_uses_canonical_review_state():
+    signal = ai_preflight_review.Signal("Intent", "Partial", ["review"], ["test"])
+    assert signal.state == "review"

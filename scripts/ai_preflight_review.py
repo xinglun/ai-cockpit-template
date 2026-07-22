@@ -73,7 +73,7 @@ class Signal:
     def __post_init__(self) -> None:
         state = {
             "Ready": "allow",
-            "Partial": "defer",
+            "Partial": "review",
             "Missing": "block",
             "Inconsistent": "block",
             "Not Applicable": "not_applicable",

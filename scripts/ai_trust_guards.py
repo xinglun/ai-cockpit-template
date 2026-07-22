@@ -20,7 +20,7 @@ SUCCESS_CRITERIA_PATH = PROJECT_ROOT / ".ai" / "project" / "success_criteria.jso
 CANONICAL_STATES = {"allow", "review", "confirm", "defer", "block", "error", "not_applicable"}
 LEGACY_TO_CANONICAL = {
     "Ready": "allow",
-    "Partial": "defer",
+    "Partial": "review",
     "Missing": "block",
     "Inconsistent": "block",
     "Not Applicable": "not_applicable",
@@ -49,6 +49,14 @@ def _signal(name: str, value: str, evidence: list[str], sources: list[str]) -> d
         "humanDecisionAllowed": value == "Partial",
         "safeAlternatives": [],
     }
+
+
+def validate_signal_state(signal: dict[str, Any]) -> bool:
+    """Ensure canonical state is derived from the legacy value, never independently authored."""
+    value = signal.get("value")
+    value = value if isinstance(value, str) else ""
+    expected = LEGACY_TO_CANONICAL.get(value, "error")
+    return signal.get("state") == expected and signal.get("state") in CANONICAL_STATES
 
 
 def _load_json(path: Path) -> tuple[Any | None, list[str]]:

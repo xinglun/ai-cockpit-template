@@ -85,6 +85,8 @@ def test_legacy_values_map_only_to_canonical_states():
     assert ai_trust_guards.LEGACY_TO_CANONICAL["Ready"] == "allow"
     assert ai_trust_guards.LEGACY_TO_CANONICAL["Inconsistent"] == "block"
     assert set(ai_trust_guards.LEGACY_TO_CANONICAL.values()) <= ai_trust_guards.CANONICAL_STATES
+    assert ai_trust_guards.LEGACY_TO_CANONICAL["Partial"] == "review"
+    assert ai_trust_guards.validate_signal_state(ai_trust_guards.intent_guard_signal(contract()))
 
 
 def test_task_owned_success_criteria_is_preferred(tmp_path):

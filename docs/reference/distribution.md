@@ -72,6 +72,10 @@ An unreleased worktree may regenerate its local SBOM, provenance, and digest man
 
 Without `--update-makefile`, the installer writes `Makefile.ai` and `Makefile.ai.stack` but does not modify the host `Makefile`.
 
+## Installed Runtime Surface
+
+The installed artifact contains the version-bound lifecycle scripts required by `Makefile.ai`: `ai_install_status.py`, `ai_lifecycle_facts.py`, `ai_upgrade_proposal.py`, `ai_upgrade_apply.py`, `ai_rollback.py`, `ai_disable_enable.py`, and `ai_uninstall_proposal.py`. The matching targets are read-only status/facts, governed update proposal/apply, rollback proposal, disable/enable state transition proposal, and preserve-evidence uninstall proposal. A clean Adopter Fixture is the authority for whether the surface is actually installed; source-tree presence alone is not an installed capability claim.
+
 ## Local Install
 
 From a local clone:

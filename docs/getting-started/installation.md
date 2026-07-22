@@ -80,6 +80,8 @@ After installation, confirm that the target repository gained the expected files
 - AI Cockpit sections in `AGENTS.md`, `GEMINI.md`, or `CLAUDE.md` when those files already exist
 - `examples/` when `--with-examples` is used
 
+The installed `Makefile.ai` also exposes the currently shipped Runtime Surface: `ai-cockpit-version`, `ai-lifecycle-facts`, `ai-cockpit-update-check`, `ai-cockpit-update-propose`, `ai-cockpit-update-apply`, `ai-cockpit-rollback-propose`, `ai-cockpit-disable`, `ai-cockpit-enable`, and `ai-cockpit-uninstall-propose`. These commands invoke copied, version-bound scripts in `scripts/`; they do not complete Calibration or Quick Install archive verification. Update, rollback, disable/enable, and uninstall proposal output remains evidence that must be reviewed through the adopter's Work Item process.
+
 You should not expect `templates/` to be copied into the target repository. That tree stays in the source repository. Template supply-chain evidence files — `.ai/cockpit/release-digests.json`, `.ai/cockpit/sbom.json`, and `.ai/cockpit/provenance.json` — are also excluded: they record digests and attestations for template release artifacts and are not meaningful in an adopter repository.
 
 ### Phase 3. Adoption

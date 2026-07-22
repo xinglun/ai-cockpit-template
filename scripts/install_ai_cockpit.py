@@ -87,7 +87,26 @@ SCRIPT_NAMES = {
     "ai_check_guard_calibration.py",
     "ai_upgrade_conflict_report.py",
     "ai_install_facts.py",
+    "ai_install_status.py",
+    "ai_lifecycle_facts.py",
+    "ai_ownership.py",
+    "ai_upgrade_proposal.py",
+    "ai_upgrade_apply.py",
+    "ai_rollback.py",
+    "ai_disable_enable.py",
+    "ai_uninstall_proposal.py",
 }
+RUNTIME_SURFACE_SCRIPTS = frozenset(
+    {
+        "ai_install_status.py",
+        "ai_lifecycle_facts.py",
+        "ai_upgrade_proposal.py",
+        "ai_upgrade_apply.py",
+        "ai_rollback.py",
+        "ai_disable_enable.py",
+        "ai_uninstall_proposal.py",
+    }
+)
 AGENT_MARKER = "<!-- AI_COCKPIT_SECTION -->"
 AGENT_END_MARKER = "<!-- /AI_COCKPIT_SECTION -->"
 GITIGNORE_MARKER = "# AI Cockpit local state"
@@ -277,6 +296,18 @@ class Installer:
         if self.upgrade and not self.upgrade_preflight():
             return 2
         if self.create_adoption and not self.adoption_preflight():
+            return 2
+        missing_runtime = sorted(
+            name
+            for name in RUNTIME_SURFACE_SCRIPTS
+            if name not in SCRIPT_NAMES or not (self.source / "scripts" / name).is_file()
+        )
+        if missing_runtime:
+            print(
+                "ERROR: required installed runtime scripts are unavailable: "
+                + ", ".join(missing_runtime),
+                file=sys.stderr,
+            )
             return 2
         # ブランチ変更の前に marker / managed-conflict 検証を完了する。
         try:

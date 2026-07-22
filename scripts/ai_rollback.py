@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import argparse
+import json
 from copy import deepcopy
 from hashlib import sha256
+from pathlib import Path
 from typing import Any
 
 
@@ -120,3 +123,32 @@ def execute_rollback(
         "stateAfter": restored,
         "projectConfig": deepcopy(project_config),
     }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--snapshot", type=Path, required=True)
+    parser.add_argument("--current-root", type=Path, default=Path("."))
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    snapshot = json.loads(args.snapshot.read_text(encoding="utf-8"))
+    root = args.current_root.resolve()
+    facts_dir = root / ".ai" / "install"
+    current = json.loads((facts_dir / "manifest.json").read_text(encoding="utf-8"))
+    current["manifestHash"] = current.get("manifestHash") or _digest(current)
+    project_config = {}
+    profile = root / ".ai" / "project_profile.yaml"
+    if profile.is_file():
+        project_config["path"] = str(profile)
+        project_config["digest"] = _digest(profile.read_text(encoding="utf-8"))
+    proposal = plan_rollback(snapshot, current, project_config)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(
+        json.dumps(proposal, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(json.dumps(proposal, ensure_ascii=False, sort_keys=True, indent=2))
+    return 0 if proposal.get("state") != "blocked" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

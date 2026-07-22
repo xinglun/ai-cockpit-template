@@ -23,7 +23,7 @@ PROJECT_LINT ?= printf '%s\n' 'ERROR: no project linter configured. Set PROJECT_
 	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage check-ai-guidelines check-ai-review-policy \
-	check-ai-preflight-review generate-ai-preflight-review ai-preflight check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item ai-close-work-item check-ai-pr check-ai-diff-ownership ai-pre-merge template-adoption-ready check-ai-serial-order check-ai-budget-impact
+	check-ai-preflight-review generate-ai-preflight-review ai-preflight check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item ai-close-work-item check-ai-pr check-ai-diff-ownership ai-pre-merge template-adoption-ready check-ai-serial-order check-ai-budget-impact ai-lifecycle-facts ai-cockpit-version ai-cockpit-update-check ai-cockpit-update-propose ai-cockpit-update-apply ai-cockpit-rollback-propose ai-cockpit-disable ai-cockpit-enable ai-cockpit-uninstall-propose
 
 ai-help:
 	@printf '%s\n' 'AI Cockpit commands:'
@@ -58,6 +58,39 @@ ai-cockpit-project-test:
 
 ai-cockpit-project-lint:
 	@$(PROJECT_LINT)
+
+ai-lifecycle-facts:
+	$(AI_PYTHON) scripts/ai_lifecycle_facts.py --root .
+
+ai-cockpit-version:
+	$(AI_PYTHON) scripts/ai_install_status.py version --root .
+
+ai-cockpit-update-check:
+	$(AI_PYTHON) scripts/ai_install_status.py update-check --root . $(if $(TARGET_VERSION),--target-version $(TARGET_VERSION),)
+
+ai-cockpit-update-propose:
+	@test -n "$(OLD_TEMPLATE)" -a -n "$(NEW_TEMPLATE)" -a -n "$(UPGRADE_ID)" || (echo "OLD_TEMPLATE, NEW_TEMPLATE, and UPGRADE_ID are required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_upgrade_proposal.py --old-template "$(OLD_TEMPLATE)" --new-template "$(NEW_TEMPLATE)" --current-project . --upgrade-id "$(UPGRADE_ID)" --output ".ai/upgrade/proposals/$(UPGRADE_ID).json"
+
+ai-cockpit-update-apply:
+	@test -n "$(PROPOSAL)" || (echo "PROPOSAL is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_upgrade_apply.py --proposal "$(PROPOSAL)" --root . $(if $(CONFIRM),--confirm "$(CONFIRM)",) $(if $(EXCLUDE),$(foreach path,$(EXCLUDE),--exclude "$(path)"),)
+
+ai-cockpit-rollback-propose:
+	@test -n "$(SNAPSHOT)" || (echo "SNAPSHOT is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_rollback.py --snapshot "$(SNAPSHOT)" --current-root . --output "$(OUTPUT)"
+
+ai-cockpit-disable:
+	@test -n "$(STATE)" || (echo "STATE is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_disable_enable.py disable --state "$(STATE)" --output "$(OUTPUT)"
+
+ai-cockpit-enable:
+	@test -n "$(STATE)" || (echo "STATE is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_disable_enable.py enable --state "$(STATE)" --checks "$(CHECKS)" --output "$(OUTPUT)"
+
+ai-cockpit-uninstall-propose:
+	@test -n "$(FACTS)" || (echo "FACTS is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_uninstall_proposal.py --facts "$(FACTS)" --mode "$(or $(MODE),preserve-evidence)" --output "$(OUTPUT)"
 
 -include Makefile.ai.stack
 

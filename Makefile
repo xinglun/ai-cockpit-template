@@ -26,7 +26,9 @@ AI_PREFLIGHT_VALIDATE_CONTRACT ?= true
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-guidelines check-ai-review-policy template-adoption-ready \
 	check-ai-scenario-coverage check-ai-start-receipt generate-ai-preflight-review check-ai-preflight-review ai-preflight \
 	check-ai-change-summary generate-cockpit-status check-ai-status check-ai-status-consistency repair-ai-status archive-work-item ai-close-work-item check-ai-pr check-ai-diff-ownership ai-pre-merge \
-	check-ai-serial-order check-ai-budget-impact
+	check-ai-serial-order check-ai-budget-impact ai-lifecycle-facts ai-cockpit-version ai-cockpit-update-check \
+	ai-cockpit-update-propose ai-cockpit-update-apply ai-cockpit-rollback-propose ai-cockpit-disable ai-cockpit-enable \
+	ai-cockpit-uninstall-propose
 
 check-ai-diff-ownership:
 	$(AI_PYTHON) scripts/ai_check_diff_ownership.py $(if $(AI_BASE_COMMIT),--base $(AI_BASE_COMMIT),) $(if $(CONTRACT),--contract $(CONTRACT),)
@@ -222,6 +224,22 @@ ai-cockpit-update-propose:
 ai-cockpit-update-apply:
 	@test -n "$(PROPOSAL)" || (echo "PROPOSAL is required" >&2; exit 2)
 	$(AI_PYTHON) scripts/ai_upgrade_apply.py --proposal "$(PROPOSAL)" --root . $(if $(CONFIRM),--confirm "$(CONFIRM)",) $(if $(EXCLUDE),$(foreach path,$(EXCLUDE),--exclude "$(path)"),)
+
+ai-cockpit-rollback-propose:
+	@test -n "$(SNAPSHOT)" || (echo "SNAPSHOT is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_rollback.py --snapshot "$(SNAPSHOT)" --current-root . --output "$(OUTPUT)"
+
+ai-cockpit-disable:
+	@test -n "$(STATE)" || (echo "STATE is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_disable_enable.py disable --state "$(STATE)" --output "$(OUTPUT)"
+
+ai-cockpit-enable:
+	@test -n "$(STATE)" || (echo "STATE is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_disable_enable.py enable --state "$(STATE)" --checks "$(CHECKS)" --output "$(OUTPUT)"
+
+ai-cockpit-uninstall-propose:
+	@test -n "$(FACTS)" || (echo "FACTS is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_uninstall_proposal.py --facts "$(FACTS)" --mode "$(or $(MODE),preserve-evidence)" --output "$(OUTPUT)"
 
 cross-stack-long-cycle:
 	$(AI_PYTHON) scripts/cross_stack_long_cycle.py --root . > target/cross-stack-long-cycle.json

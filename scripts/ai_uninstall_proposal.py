@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import argparse
+import json
 from copy import deepcopy
+from pathlib import Path
 from typing import Any
 
 MODES = ("disable", "preserve-evidence", "purge")
@@ -50,3 +53,24 @@ def build_proposal(
         proposal["state"] = "needs_human_confirmation"
         proposal["warning"] = "purge is destructive and evidence export must complete first"
     return deepcopy(proposal)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--facts", type=Path, required=True)
+    parser.add_argument("--mode", choices=MODES, default="preserve-evidence")
+    parser.add_argument("--confirmed", action="store_true")
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    facts = json.loads(args.facts.read_text(encoding="utf-8"))
+    proposal = build_proposal(facts, args.mode, args.confirmed)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(
+        json.dumps(proposal, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(json.dumps(proposal, ensure_ascii=False, sort_keys=True, indent=2))
+    return 0 if proposal.get("state") != "blocked" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

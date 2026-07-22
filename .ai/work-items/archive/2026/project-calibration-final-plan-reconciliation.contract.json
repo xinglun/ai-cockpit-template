@@ -1,0 +1,186 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-final-plan-reconciliation",
+  "mode": "code",
+  "title": "Final plan evidence reconciliation after v0.5.38",
+  "baseCommit": "2b1cbe03144d3e6f585eb6df457a6ffd25ea4606",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-final-plan-reconciliation.contract.json",
+    ".ai/work-items/active/project-calibration-final-plan-reconciliation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md"
+  ],
+  "outOfScope": [
+    "Changing implementation, release workflow, or published release assets.",
+    "Deleting Work Item contracts, summaries, archive manifests, or release evidence."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+      "reason": "Final plan-level evidence reconciliation after v0.5.38 publication."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Archive index updated by the lifecycle closure."
+    },
+    {
+      "path": "gh://pull/239",
+      "reason": "Merged release Work Item PR evidence."
+    },
+    {
+      "path": "gh://workflow/29922509671",
+      "reason": "Successful v0.5.38 release workflow evidence."
+    },
+    {
+      "path": "gh://tag/v0.5.38",
+      "reason": "Published tag and asset evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["evidence_omission"],
+    "reason": "Documentation-only reconciliation with independently verified merged PR, release workflow, tag, and asset evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized the serial lifecycle and the release has produced the evidence needed for final plan reconciliation."
+  },
+  "preReviewWarnings": [
+    "Verify every plan status claim against actual PR, merge, close, release Run, Tag, and asset evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The plan records WI1 PR #237 merge/close evidence and its impact assessment.",
+    "The plan records the independent budget repair PR #238 and the release PR #239 lifecycle.",
+    "The plan records v0.5.38 Run 29922509671, published Tag target, and assets.",
+    "The plan marks the serial recalibration execution complete while retaining immutable evidence."
+  ],
+  "guidelines": [
+    "Plan claims must be supported by repository or provider evidence.",
+    "Do not delete immutable Work Item or release evidence during cleanup."
+  ],
+  "intent": {
+    "problem": "The plan was initially closed before WI1; after WI1 execution and v0.5.38 publication, its final status and evidence index must be corrected.",
+    "constraints": ["Documentation-only scope.", "Preserve v0.5.37 historical evidence and all archived Work Item records.", "Use actual PR, merge, close, Run, Tag, and asset evidence."],
+    "rationale": "A final independent reconciliation makes the corrected order auditable and closes the plan without conflating historical and current release evidence."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Every listed Work Item has its actual lifecycle evidence or an explicit historical status.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md", ".ai/work-items/archive/index.json"]
+    },
+    {
+      "scenario": "The final release claim is bound to the published v0.5.38 tag, workflow, and assets.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["gh://workflow/29922509671", "gh://tag/v0.5.38", "docs/releases/v0.5.38.md"]
+    }
+  ],
+  "rawUserRequest": "After executing Work Item 1 and publishing the new version, align the complete plan with actual evidence and complete the final cleanup-plan Work Item.",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-corrected-wi1-sequencing", "capturedAt": "2026-07-22", "digest": "sha256:user-corrected-wi1-sequencing"},
+  "declaredIntent": {"summary": "Finalize the recalibration plan with actual lifecycle and release evidence.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "document", "authorityRequired": false},
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the serial plan, final plan cleanup, and publication workflow in the task conversation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-final-plan-reconciliation.json",
+    "baseCommit": "2b1cbe03144d3e6f585eb6df457a6ffd25ea4606",
+    "initialScopeDigest": "16be7c0cb9f1eb210b4c39052c9cc992559a066bea70921bd26640c4527ccff7",
+    "contractSkeletonDigest": "c8148ac9c940868d95b14d338e4273b8a54631d0be932711135f765d66a475dc"
+  }
+}

@@ -36,9 +36,9 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 
 ## 公開機能
 
-公開リリースの状態に関する唯一の Canonical Record は `release-state.json`（`schemaVersion: 1`、`canonical: true`）です。状態遷移、リリースタグ、前回リリース、ソース識別子、証拠参照を所有します。`release.json` は公開インストーラー契約、`next-release.json` は未公開 Candidate の投影であり、独立した Release Truth ではありません。`make check-release-state-consistency` は Canonical マーカー、投影先、公開/Candidate タグ、`previousRelease`、Candidate 状態、および旧メタデータの SHA-256 参照が一致することを確認します。
+公開リリースの状態に関する唯一の Canonical Record は `release-state.json`（`schemaVersion: 1`、`canonical: true`）です。状態遷移、リリースタグ、前回リリース、ソース識別子、証拠参照を所有します。`release.json` は公開インストーラー契約、`next-release.json` は未公開 Candidate の投影であり、独立した Release Truth ではありません。自己参照を避けるため `release.json` のソース識別子は不変タグと `release-source.json` の Provider 証拠で検証し、`.gitattributes` はこれらの投影をアーカイブから除外します。`make check-release-state-consistency` は Canonical マーカー、投影先、公開/Candidate タグ、`previousRelease`、Candidate 状態、および旧メタデータの SHA-256 参照が一致することを確認します。
 
-- 公開 Quick Install は `release.json` が宣言するタグ対象コミット、インストーラーのダイジェスト、ダウンロード可能なリリースアーカイブ Asset と SHA256 を検証し、欠落・不一致なら fail closed します。
+- 公開 Quick Install は不変タグの対象コミット、インストーラーのダイジェスト、`release.json` が宣言するダウンロード可能なリリースアーカイブ Asset と SHA256 を検証し、欠落・不一致なら fail closed します。
 - `AI_COCKPIT_TEMPLATE_SHA256` は追加のアサーションであり、公開アーカイブメタデータの代替にはなりません。
 - `make check-release-distribution` は実際のインストーラーが配布契約を満たすか確認します。
 - 導入先では、テンプレートの SBOM や provenance をそのまま使用せず、プロジェクト固有の証拠を生成します。

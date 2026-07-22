@@ -128,6 +128,12 @@ def stack_errors(root: Path) -> list[str]:
 def installation_command_errors(root: Path) -> list[str]:
     release = json.loads((root / "release.json").read_text(encoding="utf-8"))
     release_tag = release["releaseTag"]
+    candidate_path = root / "next-release.json"
+    documented_release_tags = {release_tag}
+    if candidate_path.is_file():
+        documented_release_tags.add(
+            json.loads(candidate_path.read_text(encoding="utf-8")).get("releaseTag")
+        )
     archive_capability = release["capabilities"]["sha256ArchiveVerification"]
     if isinstance(archive_capability, dict):
         sha256_published = (
@@ -227,7 +233,9 @@ def installation_command_errors(root: Path) -> list[str]:
                     f"{relative}:{number}: example install command must create auditable adoption evidence"
                 )
             for tag in re.findall(r"v\d+\.\d+\.\d+", line):
-                if tag != release_tag:
+                if relative.startswith(("docs/releases/", "docs/superpowers/plans/")):
+                    continue
+                if tag not in documented_release_tags:
                     errors.append(
                         f"{relative}:{number}: documented release {tag} does not match release.json {release_tag}"
                     )

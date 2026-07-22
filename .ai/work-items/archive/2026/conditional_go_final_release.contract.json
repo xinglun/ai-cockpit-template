@@ -1,0 +1,243 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_final_release",
+  "mode": "code",
+  "title": "Prepare and publish the Conditional GO remediation release v0.5.39",
+  "rawUserRequest": "开始实施 2026-07-22 Conditional GO Review Remediation 全部计划，完成以后发布新版本；中途不要停止，要全部完成。此前 WI1-WI11 已按完整流程合并、归档、关闭并同步默认分支；现在明确授权完成最终发布工单和 v0.5.39 发布。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-goal:publish-after-conditional-go-plan",
+    "capturedAt": "2026-07-23",
+    "digest": "sha256:publish-after-conditional-go-plan"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "修正 v0.5.39 发布前的 source/archive 自引用问题，生成可独立验证的发布证据，并在 PR 合并、ai-close-work-item 和默认分支同步后发布正式版本。",
+    "requestedCapabilities": ["ai_governance", "documentation", "software_design", "test_automation"]
+  },
+  "baseCommit": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+  "baselineDirtyPaths": [],
+  "predecessorWorkItem": {
+    "workItemId": "conditional_go_plan_cleanup",
+    "status": "closed",
+    "pr": {"number": 255, "merged": true, "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/255", "mergeCommit": "21c193d1df7ebf70e324b3cb2227c922556e7893"},
+    "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": "make ai-close-work-item TASK=conditional_go_plan_cleanup reported ready for next Work Item on synchronized main; .ai/work-items/archive/2026/conditional_go_plan_cleanup.archive-manifest.json"}
+  },
+  "scope": [
+    ".ai/work-items/active/conditional_go_final_release.contract.json",
+    ".ai/work-items/active/conditional_go_final_release.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    ".gitattributes",
+    "release.json",
+    "next-release.json",
+    "release-state.json",
+    "scripts/verify_quick_install_release.py",
+    "scripts/check_release_distribution.py",
+    "tests/test_quick_install_release.py",
+    "tests/test_install_script.py",
+    "tests/test_release_distribution.py",
+    "tests/test_release_archive_contract.sh",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "install.sh",
+    "scripts/check_docs_metadata.py"
+  ],
+  "outOfScope": [
+    "Changing runtime governance behavior unrelated to release verification.",
+    "Publishing any tag before the PR is merged and ai-close-work-item succeeds.",
+    "Claiming enterprise security, identity, or compliance assurance."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Plan-level release requirement and completed WI1-WI11 evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_plan_cleanup.archive-manifest.json",
+      "reason": "Predecessor closure evidence and ready-for-next state."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Authoritative exact-source release workflow."
+    },
+    {
+      "path": "scripts/verify_quick_install_release.py",
+      "reason": "Quick Install public release verification contract."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Public distribution and release-asset validation."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "v0.5.39 candidate metadata."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["production_release", "evidence_integrity", "source_binding"],
+    "reason": "Repository changes are bounded to fail-closed release evidence and metadata; external publication occurs only after merge and closure through the existing provider workflow."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized full plan execution and final release publication; predecessor WI11 is closed and default main is synchronized."
+  },
+  "preReviewWarnings": [
+    "Do not publish a tag or release asset until all exact-source and public distribution checks pass."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release metadata and workflow use an independently verifiable source identity and archive digest without self-referential commit or archive fields.",
+    "Quick Install and public distribution checks fail closed on tag, installer, archive, asset, SBOM, provenance, CI, or source mismatch; regression tests cover the contract.",
+    "v0.5.39 is prepared through a dedicated PR and merged only after the full Finish Gate and all required CI checks pass.",
+    "After merge, ai-close-work-item succeeds and the final release workflow publishes v0.5.39 with exact source, release assets, evidence bundle, and public distribution verification."
+  ],
+  "guidelines": [
+    "Published claims must be backed by provider-bound evidence, not PR text or chat claims.",
+    "The release tag and assets must be immutable and source-bound.",
+    "Keep candidate, historical, verified, and published states distinct."
+  ],
+  "intent": {
+    "problem": "The current v0.5.39 candidate cannot be published safely because release.json still describes v0.5.38, while the workflow also requires commit/archive identities that cannot be embedded self-referentially in the same commit.",
+    "constraints": [
+      "Do not weaken exact-source, archive, installer, CI, SBOM, provenance, or public-asset checks.",
+      "Do not create or publish a tag before PR merge and lifecycle closure.",
+      "Preserve all prior Work Item and release evidence."
+    ],
+    "rationale": "Move source identity to provider-bound release evidence/tag resolution and keep the committed public contract hashable, so v0.5.39 can be published with independently reproducible evidence."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Release metadata remains candidate-safe and the workflow rejects stale tags, source identity, archive, installer, or candidate projections.",
+      "required": true,
+      "riskDomain": "release_integrity",
+      "status": "verified",
+      "evidence": ["scripts/check_release_distribution.py", "scripts/check_release_state_consistency.py", "tests/test_release_distribution.py"]
+    },
+    {
+      "scenario": "Quick Install derives the exact tag target and rejects missing or mismatched public archive evidence.",
+      "required": true,
+      "riskDomain": "evidence_integrity",
+      "status": "verified",
+      "evidence": ["scripts/verify_quick_install_release.py", "tests/test_quick_install_release.py"]
+    },
+    {
+      "scenario": "A merged default-branch source can produce source-bound CI, SBOM, provenance, archive, and public release evidence before publication.",
+      "required": true,
+      "riskDomain": "source_binding",
+      "status": "verified",
+      "evidence": [".github/workflows/release.yml", "tests/test_workflows.py", "Makefile"]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized full Conditional GO plan execution and final v0.5.39 publication in the current goal."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_final_release.json",
+    "baseCommit": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+    "initialScopeDigest": "d87c23c158b18a4c3ced2186b82a658b6db34f1b4acfb4ee548bd07757efb4d1",
+    "contractSkeletonDigest": "9a9677c3f73d5e2f389c4be170bbffca909f5d4e4fbc395a7cd77c1794034501"
+  }
+}

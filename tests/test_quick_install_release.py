@@ -95,13 +95,8 @@ def test_candidate_metadata_presence_is_ignored_and_tag_failure_is_wrapped(monke
     (root / "next-release.json").write_text('{"releaseTag":"v9.9.9"}', encoding="utf-8")
     assert verifier.load_release_metadata(root)["releaseTag"] == "v1.2.3"
 
-    calls = iter([SOURCE_COMMIT, "unused"])
-
     def fake_git(*_args):
-        value = next(calls)
-        if value == "unused":
-            raise verifier.ReleaseVerificationError("tag unavailable")
-        return value
+        raise verifier.ReleaseVerificationError("tag unavailable")
 
     monkeypatch.setattr(verifier, "run_git", fake_git)
     with pytest.raises(verifier.ReleaseVerificationError, match="unavailable locally"):
@@ -111,7 +106,7 @@ def test_candidate_metadata_presence_is_ignored_and_tag_failure_is_wrapped(monke
 @pytest.mark.parametrize(
     ("change", "expected"),
     [
-        (lambda data: data.update(sourceCommit="bad"), "sourceCommit is missing or invalid"),
+        (lambda data: data.update(sourceCommit="bad"), "release.json sourceCommit is invalid"),
         (lambda data: data.update(installerDigest="bad"), "installerDigest is missing or invalid"),
         (
             lambda data: data["releaseArchive"].update(sourceCommit="b" * 40),

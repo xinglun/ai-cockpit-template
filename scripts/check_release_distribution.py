@@ -228,7 +228,7 @@ def archive_verification_supported(metadata: dict[str, object]) -> bool:
         return False
     value = capability.get("sha256ArchiveVerification")
     if isinstance(value, dict):
-        return value.get("supported") is True
+        return value.get("supported") is True and value.get("verified") is True
     return value is True
 
 
@@ -243,7 +243,7 @@ def release_archive_issues(
         return ["release.json releaseArchive must be an object"]
     issues: list[str] = []
     source_commit = archive.get("sourceCommit")
-    if source_commit != tag_target:
+    if source_commit is not None and source_commit != tag_target:
         issues.append("releaseArchive.sourceCommit differs from tag target")
     asset_name = archive.get("assetName")
     if not isinstance(asset_name, str) or not asset_name or "/" in asset_name:

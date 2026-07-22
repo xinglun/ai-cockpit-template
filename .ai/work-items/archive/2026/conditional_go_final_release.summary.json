@@ -1,0 +1,477 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "conditional_go_final_release",
+  "contractPath": ".ai/work-items/archive/2026/conditional_go_final_release.contract.json",
+  "changedFiles": [
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Bind provider source evidence while removing impossible self-referential archive checks."
+    },
+    {
+      "path": ".gitattributes",
+      "reason": "Exclude mutable release projections from the reproducible source archive."
+    },
+    {
+      "path": "release.json",
+      "reason": "Prepare v0.5.39 candidate metadata and exact archive/public supply-chain digests."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Advance the next candidate projection to v0.5.40 based on v0.5.39."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Record the v0.5.40 candidate state and metadata bindings."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Regenerate release evidence for the current source tree."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerate source-bound provenance for the release candidate."
+    },
+    {
+      "path": "scripts/verify_quick_install_release.py",
+      "reason": "Resolve source identity from the immutable tag target and fail closed on optional mismatches."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Allow provider-bound source identity while preserving archive and evidence validation."
+    },
+    {
+      "path": "tests/test_quick_install_release.py",
+      "reason": "Update regression coverage for the non-self-referential contract."
+    },
+    {
+      "path": "tests/test_release_archive_contract.sh",
+      "reason": "Assert mutable release projections are excluded from the source archive."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document immutable tag and provider evidence source binding."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Document the same release contract in Japanese."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Update the documented published installer tag."
+    },
+    {
+      "path": "docs/getting-started/installation.ja.md",
+      "reason": "Update the Japanese published installer tag."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Point the default remote installer ref at v0.5.39."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Allow current and next candidate tags while preserving historical plan evidence."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Align remote installer fixture coverage with v0.5.39."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Record the final release Work Item status and evidence."
+    },
+    {
+      "path": ".ai/work-items/starts/conditional_go_final_release.json",
+      "reason": "Record the governed Work Item start receipt."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_final_release.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_final_release.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_final_release.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/conditional_go_final_release.contract.json",
+    "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+    ".github/workflows/release.yml",
+    "scripts/verify_quick_install_release.py",
+    "scripts/check_release_distribution.py",
+    ".ai/work-items/archive/2026/conditional_go_plan_cleanup.archive-manifest.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:52.181673+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "c95b2296023ad891a7e3487ded9feaa5223144cad7d1938f2dc745a9e452cdd3",
+      "commandHash": "919f8fced138dd2b11753adaf1cb9f92c832db47932301203ed9653143e363d9",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/conditional_go_final_release.contract.json work item contract check passed: .ai/work-items/active/conditional_go_final_release.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:52.371876+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "1fda89ae069371886dad8182ccd68e148f0f57850aaa49cb91d5dfc0dd633260",
+      "commandHash": "7a1e600656a74ff8002af9698e899cdcef5840acc11b31ce976e0d1272618a4c",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/conditional_go_final_release.contract.json scope guard passed: 20 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:52.577818+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "f402bd28b75251ee4479603cb5136f1a5e35c94f02cd1a26be151f2876b91cef",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/conditional_go_final_release.contract.json [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/release-digests.json (.ai/**) - AI governance configuration. [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 3 warning(s) report: target/ai_gu"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:52.940715+00:00",
+      "exitCode": 0,
+      "durationMs": 289,
+      "outputDigest": "29bb8e6f1d005804d1dfb5a60cdc6358f8047a3606b411582223c452ac41e5b4",
+      "commandHash": "c5ff514f5ff08411bbbd18a58619c0a1a81735856da432f7dafe7461cf362e68",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/conditional_go_final_release.contract.json --summary .ai/work-items/active/conditional_go_final_release.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `conditional_go_final_release` - Contract Hash: `464c367a5102183b` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Required Checks: `1"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:53.134436+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "d4d4a341e03c330a6db45bd16222eba2261ec04896f20b8e5ac1e2ae0d0b0e4a",
+      "commandHash": "32a47027454ca71d63b167655a033d7dd27cb08b6e11b7d184a919d1bba95070",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/conditional_go_final_release.summary.json review policy matched 5 path(s) [review] .ai/work-items/starts/conditional_go_final_release.json [review] .ai/cockpit/current_status.md [review] .ai/cockpit/provenance.json [review] .ai/cockpit/release-digests.json [review] .github/workflows/release.yml review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:53.309081+00:00",
+      "exitCode": 0,
+      "durationMs": 103,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:53.494787+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:53.618593+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "a58dad6d0515def8aaac6703fa63240f41fd5e4d633c0ced436554c78c9c1e3a",
+      "commandHash": "40c0f4afdc8de6cb71df302ea2853677b6e41158f86383b5d04efd3efd5ed938",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/conditional_go_final_release.contract.json --summary .ai/work-items/active/conditional_go_final_release.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:53.913583+00:00",
+      "exitCode": 0,
+      "durationMs": 193,
+      "outputDigest": "b1d67f49146f5ae6b9b6f09e86bf2dc4f5c82409c8e1f78769867d1a06877065",
+      "commandHash": "62229946780980834c3758edc9d739aa9b9563bd871df7aec0632dafdebb864c",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/conditional_go_final_release.contract.json --summary .ai/work-items/active/conditional_go_final_release.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:27:54.273865+00:00",
+      "exitCode": 0,
+      "durationMs": 283,
+      "outputDigest": "92ec9f328cfbfc06a321ee0644c28ef9018101d007937485b2ec38d68d5e867d",
+      "commandHash": "2c584b6ba99b426f1f65e9570baa12ab7e517404581d4dc782bcf0d18bf93840",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/conditional_go_final_release.contract.json ## Diff Ownership Preview - active_owned: `20`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/release-digests.json` — covered "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:31:15.745345+00:00",
+      "exitCode": 0,
+      "durationMs": 201375,
+      "outputDigest": "07c466ae41a7642826b35eac34e67b2720c574185ab310c9dce3b04b7a6eaaf9",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "a265ceb8f6c4e8619694fb99463fc388e9b56dbbbc85536e7600d3c7ff550370",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 178 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 8%] ........................................................................ [ 16%] ........................................................................ [ 24%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:31:18.023744+00:00",
+      "exitCode": 0,
+      "durationMs": 491,
+      "outputDigest": "7189c018c3e6134767ee6a2344a4959179b67468fb40bbdd96f64b2a53dcb1d0",
+      "commandHash": "f10deac242bd8844f2ea7d5a42417a7558debc7dc208f967a1326e844f0b4d68",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "b1c744bbc11d03c5e5c94eef11e444fd0185d213c6a9e033519ddcec0bde5b78",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/conditional_go_final_release.contract.json --summary .ai/work-items/active/conditional_go_final_release.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:31:18.348319+00:00",
+      "exitCode": 0,
+      "durationMs": 256,
+      "outputDigest": "d57d903bbf1be11522ae1e1156c2ebf4f17054393b141bcd8c4c1f1bea918595",
+      "commandHash": "92ec6ef6311afaa85ac132105fabcc75759f073e3b1e687f8de2ae34baba69b6",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "b1c744bbc11d03c5e5c94eef11e444fd0185d213c6a9e033519ddcec0bde5b78",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/conditional_go_final_release.contract.json --summary .ai/work-items/active/conditional_go_final_release.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:31:18.456502+00:00",
+      "exitCode": 0,
+      "durationMs": 37,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "b1c744bbc11d03c5e5c94eef11e444fd0185d213c6a9e033519ddcec0bde5b78",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:31:18.695938+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "ad844c3e8c3f26e967fe7333f07e352ef1652d5f310f9b4e018d0ec69e77d285",
+      "commandHash": "01af6dc40971c3873edcfffb29c0f2e09260266ca5826bc1d3a1c693d5d7fff8",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "b1c744bbc11d03c5e5c94eef11e444fd0185d213c6a9e033519ddcec0bde5b78",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/conditional_go_final_release.contract.json --summary .ai/work-items/active/conditional_go_final_release.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/conditional_go_final_release.summary.json CONTRACT=.ai/work-items/active/conditional_go_final_release.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T23:31:19.599786+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "8090f14b4e48eb5782bc8e5e2d0f9c2dd9251f3c899c342da9f2214cf7cd6e22",
+      "commandHash": "04e6bdd4e7ce5b94306c245081c58959853f5c608b0cdcc9c458b2ff9f5e92da",
+      "contractHash": "464c367a5102183bcdb121fe8f7cf1f4515a81ff38e6196a672be7ec58a47570",
+      "commitSha": "21c193d1df7ebf70e324b3cb2227c922556e7893",
+      "executionContractPath": ".ai/work-items/active/conditional_go_final_release.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_final_release.summary.json",
+      "worktreeDigest": "6388814c75d72793d61a5e5f24dca173b35ace5bcbfff81546bea2b553e89ef9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/conditional_go_final_release.summary.json --contract .ai/work-items/active/conditional_go_final_release.contract.json ai summary check passed: .ai/work-items/active/conditional_go_final_release.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Published claims must be backed by provider-bound evidence, not PR text or chat claims.",
+      "compliant": true,
+      "evidence": "Workflow generates and verifies release-source, SBOM, provenance, release-digests, archive, and CI evidence."
+    },
+    {
+      "guideline": "The release tag and assets must be immutable and source-bound.",
+      "compliant": true,
+      "evidence": "Workflow requires the current default-branch commit, creates an exact tag, and verifies the generated archive against release metadata."
+    },
+    {
+      "guideline": "Keep candidate, historical, verified, and published states distinct.",
+      "compliant": true,
+      "evidence": "release.json is v0.5.39 candidate metadata and next-release.json/release-state.json advance to v0.5.40 candidate state."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Release publication remains gated by PR merge, lifecycle closure, and the provider workflow's independent evidence checks."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/release-digests.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "provider",
+      "detail": "Final public asset availability and provider verification are external workflow outcomes.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "source/archive independence",
+      "provider-bound release evidence",
+      "candidate state transitions"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "verified",
+    "persistence": "not_applicable",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "Do not start a later plan item by skipping an earlier item; complete each Work Item lifecycle before advancing.",
+    "After merge run ai-close-work-item, synchronize the default branch, and only then proceed."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Release publication must occur only after PR merge and lifecycle closure.",
+      "solidifiedIn": [
+        "contract outOfScope",
+        "release workflow procedure",
+        "preReviewWarnings"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "464c367a5102183b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "evidence": "make ai-checkpoint TASK=conditional_go_final_release STAGE=before_edit"
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "464c367a5102183b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "evidence": "make ai-checkpoint TASK=conditional_go_final_release STAGE=before_finish"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report v0.5.39 as published until the provider workflow succeeds and the public release assets are independently verified.",
+  "archiveSequence": 471
+}

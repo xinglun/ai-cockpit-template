@@ -15,7 +15,7 @@ keywords:
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-> **最终状态（2026-07-22）：HISTORICAL / 已完成。** 工单 1–15 已逐项完成 Contract v2、验证、归档、唯一 PR、合并、`ai-close-work-item`、分支清理和 main 同步；v0.5.36 已由发布 Workflow 29888274199 以精确 main commit `65549bac9dcd84e3a2715c9aaa1b2cc367fa7f8c` 发布。工单 16 是本计划最后一个清理工单；关闭后不得再从本计划创建新整改工单。
+> **最终状态（2026-07-22）：HISTORICAL / 已完成。** 工单 1–15 已逐项完成 Contract v2、验证、归档、唯一 PR、合并、`ai-close-work-item`、分支清理和 main 同步；上一版已由发布 Workflow 以精确 main commit 发布。工单 16 是本计划最后一个清理工单；关闭后不得再从本计划创建新整改工单。
 
 **Goal:** 将 AI Cockpit 从“只能安装”补齐为可记录事实、可更新、可迁移、可回滚、可停用、可保留证据卸载的完整 Installed Lifecycle，并以严格串行 Work Item 闭环交付。
 
@@ -271,7 +271,7 @@ Ownership 至少包含 `template`、`project`、`shared`、`generated`、`histor
 
 本计划的 Work Item 与 PR 对应关系为：工单 1–13 对应 PR #198–#210；工单 14 对应 PR #211；工单 15 对应 PR #212；工单 16 对应本次计划清理 PR。每个 Work Item 的 Contract、Summary、archive-manifest、归档索引和 `ai-close-work-item` 结果是审计事实源，不因本计划标记为历史而删除。
 
-发布证据由 Workflow 29888274199 生成并发布到 v0.5.36 Release Assets：`sbom.json`、`provenance.json`、`release-digests.json`、`release-source.json`。失败路径保持不发布、不移动 Tag、不删除证据；该约束仍适用于后续独立发布计划。
+发布证据由历史发布 Workflow 生成并发布到 Release Assets：`sbom.json`、`provenance.json`、`release-digests.json`、`release-source.json`。失败路径保持不发布、不移动 Tag、不删除证据；该约束仍适用于后续独立发布计划。
 
 工单 16 关闭前至少重新运行并记录：
 

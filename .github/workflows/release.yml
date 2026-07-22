@@ -119,6 +119,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          printf '[]\n' > "$RUNNER_TEMP/ci-workflow-runs.json"
           for workflow in smoke.yml compatibility.yml; do
             deadline=$((SECONDS + 900))
             while :; do
@@ -129,6 +130,14 @@ jobs:
                 --limit 20 \
                 --json status,conclusion,databaseId)"
               if jq -e 'any(.[]; .conclusion == "success")' <<<"$runs" >/dev/null; then
+                run_id="$(jq -r 'map(select(.conclusion == "success"))[0].databaseId' <<<"$runs")"
+                jobs="$(gh run view "$run_id" --repo "$GITHUB_REPOSITORY" --json jobs --jq '[.jobs[] | {name, conclusion}]')"
+                required_jobs="$(jq -c '[.[].name] | unique' <<<"$jobs")"
+                jq --arg workflow "$workflow" --arg run_id "$run_id" --arg head "$SOURCE_COMMIT" \
+                  --argjson jobs "$jobs" --argjson required_jobs "$required_jobs" \
+                  '. + [{workflowRunId: $run_id, workflowName: $workflow, headSha: $head, requiredJobNames: $required_jobs, jobs: $jobs, conclusion: "success", failureReasons: []}]' \
+                  "$RUNNER_TEMP/ci-workflow-runs.json" > "$RUNNER_TEMP/ci-workflow-runs.next.json"
+                mv "$RUNNER_TEMP/ci-workflow-runs.next.json" "$RUNNER_TEMP/ci-workflow-runs.json"
                 break
               fi
               if (( SECONDS >= deadline )); then
@@ -155,6 +164,33 @@ jobs:
             --workflow-run-sha "$GITHUB_SHA" \
             --release-tag "$RELEASE_TAG" \
             --output-dir "$RUNNER_TEMP/release-evidence"
+          sbom_digest="$(sha256sum "$RUNNER_TEMP/release-evidence/sbom.json" | cut -d' ' -f1)"
+          provenance_digest="$(sha256sum "$RUNNER_TEMP/release-evidence/provenance.json" | cut -d' ' -f1)"
+          jq -n \
+            --arg source "$SOURCE_COMMIT" \
+            --arg merge "$GITHUB_SHA" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg sbom "$sbom_digest" \
+            --arg provenance "$provenance_digest" \
+            --argjson workflow_runs "$(cat "$RUNNER_TEMP/ci-workflow-runs.json")" \
+            '{
+              format: "ai-cockpit-ci-release-evidence",
+              schemaVersion: 1,
+              state: "verified",
+              evidenceSource: "github_api",
+              workflowRunId: $run_id,
+              headSha: $source,
+              mergeCommitSha: $merge,
+              headToMergeRelationship: "merge_commit_contains_head",
+              requiredJobNames: ([$workflow_runs[].requiredJobNames[]] | unique),
+              workflowRuns: $workflow_runs,
+              conclusion: "success",
+              failureReasons: [],
+              artifactDigests: {"sbom.json": $sbom, "provenance.json": $provenance},
+              sbom: {digest: $sbom, sourceCommit: $source},
+              provenance: {digest: $provenance, sourceCommit: $source}
+            }' > "$RUNNER_TEMP/release-evidence/ci-release-evidence.json"
+          bash scripts/check_ci_release_evidence.sh "$RUNNER_TEMP/release-evidence/ci-release-evidence.json" "$SOURCE_COMMIT"
           archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
           git archive --format=tar.gz --prefix="ai-cockpit/" "$SOURCE_COMMIT" \
             -o "$RUNNER_TEMP/release-evidence/$archive_name"
@@ -235,6 +271,7 @@ jobs:
             "$RUNNER_TEMP/release-evidence/sbom.json#sbom.json" \
             "$RUNNER_TEMP/release-evidence/provenance.json#provenance.json" \
             "$RUNNER_TEMP/release-evidence/release-digests.json#release-digests.json" \
+            "$RUNNER_TEMP/release-evidence/ci-release-evidence.json#ci-release-evidence.json" \
             "$RUNNER_TEMP/release-source.json#release-source.json" \
             "$RUNNER_TEMP/release-evidence/$(jq -r '.releaseArchive.assetName' release.json)#$(jq -r '.releaseArchive.assetName' release.json)"
 
@@ -255,6 +292,7 @@ jobs:
           test "$(jq -r '.defaultBranch' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_DEFAULT_BRANCH"
           test "$(jq -r '.runId' "$RUNNER_TEMP/release-source.json")" = "$GITHUB_RUN_ID"
           test "$(jq -r '.evidenceBundleDigest' "$RUNNER_TEMP/release-source.json")" = "$EVIDENCE_BUNDLE_DIGEST"
+          bash scripts/check_ci_release_evidence.sh "$RUNNER_TEMP/release-evidence/ci-release-evidence.json" "$SOURCE_COMMIT"
 
       - name: Publish verified Draft Release
         run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

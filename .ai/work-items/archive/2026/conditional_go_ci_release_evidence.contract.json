@@ -1,0 +1,193 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_ci_release_evidence",
+  "mode": "code",
+  "title": "Implement independently verifiable CI and release evidence",
+  "rawUserRequest": "继续实施 2026-07-22 Conditional GO Review Remediation 全部计划，严格按顺序完成当前工单、PR、合并、ai-close-work-item 和后续工单，最终发布新版本。",
+  "rawRequestSource": {"type": "human", "reference": "user-goal:2026-07-23-start-all-conditional-go-remediation", "capturedAt": "2026-07-23", "digest": "sha256:start-all-conditional-go-remediation"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "建立不依赖 PR Body 的独立 CI/Release Evidence，绑定 Workflow Run、Head/Merge SHA、Required Jobs、Conclusion、Artifact Digests、SBOM、Provenance 和失败原因。", "requestedCapabilities": ["ai_governance", "documentation", "software_design", "test_automation"]},
+  "baseCommit": "188ac82937ba45889c5d470970a8b0c618e8b367",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+    ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/decisions/**",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    ".github/workflows/smoke.yml",
+    "scripts/check_ci_release_evidence.sh",
+    "scripts/check_release_state_consistency.py",
+    "Makefile",
+    "release-state.json",
+    "tests/test_workflows.py",
+    "tests/test_release_state_consistency.py",
+    "tests/test_ci_release_evidence.sh",
+    "docs/reference/distribution.md",
+    "docs/reference/ci-release-evidence.md",
+    "docs/reference/capability-truth-matrix.json",
+    "docs/reference/capability-truth-matrix.md",
+    "tests/test_capability_truth_matrix.py"
+  ],
+  "outOfScope": [
+    "Complexity repayment and installer decomposition (Work Item 10).",
+    "Execution-plan cleanup (Work Item 11).",
+    "Publishing the final new release; release publication remains the final plan deliverable.",
+    "Treating PR description text, agent chat, or self-declared passed claims as evidence."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Approved plan Work Item 9 objective and acceptance."},
+    {"path": "AGENTS.md", "reason": "Repository Work Item and release evidence lifecycle rules."},
+    {"path": ".ai/glossary.md", "reason": "Canonical evidence and governance terminology."},
+    {"path": ".ai/work-items/archive/2026/conditional_go_ownership_installed_lifecycle.contract.json", "reason": "Closed predecessor Contract evidence."},
+    {"path": ".ai/work-items/archive/2026/conditional_go_ownership_installed_lifecycle.summary.json", "reason": "Closed predecessor Summary and verification evidence."},
+    {"path": ".github/workflows/release.yml", "reason": "Current source-bound release workflow and provider evidence boundary."},
+    {"path": ".github/workflows/smoke.yml", "reason": "Current PR and main CI workflow."},
+    {"path": "scripts/check_release_state_consistency.py", "reason": "Canonical release state validator."},
+    {"path": "scripts/check_release_distribution.py", "reason": "Public release artifact and correlation validator."},
+    {"path": "scripts/check_supply_chain.py", "reason": "SBOM, provenance, and release digest producer."},
+    {"path": "tests/test_workflows.py", "reason": "Workflow regression coverage."},
+    {"path": "tests/test_release_state_consistency.py", "reason": "Canonical release state regression coverage."},
+    {"path": "docs/reference/distribution.md", "reason": "Published release evidence contract documentation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["evidence_identity", "release_integrity", "ci_independence"],
+    "reason": "After the user's explicit confirmation, this Work Item is bounded to fail-closed evidence validation, workflow evidence generation, documentation, and regression tests; it does not publish a release or change the candidate state machine."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The predecessor Work Item is closed and the user authorized serial execution of the complete plan."
+  },
+  "preReviewWarnings": ["User authorization recorded in the Preflight decision evidence: normalize provider payloads to the Contract schema and fail closed on missing identity; allow null artifacts only for failed/non-release evidence; require provider-side merge relation and never treat local fixtures or PR Body claims as release proof.", "Reviewers must verify that verified/published states cannot be derived from PR Body claims and that every evidence record binds Run, Head SHA, Required Jobs, Conclusion, and artifact identities."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "CI/Release Evidence has an independently validated schema containing Workflow Run ID, Head SHA, Required Job Names, Conclusion, Artifact Digests, SBOM, Provenance, failure reasons, and PR Head-to-Merge relationship.",
+    "A command and workflow path generate/validate structured evidence without reading PR Body text; missing Run/SHA or cross-source identities fail closed.",
+    "Canonical release state rejects candidate_verified/release_published claims without bound CI Evidence and regression tests cover valid, missing, failed, stale, and PR-body-only cases.",
+    "Documentation explains evidence authority, state transitions, CI/PR relation, and the difference between candidate, verified, and published evidence."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Evidence authority must be provider/API-derived and source-bound; PR prose is never authoritative."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Valid provider/API evidence binds Run ID, Head SHA, required jobs, artifact digests, SBOM, and provenance.", "required": true, "riskDomain": "ci_independence", "status": "verified", "evidence": ["scripts/check_ci_release_evidence.sh", "tests/test_ci_release_evidence.sh"]},
+    {"scenario": "Missing Run/SHA, stale Head SHA, failed required job, or missing failure reason fails closed.", "required": true, "riskDomain": "evidence_integrity", "status": "verified", "evidence": ["scripts/check_ci_release_evidence.sh", "tests/test_ci_release_evidence.sh"]},
+    {"scenario": "Canonical verified/published state cannot be authorized by PR Body-only claims and explains PR Head-to-Merge relation.", "required": true, "riskDomain": "release_integrity", "status": "verified", "evidence": ["scripts/check_release_state_consistency.py", "tests/test_release_state_consistency.py", "docs/reference/ci-release-evidence.md"]}
+  ],
+  "intent": {
+    "problem": "The repository has strong release asset checks but no single independently verifiable CI/PR evidence record that explains required jobs, Run/SHA identity, failure causes, and PR Head-to-Merge relation outside PR prose.",
+    "constraints": ["Preserve the existing candidate/published release state machine.", "Do not claim provider or published evidence from local or chat-only data.", "Do not implement Work Items 10 or 11."],
+    "rationale": "A strict structured evidence boundary lets reviewers independently verify CI and release claims and prevents canonical state from accepting unsupported PR descriptions."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized serial implementation of the full Conditional GO remediation plan, including CI/release workflow, tests, PR, merge, and closure."
+  },
+  "predecessorWorkItem": {
+    "workItemId": "conditional_go_ownership_installed_lifecycle",
+    "status": "closed",
+    "pr": {"number": 252, "merged": true, "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/252", "mergeCommit": "188ac82937ba45889c5d470970a8b0c618e8b367"},
+    "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true}
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_ci_release_evidence.json",
+    "baseCommit": "188ac82937ba45889c5d470970a8b0c618e8b367",
+    "initialScopeDigest": "aa0aa1c63c024a697bfb0715ac8def18af896c0cda4c4769fc2ef3b7dbedb948",
+    "contractSkeletonDigest": "94dc0cc17e9e25c5a8f7f743bfb68892738e078a7cb706582fd3cc6267646c16"
+  }
+}

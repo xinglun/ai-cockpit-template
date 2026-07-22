@@ -38,6 +38,24 @@ STATES = {
     "out_of_scope",
     "approval_required",
 }
+RUNTIME_PREFIXES = ("scripts/", "lib/", "src/")
+RUNTIME_SUFFIXES = (".py", ".js", ".ts", ".go", ".rs", ".java")
+
+
+def declared_operation_conflict(path: str, operation: dict[str, Any] | None) -> str | None:
+    """Return a fail-closed reason when declared effect/environment conflicts with a Diff path."""
+    if not isinstance(operation, dict):
+        return None
+    is_runtime = path.startswith(RUNTIME_PREFIXES) and path.endswith(RUNTIME_SUFFIXES)
+    effect = operation.get("effect")
+    environment = operation.get("environment")
+    if effect == "document" and is_runtime:
+        return "declared document effect conflicts with runtime code diff"
+    if effect == "test" and is_runtime and not path.startswith("tests/"):
+        return "declared test effect conflicts with runtime code diff"
+    if environment in {"sandbox", "test"} and path.startswith(".github/workflows/"):
+        return f"declared {environment} environment conflicts with workflow Diff"
+    return None
 
 
 @dataclass(frozen=True)
@@ -238,19 +256,13 @@ def classify(
         return Ownership(path, "unowned", [], "no active or archived evidence covers this path")
     owner = covering[0]
     operation = contract.get("requestedOperation") if isinstance(contract, dict) else None
-    if (
-        isinstance(operation, dict)
-        and operation.get("effect") == "document"
-        and (
-            path.startswith(("scripts/", "lib/", "src/"))
-            and path.endswith((".py", ".js", ".ts", ".go", ".rs", ".java"))
-        )
-    ):
+    conflict = declared_operation_conflict(path, operation)
+    if conflict:
         return Ownership(
             path,
             "out_of_scope",
             labels,
-            "declared document effect conflicts with runtime code diff",
+            f"{conflict}; evidence: changed path={path}",
         )
     match = first_match(path, ownership)
     if match and match[1].get("aiWrite") == "forbidden":

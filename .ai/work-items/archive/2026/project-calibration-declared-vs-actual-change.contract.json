@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-declared-vs-actual-change",
+  "mode": "code",
+  "title": "Guard declared operation against actual change",
+  "rawUserRequest": "执行项目校准计划工单 6：阻止以 document 声明掩盖运行时代码改动，校验 declared operation 与实际 Diff 的领域、环境、权限和副作用一致性；不启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Fail closed when declared operation metadata conflicts with changed file behavior.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "f569142d1cc3dcd90cf554384068b65cfcbedc68",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-declared-vs-actual-change.contract.json",
+    ".ai/work-items/active/project-calibration-declared-vs-actual-change.summary.json",
+    "scripts/ai_check_diff_ownership.py",
+    "scripts/ai_trust_guards.py",
+    "tests/test_diff_ownership.py",
+    "tests/test_trust_guards.py",
+    "docs/trust-layer.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Changing runtime product behavior", "Starting Work Item 1 or later Work Items"],
+  "sources": [
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "Actual Diff classification and declared effect consistency guard."
+    },
+    {"path": "scripts/ai_trust_guards.py", "reason": "Structured operation evidence consumed by trust signals."},
+    {"path": "tests/test_diff_ownership.py", "reason": "Declared document versus runtime Diff regression coverage."},
+    {"path": "tests/test_trust_guards.py", "reason": "Operation and domain fail-closed regression coverage."},
+    {"path": "docs/trust-layer.md", "reason": "Documents declared versus actual consistency boundaries."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "declared_actual_consistency"
+    ],
+    "reason": "The guard compares deterministic path and operation evidence without changing runtime behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of this bounded governance Work Item."
+  },
+  "preReviewWarnings": [
+    "Verify document/test/sandbox paths remain allowed while runtime or production mismatches fail closed."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Declared document effect conflicts with runtime code Diff and reports concrete changed-path evidence.",
+    "Legitimate documentation, tests, and sandbox mock changes remain allowed.",
+    "Guard output is out_of_scope with the concrete changed path when a document effect conflicts with runtime code, and tests plus documentation cover the result."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "A Work Item can declare a safe document effect while changing runtime code, allowing path relabeling to bypass operation policy.",
+    "constraints": ["Preserve legitimate documentation, test, and sandbox mock changes.", "Do not weaken fail-closed behavior.", "Do not start Work Item 1 or later Work Items."],
+    "rationale": "Actual Diff evidence must be compared with declared operation metadata at the ownership gate."
+  },
+  "scenarioCoverage": [
+    {"scenario": "document effect with runtime code Diff", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]},
+    {"scenario": "legitimate documentation or test Diff", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]},
+    {"scenario": "sandbox mock remains allowed", "required": true, "status": "verified", "evidence": ["tests/test_diff_ownership.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized serial execution of the recalibration plan, including this guard, tests, and documentation Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-declared-vs-actual-change.json",
+    "baseCommit": "f569142d1cc3dcd90cf554384068b65cfcbedc68",
+    "initialScopeDigest": "b5ca50d8f7980bcb1be9efac6c366e2bfddc634315194c0e17c8e85098e8497f",
+    "contractSkeletonDigest": "5dcb1f043d5e937aa4115c7982aa0f99deb431b56a1c4624774a09e44b1b45d5"
+  }
+}

@@ -82,6 +82,21 @@ def test_classify_ambiguous_out_of_scope_and_restricted_paths():
         "active", "excluded", contract(["docs/**"], excluded=["docs/private/**"]), None
     )
     assert ownership.classify("docs/private/a.md", [excluded], {}).state == "out_of_scope"
+
+
+def test_declared_test_effect_cannot_claim_runtime_code():
+    contract = {"requestedOperation": {"effect": "test", "environment": "repository"}}
+    result = ownership.declared_operation_conflict(
+        "scripts/runtime.py", contract["requestedOperation"]
+    )
+    assert result == "declared test effect conflicts with runtime code diff"
+
+
+def test_sandbox_workflow_change_fails_closed():
+    operation = {"effect": "enforce", "environment": "sandbox"}
+    assert "workflow Diff" in ownership.declared_operation_conflict(
+        ".github/workflows/ci.yml", operation
+    )
     restricted = {
         ".github/**": {
             "aiWrite": "restricted",

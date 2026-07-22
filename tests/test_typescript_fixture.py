@@ -37,4 +37,14 @@ def test_typescript_fixture_lifecycle_records_blocks_and_not_run_boundary():
         for item in evidence["phases"]
         if item["status"] == "blocked"
     )
+    assert all(
+        item["executionKind"] == "local_real_execution"
+        for item in evidence["phases"]
+        if item["status"] == "passed"
+    )
+    assert all(
+        item["executionKind"] == "blocked"
+        for item in evidence["phases"]
+        if item["status"] == "blocked"
+    )
     assert evidence["externalProviderEvidence"]["status"] == "not_run"

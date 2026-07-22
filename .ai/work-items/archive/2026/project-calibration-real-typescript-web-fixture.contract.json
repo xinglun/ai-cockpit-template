@@ -1,0 +1,179 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-real-typescript-web-fixture",
+  "mode": "code",
+  "title": "project-calibration-real-typescript-web-fixture",
+  "rawUserRequest": "执行项目校准计划工单 9：建立可安装、可构建、可测试、可升级的真实 TypeScript Web Fixture，执行 Install、Configure、Normal Work Item、Ambiguous Request、Critical Domain Change、Upgrade、Rollback、Release Check；真实执行与 not_run 必须可复核，不把 Manifest Simulation 写成真实运行；不启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Make the TypeScript web lifecycle fixture execute real local npm phases and distinguish unavailable toolchains from simulated evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "e66cc6794025365131873dd77b7c6884eb0b7985",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-real-typescript-web-fixture.contract.json",
+    ".ai/work-items/active/project-calibration-real-typescript-web-fixture.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "examples/fixtures/typescript-web/**",
+    "tests/test_typescript_fixture.py",
+    "scripts/fixture_harness.py",
+    "scripts/cross_stack_long_cycle.py",
+    "tests/test_fixture_harness.py",
+    "tests/test_cross_stack_long_cycle.py",
+    "docs/reference/adopter-long-cycle-validation.md"
+  ],
+  "outOfScope": ["External provider or enterprise identity evidence", "Changing Java/Python fixture behavior", "Starting Work Item 1 or later Work Items"],
+  "sources": [
+    {
+      "path": "tests/test_typescript_fixture.py",
+      "reason": "Executes the real npm install/build/test/lint/format entrypoints."
+    },
+    {
+      "path": "scripts/cross_stack_long_cycle.py",
+      "reason": "Aggregates real fixture evidence and preserves the external evidence boundary."
+    },
+    {
+      "path": "tests/test_fixture_harness.py",
+      "reason": "Verifies simulated manifest evidence is distinct from real fixture execution."
+    },
+    {
+      "path": "scripts/fixture_harness.py",
+      "reason": "Separates deterministic manifest simulation from real fixture evidence."
+    },
+    {
+      "path": "docs/reference/adopter-long-cycle-validation.md",
+      "reason": "Documents the evidence boundary and unavailable-toolchain behavior."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["toolchain_boundary"],
+    "reason": "Local npm execution is deterministic when Node/npm are available; unavailable toolchains must be recorded as not_run and never inferred as passed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of this bounded fixture Work Item."
+  },
+  "preReviewWarnings": [
+    "Reject simulated phase records as real execution; verify command, status, and evidence boundary for every phase."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The TypeScript fixture has real npm entrypoints for install, build, test, lint, and format checks, with a lifecycle command covering all eight required phases.",
+    "Each phase records command/evidence and uses local_real_execution, blocked, or not_run explicitly; unavailable npm never becomes passed evidence.",
+    "Tests execute the fixture and documentation distinguishes real local evidence from deterministic manifest simulation and external evidence not_run."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The repository has a TypeScript fixture manifest and lifecycle shape, but the aggregate harness can represent phases without proving that the real npm fixture executed them.",
+    "constraints": ["Keep the fixture dependency-light and local; do not claim provider, identity, sandbox, immutable audit, or enterprise evidence.", "Record unavailable Node/npm toolchains as not_run with a reason.", "Do not start Work Item 1 or later Work Items."],
+    "rationale": "A real executable fixture plus explicit evidence kinds makes lifecycle verification reproducible and prevents simulation from being presented as execution."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Node/npm available and install/build/test/lint/format commands pass", "required": true, "status": "verified", "evidence": ["tests/test_typescript_fixture.py"]},
+    {"scenario": "Ambiguous and critical-domain phases remain blocked with resume conditions", "required": true, "status": "verified", "evidence": ["examples/fixtures/typescript-web/scripts/lifecycle.mjs", "tests/test_typescript_fixture.py"]},
+    {"scenario": "Provider or unavailable toolchain evidence is explicit not_run, not simulated pass", "required": true, "status": "verified", "evidence": ["examples/fixtures/typescript-web/evidence.json", "docs/reference/adopter-long-cycle-validation.md"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized serial execution of the recalibration plan, including this fixture Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-real-typescript-web-fixture.json",
+    "baseCommit": "e66cc6794025365131873dd77b7c6884eb0b7985",
+    "initialScopeDigest": "41e887e0890d3d2ab443c5d29ea931029711f7993b55e21212f08d0491192978",
+    "contractSkeletonDigest": "9c68a0078d2e15e16151045a2174e8b7186a3f42900bdca608c62e12a4fa5c25"
+  }
+}

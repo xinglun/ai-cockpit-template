@@ -1,0 +1,178 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-release-budget",
+  "mode": "code",
+  "title": "Adjust governance complexity budget for release truth Work Item",
+  "rawUserRequest": "继续执行已授权的串行整改计划；如当前工单触发治理复杂度预算不足，创建独立预算修复 Work Item/PR，完成完整闭环后回到当前工单，不能跳过工单流程。",
+  "baseCommit": "018c22eacb23d2fb61ce9a44145bdac56ff562f6",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "01e0acce61ce221e1c352a0854914f6d0a6cf73e2fbad92efc62bc9542a7acb1"
+    }
+  ],
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/project-calibration-release-budget.contract.json",
+    ".ai/work-items/active/project-calibration-release-budget.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "工单 1 的实现、测试和计划文档",
+    "任何生产行为或发布流程变更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "当前已确认的治理复杂度预算和 repaymentRecords。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "复杂度预算必须显式确认并记录偿还。"
+    },
+    {
+      "path": "PR #214 quality failure evidence",
+      "reason": "完整质量门报告 pythonLines=35784 exceeds maximum 35743。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_budget"],
+    "reason": "仅调整已授权的 Python 行数预算并增加 repayment 记录，不改变生产行为、工单 1 内容或测试语义。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权在预算不足时创建独立预算修复 Work Item/PR。"
+  },
+  "preReviewWarnings": [
+    "Verify the increase is limited to the measured 35784 Python-line total and carries a repayment record.",
+    "Verify no plan content or Work Item 1 implementation is included."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The confirmed pythonLines maximum admits the measured release-truth Work Item without hiding an unrelated complexity increase.",
+    "The policy change includes an explicit repayment record naming the final cleanup responsibility.",
+    "All declared AI and project checks pass, and the PR diff contains no Work Item 1 implementation or plan-content change."
+  ],
+  "declaredIntent": {"summary": "Calibrate the confirmed governance Python-line budget for the current release-truth Work Item only.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-budget-remediation"},
+  "scenarioCoverage": [
+    {"scenario": "Measured Python lines exceed the confirmed maximum by 41 lines", "required": true, "status": "verified", "evidence": ["make quality failure output"]},
+    {"scenario": "Budget increase has repayment evidence and no Work Item 1 content", "required": true, "status": "verified", "evidence": ["governance_complexity_policy.yaml", "Contract outOfScope", "final PR diff"]}
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "工单 1 的完整质量门测得 Python 行数 35784，超过当前确认上限 35743，导致质量门 fail closed。",
+    "constraints": [
+      "只修改治理复杂度预算和 repaymentRecords。",
+      "不修改工单 1 实现、测试或计划文档，不开始后续工单。",
+      "预算必须按实际测量值校准，不得用无证据的宽泛上限掩盖复杂度。"
+    ],
+    "rationale": "独立预算 Work Item 保持工单边界清晰，并让当前工单在预算得到明确授权和偿还记录后继续。"
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "用户已授权创建独立预算修复 Work Item/PR，并要求继续执行但不跳过完整生命周期。"
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-release-budget.json",
+    "baseCommit": "018c22eacb23d2fb61ce9a44145bdac56ff562f6",
+    "initialScopeDigest": "a63e54906d0fadc89617e878fcc4df006b4136564b69be73ad65ff447b9f41e1",
+    "contractSkeletonDigest": "d595548fc6e095f7c14230263e377d0784b2e176aeb9a14aa6b8338ed6b37315"
+  }
+}

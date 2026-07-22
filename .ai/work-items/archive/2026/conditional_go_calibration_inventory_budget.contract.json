@@ -1,0 +1,198 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_calibration_inventory_budget",
+  "mode": "code",
+  "title": "Calibrate CI complexity budget for Calibration Inventory",
+  "rawUserRequest": "继续推进当前文档工单；所有计划工单按完整流程执行，不跳过工单，并完成 PR、合并、ai-close-work-item 与分支清理。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-goal:2026-07-23-start-all-conditional-go-remediation",
+    "capturedAt": "2026-07-23",
+    "digest": "sha256:start-all-conditional-go-remediation"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Calibrate the bounded governance complexity ceiling required to verify the already-reviewed Calibration Inventory implementation in local and template-smoke environments.",
+    "requestedCapabilities": ["ai_governance", "software_design", "documentation", "test_automation"]
+  },
+  "baseCommit": "97161ce318699a394ec9b36e4ff2c87b728f676d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_calibration_inventory_budget.contract.json",
+    ".ai/work-items/active/conditional_go_calibration_inventory_budget.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "tests/test_governance_complexity.py"
+  ],
+  "outOfScope": [
+    "Calibration Inventory implementation and WI6 feature files",
+    "Complexity repayment or installer decomposition planned for WI10",
+    "Starting WI7 or any later plan Work Item"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/conditional_go_calibration_inventory_budget.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "WI6 adds Calibration Inventory code; current CI measures 38311 Python and 9418 Markdown lines against 37800/9400 ceilings."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The policy is the authoritative bounded ceiling and repayment ledger."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_budget", "ci_compatibility"],
+    "reason": "A bounded policy ceiling must admit the already-reviewed WI6 implementation across local and template-smoke environments without disguising repayment as calibration."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the complete serial plan implementation and its required governance lifecycle."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The complexity policy raises Python and Markdown ceilings only to measured WI6 CI/template-smoke values plus bounded headroom.",
+    "Each increase has an owner, date, and explicit repayment owner of WI10; this Work Item does not claim repayment.",
+    "Complexity report, budget-impact guard, and governance tests pass locally against the new policy.",
+    "The policy change is isolated from WI6 implementation files and does not start WI7."
+  ],
+  "guidelines": [
+    "Do not increase a complexity ceiling without measured evidence and a repayment record.",
+    "Keep the reservation bounded and leave actual repayment to WI10."
+  ],
+  "intent": {
+    "problem": "WI6 is complete locally but its PR CI fails because the shared governance complexity policy is below the measured template-smoke repository shape.",
+    "constraints": [
+      "Do not modify WI6 implementation or archived WI6 evidence.",
+      "Do not perform WI10 repayment early.",
+      "Do not start any later plan Work Item until this correction and WI6 are closed."
+    ],
+    "rationale": "A separately governed budget calibration preserves immutable WI6 evidence while making the already-authorized implementation verifiable in the CI environment."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Measured CI/template-smoke complexity is within the bounded reservation",
+      "required": true,
+      "riskDomain": "ci_compatibility",
+      "status": "verified",
+      "evidence": ["scripts/check_governance_complexity.py", ".ai/guards/governance_complexity_policy.yaml"]
+    },
+    {
+      "scenario": "Budget increase without repayment metadata fails closed",
+      "required": true,
+      "riskDomain": "evidence_provenance",
+      "status": "verified",
+      "evidence": ["tests/test_governance_complexity.py"]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete plan implementation, including governance files, PRs, merges, cleanup, and release."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_calibration_inventory_budget.json",
+    "baseCommit": "97161ce318699a394ec9b36e4ff2c87b728f676d",
+    "initialScopeDigest": "6c7e1aae4c6692de48b11f3a1bff724502f846fba0c7e822b980aa0e53c16bcc",
+    "contractSkeletonDigest": "e90fc32b5dfd14f5246708a465bd3e29f9a2dd712fb4a05a33582385acc8b510"
+  }
+}

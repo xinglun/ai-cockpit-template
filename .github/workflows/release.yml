@@ -176,6 +176,9 @@ jobs:
           bundle_digest="$(find "$evidence" -maxdepth 1 -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)"
           [[ "$bundle_digest" =~ ^[0-9a-f]{64}$ ]]
           printf '%s\n' "$bundle_digest" > "$evidence/evidence-bundle-digest.txt"
+          jq --arg digest "$bundle_digest" '.evidenceBundleDigest = $digest' \
+            "$RUNNER_TEMP/release-source.json" > "$RUNNER_TEMP/release-source.with-digest.json"
+          mv "$RUNNER_TEMP/release-source.with-digest.json" "$RUNNER_TEMP/release-source.json"
           echo "EVIDENCE_BUNDLE_DIGEST=$bundle_digest" >> "$GITHUB_ENV"
 
       - name: Dispatch strict smoke verification for verified source commit
@@ -235,6 +238,7 @@ jobs:
           test "$(jq -r '.remote' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_REMOTE"
           test "$(jq -r '.defaultBranch' "$RUNNER_TEMP/release-source.json")" = "$RELEASE_DEFAULT_BRANCH"
           test "$(jq -r '.runId' "$RUNNER_TEMP/release-source.json")" = "$GITHUB_RUN_ID"
+          test "$(jq -r '.evidenceBundleDigest' "$RUNNER_TEMP/release-source.json")" = "$EVIDENCE_BUNDLE_DIGEST"
 
       - name: Publish verified Draft Release
         run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

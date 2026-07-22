@@ -116,6 +116,8 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "release-assets" in workflow
     assert "'.commitSha'" in workflow
     assert "release-digests.json" in workflow
+    assert "evidenceBundleDigest" in workflow
+    assert "EVIDENCE_BUNDLE_DIGEST" in workflow
     assert "#sbom.json" in workflow
     assert "#provenance.json" in workflow
     assert "git ls-remote --symref origin HEAD" in workflow
@@ -125,6 +127,14 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "RELEASE_REMOTE" in workflow
     assert "RELEASE_DEFAULT_BRANCH" in workflow
     assert "GITHUB_RUN_ID" in workflow
+
+
+def test_release_workflow_publishes_provider_bundle_digest_in_source_evidence():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    bind = workflow.index("Bind the generated evidence bundle digest")
+    draft = workflow.index("Create exact-SHA tag and Draft GitHub Release")
+    assert workflow.index("release-source.with-digest.json", bind) < draft
+    assert workflow.index(".evidenceBundleDigest", bind) < draft
 
 
 def test_release_workflow_rejects_stale_source_before_mutations():

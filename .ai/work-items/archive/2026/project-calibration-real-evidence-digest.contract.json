@@ -1,0 +1,47 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-real-evidence-digest",
+  "mode": "code",
+  "title": "Require real evidence bundle digests",
+  "rawUserRequest": "按项目校准与更新重新校准执行计划，完成工单 3：真实 Evidence Digest；禁止状态说明冒充 Digest，并继续按完整生命周期执行。",
+  "baseCommit": "a2310d83b9e98307dd5332f39d560f8e23cd0f81",
+  "baselineDirtyPaths": [],
+  "scope": ["release-state.json", "scripts/check_release_state_consistency.py", "tests/test_release_state_consistency.py", "tests/test_release_distribution.py", "tests/test_workflows.py", ".github/workflows/release.yml", "docs/reference/distribution.md", "docs/reference/distribution.ja.md", ".ai/guards/governance_complexity_policy.yaml", ".ai/work-items/active/**", ".ai/work-items/starts/**", ".ai/work-items/archive/**", ".ai/cockpit/current_status.md"],
+  "outOfScope": ["Changing provider asset generation format or release tag ordering", "Publishing a release or moving an existing tag", "Changing release.json and next-release.json schemas", "Starting later plan Work Items"],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md", "reason": "Defines Work Item 3 evidence status and digest acceptance."},
+    {"path": "release-state.json", "reason": "Canonical record currently separates evidence status and digest fields."},
+    {"path": "scripts/check_release_state_consistency.py", "reason": "Existing fail-closed validator for state and digest semantics."},
+    {"path": ".github/workflows/release.yml", "reason": "Provider-bound evidence generation and release promotion sequence."},
+    {"path": "scripts/check_release_distribution.py", "reason": "Public provider asset identity and integrity validation."},
+    {"path": "tests/test_release_state_consistency.py", "reason": "Regression coverage for placeholder and valid digest cases."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["release_evidence", "fail_closed"], "reason": "The change tightens deterministic digest validation and provider-asset binding without changing release ordering."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "The user authorized serial execution and this bounded evidence contract is deterministic."},
+  "preReviewWarnings": ["Verify candidate_prepared remains representable without provider evidence while later states reject placeholders and provider mismatches."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record evidence validation checkpoints."},
+  "acceptance": [
+    "candidate_prepared keeps evidenceBundleDigest null with pending provider evidence; candidate_verified and release_published require lowercase 64-character SHA-256 values.",
+    "The release workflow and distribution validator bind the digest to generated provider evidence assets and fail closed before promotion on mismatch.",
+    "Focused tests cover prepared, placeholder, valid, published, and provider-asset mismatch scenarios.",
+    "English and Japanese distribution documentation explain status-versus-digest semantics and fail-closed evidence rules."
+  ],
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Require real evidence bundle digests for verified and published release states while allowing prepared candidates to remain explicitly unverified.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "intent": {"problem": "evidenceBundleDigest can describe a state without proving the provider asset bundle, allowing a release to appear verified without cryptographic evidence.", "constraints": ["Preserve candidate preparation without provider assets.", "Do not publish, move, or delete tags.", "Fail closed for verified and published states."], "rationale": "Separate evidence status from cryptographic identity and bind the identity to provider assets before promotion."},
+  "scenarioCoverage": [
+    {"scenario": "candidate_prepared without provider evidence", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "candidate_verified placeholder rejected", "required": true, "status": "verified", "evidence": ["tests/test_release_state_consistency.py"]},
+    {"scenario": "valid digest accepted and published evidence bound", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml", "tests/test_release_distribution.py"]}
+  ],
+  "guidelines": ["New public APIs must be documented.", "Do not import internal modules from other features."],
+  "verification": [{"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized implementation, tests, workflow, governance, and documentation changes for the serial plan."},
+  "rollbackNote": "Revert this Work Item diff and restore the prior evidence validation behavior.",
+  "startReceipt": {"path": ".ai/work-items/starts/project-calibration-real-evidence-digest.json", "baseCommit": "a2310d83b9e98307dd5332f39d560f8e23cd0f81", "initialScopeDigest": "57214b176463c3f8c6f06a9415a640f982459db5e769a363b394a1397147c385", "contractSkeletonDigest": "3bfdf7d38f3ffb6e39812bb0d33911964ebf6a39336e511eb8835b0516cf8e14"}
+}

@@ -1,0 +1,203 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-budget",
+  "mode": "code",
+  "title": "Calibrate governance complexity budget for project calibration plan",
+  "baseCommit": "4ba14ba47c934047355a9f538f2d8a2fafa2c776",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-budget.contract.json",
+    ".ai/work-items/active/project-calibration-budget.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+    "工单 1 及其实现",
+    "任何生产功能或测试行为变更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current confirmed complexity budgets and repayment-record format."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Complexity-policy and Work Item lifecycle requirements."
+    },
+    {
+      "path": "PR #214 / project-calibration-recalibration-plan",
+      "reason": "The authorized plan PR that measured markdownLines=8913 and archiveGrowth=428 in CI."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_budget"
+    ],
+    "reason": "The change adjusts only confirmed repository governance budgets to admit the already archived plan evidence; no product behavior changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": "No blocking capability limitation; the Work Item is limited to governance YAML and evidence updates."
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized an independent budget-remediation Work Item and PR."
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The confirmed governance complexity policy admits the measured project-calibration plan values without changing product behavior.",
+    "Each increased budget has a repayment record naming the planned cleanup responsibility and measured target.",
+    "The policy and Work Item evidence pass all declared AI and project quality checks.",
+    "The resulting PR is limited to this budget-remediation Work Item and is independently reviewable."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "PR #214 cannot pass the repository's confirmed complexity gate because archiving the authorized execution-plan Work Item raises markdownLines from 8679 to 8913 and archiveGrowth from 427 to 428.",
+    "constraints": [
+      "Change only the confirmed governance complexity budget and its repayment evidence.",
+      "Do not alter the execution plan or begin Work Item 1.",
+      "Preserve one Work Item, one branch, and one PR for this remediation."
+    ],
+    "rationale": "A separate, auditable budget-remediation Work Item keeps the archived plan evidence immutable while allowing its PR to be verified and merged through the normal lifecycle."
+  },
+  "rawUserRequest": "授权创建一个独立的预算修复 Work Item/PR；再继续，仍不会启动工单 1。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-request:project-calibration-budget-remediation",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:2c5e25c0bdd7704534073ba885d1effb70e0bc47708c443909961ba5de6d3bf7"
+  },
+  "declaredIntent": {
+    "summary": "Calibrate the confirmed governance complexity budget so the authorized project-calibration plan PR can pass its repository gates.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The measured project-calibration plan values exceed the current confirmed markdown and archive budgets.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["PR #214 CI: python-platform-matrix and template-smoke failures"]
+    },
+    {
+      "scenario": "Both budget increases carry explicit repayment records and do not start Work Item 1.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/guards/governance_complexity_policy.yaml", "user authorization in rawUserRequest"]
+    },
+    {
+      "scenario": "No production behavior, execution-plan content, or tests are changed by this remediation.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Contract outOfScope and final PR diff"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-execution",
+    "reason": "User explicitly authorized the independent governance budget-remediation Work Item and PR."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-budget.json",
+    "baseCommit": "4ba14ba47c934047355a9f538f2d8a2fafa2c776",
+    "initialScopeDigest": "419873914803e79ccb15184b680821e5113f54f4ea14b8d29225e8c6fd57eadb",
+    "contractSkeletonDigest": "2cd4062902cab6d0c7e91b6a726d8ceaa3553b4456eda791c5e57a7f76856d18"
+  }
+}

@@ -23,7 +23,7 @@ keywords:
 
 | 计划 | 状态 | 说明 |
 | --- | --- | --- |
-| [2026-07-22 Conditional GO 全面评审整改](2026-07-22-conditional-go-review-remediation.md) | 执行中 | 基于 Conditional GO 评审；11 个工单严格串行执行，工单 1 先完成本计划文档，最后一项为清理执行计划文档。 |
+| [2026-07-22 Conditional GO 全面评审整改](2026-07-22-conditional-go-review-remediation.md) | 已完成/需审计 | WI1–WI11 严格串行；每项 PR、合并、归档、关闭、分支清理和默认分支同步均有证据。 |
 | [2026-07-22 Project Calibration and Update Recalibration](2026-07-22-project-calibration-recalibration.md) | 执行中 | 评审整改计划；14 个工单串行执行，最后一项为清理执行计划文档。 |
 
 ## 历史保留计划
@@ -40,4 +40,4 @@ keywords:
 - [2026-07-21 Bootstrap Adoption 评审整改](2026-07-21-bootstrap-adoption-review-remediation.md) — WI01–WI15 已完成，PR #172–#186 合并，上一版已发布，保留完整审计证据。
 - [2026-07-22 Installed Lifecycle Management 评审整改](2026-07-22-installed-lifecycle-review-remediation.md) — 工单 1–15 已完成，PR #198–#212 合并，上一版已发布；工单 16 清理后标记为历史保留。
 
-相邻的 `../specs/` 属于独立设计证据，不随计划清理删除。
+相邻的 `../specs/` 属于独立设计证据，不随计划清理删除。2026-07-23 清理结论：已完成计划、重复内容、状态和引用扫描；未发现可证明“无审计价值且无引用”的计划副本，因此没有删除计划文件。所有计划与 specs 保留以支持历史追溯；最终发布另由用户授权后的独立发布工单执行，不会跳过本计划任何工单。

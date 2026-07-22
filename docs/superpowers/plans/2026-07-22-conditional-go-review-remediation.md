@@ -11,12 +11,10 @@ keywords:
 ---
 # Conditional GO 全面评审整改执行计划
 
+**Status:** historical; WI1–WI10 completed and WI11 is the final documentation-cleanup Work Item owned by `conditional_go_plan_cleanup`.
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-
 **Goal:** 把本次 `Conditional GO` 评审转化为一组有依赖、可验证、严格串行的 Work Item，并在每个 Work Item 完成 PR 合并、归档、分支清理和主分支同步后循环进入下一个，直到最后的“清理执行计划文档”工单完成。
-
 **Architecture:** AI Cockpit 继续保持 Repository Governance Layer 边界，不扩展为 Agent Runtime、Workflow Engine 或 Security Sandbox。先建立 Capability Truth Matrix，明确 implemented / template-only / adopter-installed / planned，再按安装 Runtime、Quick Install、Calibration、Inventory、Bootstrap/Update Lifecycle、CI Evidence、Complexity 和 Installer 结构逐项实现；文档和发布只接受已经由命令、测试、PR 和 Release Evidence 支撑的声明。
-
 **Tech Stack:** Python 3.10+、pytest、Make、JSON/YAML、Markdown、GitHub PR、AI Cockpit Work Item Contract v2。
 
 ## Global Constraints
@@ -30,7 +28,9 @@ keywords:
 - 用户已明确授权：修改代码、测试、Schema、治理配置、CI、示例和文档；创建/推送/评审/合并每个 PR；执行 `ai-finish`、归档、`ai-close-work-item`；清理本地和远端 Work Item 分支；必要时发布新版本；最后清理执行计划文档。该授权已经得到，不需在每个工单前重复确认。
 - 授权只代表操作许可，不代表 PR、测试、Release、合并、分支删除或主分支同步已经发生；这些必须以实际命令输出、Provider 记录、SHA、Digest 和 Archive Evidence 为准。
 - 不删除 Contract、Summary、Cockpit Status、评审材料、发布证据、测试、快照或仍被引用的设计文档；最后一个工单只在完成链接扫描和引用审查后清理计划文件。
+## Audit closure map
 
+Every completed item has its own PR, merge SHA, archived Contract/Summary/manifest, successful `ai-close-work-item`, and synchronized default branch. Evidence: WI1 [#242](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/242) `8c874e7f44fd25ae179bcc698b7708df2ebfba13` (`conditional_go_review_execution_plan`); WI2 [#244](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/244) `632461de90cc465f34c0258208706b8970b6279d` (`conditional_go_capability_truth_matrix`); WI3 [#246](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/246) `202893b0274319a5eaeb87eaa8265a4030f2ba79` (`conditional_go_installed_runtime_parity`); WI4 [#247](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/247) `2f9502a34c8b35cd502d6f3bd7c1c70fb152a49b` (`conditional_go_verified_quick_install`); WI5 [#248](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/248) `97161ce318699a394ec9b36e4ff2c87b728f676d` (`conditional_go_calibration_scaffold_core`); WI6 [#249](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/249) `6343df4f5522f696673c75430b641eb7958db47c` (`conditional_go_calibration_inventory_status_matrix`); WI7 [#251](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/251) `a1d1b8158ab2671e34723bf2941eff3f378e665f` (`conditional_go_bootstrap_lifecycle_schema`); WI8 [#252](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/252) `188ac82937ba45889c5d470970a8b0c618e8b367` (`conditional_go_ownership_installed_lifecycle`); WI9 [#253](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/253) `7100ee8820fb9f04b439dbd94905d1f621fab477` (`conditional_go_ci_release_evidence`); WI10 [#254](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/254) `a865305c31563742d327b448ecabe3e4c557a62c` (`conditional_go_complexity_installer`). WI11 is this cleanup Work Item; its PR, merge SHA, and closure manifest are recorded by lifecycle evidence.
 ## 1. 评审收查与总结
 
 ### 1.1 当前结论

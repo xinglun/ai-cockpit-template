@@ -1,0 +1,212 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_complexity_installer",
+  "mode": "code",
+  "title": "Repay complexity budget and decompose installer boundaries",
+  "rawUserRequest": "继续实施 2026-07-22 Conditional GO Review Remediation 全部计划，严格按顺序完成当前工单、PR、合并、ai-close-work-item 和后续工单，最终发布新版本。当前只进入 WI10，不跳过任何计划工单。",
+  "rawRequestSource": {"type": "human", "reference": "user-goal:2026-07-23-start-all-conditional-go-remediation", "capturedAt": "2026-07-23", "digest": "sha256:start-all-conditional-go-remediation"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "先交付可量化的复杂度偿还，再将 install_ai_cockpit.py 的职责拆到 repository、detection、transaction、ownership、bootstrap、upgrade、managed_regions、evidence 模块，并保留薄入口。", "requestedCapabilities": ["ai_governance", "software_design", "documentation", "test_automation"]},
+  "baseCommit": "7100ee8820fb9f04b439dbd94905d1f621fab477",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_complexity_installer.contract.json",
+    ".ai/work-items/active/conditional_go_complexity_installer.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/install_ai_cockpit.py",
+    "scripts/ai_installer_catalog.json",
+    "scripts/ai_installer_*.py",
+    "tests/test_installer.py",
+    "tests/test_install_script.py",
+    "tests/test_install_sh.py",
+    "tests/test_installed_runtime_parity.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_governance_complexity.py",
+    "tests/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/guards/coverage_policy.yaml",
+    "docs/reference/governance-complexity.md",
+    "docs/architecture.md",
+    "Makefile",
+    "tests/test_installer_boundaries.sh"
+  ],
+  "outOfScope": [
+    "Work Item 11 execution-plan cleanup.",
+    "Final release publication.",
+    "Skipping any earlier or later Work Item.",
+    "Raising complexity limits without an actual repayment record.",
+    "Changing adopter runtime behavior outside installer boundaries and their regression tests."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Approved plan Work Item 10 objective and acceptance."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository Work Item lifecycle, scope, and complexity governance rules."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical governance and Work Item terminology."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Current installer monolith and public entry point to decompose."
+    },
+    {
+      "path": "tests/test_installer.py",
+      "reason": "Installer behavior regression coverage."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Measured complexity report and repayment metrics."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Blocking complexity budget and repayment policy."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Complexity budget and repayment documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "compatibility",
+      "governance_complexity"
+    ],
+    "reason": "The change moves installer responsibilities across modules and modifies complexity evidence; compatibility and budget accounting must be verified."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The predecessor Work Item is closed, the default branch is synchronized, and the user authorized serial implementation of the complete plan."
+  },
+  "preReviewWarnings": [
+    "Review must confirm the installer entry point remains behavior-compatible, each new module has a single verifiable boundary, the repayment is measurable, and no complexity budget is increased without repayment evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A repayment record demonstrates a measured reduction or consolidation before any net complexity increase is accepted.",
+    "install_ai_cockpit.py remains a thin compatible entry point while installer responsibilities are separated into tested repository, detection, transaction, ownership, bootstrap, upgrade, managed-regions, and evidence boundaries.",
+    "Installer and module regression tests pass, including installed runtime parity and failure/rollback behavior.",
+    "Complexity report, policy/repayment evidence, architecture documentation, and Work Item Summary agree."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Keep the installer entry point compatible and fail closed on transaction or ownership errors.",
+    "Do not increase a blocking complexity limit without a concrete repayment record."
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Existing installer CLI and public Installer behavior remain compatible through the thin entry point.", "required": true, "riskDomain": "compatibility", "status": "verified", "evidence": ["tests/test_installer.py", "tests/test_install_script.py"]},
+    {"scenario": "Repository detection, transaction, ownership, and evidence boundaries reject unsafe or partial installation states.", "required": true, "riskDomain": "lifecycle_integrity", "status": "verified", "evidence": ["tests/test_installer.py", "tests/test_installed_runtime_parity.py"]},
+    {"scenario": "Measured complexity repayment is recorded and the complexity checker fails closed on unapproved budget growth.", "required": true, "riskDomain": "governance_complexity", "status": "verified", "evidence": ["scripts/check_governance_complexity.py", "tests/test_governance_complexity.py", ".ai/guards/governance_complexity_policy.yaml"]}
+  ],
+  "intent": {
+    "problem": "The installer is a 1,800-line monolith and the repository has approached its Python complexity budget. Continuing to add lifecycle behavior without repayment makes the governance budget meaningless and weakens independent verification of installer boundaries.",
+    "constraints": ["Complete WI10 only after WI9 closure and from the synchronized default branch.", "Preserve existing installer CLI and behavior unless a regression test documents an intentional boundary change.", "Do not implement WI11 or publish the final release in this Work Item."],
+    "rationale": "A measured repayment paired with thin, tested module boundaries makes future installer changes reviewable without hiding complexity growth behind a higher limit."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete Conditional GO remediation plan, including governance policy repayment records and the full WI10 PR lifecycle."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_complexity_installer.json",
+    "baseCommit": "7100ee8820fb9f04b439dbd94905d1f621fab477",
+    "initialScopeDigest": "0a6e0ded14fa389cda853413358771005d11d013d5a1ea4010a14c5011d688d1",
+    "contractSkeletonDigest": "dc9ca987ca57270a269663e832ada1964889c3dbadcfbb7874e3fc5a3ad39da4"
+  }
+}

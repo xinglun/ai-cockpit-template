@@ -147,7 +147,7 @@ scripts/                               # AI Cockpit のコアスクリプト
   ai_generate_status.py                # Cockpit ステータス生成
   ai_observability.py                  # 実行ログ・監査情報出力
   ai_start.py                          # Work Item 開始処理
-  install_ai_cockpit.py                # AI Cockpit インストーラー
+  install_ai_cockpit.py                # 薄い入口; ai_installer_{repository,detection,transaction,ownership,bootstrap,upgrade,managed_regions,evidence}.py が境界を担当
   ai_acceptance_policy.py              # Acceptance シグナルポリシー
   ai_calibrate.py                      # Project Profile の校正
   ai_check_adoption_ready.py           # 採用済みプロジェクトの準備検証

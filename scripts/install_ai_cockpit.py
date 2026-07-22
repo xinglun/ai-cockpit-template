@@ -21,85 +21,20 @@ from ai_upgrade_conflict_report import build_report
 from ai_preflight_review import upgrade_conflict_gate
 from ai_start_receipt import build_receipt, receipt_binding
 from ai_install_facts import FACT_NAMES, write_fact_bundle
+from ai_installer_bootstrap import adoption_record_paths
+from ai_installer_detection import missing_runtime_scripts
+from ai_installer_evidence import action_counts
+from ai_installer_ownership import is_project_owned
+from ai_installer_repository import clean_git_environment, git_records, git_target_args, run_git
+from ai_installer_transaction import TransactionAction
+from ai_installer_upgrade import release_semver as installer_release_semver
 
-STACKS = {
-    "generic",
-    "rust",
-    "flutter",
-    "typescript",
-    "python",
-    "go",
-    "java",
-    "android",
-    "kotlin",
-    "swift",
-    "ruby",
-    "php",
-    "csharp",
-}
-SCRIPT_NAMES = {
-    "bootstrap_repository.py",
-    "bootstrap_wizard.py",
-    "bootstrap_write_boundary.py",
-    "ai_adoption_evidence.py",
-    "ai_doctor.py",
-    "ai_check_adoption_ready.py",
-    "ai_archive_work_item.py",
-    "ai_close_work_item.py",
-    "ai_checkpoint.py",
-    "ai_check_agent_risk.py",
-    "ai_check_backtrack.py",
-    "ai_check_coverage_guard.py",
-    "ai_check_diff_ownership.py",
-    "ai_check_scenario_coverage.py",
-    "ai_check_guidelines.py",
-    "ai_check_guards.py",
-    "ai_check_pr.py",
-    "ai_check_review_policy.py",
-    "ai_check_scope.py",
-    "ai_check_status.py",
-    "ai_check_status_consistency.py",
-    "ai_check_summary.py",
-    "ai_check_work_item.py",
-    "ai_check_serial_order.py",
-    "ai_check_budget_impact.py",
-    "ai_common.py",
-    "ai_baseline_evidence.py",
-    "ai_critical_domain_guards.py",
-    "ai_scenario_policy.py",
-    "ai_readiness_policy.py",
-    "ai_risk_policy.py",
-    "ai_review_readiness_policy.py",
-    "ai_verification_policy.py",
-    "ai_acceptance_policy.py",
-    "ai_intent_policy.py",
-    "ai_finish.py",
-    "ai_onboard.py",
-    "ai_generate_status.py",
-    "ai_governance_compression.py",
-    "ai_observability.py",
-    "ai_preflight_review.py",
-    "ai_trust_guards.py",
-    "ai_trust_schema.py",
-    "ai_decision_protocol.py",
-    "ai_start.py",
-    "ai_start_receipt.py",
-    "ai_project_profile.py",
-    "ai_project_doctor.py",
-    "ai_calibrate.py",
-    "ai_calibration_inventory.py",
-    "ai_check_guard_calibration.py",
-    "ai_upgrade_conflict_report.py",
-    "ai_install_facts.py",
-    "ai_install_status.py",
-    "ai_lifecycle_facts.py",
-    "ai_ownership.py",
-    "ai_upgrade_proposal.py",
-    "ai_upgrade_apply.py",
-    "ai_rollback.py",
-    "ai_disable_enable.py",
-    "ai_uninstall_proposal.py",
-}
+CATALOG_NAME = "ai_installer_catalog.json"
+CATALOG_PATH = Path(__file__).with_name(CATALOG_NAME)
+_CATALOG = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+STACKS = frozenset(_CATALOG["stacks"])
+SCRIPT_NAMES = frozenset(_CATALOG["scripts"])
+
 RUNTIME_SURFACE_SCRIPTS = frozenset(
     {
         "ai_install_status.py",
@@ -145,11 +80,7 @@ RESERVED_MAKE_TARGETS = {
 }
 
 
-@dataclass(frozen=True)
-class Action:
-    kind: str
-    path: Path
-    detail: str
+Action = TransactionAction
 
 
 @dataclass(frozen=True)
@@ -162,31 +93,6 @@ class GitHeadSnapshot:
     @property
     def detached(self) -> bool:
         return self.branch is None
-
-
-def git_target_args(target: Path) -> list[str]:
-    return [f"--git-dir={target / '.git'}", f"--work-tree={target}"]
-
-
-def clean_git_environment() -> dict[str, str]:
-    return {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
-
-
-def run_git(target: Path, args: list[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(  # nosec B603 B607
-        ["git", *git_target_args(target), *args],
-        cwd=target,
-        text=True,
-        capture_output=True,
-        check=False,
-        env=clean_git_environment(),
-    )
-
-
-def git_records(output: str) -> list[str]:
-    if "\0" in output:
-        return [item for item in output.split("\0") if item]
-    return [line for line in output.splitlines() if line]
 
 
 def adoption_preflight_warnings(target: Path) -> list[str]:
@@ -301,11 +207,12 @@ class Installer:
             return 2
         if self.create_adoption and not self.adoption_preflight():
             return 2
-        missing_runtime = sorted(
+        available_runtime = {
             name
             for name in RUNTIME_SURFACE_SCRIPTS
-            if name not in SCRIPT_NAMES or not (self.source / "scripts" / name).is_file()
-        )
+            if name in SCRIPT_NAMES and (self.source / "scripts" / name).is_file()
+        }
+        missing_runtime = missing_runtime_scripts(set(RUNTIME_SURFACE_SCRIPTS), available_runtime)
         if missing_runtime:
             print(
                 "ERROR: required installed runtime scripts are unavailable: "
@@ -442,6 +349,9 @@ class Installer:
         pairs.extend(
             (self.source / "scripts" / name, self.target / "scripts" / name)
             for name in sorted(SCRIPT_NAMES)
+        )
+        pairs.append(
+            (self.source / "scripts" / CATALOG_NAME, self.target / "scripts" / CATALOG_NAME)
         )
         pairs.append(
             (self.source / "templates" / "make" / "Makefile.ai", self.target / "Makefile.ai")
@@ -668,8 +578,7 @@ class Installer:
         return True
 
     def adoption_paths(self) -> tuple[Path, Path]:
-        active = self.target / ".ai" / "work-items" / "active"
-        return active / "adopt_ai_cockpit.contract.json", active / "adopt_ai_cockpit.summary.json"
+        return adoption_record_paths(self.target)
 
     def prepare_adoption_branch(self) -> bool:
         """最新の remote default branch から採用ブランチを作成する。
@@ -812,6 +721,7 @@ class Installer:
                 ".ai/work-items/starts/**",
                 ".cursor/**",
                 "scripts/ai_*.py",
+                "scripts/ai_installer_catalog.json",
                 "scripts/bootstrap_*.py",
                 "Makefile.ai",
                 "Makefile.ai.stack",
@@ -1363,11 +1273,7 @@ class Installer:
 
     @staticmethod
     def release_semver(value: str) -> tuple[int, int, int]:
-        match = re.fullmatch(r"v?(\d+)\.(\d+)\.(\d+)", value)
-        if not match:
-            raise ValueError(f"releaseVersion must be semantic version: {value!r}")
-        major, minor, patch = (int(part) for part in match.groups())
-        return major, minor, patch
+        return installer_release_semver(value)
 
     @staticmethod
     def load_version(path: Path) -> dict[str, int | str]:
@@ -1457,6 +1363,10 @@ class Installer:
         self.created_paths.update(self.target / ".ai" / "install" / name for name in FACT_NAMES)
 
     def copy_scripts(self) -> None:
+        self.copy_path(
+            self.source / "scripts" / CATALOG_NAME,
+            self.target / "scripts" / CATALOG_NAME,
+        )
         for name in sorted(SCRIPT_NAMES):
             self.copy_path(
                 self.source / "scripts" / name, self.target / "scripts" / name, executable=True
@@ -1486,10 +1396,7 @@ class Installer:
         self.assert_safe_destination(dst)
         existed = dst.exists()
         relative = dst.relative_to(self.target).as_posix()
-        project_owned_boundary = relative.startswith(".ai/guards/") or relative in {
-            ".ai/project_profile.yaml",
-            ".ai/project_profile.proposed.yaml",
-        }
+        project_owned_boundary = is_project_owned(relative)
         if self.upgrade and existed and src.read_bytes() != dst.read_bytes():
             if project_owned_boundary or not self.confirm_upgrade_conflicts:
                 decision = {
@@ -1674,12 +1581,7 @@ class Installer:
             self.created_paths.add(dst)
 
     def print_summary(self) -> None:
-        writes = sum(
-            1
-            for action in self.actions
-            if action.kind in {"write", "overwrite", "append", "replace"}
-        )
-        skips = sum(1 for action in self.actions if action.kind == "skip")
+        writes, skips = action_counts(self.actions)
         print("")
         print(
             f"AI Cockpit install {'dry run ' if self.dry_run else ''}complete: {writes} write/append action(s), {skips} skipped."

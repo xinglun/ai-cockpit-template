@@ -964,5 +964,11 @@ def test_canonical_release_state_has_single_state_machine_record():
         "candidate_verified",
         "release_published",
     }
+    assert state["schemaVersion"] == 1
+    assert state["canonical"] is True
+    assert state["projections"] == {
+        "published": "release.json",
+        "candidate": "next-release.json",
+    }
     for field in ("releaseTag", "sourceCommit", "previousRelease", "evidenceBundleDigest"):
         assert field in state

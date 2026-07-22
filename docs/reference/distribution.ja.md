@@ -36,7 +36,7 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 
 ## 公開機能
 
-公開リリースの定義は `release.json` にあります。Canonical な状態遷移は `release-state.json` に記録し、`next-release.json` は未公開 Candidate の投影として扱います。`make check-release-state-consistency` は公開タグ、Candidate タグ、`previousRelease`、Candidate 状態、および旧メタデータの SHA-256 参照が一致することを確認します。
+公開リリースの状態に関する唯一の Canonical Record は `release-state.json`（`schemaVersion: 1`、`canonical: true`）です。状態遷移、リリースタグ、前回リリース、ソース識別子、証拠参照を所有します。`release.json` は公開インストーラー契約、`next-release.json` は未公開 Candidate の投影であり、独立した Release Truth ではありません。`make check-release-state-consistency` は Canonical マーカー、投影先、公開/Candidate タグ、`previousRelease`、Candidate 状態、および旧メタデータの SHA-256 参照が一致することを確認します。
 
 - `AI_COCKPIT_TEMPLATE_SHA256` を指定した場合、公開インストーラーアーカイブを検証できます。
 - `make check-release-distribution` は実際のインストーラーが配布契約を満たすか確認します。

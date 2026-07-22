@@ -13,6 +13,8 @@ from typing import Any
 
 
 STATES = {"development", "candidate_prepared", "candidate_verified", "release_published"}
+CANONICAL_SCHEMA_VERSION = 1
+PROJECTION_FILES = {"published": "release.json", "candidate": "next-release.json"}
 TAG_PATTERN = re.compile(r"^v\d+\.\d+\.\d+$")
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 DIGEST_PATTERN = re.compile(r"^[0-9a-f]{64}$")
@@ -46,6 +48,17 @@ def check_repository(root: Path) -> list[str]:
     state = load_object(state_path, "release-state.json", issues)
     published = load_object(published_path, "release.json", issues)
     candidate = load_object(candidate_path, "next-release.json", issues)
+
+    if state.get("schemaVersion") != CANONICAL_SCHEMA_VERSION:
+        issues.append(
+            "release-state.json schemaVersion must identify the canonical release-state schema"
+        )
+    if state.get("canonical") is not True:
+        issues.append("release-state.json canonical marker must be true")
+    if state.get("projections") != PROJECTION_FILES:
+        issues.append(
+            "release-state.json projections must map published/candidate to release.json/next-release.json"
+        )
 
     state_name = state.get("state")
     if state_name not in STATES:

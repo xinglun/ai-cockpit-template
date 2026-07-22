@@ -25,6 +25,9 @@ def write_metadata(tmp_path, *, state=None, published=None, candidate=None):
     (tmp_path / "release.json").write_text(json.dumps(published), encoding="utf-8")
     (tmp_path / "next-release.json").write_text(json.dumps(candidate), encoding="utf-8")
     state = state or {
+        "schemaVersion": 1,
+        "canonical": True,
+        "projections": {"published": "release.json", "candidate": "next-release.json"},
         "state": "candidate_prepared",
         "releaseTag": "v0.5.34",
         "sourceCommit": "c2022fa1d0c2d94ed3edf6c1d16a89260d3fd68f",
@@ -49,6 +52,9 @@ def test_previous_release_and_candidate_conflicts_are_rejected(tmp_path):
     write_metadata(
         tmp_path,
         state={
+            "schemaVersion": 1,
+            "canonical": True,
+            "projections": {"published": "release.json", "candidate": "next-release.json"},
             "state": "candidate_prepared",
             "releaseTag": "v0.5.35",
             "sourceCommit": "not-a-sha",
@@ -91,6 +97,9 @@ def test_verified_state_rejects_placeholder_and_accepts_real_digest(tmp_path):
     write_metadata(
         tmp_path,
         state={
+            "schemaVersion": 1,
+            "canonical": True,
+            "projections": {"published": "release.json", "candidate": "next-release.json"},
             "state": "candidate_verified",
             "releaseTag": "v0.5.34",
             "sourceCommit": "c2022fa1d0c2d94ed3edf6c1d16a89260d3fd68f",
@@ -106,3 +115,16 @@ def test_verified_state_rejects_placeholder_and_accepts_real_digest(tmp_path):
     state["evidenceBundleDigest"] = "a" * 64
     (tmp_path / "release-state.json").write_text(json.dumps(state), encoding="utf-8")
     assert check_release_state_consistency.check_repository(tmp_path) == []
+
+
+def test_noncanonical_state_record_is_rejected(tmp_path):
+    write_metadata(tmp_path)
+    state = json.loads((tmp_path / "release-state.json").read_text(encoding="utf-8"))
+    state["canonical"] = False
+    state["projections"]["candidate"] = "legacy-candidate.json"
+    (tmp_path / "release-state.json").write_text(json.dumps(state), encoding="utf-8")
+
+    issues = check_release_state_consistency.check_repository(tmp_path)
+
+    assert any("canonical marker" in issue for issue in issues)
+    assert any("projections" in issue for issue in issues)

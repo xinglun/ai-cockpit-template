@@ -1,0 +1,218 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-release-truth",
+  "mode": "code",
+  "title": "Implement One Release Truth",
+  "rawUserRequest": "按项目校准与更新重新校准执行计划，完成工单 1：One Release Truth；统一 release-state.json、release.json、next-release.json 的事实边界，并为状态、版本和证据引用建立可验证的一致性门。",
+  "baseCommit": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "release-state.json",
+    "release.json",
+    "next-release.json",
+    "scripts/check_release_state_consistency.py",
+    "tests/test_release_state_consistency.py",
+    "tests/test_release_distribution.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    ".ai/work-items/active/project-calibration-release-truth.contract.json",
+    ".ai/work-items/active/project-calibration-release-truth.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Candidate sourceCommit 生命周期及合并后重新计算（工单 2）",
+    "Provider Asset 真实 Digest 生成与发布绑定（工单 3）",
+    ".github/workflows/release.yml 的发布流程重构",
+    "release.json 的公开安装契约字段和历史发布资产"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+      "reason": "工单 1 的目标、边界和验收要求。"
+    },
+    {
+      "path": "release-state.json",
+      "reason": "当前 canonical 状态记录及其字段。"
+    },
+    {
+      "path": "release.json",
+      "reason": "当前已发布版本投影。"
+    },
+    {
+      "path": "next-release.json",
+      "reason": "当前未发布 Candidate 投影。"
+    },
+    {
+      "path": "scripts/check_release_state_consistency.py",
+      "reason": "现有状态一致性检查实现。"
+    },
+    {
+      "path": "tests/test_release_state_consistency.py",
+      "reason": "现有一致性检查测试。"
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "英文发布契约文档。"
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "日文发布契约文档。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_contract_drift", "backward_compatibility"],
+    "reason": "发布元数据被安装器、发布检查和文档共同消费；本工单只固化 canonical state 与 projection 边界，不改变发布生命周期或公开安装契约。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权按计划串行执行；本工单实现和验证范围已明确。"
+  },
+  "preReviewWarnings": [
+    "Review that release-state.json is the only canonical state/transition record and that legacy metadata remains projection-only.",
+    "Review that malformed, conflicting, placeholder, or duplicate release metadata fails closed without changing release assets."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release-state.json declares the canonical release state machine and explicitly identifies release.json and next-release.json as projection metadata, while preserving backward-compatible legacy fields.",
+    "The consistency checker enforces one published tag, one candidate tag, previousRelease alignment, valid state/evidence combinations, exact legacy projection digests, and fail-closed behavior for conflicts or placeholder values.",
+    "Focused tests cover every supported state, malformed metadata, mismatched tags, digest drift, duplicate published/candidate tags, and projection-only semantics.",
+    "English and Japanese distribution documentation describe the canonical/projection boundary and do not claim candidate metadata is public release truth."
+  ],
+  "declaredIntent": {
+    "summary": "Make release-state.json the canonical release state record and validate release.json/next-release.json as projection metadata.",
+    "requestedCapabilities": ["ai_governance", "documentation", "software_design", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-authorized-serial-remediation-plan",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:user-authorized-plan-execution"
+  },
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "评审发现 release-state.json、release.json 和 next-release.json 同时表达发布事实，容易在 Candidate、published tag、source commit 和证据状态之间产生冲突。工单 1 需要先固定唯一状态事实源，供后续 sourceCommit 生命周期和真实 evidence digest 工单消费。",
+    "constraints": [
+      "只处理状态/版本/投影一致性；不提前实现工单 2 的 Candidate sourceCommit 生命周期或工单 3 的 Provider Asset digest。",
+      "保留 release.json 的公开安装契约和历史发布兼容性。",
+      "所有冲突和无效证据必须 fail closed；不能把用户授权或文档描述当作发布证据。"
+    ],
+    "rationale": "先建立 canonical state 与 projection 的明确边界，才能让后续 candidate 生命周期、真实 digest 和 release workflow 改动共享同一可验证协议。"
+  },
+  "scenarioCoverage": [
+    {"scenario": "development state with no candidate", "required": true, "status": "verified", "evidence": ["checker tests state/evidence pairing and absent candidate compatibility"]},
+    {"scenario": "candidate_prepared with unpublished next patch", "required": true, "status": "verified", "evidence": ["checker and repository metadata tests"]},
+    {"scenario": "candidate_verified or release_published with real digest", "required": true, "status": "verified", "evidence": ["checker rejects null and placeholder digests"]},
+    {"scenario": "published/candidate tag or projection digest conflict", "required": true, "status": "verified", "evidence": ["focused negative tests fail closed"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "用户已明确授权按执行计划修改实现、测试、治理配置和文档，并为每个工单创建独立 PR。"
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-release-truth.json",
+    "baseCommit": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+    "initialScopeDigest": "7355afdabd090fb6f7b7c8c651b9085afd39028049cff4d77324c929b2adba56",
+    "contractSkeletonDigest": "3b4c65ec91dc9beb7051ec2ca02d678c2074380e90d345045ac12a7e98366977"
+  }
+}

@@ -1,0 +1,416 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "project-calibration-release-truth",
+  "contractPath": ".ai/work-items/archive/2026/project-calibration-release-truth.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/project-calibration-release-truth.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/project-calibration-release-truth.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".ai/work-items/starts/project-calibration-release-truth.json",
+      "reason": "Rebound the start receipt to the latest rebased origin/main base commit."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Declared the canonical release-state schema and explicit projection mapping."
+    },
+    {
+      "path": "scripts/check_release_state_consistency.py",
+      "reason": "Fail closed when canonical markers or projection mappings are missing or changed."
+    },
+    {
+      "path": "tests/test_release_state_consistency.py",
+      "reason": "Covered canonical marker/projection rejection and preserved existing state/digest cases."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Asserted the repository release state exposes one canonical state-machine record."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documented canonical release-state ownership and projection-only legacy metadata."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Documented canonical release-state ownership and projection-only legacy metadata in Japanese."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/project-calibration-release-truth.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+    "release-state.json",
+    "release.json",
+    "next-release.json",
+    "scripts/check_release_state_consistency.py",
+    "tests/test_release_state_consistency.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:27.282147+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "37b530c13a37fa6afbe704dde98806adc7dfb3ff3b5510777b76e1223ded8fb1",
+      "commandHash": "d17fca00dd84d36c3670bfe8c1c3003335a61586d56a23998c89dde069bd3a92",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/project-calibration-release-truth.contract.json work item contract check passed: .ai/work-items/active/project-calibration-release-truth.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:27.401365+00:00",
+      "exitCode": 0,
+      "durationMs": 77,
+      "outputDigest": "cc59cd3c0d5b3b36932a71e4e4962ef525227ac965087360e8c1a28136ce6ff5",
+      "commandHash": "1d44759a3c68276dfcc5f3815d09def288607bb768247c00c300f8fa4db3c862",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/project-calibration-release-truth.contract.json scope guard passed: 8 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:27.566332+00:00",
+      "exitCode": 0,
+      "durationMs": 115,
+      "outputDigest": "02f756dfb48f9251eb3f39567ae8fc8483c46c71ce4e1c149be40b69b5c7e135",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/project-calibration-release-truth.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:27.771499+00:00",
+      "exitCode": 0,
+      "durationMs": 170,
+      "outputDigest": "dd6c3f88c2839cddabcc7048e2564609a955017436e0e402ba9ba51b4971e97d",
+      "commandHash": "afa32ed3171eebe3626ec9e463da1d7e8e79b182d6cbf8bc07c167f4d86b6306",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/project-calibration-release-truth.contract.json --summary .ai/work-items/active/project-calibration-release-truth.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `project-calibration-release-truth` - Contract Hash: `47953169255b0bf9` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:27.904604+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "413b5d52bc0eed6bbe6cb4339158c11079873751127ae2a016319169d07bdb82",
+      "commandHash": "c495e7f8f0e4dc0f7c17110147f0e8cd2d16421e620cf6e687630c9cc9230e03",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/project-calibration-release-truth.summary.json review policy matched 2 path(s) [review] .ai/work-items/starts/project-calibration-release-truth.json [review] .ai/cockpit/current_status.md review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:28.031316+00:00",
+      "exitCode": 0,
+      "durationMs": 81,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:28.196020+00:00",
+      "exitCode": 0,
+      "durationMs": 92,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:28.290309+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "a0c7b57d27b384f95796684d59350371504e0959f923c5c09f3a61d22b481ee6",
+      "commandHash": "45014ff34f762a23d296f5938cb9d9ebf5b5bb0d37c1622579c19460db798f2b",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/project-calibration-release-truth.contract.json --summary .ai/work-items/active/project-calibration-release-truth.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:28.381274+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "4597e0e1fc805937ea86c3d886421cbd72fe3e89ce224cfeb43d99efdda876f7",
+      "commandHash": "ebf627c76018af17c2a067f4e3cb897cf9ccb6cffcce210adc47c022802b4979",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/project-calibration-release-truth.contract.json --summary .ai/work-items/active/project-calibration-release-truth.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:37:28.601584+00:00",
+      "exitCode": 0,
+      "durationMs": 172,
+      "outputDigest": "4161934a30cf69ec687074672ebf16e3c80172e1782d4fa1d6a99064634b056d",
+      "commandHash": "1182fd5a8df7fa96862464ba1a547d3cd9c939f8dbe2b72be4f737023d74a157",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/project-calibration-release-truth.contract.json ## Diff Ownership Preview - active_owned: `8`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/project-calibration-release-truth.json` — covered by Contract scope - [active_owned]"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:40:20.045307+00:00",
+      "exitCode": 0,
+      "durationMs": 171399,
+      "outputDigest": "0e81cf04b1f4e5e6925736228c399ae6f26a7ce7348f6a8b711d804d28705c73",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "0a42eca59ad254d9740b23b3e82511f0f372b56c80d6bb6fee85f2581602faa2",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 159 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 8%] ........................................................................ [ 17%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:40:21.242571+00:00",
+      "exitCode": 0,
+      "durationMs": 216,
+      "outputDigest": "753064b7b5388bcb3cd5d80b473d1358f47e7335b4a48842cda83946b604c9c1",
+      "commandHash": "afd2a0466f9ab0998ec5b5696f0ac2f09d2c9f7da92f332c34eed3ef2e1a3db3",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "094b628ae9a165cecb7727956d5104c18ccaf31ca55b3510a60588bc43b83f05",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/project-calibration-release-truth.contract.json --summary .ai/work-items/active/project-calibration-release-truth.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:40:21.668697+00:00",
+      "exitCode": 0,
+      "durationMs": 200,
+      "outputDigest": "5db7ec375c464baf1de4bb7f85dabc0c0e98507ea1967af3055f39e1b9279975",
+      "commandHash": "610282d47002f42c88ad5e0a55695b9713c1432c76a21652fe65aea4213f3644",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "094b628ae9a165cecb7727956d5104c18ccaf31ca55b3510a60588bc43b83f05",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/project-calibration-release-truth.contract.json --summary .ai/work-items/active/project-calibration-release-truth.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:40:21.750291+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "094b628ae9a165cecb7727956d5104c18ccaf31ca55b3510a60588bc43b83f05",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:40:21.835269+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "0fda4fa41ed16118745d177464a3d57dc6b72c9768347f692243791449b68181",
+      "commandHash": "d0205d5d7329f9b6659231fdd1509e39f9a8f85696618dc9f5afb97e61265704",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "094b628ae9a165cecb7727956d5104c18ccaf31ca55b3510a60588bc43b83f05",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/project-calibration-release-truth.contract.json --summary .ai/work-items/active/project-calibration-release-truth.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/project-calibration-release-truth.summary.json CONTRACT=.ai/work-items/active/project-calibration-release-truth.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T06:40:22.570558+00:00",
+      "exitCode": 0,
+      "durationMs": 80,
+      "outputDigest": "3ef812c7f0c5c4fe60fd4c131d23c1837e19e8a868dba20180072b55d0810a87",
+      "commandHash": "189fa2c9c8c6655d9052b30a0ea8167b591311e27745cdc55a62f009c3d04cdf",
+      "contractHash": "47953169255b0bf97fcb12ef8ad968c8c6dbec90a4c4a860fceefd345fe85f3f",
+      "commitSha": "059d34f8e2375ac4013c858f0f9b49a2369fe2cf",
+      "executionContractPath": ".ai/work-items/active/project-calibration-release-truth.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/project-calibration-release-truth.summary.json",
+      "worktreeDigest": "81102e3ecea96e898b642268884ad55eb1b2bf55a28aece8be6909f2b3fdd866",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/project-calibration-release-truth.summary.json --contract .ai/work-items/active/project-calibration-release-truth.contract.json ai summary check passed: .ai/work-items/active/project-calibration-release-truth.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "No new public API was introduced; the release-state contract is documented in docs/reference/distribution.md and docs/reference/distribution.ja.md."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The validator and tests use only standard-library imports and existing repository modules; no cross-feature internal import was added."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change adds deterministic canonical/projection validation and does not alter release publication ordering or installer behavior."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "backward_compatibility",
+      "detail": "Existing release.json and next-release.json remain readable projections; future lifecycle work must continue to update canonical state first.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm release-state.json is the only canonical state/transition record.",
+      "Confirm malformed or conflicting projection metadata fails closed without release mutation."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "47953169255b0bf9",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "recordedAt": "2026-07-22",
+      "evidence": "Preflight reached ready before the One Release Truth implementation."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "47953169255b0bf9",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "recordedAt": "2026-07-22",
+      "evidence": "Full project quality and focused release-state verification passed before archive."
+    }
+  ],
+  "knownGaps": [
+    "Candidate sourceCommit recomputation remains explicitly out of scope for Work Item 2.",
+    "Provider Asset evidence digest generation remains explicitly out of scope for Work Item 3."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 435
+}

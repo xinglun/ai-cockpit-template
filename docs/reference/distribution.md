@@ -87,6 +87,6 @@ From a local clone:
 - You are documenting release-specific distribution details for maintainers or integrators.
 ## Next release candidate
 
-The v0.5.37 preparation snapshot promotes the v0.5.37 public contract and keeps the next patch as the distinct unpublished candidate. The immutable tag, provider assets, Workflow Run, and final evidence bundle remain pending until the post-merge release workflow resolves the latest default-branch commit and verifies them.
+The v0.5.38 preparation snapshot promotes the v0.5.38 public contract and keeps next patch as the distinct unpublished candidate. The immutable tag, provider assets, Workflow Run, and final evidence bundle remain pending until the post-merge release workflow resolves the latest default-branch commit and verifies them.
 
 The candidate records a preparation snapshot, but the release workflow resolves `SOURCE_COMMIT` from the freshly fetched default branch at dispatch time. An omitted `source_commit` input uses that resolved commit; a supplied value is only an assertion and must match it exactly. Detached checkout, tag, provider workflow, SBOM, provenance, and digest evidence must all reference that same immutable source before promotion. A stale or mismatched assertion fails closed before checkout or publication. Missing provider assets remain missing evidence; this release does not change the enterprise-security NO-GO boundary.

@@ -1,0 +1,228 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-release-v0538",
+  "mode": "code",
+  "title": "Release v0.5.38 after Work Item 1",
+  "baseCommit": "77ee94e6586de790d9c61c9493812037106c0a4d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-release-v0538.contract.json",
+    ".ai/work-items/active/project-calibration-release-v0538.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "next-release.json",
+    "release-state.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "docs/releases/v0.5.38.md",
+    "docs/releases/v0.5.37.md",
+    "docs/reference/distribution.md",
+    "install.sh",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md"
+  ],
+  "outOfScope": [
+    "Changing release workflow implementation or enterprise-security boundary.",
+    "Starting or redoing WI2-WI12 implementations.",
+    "Claiming provider publication before the release workflow produces assets."
+  ],
+  "sources": [
+    {
+      "path": "release.json",
+      "reason": "Public release projection to promote after WI1 execution."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Candidate projection for the next release."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Canonical release state and source identity."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Generated source-bound release evidence."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Generated source-bound provenance evidence."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Generated source-bound SBOM evidence."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+      "reason": "Record WI1 impact and release sequencing evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_identity_mismatch", "evidence_binding_failure"],
+    "reason": "Release preparation is fail-closed; provider publication remains a separate post-merge verification."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized execution of WI1, its impact assessment, and a new release after the corrected serial sequence."
+  },
+  "preReviewWarnings": [
+    "Verify exact source identity, candidate/public projection separation, generated evidence, and bounded claims."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "v0.5.38 is prepared from the latest main after WI1 and the budget repair are merged.",
+    "Release projections, canonical state, and generated evidence are internally consistent.",
+    "The release workflow publishes the exact source-bound tag and provider assets after merge.",
+    "The recalibration plan records WI1 impact and the new release evidence without claiming unavailable assets.",
+    "All declared AI and project quality checks pass."
+  ],
+  "guidelines": [
+    "Release claims must be bound to independently verifiable source and artifact evidence.",
+    "Do not claim provider publication or enterprise security beyond available evidence."
+  ],
+  "intent": {
+    "problem": "After correcting the sequence, WI1 must be executed and its impact reconciled before publishing a new release; v0.5.37 remains immutable historical evidence.",
+    "constraints": ["Use the latest origin/main after merged WI1 and budget repair.", "Keep one Work Item, one branch, and one PR.", "Publish only after PR merge and verify tag, assets, smoke, and compatibility evidence."],
+    "rationale": "A fresh release Work Item makes the corrected ordering auditable and binds the new version to the post-WI1 main commit."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Public and candidate release projections remain distinct and agree with canonical state.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release-state.json", "release.json", "next-release.json"]
+    },
+    {
+      "scenario": "The release is bound to the post-WI1 default-branch commit and generated evidence.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/cockpit/provenance.json", ".ai/cockpit/release-digests.json", ".ai/cockpit/sbom.json"]
+    },
+    {
+      "scenario": "Provider assets and security claims remain bounded until workflow evidence exists.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/releases/v0.5.38.md", "docs/reference/distribution.md"]
+    }
+  ],
+  "rawUserRequest": "Execute Work Item 1 now, assess and reconcile its impact on the whole plan, then publish a new version; do not skip Work Item 1.",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-corrected-wi1-sequencing",
+    "capturedAt": "2026-07-22",
+    "digest": "sha256:user-corrected-wi1-sequencing"
+  },
+  "declaredIntent": {
+    "summary": "Publish a new source-bound release after executing WI1 and reconciling the complete plan.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "document",
+    "authorityRequired": false
+  },
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the independent budget repair and continuation through WI1 impact reconciliation and the new release."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-release-v0538.json",
+    "baseCommit": "77ee94e6586de790d9c61c9493812037106c0a4d",
+    "initialScopeDigest": "a9fc614ca35134cb25eeb1a1df7a74a064b615f0c0a73280f96fc5a6f6d9f443",
+    "contractSkeletonDigest": "9b20ba617996f80deea12f7747af3e0738be5ee9815bb861142dfdee4cb60cea"
+  }
+}

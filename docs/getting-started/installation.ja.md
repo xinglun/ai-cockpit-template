@@ -15,7 +15,7 @@ AI Cockpit は、既存リポジトリへ公開済みリリースを導入しま
 ## 導入の流れ
 
 1. **事前確認:** Git の作業ツリーが clean で、初回コミット、Python 3.10 以上、GNU Make が利用できることを確認します。
-2. **インストール:** 対象プロジェクトに合う stack preset を選びます。導入先のリモート既定ブランチから作業ブランチを作成し、テンプレートの公開 release tag `v0.5.37` を使います。
+2. **インストール:** 対象プロジェクトに合う stack preset を選びます。導入先のリモート既定ブランチから作業ブランチを作成し、テンプレートの公開 release tag `v0.5.38` を使います。
 3. **Adoption:** 生成された `adopt_ai_cockpit` Work Item を finish し、status を確認します。
 4. **キャリブレーション:** Project Profile と Guard の提案をレビューし、プロジェクト固有の品質コマンドを設定します。
 5. **検証:** `make check-ai-adoption-ready`、`make ai-cockpit-quality`、`make check-ai-status-consistency` を実行します。

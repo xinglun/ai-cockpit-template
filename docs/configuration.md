@@ -14,7 +14,7 @@ keywords:
 
 AI Cockpit keeps project-specific commands in `Makefile.ai.stack`.
 
-Configuration describes repository governance; it does not establish runtime isolation or enterprise authorization. Installing the Runtime only installs entrypoints. First calibration must run `configure_ai_cockpit` through all ten stages, and an update must run Impact Assessment before recalibration. Keep the existing Active Configuration until Candidate activation succeeds.
+Configuration describes repository governance; it does not establish runtime isolation or enterprise authorization. Installing the Runtime only installs entrypoints. The current calibration command creates and validates a Project Profile proposal; the complete ten-stage session and Candidate activation are planned and must not be treated as completed by a preset. See the [Capability Truth Matrix](reference/capability-truth-matrix.md).
 
 ## Supported Stacks
 

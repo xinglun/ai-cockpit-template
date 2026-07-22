@@ -42,7 +42,7 @@ AI 编码代理可能会：
 
 Calibrated trust（校准信任）不意味着最大化对 agent 的信任，而是让人在证据支持依赖时依赖 agent，在证据缺失、过时、矛盾或不足时进行人工介入。
 
-Runtime 安装不等于校准完成。首次校准使用 `configure_ai_cockpit` 的十个 Stage；更新必须先执行 Impact Assessment，再根据结果启动 `recalibrate_ai_cockpit`。旧 Active Configuration 在新的 Candidate 成功激活前继续有效。门禁覆盖的是可声明、可复核的 deterministic known-risk cases，不是所有 semantic risk，也不判断 Agent 的内部状态。默认文档语言为日语。
+Runtime 安装不等于校准完成。当前 `configure_ai_cockpit` 主要生成和校验 Project Profile 提案；可暂停恢复的十 Stage 会话与 Candidate 激活仍属于计划能力。更新必须先执行 Impact Assessment，再根据结果重新校准。详见 [Capability Truth Matrix](docs/reference/capability-truth-matrix.md)；门禁覆盖的是可声明、可复核的 deterministic known-risk cases，不是所有 semantic risk，也不判断 Agent 的内部状态。
 
 ## 什么是 AI Cockpit？
 

@@ -10,6 +10,8 @@ keywords:
 
 # インストール
 
+現在の能力と計画中の能力の境界は [Capability Truth Matrix](../reference/capability-truth-matrix.md) で確認できます。Runtime の導入だけでは校正は完了しません。現在の `configure_ai_cockpit` は Project Profile の提案を生成・検証しますが、中断・再開できる 10 Stage セッションと Candidate 有効化は専用 Work Item の完了まで計画中です。
+
 AI Cockpit は、既存リポジトリへ公開済みリリースを導入します。まず [日本語 README](../../README.ja.md) のクイックインストールを実行し、その後このページで導入状態を確認してください。詳細な英語手順は [Installation](installation.md) を参照してください。
 
 ## 導入の流れ

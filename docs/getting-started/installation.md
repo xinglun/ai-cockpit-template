@@ -11,7 +11,7 @@ keywords:
 
 # Installation
 
-Installing the Runtime copies governance entrypoints; it does not complete calibration. Run `configure_ai_cockpit` through its ten stages, review the proposed profile, and activate only the confirmed configuration. The default documentation language is Japanese.
+Installing the Runtime copies governance entrypoints; it does not complete calibration. The current `configure_ai_cockpit` flow creates and validates a Project Profile proposal. Review the proposal and treat the resumable ten-stage calibration session and Candidate activation as planned until their dedicated Work Items provide adopter evidence. See the [Capability Truth Matrix](../reference/capability-truth-matrix.md). The default documentation language is Japanese.
 
 Install a fixed release of AI Cockpit into an existing repository. Start with the Quick Install entry in [README.md](../../README.md), then use this guide to confirm the repository is ready for adoption.
 

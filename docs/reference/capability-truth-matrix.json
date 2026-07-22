@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "statusVocabulary": ["implemented", "template_only", "adopter_installed", "planned"],
+  "capabilities": [
+    {
+      "id": "repository_governance_layer",
+      "status": "implemented",
+      "claim": "Contract, Preflight, verification, Summary, archive, PR, close, and base-sync governance exists in this repository.",
+      "evidence": [".ai/cockpit/README.md", "scripts/ai_start.py", "scripts/ai_finish.py", "scripts/ai_close_work_item.py", "Makefile"],
+      "verification": ["tests/test_start_and_archive.py", "tests/test_finish_e2e.py"]
+    },
+    {
+      "id": "project_calibration_profile_proposal",
+      "status": "template_only",
+      "claim": "The template can inspect project facts and create a profile proposal; it does not prove completed adopter calibration.",
+      "evidence": ["scripts/ai_project_doctor.py", "scripts/ai_calibrate.py", "docs/getting-started/installation.md"],
+      "verification": ["tests/test_project_governance.py", "tests/test_ai_onboard.py"]
+    },
+    {
+      "id": "installed_runtime_entrypoints",
+      "status": "adopter_installed",
+      "claim": "An adopter receives the governed entrypoints when the installer completes; installed availability must be checked in the adopter repository.",
+      "evidence": ["scripts/install_ai_cockpit.py", "templates/make/Makefile.ai", "scripts/ai_install_facts.py"],
+      "verification": ["tests/test_installation.py", "tests/test_installed_lifecycle_e2e.py"]
+    },
+    {
+      "id": "ten_stage_calibration_session",
+      "status": "planned",
+      "claim": "A resumable ten-stage calibration session with review, pause/resume, and evidence is not yet proven by the current implementation.",
+      "evidence": ["scripts/ai_calibrate.py", "docs/getting-started/installation.md"],
+      "verification": [],
+      "missingEvidence": "No adopter-executable ten-stage Session/Checklist state machine and end-to-end evidence exists yet."
+    },
+    {
+      "id": "candidate_activation_and_active_preservation",
+      "status": "planned",
+      "claim": "Candidate activation with preservation of the previous Active configuration is a future remediation capability.",
+      "evidence": ["README.md", "docs/reference/upgrade.md"],
+      "verification": [],
+      "missingEvidence": "No verified Candidate activation transaction and failure-preservation test exists yet."
+    },
+    {
+      "id": "bootstrap_wizard_lifecycle",
+      "status": "planned",
+      "claim": "Interactive Bootstrap lifecycle states and schema are not represented as a completed capability in the current Runtime.",
+      "evidence": ["scripts/bootstrap_wizard.py", "docs/getting-started/installation.md"],
+      "verification": ["tests/test_bootstrap_wizard.py"],
+      "missingEvidence": "Existing wizard helpers do not yet prove the planned Bootstrap lifecycle schema and readiness boundary."
+    },
+    {
+      "id": "ownership_manifest_and_managed_regions",
+      "status": "planned",
+      "claim": "A complete per-file Ownership Manifest and managed-region lifecycle is not yet proven for all update/rollback/uninstall paths.",
+      "evidence": ["scripts/ai_ownership.py", "docs/reference/installed-lifecycle.md"],
+      "verification": [],
+      "missingEvidence": "No complete adopter evidence chain covers project modification, drift, rollback, disable/enable, and uninstall for every ownership class."
+    },
+    {
+      "id": "governed_update_and_uninstall",
+      "status": "template_only",
+      "claim": "Proposal/apply and uninstall evidence boundaries exist in template code and documentation, but adopter installation and standard Work Item integration remain to be completed.",
+      "evidence": ["scripts/ai_upgrade_proposal.py", "scripts/ai_upgrade_apply.py", "scripts/ai_uninstall_proposal.py", "docs/reference/installed-lifecycle.md"],
+      "verification": ["tests/test_installed_lifecycle_e2e.py"]
+    },
+    {
+      "id": "quick_install_release_archive_digest",
+      "status": "planned",
+      "claim": "Quick Install does not yet default to independently verified Release Archive SHA256 evidence.",
+      "evidence": ["README.md", "docs/getting-started/installation.md", "release.json"],
+      "verification": [],
+      "missingEvidence": "A source-bound release archive digest check and clean/anonymous install output are not yet recorded."
+    },
+    {
+      "id": "independent_ci_release_evidence",
+      "status": "planned",
+      "claim": "Release and PR claims require independently bound Workflow Run, Head SHA, Job Conclusion, and artifact evidence before being called verified.",
+      "evidence": ["docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md", ".github/workflows"],
+      "verification": [],
+      "missingEvidence": "The repository does not yet maintain a canonical source-bound CI/Release Evidence record for every published claim."
+    },
+    {
+      "id": "enterprise_security_assurance",
+      "status": "template_only",
+      "claim": "Enterprise identity, authorization, isolation, immutable audit, and compliance assurance remain outside AI Cockpit evidence.",
+      "evidence": ["docs/enterprise-security-boundary.md"],
+      "verification": ["tests/test_project_governance.py"]
+    }
+  ]
+}

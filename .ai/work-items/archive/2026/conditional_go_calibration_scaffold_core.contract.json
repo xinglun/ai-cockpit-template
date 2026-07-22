@@ -1,0 +1,244 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_calibration_scaffold_core",
+  "mode": "code",
+  "title": "Implement resumable calibration scaffold core",
+  "rawUserRequest": "继续推进当前文档工单：实现 Calibration Scaffold Core；本轮只完成当前工单的完整实现、验证、PR、合并、ai-close-work-item 清理和默认分支同步，不启动后续工单。用户已授权按计划串行执行全部整改工单，但不得跳过任何工单。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:continue-current-document-work-item",
+    "capturedAt": "2026-07-23",
+    "digest": "sha256:user-authorized-serial-remediation"
+  },
+  "declaredIntent": {
+    "summary": "Provide an adopter-executable, evidence-backed ten-stage calibration session that can pause, resume, review, and safely activate a candidate.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "2f9502a34c8b35cd502d6f3bd7c1c70fb152a49b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_calibration_scaffold_core.contract.json",
+    ".ai/work-items/active/conditional_go_calibration_scaffold_core.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/guards/coverage_policy.yaml",
+    "scripts/ai_calibrate.py",
+    "templates/make/Makefile.ai",
+    "tests/test_calibration_session.py",
+    "tests/test_capability_truth_matrix.py",
+    "tests/test_project_governance.py",
+    "tests/test_project_governance_journey.py",
+    "docs/getting-started/installation.md",
+    "docs/reference/capability-truth-matrix.json",
+    "docs/reference/capability-truth-matrix.md",
+    "docs/reference/calibration-session.md"
+  ],
+  "outOfScope": [
+    "Calibration Inventory and Status Matrix (the next Work Item).",
+    "Bootstrap Wizard and lifecycle schema changes (the later Work Item).",
+    "Installed lifecycle update/apply behavior and release publication."
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Work Item 5 goal and acceptance requirements."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+      "reason": "Calibration lifecycle requirements: ten stages, stale dependencies, atomic candidate activation, and Japanese default."
+    },
+    {
+      "path": "scripts/ai_calibrate.py",
+      "reason": "Existing proposal/validation entrypoint to extend without breaking profile compatibility."
+    },
+    {
+      "path": "scripts/bootstrap_wizard.py",
+      "reason": "Existing wizard boundary; this Work Item must remain separate from the later Bootstrap Wizard work."
+    },
+    {
+      "path": "tests/test_project_governance_journey.py",
+      "reason": "Adopter fixture and installed Make entrypoint regression coverage."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository terminology and evidence-governance boundaries."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["persistence", "state_transition", "configuration_activation"],
+    "reason": "The scaffold is a local, deterministic state machine with explicit JSON evidence and no external production operation; transition and activation invariants are covered by focused tests."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized serial execution of the remediation plan and this Work Item is the current item; no later item is being started."
+  },
+  "preReviewWarnings": [
+    "Review transition invariants, evidence preservation, stale dependency propagation, and the atomic active/candidate activation boundary."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A persisted calibration Session contains exactly ten ordered stages, defaults to Japanese, and exposes checklist answer types Y/N, Alternative/Input, Unknown, and Not Applicable.",
+    "The session supports answer validation, a required reason for Not Applicable, Back, Review, Pause, Resume, and dependency-stale invalidation while preserving evidence and status.",
+    "Stage Self-check, Full Self-check, Governance Simulation, and two sequential human confirmation states are persisted with status and evidence records.",
+    "Candidate activation is atomic and fail closed: a failed activation leaves the previous Active configuration unchanged and does not create a partial Active state.",
+    "An adopter fixture executes a complete ten-stage session, including pause/resume, review, checks, confirmations, and successful activation; regression coverage preserves existing proposal/validation commands.",
+    "Installation documentation and the Capability Truth Matrix accurately describe the executable calibration session and its evidence boundary."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Keep profile proposal generation and the calibration session backward compatible at their existing CLI entrypoints.",
+    "Do not change Bootstrap Wizard behavior; expose calibration session behavior through the calibration entrypoint and its own state model."
+  ],
+  "intent": {
+    "problem": "Calibration currently stops at generating a Project Profile Proposal, so an adopter cannot execute or audit the required first-calibration lifecycle.",
+    "constraints": [
+      "Use standard-library-compatible implementation and JSON evidence suitable for an installed adopter fixture.",
+      "Keep existing generate and validate commands compatible.",
+      "Never replace the active configuration before candidate validation and both human confirmation stages succeed."
+    ],
+    "rationale": "A small explicit state machine with durable evidence makes calibration resumable and reviewable without conflating it with the later Bootstrap Wizard or Inventory work."
+  },
+  "verification": [
+    {
+      "check": "projectTest",
+      "required": true
+    },
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "complete_ten_stage_session",
+      "required": true,
+      "riskDomain": "state_transition",
+      "status": "verified",
+      "evidence": ["Adopter fixture completes all ten stages and asserts ordered evidence."]
+    },
+    {
+      "scenario": "pause_resume_and_back_review",
+      "required": true,
+      "riskDomain": "persistence",
+      "status": "verified",
+      "evidence": ["Unit tests serialize, pause, resume, back, and review a session."]
+    },
+    {
+      "scenario": "stale_dependency_invalidates_downstream",
+      "required": true,
+      "riskDomain": "state_transition",
+      "status": "verified",
+      "evidence": ["Changing an upstream answer marks dependent stages stale without deleting prior evidence."]
+    },
+    {
+      "scenario": "failed_candidate_activation_preserves_active",
+      "required": true,
+      "riskDomain": "configuration_activation",
+      "status": "verified",
+      "evidence": ["Activation failure is tested against an unchanged Active snapshot."]
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized implementation of the serial remediation plan, including governed repository policy updates required to record the measured complexity reservation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_calibration_scaffold_core.json",
+    "baseCommit": "2f9502a34c8b35cd502d6f3bd7c1c70fb152a49b",
+    "initialScopeDigest": "8751d588dd599a1cc9936375a865ca76975ade694e70d137750e7678716538c6",
+    "contractSkeletonDigest": "3808d6ce6f8a4de43201e00d15b1399f788c30d3940842068b4a581430acbb06"
+  }
+}

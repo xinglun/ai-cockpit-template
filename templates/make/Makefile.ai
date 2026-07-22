@@ -19,7 +19,7 @@ PROJECT_FORMAT_CHECK ?= printf '%s\n' 'ERROR: no project formatter configured. S
 PROJECT_TEST ?= printf '%s\n' 'ERROR: no project test command configured. Set PROJECT_TEST in Makefile.ai.stack.' >&2; false
 PROJECT_LINT ?= printf '%s\n' 'ERROR: no project linter configured. Set PROJECT_LINT in Makefile.ai.stack.' >&2; false
 
-.PHONY: ai-help ai-doctor ai-onboard cockpit-doctor cockpit-calibrate cockpit-validate-calibration check-ai-project-profile check-ai-guard-calibration check-ai-adoption-ready \
+.PHONY: ai-help ai-doctor ai-onboard cockpit-doctor cockpit-calibrate cockpit-calibrate-session cockpit-validate-calibration check-ai-project-profile check-ai-guard-calibration check-ai-adoption-ready \
 	ai-cockpit-project-format-check ai-cockpit-project-test ai-cockpit-project-lint ai-cockpit-diff-check ai-cockpit-quality \
 	ai-start ai-finish check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
 	check-ai-agent-risk ai-checkpoint check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage check-ai-guidelines check-ai-review-policy \
@@ -32,6 +32,7 @@ ai-help:
 	@printf '%s\n' '  make ai-doctor'
 	@printf '%s\n' '  make cockpit-doctor'
 	@printf '%s\n' '  make cockpit-calibrate'
+	@printf '%s\n' '  make cockpit-calibrate-session ARGS="start --session-id <id>"'
 	@printf '%s\n' '  make cockpit-validate-calibration'
 	@printf '%s\n' '  make check-ai-guard-calibration'
 	@printf '%s\n' '  make check-ai-adoption-ready'
@@ -128,6 +129,9 @@ cockpit-doctor:
 
 cockpit-calibrate:
 	$(AI_PYTHON) scripts/ai_calibrate.py generate --root .
+
+cockpit-calibrate-session:
+	$(AI_PYTHON) scripts/ai_calibrate.py session $(ARGS)
 
 cockpit-validate-calibration:
 	$(AI_PYTHON) scripts/ai_calibrate.py validate --profile "$(or $(PROFILE),.ai/project_profile.proposed.yaml)" $(ARGS)

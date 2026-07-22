@@ -10,10 +10,12 @@ from typing import Any, cast
 
 from ai_trust_schema import ValidationError, validate_payload
 from ai_critical_domain_guards import critical_domain_signals
+from ai_common import parse_yaml
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CAPABILITIES_PATH = PROJECT_ROOT / ".ai" / "project" / "capabilities.json"
+REQUESTED_OPERATION_POLICY_PATH = PROJECT_ROOT / ".ai" / "policies" / "requested-operation.yaml"
 SUCCESS_CRITERIA_PATH = PROJECT_ROOT / ".ai" / "project" / "success_criteria.json"
 CANONICAL_STATES = {"allow", "review", "confirm", "defer", "block", "error", "not_applicable"}
 LEGACY_TO_CANONICAL = {
@@ -143,17 +145,29 @@ def intent_capability_signal(
         return _signal("Intent Capability", "Inconsistent", [str(exc)], [display_path(path)])
     mappings = payload.get("operationMappings")
     key = f"{operation['target']}.{operation['action']}"
-    policy = _OPERATION_POLICY.get(key)
+    try:
+        operation_policy = parse_yaml(REQUESTED_OPERATION_POLICY_PATH)
+    except ValueError as exc:
+        return _signal(
+            "Intent Capability",
+            "Inconsistent",
+            [str(exc)],
+            [display_path(REQUESTED_OPERATION_POLICY_PATH)],
+        )
+    operations = operation_policy.get("operations")
+    policy = operations.get(key) if isinstance(operations, dict) else None
     if (
-        policy is None
-        or operation["environment"] not in policy["environments"]
-        or operation["effect"] not in policy["effects"]
+        not isinstance(policy, dict)
+        or operation["environment"] not in policy.get("environments", [])
+        or operation["effect"] not in policy.get("effects", [])
+        or str(policy.get("authorityRequired", "false")).lower() == "true"
+        and not operation["authorityRequired"]
     ):
         return _signal(
             "Intent Capability",
             "Inconsistent",
             [f"requestedOperation combination is not allowed by policy: {key}"],
-            ["contract.requestedOperation"],
+            [display_path(REQUESTED_OPERATION_POLICY_PATH), "contract.requestedOperation"],
         )
     if operation["authorityRequired"] and not isinstance(contract.get("authorityEvidence"), dict):
         return _signal(
@@ -182,7 +196,12 @@ def intent_capability_signal(
         "Intent Capability",
         "Ready",
         [f"operation policy {key} derives required capabilities: {', '.join(required)}"],
-        [display_path(path), f"operationMappings.{key}", "contract.requestedOperation"],
+        [
+            display_path(REQUESTED_OPERATION_POLICY_PATH),
+            display_path(path),
+            f"operationMappings.{key}",
+            "contract.requestedOperation",
+        ],
     )
 
 
@@ -226,17 +245,6 @@ _RAW_REQUEST_EXEMPTIONS = {
     "internal_governance",
 }
 _RAW_REQUEST_SOURCE_TYPES = {"human", "issue", "pr_comment", "system"}
-_OPERATION_POLICY = {
-    "repository_governance.modify": {
-        "environments": {"repository", "sandbox", "test"},
-        "effects": {"enforce", "document"},
-    },
-    "documentation.modify": {
-        "environments": {"repository", "sandbox", "test"},
-        "effects": {"document"},
-    },
-    "tests.modify": {"environments": {"repository", "sandbox", "test"}, "effects": {"test"}},
-}
 _RAW_REQUEST_EXEMPTION_FIELDS = {
     "exemption",
     "policyRef",

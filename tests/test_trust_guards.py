@@ -311,6 +311,7 @@ def test_intent_capability_uses_requested_operation_mapping():
     result = ai_trust_guards.intent_capability_signal(value)
     assert result["value"] == "Ready"
     assert "policy" in " ".join(result["evidence"]).lower()
+    assert ".ai/policies/requested-operation.yaml" in result["sources"]
 
 
 def test_unmapped_requested_operation_fails_closed():

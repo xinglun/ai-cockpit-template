@@ -211,6 +211,10 @@ ai-cockpit-version:
 ai-cockpit-update-check:
 	$(AI_PYTHON) scripts/ai_install_status.py update-check --root . $(if $(TARGET_VERSION),--target-version $(TARGET_VERSION),)
 
+ai-cockpit-update-propose:
+	@test -n "$(OLD_TEMPLATE)" -a -n "$(NEW_TEMPLATE)" -a -n "$(UPGRADE_ID)" || (echo "OLD_TEMPLATE, NEW_TEMPLATE, and UPGRADE_ID are required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_upgrade_proposal.py --old-template "$(OLD_TEMPLATE)" --new-template "$(NEW_TEMPLATE)" --current-project . --upgrade-id "$(UPGRADE_ID)" --output ".ai/upgrade/proposals/$(UPGRADE_ID).json"
+
 cross-stack-long-cycle:
 	$(AI_PYTHON) scripts/cross_stack_long_cycle.py --root . > target/cross-stack-long-cycle.json
 

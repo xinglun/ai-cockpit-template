@@ -1,0 +1,207 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-proposal",
+  "mode": "code",
+  "title": "installed-lifecycle-proposal",
+  "baseCommit": "761d9b851eac4c712d1f39d147a640870726a642",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_upgrade_proposal.py",
+    "tests/test_upgrade_proposal.py",
+    "docs/reference/installed-lifecycle.md",
+    "Makefile",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-proposal.contract.json",
+    ".ai/work-items/active/installed-lifecycle-proposal.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Applying updates to a runtime installation",
+    "Schema migration execution",
+    "Rollback, uninstall, purge, and release publication"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/installed-lifecycle-proposal.contract.json",
+      "reason": "Task-specific execution contract and acceptance evidence."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Approved lifecycle plan defining the three-way comparison and proposal requirements."
+    },
+    {
+      "path": "scripts/ai_install_facts.py",
+      "reason": "Installed manifest and digest fact model used as the current-project baseline."
+    },
+    {
+      "path": "scripts/ai_ownership.py",
+      "reason": "Ownership and managed-region classification rules reused by proposal generation."
+    },
+    {
+      "path": "scripts/ai_install_status.py",
+      "reason": "Read-only installed lifecycle status and release-evidence validation boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Proposal generation is read-only, but incorrect ownership or digest classification could produce unsafe update advice."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized execution of the complete lifecycle plan; this Work Item is limited to read-only proposal generation."
+  },
+  "preReviewWarnings": [
+    "Review that proposal generation never writes Runtime files and fails closed on missing or inconsistent facts."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The classifier emits every required category and preserves ownership, shared-region, generated, and historical distinctions.",
+    "The proposal records version, manifest hash, release evidence, safe/new/removed/conflict/shared changes, migration and rollback references, baseline/documentation impact, and resume conditions.",
+    "Proposal generation is read-only and does not modify Runtime or project files.",
+    "Unit tests cover equal-digest safe updates, project conflicts, shared changes, historical files, and new/removed template files.",
+    "CLI/Make and lifecycle documentation describe the proposal contract and read-only behavior."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Installed lifecycle management needs a deterministic, reviewable comparison between the installed template release, a candidate release, and the current project so update decisions do not overwrite project-owned or modified content.",
+    "constraints": [
+      "Use the installed manifest, ownership model, managed-region boundaries, and release evidence as inputs.",
+      "Fail closed when required facts are missing, malformed, or inconsistent.",
+      "Proposal generation must be read-only and must not write Runtime state.",
+      "Keep migration, rollback, baseline, and documentation effects explicit for later confirmation/apply work."
+    ],
+    "rationale": "A persisted proposal is the review boundary between facts and any future update apply operation."
+  },
+  "rawUserRequest": "走完当前文档的流程；按计划逐个工单执行完整生命周期，包括 PR、合并、清理分支，直到全部工单完成。用户已授权所需确认范围。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-serial-lifecycle-execution",
+    "capturedAt": "2026-07-22T00:00:00+09:00",
+    "digest": "sha256:user-authorized-serial-lifecycle-execution"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Generate and validate a read-only installed lifecycle three-way update proposal.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "scenarioCoverage": [
+    {"scenario": "Installed digest equals current digest and candidate contains a safe template update", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "tests/test_upgrade_proposal.py"], "reason": "Scenario is explicitly covered by the approved plan and assigned focused test."},
+    {"scenario": "Project-modified template file is classified as a conflict without overwrite", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "tests/test_upgrade_proposal.py"], "reason": "Scenario is explicitly covered by the approved plan and assigned focused test."},
+    {"scenario": "Shared managed region changes are represented with explicit review impact", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "tests/test_upgrade_proposal.py"], "reason": "Scenario is explicitly covered by the approved plan and assigned focused test."},
+    {"scenario": "Historical and generated files retain their special classifications", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "tests/test_upgrade_proposal.py"], "reason": "Scenario is explicitly covered by the approved plan and assigned focused test."},
+    {"scenario": "Candidate adds and removes template files and records both in the proposal", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "tests/test_upgrade_proposal.py"], "reason": "Scenario is explicitly covered by the approved plan and assigned focused test."},
+    {"scenario": "Missing or inconsistent manifest/release evidence fails closed without writes", "required": true, "status": "verified", "evidence": ["docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md", "tests/test_upgrade_proposal.py"], "reason": "Scenario is explicitly covered by the approved plan and assigned focused test."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete serial lifecycle plan, including Makefile and governance changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-proposal.json",
+    "baseCommit": "761d9b851eac4c712d1f39d147a640870726a642",
+    "initialScopeDigest": "dc08aebbc1fcc4624ec08eefd989c135d73c3f6ce5c48b305106b2871a9c4def",
+    "contractSkeletonDigest": "7b35814e49445ea91d1d0bead67e2d48404abb8174b400e1670b650753e14ad1"
+  }
+}

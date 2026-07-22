@@ -35,3 +35,13 @@ Ownership is an installation fact, not a path heuristic. The supported classes a
 Shared regions use matching markers such as `# BEGIN AI COCKPIT MANAGED REGION: ci` and `# END AI COCKPIT MANAGED REGION: ci`. Missing, duplicate, nested, unmatched, or drifted markers produce a fail-closed decision. Unknown ownership, project content, and historical evidence are never mutation-authorized by the ownership evaluator.
 
 Use `make ai-cockpit-version` for the installed version and `make ai-cockpit-update-check TARGET_VERSION=vX.Y.Z` for a read-only update check. Both commands consume validated facts, report `readOnly: true`, and return an error state without writing files when facts or Release Evidence are missing or invalid.
+
+## Three-way update proposals
+
+Before any update is applied, generate a reviewable proposal from the installed baseline (Old Template), candidate release (New Template), and current project:
+
+```text
+make ai-cockpit-update-propose OLD_TEMPLATE=/path/to/old NEW_TEMPLATE=/path/to/new UPGRADE_ID=upgrade-2026-07
+```
+
+The proposal is written only to `.ai/upgrade/proposals/<upgrade-id>.json`; generation does not modify Runtime or project files. Each change is classified as an unchanged or safe template update, project-modified conflict, project-owned file, shared managed region, new/removed template file, generated file, historical file, or fail-closed conflict. The proposal also binds installed and candidate manifest hashes, Release Evidence, rollback baseline, migration and documentation impact, and a resume condition. Safe files may be considered by the later confirmation/apply Work Item, while project-owned, shared, historical, generated, and removed content requires explicit review.

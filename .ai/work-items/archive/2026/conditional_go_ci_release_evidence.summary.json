@@ -1,0 +1,455 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "conditional_go_ci_release_evidence",
+  "contractPath": ".ai/work-items/archive/2026/conditional_go_ci_release_evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_ci_release_evidence.contract.json",
+      "reason": "Defined the authorized scope, evidence boundary, acceptance, and predecessor closure for Work Item 9."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_ci_release_evidence.summary.json",
+      "reason": "Recorded implementation, verification, and review handoff evidence for Work Item 9."
+    },
+    {
+      "path": ".ai/decisions/HDR-3437b26a866bc5ae-509b472d.evidence.json",
+      "reason": "Recorded the user's structured Preflight authorization for the bounded evidence decisions."
+    },
+    {
+      "path": ".ai/decisions/HDR-3437b26a866bc5ae-509b472d.request.json",
+      "reason": "Recorded the structured Preflight decision request and its authorized resolution."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Collects provider run/job evidence, emits source-bound CI evidence, validates it, and publishes the evidence asset."
+    },
+    {
+      "path": ".github/workflows/smoke.yml",
+      "reason": "Emits and validates independent candidate/failed CI evidence without PR Body claims."
+    },
+    {
+      "path": "scripts/check_ci_release_evidence.sh",
+      "reason": "Fail-closed validator for provider-derived CI/Release Evidence."
+    },
+    {
+      "path": "scripts/check_release_state_consistency.py",
+      "reason": "Requires provider-bound CI evidence for verified and published canonical release states."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Adds the check-ci-release-evidence command entrypoint."
+    },
+    {
+      "path": "tests/test_ci_release_evidence.sh",
+      "reason": "Covers valid, missing identity, stale, failed, and PR Body-only evidence cases."
+    },
+    {
+      "path": "tests/test_release_state_consistency.py",
+      "reason": "Covers missing and PR Body-only canonical CI evidence."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Locks workflow evidence generation and publication ordering."
+    },
+    {
+      "path": "docs/reference/ci-release-evidence.md",
+      "reason": "Documents authority, schema fields, states, and Head-to-Merge relation."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Connects published distribution evidence to the independent CI evidence record."
+    },
+    {
+      "path": "docs/reference/capability-truth-matrix.json",
+      "reason": "Records independent CI/Release Evidence as implemented with executable evidence."
+    },
+    {
+      "path": "docs/reference/capability-truth-matrix.md",
+      "reason": "Removes the completed CI/Release Evidence gap from the narrative matrix."
+    },
+    {
+      "path": "tests/test_capability_truth_matrix.py",
+      "reason": "Updates the matrix regression to distinguish the remaining Quick Install gap from completed CI/Release Evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_ci_release_evidence.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+    ".github/workflows/release.yml",
+    ".github/workflows/smoke.yml",
+    "scripts/check_ci_release_evidence.sh",
+    "scripts/check_release_state_consistency.py",
+    "Makefile",
+    "tests/test_ci_release_evidence.py",
+    "tests/test_release_state_consistency.py",
+    "tests/test_workflows.py",
+    "docs/reference/ci-release-evidence.md",
+    "docs/reference/distribution.md",
+    "docs/reference/capability-truth-matrix.json",
+    "docs/reference/capability-truth-matrix.md"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:47.199005+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "f38a24006fef094874d85274865e7cc58cd421525a80fab26a1a069549543218",
+      "commandHash": "ded7b324be814b36aa0f0670ccc550432fa36b6417d209c6eebfa64922e07767",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/conditional_go_ci_release_evidence.contract.json work item contract check passed: .ai/work-items/active/conditional_go_ci_release_evidence.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:47.343103+00:00",
+      "exitCode": 0,
+      "durationMs": 91,
+      "outputDigest": "e66a945e3b58c5970c678d7421bb6f3ab80799795a83d003123a3617e13cc2be",
+      "commandHash": "092d901190ffd3a699d5e7c22cee4455e698f93add7fba66d0846b2d16d6f428",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/conditional_go_ci_release_evidence.contract.json scope guard passed: 17 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:47.530814+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "9e7f62bf1de618d1337b021d03b9ee17909a23d286bed4ef32b38ef8dbc87a05",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json [warning] restricted_write: .ai/decisions/HDR-3437b26a866bc5ae-509b472d.evidence.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/decisions/HDR-3437b26a866bc5ae-509b472d.request.json (.ai/**) - AI governance configuration. [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow co"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:47.911652+00:00",
+      "exitCode": 0,
+      "durationMs": 322,
+      "outputDigest": "ae818bd92c0c0d682a4f94213729f5deb17542e0e6bde30ad4591fc2c9690fde",
+      "commandHash": "5102257d0c5412a4f93fe447b15bf0616d192b5315916e8d231085458d8fba07",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `conditional_go_ci_release_evidence` - Contract Hash: `a533b168d34b67cc` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:48.060395+00:00",
+      "exitCode": 0,
+      "durationMs": 101,
+      "outputDigest": "21808cec8e335f7a456255d84514949b5977189574b562f6a8abefb65f4f929a",
+      "commandHash": "72b2defa7b02d064bf32e485abf5652363611a122e2200284eb9881b95b5aedb",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json review policy matched 7 path(s) [review] .ai/decisions/HDR-3437b26a866bc5ae-509b472d.evidence.json [review] .ai/decisions/HDR-3437b26a866bc5ae-509b472d.request.json [review] .ai/work-items/starts/conditional_go_ci_release_evidence.json [review] .ai/cockpit/current_status.md [review] .github/workflows/release.yml [review] .github/workflows/sm"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:48.205893+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:48.361655+00:00",
+      "exitCode": 0,
+      "durationMs": 99,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:48.474309+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "49ba88cf392eb7d68e5385813089349a015799014eac47d7c2e7eb9d649f0dc1",
+      "commandHash": "0d6a861e1367883474aac96a61bb027bbd5c4efae24ab92229cf40450c73922e",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:48.569999+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "2d5f3f099187b842776f58253483910dde2ecc058dd2c1d050d38e4e572631db",
+      "commandHash": "0050adc378cfffaa53658b852d147800a0f7ab9081f23315a33537682f499674",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:30:48.815258+00:00",
+      "exitCode": 0,
+      "durationMs": 195,
+      "outputDigest": "127ad102e718788c0b743960d05dcf44af87f03d8afef7e8a752d1799fd7a53c",
+      "commandHash": "03d87c89bfbcb40d6955f0eccf09a5ff051805daf3d9469b265c115ff75b5fb6",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json ## Diff Ownership Preview - active_owned: `17`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/decisions/HDR-3437b26a866bc5ae-509b472d.evidence.json` — covered by Contract scope - [active_owned] "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:34:09.374854+00:00",
+      "exitCode": 0,
+      "durationMs": 200508,
+      "outputDigest": "f85daea880a07bf81685a1ff874f7563496fb1d6d09eb524cae6969da6e136ff",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "9b938ab0bd83e35e85dc4e7e46e57ed431ecb624bae77f33e9b8379851a8a160",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 170 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 8%] ........................................................................ [ 16%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:34:10.659156+00:00",
+      "exitCode": 0,
+      "durationMs": 228,
+      "outputDigest": "d0216eea665076105d705357491025062b32c0e4c17699d040c4aefc58106636",
+      "commandHash": "23b08a909c59149f9caf067201a6ae48ac1bd90b5397863628dcb78f6caa61ed",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "cc4bb21d394afff8ffce2e6806a1db9630e466d9132b7ad23ff15ef0fa9353c4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/conditional_go_ci_release_evidence.contract.json --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:34:10.949067+00:00",
+      "exitCode": 0,
+      "durationMs": 224,
+      "outputDigest": "77e42d8da6a5f51ca6b223637eee7c6511719866fddac27014a1163eeb88dd6d",
+      "commandHash": "853e2e7a96de3ac7949ab7d8cc335634960c7937fc4e30ab663ad56782af178e",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "cc4bb21d394afff8ffce2e6806a1db9630e466d9132b7ad23ff15ef0fa9353c4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:34:11.152570+00:00",
+      "exitCode": 0,
+      "durationMs": 64,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "cc4bb21d394afff8ffce2e6806a1db9630e466d9132b7ad23ff15ef0fa9353c4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:34:11.272990+00:00",
+      "exitCode": 0,
+      "durationMs": 58,
+      "outputDigest": "6fe3e84ee7059dcd61172f725fb7eb6c376f60fcbb44afa83b0c682b45bb91fe",
+      "commandHash": "4b36fc5f16b6dfd6f1e77a0273a6503654702bf420d1992d83383f5814f79e99",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "cc4bb21d394afff8ffce2e6806a1db9630e466d9132b7ad23ff15ef0fa9353c4",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json --summary .ai/work-items/active/conditional_go_ci_release_evidence.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/conditional_go_ci_release_evidence.summary.json CONTRACT=.ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T21:34:12.257487+00:00",
+      "exitCode": 0,
+      "durationMs": 133,
+      "outputDigest": "268531f2da631ed60a567d49e58c6b712dd538b018957e5fd782015e4336f23d",
+      "commandHash": "5ea37beadd35eb35b1afcb36ae0f37471aa5c0366fd3b1129a558f5319929e34",
+      "contractHash": "a533b168d34b67cc3c7648862d9cba25a7056fbfeebc937765c152d71252f76d",
+      "commitSha": "188ac82937ba45889c5d470970a8b0c618e8b367",
+      "executionContractPath": ".ai/work-items/active/conditional_go_ci_release_evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_ci_release_evidence.summary.json",
+      "worktreeDigest": "0642c4064a91ccae0c8f6f94b396e94dfe480e2e66a6dff80d6ee91d66baee10",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/conditional_go_ci_release_evidence.summary.json --contract .ai/work-items/active/conditional_go_ci_release_evidence.contract.json ai summary check passed: .ai/work-items/active/conditional_go_ci_release_evidence.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "The Make validator and JSON schema are documented in docs/reference/ci-release-evidence.md and distribution.md."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "The new validator is a standalone shell boundary; canonical checks reuse only their existing standard-library dependencies."
+    },
+    {
+      "guideline": "Evidence authority must be provider/API-derived and source-bound; PR prose is never authoritative.",
+      "compliant": true,
+      "evidence": "The validator accepts github_api/github_actions only, binds Run/Head/Merge/artifact identities, and tests reject pr_body."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The bounded change is fail-closed evidence validation and workflow recording; release publication remains outside this Work Item."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "provider-runtime",
+      "detail": "Hosted provider payloads and run availability are exercised in workflow execution; local regression uses explicit source-bound fixtures.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify provider-derived evidence is independent of PR Body claims.",
+      "Verify release workflow evidence is bound to the exact source and merge relationship."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "contractHash": "a533b168d34b67cc",
+      "result": "passed",
+      "recorded": true,
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "contractHash": "a533b168d34b67cc",
+      "result": "passed",
+      "recorded": true,
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "A hosted GitHub Actions run is required to independently observe provider API payloads; local tests cannot substitute for that runtime evidence."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 468
+}

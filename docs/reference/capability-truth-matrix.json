@@ -75,11 +75,10 @@
     },
     {
       "id": "independent_ci_release_evidence",
-      "status": "planned",
-      "claim": "Release and PR claims require independently bound Workflow Run, Head SHA, Job Conclusion, and artifact evidence before being called verified.",
-      "evidence": ["docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md", ".github/workflows"],
-      "verification": [],
-      "missingEvidence": "The repository does not yet maintain a canonical source-bound CI/Release Evidence record for every published claim."
+      "status": "implemented",
+      "claim": "Release and PR claims require independently bound provider Workflow Run, Head SHA, Required Job Names, Conclusions, failure reasons, and artifact evidence before being called verified.",
+      "evidence": ["scripts/check_ci_release_evidence.sh", "scripts/check_release_state_consistency.py", ".github/workflows/smoke.yml", ".github/workflows/release.yml", "docs/reference/ci-release-evidence.md"],
+      "verification": ["tests/test_ci_release_evidence.py", "tests/test_release_state_consistency.py", "tests/test_workflows.py"]
     },
     {
       "id": "enterprise_security_assurance",

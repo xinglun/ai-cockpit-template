@@ -18,7 +18,7 @@ AI_PREFLIGHT_VALIDATE_CONTRACT ?= true
 	check-docs-metadata check-governance-complexity \
 	check-ai-system-invariants check-ai-project-profile check-ai-guard-calibration cockpit-doctor cockpit-calibrate cockpit-calibration-inventory cockpit-validate-calibration \
 	check-bandit-baseline check-sbom check-provenance check-release-evidence check-secret-scanning \
-	check-release-distribution check-release-state-consistency \
+	check-release-distribution check-release-state-consistency check-ci-release-evidence \
 	check-lockfile-reproducibility \
 	check-trust-schemas check-trust-guards check-critical-domain-guards check-decision-protocol check-baseline-evidence \
 	ai-start ai-finish ai-onboard check-ai check-ai-contract check-ai-work-item check-ai-scope check-ai-guards \
@@ -96,6 +96,7 @@ project-format-check:
 project-test:
 	$(AI_PYTHON) -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85
 	$(AI_PYTHON) scripts/check_critical_coverage.py
+	bash tests/test_ci_release_evidence.sh
 
 test: project-test unsupported-claim-regression adopter-long-cycle delusion-test-gate
 
@@ -131,6 +132,10 @@ check-release-distribution:
 
 check-release-state-consistency:
 	$(AI_PYTHON) scripts/check_release_state_consistency.py --root .
+
+check-ci-release-evidence:
+	test -n "$(CI_RELEASE_EVIDENCE)"
+	bash scripts/check_ci_release_evidence.sh "$(CI_RELEASE_EVIDENCE)" "$(CI_EXPECTED_HEAD_SHA)"
 
 check-trust-schemas:
 	$(AI_PYTHON) scripts/ai_trust_schema.py --check

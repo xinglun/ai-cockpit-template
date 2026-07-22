@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""Validate canonical release state against published and candidate metadata."""
-
-from __future__ import annotations
-
 import argparse
 import hashlib
 import json
@@ -10,7 +6,6 @@ import re
 import sys
 from pathlib import Path
 from typing import Any
-
 
 STATES = {"development", "candidate_prepared", "candidate_verified", "release_published"}
 CANONICAL_SCHEMA_VERSION = 1
@@ -40,6 +35,21 @@ def sha256_file(path: Path) -> str | None:
         return None
 
 
+def check_ci_evidence(state: dict[str, Any], source_commit: Any, issues: list[str]) -> None:
+    if state.get("state") not in {"candidate_verified", "release_published"}:
+        return
+    evidence = state.get("ciEvidence")
+    if not isinstance(evidence, dict):
+        issues.append("verified/published release state requires ciEvidence")
+        return
+    if (
+        evidence.get("evidenceSource") not in {"github_api", "github_actions"}
+        or not evidence.get("workflowRunId")
+        or evidence.get("headSha") != source_commit
+    ):
+        issues.append("ciEvidence must be provider-bound and complete")
+
+
 def check_repository(root: Path) -> list[str]:
     issues: list[str] = []
     state_path = root / "release-state.json"
@@ -48,7 +58,6 @@ def check_repository(root: Path) -> list[str]:
     state = load_object(state_path, "release-state.json", issues)
     published = load_object(published_path, "release.json", issues)
     candidate = load_object(candidate_path, "next-release.json", issues)
-
     if state.get("schemaVersion") != CANONICAL_SCHEMA_VERSION:
         issues.append(
             "release-state.json schemaVersion must identify the canonical release-state schema"
@@ -59,7 +68,6 @@ def check_repository(root: Path) -> list[str]:
         issues.append(
             "release-state.json projections must map published/candidate to release.json/next-release.json"
         )
-
     state_name = state.get("state")
     if state_name not in STATES:
         issues.append(f"release-state.json state must be one of {sorted(STATES)}")
@@ -91,7 +99,7 @@ def check_repository(root: Path) -> list[str]:
     elif state_name in {"candidate_verified", "release_published"}:
         if evidence_status != expected_status or not digest_valid:
             issues.append(f"{state_name} must have {expected_status} evidence and a SHA-256 digest")
-
+    check_ci_evidence(state, source_commit, issues)
     published_tag = published.get("releaseTag")
     candidate_tag = candidate.get("releaseTag")
     if state_name in {"candidate_prepared", "candidate_verified"} and state_tag != candidate_tag:
@@ -112,7 +120,6 @@ def check_repository(root: Path) -> list[str]:
         issues.append("next-release.json basedOnReleaseTag must equal release.json releaseTag")
     if candidate.get("releaseState") != "candidate" or candidate.get("published") is not False:
         issues.append("next-release.json must remain an unpublished candidate")
-
     digests = state.get("metadataDigests")
     if not isinstance(digests, dict):
         issues.append("release-state.json metadataDigests must reference legacy metadata files")

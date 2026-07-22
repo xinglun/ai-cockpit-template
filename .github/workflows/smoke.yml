@@ -145,3 +145,49 @@ jobs:
             "$GITHUB_WORKSPACE/install.sh" --stack typescript --update-makefile
             "$GITHUB_WORKSPACE/install.sh" --stack typescript --dry-run --update-makefile
           )
+
+      - name: Generate independently verifiable CI evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          merge_sha="${{ github.sha }}"
+          if [[ "${{ job.status }}" == "success" ]]; then
+            evidence_state=candidate
+            conclusion=success
+            failure_reasons='[]'
+          else
+            evidence_state=failed
+            conclusion=failure
+            failure_reasons='["template-smoke:${{ job.status }}"]'
+          fi
+          jq -n \
+            --arg state "$evidence_state" \
+            --arg conclusion "$conclusion" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg head_sha "$head_sha" \
+            --arg merge_sha "$merge_sha" \
+            --arg relation "${{ github.event_name == 'pull_request' && 'pull_request_merge_ref' || 'direct_commit' }}" \
+            --argjson failure_reasons "$failure_reasons" \
+            '{
+              format: "ai-cockpit-ci-release-evidence",
+              schemaVersion: 1,
+              state: $state,
+              evidenceSource: "github_actions",
+              workflowRunId: $run_id,
+              headSha: $head_sha,
+              mergeCommitSha: $merge_sha,
+              headToMergeRelationship: $relation,
+              requiredJobNames: ["template-smoke"],
+              workflowRuns: [{workflowRunId: $run_id, workflowName: "smoke.yml", headSha: $head_sha, requiredJobNames: ["template-smoke"], jobs: [{name: "template-smoke", conclusion: $conclusion}], conclusion: $conclusion, failureReasons: $failure_reasons}],
+              conclusion: $conclusion,
+              failureReasons: $failure_reasons,
+              artifactDigests: {"sbom.json": null, "provenance.json": null},
+              sbom: {digest: null, sourceCommit: $head_sha},
+              provenance: {digest: null, sourceCommit: $head_sha}
+            }' > "$RUNNER_TEMP/ci-release-evidence.json"
+          make check-ci-release-evidence \
+            CI_RELEASE_EVIDENCE="$RUNNER_TEMP/ci-release-evidence.json" \
+            CI_EXPECTED_HEAD_SHA="$head_sha"
+          cat "$RUNNER_TEMP/ci-release-evidence.json"

@@ -29,13 +29,10 @@ def test_matrix_uses_closed_status_vocabulary_and_evidence_fields() -> None:
             assert capability.get("missingEvidence")
 
 
-def test_remaining_review_gaps_remain_planned_until_later_work_items() -> None:
+def test_remaining_review_gaps_and_completed_evidence_are_explicit() -> None:
     capabilities = {item["id"]: item for item in load_matrix()["capabilities"]}
-    for capability_id in (
-        "quick_install_release_archive_digest",
-        "independent_ci_release_evidence",
-    ):
-        assert capabilities[capability_id]["status"] == "planned"
+    assert capabilities["quick_install_release_archive_digest"]["status"] == "planned"
+    assert capabilities["independent_ci_release_evidence"]["status"] == "implemented"
 
 
 def test_matrix_document_points_to_machine_readable_source_and_plan() -> None:

@@ -1,12 +1,10 @@
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_compatibility_runs_on_main_pushes_and_pull_requests():
     workflow = (ROOT / ".github" / "workflows" / "compatibility.yml").read_text(encoding="utf-8")
-
     assert "  push:\n    branches:\n      - main" in workflow
     assert "  pull_request:" in workflow
     assert "  workflow_dispatch:" in workflow
@@ -22,7 +20,6 @@ def test_compatibility_runs_lockfile_reproducibility_on_clean_runner():
     lockfile = workflow.split("  lockfile-reproducibility:", 1)[1].split(
         "  real-stack-quality:", 1
     )[0]
-
     assert 'python-version: "3.10"' in lockfile
     assert "python -m pip install --disable-pip-version-check pip-tools" in lockfile
     assert "make check-lockfile-reproducibility" in lockfile
@@ -47,7 +44,6 @@ def test_latest_compatibility_probe_uses_distinct_current_tool_commands():
     workflow = (ROOT / ".github" / "workflows" / "compatibility.yml").read_text(encoding="utf-8")
     latest = workflow.split("  latest-ecosystem-probe:", 1)[1].split("  compatibility-gate:", 1)[0]
     report = workflow.split("  compatibility-latest:", 1)[1]
-
     assert "continue-on-error: true" in latest
     assert 'python-version: "3.x"' in latest
     assert "check-latest: true" in latest
@@ -62,7 +58,6 @@ def test_latest_compatibility_probe_uses_distinct_current_tool_commands():
 
 def test_release_documentation_requires_one_verified_commit():
     documentation = (ROOT / "docs" / "reference" / "distribution.md").read_text(encoding="utf-8")
-
     assert "Both `smoke` and `compatibility`" in documentation
     assert "historical release tag is immutable" in documentation
     assert "Maintainers dispatch `.github/workflows/release.yml`" in documentation
@@ -73,7 +68,6 @@ def test_release_documentation_requires_one_verified_commit():
 
 def test_release_workflow_is_exact_sha_and_action_dependency_free():
     workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
-
     assert "workflow_dispatch:" in workflow
     assert "source_commit:" in workflow
     assert "  actions: write" in workflow
@@ -145,7 +139,6 @@ def test_release_workflow_rejects_stale_source_before_mutations():
     tag = workflow.index('git push origin "$SOURCE_COMMIT:refs/tags/$RELEASE_TAG"')
     draft = workflow.index("gh release create")
     publish = workflow.index('gh release edit "$RELEASE_TAG"')
-
     assert mismatch < checkout < evidence < tag < draft < publish
     assert "rm " not in workflow
     assert "unlink" not in workflow

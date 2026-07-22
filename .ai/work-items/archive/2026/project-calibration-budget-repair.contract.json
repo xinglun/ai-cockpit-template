@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-budget-repair",
+  "mode": "code",
+  "title": "Authorized governance complexity budget repair",
+  "baseCommit": "e4d1bdfd6c22266645e734d32c8436225dbb4466",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ac13504f9ac1efd34afb580face795f1f6b5409e1307851cb24876dd02ce7c32"
+    }
+  ],
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/project-calibration-budget-repair.contract.json",
+    ".ai/work-items/active/project-calibration-budget-repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "All feature, fixture, documentation, and release changes.",
+    "Changing the governance complexity measurement algorithm.",
+    "Starting Project Calibration Work Item 1."
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Authorized temporary Python complexity ceiling repair."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Deterministic metric and ceiling validation."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression expectations for budget limits."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Small, explicit budget-only policy adjustment with deterministic checks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized an independent budget repair Work Item/PR."
+  },
+  "preReviewWarnings": [
+    "Verify only the measured ceiling change and complete the full lifecycle."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Raise the Python complexity maximum just enough for the measured 36,006 lines.",
+    "Record the user authorization and repayment ownership in the policy evidence.",
+    "All declared governance and project checks pass."
+  ],
+  "guidelines": [
+    "Keep the change limited to the declared governance budget policy."
+  ],
+  "intent": {
+    "problem": "The authorized serial recalibration work increased measured Python lines to 36,006, exceeding the current 36,000 ceiling and blocking the next Work Item finish.",
+    "constraints": ["Budget-only change; preserve the measurement algorithm and all existing checks.", "This is independent from the current unsupported-claim implementation and must use its own branch and PR."],
+    "rationale": "A bounded, evidence-backed ceiling repair is needed so the separately scoped regression-gate Work Item can complete without mixing unrelated implementation changes."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Measured Python lines are within the repaired ceiling.", "required": true, "status": "verified", "evidence": ["scripts/check_governance_complexity.py"]},
+    {"scenario": "Policy remains valid YAML and governance complexity check passes.", "required": true, "status": "verified", "evidence": [".ai/guards/governance_complexity_policy.yaml"]},
+    {"scenario": "No unrelated files are changed.", "required": true, "status": "verified", "evidence": [".ai/work-items/active/project-calibration-budget-repair.contract.json"]}
+  ],
+  "rawUserRequest": "User authorized creation of an independent budget repair Work Item/PR, then continuation without starting Work Item 1.",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-budget-repair", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-budget-repair"},
+  "declaredIntent": {"summary": "Repair only the governance complexity budget required by measured current repository state.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "Explicit user authorization in the task conversation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-budget-repair.json",
+    "baseCommit": "e4d1bdfd6c22266645e734d32c8436225dbb4466",
+    "initialScopeDigest": "eeefeb152146cab38d52af954ca918eeffa7d72c8a8ab4abbf136d702d002bf2",
+    "contractSkeletonDigest": "a296b14a8ac424ea395fda7ec631a7f7edc3c5301e3caf308322722320ccac5d"
+  }
+}

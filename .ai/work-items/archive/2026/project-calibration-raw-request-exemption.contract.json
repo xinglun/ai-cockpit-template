@@ -1,0 +1,166 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-raw-request-exemption",
+  "mode": "code",
+  "title": "Structure raw request exemption controls",
+  "rawUserRequest": "执行项目校准与更新重新校准计划工单 4：将 rawRequestExemption 改为结构化、可审计且 fail-closed 的授权记录，继续循环执行直到全部工单完成。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Prevent free-text raw request exemption bypasses with bounded policy and trigger evidence.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "13d3fae2b7d007db7688f8ad226ad6231806f748",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/policies/raw-request-exemptions.yaml",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_trust_guards.py",
+    "tests/test_trust_guards.py",
+    "tests/test_project_governance_journey.py",
+    "docs/trust-layer.md",
+    ".ai/work-items/active/project-calibration-raw-request-exemption.contract.json",
+    ".ai/work-items/active/project-calibration-raw-request-exemption.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Changing unrelated Contract fields", "Adding provider-specific exemptions", "Changing publication or tag behavior", "Starting later plan Work Items"],
+  "sources": [
+    {
+      "path": ".ai/policies/raw-request-exemptions.yaml",
+      "reason": "Canonical controlled Enum, trigger, applicability, and high-risk rules."
+    },
+    {"path": "scripts/ai_check_work_item.py", "reason": "Contract-level raw request exemption validation."},
+    {"path": "scripts/ai_trust_guards.py", "reason": "Trust Guard raw request signal validation."},
+    {"path": "tests/test_trust_guards.py", "reason": "Supported and rejected exemption regression coverage."},
+    {"path": "docs/trust-layer.md", "reason": "Documents the structured exemption boundary."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_bypass",
+      "fail_closed"
+    ],
+    "reason": "The exemption vocabulary and fail-closed boundaries are deterministic and limited to governance validation."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution and this bounded governance change."
+  },
+  "preReviewWarnings": [
+    "Verify unknown, unsupported, high-risk, and missing-source exemptions fail closed."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "rawRequestExemption is a structured enum/policy/trigger record, not free text.",
+    "Trigger and applicability evidence are controlled; unknown fields and high-risk work fail closed.",
+    "Focused tests and trust-layer documentation cover supported and rejected scenarios."
+  ],
+  "intent": {
+    "problem": "A structured exemption currently checks only some field values, leaving unknown triggers, scopes, and high-risk exemptions as possible bypass paths.",
+    "constraints": ["Preserve four registered maintenance categories only when structured evidence is complete.", "Do not weaken fail-closed behavior or add high-risk exemptions.", "Keep policy portable and free of personal paths or secrets."],
+    "rationale": "Make exemption authority explicit, reviewable, and bounded by policy and trigger evidence."
+  },
+  "scenarioCoverage": [
+    {"scenario": "supported structured exemption", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]},
+    {"scenario": "unknown trigger or applicability", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]},
+    {"scenario": "high-risk exemption", "required": true, "status": "verified", "evidence": ["tests/test_trust_guards.py"]}
+  ],
+  "guidelines": ["New public APIs must be documented.", "Do not import internal modules from other features."],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized serial execution of the recalibration plan, including this governance policy, validator, test, and documentation Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-raw-request-exemption.json",
+    "baseCommit": "13d3fae2b7d007db7688f8ad226ad6231806f748",
+    "initialScopeDigest": "7cd838639511fcaef19e436002fbbd8b2d39578a06650d28aef9650299da6c62",
+    "contractSkeletonDigest": "e3768e4fdbdf83855be2659821aa041fa8d8cb4d73c344a4ef39095a24b61738"
+  }
+}

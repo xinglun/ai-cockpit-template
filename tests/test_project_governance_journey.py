@@ -39,7 +39,7 @@ def prepare_work_item(root: Path, task: str, changed: list[str], *, extra_checks
             "rawRequestExemption": {
                 "exemption": "internal_governance",
                 "policyRef": "raw-request-exemptions.v1",
-                "triggerRef": "adoption-configuration",
+                "triggerRef": "internal-governance",
                 "applicability": ["repository"],
                 "approvedBy": "test-user",
             },

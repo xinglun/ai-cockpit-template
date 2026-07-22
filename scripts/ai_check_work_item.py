@@ -319,6 +319,13 @@ RAW_REQUEST_EXEMPTION_FIELDS = {
     "applicability",
     "approvedBy",
 }
+RAW_REQUEST_TRIGGER_REFS = {
+    "scheduled-maintenance",
+    "automated-dependency-update",
+    "release-automation",
+    "internal-governance",
+}
+RAW_REQUEST_APPLICABILITY = {"repository", "sandbox", "test"}
 RAW_REQUEST_SOURCE_TYPES = {"human", "issue", "pr_comment", "system"}
 REQUESTED_OPERATION_FIELDS = ("target", "action", "environment", "effect")
 
@@ -345,7 +352,13 @@ def validate_raw_request_requirement(data: dict[str, Any]) -> list[str]:
         missing = RAW_REQUEST_EXEMPTION_FIELDS - set(exemption)
         if (
             missing
+            or set(exemption) != RAW_REQUEST_EXEMPTION_FIELDS
             or exemption.get("policyRef") != "raw-request-exemptions.v1"
+            or not isinstance(exemption.get("triggerRef"), str)
+            or exemption["triggerRef"] not in RAW_REQUEST_TRIGGER_REFS
+            or not isinstance(exemption.get("applicability"), list)
+            or not exemption["applicability"]
+            or not set(exemption["applicability"]).issubset(RAW_REQUEST_APPLICABILITY)
             or data.get("riskAssessment", {}).get("level") == "high"
         ):
             return [

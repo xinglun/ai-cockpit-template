@@ -244,16 +244,29 @@ _RAW_REQUEST_EXEMPTION_FIELDS = {
     "applicability",
     "approvedBy",
 }
+_RAW_REQUEST_TRIGGER_REFS = {
+    "scheduled-maintenance",
+    "automated-dependency-update",
+    "release-automation",
+    "internal-governance",
+}
+_RAW_REQUEST_APPLICABILITY = {"repository", "sandbox", "test"}
 
 
-def _structured_exemption(value: Any) -> bool:
+def _structured_exemption(value: Any, contract: dict[str, Any] | None = None) -> bool:
     return (
         isinstance(value, dict)
         and value.get("exemption") in _RAW_REQUEST_EXEMPTIONS
-        and not (_RAW_REQUEST_EXEMPTION_FIELDS - set(value))
+        and set(value) == _RAW_REQUEST_EXEMPTION_FIELDS
         and value.get("policyRef") == "raw-request-exemptions.v1"
+        and isinstance(value.get("triggerRef"), str)
+        and value["triggerRef"] in _RAW_REQUEST_TRIGGER_REFS
+        and isinstance(value.get("applicability"), list)
+        and bool(value["applicability"])
+        and set(value["applicability"]).issubset(_RAW_REQUEST_APPLICABILITY)
         and isinstance(value.get("approvedBy"), str)
         and bool(value["approvedBy"].strip())
+        and (contract is None or contract.get("riskAssessment", {}).get("level") != "high")
     )
 
 
@@ -285,14 +298,14 @@ def raw_request_signal(contract: dict[str, Any], path: Path = CAPABILITIES_PATH)
     raw = contract.get("rawUserRequest")
     if raw is None:
         exemption = contract.get("rawRequestExemption")
-        if _requires_raw_request(contract) and not _structured_exemption(exemption):
+        if _requires_raw_request(contract) and not _structured_exemption(exemption, contract):
             return _signal(
                 "Raw Request",
                 "Inconsistent",
                 ["rawUserRequest is required for MODE=code Work Items"],
                 ["contract.rawUserRequest", "contract.rawRequestExemption"],
             )
-        if _structured_exemption(exemption):
+        if _structured_exemption(exemption, contract):
             exemption_name = cast(dict[str, Any], exemption)["exemption"]
             return _signal(
                 "Raw Request",

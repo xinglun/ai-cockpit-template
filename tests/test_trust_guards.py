@@ -1,5 +1,7 @@
 import copy
 
+import pytest
+
 import ai_trust_guards
 
 
@@ -245,6 +247,49 @@ def test_free_text_raw_request_exemption_fails_closed():
     )
     result = ai_trust_guards.raw_request_signal(value)
     assert result["value"] == "Inconsistent"
+
+
+@pytest.mark.parametrize(
+    "field, value", [("triggerRef", "unknown-trigger"), ("applicability", ["production"])]
+)
+def test_raw_request_exemption_rejects_unknown_trigger_or_scope(field, value):
+    contract_value = contract()
+    contract_value.update(
+        {
+            "contractVersion": 2,
+            "mode": "code",
+            "scope": [".ai/work-items/active/task.contract.json"],
+            "rawRequestExemption": {
+                "exemption": "dependency_upgrade",
+                "policyRef": "raw-request-exemptions.v1",
+                "triggerRef": "scheduled-maintenance",
+                "applicability": ["repository"],
+                "approvedBy": "user",
+            },
+        }
+    )
+    contract_value["rawRequestExemption"][field] = value
+    assert ai_trust_guards.raw_request_signal(contract_value)["value"] == "Inconsistent"
+
+
+def test_high_risk_raw_request_exemption_fails_closed():
+    contract_value = contract()
+    contract_value.update(
+        {
+            "contractVersion": 2,
+            "mode": "code",
+            "riskAssessment": {"level": "high"},
+            "scope": [".ai/work-items/active/task.contract.json"],
+            "rawRequestExemption": {
+                "exemption": "dependency_upgrade",
+                "policyRef": "raw-request-exemptions.v1",
+                "triggerRef": "scheduled-maintenance",
+                "applicability": ["repository"],
+                "approvedBy": "user",
+            },
+        }
+    )
+    assert ai_trust_guards.raw_request_signal(contract_value)["value"] == "Inconsistent"
 
 
 def test_intent_capability_uses_requested_operation_mapping():

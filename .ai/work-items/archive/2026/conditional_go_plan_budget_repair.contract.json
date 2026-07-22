@@ -1,0 +1,177 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_plan_budget_repair",
+  "mode": "code",
+  "title": "Calibrate Markdown complexity budget for the review plan PR",
+  "baseCommit": "b8a7c36e62070a8be135bc9d8f1bdda114c1fb4a",
+  "baselineDirtyPaths": [],
+  "rawUserRequest": "继续推进当前计划文档工单，修复其 PR 暴露的复杂度预算失败；不要启动计划内整改工单。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:continue-current-plan-document-work-item", "capturedAt": "2026-07-23", "digest": "sha256:continue-current-plan-document-work-item"},
+  "declaredIntent": {"summary": "Calibrate the confirmed Markdown complexity ceiling so the current plan-document PR can be verified without starting any planned remediation item.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "documentation", "action": "modify", "environment": "repository", "effect": "document", "authorityRequired": false},
+  "scope": [
+    ".ai/work-items/active/conditional_go_plan_budget_repair.contract.json",
+    ".ai/work-items/active/conditional_go_plan_budget_repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Starting or implementing any planned Conditional GO remediation Work Item",
+    "Changing Python complexity, archive-growth, guard, test, or product behavior limits",
+    "Merging or closing PR #242 from this supporting Work Item"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Confirmed Markdown ceiling that currently blocks the committed 9302-line plan-document PR."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression tests prove configured complexity ceilings remain blocking and measured."
+    },
+    {
+      "path": "docs/reference/governance-complexity.md",
+      "reason": "Documents the measured ceiling and repayment boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "budget_integrity",
+      "scope"
+    ],
+    "reason": "Only the confirmed Markdown ceiling and its repayment record change; Python, archive-growth, and product behavior gates remain unchanged."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly directed continuation of the current plan-document Work Item and explicitly prohibited starting planned remediation items."
+  },
+  "preReviewWarnings": [
+    "Reviewers must confirm the ceiling is tied to the measured plan PR and that no unrelated complexity metric or planned remediation item is included."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Set .ai/guards/governance_complexity_policy.yaml max.markdownLines to exactly 9302, matching the CI measurement for PR #242, and do not change any other max value.",
+    "Add exactly one repayment record for conditional_go_plan_budget_repair|markdownLines|9100|9302, naming conditional_go_review_plan_cleanup as the repayment Work Item and preserving evidence before cleanup.",
+    "Run make check-governance-complexity, pytest tests/test_governance_complexity.py, and make quality; all pass while Markdown complexity remains a blocking measured gate.",
+    "The branch diff contains no planned Conditional GO remediation implementation and no planned remediation Work Item is started."
+  ],
+  "guidelines": [
+    "Keep complexity budgets explicit, measured, and repayable.",
+    "Do not use a budget adjustment to authorize unrelated implementation scope."
+  ],
+  "intent": {
+    "problem": "The current plan-document PR adds 208 Markdown lines that are counted only after the plan is committed, raising the repository measurement to markdownLines=9302 while the confirmed ceiling remains 9100. The Python platform quality jobs therefore fail in the existing governance-complexity regression tests.",
+    "constraints": [
+      "Change only the Markdown ceiling and its repayment record.",
+      "Do not start or implement any planned Conditional GO remediation Work Item.",
+      "Preserve blocking behavior and do not change unrelated complexity ceilings."
+    ],
+    "rationale": "A measured, narrowly scoped budget reservation is required for the already-authored plan document to pass the same CI gate that blocks it; the final cleanup Work Item must repay or remove the reservation after evidence-preserving link scanning."
+  },
+  "scenarioCoverage": [
+    {"scenario": "The measured plan-document Markdown total is covered by the configured ceiling.", "required": false, "status": "not_applicable", "evidence": [], "reason": "The exact CI measurement is verified by the quality gate; this low-risk policy-only Work Item has no runtime scenario."},
+    {"scenario": "No planned remediation Work Item is started.", "required": false, "status": "not_applicable", "evidence": [], "reason": "This is a workflow boundary verified by scope and branch review, not a runtime scenario."}
+  ],
+  "budgetImpact": {"expectedMetrics": {"markdownLines": 202}, "approved": true, "repaymentWorkItem": "conditional_go_review_plan_cleanup", "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]},
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized continuation of the current plan-document Work Item and requested that planned remediation items not start."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_plan_budget_repair.json",
+    "baseCommit": "b8a7c36e62070a8be135bc9d8f1bdda114c1fb4a",
+    "initialScopeDigest": "44a3a02aec261e3badf82924e96449569e5214ad75c4e1aa404d408bf241e073",
+    "contractSkeletonDigest": "8b47e24b08cb68b65b97913a95d50df4b84ec94999ccc5e81204bb24892c2506"
+  }
+}

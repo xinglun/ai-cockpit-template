@@ -1,0 +1,158 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-release-budget-final",
+  "mode": "code",
+  "title": "Finalize cumulative governance archive budget for release truth",
+  "rawUserRequest": "继续执行计划；对已识别的累计 archiveGrowth 预算不足创建独立最终预算修复 Work Item/PR，覆盖预算修复自身和原预算 PR 的归档，不启动工单 1 之外的工作。",
+  "baseCommit": "018c22eacb23d2fb61ce9a44145bdac56ff562f6",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/project-calibration-release-budget-final.contract.json",
+    ".ai/work-items/active/project-calibration-release-budget-final.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["工单 1 实现和执行计划内容", "任何生产行为或发布流程变更"],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "当前累计 archiveGrowth 预算和 repaymentRecords。"
+    },
+    {
+      "path": "PR #217 CI failure evidence",
+      "reason": "预算修复归档后 archiveGrowth=431 exceeds maximum 430；随后原预算 PR 仍需归档，最终预检值为 432。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_budget"],
+    "reason": "仅调整已授权的 archiveGrowth 上限和偿还记录，不修改工单 1 或生产行为。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权独立预算修复，并要求按完整生命周期继续。"
+  },
+  "preReviewWarnings": ["Verify archiveGrowth=432 covers both budget-remediation archives and the pending original budget PR archive."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The confirmed archiveGrowth ceiling is 432 and admits the two budget-remediation archives plus the original budget PR archive.",
+    "The increase carries an explicit repayment record and this PR changes no plan content or production behavior.",
+    "All declared AI and project checks pass."
+  ],
+  "declaredIntent": {"summary": "Finalize the cumulative archive-growth budget before retrying the original budget PR and One Release Truth Work Item.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-budget-remediation-final"},
+  "scenarioCoverage": [
+    {"scenario": "Cumulative archive growth reaches 432 after both remediation archives and the original budget PR archive", "required": true, "status": "verified", "evidence": ["PR #217 CI failure evidence", ".ai/work-items/archive/index.json"]},
+    {"scenario": "No Work Item 1 or plan content enters this final budget PR", "required": true, "status": "verified", "evidence": ["Contract outOfScope", "final PR diff"]}
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "PR #217 的 CI 证明预算修复自身新增归档后 archiveGrowth=431，超过已确认上限 430；原预算 PR 仍需要自己的归档记录，因此最终累计值应预先校准到 432。",
+    "constraints": ["只修改治理复杂度预算和 repaymentRecords。", "不修改工单 1、执行计划或生产行为。", "预算必须以可复核的累计归档测量为依据。"],
+    "rationale": "把所有已授权预算修复的归档增长一次性计入，避免再次循环创建同类预算修复。"
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "用户已授权独立预算修复 Work Item/PR 并要求继续完整执行。"
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-release-budget-final.json",
+    "baseCommit": "018c22eacb23d2fb61ce9a44145bdac56ff562f6",
+    "initialScopeDigest": "6e45313c05e037af954b107a25a3c65d9c9d5b60be8ed89e38a2626f11bccc05",
+    "contractSkeletonDigest": "42e067e25278e4b2d63a5bffbb6752265e39bb526e46488374a6878442e2c927"
+  }
+}

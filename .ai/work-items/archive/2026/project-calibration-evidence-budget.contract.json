@@ -1,0 +1,160 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-evidence-budget",
+  "mode": "code",
+  "title": "Calibrate governance budget for real evidence digest",
+  "rawUserRequest": "按用户授权创建独立预算修复 Work Item/PR，预留工单 3 及后续串行工单所需的治理预算，然后继续执行当前计划。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-independent-budget-repair", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-independent-budget-repair"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "预先校准 Python、Markdown 和 archiveGrowth 上限，使工单 3 及后续工单可在真实审计证据预算内完整闭环。", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "baseCommit": "5926864bf7b1f3cdb13de3b87d64139164e85483",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-evidence-budget.contract.json",
+    ".ai/work-items/active/project-calibration-evidence-budget.summary.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Release workflow or evidence behavior changes", "Any plan Work Item implementation", "Publishing, tagging, or deleting releases"],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current limits are exactly at measured Python, Markdown, and archiveGrowth values."
+    },
+    {"path": "tests/test_governance_complexity.py", "reason": "Executable validation for calibrated limits and repayment records."},
+    {"path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md", "reason": "Serial Work Item plan requiring complete archive evidence for each item."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "budget_calibration"
+    ],
+    "reason": "Measured limits are known; the change is restricted to bounded policy maxima and attributable repayment records."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized an independent budget repair Work Item/PR."
+  },
+  "preReviewWarnings": [
+    "Confirm the new maxima are bounded and every increase has a repayment record naming the user authority and cleanup plan."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Policy maxima increase only from 35800 to the measured bounded reservation: Python 36000, Markdown 9100, archiveGrowth 450.",
+    "Repayment records identify each baseline, new limit, user authority, date, and final plan-cleanup repayment action.",
+    "Governance complexity checks pass and no implementation files are changed."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "The governance limits are fully consumed before the next Work Item can create its required archive contract, summary, and manifest.",
+    "constraints": ["Change only governance complexity policy values and repayment records.", "Use bounded reservations sufficient for the remaining serial plan, not an unlimited bypass.", "Do not alter implementation behavior or archived evidence."],
+    "rationale": "Pre-calibrating the measured lifecycle evidence budget prevents another mid-Work-Item block and preserves one Work Item/one PR ownership."
+  },
+  "scenarioCoverage": [
+    {"scenario": "reserved maxima cover current measured repository counts", "required": true, "status": "verified", "evidence": ["make check-governance-complexity"]},
+    {"scenario": "repayment records are attributable and complete", "required": true, "status": "verified", "evidence": [".ai/guards/governance_complexity_policy.yaml::repaymentRecords"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized an independent budget repair Work Item/PR."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-evidence-budget.json",
+    "baseCommit": "5926864bf7b1f3cdb13de3b87d64139164e85483",
+    "initialScopeDigest": "a3ca61cacb7c601c550be9cb675cd3ec8d1e4e21e57698e3c0a3a66c77506043",
+    "contractSkeletonDigest": "b399bd34cdf20babf9af55121eff85b1fd04095abf4d43f3f2895a3fd223aff9"
+  }
+}

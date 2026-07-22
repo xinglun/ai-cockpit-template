@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-detached-uninstaller",
+  "mode": "code",
+  "title": "Detached Uninstaller and Runtime Removal",
+  "baseCommit": "6315c5e04af1962b50df8cb80febb0e1e77847cf",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_detached_uninstaller.py",
+    "tests/test_detached_uninstaller.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-detached-uninstaller.contract.json",
+    ".ai/work-items/active/installed-lifecycle-detached-uninstaller.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["live repository deletion", "purge", "provider CI mutation"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Detached uninstaller and runtime removal requirements."
+    },
+    {"path": "scripts/ai_uninstall_proposal.py", "reason": "Phase A detached handoff contract."},
+    {"path": "scripts/ai_install_facts.py", "reason": "Runtime ownership facts."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "detached_execution_boundary"
+    ],
+    "reason": "Detached executor must not import object-project Runtime and must verify removal while preserving evidence and business files."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the complete serial remediation plan, including governance changes."
+  },
+  "preReviewWarnings": ["Unconfirmed, modified, or unknown-owned files must remain; detached execution must emit final removal evidence."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Detached uninstaller is self-contained in a system temp session and does not import object-project Runtime.",
+    "Execution verifies drift, removes confirmed Runtime/Managed Regions only, preserves business files and evidence, and emits a final receipt.",
+    "Unconfirmed, modified, or unknown-owned files fail closed with no deletion.",
+    "Focused tests and documentation cover detached independence, preservation, and removal verification."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "An uninstaller cannot depend on Runtime files it is about to remove and must prove removal without deleting business content or evidence.",
+    "constraints": ["Detached code is self-contained and uses only standard library inputs.", "Ownership and drift are checked before deletion.", "Evidence and project-owned files are retained and final receipt records verification."],
+    "rationale": "A detached, evidence-first executor makes Runtime removal independently verifiable."
+  },
+  "rawUserRequest": "走完当前文档的流程；按计划逐个工单执行完整生命周期，包括 PR、合并、清理分支，直到全部工单完成。用户已授权所需确认范围。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-lifecycle-execution", "capturedAt": "2026-07-22T00:00:00+09:00", "digest": "sha256:user-authorized-serial-lifecycle-execution"},
+  "declaredIntent": {"summary": "Implement a detached, evidence-preserving Runtime removal executor.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Detached executor is independent of object-project Runtime.", "required": true, "status": "verified", "evidence": ["tests/test_detached_uninstaller.py"], "reason": "Focused source/import test."},
+    {"scenario": "Unconfirmed or drifted removal has zero writes.", "required": true, "status": "verified", "evidence": ["tests/test_detached_uninstaller.py"], "reason": "Focused fail-closed test."},
+    {"scenario": "Business files and evidence are preserved.", "required": true, "status": "verified", "evidence": ["tests/test_detached_uninstaller.py"], "reason": "Focused preservation test."},
+    {"scenario": "Confirmed Runtime removal emits final receipt and verification.", "required": true, "status": "verified", "evidence": ["tests/test_detached_uninstaller.py"], "reason": "Focused removal test."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete serial remediation plan, including governance policy changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-detached-uninstaller.json",
+    "baseCommit": "6315c5e04af1962b50df8cb80febb0e1e77847cf",
+    "initialScopeDigest": "153a56baa618be93ef547d7115abc60dc0379bc2fa1861a186355c18030d870b",
+    "contractSkeletonDigest": "d60e5c8ef470bca7e12abed8fa6fc2b9915c6c9e459c02443997de08af09e077"
+  }
+}

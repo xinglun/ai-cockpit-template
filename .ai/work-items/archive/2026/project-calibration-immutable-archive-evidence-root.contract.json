@@ -1,0 +1,181 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-immutable-archive-evidence-root",
+  "mode": "code",
+  "title": "project-calibration-immutable-archive-evidence-root",
+  "rawUserRequest": "执行项目校准计划工单 8：引入不可变 archive-manifest.json 证据根，固定 Contract/Summary 冻结、哈希和索引顺序；Summary 不含自身 Hash，Generated Status 不进入不可变链，重复运行稳定并兼容旧归档；不启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "declaredIntent": {"summary": "Make archived Work Item evidence tamper-evident through a stable manifest root.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "5a2f1c43c1bc52f12caa047eb66fa16a5ee2c637",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-immutable-archive-evidence-root.contract.json",
+    ".ai/work-items/active/project-calibration-immutable-archive-evidence-root.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_archive_work_item.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_ai_archive_work_item.py",
+    "tests/test_start_and_archive.py",
+    "tests/test_governance_complexity.py",
+    "tests/test_verification_evidence.py",
+    "docs/reference/work-item-lifecycle-closure.md"
+  ],
+  "outOfScope": ["Changing unrelated release artifacts", "Changing product runtime behavior", "Starting Work Item 1 or later Work Items"],
+  "sources": [
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Archive ordering, manifest generation, summary rewriting, and index ownership."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Archive pair, manifest, and digest integrity checks."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Manifest stability, self-reference exclusion, and index evidence tests."
+    },
+    {
+      "path": "tests/test_start_and_archive.py",
+      "reason": "End-to-end archive behavior and generated status exclusion tests."
+    },
+    {
+      "path": "docs/reference/work-item-lifecycle-closure.md",
+      "reason": "Lifecycle and archive evidence contract documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "archive_integrity"
+    ],
+    "reason": "Archive records are governance evidence; incorrect hash ordering could make audit records unstable or incomplete."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized serial execution of this bounded archive evidence Work Item."
+  },
+  "preReviewWarnings": [
+    "Verify the manifest is the sole immutable root, excludes generated status and Summary self-hash, and remains stable across repeated archive generation."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Archive generation freezes Contract and Summary before hashing them, then writes one archive-manifest.json root whose hashes match the archived files.",
+    "Summary does not contain a self-referential hash and generated current_status.md is excluded from the immutable hash chain.",
+    "Archive index entries reference the manifest path and digest, repeated generation is deterministic, and legacy archives remain readable."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Archive Contract and Summary evidence currently needs one explicit immutable root and a deterministic hash boundary so audit verification does not depend on generated status or self-referential Summary fields.",
+    "constraints": ["Preserve compatibility with historic archive pairs and existing lifecycle closure.", "Keep generated status outside the immutable evidence chain.", "Do not start Work Item 1 or later Work Items."],
+    "rationale": "A manifest that is generated only after Contract and Summary are frozen provides a stable, independently verifiable root for archive evidence."
+  },
+  "scenarioCoverage": [
+    {"scenario": "new archive writes a manifest whose Contract and Summary hashes match", "required": true, "status": "verified", "evidence": ["tests/test_start_and_archive.py", "tests/test_ai_archive_work_item.py"]},
+    {"scenario": "Summary self-reference and generated status do not change immutable evidence", "required": true, "status": "verified", "evidence": ["tests/test_ai_archive_work_item.py", "tests/test_verification_evidence.py"]},
+    {"scenario": "legacy archive pairs without the new root remain readable", "required": true, "status": "verified", "evidence": ["tests/test_governance_complexity.py"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-immutable-archive-evidence-root.json",
+    "baseCommit": "5a2f1c43c1bc52f12caa047eb66fa16a5ee2c637",
+    "initialScopeDigest": "a4c78f60c92cdc09cd127eaf957812d0dd9a4bbdbc63954f2c4482e732d92ed5",
+    "contractSkeletonDigest": "c2a205dd2c9913e394a80693c2994e48b08ef7b52f5310a41b28e1c9d6362480"
+  }
+}

@@ -49,7 +49,13 @@ def strict_archive_entry(root: Path, entry: dict[str, Any], contract_path: Path)
         capture_output=True,
         check=False,
     )
-    return result.returncode == 0
+    if result.returncode != 0:
+        return False
+    # Archives created after the immutable-root migration must expose the
+    # manifest through the index. Older archives remain valid legacy records.
+    return isinstance(entry.get("manifestPath"), str) and isinstance(
+        entry.get("manifestSha256"), str
+    )
 
 
 def tracked_files(root: Path) -> list[Path]:

@@ -330,6 +330,26 @@ def test_archive_metrics_validates_index_coverage_identity_and_hashes(tmp_path):
     assert any("workItemId mismatch" in issue for issue in issues)
 
 
+def test_strict_archive_entry_requires_manifest_after_immutable_root(tmp_path, monkeypatch):
+    contract = tmp_path / "work.contract.json"
+    contract.write_text(json.dumps({"baseCommit": "after-root"}), encoding="utf-8")
+    monkeypatch.setattr(
+        check_governance_complexity.subprocess,
+        "run",
+        lambda *args, **kwargs: SimpleNamespace(returncode=0),
+    )
+    entry = {
+        "archiveSequence": 1,
+        "contractSha256": "a" * 64,
+        "summarySha256": "b" * 64,
+    }
+
+    assert not check_governance_complexity.strict_archive_entry(tmp_path, entry, contract)
+    entry["manifestPath"] = ".ai/work-items/archive/2026/work.archive-manifest.json"
+    entry["manifestSha256"] = "c" * 64
+    assert check_governance_complexity.strict_archive_entry(tmp_path, entry, contract)
+
+
 def test_archive_metrics_rejects_authoritative_pair_missing_from_index(tmp_path):
     archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
     archive.mkdir(parents=True)

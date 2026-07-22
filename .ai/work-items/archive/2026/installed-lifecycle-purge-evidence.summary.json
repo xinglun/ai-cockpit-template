@@ -1,0 +1,388 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "installed-lifecycle-purge-evidence",
+  "contractPath": ".ai/work-items/archive/2026/installed-lifecycle-purge-evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/installed-lifecycle-purge-evidence.contract.json",
+      "reason": "Contract for double-confirmed purge, evidence export gate, protected paths, and receipt."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installed-lifecycle-purge-evidence.summary.json",
+      "reason": "Summary for purge gate, tests, and documentation."
+    },
+    {
+      "path": "scripts/ai_purge.py",
+      "reason": "Added evidence-first double-confirmation purge gate."
+    },
+    {
+      "path": "tests/test_purge.py",
+      "reason": "Covered blocking, export failure, protected paths, and receipt."
+    },
+    {
+      "path": "docs/reference/installed-lifecycle.md",
+      "reason": "Documented purge warnings, export gate, protections, and receipt."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Complexity budget and repayment tracking."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installed-lifecycle-purge-evidence.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+    "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+    "scripts/ai_uninstall_proposal.py",
+    "scripts/ai_detached_uninstaller.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:34.765122+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "240a20bad66afd25a59e233df8053bd7cfc7fc3dfbf1566de0e60806c5fe5569",
+      "commandHash": "7f31d4c3960de63232902b526f1ff34a7c75ea0f1ded247d186375652e7c0e9b",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json work item contract check passed: .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:34.924127+00:00",
+      "exitCode": 0,
+      "durationMs": 95,
+      "outputDigest": "0ac307a0deb1f6abf3277cfcfe266be9103bd67615a10053cd2db70eee684c80",
+      "commandHash": "d7069ab8c19d2ca8f638f259886158fd1d9213ba0759774a0a64b4aebccc1229",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:35.090984+00:00",
+      "exitCode": 0,
+      "durationMs": 110,
+      "outputDigest": "93c4dea44503e7721b4aa7405d7aadfcb6dfc501dc25d93d5cb3e7dc627bcffd",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:35.364838+00:00",
+      "exitCode": 0,
+      "durationMs": 213,
+      "outputDigest": "863272c545fc78081a947e176e38ad0b79e8c05f82007385b9f8f5d159dcd493",
+      "commandHash": "02bbb9147963ee65a8268de8c287b9f40a556c91065a2a6ad3c03fafe45d80f3",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `installed-lifecycle-purge-evidence` - Contract Hash: `164f445d2fef40ee` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:35.536067+00:00",
+      "exitCode": 0,
+      "durationMs": 108,
+      "outputDigest": "fbfb6dfb2735cbdd3677337fead1751a475b59e0e0254a83bd7f60c9be15bf4a",
+      "commandHash": "c470a868a82263b1a2fee1182b2304468c5147434eb1bd79441c7e0ce6d43068",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/installed-lifecycle-purge-evidence.json [review] scripts/ai_purge.py [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:35.726131+00:00",
+      "exitCode": 0,
+      "durationMs": 132,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:35.863318+00:00",
+      "exitCode": 0,
+      "durationMs": 85,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:35.970144+00:00",
+      "exitCode": 0,
+      "durationMs": 57,
+      "outputDigest": "4552ed97a4fd479972111cb27e3f1c66005195f7a3a147079fa3efb4f971b0d1",
+      "commandHash": "8eae235d44a1b4310cce127981984e3d89d40ef706e0474ea68d71f66ad6fa96",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:36.076682+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "b8c08716d7522ef4b87f7a26309b2ec94daa743774b9cb29c5753d9dd34af2ec",
+      "commandHash": "13f12939fbc4d8a6525ee40c77744be7974a4f0b94f9a67decb1ece52af26357",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:04:36.383597+00:00",
+      "exitCode": 0,
+      "durationMs": 249,
+      "outputDigest": "5ff8e04a8da171ae70f7d2bed87ba8bebb96ea77aec44906f17e7f4b0ff1db2c",
+      "commandHash": "82c126d72c0ced72c2f405ec7d43e3bd5374b3a11eb6ad5d0f04d076a235bfa0",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-item"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:07:41.405190+00:00",
+      "exitCode": 0,
+      "durationMs": 184941,
+      "outputDigest": "c154272e423042771114a2692b0013923cd072566e0d31ed96845bf2ce97ead2",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "7319e5e4db36a92eb3a3e298ccc35ef1b1841d703a39394db27fb3a695a1c957",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 155 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 8%] ........................................................................ [ 17%] ............................................................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:07:42.801911+00:00",
+      "exitCode": 0,
+      "durationMs": 243,
+      "outputDigest": "d6f660094e4f9f940cb5a4fe30d1ae8d1a7bf10b0e26ba002d025b055d142d22",
+      "commandHash": "da0cd32312b0e029415ae470252ac19010fe83530a56a065e2455154a02e2da2",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "f95337999ad043223ab9f81994181f69bd2a3b7751038066e7bbb1e1f7cb2f2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:07:43.080522+00:00",
+      "exitCode": 0,
+      "durationMs": 231,
+      "outputDigest": "aa8ad1030a9805f9498ab2afdd181079156e7860bcf03006f1b31e980da39666",
+      "commandHash": "04941050c7f0c17617b4240c091387c56ed1483ff4d1ab0a6e6b8e0f0c7015ac",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "f95337999ad043223ab9f81994181f69bd2a3b7751038066e7bbb1e1f7cb2f2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:07:43.175443+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "f95337999ad043223ab9f81994181f69bd2a3b7751038066e7bbb1e1f7cb2f2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:07:43.302764+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "4605325701804d935ac96fc6016cc75c7bc557fed9f0f1fa269efd4ae3f85a36",
+      "commandHash": "b35337804c248ad879070e95bbc6b623e035c801fefa97e07bd6344762aae386",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "f95337999ad043223ab9f81994181f69bd2a3b7751038066e7bbb1e1f7cb2f2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json --summary .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/installed-lifecycle-purge-evidence.summary.json CONTRACT=.ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-22T02:07:44.435587+00:00",
+      "exitCode": 0,
+      "durationMs": 136,
+      "outputDigest": "fdff4ba4d6fcd101f719e363bac4babcf9711f5756c5e76c186e868368d8bf2c",
+      "commandHash": "41cb6310413205a4e7693c06be565821ae7ef52a0237573d301a9446ad11b252",
+      "contractHash": "164f445d2fef40ee73cbf6e79b97ba53c074f44db1efa479e0dbdd2bdd529e28",
+      "commitSha": "fa1edeede8d12d249809e0aee997de023aa340e5",
+      "executionContractPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/installed-lifecycle-purge-evidence.summary.json",
+      "worktreeDigest": "d589670a6e3b55cea8684fd8719cd9a23e085feecccdcfb662fdf2a09b91645f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json --contract .ai/work-items/active/installed-lifecycle-purge-evidence.contract.json ai summary check passed: .ai/work-items/active/installed-lifecycle-purge-evidence.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "New public APIs must be documented.",
+      "compliant": true,
+      "evidence": "Purge gate behavior is documented in module docstring and lifecycle reference."
+    },
+    {
+      "guideline": "Do not import internal modules from other features.",
+      "compliant": true,
+      "evidence": "Focused purge module uses no internal feature imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Purge gate is evidence-first, double-confirmed, and protects project/audit paths."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "All required verification passed and no residual risk remains.",
+    "expectedReviewFocus": [
+      "evidence export",
+      "double confirmation",
+      "protected paths"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "164f445d2fef40ee",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "reason": "Pre-implementation checkpoint after Contract and preflight review."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "164f445d2fef40ee",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "reason": "Before-finish checkpoint after focused purge tests and complexity check."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 423
+}

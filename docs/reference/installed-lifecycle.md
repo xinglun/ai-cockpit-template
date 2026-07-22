@@ -45,3 +45,12 @@ make ai-cockpit-update-propose OLD_TEMPLATE=/path/to/old NEW_TEMPLATE=/path/to/n
 ```
 
 The proposal is written only to `.ai/upgrade/proposals/<upgrade-id>.json`; generation does not modify Runtime or project files. Each change is classified as an unchanged or safe template update, project-modified conflict, project-owned file, shared managed region, new/removed template file, generated file, historical file, or fail-closed conflict. The proposal also binds installed and candidate manifest hashes, Release Evidence, rollback baseline, migration and documentation impact, and a resume condition. Safe files may be considered by the later confirmation/apply Work Item, while project-owned, shared, historical, generated, and removed content requires explicit review.
+
+Apply is a separate confirmation boundary:
+
+```text
+make ai-cockpit-update-apply PROPOSAL=.ai/upgrade/proposals/upgrade-2026-07.json
+make ai-cockpit-update-apply PROPOSAL=.ai/upgrade/proposals/upgrade-2026-07.json CONFIRM=APPLY
+```
+
+The first command is read-only and returns the confirmation options. The confirmed command checks repository drift, creates `.ai/upgrade/snapshots/<upgrade-id>/`, applies only safe/new files, retains project-owned and historical content, updates validated facts, and writes an ordered Update Summary. Drift or unresolved conflicts stop before any write. Migration, generated regeneration, readiness, and smoke-test steps remain explicit deferred stages for their dedicated Work Items.

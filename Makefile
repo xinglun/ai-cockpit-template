@@ -215,6 +215,10 @@ ai-cockpit-update-propose:
 	@test -n "$(OLD_TEMPLATE)" -a -n "$(NEW_TEMPLATE)" -a -n "$(UPGRADE_ID)" || (echo "OLD_TEMPLATE, NEW_TEMPLATE, and UPGRADE_ID are required" >&2; exit 2)
 	$(AI_PYTHON) scripts/ai_upgrade_proposal.py --old-template "$(OLD_TEMPLATE)" --new-template "$(NEW_TEMPLATE)" --current-project . --upgrade-id "$(UPGRADE_ID)" --output ".ai/upgrade/proposals/$(UPGRADE_ID).json"
 
+ai-cockpit-update-apply:
+	@test -n "$(PROPOSAL)" || (echo "PROPOSAL is required" >&2; exit 2)
+	$(AI_PYTHON) scripts/ai_upgrade_apply.py --proposal "$(PROPOSAL)" --root . $(if $(CONFIRM),--confirm "$(CONFIRM)",) $(if $(EXCLUDE),$(foreach path,$(EXCLUDE),--exclude "$(path)"),)
+
 cross-stack-long-cycle:
 	$(AI_PYTHON) scripts/cross_stack_long_cycle.py --root . > target/cross-stack-long-cycle.json
 

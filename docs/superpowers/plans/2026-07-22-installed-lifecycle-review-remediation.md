@@ -15,6 +15,8 @@ keywords:
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **最终状态（2026-07-22）：HISTORICAL / 已完成。** 工单 1–15 已逐项完成 Contract v2、验证、归档、唯一 PR、合并、`ai-close-work-item`、分支清理和 main 同步；v0.5.36 已由发布 Workflow 29888274199 以精确 main commit `65549bac9dcd84e3a2715c9aaa1b2cc367fa7f8c` 发布。工单 16 是本计划最后一个清理工单；关闭后不得再从本计划创建新整改工单。
+
 **Goal:** 将 AI Cockpit 从“只能安装”补齐为可记录事实、可更新、可迁移、可回滚、可停用、可保留证据卸载的完整 Installed Lifecycle，并以严格串行 Work Item 闭环交付。
 
 **Architecture:** Bootstrap 在首次安装时生成 Install Manifest、Version、Managed Regions 和 Rollback Baseline，明确 template/project/shared/generated/historical Ownership。后续 Update、Rollback、Disable/Enable 和 Uninstall 均读取这些安装事实，不按路径猜测、不静默覆盖或删除项目拥有内容；更新使用 Old Template → New Template → Current Project 的 three-way comparison，卸载默认保留证据并使用 detached uninstaller 完成 Runtime 移除。所有能力通过 Contract v2、Summary、Cockpit Status、CLI、文档和跨版本测试形成可审计闭环。
@@ -264,6 +266,12 @@ Ownership 至少包含 `template`、`project`、`shared`、`generated`、`histor
 ## 五、计划级完成定义
 
 本计划只有在工单 1–16 严格按顺序完成，且每个工单都具备 Contract v2、Preflight、实现或文档变更、验证结果、Summary、归档记录、唯一 PR、审查结果、合并记录、`ai-close-work-item` 成功记录、分支清理记录和默认分支同步证据时，才算完成。
+
+## 六、最终审计索引（本计划关闭后保留）
+
+本计划的 Work Item 与 PR 对应关系为：工单 1–13 对应 PR #198–#210；工单 14 对应 PR #211；工单 15 对应 PR #212；工单 16 对应本次计划清理 PR。每个 Work Item 的 Contract、Summary、archive-manifest、归档索引和 `ai-close-work-item` 结果是审计事实源，不因本计划标记为历史而删除。
+
+发布证据由 Workflow 29888274199 生成并发布到 v0.5.36 Release Assets：`sbom.json`、`provenance.json`、`release-digests.json`、`release-source.json`。失败路径保持不发布、不移动 Tag、不删除证据；该约束仍适用于后续独立发布计划。
 
 工单 16 关闭前至少重新运行并记录：
 

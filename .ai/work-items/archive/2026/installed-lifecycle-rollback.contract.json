@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-rollback",
+  "mode": "code",
+  "title": "Rollback Snapshot and Execution",
+  "baseCommit": "cf752f3d812ef61b0121aac15def99dacbbe76d2",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_rollback.py",
+    "tests/test_rollback.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-rollback.contract.json",
+    ".ai/work-items/active/installed-lifecycle-rollback.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "live production rollback",
+    "deletion of project-owned business code or configuration",
+    "uninstall and purge execution"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Rollback Snapshot and Rollback Execution acceptance and verification requirements."
+    },
+    {
+      "path": "scripts/ai_schema_migration.py",
+      "reason": "Migration plan and partial rollback semantics consumed by rollback planning."
+    },
+    {
+      "path": "scripts/ai_install_facts.py",
+      "reason": "Installed manifest and managed-region fact source."
+    },
+    {
+      "path": "scripts/ai_upgrade_apply.py",
+      "reason": "Upgrade apply ordering and snapshot boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "rollback_restore_boundary"
+    ],
+    "reason": "Rollback must fail closed on missing snapshots or drift and must preserve project-owned content."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized execution of every Work Item in the remediation plan, including governance changes."
+  },
+  "preReviewWarnings": [
+    "Rollback proposal must distinguish Runtime restore from project-owned preservation.",
+    "Missing snapshot, drift, and non-invertible migration must remain partial_rollback or blocked."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Snapshot planning records manifest, version, managed regions, runtime sources, project config hash, migration plan, and instructions.",
+    "Rollback validates current installation, requires confirmation, restores only owned Runtime and Managed Region content, and preserves project-owned content.",
+    "Missing snapshots, drift, non-invertible migration, and incomplete restoration fail closed with partial_rollback or blocked and a resume condition.",
+    "Tests and lifecycle documentation cover complete, drifted, missing, and partial rollback paths."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "An upgrade must be reversible without overwriting business code or project-owned configuration created or modified after the upgrade.",
+    "constraints": [
+      "Snapshot storage is versioned by upgrade id and must include hashes and restoration instructions.",
+      "Rollback requires explicit confirmation, validates current installation facts, and never deletes or overwrites project-owned content.",
+      "Unsupported reverse migrations and missing evidence must be reported as partial_rollback or blocked."
+    ],
+    "rationale": "A deterministic proposal and fail-closed executor separates evidence collection from destructive restoration and makes residual manual work auditable."
+  },
+  "rawUserRequest": "Execute the installed lifecycle remediation plan serially; each Work Item must complete PR, merge, branch cleanup, and ai-close lifecycle before the next.",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-lifecycle-execution", "capturedAt": "2026-07-22T00:00:00+09:00", "digest": "sha256:user-authorized-serial-lifecycle-execution"},
+  "declaredIntent": {"summary": "Implement and verify the rollback snapshot and execution Work Item within the repository.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Complete rollback restores owned Runtime and Managed Region content.", "required": true, "status": "verified", "evidence": ["tests/test_rollback.py"], "reason": "Focused complete rollback test."},
+    {"scenario": "Drift or missing snapshot blocks without writes.", "required": true, "status": "verified", "evidence": ["tests/test_rollback.py"], "reason": "Focused fail-closed tests."},
+    {"scenario": "Project-owned content remains unchanged.", "required": true, "status": "verified", "evidence": ["tests/test_rollback.py"], "reason": "Focused preservation test."},
+    {"scenario": "Non-invertible migration reports partial_rollback and residual instructions.", "required": true, "status": "verified", "evidence": ["tests/test_rollback.py"], "reason": "Focused partial rollback test."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete serial remediation plan, including governance policy changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-rollback.json",
+    "baseCommit": "cf752f3d812ef61b0121aac15def99dacbbe76d2",
+    "initialScopeDigest": "ac4becd165468987959a1ecf249526ce71a1f98c87d286b3a1d1b705dd06e9e8",
+    "contractSkeletonDigest": "ad7989543a641d725e6b1d0914e5169cfb7ddc62890e6c0159c2b8bb0d08563a"
+  }
+}

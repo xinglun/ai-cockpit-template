@@ -58,3 +58,7 @@ The first command is read-only and returns the confirmation options. The confirm
 ## Schema migration
 
 Project-owned configuration migrations use a versioned registry and produce a plan containing old/new fields, defaults, non-migratable content, policy impact, and reconfirmation items. Policy strengthening, critical-threshold changes, baseline changes, and other high-risk changes return `needs_human_confirmation`; unsupported reverse migrations return `partial_rollback` and do not write configuration. The migration planner is `scripts/ai_schema_migration.py` and is intentionally separate from update application.
+
+## Rollback snapshot and execution
+
+Before an update mutates Runtime or Managed Regions, a snapshot is created under `.ai/upgrade/snapshots/<upgrade-id>/`. It contains `manifest.before.json`, `version.before.json`, `managed-regions.before.json`, Runtime restore sources, the Project Config hash, the Migration Plan, and rollback instructions. Rollback first validates the current installed manifest, then emits a confirmation-gated proposal. Confirmation restores only snapshot-owned Runtime and Managed Region content; Project-owned code and configuration are preserved even when they drifted after the update. Missing snapshots or current-installation drift are `blocked`. A non-invertible migration is `partial_rollback` and lists remaining manual operations; no write occurs in either state.

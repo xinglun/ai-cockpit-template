@@ -1,0 +1,180 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-budget-final",
+  "mode": "code",
+  "title": "Finalize governance archive-growth budget for project calibration plan",
+  "baseCommit": "8b764c5d186d592568c0f3990ddb5cc01bfa496f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/project-calibration-budget-final.contract.json",
+    ".ai/work-items/active/project-calibration-budget-final.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+    "工单 1 及其实现",
+    "任何生产功能或测试行为变更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current confirmed complexity budgets and repayment-record format."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Complexity-policy and Work Item lifecycle requirements."
+    },
+    {
+      "path": "PR #214 CI failure evidence",
+      "reason": "The plan PR now measures archiveGrowth=429 after the first budget-remediation archive; the final plan merge will reach 430."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "The change adjusts only the confirmed governance archive-growth budget; no product behavior changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": "No blocking capability limitation; the Work Item is limited to governance YAML and evidence updates."
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the independent budget-remediation flow and instructed that Work Item 1 must not start."
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The confirmed archiveGrowth ceiling admits the plan after both independent budget-remediation archives and the plan archive.",
+    "The increase has an explicit repayment record naming final cleanup responsibility.",
+    "The policy and Work Item evidence pass all declared AI and project quality checks.",
+    "The PR remains limited to this final budget-remediation Work Item and does not start Work Item 1."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "PR #214 remains blocked because the first budget-remediation archive raises archiveGrowth to 429, while the final plan archive will raise it to 430.",
+    "constraints": [
+      "Change only the confirmed governance archive-growth budget and repayment evidence.",
+      "Do not alter the execution plan or begin Work Item 1.",
+      "Preserve one Work Item, one branch, and one PR for this remediation."
+    ],
+    "rationale": "A final independent calibration makes the cumulative lifecycle evidence budget explicit before the plan PR is merged."
+  },
+  "rawUserRequest": "授权创建一个独立的预算修复 Work Item/PR；再继续，仍不会启动工单 1。",
+  "rawRequestSource": {"type": "human", "reference": "user-request:project-calibration-budget-remediation", "capturedAt": "2026-07-22", "digest": "sha256:2c5e25c0bdd7704534073ba885d1effb70e0bc47708c443909961ba5de6d3bf7"},
+  "declaredIntent": {"summary": "Finalize the confirmed archive-growth budget for the authorized project-calibration plan lifecycle.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "scenarioCoverage": [
+    {"scenario": "Cumulative archive growth reaches 430 after the two remediation archives and the plan archive.", "required": true, "status": "verified", "evidence": ["PR #214 CI failure evidence", ".ai/work-items/archive/index.json"]},
+    {"scenario": "The final budget increase has a repayment record and does not start Work Item 1.", "required": true, "status": "verified", "evidence": [".ai/guards/governance_complexity_policy.yaml", "user authorization in rawUserRequest"]},
+    {"scenario": "No production behavior or execution-plan content changes.", "required": true, "status": "verified", "evidence": ["Contract outOfScope and final PR diff"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user-authorized-execution",
+    "reason": "User explicitly authorized the independent governance budget-remediation Work Item and PR."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-budget-final.json",
+    "baseCommit": "8b764c5d186d592568c0f3990ddb5cc01bfa496f",
+    "initialScopeDigest": "02761a4edaca6617f0dc0526d2397fc62e215b789cf204b5521fe54cad6edb1e",
+    "contractSkeletonDigest": "1e6926b58851ee022638344ce1dad13b389616958b143fcc48640a3a3959b98d"
+  }
+}

@@ -47,7 +47,7 @@ keywords: [bootstrap-adoption, project-configuration, complexity-calibration, re
 | 14. 发布新版本 | 仅在 1–13 全部 PR 合并、归档、关闭、分支清理、默认分支同步后发布；验证 Source Commit、Tag、Asset、Workflow、SBOM、Provenance、Digest。 | #186 |
 | 15. 清理执行计划文档 | 最后逐份标记保留/替代/可删并记录 Work Item/PR；不删除证据；本计划标为历史，不再创建后续整改工单。 | 本工单 |
 ## 最终执行证据
-WI01–WI15 已按 PR #172–#186 逐项完成 Contract v2、验证、Summary、归档、合并、`ai-close-work-item`、分支清理和默认分支同步；PR #173 为 WI01 的 CI 稳定化子工单，仍独立闭环。v0.5.35 已发布，tag 与默认分支提交 `0027d0977c3453950d43cf32fc6289431ab3f275` 一致；发布 Workflow `29859327137`、严格 Smoke `29859350164` 成功，SBOM、Provenance、release-digests、release-source 资产及 SHA256 已核验。WI15 远端检查发现归档增长达到 401，已将经验证的复杂度预算同步校准为 401。
+WI01–WI15 已按 PR #172–#186 逐项完成 Contract v2、验证、Summary、归档、合并、`ai-close-work-item`、分支清理和默认分支同步；PR #173 为 WI01 的 CI 稳定化子工单，仍独立闭环。上一版已发布，tag 与默认分支提交 `0027d0977c3453950d43cf32fc6289431ab3f275` 一致；发布 Workflow `29859327137`、严格 Smoke `29859350164` 成功，SBOM、Provenance、release-digests、release-source 资产及 SHA256 已核验。WI15 远端检查发现归档增长达到 401，已将经验证的复杂度预算同步校准为 401。
 ## 完成定义
 工单 1–15 严格串行完成；每项有 Contract v2、验证、Summary、归档、唯一 PR、合并记录、`ai-close-work-item` 成功、分支清理和默认分支同步证据。最终运行 Contract、Scope、Guards、Checkpoint、Agent Risk、Review Policy、Backtrack、Coverage、Guidelines、Summary、Status、项目测试、妄想测试、文档检查和发布验证；所有 `not_run` 均说明原因和影响。
 执行循环：最新远端基线 → 专用分支 → Contract/Preflight → 实现/验证 → Summary/ai-finish → PR/Merge → ai-close-work-item → 分支清理/默认分支同步 → `ready for next Work Item` → 下一项。

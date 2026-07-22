@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 
@@ -23,4 +24,5 @@ def test_remote_archive_url_supports_branch_tag_and_sha_refs():
 def test_quick_install_does_not_reference_candidate_release_metadata():
     script = (ROOT / "install.sh").read_text(encoding="utf-8")
     assert "next-release.json" not in script
-    assert 'REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.35}"' in script
+    release_tag = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))["releaseTag"]
+    assert f'REF="${{AI_COCKPIT_TEMPLATE_REF:-{release_tag}}}"' in script

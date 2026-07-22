@@ -1,5 +1,6 @@
 import hashlib
 import io
+import json
 import os
 import subprocess
 import tarfile
@@ -113,6 +114,7 @@ def test_remote_install_default_ref_is_published_release_not_candidate_metadata(
     script = (ROOT / "install.sh").read_text(encoding="utf-8")
     candidate = (ROOT / "next-release.json").read_text(encoding="utf-8")
 
-    assert 'REF="${AI_COCKPIT_TEMPLATE_REF:-v0.5.35}"' in script
+    release = json.loads((ROOT / "release.json").read_text(encoding="utf-8"))
+    assert f'REF="${{AI_COCKPIT_TEMPLATE_REF:-{release["releaseTag"]}}}"' in script
     assert "next-release.json" not in script
     assert '"published": false' in candidate

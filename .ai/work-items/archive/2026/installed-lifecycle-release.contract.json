@@ -1,0 +1,178 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-release",
+  "mode": "code",
+  "title": "installed-lifecycle-release",
+  "baseCommit": "5ab8168744dff2eff4de583f5dc1430a569960cc",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "release-state.json",
+    "next-release.json",
+    "release.json",
+    "docs/releases/v0.5.36.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/releases/v0.5.35.md",
+    "docs/superpowers/plans/2026-07-21-bootstrap-adoption-review-remediation.md",
+    "docs/superpowers/plans/README.md",
+    "install.sh",
+    "tests/test_install_sh.py",
+    "tests/test_install_script.py",
+    "tests/test_release_distribution.py",
+    "docs/reference/distribution.md",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-release.contract.json",
+    ".ai/work-items/active/installed-lifecycle-release.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["publishing an unverifiable release", "changing installed lifecycle runtime behavior", "deleting evidence"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Work Item 15 release gates and acceptance criteria."
+    },
+    {"path": ".github/workflows/release.yml", "reason": "Exact default-branch source, asset, digest, tag, and publication workflow."},
+    {"path": "scripts/check_release_state_consistency.py", "reason": "Canonical candidate/published state consistency checks."},
+    {"path": "scripts/check_supply_chain.py", "reason": "SBOM, provenance, release digest, and source-bound asset generation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_identity_mismatch",
+      "evidence_binding_failure"
+    ],
+    "reason": "Release publication is allowed only when the workflow binds the exact default-branch commit to tag, assets, SBOM, provenance, digests, smoke, and compatibility evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized execution of the complete serial remediation plan, including release preparation and publication after all prior Work Items are closed."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "All Work Items 1-14 have independently verifiable archive, merged PR, close, branch-cleanup, and main-sync evidence before release publication.",
+    "Candidate metadata names the next semantic release and remains distinct from the published release.",
+    "Release workflow requires SOURCE_COMMIT to equal the freshly resolved DEFAULT_BRANCH_COMMIT and binds tag, asset, SBOM, provenance, manifest, evidence digest, smoke, and compatibility evidence.",
+    "Release notes state product boundaries and do not claim unverified enterprise, compliance, or production guarantees."
+  ],
+  "guidelines": [
+    "Do not publish unless exact-source and provider evidence gates pass.",
+    "Preserve candidate and historical evidence when publication fails."
+  ],
+  "intent": {
+    "problem": "Publish the installed-lifecycle implementation as a new version only after Work Items 1-14 are fully closed and the immutable release evidence is bound to one exact default-branch commit.",
+    "constraints": ["Release publication must fail closed on source, tag, asset, digest, smoke, compatibility, or evidence mismatch.", "Candidate state must remain distinct from published state until provider evidence is verified.", "Do not claim enterprise security, compliance, trusted identity, immutable audit, or production readiness without evidence."],
+    "rationale": "A source-bound release workflow turns the completed lifecycle remediation into an auditable distribution artifact and prevents stale candidate metadata from being treated as publication proof."
+  },
+  "rawUserRequest": "走完当前文档的流程；每个工单完整执行 PR、合并、清理分支，直到全部工单完成；已授权所需调整。",
+  "declaredIntent": {"summary": "Execute Work Item 15 of the installed lifecycle remediation plan and publish the new version only after the exact-source release gates pass.", "requestedCapabilities": ["ai_governance", "documentation", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "document", "authorityRequired": false},
+  "rawRequestSource": {"type": "human", "reference": "user-authorized-serial-remediation-plan", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-plan-execution"},
+  "scenarioCoverage": [
+    {"scenario": "all prior Work Items closed", "required": true, "status": "verified", "evidence": ["PR and ai-close records for Work Items 1-14"]},
+    {"scenario": "exact source and release identity", "required": true, "status": "verified", "evidence": [".github/workflows/release.yml", "release-state consistency checks"]},
+    {"scenario": "publication evidence failure", "required": true, "status": "verified", "evidence": ["release workflow fail-closed steps", "release distribution tests"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized execution of the complete remediation plan, including release preparation and publication after prerequisite Work Items close."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-release.json",
+    "baseCommit": "5ab8168744dff2eff4de583f5dc1430a569960cc",
+    "initialScopeDigest": "eb2f0d90fb721b3e55e21edde5531ed49585e54069cedda6559aa33f355d9ad7",
+    "contractSkeletonDigest": "27a3397ba147662cabc6de45b29ff54679fd7352c2dc3a45607b9d7f9f17ef43"
+  }
+}

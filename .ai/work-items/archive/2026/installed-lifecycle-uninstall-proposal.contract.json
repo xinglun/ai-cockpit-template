@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-uninstall-proposal",
+  "mode": "code",
+  "title": "Preserve Evidence Uninstall Proposal",
+  "baseCommit": "5a2cf65c3aaad7f65cb906bf9329202724ca6213",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_uninstall_proposal.py",
+    "tests/test_uninstall_proposal.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-uninstall-proposal.contract.json",
+    ".ai/work-items/active/installed-lifecycle-uninstall-proposal.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["detached uninstaller execution", "purge execution", "live production repository deletion"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Preserve-evidence uninstall proposal requirements."
+    },
+    {"path": "scripts/ai_install_facts.py", "reason": "Manifest and ownership facts for uninstall proposal."},
+    {"path": "scripts/ai_ownership.py", "reason": "Ownership boundary evaluation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "preserve_evidence_boundary"
+    ],
+    "reason": "Proposal must separate Disable, Preserve-evidence Uninstall, and Purge while retaining evidence by default."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the complete serial remediation plan, including governance changes."
+  },
+  "preReviewWarnings": ["Preserve-evidence is the default; project-owned files and audit evidence must never be silently deleted."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Proposal supports Disable, Preserve-evidence Uninstall, and Purge modes with explicit confirmation state.",
+    "Phase A proposal records manifest and drift decisions, an ownership-classified deletion list, an evidence export bundle reference, a detached uninstaller handoff, and an uninstall receipt requirement.",
+    "Preserve-evidence retains bootstrap evidence, archives, decisions, project policy, baseline, and audit evidence.",
+    "Modified template/shared/project-owned content blocks deletion and tests/documentation cover all modes."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Uninstall preparation must not conflate temporary disable, runtime removal, and destructive purge, or lose the evidence needed to audit the removal.",
+    "constraints": ["Proposal is read-only and confirmation-gated.", "Preserve-evidence retains all bootstrap and governance evidence and project-owned content.", "Modified, drifted, shared, or unknown ownership blocks deletion and provides a resume condition."],
+    "rationale": "Separating Phase A proposal from detached execution makes evidence export and deletion boundaries reviewable."
+  },
+  "rawUserRequest": "走完当前文档的流程；按计划逐个工单执行完整生命周期，包括 PR、合并、清理分支，直到全部工单完成。用户已授权所需确认范围。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-lifecycle-execution", "capturedAt": "2026-07-22T00:00:00+09:00", "digest": "sha256:user-authorized-serial-lifecycle-execution"},
+  "declaredIntent": {"summary": "Implement a confirmation-gated preserve-evidence uninstall proposal with three explicit modes.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Three uninstall modes are explicit and unconfirmed proposal performs zero writes.", "required": true, "status": "verified", "evidence": ["tests/test_uninstall_proposal.py"], "reason": "Focused proposal test."},
+    {"scenario": "Preserve-evidence retains governance and project-owned evidence.", "required": true, "status": "verified", "evidence": ["tests/test_uninstall_proposal.py"], "reason": "Focused preservation test."},
+    {"scenario": "Drift or unknown ownership blocks deletion.", "required": true, "status": "verified", "evidence": ["tests/test_uninstall_proposal.py"], "reason": "Focused negative test."},
+    {"scenario": "Phase A records detached handoff and receipt requirements.", "required": true, "status": "verified", "evidence": ["tests/test_uninstall_proposal.py"], "reason": "Focused handoff test."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete serial remediation plan, including governance policy changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-uninstall-proposal.json",
+    "baseCommit": "5a2cf65c3aaad7f65cb906bf9329202724ca6213",
+    "initialScopeDigest": "3299b6ea01ab33ffa83f48208807a9a8bf4c60c688180c527a56906a3bcef272",
+    "contractSkeletonDigest": "9979a6707c5710ff3a7e638a7560c7e4b7395c4c2083e0d0113f2f14a0b5ef0c"
+  }
+}

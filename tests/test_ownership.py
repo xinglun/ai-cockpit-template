@@ -1,6 +1,6 @@
 import pytest
 
-from ai_ownership import OwnershipError, ownership_decision, parse_managed_regions
+from ai_ownership import OwnershipError, ownership_decision, ownership_facts, parse_managed_regions
 
 
 def test_all_ownership_classes_are_explicit_and_project_path_is_not_authority():
@@ -46,3 +46,17 @@ def test_historical_and_project_content_are_never_mutable():
     for ownership in ("project", "historical"):
         decision = ownership_decision(declared=ownership, path=".ai/work-items/archive/old.json")
         assert decision["canMutate"] is False
+
+
+def test_ownership_facts_bind_class_and_modification_to_digests():
+    facts = ownership_facts(
+        path="src/project.py", ownership="project", installed_digest="a", current_digest="b"
+    )
+    assert facts == {
+        "path": "src/project.py",
+        "ownership": "project",
+        "ownershipClass": "project_owned",
+        "installedDigest": "a",
+        "currentDigest": "b",
+        "projectModified": True,
+    }

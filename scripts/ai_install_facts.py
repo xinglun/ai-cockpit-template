@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Create and validate durable Installed Lifecycle installation facts."""
-
 from __future__ import annotations
 
 import hashlib
@@ -16,7 +13,11 @@ OWNERSHIPS = {"template", "project", "shared", "generated", "historical"}
 
 
 class InstallFactsError(ValueError):
-    """Raised when installation facts are missing, malformed, or inconsistent."""
+    pass
+
+
+def ownership_label(value: str) -> str:
+    return value if value in {"shared", "generated", "historical"} else f"{value}_owned"
 
 
 def canonical_json(value: Any) -> bytes:
@@ -77,7 +78,7 @@ def _source_commit(source: Path) -> str | None:
 def build_manifest(
     *, source: Path, target: Path, distribution_version: dict[str, Any]
 ) -> dict[str, Any]:
-    files: list[dict[str, str]] = []
+    files: list[dict[str, Any]] = []
     for path in sorted(target.rglob("*")):
         if not path.is_file() or FACT_DIR.as_posix() in path.relative_to(target).as_posix():
             continue
@@ -93,6 +94,9 @@ def build_manifest(
                 "sourcePath": source_path,
                 "ownership": classify_path(relative),
                 "installedDigest": digest_file(path),
+                "currentDigest": digest_file(path),
+                "projectModified": False,
+                "ownershipClass": ownership_label(classify_path(relative)),
             }
         )
     installed_at = (
@@ -138,8 +142,11 @@ def write_fact_bundle(
             {
                 "path": item["path"],
                 "ownership": item["ownership"],
+                "ownershipClass": item["ownershipClass"],
                 "region": "full-file",
                 "installedDigest": item["installedDigest"],
+                "currentDigest": item["currentDigest"],
+                "projectModified": item["projectModified"],
             }
             for item in manifest["files"]
             if item["ownership"] == "shared"
@@ -174,6 +181,7 @@ def validate_fact_bundle(root: Path) -> dict[str, Any]:
     files = manifest.get("files")
     if not isinstance(files, list) or not files:
         raise InstallFactsError("manifest files are missing")
+    current_files: list[dict[str, Any]] = []
     for item in files:
         if not isinstance(item, dict) or not isinstance(item.get("path"), str):
             raise InstallFactsError("manifest contains an invalid file entry")
@@ -182,8 +190,28 @@ def validate_fact_bundle(root: Path) -> dict[str, Any]:
         ):
             raise InstallFactsError("manifest contains an invalid ownership or digest")
         path = root / item["path"]
-        if not path.is_file() or digest_file(path) != item["installedDigest"]:
+        if not path.is_file():
             raise InstallFactsError(f"installation fact digest mismatch: {item['path']}")
+        current_digest = digest_file(path)
+        recorded_current = item.get("currentDigest")
+        if (
+            recorded_current is not None
+            and recorded_current != item["installedDigest"]
+            and recorded_current == current_digest
+        ):
+            raise InstallFactsError(f"installation manifest was tampered: {item['path']}")
+        if recorded_current is not None and not isinstance(recorded_current, str):
+            raise InstallFactsError("manifest contains an invalid current digest")
+        if item.get("ownershipClass") != ownership_label(item["ownership"]):
+            raise InstallFactsError(f"manifest contains an invalid ownership class: {item['path']}")
+        current_files.append(
+            {
+                **item,
+                "currentDigest": current_digest,
+                "projectModified": current_digest != item["installedDigest"],
+            }
+        )
+    manifest = {**manifest, "files": current_files}
     expected_manifest_hash = digest_file(paths["manifest.json"])
     if not isinstance(version, dict) or version.get("schemaVersion") != 1:
         raise InstallFactsError("version fact schema is unsupported")

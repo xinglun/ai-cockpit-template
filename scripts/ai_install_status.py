@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Report installed AI Cockpit version and lifecycle status without mutation."""
-
 from __future__ import annotations
 
 import argparse
@@ -95,6 +92,18 @@ def installed_status(
         if (root / ".ai" / "project_profile.yaml").is_file()
         else "unconfirmed",
         "conflicts": [],
+        "ownership": {
+            "files": len(manifest["files"]),
+            "projectModified": [
+                item["path"] for item in manifest["files"] if item.get("projectModified")
+            ],
+            "unknown": [
+                item["path"]
+                for item in manifest["files"]
+                if item.get("ownership")
+                not in {"template", "project", "shared", "generated", "historical"}
+            ],
+        },
         "rollbackAvailable": bool(facts["rollbackBaseline"].get("fileDigests")),
         "releaseEvidence": evidence_state,
         "readOnly": True,

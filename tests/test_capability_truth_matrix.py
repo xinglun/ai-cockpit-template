@@ -29,10 +29,9 @@ def test_matrix_uses_closed_status_vocabulary_and_evidence_fields() -> None:
             assert capability.get("missingEvidence")
 
 
-def test_high_risk_review_gaps_remain_planned_until_later_work_items() -> None:
+def test_remaining_review_gaps_remain_planned_until_later_work_items() -> None:
     capabilities = {item["id"]: item for item in load_matrix()["capabilities"]}
     for capability_id in (
-        "ownership_manifest_and_managed_regions",
         "quick_install_release_archive_digest",
         "independent_ci_release_evidence",
     ):

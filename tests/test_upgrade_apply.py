@@ -92,6 +92,8 @@ def test_confirmed_apply_snapshots_and_preserves_project_content(tmp_path: Path)
         "adoption_readiness",
         "smoke_test",
     ]
+    assert result["rollbackEvidence"]["state"] == "captured"
+    assert result["prHandoff"]["state"] == "not_started"
 
 
 def test_drift_blocks_apply_without_writing(tmp_path: Path) -> None:

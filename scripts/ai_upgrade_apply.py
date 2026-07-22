@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Apply an installed lifecycle proposal only after explicit confirmation."""
-
 from __future__ import annotations
 
 import argparse
@@ -81,7 +78,7 @@ def _drift_check(root: Path, proposal: dict[str, Any]) -> list[str]:
         facts = validate_fact_bundle(root)
     except InstallFactsError as exc:
         return [str(exc)]
-    current = {item["path"]: item["installedDigest"] for item in facts["manifest"]["files"]}
+    current = {item["path"]: item["currentDigest"] for item in facts["manifest"]["files"]}
     issues: list[str] = []
     for item in proposal["changes"]:
         path = item.get("path")
@@ -123,6 +120,8 @@ def _update_facts(root: Path) -> None:
             del entries[path]
         else:
             entries[path]["installedDigest"] = digest_file(file)
+            entries[path]["currentDigest"] = entries[path]["installedDigest"]
+            entries[path]["projectModified"] = False
     manifest["files"] = [entries[path] for path in sorted(entries)]
     manifest_hash = write_json(root / ".ai" / "install" / "manifest.json", manifest)
     version = read_json(root / ".ai" / "install" / "version.json")
@@ -221,6 +220,14 @@ def apply_proposal(
         "steps": steps,
         "excluded": sorted(excluded),
         "summaryPath": str(root / ".ai" / "upgrade" / "summaries" / f"{proposal_id}.json"),
+        "workItem": proposal.get("workItem", {}),
+        "recalibrationImpact": proposal.get("recalibrationImpact", {}),
+        "prHandoff": {
+            "required": True,
+            "state": "not_started",
+            "nextAction": "create and merge the Work Item PR",
+        },
+        "rollbackEvidence": {"required": True, "snapshot": str(snapshot), "state": "captured"},
     }
     summary_path = root / ".ai" / "upgrade" / "summaries" / f"{proposal_id}.json"
     summary_path.parent.mkdir(parents=True, exist_ok=True)

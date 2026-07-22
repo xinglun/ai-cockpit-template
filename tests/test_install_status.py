@@ -31,6 +31,7 @@ def test_version_and_update_check_are_read_only(tmp_path):
     root = _install(tmp_path)
     before = sorted(path.relative_to(root).as_posix() for path in root.rglob("*"))
     assert installed_status(root)["state"] == "active"
+    assert installed_status(root)["ownership"]["projectModified"] == []
     assert installed_status(root, "v2.0.0")["state"] == "update_available"
     after = sorted(path.relative_to(root).as_posix() for path in root.rglob("*"))
     assert before == after

@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Generate a read-only three-way installed lifecycle update proposal."""
-
 from __future__ import annotations
 
 import argparse
@@ -202,6 +199,7 @@ def build_proposal(
             "oldDigest": old_digest,
             "newDigest": new_digest,
             "currentDigest": current_digest,
+            "projectModified": current_digest not in {None, old_digest},
             "ownership": ownership.get(path, "template"),
             "reason": reason,
             "canApplyAutomatically": category == "safe_template_update",
@@ -256,6 +254,26 @@ def build_proposal(
         },
         "changes": entries,
         "migration": {"required": False, "status": "deferred", "references": []},
+        "recalibrationImpact": {"required": True, "state": "not_run", "inventory": []},
+        "workItem": {
+            "required": True,
+            "lifecycle": "standard_work_item",
+            "artifacts": [
+                "snapshot",
+                "migration",
+                "recalibrationImpact",
+                "summary",
+                "pr",
+                "rollbackEvidence",
+            ],
+            "nextAction": "create Contract v2 before apply",
+        },
+        "prHandoff": {"required": True, "state": "not_started", "branch": None, "pr": None},
+        "rollbackEvidence": {
+            "required": True,
+            "source": ".ai/install/rollback-baseline.json",
+            "state": "available" if baseline else "missing",
+        },
         "baselineImpact": {"snapshotRequired": True, "fileDigests": baseline},
         "documentationImpact": {"required": bool(safe or added or removed or shared), "paths": []},
         "rollbackSnapshot": {

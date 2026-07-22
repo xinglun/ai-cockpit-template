@@ -47,7 +47,23 @@ def test_write_fact_bundle_contains_bound_manifest_and_all_ownerships(tmp_path):
         "generated",
         "historical",
     }
+    assert all(item["currentDigest"] == item["installedDigest"] for item in manifest["files"])
+    assert all(item["projectModified"] is False for item in manifest["files"])
+    assert all(item["ownershipClass"] for item in manifest["files"])
     assert validate_fact_bundle(target)["version"] == facts["version"]
+
+
+def test_validation_reports_current_digest_and_project_modification(tmp_path):
+    source, target = make_install_tree(tmp_path)
+    write_fact_bundle(source=source, target=target, distribution_version={"distributionVersion": 2})
+    changed = target / ".ai" / "guards" / "policy.yaml"
+    changed.write_text("mode: project-change\n", encoding="utf-8")
+    facts = validate_fact_bundle(target)
+    item = next(
+        item for item in facts["manifest"]["files"] if item["path"] == ".ai/guards/policy.yaml"
+    )
+    assert item["projectModified"] is True
+    assert item["currentDigest"] != item["installedDigest"]
 
 
 def test_fact_reads_are_deterministic_and_canonical(tmp_path):

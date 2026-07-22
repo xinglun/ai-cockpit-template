@@ -68,6 +68,10 @@ def test_three_way_proposal_covers_changes_and_is_read_only(tmp_path: Path) -> N
     assert categories[".ai/work-items/archive/2026/history.md"] == "historical_file"
     assert proposal["state"] == "needs_human_confirmation"
     assert proposal["readOnly"] is True
+    assert proposal["workItem"]["lifecycle"] == "standard_work_item"
+    assert proposal["recalibrationImpact"]["required"] is True
+    assert proposal["prHandoff"]["required"] is True
+    assert proposal["rollbackEvidence"]["state"] == "available"
     assert (current / ".ai" / "install" / "version.json").read_bytes() == before
 
 

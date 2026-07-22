@@ -53,18 +53,17 @@
     },
     {
       "id": "ownership_manifest_and_managed_regions",
-      "status": "planned",
-      "claim": "A complete per-file Ownership Manifest and managed-region lifecycle is not yet proven for all update/rollback/uninstall paths.",
-      "evidence": ["scripts/ai_ownership.py", "docs/reference/installed-lifecycle.md"],
-      "verification": [],
-      "missingEvidence": "No complete adopter evidence chain covers project modification, drift, rollback, disable/enable, and uninstall for every ownership class."
+      "status": "adopter_installed",
+      "claim": "An adopter receives a bound per-file ownership manifest with installed/current digests, project modification facts, managed-region evidence, and rollback baseline consumed by the installed lifecycle.",
+      "evidence": ["scripts/ai_ownership.py", "scripts/ai_install_facts.py", "scripts/ai_install_status.py", "docs/reference/installed-lifecycle.md"],
+      "verification": ["tests/test_ownership.py", "tests/test_install_facts.py", "tests/test_installed_lifecycle_e2e.py"]
     },
     {
       "id": "governed_update_and_uninstall",
-      "status": "template_only",
-      "claim": "Proposal/apply and uninstall evidence boundaries exist in template code and documentation, but adopter installation and standard Work Item integration remain to be completed.",
+      "status": "adopter_installed",
+      "claim": "Installed update proposal/apply and preserve-evidence uninstall boundaries expose standard Work Item, snapshot, migration, recalibration, PR handoff, rollback, detached-uninstaller, purge-export, and receipt evidence.",
       "evidence": ["scripts/ai_upgrade_proposal.py", "scripts/ai_upgrade_apply.py", "scripts/ai_uninstall_proposal.py", "docs/reference/installed-lifecycle.md"],
-      "verification": ["tests/test_installed_lifecycle_e2e.py"]
+      "verification": ["tests/test_upgrade_proposal.py", "tests/test_upgrade_apply.py", "tests/test_uninstall_proposal.py", "tests/test_detached_uninstaller.py", "tests/test_purge.py", "tests/test_installed_lifecycle_e2e.py"]
     },
     {
       "id": "quick_install_release_archive_digest",

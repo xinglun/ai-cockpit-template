@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Evaluate declared ownership and explicit AI Cockpit managed regions."""
-
 from __future__ import annotations
 
 import re
@@ -17,7 +14,7 @@ _END = re.compile(
 
 
 class OwnershipError(ValueError):
-    """Raised when ownership evidence is missing, unknown, or inconsistent."""
+    pass
 
 
 @dataclass(frozen=True)
@@ -27,6 +24,26 @@ class ManagedRegion:
     name: str
     begin_line: int
     end_line: int
+
+
+def ownership_label(value: str) -> str:
+    return value if value in {"shared", "generated", "historical"} else f"{value}_owned"
+
+
+def ownership_facts(
+    *, path: str, ownership: str, installed_digest: str, current_digest: str
+) -> dict[str, object]:
+    """Return the canonical per-file ownership and modification evidence."""
+    if ownership not in OWNERSHIP_CLASSES:
+        raise OwnershipError(f"unknown ownership: {ownership}")
+    return {
+        "path": path,
+        "ownership": ownership,
+        "ownershipClass": ownership_label(ownership),
+        "installedDigest": installed_digest,
+        "currentDigest": current_digest,
+        "projectModified": installed_digest != current_digest,
+    }
 
 
 def parse_managed_regions(text: str) -> tuple[ManagedRegion, ...]:

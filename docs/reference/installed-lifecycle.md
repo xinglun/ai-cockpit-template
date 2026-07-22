@@ -13,12 +13,12 @@ keywords:
 
 An installation may record durable lifecycle facts under `.ai/install/`; their presence is an installed-repository fact, not proof that every update, rollback, disable/enable, or uninstall path is complete. The current capability boundary is maintained in the [Capability Truth Matrix](capability-truth-matrix.md):
 
-- `manifest.json` records the installation identity, source/version, timestamp, installed paths, source paths, ownership class, and SHA-256 digest.
+- `manifest.json` records the installation identity, source/version, timestamp, installed paths, source paths, ownership class, installed SHA-256 digest, current digest, and `projectModified` fact for every file.
 - `version.json` records the installed distribution and Contract schema versions, Runtime State, and the SHA-256 binding to the manifest.
-- `managed-regions.json` records Shared files and their installation-time full-file boundaries. Later Work Items may add explicit managed regions without guessing from paths.
+- `managed-regions.json` records Shared files, ownership class, installed/current digest, modification state, and their installation-time full-file boundaries.
 - `rollback-baseline.json` records the installation-time digest baseline used by later update and rollback proposals.
 
-Ownership is explicit: `template`, `project`, `shared`, `generated`, or `historical`. The installer does not infer permission to overwrite or delete project-owned or historical content from a path alone. `scripts/ai_install_facts.py` validates that all fact files exist, agree on one installation identity, and match the installed file digests; missing, malformed, or tampered facts fail closed.
+Ownership is explicit: `template`, `project`, `shared`, `generated`, or `historical`. The installer does not infer permission to overwrite or delete project-owned or historical content from a path alone. `scripts/ai_install_facts.py` validates that all fact files exist, agree on one installation identity, and bind ownership and baseline digests; missing, malformed, or tampered facts fail closed while current project drift is reported as evidence.
 
 These facts are a repository record, not an identity system, approval system, immutable audit ledger, sandbox, or enterprise assurance claim. Update, migration, rollback, disable/enable, uninstall, and purge behavior is governed by their own Work Items and must consume validated facts.
 
@@ -44,7 +44,7 @@ Before any update is applied, generate a reviewable proposal from the installed 
 make ai-cockpit-update-propose OLD_TEMPLATE=/path/to/old NEW_TEMPLATE=/path/to/new UPGRADE_ID=upgrade-2026-07
 ```
 
-The proposal is written only to `.ai/upgrade/proposals/<upgrade-id>.json`; generation does not modify Runtime or project files. Each change is classified as an unchanged or safe template update, project-modified conflict, project-owned file, shared managed region, new/removed template file, generated file, historical file, or fail-closed conflict. The proposal also binds installed and candidate manifest hashes, Release Evidence, rollback baseline, migration and documentation impact, and a resume condition. Safe files may be considered by the later confirmation/apply Work Item, while project-owned, shared, historical, generated, and removed content requires explicit review.
+The proposal is written only to `.ai/upgrade/proposals/<upgrade-id>.json`; generation does not modify Runtime or project files. Each change is classified as an unchanged or safe template update, project-modified conflict, project-owned file, shared managed region, new/removed template file, generated file, historical file, or fail-closed conflict. The proposal also binds installed and candidate manifest hashes, Release Evidence, rollback baseline, migration, recalibration impact, a standard Work Item handoff, PR handoff, rollback evidence, and a resume condition. Safe files may be considered by the later confirmation/apply Work Item, while project-owned, shared, historical, generated, and removed content requires explicit review.
 
 Apply is a separate confirmation boundary:
 

@@ -1,0 +1,191 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_ownership_installed_lifecycle",
+  "mode": "code",
+  "title": "Implement ownership manifest and installed lifecycle",
+  "rawUserRequest": "继续推进当前文档工单，并按已授权计划严格完成当前工单的完整生命周期。",
+  "rawRequestSource": {"type": "human", "reference": "user-goal:2026-07-23-start-all-conditional-go-remediation", "capturedAt": "2026-07-23", "digest": "sha256:start-all-conditional-go-remediation"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "完成 Ownership Manifest 与完整 Installed Lifecycle，使安装后生命周期以逐文件/区域证据驱动并在不确定时 fail closed。", "requestedCapabilities": ["ai_governance", "software_design", "documentation", "test_automation"]},
+  "baseCommit": "c2e2e3b1f6b8c62f2321a52c3c5505a06bfbde35",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_ownership_installed_lifecycle.contract.json",
+    ".ai/work-items/active/conditional_go_ownership_installed_lifecycle.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_ownership.py",
+    "scripts/ai_install_facts.py",
+    "scripts/ai_install_status.py",
+    "scripts/ai_upgrade_proposal.py",
+    "scripts/ai_upgrade_apply.py",
+    "scripts/ai_rollback.py",
+    "scripts/ai_disable_enable.py",
+    "scripts/ai_uninstall_proposal.py",
+    "scripts/ai_detached_uninstaller.py",
+    "scripts/ai_purge.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_ownership.py",
+    "tests/test_install_facts.py",
+    "tests/test_install_status.py",
+    "tests/test_upgrade_proposal.py",
+    "tests/test_upgrade_apply.py",
+    "tests/test_rollback.py",
+    "tests/test_disable_enable.py",
+    "tests/test_uninstall_proposal.py",
+    "tests/test_detached_uninstaller.py",
+    "tests/test_purge.py",
+    "tests/test_installed_lifecycle_e2e.py",
+    "tests/test_project_governance_journey.py",
+    "tests/test_capability_truth_matrix.py",
+    "docs/installation.md",
+    "docs/getting-started/installation.md",
+    "docs/reference/**",
+    "docs/capability-matrix.json",
+    "docs/capability-matrix.md"
+  ],
+  "outOfScope": [
+    "CI and release evidence independent verification (Work Item 9).",
+    "Complexity repayment and installer module decomposition (Work Item 10).",
+    "Execution-plan cleanup and final release publication (Work Item 11).",
+    "Starting or implementing any later Work Item."
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md", "reason": "Approved remediation plan, Work Item 8 acceptance."},
+    {"path": "AGENTS.md", "reason": "Repository lifecycle and fail-closed governance rules."},
+    {"path": ".ai/glossary.md", "reason": "Repository terminology and ownership boundaries."},
+    {"path": "scripts/ai_install_facts.py", "reason": "Existing installation fact bundle implementation."},
+    {"path": "scripts/ai_ownership.py", "reason": "Existing ownership and managed-region primitives."},
+    {"path": "scripts/ai_upgrade_proposal.py", "reason": "Existing update proposal behavior."},
+    {"path": "scripts/ai_upgrade_apply.py", "reason": "Existing update apply and snapshot behavior."},
+    {"path": "scripts/ai_rollback.py", "reason": "Existing rollback fail-closed behavior."},
+    {"path": "scripts/ai_uninstall_proposal.py", "reason": "Existing uninstall evidence-preservation behavior."},
+    {"path": "tests/test_installed_lifecycle_e2e.py", "reason": "Adopter lifecycle acceptance coverage."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["lifecycle_integrity", "drift_handling"],
+    "reason": "Changes are bounded to installed lifecycle evidence and its existing fail-closed consumers; no destructive default is introduced."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized serial implementation of every plan Work Item; this Work Item is next in order."
+  },
+  "preReviewWarnings": ["Reviewers must verify that drift, unknown ownership, partial activation, and rollback failure produce zero writes."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Every installed file and managed region has explicit ownership, installed/current digest, and project-modification facts.",
+    "Update proposal/apply evidence includes Work Item linkage, snapshot, migration, recalibration impact, summary, PR handoff, and rollback evidence.",
+    "Uninstall preserves evidence and supports detached uninstall, purge export, and final receipt; drift/conflict/half-activation/rollback failure fail closed.",
+    "Adopter end-to-end tests and lifecycle documentation verify the complete installed lifecycle."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features.",
+    "Keep lifecycle evidence canonical, bound by digests, and fail closed on ambiguity."
+  ],
+  "intent": {
+    "problem": "The installed lifecycle has primitives but does not yet expose a complete, per-file ownership and modification evidence contract across update, rollback, disable/enable, and uninstall.",
+    "constraints": ["Preserve historical evidence.", "Do not silently overwrite project-owned or shared content.", "Do not implement Work Items 9–11."],
+    "rationale": "A canonical ownership manifest and bound fact bundle lets every lifecycle transition make the same conservative decision."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized full serial implementation of the approved remediation plan, including PR, merge, close, and cleanup."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_ownership_installed_lifecycle.json",
+    "baseCommit": "c2e2e3b1f6b8c62f2321a52c3c5505a06bfbde35",
+    "initialScopeDigest": "d839f2957321933e83013b1db515b3af041f4cc3bb0895e8528c6cd35ae2f7da",
+    "contractSkeletonDigest": "e72c3634cc1418759eb173ca288f7002a8053d884a975439f722aadf6c320d05"
+  }
+}

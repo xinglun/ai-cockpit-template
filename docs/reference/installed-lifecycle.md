@@ -61,4 +61,8 @@ Project-owned configuration migrations use a versioned registry and produce a pl
 
 ## Rollback snapshot and execution
 
+## Disable and enable
+
+Disable is a reversible state transition, not uninstall: it records disable evidence, sets `disabled`, and adds a blocking entry while retaining Runtime, Policy, Evidence, Archive, Update, Uninstall, and CI managed-region content. It does not silently remove a CI Gate. Enable rechecks Runtime Integrity, Manifest, Project Profile, Policy, and Adoption Readiness; any failed check leaves the installation disabled with a resume condition. Only when all checks pass is the state changed back to `active`.
+
 Before an update mutates Runtime or Managed Regions, a snapshot is created under `.ai/upgrade/snapshots/<upgrade-id>/`. It contains `manifest.before.json`, `version.before.json`, `managed-regions.before.json`, Runtime restore sources, the Project Config hash, the Migration Plan, and rollback instructions. Rollback first validates the current installed manifest, then emits a confirmation-gated proposal. Confirmation restores only snapshot-owned Runtime and Managed Region content; Project-owned code and configuration are preserved even when they drifted after the update. Missing snapshots or current-installation drift are `blocked`. A non-invertible migration is `partial_rollback` and lists remaining manual operations; no write occurs in either state.

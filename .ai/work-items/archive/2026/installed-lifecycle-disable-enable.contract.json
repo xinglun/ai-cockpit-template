@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "installed-lifecycle-disable-enable",
+  "mode": "code",
+  "title": "Disable and Enable",
+  "baseCommit": "b24ca1530b108a256811b179a718083d19f80727",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/ai_disable_enable.py",
+    "tests/test_disable_enable.py",
+    "docs/reference/installed-lifecycle.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/installed-lifecycle-disable-enable.contract.json",
+    ".ai/work-items/active/installed-lifecycle-disable-enable.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["runtime deletion", "uninstall and purge", "live CI mutation"],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+      "reason": "Disable/Enable acceptance and verification requirements."
+    },
+    {"path": "scripts/ai_install_facts.py", "reason": "Lifecycle fact source for integrity rechecks."},
+    {"path": "scripts/ai_install_status.py", "reason": "Runtime state vocabulary."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "state_transition_preservation"
+    ],
+    "reason": "Disable must preserve runtime, policy, evidence, archive, and managed CI regions; enable must revalidate facts."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the complete serial remediation plan, including governance changes."
+  },
+  "preReviewWarnings": ["Disable preserves all evidence and managed regions; enable is fail-closed until integrity and readiness checks pass."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Disable records evidence, sets disabled state, and preserves Runtime, Policy, Evidence, Archive, Update, and Uninstall capabilities.",
+    "Enable rechecks Runtime Integrity, Manifest, Project Profile, Policy, and Adoption Readiness before active state.",
+    "Repeated operations and failed enable checks are deterministic and fail closed without deleting CI managed regions.",
+    "Focused tests and lifecycle documentation describe state transitions and preservation."
+  ],
+  "guidelines": [
+    "New public APIs must be documented.",
+    "Do not import internal modules from other features."
+  ],
+  "intent": {
+    "problem": "Temporary suspension must not become an untracked uninstall or remove evidence and managed CI policy.",
+    "constraints": ["Disable is state/evidence only; it never deletes Runtime, Policy, Archive, or managed regions.", "Enable requires every integrity and readiness signal to pass.", "Repeated disable/enable operations are idempotent and fail closed."],
+    "rationale": "Explicit state transitions keep temporary suspension reversible and auditable."
+  },
+  "rawUserRequest": "走完当前文档的流程；按计划逐个工单执行完整生命周期，包括 PR、合并、清理分支，直到全部工单完成。用户已授权所需确认范围。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-lifecycle-execution", "capturedAt": "2026-07-22T00:00:00+09:00", "digest": "sha256:user-authorized-serial-lifecycle-execution"},
+  "declaredIntent": {"summary": "Implement disable and enable lifecycle state transitions with evidence preservation and readiness gating.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Disable preserves runtime, evidence, policy, archive, and managed regions.", "required": true, "status": "verified", "evidence": ["tests/test_disable_enable.py"], "reason": "Focused preservation test."},
+    {"scenario": "Enable fails closed when any readiness check fails.", "required": true, "status": "verified", "evidence": ["tests/test_disable_enable.py"], "reason": "Focused negative test."},
+    {"scenario": "Enable restores active state only after all checks pass.", "required": true, "status": "verified", "evidence": ["tests/test_disable_enable.py"], "reason": "Focused transition test."},
+    {"scenario": "Repeated operations are idempotent.", "required": true, "status": "verified", "evidence": ["tests/test_disable_enable.py"], "reason": "Focused repeated-operation test."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete serial remediation plan, including governance policy changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/installed-lifecycle-disable-enable.json",
+    "baseCommit": "b24ca1530b108a256811b179a718083d19f80727",
+    "initialScopeDigest": "b252f73be4568a5710cd8a83aef120df69c7465db73950c3c42f02032b4ca8bf",
+    "contractSkeletonDigest": "dd5e30904582e3b4aacf8ff11c4159314414aa17e59de27e8a7090db53f11351"
+  }
+}

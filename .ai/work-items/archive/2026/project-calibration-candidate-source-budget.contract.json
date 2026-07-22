@@ -1,0 +1,152 @@
+{
+  "contractVersion": 2,
+  "workItemId": "project-calibration-candidate-source-budget",
+  "mode": "code",
+  "title": "Calibrate Python complexity budget for candidate source lifecycle",
+  "baseCommit": "ffdb4e23b451458ec5db726857bbd981343e531a",
+  "baselineDirtyPaths": [],
+  "rawUserRequest": "按用户授权创建独立预算修复 Work Item/PR，提升 governance complexity 的 Python 行上限以覆盖当前已验证的工单 2 代码规模，然后继续工单 2；不启动工单 1 之后的其他工单。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-independent-budget-repair", "capturedAt": "2026-07-22", "digest": "sha256:user-authorized-independent-budget-repair"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "将已验证的 Python complexity budget 从 35784 校准到足以覆盖当前 35798 行，同时记录用户授权的 repayment record。", "requestedCapabilities": ["ai_governance", "software_design", "documentation"]},
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/project-calibration-candidate-source-budget.contract.json",
+    ".ai/work-items/active/project-calibration-candidate-source-budget.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Candidate source lifecycle behavior and release workflow changes", "工单 2 之外的功能实现", "任何真实发布、Tag 或证据删除"],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Policy currently rejects the measured 35798 Python lines against max 35784."
+    },
+    {"path": "tests/test_governance_complexity.py", "reason": "Executable budget and repayment validation tests."},
+    {"path": "docs/reference/governance-complexity.md", "reason": "Documented Work Item and repayment requirements for threshold changes."},
+    {"path": "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md", "reason": "Serial execution plan and explicit budget repair authorization context."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "budget_calibration"
+    ],
+    "reason": "The measured current Python line count and the policy maximum are known; the change is limited to one policy value and its repayment record."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized an independent budget repair Work Item/PR."
+  },
+  "preReviewWarnings": ["Confirm the new maximum is the smallest bounded increase that covers the measured line count and has a repayment record."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "governance_complexity_policy.yaml raises max.pythonLines from 35784 to 35800.",
+    "The policy contains a repayment record naming the prior limit, new limit, user authority, date, and concrete repayment plan.",
+    "Governance complexity tests pass with the calibrated policy and no unrelated files change."
+  ],
+  "guidelines": ["Keep threshold changes bounded and backed by a repayment record.", "Do not change implementation or historical evidence outside the declared policy scope."],
+  "intent": {
+    "problem": "The full quality run measured 35798 Python lines while the current policy maximum is 35784, causing governance complexity tests to fail before Work Item 2 can be archived.",
+    "constraints": ["Change only the governance complexity policy and its auditable repayment record.", "Use the smallest bounded increase that covers the measured line count.", "Do not start another plan Work Item."],
+    "rationale": "A separate calibrated budget PR preserves one-Work-Item/one-PR ownership and makes the budget exception reviewable."
+  },
+  "scenarioCoverage": [
+    {"scenario": "measured Python line count is within the calibrated limit", "riskDomain": "budget_enforcement", "status": "verified", "required": true, "evidence": ["make check-governance-complexity"]},
+    {"scenario": "repayment metadata is complete and attributable", "riskDomain": "auditability", "status": "verified", "required": true, "evidence": [".ai/guards/governance_complexity_policy.yaml::repaymentRecords"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized an independent budget repair Work Item/PR."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/project-calibration-candidate-source-budget.json",
+    "baseCommit": "ffdb4e23b451458ec5db726857bbd981343e531a",
+    "initialScopeDigest": "7e6beafa346a363580169433487311ccabc8bf574d91d30be4ef5127638e7dc7",
+    "contractSkeletonDigest": "1e1b37cfbc5f9caeedb761c5159aa6a9e09fcd8b18dd6e5f6f0ba54226b92d78"
+  }
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 from pathlib import Path
 from ai_common import parse_yaml
+from ai_calibration_inventory import build_inventory
 
 
 def readiness_evidence(root: Path) -> dict[str, Any]:
@@ -24,6 +25,10 @@ def readiness_evidence(root: Path) -> dict[str, Any]:
         },
         "unknowns": {"status": "unknown"},
     }
+    # The compatibility fields below remain for existing callers, while the
+    # shared Inventory is the authoritative source for cross-consumer status.
+    inventory = build_inventory(root)
+    evidence["inventory"] = inventory
     if policy.is_file():
         try:
             raw = parse_yaml(policy)
@@ -40,7 +45,13 @@ def readiness_state(root: Path) -> dict[str, Any]:
     installed = (root / ".ai" / "cockpit" / "version.json").is_file()
     profile = root / ".ai" / "project_profile.yaml"
     guards = root / ".ai" / "guards" / "coverage_policy.yaml"
-    calibrated = installed and profile.is_file() and guards.is_file()
+    inventory = build_inventory(root)
+    items = inventory["items"]
+    calibrated = (
+        installed
+        and items["profile"]["status"] == "complete"
+        and items["guards"]["status"] not in {"incomplete", "unknown"}
+    )
     ci = (root / ".github" / "workflows").is_dir() or (root / ".gitlab-ci.yml").is_file()
     review = (root / ".ai" / "guards" / "ai_review_policy.yaml").is_file()
     production_ready = calibrated and ci and review
@@ -56,6 +67,7 @@ def readiness_state(root: Path) -> dict[str, Any]:
         "calibrationComplete": calibrated,
         "productionReady": production_ready,
         "readinessEvidence": readiness_evidence(root),
+        "calibrationInventory": inventory,
         "evidence": {
             "profile": profile.is_file(),
             "guards": guards.is_file(),

@@ -101,7 +101,8 @@ def readiness_failures(root: Path) -> list[str]:
         )
 
     aggregated_evidence = readiness_evidence(root)
-    if aggregated_evidence["complexityPolicy"].get("status") != "confirmed" and role != "template":
+    inventory = aggregated_evidence["inventory"]
+    if inventory["items"]["complexity"]["status"] != "complete" and role != "template":
         failures.append(
             "confirm governance complexity policy after proposal review; missing or unconfirmed policy is not readiness"
         )
@@ -119,9 +120,10 @@ def readiness_failures(root: Path) -> list[str]:
         elif any(command in TRIVIAL_COMMANDS for command in commands.values()):
             failures.append("replace trivial no-op project quality commands such as true or :")
 
-    coverage = root / ".ai" / "guards" / "coverage_policy.yaml"
-    coverage_text = coverage.read_text(encoding="utf-8") if coverage.is_file() else ""
-    if not re.search(r"^adoptionReviewed:\s*true\s*$", coverage_text, re.MULTILINE):
+    if (
+        inventory["items"]["coverage"]["status"] != "warning"
+        and inventory["items"]["coverage"]["status"] != "complete"
+    ):
         failures.append(
             "review production/test paths in .ai/guards/coverage_policy.yaml and set adoptionReviewed: true"
         )

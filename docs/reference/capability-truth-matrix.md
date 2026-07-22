@@ -25,6 +25,6 @@ AI Cockpit is a Repository Governance Layer. It is not an Agent Runtime, Workflo
 
 Documentation may claim a capability as current only when the corresponding matrix row is `implemented` or `adopter_installed` and its evidence paths are independently verifiable. `template_only` describes available template material, not a completed target-repository result. `planned` rows must remain visibly future work until their dedicated Work Item supplies commands, tests, and evidence.
 
-The matrix deliberately records the current gap around Bootstrap lifecycle, Ownership Manifest, verified Quick Install archive digests, and independent CI/Release Evidence. Ten-stage calibration and Candidate activation are now implemented by the current serial Work Item; the remaining gaps are addressed by later Work Items in the [Conditional GO remediation plan](../superpowers/plans/2026-07-22-conditional-go-review-remediation.md).
+The matrix deliberately records the current gap around Bootstrap lifecycle, Ownership Manifest, verified Quick Install archive digests, and independent CI/Release Evidence. Ten-stage calibration, Candidate activation, and the shared [Calibration Inventory](calibration-inventory.md) are implemented; the remaining gaps are addressed by later Work Items in the [Conditional GO remediation plan](../superpowers/plans/2026-07-22-conditional-go-review-remediation.md).
 
 For exact row-level evidence, status vocabulary, and missing-evidence reasons, use the JSON source rather than inferring status from prose.

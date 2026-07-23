@@ -75,6 +75,8 @@ def validate_release_preflight(
     *,
     release: dict[str, Any],
     freeze: dict[str, Any],
+    release_digests: dict[str, Any] | None = None,
+    source_commit: str | None = None,
     actual_archive_sha: str,
     source_tree: str,
     active_work_items: list[str],
@@ -109,6 +111,9 @@ def validate_release_preflight(
     declared = release.get("releaseArchive", {}).get("sha256")
     if declared != actual_archive_sha:
         issues.append("release.json releaseArchive.sha256 does not match regenerated archive")
+    if release_digests is not None and source_commit is not None:
+        if release_digests.get("sourceCommit") != source_commit:
+            issues.append("release-digests sourceCommit does not match candidate source commit")
     return issues
 
 
@@ -120,6 +125,9 @@ def main() -> int:
     root = args.root.resolve()
     release = _load_object(root / "release.json", "release.json")
     freeze = _load_object(root / ".ai" / "cockpit" / "release-freeze.json", "release-freeze.json")
+    release_digests = _load_object(
+        root / ".ai" / "cockpit" / "release-digests.json", "release-digests.json"
+    )
     source_commit = args.source_commit
     actual = canonical_archive_sha(root, source_commit)
     source_tree = canonical_source_tree(root, source_commit)
@@ -137,6 +145,8 @@ def main() -> int:
     issues = validate_release_preflight(
         release=release,
         freeze=freeze,
+        release_digests=release_digests,
+        source_commit=source_commit,
         actual_archive_sha=actual,
         source_tree=source_tree,
         active_work_items=active,

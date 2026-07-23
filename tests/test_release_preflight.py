@@ -15,6 +15,8 @@ from scripts.check_release_preflight import validate_release_preflight
 def _fixture(**overrides):
     values = {
         "release": {"releaseArchive": {"sha256": "abc"}},
+        "release_digests": {"sourceCommit": "HEAD"},
+        "source_commit": "HEAD",
         "freeze": {
             "state": "frozen",
             "sourceTree": "tree",
@@ -65,6 +67,15 @@ def test_release_preflight_blocks_freeze_created_before_close():
     del freeze["lifecycle"]
     issues = validate_release_preflight(**_fixture(freeze=freeze))
     assert any("generated after ai-close-work-item" in issue for issue in issues)
+
+
+def test_release_preflight_blocks_stale_digest_source_commit():
+    issues = validate_release_preflight(**_fixture(release_digests={"sourceCommit": "old"}))
+    assert any("release-digests sourceCommit" in issue for issue in issues)
+
+
+def test_release_preflight_accepts_matching_digest_source_commit():
+    assert validate_release_preflight(**_fixture(release_digests={"sourceCommit": "HEAD"})) == []
 
 
 def test_canonical_archive_builder_returns_sha256_for_repository():
@@ -163,6 +174,9 @@ def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
         '"command":"make ai-close-work-item","baseCommit":"tree",'
         '"worktreeClean":true}}',
         encoding="utf-8",
+    )
+    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
+        '{"sourceCommit":"HEAD"}', encoding="utf-8"
     )
     (tmp_path / ".ai" / "guards" / "governance_complexity_policy.yaml").write_text(
         "archiveGrowth: 10\n", encoding="utf-8"

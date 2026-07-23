@@ -1,0 +1,135 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_freeze_source_consistency",
+  "mode": "code",
+  "title": "release freeze source consistency",
+  "baseCommit": "c974bb20a8d505e99aac9ef1a8b855680e3aadc9",
+  "baselineDirtyPaths": [],
+  "scope": ["scripts/check_release_preflight.py", "tests/test_release_preflight.py", ".ai/guards/governance_complexity_policy.yaml", "release.json", ".ai/cockpit/release-freeze.json", ".ai/cockpit/release-digests.json", ".ai/work-items/active/release_freeze_source_consistency.contract.json", ".ai/work-items/active/release_freeze_source_consistency.summary.json", ".ai/cockpit/current_status.md", ".ai/work-items/starts/**", ".ai/work-items/archive/**"],
+  "outOfScope": ["publishing, tagging, and provider release operations", "adopter project files and installation outputs", "unrelated source code, CI, or feature changes"],
+  "sources": [
+    {"path": "scripts/check_release_preflight.py", "reason": "Release preflight implementation and stale-source gate."},
+    {"path": "tests/test_release_preflight.py", "reason": "Regression coverage for sourceCommit binding."},
+    {"path": ".ai/work-items/archive/2026/release_metadata_rebind_v6.archive-manifest.json", "reason": "Predecessor closure and the stale candidate boundary."},
+    {"path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md", "reason": "Release sequencing and no-publication-before-closure requirement."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_metadata_integrity"],
+    "reason": "Fail closed when release digest sourceCommit is stale relative to the candidate source commit." 
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause release-process correction before publication."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["Release preflight rejects a release-digests sourceCommit that differs from the candidate source commit.", "Regression tests cover stale and matching sourceCommit cases while preserving existing archive/freeze checks.", "The corrected metadata is regenerated after this Work Item closes and the full Contract/Preflight/PR/merge/ai-close-work-item evidence is recorded."],
+  "guidelines": ["Fail closed on stale source identity; do not weaken existing freeze or archive checks.", "Do not publish or tag from this Work Item."],
+  "intent": {
+    "problem": "Release preflight did not validate release-digests.sourceCommit against the current candidate source commit, allowing a stale post-close freeze candidate to pass.",
+    "constraints": ["This is the template repository, not an adopter project.", "Do not publish or tag until this corrective Work Item is closed.", "Keep the correction bounded to release preflight, tests, policy evidence, and canonical release metadata."],
+    "rationale": "Make source freshness an executable preflight invariant so stale finalizer output cannot reach publication."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User authorized root-cause process corrections and the subsequent release publication sequence."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {"expectedMetrics": {"archiveGrowth": 498, "pythonLines": 39348}},
+  "scenarioCoverage": [{"scenario": "stale digest sourceCommit is rejected", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]}, {"scenario": "matching digest sourceCommit is accepted", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]}],
+  "rawUserRequest": "发布前发现冻结源提交过期；停止发布，先从根本上修正 release preflight 流程并完成完整工单生命周期。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:release-freeze-source-staleness", "capturedAt": "2026-07-23", "digest": "sha256:user-authorized-source-identity-gate"},
+  "declaredIntent": {"summary": "Fail closed on stale release metadata source identity before publication.", "requestedCapabilities": ["ai_governance", "software_design"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "predecessorWorkItem": {"workItemId": "release_metadata_rebind_v6", "status": "closed", "pr": {"number": 285, "merged": true, "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/285", "mergeCommit": "c974bb20a8d505e99aac9ef1a8b855680e3aadc9"}, "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": ".ai/work-items/archive/2026/release_metadata_rebind_v6.archive-manifest.json"}},
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_freeze_source_consistency.json",
+    "baseCommit": "c974bb20a8d505e99aac9ef1a8b855680e3aadc9",
+    "initialScopeDigest": "d0a84d7b38e96ffb1f9d492a712e635e42a02e9e073a8c05950be534e2519965",
+    "contractSkeletonDigest": "d338c5e0094cf747e520babe9579dd322899fba262ebfe57e5ab4ea89675698e"
+  }
+}

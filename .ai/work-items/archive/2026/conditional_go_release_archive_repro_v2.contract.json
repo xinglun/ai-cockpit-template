@@ -1,0 +1,192 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_release_archive_repro_v2",
+  "mode": "code",
+  "title": "Make release archive compression deterministic across platforms",
+  "baseCommit": "9c197398663d5fb88379f7d3781328ad7d348849",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_release_archive_repro_v2.contract.json",
+    ".ai/work-items/active/conditional_go_release_archive_repro_v2.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".github/workflows/release.yml",
+    "tests/test_release_archive_contract.sh",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Plan Work Item 4 requires deterministic, source-bound release archive verification."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "The release workflow is the authoritative provider-side archive producer."
+    },
+    {
+      "path": "tests/test_release_archive_contract.sh",
+      "reason": "The regression contract verifies the archive bytes and declared release digest."
+    },
+    {
+      "path": "gh pr 267",
+      "reason": "The superseded PR demonstrated that the prior branch was stale and its CI failed across Python platforms."
+    }
+  ],
+  "rawUserRequest": "完成 Conditional GO 计划中的跨平台 release archive 修复；必须从最新 origin/main 开始，修复 workflow 与回归契约的 gzip 字节一致性，并完成完整 PR/合并/关闭/清理生命周期。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-23-continue-full-plan",
+    "capturedAt": "2026-07-23T15:00:00+09:00",
+    "digest": "conditional-go-release-archive-repro-v2"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Make release archive compression byte-for-byte deterministic across supported runners and preserve source-bound release evidence.",
+    "capabilities": ["ai_governance", "documentation", "test_automation"],
+    "requestedCapabilities": ["ai_governance", "documentation", "test_automation"],
+    "operationClass": "release_evidence_reproducibility"
+  },
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "The change is limited to deterministic archive generation and its regression contract; no runtime or user data behavior changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorization in the execution plan covers workflow, test, PR, merge, and lifecycle cleanup changes."
+  },
+  "preReviewWarnings": [
+    "Confirm the workflow and shell regression use the same deterministic gzip stream on every supported runner."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The release workflow produces the canonical archive with explicit GzipFile mode, level 9, mtime 0, and the same tar source identity used by the preflight builder.",
+    "The release archive regression contract uses the same deterministic encoding and fails when the declared release digest differs.",
+    "The Work Item is based on the current origin/main and completes the full PR, merge, archive, close, branch cleanup, and base synchronization lifecycle."
+  ],
+  "guidelines": [
+    "Keep provider-side release archive generation byte-for-byte aligned with the repository canonical archive builder.",
+    "Do not change release metadata or create a freeze marker in this repair Work Item."
+  ],
+  "intent": {
+    "problem": "The previous cross-platform archive PR was based on a stale pre-hardening branch and used an implementation that failed the supported Python runner matrix; the release workflow and shell contract must use one deterministic gzip byte stream.",
+    "constraints": [
+      "Start from the exact latest origin/main commit.",
+      "Preserve the merged release-preflight and Work Item ownership hardening.",
+      "Do not bind final release metadata or freeze evidence before all Work Items are complete."
+    ],
+    "rationale": "A source-bound release cannot be published until the same canonical archive bytes are reproducible on all supported runners and the regression contract proves the declared digest."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Linux and macOS supported Python runners produce the declared archive digest", "required": true, "riskDomain": "release_reproducibility", "status": "verified", "evidence": ["tests/test_release_archive_contract.sh", "CI compatibility matrix"]},
+    {"scenario": "A stale or mismatched archive digest fails closed", "required": true, "riskDomain": "release_integrity", "status": "verified", "evidence": ["tests/test_release_archive_contract.sh"]},
+    {"scenario": "PR is based directly on latest origin/main and contains one Work Item", "required": true, "riskDomain": "work_item_ownership", "status": "verified", "evidence": ["make check-ai-pr AI_BASE_COMMIT=<origin/main>"]}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The execution plan explicitly authorizes workflow, test, PR, merge, and lifecycle changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_release_archive_repro_v2.json",
+    "baseCommit": "9c197398663d5fb88379f7d3781328ad7d348849",
+    "initialScopeDigest": "3ebb1605d20d0e2d31680d4575036700776b8142661904f98fe3118a5ae29402",
+    "contractSkeletonDigest": "da26d12dca70ee4b853fca74c4f497b7183745b74557e1515d33a8449e82c626"
+  }
+}

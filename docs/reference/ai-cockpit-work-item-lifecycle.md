@@ -47,18 +47,33 @@ The PR must contain exactly one newly maintained Work Item and must be based on 
 latest remote default branch; a branch derived from another unmerged Work Item is
 invalid even when its tests pass.
 
-Before release evidence is generated, run `make check-release-preflight`. It fails
-closed when any active Work Item remains, the archive budget is exceeded, the
-release-freeze marker is absent or not source-bound, or the regenerated archive
-digest differs from `release.json`. Create `.ai/cockpit/release-freeze.json` only
-after all Work Items have been archived, merged, closed, and the default branch has
-been synchronized. The marker is `export-ignore` and must contain:
+When CI or PR checks block a change, pause before retrying. Perform a process-root-
+cause review for missing preflight gates, wrong ordering, late formatter or budget
+checks, template/adopter boundary errors, and source-bound evidence design. If the
+failure is preventable in the workflow, open and complete a corrective Work Item
+that adds an executable fail-closed gate before resuming the original operation.
+
+Before release evidence is generated, first run `make finalize-release-freeze` on
+the clean local default branch after the merged Work Item has completed
+`make ai-close-work-item` and the local base equals the remote base. This command
+is the only supported freeze writer: it refuses active Work Items, a dirty
+worktree, a non-default branch, or a stale base. It records the closure command,
+clean-worktree proof, and synchronized base identity in the export-ignored marker.
+Then run `make check-release-preflight`; it fails closed when that post-close
+lifecycle evidence is absent or inconsistent, the archive budget is exceeded,
+or the regenerated archive digest differs from `release.json`.
 
 ```json
 {
   "state": "frozen",
   "sourceTree": "<exact-default-branch-tree-sha>",
-  "archiveSha256": "<regenerated-canonical-archive-sha256>"
+  "archiveSha256": "<regenerated-canonical-archive-sha256>",
+  "lifecycle": {
+    "state": "closed_and_synchronized",
+    "command": "make ai-close-work-item",
+    "baseCommit": "<exact-default-branch-tree-sha>",
+    "worktreeClean": true
+  }
 }
 ```
 

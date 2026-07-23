@@ -137,6 +137,9 @@ check-release-state-consistency:
 check-release-preflight:
 	$(AI_PYTHON) scripts/check_release_preflight.py --root .
 
+finalize-release-freeze:
+	$(AI_PYTHON) scripts/finalize_release_freeze.py
+
 check-ci-release-evidence:
 	test -n "$(CI_RELEASE_EVIDENCE)"
 	bash scripts/check_ci_release_evidence.sh "$(CI_RELEASE_EVIDENCE)" "$(CI_EXPECTED_HEAD_SHA)"

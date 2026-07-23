@@ -1,7 +1,10 @@
+import json
 from pathlib import Path
+from types import SimpleNamespace
 import pytest
 
 import scripts.check_release_preflight as preflight
+import scripts.finalize_release_freeze as finalizer
 from scripts.check_release_preflight import ReleasePreflightError
 from scripts.check_release_preflight import _load_object
 from scripts.check_release_preflight import canonical_archive_sha
@@ -11,7 +14,17 @@ from scripts.check_release_preflight import validate_release_preflight
 def _fixture(**overrides):
     values = {
         "release": {"releaseArchive": {"sha256": "abc"}},
-        "freeze": {"state": "frozen", "sourceTree": "tree", "archiveSha256": "abc"},
+        "freeze": {
+            "state": "frozen",
+            "sourceTree": "tree",
+            "archiveSha256": "abc",
+            "lifecycle": {
+                "state": "closed_and_synchronized",
+                "command": "make ai-close-work-item",
+                "baseCommit": "tree",
+                "worktreeClean": True,
+            },
+        },
         "actual_archive_sha": "abc",
         "source_tree": "tree",
         "active_work_items": [],
@@ -46,6 +59,13 @@ def test_release_preflight_blocks_source_tree_mismatch():
     assert any("sourceTree" in issue for issue in issues)
 
 
+def test_release_preflight_blocks_freeze_created_before_close():
+    freeze = _fixture()["freeze"]
+    del freeze["lifecycle"]
+    issues = validate_release_preflight(**_fixture(freeze=freeze))
+    assert any("generated after ai-close-work-item" in issue for issue in issues)
+
+
 def test_canonical_archive_builder_returns_sha256_for_repository():
     digest = canonical_archive_sha(Path.cwd(), "HEAD")
     assert len(digest) == 64
@@ -72,6 +92,51 @@ def test_load_object_rejects_malformed_json(tmp_path):
         _load_object(path, "fixture")
 
 
+def test_finalize_release_freeze_requires_clean_synchronized_default_branch(monkeypatch, tmp_path):
+    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(finalizer, "discover_remote_default_candidates", lambda _run: [])
+    assert finalizer.main() == 1
+
+
+def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatch, tmp_path):
+    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
+    (tmp_path / ".ai" / "work-items" / "active").mkdir(parents=True)
+    (tmp_path / ".ai" / "cockpit" / "current_status.md").write_text(
+        "- State: `no_active_work_item`\n", encoding="utf-8"
+    )
+    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
+        '{"state":"candidate"}\n', encoding="utf-8"
+    )
+    (tmp_path / "release.json").write_text(
+        '{"releaseArchive":{"sha256":"old"}}\n', encoding="utf-8"
+    )
+    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(
+        finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
+    )
+
+    def fake_git(args):
+        outputs = {
+            ("branch", "--show-current"): "main\n",
+            ("status", "--porcelain", "--untracked-files=all"): "",
+            ("rev-parse", "HEAD"): "commit\n",
+            ("rev-parse", "origin/main"): "commit\n",
+        }
+        return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
+
+    monkeypatch.setattr(finalizer, "run_git", fake_git)
+    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
+    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
+
+    assert finalizer.main() == 0
+    freeze = json.loads((tmp_path / ".ai" / "cockpit" / "release-freeze.json").read_text())
+    assert freeze["lifecycle"]["state"] == "closed_and_synchronized"
+    assert freeze["lifecycle"]["command"] == "make ai-close-work-item"
+    assert (
+        json.loads((tmp_path / "release.json").read_text())["releaseArchive"]["sha256"] == "archive"
+    )
+
+
 def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
     (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
     (tmp_path / ".ai" / "guards").mkdir(parents=True)
@@ -79,7 +144,10 @@ def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
     (tmp_path / ".ai" / "work-items" / "archive").mkdir(parents=True)
     (tmp_path / "release.json").write_text('{"releaseArchive":{"sha256":"abc"}}', encoding="utf-8")
     (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
-        '{"state":"frozen","sourceTree":"tree","archiveSha256":"abc"}',
+        '{"state":"frozen","sourceTree":"tree","archiveSha256":"abc",'
+        '"lifecycle":{"state":"closed_and_synchronized",'
+        '"command":"make ai-close-work-item","baseCommit":"tree",'
+        '"worktreeClean":true}}',
         encoding="utf-8",
     )
     (tmp_path / ".ai" / "guards" / "governance_complexity_policy.yaml").write_text(

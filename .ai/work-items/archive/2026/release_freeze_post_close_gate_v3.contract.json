@@ -1,0 +1,192 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_freeze_post_close_gate_v3",
+  "mode": "code",
+  "title": "release freeze post close gate v3",
+  "baseCommit": "6c8c1fac5761f6f99f5fd08c09dbb5a4e00dcb18",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_freeze_post_close_gate_v3.contract.json",
+    ".ai/work-items/active/release_freeze_post_close_gate_v3.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".gitattributes",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_release_preflight.py",
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    "Makefile",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md"
+  ],
+  "outOfScope": [
+    "Any adopter project or installed runtime repository",
+    "Starting or reordering planned Work Items",
+    "Application behavior and enterprise security/compliance claims",
+    "Deleting prior immutable evidence"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/release_freeze_post_close_gate_v3.contract.json",
+      "reason": "Corrective release-freeze timing Contract for the template repository."
+    },
+    {
+      "path": ".gitattributes",
+      "reason": "Excludes audit-only archive and generated no-active status from installable source identity."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Reserves one corrective archive record, 485 to 486."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Rejects release candidates without generated post-close lifecycle evidence."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Generates the final freeze only from a clean, synchronized default branch with no active Work Items."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "Documents the executable post-close freeze command and fail-closed order."
+    }
+  ],
+  "rawUserRequest": "总结本次发布流程问题并改进，确保合并后执行 ai-close-work-item、同步默认分支，再进行最终冻结和发布；只修改模板工程，不启动或跳过计划内工单。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:2026-07-23-release-process-improvement", "capturedAt": "2026-07-23T17:00:00+09:00", "digest": "release-freeze-post-close-gate-v3"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Make release source identity stable across Work Item closure by excluding audit-only files and enforce post-close finalization order.", "capabilities": ["ai_governance", "documentation"], "requestedCapabilities": ["ai_governance", "documentation"], "operationClass": "release_freeze_timing_hardening"},
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "The fix is limited to release archive identity and governance budget; adopter/runtime paths are excluded."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the complete corrective release workflow and template-only process hardening."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Archive and closure evidence changes after merge", "required": true, "riskDomain": "release_integrity", "status": "verified", "evidence": ["scripts/check_release_preflight.py", "make ai-close-work-item"]},
+    {"scenario": "Audit-only files are excluded without touching adopter projects", "required": true, "riskDomain": "template_adopter_boundary", "status": "verified", "evidence": [".gitattributes", "contract.outOfScope"]},
+    {"scenario": "Archive budget is reserved before the corrective archive", "required": true, "riskDomain": "governance_budget", "status": "verified", "evidence": [".ai/guards/governance_complexity_policy.yaml"]}
+  ],
+  "preReviewWarnings": [
+    "Verify export-ignore semantics, final post-close source identity, archive budget, and template/adopter boundary."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Audit-only archive and generated no-active status files are excluded from normalized installable source identity.",
+    "The post-close final tree produces a stable deterministic archive digest and matches release freeze metadata.",
+    "Archive budget is explicitly reserved from 485 to 486 and all lifecycle evidence remains owned.",
+    "Final freeze metadata is generated only by the post-close finalizer from a clean synchronized default branch; direct or pre-close freeze data is rejected.",
+    "CI/PR blocks are first classified for a process-root cause; preventable workflow failures are stopped and converted into executable fail-closed gates before retry.",
+    "PR, merge, ai-close-work-item, branch cleanup, default-branch sync, and final release verification complete successfully."
+  ],
+  "guidelines": [
+    "Keep template release evidence separate from adopter runtime state.",
+    "Freeze release metadata only after Work Item closure and default-branch synchronization."
+  ],
+  "intent": {
+    "problem": "The merged default branch changed twice after the freeze: first from archive evidence and again from ai-close-work-item closure evidence. Those audit-only files must not invalidate installable source identity.",
+    "constraints": ["Only template repository paths are in scope.", "This is a corrective Work Item outside planned order.", "Complete merge, closure, sync, then release verification.", "Reserve exactly one archive record before finish."],
+    "rationale": "Export-ignore makes the source identity represent the installable template payload while preserving audit evidence in Git history."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized template process improvement, governance/release changes, PR, merge, closure, and publication confirmation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_freeze_post_close_gate_v3.json",
+    "baseCommit": "6c8c1fac5761f6f99f5fd08c09dbb5a4e00dcb18",
+    "initialScopeDigest": "773d6d977903e3cc20c64f76541ae499e4f9a36870ee79d705dd86fa5f48c088",
+    "contractSkeletonDigest": "1094034c292e206148e463a46fbbc6f307f4fc69d9ab52e4b3f170c50cb2965e"
+  }
+}

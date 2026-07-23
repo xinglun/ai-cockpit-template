@@ -88,6 +88,20 @@ def validate_release_preflight(
         issues.append(f"archiveGrowth={archive_count} exceeds configured maximum {archive_max}")
     if freeze.get("state") != "frozen":
         issues.append("release-freeze.json state must be frozen")
+    lifecycle = freeze.get("lifecycle")
+    if not isinstance(lifecycle, dict) or lifecycle.get("state") != "closed_and_synchronized":
+        issues.append(
+            "release freeze lifecycle must be generated after ai-close-work-item and base synchronization"
+        )
+    else:
+        if lifecycle.get("command") != "make ai-close-work-item":
+            issues.append("release freeze lifecycle command must be make ai-close-work-item")
+        if lifecycle.get("baseCommit") != source_tree:
+            issues.append(
+                "release freeze lifecycle baseCommit must match candidate source identity"
+            )
+        if lifecycle.get("worktreeClean") is not True:
+            issues.append("release freeze lifecycle must record a clean worktree")
     if freeze.get("sourceTree") != source_tree:
         issues.append("release freeze sourceTree does not match candidate source tree")
     if freeze.get("archiveSha256") != actual_archive_sha:

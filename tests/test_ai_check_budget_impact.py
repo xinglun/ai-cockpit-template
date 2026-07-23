@@ -40,3 +40,12 @@ def test_declared_budget_projection_is_checked_before_implementation():
         {"max": {"pythonLines": 100}},
     )
     assert "pythonLines exceeds policy max" in issues[0]
+
+
+def test_string_valued_policy_limit_is_checked_before_implementation():
+    issues = ai_check_budget_impact.validate_budget_impact(
+        {"budgetImpact": {"expectedMetrics": {"archiveGrowth": 493}, "approved": False}},
+        {},
+        {"max": {"archiveGrowth": "492"}},
+    )
+    assert "archiveGrowth exceeds policy max" in issues[0]

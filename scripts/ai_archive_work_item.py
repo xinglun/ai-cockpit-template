@@ -21,6 +21,7 @@ from ai_common import (
     clean_git_environment,
     load_json,
     non_empty_string,
+    numeric_value,
     path_fingerprint,
     parse_yaml,
     redact_machine_paths_in_data,
@@ -152,7 +153,7 @@ def validate_archive_growth_reservation(
     """Fail closed before archive mutation unless projected growth is reserved."""
     projected = current_count + 1
     limits = policy.get("max", {}) if isinstance(policy, dict) else {}
-    limit = limits.get("archiveGrowth")
+    limit = numeric_value(limits.get("archiveGrowth"))
     impact = contract.get("budgetImpact")
     expected_metrics = impact.get("expectedMetrics") if isinstance(impact, dict) else None
     expected = expected_metrics.get("archiveGrowth") if isinstance(expected_metrics, dict) else None

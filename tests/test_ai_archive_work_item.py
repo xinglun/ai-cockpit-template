@@ -30,6 +30,20 @@ def test_archive_growth_reservation_accepts_projected_count_and_repayment():
     )
 
 
+def test_archive_growth_string_policy_limit_rejects_unapproved_overrun():
+    contract = {
+        "workItemId": "task",
+        "budgetImpact": {"expectedMetrics": {"archiveGrowth": 493}},
+    }
+    issues = ai_archive_work_item.validate_archive_growth_reservation(
+        contract, 492, {"max": {"archiveGrowth": "492"}}
+    )
+    assert any(
+        "projected archiveGrowth=493 exceeds configured maximum 492" in issue for issue in issues
+    )
+    assert any("requires budgetImpact.approved=true" in issue for issue in issues)
+
+
 def test_archive_growth_reservation_rejects_stale_projection():
     contract = {
         "workItemId": "task",

@@ -124,6 +124,22 @@ def test_lockfile_reproducibility_normalizes_nonsemantic_via_comments():
     assert "normalized/generated.lock" in result.stdout
 
 
+def test_lockfile_reproducibility_fails_when_compiler_fails(tmp_path):
+    failing_python = tmp_path / "failing-python"
+    failing_python.write_text("#!/bin/sh\nexit 17\n", encoding="utf-8")
+    failing_python.chmod(0o755)
+
+    result = subprocess.run(
+        ["make", "check-lockfile-reproducibility", f"PYTHON={failing_python}"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode != 0, result.stdout + result.stderr
+
+
 def test_make_prefers_project_venv_and_allows_explicit_python_override(tmp_path):
     clean_env = {
         key: value

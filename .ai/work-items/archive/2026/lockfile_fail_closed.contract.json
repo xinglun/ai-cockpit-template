@@ -1,0 +1,183 @@
+{
+  "contractVersion": 2,
+  "workItemId": "lockfile_fail_closed",
+  "mode": "code",
+  "title": "Make lockfile reproducibility fail closed on compiler errors",
+  "baseCommit": "6a5cd6d43aae4502566741911772e5d9afb9d4b0",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "Makefile",
+    "tests/test_makefile.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/lockfile_fail_closed.contract.json",
+    ".ai/work-items/active/lockfile_fail_closed.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Release publication, tags, provider assets, and adopter-project installation.",
+    "Unrelated release metadata or workflow behavior."
+  ],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "The lockfile reproducibility recipe currently can return success after a compiler failure."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Regression coverage must prove compiler failures propagate as non-zero."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository terminology and lifecycle boundaries."
+    },
+    {
+      "path": ".ai/work-items/archive/release_v0539_candidate_after_lockfile.summary.json",
+      "reason": "Predecessor Work Item closure and release-candidate evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["ci_gate_false_positive", "shell_error_propagation"],
+    "reason": "A false-positive reproducibility gate can permit invalid dependency state into review or release."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failure mode, scope, acceptance, and verification are deterministic."
+  },
+  "preReviewWarnings": [
+    "Verify that both shell failure propagation and the existing byte-for-byte lockfile comparison remain fail closed."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make check-lockfile-reproducibility exits non-zero when the lockfile compiler exits non-zero.",
+    "A regression test exercises the failing-compiler path without requiring piptools to be installed.",
+    "Successful compilation still requires the generated lockfile to match the committed lockfile byte-for-byte.",
+    "The Work Item Summary records the root cause, verification evidence, budget impact, and any environment limitation."
+  ],
+  "guidelines": [],
+  "intent": {
+    "problem": "The lockfile reproducibility Make target can report success when pip-compile fails because the subshell failure is not propagated to the recipe exit status. This is a process-level false positive discovered during final release preflight.",
+    "constraints": [
+      "Fix the shell error propagation at the Make target boundary.",
+      "Preserve the existing executable resolution and exact lockfile comparison behavior.",
+      "Do not publish or modify release metadata in this Work Item.",
+      "Do not create a budget-only Work Item; record the archive and source-line budget change here."
+    ],
+    "rationale": "A deterministic fail-closed gate prevents repeated CI and PR cycles caused by trusting a check that silently masks compiler errors."
+  },
+  "declaredIntent": {"requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "rawUserRequest": "When a release or CI process exposes a process problem, stop publication and fix the root workflow first. Budget and formatting must be hard preflight checks, and each Work Item must complete the full Contract/Preflight/PR/merge/ai-close-work-item lifecycle. Do not use a separate budget-only Work Item.",
+  "rawRequestSource": {"type": "human", "reference": "user-request:root-cause-first-release-process", "capturedAt": "2026-07-24", "digest": "sha256:root-cause-first-release-process"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "A lockfile compiler executable fails; the Make target must fail.", "required": false, "status": "unverified", "evidence": [], "reason": "Regression test for the discovered false-positive path."},
+    {"scenario": "Compilation succeeds but output differs; the Make target must fail.", "required": false, "status": "unverified", "evidence": [], "reason": "Preserve the existing comparison gate."},
+    {"scenario": "Compilation succeeds and output matches; the Make target must pass.", "required": false, "status": "unverified", "evidence": [], "reason": "Preserve the successful reproducibility path."}
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized root-cause process improvement before resuming release; the policy budget change is part of this functional Work Item, not a separate budget-only Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 508,
+      "pythonLines": 39549
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/lockfile_fail_closed.json",
+    "baseCommit": "6a5cd6d43aae4502566741911772e5d9afb9d4b0",
+    "initialScopeDigest": "73cdfd13b1039943f25176685af8e7022f21d2f41af6f8ec6f27ef6c54160e16",
+    "contractSkeletonDigest": "c138718a949ff9ef46c084c9d142e5b10ca6941e3523cad7126ce13f722836ef"
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "capability_truth_matrix",
+  "contractPath": ".ai/work-items/archive/2026/capability_truth_matrix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/capability_truth_matrix.contract.json",
+      "reason": "Defined the evidence-backed documentation boundary, scope, risk, budget reservation, and complete lifecycle acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capability_truth_matrix.summary.json",
+      "reason": "Records implementation evidence and final verification for this Work Item."
+    },
+    {
+      "path": "docs/reference/capability-truth-matrix.json",
+      "reason": "Maintains the unique machine-readable capability status and evidence source."
+    },
+    {
+      "path": "docs/reference/capability-truth-matrix.md",
+      "reason": "Documents status vocabulary and template/adopter evidence boundaries."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Adds a regression gate for stale capability claims that contradict the matrix."
+    },
+    {
+      "path": "tests/test_capability_truth_matrix.py",
+      "reason": "Verifies capability statuses and the documentation claim gate."
+    },
+    {
+      "path": "README.md",
+      "reason": "Aligns English overview claims with implemented Runtime versus adopter-execution evidence."
+    },
+    {
+      "path": "README.ja.md",
+      "reason": "Aligns Japanese overview claims with the matrix."
+    },
+    {
+      "path": "README.zh-CN.md",
+      "reason": "Aligns Chinese overview claims with the matrix."
+    },
+    {
+      "path": "docs/getting-started/installation.ja.md",
+      "reason": "Aligns Japanese installation claims with executable calibration evidence."
+    },
+    {
+      "path": "docs/reference/upgrade.md",
+      "reason": "Distinguishes implemented Runtime activation from adopter readiness."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Keeps the bounded Markdown budget reservation tied to this functional documentation correction."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capability_truth_matrix.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capability_truth_matrix.contract.json",
+    ".ai/glossary.md",
+    "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+    "docs/reference/capability-truth-matrix.json",
+    "scripts/ai_calibrate.py",
+    "scripts/bootstrap_wizard.py",
+    "scripts/ai_ownership.py",
+    "templates/make/Makefile.ai",
+    "tests/test_capability_truth_matrix.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:27.868574+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "a5b5523c822135c96560dcfcad5b39cbce4a025206181622f3ba3be614af8bc8",
+      "commandHash": "9ec6348374f8fef2af741909d7bfbf39f9c4d4b426ad2c6d58e5b9d94992b154",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/capability_truth_matrix.contract.json work item contract check passed: .ai/work-items/active/capability_truth_matrix.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:28.077756+00:00",
+      "exitCode": 0,
+      "durationMs": 132,
+      "outputDigest": "57a20c9b9789aa5e2c031012ea94a1e4a3bbf3719be32853dff7ac117eec301d",
+      "commandHash": "81a1c04b6346deb44ae027be50ab710aa4a37d2ddac816a178c7486c8739822c",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/capability_truth_matrix.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:28.311159+00:00",
+      "exitCode": 0,
+      "durationMs": 144,
+      "outputDigest": "fed5d65b11cc55d763939c7f360b3989f5e444f845ee1c998f2a06e8f358eef6",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/capability_truth_matrix.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:28.690252+00:00",
+      "exitCode": 0,
+      "durationMs": 293,
+      "outputDigest": "6e6770e41f0027b24e776501d60b278ab39b1c20531049f7f53c8c19f167cf37",
+      "commandHash": "e36df980d0136f62412127ab99127f8c711dd236b73305c7082d434b695bd50f",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/capability_truth_matrix.contract.json --summary .ai/work-items/active/capability_truth_matrix.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `capability_truth_matrix` - Contract Hash: `3aa795e41b0b5aaf` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `6` - Unknown Count: `0` - Required Checks: `16` - Required C"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:28.898627+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "4d34dada3673c342cc6e13d3637ab93ccc787fa6377d28bdd200250dfe3b57a7",
+      "commandHash": "1701f6411bcd5f0cd2ce79c874e16ad04ad769376d433aae61ab44799d350f05",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/capability_truth_matrix.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/capability_truth_matrix.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:29.091024+00:00",
+      "exitCode": 0,
+      "durationMs": 116,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:29.276553+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:29.395331+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "c80e8c325b9059e1826fc6cee830d7b28bcea070e55e80feb6db68f1bffeb77e",
+      "commandHash": "e305f2a61fd618cc700536983b416cd73a361dc601de86a840042880ddea11b6",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/capability_truth_matrix.contract.json --summary .ai/work-items/active/capability_truth_matrix.summary.json [warning] missing_scenario_coverage: - scenario coverage is missing for medium/high risk report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:29.523813+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "5f962d1294907ec8460d9a00b7d9716c92e63cc824528f8d81b7270aa3455b8e",
+      "commandHash": "d382cc198c8895b2509cc7eaba080ecfcf00a0090bc893450a9f17294e9faa14",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/capability_truth_matrix.contract.json --summary .ai/work-items/active/capability_truth_matrix.summary.json guidelines compliance check passed: 4 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:46:29.870355+00:00",
+      "exitCode": 0,
+      "durationMs": 267,
+      "outputDigest": "f80a7f5058d0276209aaff0a85ac16e799ed992fbd1ac0c66457a34e638adcbe",
+      "commandHash": "b8ae00dc9fa8e3a2eb651eb9456863f590e44c2d01a3f1b6fda53871589d8f5a",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/capability_truth_matrix.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/starts/capability"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:50:33.215688+00:00",
+      "exitCode": 0,
+      "durationMs": 243262,
+      "outputDigest": "75eb0232c5749e66ff6200352797c8a89b057c23589403df240ac6e5832698a8",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "7b9c22fb6cadae1de2c56ab86f65244f6dc13c7282f75bb3a06b218b39e81632",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 23%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:50:34.924482+00:00",
+      "exitCode": 0,
+      "durationMs": 280,
+      "outputDigest": "22fca06f20e74b9a5ef4454e84d6293c022c31ca539d17a7b4dbbe56fe5d53b9",
+      "commandHash": "2d6e7124c225c4574f9737e97441f4680170146bf5c5f04a8abb1d145ec24c61",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "02956359e0da387e06f56506d72415c122d714359e19bfebc725d38a905f1702",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/capability_truth_matrix.contract.json --summary .ai/work-items/active/capability_truth_matrix.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:50:35.332306+00:00",
+      "exitCode": 0,
+      "durationMs": 293,
+      "outputDigest": "738c03556fefecf811834c7764d9e9744f5ae372be4c9b1b77757d37f599bda7",
+      "commandHash": "39212baf6420ed6f0ae86721368967c54200b1f12d7b4d73064906e318fcc295",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "02956359e0da387e06f56506d72415c122d714359e19bfebc725d38a905f1702",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/capability_truth_matrix.contract.json --summary .ai/work-items/active/capability_truth_matrix.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:50:35.457781+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "02956359e0da387e06f56506d72415c122d714359e19bfebc725d38a905f1702",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:50:35.601259+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "93c091a401c47e71e374895a5cc434e6cb21e519eefefc664e9a1da12cfb9af0",
+      "commandHash": "57cfd32b4152db2b365dc5dc6b8c9fe5c2507869d989b6e37068d94a46969921",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "02956359e0da387e06f56506d72415c122d714359e19bfebc725d38a905f1702",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/capability_truth_matrix.contract.json --summary .ai/work-items/active/capability_truth_matrix.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capability_truth_matrix.summary.json CONTRACT=.ai/work-items/active/capability_truth_matrix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T21:50:36.602019+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "bca4fa99fa65332e04cfcd2b3a709b7707c07dc89e5df7fa36ac5295132cfb8a",
+      "commandHash": "f26b4cda2d69430bdf0afe4b5a238362d8230372315f2f221ba4adf7f71ee6d7",
+      "contractHash": "3aa795e41b0b5aaf7d99ad1fe54e66e2f187eb9b08ae81c0de0dc54f7f3776b6",
+      "commitSha": "be1042e41643f26837647c407f45ff16dbffece8",
+      "executionContractPath": ".ai/work-items/active/capability_truth_matrix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/capability_truth_matrix.summary.json",
+      "worktreeDigest": "30749d594e9889927bd88d003e89cef5a5a93db3b1a402d1f8ef1769d04e113c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/capability_truth_matrix.summary.json --contract .ai/work-items/active/capability_truth_matrix.contract.json ai summary check passed: .ai/work-items/active/capability_truth_matrix.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Documentation claims must cite structured evidence.",
+      "compliant": true,
+      "evidence": "The matrix JSON is the source consumed by capability_claim_errors and linked from the user-facing documents."
+    },
+    {
+      "guideline": "Template and adopter repositories must be distinguished.",
+      "compliant": true,
+      "evidence": "README and installation/upgrade wording explicitly separates Runtime implementation from adopter execution and confirmation."
+    },
+    {
+      "guideline": "Planned behavior must not be described as implemented.",
+      "compliant": true,
+      "evidence": "Regression test and check_docs_metadata.py reject the stale claims found during preflight."
+    },
+    {
+      "guideline": "Do not alter runtime scope belonging to Work Item 3.",
+      "compliant": true,
+      "evidence": "Only documentation metadata scanning, evidence matrix, tests, and scoped documentation were changed."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Documentation claims now depend on a structured matrix; future capability changes must update the matrix and evidence together."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Matrix status/evidence correctness",
+      "Template versus adopter wording",
+      "No runtime scope drift",
+      "Budget reservation is functional and bounded"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "Fix process and evidence at root when CI or PR exposes a workflow problem.",
+    "Do not create a separate budget-only Work Item; keep budget, format, Contract, and Summary corrections in the functional Work Item.",
+    "Keep template engineering and adopter installation facts distinct."
+  ],
+  "userCorrectionSolidification": [
+    "Preflight and budget gates run before implementation.",
+    "The documentation claim scanner fails closed against matrix contradictions.",
+    "The Contract scope includes the bounded governance policy reservation for this functional Work Item."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "3aa795e41b0b5aaf",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "3aa795e41b0b5aaf",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [
+    "Quick Install independent Release Archive SHA256 verification remains planned for Work Item 4.",
+    "Adopter execution and human confirmation are not proven by template-repository tests."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 514
+}

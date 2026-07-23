@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from check_docs_metadata import capability_claim_errors
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MATRIX_PATH = ROOT / "docs/reference/capability-truth-matrix.json"
@@ -33,6 +35,11 @@ def test_remaining_review_gaps_and_completed_evidence_are_explicit() -> None:
     capabilities = {item["id"]: item for item in load_matrix()["capabilities"]}
     assert capabilities["quick_install_release_archive_digest"]["status"] == "planned"
     assert capabilities["independent_ci_release_evidence"]["status"] == "implemented"
+    assert capabilities["ten_stage_calibration_session"]["status"] == "implemented"
+    assert capabilities["candidate_activation_and_active_preservation"]["status"] == "implemented"
+    assert capabilities["bootstrap_wizard_lifecycle"]["status"] == "implemented"
+    assert capabilities["ownership_manifest_and_managed_regions"]["status"] == "adopter_installed"
+    assert capabilities["governed_update_and_uninstall"]["status"] == "adopter_installed"
 
 
 def test_matrix_document_points_to_machine_readable_source_and_plan() -> None:
@@ -41,3 +48,7 @@ def test_matrix_document_points_to_machine_readable_source_and_plan() -> None:
     assert "2026-07-22-conditional-go-review-remediation.md" in document
     assert "template_only" in document
     assert "adopter_installed" in document
+
+
+def test_documentation_claims_are_checked_against_the_matrix() -> None:
+    assert capability_claim_errors(ROOT) == []

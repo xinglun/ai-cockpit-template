@@ -40,7 +40,7 @@ AI-generated changes should not be accepted without bounded, independently enfor
 
 Calibrated trust does not mean maximizing trust in an agent. It means enabling humans to rely on the agent when evidence supports reliance and to intervene when evidence is missing, stale, contradictory, or insufficient.
 
-AI Cockpit is a repository governance layer, not an agent runtime or security sandbox. Its deterministic gates cover declared, externally reviewable known-risk cases; they do not classify every semantic danger or prove agent intent. Runtime installation is not calibration completion: the current `configure_ai_cockpit` flow produces and validates a Project Profile proposal, while the resumable ten-stage session and Candidate activation remain planned capabilities. Updates require Impact Assessment before recalibration. See the [Capability Truth Matrix](docs/reference/capability-truth-matrix.md) for evidence boundaries.
+AI Cockpit is a repository governance layer, not an agent runtime or security sandbox. Its deterministic gates cover declared, externally reviewable known-risk cases; they do not classify every semantic danger or prove agent intent. Runtime installation is not calibration completion: the current `configure_ai_cockpit` flow produces and validates a Project Profile proposal, while the resumable ten-stage session and Candidate activation are implemented Runtime capabilities that still require adopter execution and human confirmation. Updates require Impact Assessment before recalibration. See the [Capability Truth Matrix](docs/reference/capability-truth-matrix.md) for evidence boundaries.
 
 ## What is AI Cockpit?
 

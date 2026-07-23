@@ -1,0 +1,166 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_base_compat_v1",
+  "mode": "code",
+  "title": "allow safely rebased frozen archive evidence",
+  "rawUserRequest": "发现归档边界工单 rebase 到最新默认分支后，PR 门禁因冻结 Contract 的旧 baseCommit 被挡住；停止发布和重复 PR，先从根本上修正归档证据基线兼容规则，保留不可变历史证据并完成完整 PR/合并/ai-close-work-item 流程。",
+  "rawRequestSource": {"type":"human","reference":"user-request-2026-07-23-stop-release-on-frozen-base-mismatch","capturedAt":"2026-07-23","digest":"frozen-base-compat-authorized"},
+  "declaredIntent": {"summary":"允许安全 rebase 后的冻结 archive evidence 以历史 Contract baseCommit 参与 PR 校验，同时要求该历史基线是当前 PR base 的祖先、Start Receipt 一致且单工单 ownership 仍成立。","requestedCapabilities":["ai_governance","software_design","test_automation"]},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "4ba25ef939874f938e0d653d7d7197f9a52eec92",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/archive_base_compat_v1.contract.json",
+    ".ai/work-items/active/archive_base_compat_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_pr.py",
+    "tests/test_pr_aggregate.py",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": ["Adopter or installed runtime repositories","Publishing a release","Starting or reordering planned Work Items","Modifying immutable archived Contract/Summary evidence"],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR archive baseCommit guard that rejects safely rebased frozen evidence."},
+    {"path":"tests/test_pr_aggregate.py","reason":"Regression coverage for archive base compatibility and fail-closed unrelated bases."},
+    {"path":".ai/work-items/archive/2026/release_archive_boundary_v1.contract.json","reason":"Frozen evidence whose historical base must remain immutable."},
+    {"path":".ai/work-items/starts/release_archive_boundary_v1.json","reason":"Start Receipt proves the frozen Work Item's original base."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_governance"
+    ],
+    "reason": "Relaxing a base guard can admit evidence from an unrelated branch unless ancestor, receipt, and ownership checks remain fail closed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause process correction before resuming the frozen PR/release sequence."
+  },
+  "preReviewWarnings": [
+    "Historical archive base remains immutable; only the PR validation rule changes."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A frozen archive Contract whose baseCommit is an ancestor of the current PR merge-base is accepted only with matching Start Receipt and existing archive ownership.",
+    "An unrelated or non-ancestor historical base remains fail closed.",
+    "Regression tests cover both compatibility and rejection cases without modifying immutable evidence.",
+    "PR preflight passes formatter, governance budget, and aggregate archive ownership checks."
+  ],
+  "guidelines": [
+    "Keep immutable archive evidence append-only.",
+    "Require ancestor and Start Receipt evidence before accepting a rebased frozen archive.",
+    "Template repository only; do not apply template budgets to adopters."
+  ],
+  "intent": {
+    "problem": "check-ai-pr currently requires every new archive Contract baseCommit to equal the current PR merge-base. A Work Item archived before corrective PRs merged cannot rewrite its immutable Contract after its branch is safely rebased, so the strict equality rejects a valid sequential lifecycle.",
+    "constraints": ["Stop release and PR retries until the process correction is complete.","Preserve immutable archive evidence.","Reject unrelated or non-ancestor bases.","Keep template/adopter boundaries separate."],
+    "rationale": "The Contract base records historical Work Item provenance; PR validation should verify safe ancestry and receipt binding rather than force mutation of frozen evidence."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized stopping release and correcting the root process before retrying the frozen PR."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {"scenario":"frozen_archive_base_is_ancestor_of_current_pr_base","required":true,"status":"verified","evidence":["observed check-ai-pr rejection after safe rebase",".ai/work-items/archive/2026/release_archive_boundary_v1.contract.json"]},
+    {"scenario":"unrelated_or_non_ancestor_archive_base","required":true,"status":"verified","evidence":["tests/test_ai_check_pr.py base guard regression coverage"]},
+    {"scenario":"start_receipt_mismatch","required":true,"status":"verified","evidence":["scripts/ai_check_pr.py Start Receipt validation path"]}
+  ],
+  "budgetImpact": {"expectedMetrics":{"archiveGrowth":490},"approved":true,"repaymentWorkItem":"archive_base_compat_v1","repaymentRecords":[".ai/guards/governance_complexity_policy.yaml"]},
+  "startReceipt": {
+    "path": ".ai/work-items/starts/archive_base_compat_v1.json",
+    "baseCommit": "4ba25ef939874f938e0d653d7d7197f9a52eec92",
+    "initialScopeDigest": "a2f2395ea2992a6861f74db4b8bc845855bf572d9118d756be7d0c8b4bf31afb",
+    "contractSkeletonDigest": "f731d46bf5b9c01fd2f1ea3fd30fbfb64a5b062fbc6590bd13a2df930402d2f1"
+  }
+}

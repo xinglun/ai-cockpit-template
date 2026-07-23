@@ -174,7 +174,25 @@ def test_pr_rejects_work_item_based_on_different_merge_base(tmp_path, monkeypatc
 
     issues = ai_check_pr.validate_pr_bundle("b" * 40, [pair])
 
-    assert any("baseCommit must equal the PR merge-base" in issue for issue in issues)
+    assert any("baseCommit is not compatible with the PR merge-base" in issue for issue in issues)
+
+
+def test_pr_accepts_frozen_archive_on_verified_ancestor_base(monkeypatch):
+    contract = {
+        "baseCommit": "a" * 40,
+        "startReceipt": {
+            "baseCommit": "a" * 40,
+            "path": ".ai/work-items/starts/frozen.json",
+        },
+    }
+    monkeypatch.setattr(ai_check_pr, "run_git", lambda *_args: fake_git_result(returncode=0))
+    assert ai_check_pr.archive_base_is_compatible(contract, "b" * 40)
+
+
+def test_pr_rejects_rebased_archive_without_receipt_binding(monkeypatch):
+    contract = {"baseCommit": "a" * 40}
+    monkeypatch.setattr(ai_check_pr, "run_git", lambda *_args: fake_git_result(returncode=0))
+    assert not ai_check_pr.archive_base_is_compatible(contract, "b" * 40)
 
 
 def test_aggregate_pr_reports_missing_summary_and_invalid_json(tmp_path, monkeypatch):

@@ -198,6 +198,21 @@ def is_legacy_archive(contract: dict[str, Any], summary: dict[str, Any]) -> bool
     return result.returncode != 0
 
 
+def archive_base_is_compatible(contract: dict[str, Any], pr_base: str) -> bool:
+    """Accept a frozen archive's historical base after a safe sequential rebase."""
+    archived_base = contract.get("baseCommit")
+    if not isinstance(archived_base, str) or not archived_base:
+        return False
+    if archived_base == pr_base:
+        return True
+    receipt = contract.get("startReceipt")
+    if not isinstance(receipt, dict) or receipt.get("baseCommit") != archived_base:
+        return False
+    if not isinstance(receipt.get("path"), str) or not receipt["path"]:
+        return False
+    return run_git(["merge-base", "--is-ancestor", archived_base, pr_base]).returncode == 0
+
+
 def machine_path_issues(value: Any, location: str = "root") -> list[str]:
     issues: list[str] = []
     if isinstance(value, str) and contains_machine_path(value):
@@ -311,11 +326,11 @@ def validate_pr_bundle(base: str, contract_paths: list[Path]) -> list[str]:
         elif (
             isinstance(summary.get("archiveSequence"), int)
             and summary.get("archiveSequence", 0) >= NEW_WORK_ITEM_SEQUENCE
-            and contract.get("baseCommit") != base
+            and not archive_base_is_compatible(contract, base)
         ):
             issues.append(
-                f"{contract_rel}: Contract baseCommit must equal the PR merge-base {base}; "
-                "do not derive a Work Item branch from another unmerged Work Item branch"
+                f"{contract_rel}: Contract baseCommit is not compatible with the PR merge-base {base}; "
+                "require exact base or a verified ancestor base with matching Start Receipt"
             )
         issues.extend(f"{contract_rel}: {issue}" for issue in validate_contract(contract))
         legacy_archive = is_legacy_archive(contract, summary)

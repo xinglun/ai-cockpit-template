@@ -129,6 +129,10 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     (tmp_path / "release.json").write_text(
         '{"releaseArchive":{"sha256":"old"}}\n', encoding="utf-8"
     )
+    (tmp_path / "release-state.json").write_text(
+        '{"metadataDigests":{"published":"old","candidate":"candidate"}}\n',
+        encoding="utf-8",
+    )
     (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
         '{"format":"ai-cockpit-release-digests","version":1,"sourceCommit":"old",'
         '"releaseTag":"v0.5.39","artifacts":{"release.json":"old"}}\n',
@@ -159,6 +163,11 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     assert (
         json.loads((tmp_path / "release.json").read_text())["releaseArchive"]["sha256"] == "archive"
     )
+    release_state = json.loads((tmp_path / "release-state.json").read_text())
+    assert (
+        release_state["metadataDigests"]["published"]
+        == hashlib.sha256((tmp_path / "release.json").read_bytes()).hexdigest()
+    )
     release_digests = json.loads(
         (tmp_path / ".ai" / "cockpit" / "release-digests.json").read_text()
     )
@@ -167,6 +176,36 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
         release_digests["artifacts"]["release.json"]
         == hashlib.sha256((tmp_path / "release.json").read_bytes()).hexdigest()
     )
+
+
+def test_finalize_release_freeze_fails_closed_on_malformed_release_state(monkeypatch, tmp_path):
+    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
+    (tmp_path / ".ai" / "work-items" / "active").mkdir(parents=True)
+    (tmp_path / ".ai" / "cockpit" / "current_status.md").write_text(
+        "- State: `no_active_work_item`\n", encoding="utf-8"
+    )
+    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text("{}\n")
+    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text("{}\n")
+    (tmp_path / "release.json").write_text("{}\n")
+    (tmp_path / "release-state.json").write_text("[]\n")
+    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(
+        finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
+    )
+
+    def fake_git(args):
+        outputs = {
+            ("branch", "--show-current"): "main\n",
+            ("status", "--porcelain", "--untracked-files=all"): "",
+            ("rev-parse", "HEAD"): "commit\n",
+            ("rev-parse", "origin/main"): "commit\n",
+        }
+        return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
+
+    monkeypatch.setattr(finalizer, "run_git", fake_git)
+    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
+    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
+    assert finalizer.main() == 1
 
 
 def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):

@@ -52,9 +52,19 @@ def main() -> int:
     freeze_path = root / ".ai" / "cockpit" / "release-freeze.json"
     release_digests_path = root / ".ai" / "cockpit" / "release-digests.json"
     release_path = root / "release.json"
+    release_state_path = root / "release-state.json"
     freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
     release_digests = json.loads(release_digests_path.read_text(encoding="utf-8"))
     release = json.loads(release_path.read_text(encoding="utf-8"))
+    try:
+        release_state = json.loads(release_state_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return _fail(f"release-state.json is missing or invalid: {exc}")
+    if not isinstance(release_state, dict):
+        return _fail("release-state.json must contain an object")
+    metadata_digests = release_state.get("metadataDigests")
+    if not isinstance(metadata_digests, dict):
+        return _fail("release-state.json metadataDigests must contain an object")
     freeze.update(
         {
             "state": "frozen",
@@ -75,6 +85,10 @@ def main() -> int:
     )
     release_path.write_text(
         json.dumps(release, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    metadata_digests["published"] = sha256_text(release_path.read_text(encoding="utf-8"))
+    release_state_path.write_text(
+        json.dumps(release_state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     # The manifest is committed after this command runs.  Persisting the
     # symbolic ref keeps it valid when that metadata commit changes HEAD;

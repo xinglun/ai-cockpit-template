@@ -1,0 +1,149 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_state_finalizer_sync",
+  "mode": "code",
+  "title": "Synchronize finalizer with canonical release state",
+  "baseCommit": "9292e129145945b6d635a42a5ff65539880bb1f2",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/release_state_finalizer_sync.contract.json",
+    ".ai/work-items/active/release_state_finalizer_sync.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["release metadata publication, tagging, and provider operations", "adopter files and unrelated release checks"],
+  "sources": [
+    {"path": "scripts/finalize_release_freeze.py", "reason": "Current post-close metadata finalizer."},
+    {"path": "scripts/check_release_state_consistency.py", "reason": "Canonical release-state metadata digest invariant."},
+    {"path": "release-state.json", "reason": "Published/candidate projection and digest source."},
+    {"path": "tests/test_release_preflight.py", "reason": "Existing finalizer regression coverage."},
+    {"path": ".ai/work-items/archive/2026/release_freeze_source_ref_resolution.archive-manifest.json", "reason": "Predecessor source-reference correction and closure evidence."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_metadata_integrity"],
+    "reason": "Update one canonical digest projection atomically with the release metadata finalizer; malformed state fails closed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause process correction before publication; no provider operation is in scope."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["finalize-release-freeze updates release-state.json metadataDigests.published to the exact generated release.json digest", "Malformed or missing canonical release-state metadata fails closed before publication", "Regression coverage proves synchronization and failure behavior", "The complete Contract/Preflight/Finish/PR/merge/ai-close lifecycle is recorded before release is retried"],
+  "guidelines": ["Update canonical projections atomically with the metadata they digest.", "Fail closed on missing or malformed release-state evidence.", "Do not publish or tag from this Work Item."],
+  "intent": {
+    "problem": "The release finalizer updates release.json but leaves release-state.json.metadataDigests.published stale, so the mandatory release-state consistency gate blocks the candidate after finalization.",
+    "constraints": ["This is the template repository, not an adopter project.", "Repository rules require all default-branch changes through a PR.", "Do not bypass release-state consistency or create a separate budget-only Work Item."],
+    "rationale": "Make the finalizer the single atomic writer for release.json and its canonical digest projection, then test the exact invariant before any provider publication."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {"expectedMetrics": {"archiveGrowth": 500, "pythonLines": 39442}, "approved": true, "repaymentWorkItem": "release_state_finalizer_sync", "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"], "reason": "Measured budget growth belongs to this functional finalizer correction; no separate budget-only Work Item is created."},
+  "scenarioCoverage": [
+    {"scenario": "valid release-state metadata digest is synchronized", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]},
+    {"scenario": "missing or malformed release-state metadata fails closed", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]},
+    {"scenario": "release publication remains out of scope until lifecycle closure", "required": true, "status": "not_applicable", "reason": "Provider publication is explicitly excluded from this corrective Work Item.", "evidence": ["Contract outOfScope"]}
+  ],
+  "rawUserRequest": "发布前门禁发现 finalizer 未同步 canonical release-state；停止发布，修正根因流程后再继续。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:release-state-finalizer-sync", "capturedAt": "2026-07-23", "digest": "sha256:user-authorized-finalizer-state-sync"},
+  "declaredIntent": {"summary": "Make release finalization update canonical release-state metadata digests atomically.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User authorized root-cause release-process corrections and publication after verification."},
+  "predecessorWorkItem": {"workItemId": "release_freeze_source_ref_resolution", "status": "closed", "pr": {"number": 287, "merged": true, "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/287", "mergeCommit": "9292e129145945b6d635a42a5ff65539880bb1f2"}, "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": ".ai/work-items/archive/2026/release_freeze_source_ref_resolution.archive-manifest.json"}},
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_state_finalizer_sync.json",
+    "baseCommit": "9292e129145945b6d635a42a5ff65539880bb1f2",
+    "initialScopeDigest": "711a23392654813b9b97f1395dc4e5353ced954d81c720e15edd1cef95d30ab9",
+    "contractSkeletonDigest": "7536a9c405db3351a4b95ec6a2e68221e5c8af911b492cb7005a588821560dd6"
+  }
+}

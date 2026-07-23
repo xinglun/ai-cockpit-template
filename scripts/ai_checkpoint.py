@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from ai_common import load_json, verification_key
+from ai_common import load_json, save_json, verification_key
 from ai_check_diff_ownership import format_preview, preview
 
 
@@ -127,6 +127,34 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def record_checkpoint(
+    summary: dict[str, Any], contract: dict[str, Any], stage: str, path: Path, summary_path: Path
+) -> None:
+    evidence = summary.get("checkpointEvidence", [])
+    if not isinstance(evidence, list):
+        evidence = []
+    record = {
+        "stage": stage,
+        "recorded": True,
+        "contractHash": contract_hash(path),
+        "acceptanceCount": len(contract.get("acceptance", [])),
+        "unknownCount": len(contract.get("unknowns", [])),
+        "requiredChecks": len(required_verification(contract)),
+        "requiredChecksPassed": len(
+            [
+                item
+                for item in required_verification(contract)
+                if verification_status(summary).get(item) == "passed"
+            ]
+        ),
+    }
+    summary["checkpointEvidence"] = [
+        item for item in evidence if isinstance(item, dict) and item.get("stage") != stage
+    ]
+    summary["checkpointEvidence"].append(record)
+    save_json(summary_path, summary)
+
+
 def main() -> int:
     args = parse_args()
     try:
@@ -137,6 +165,9 @@ def main() -> int:
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Failed to load checkpoint inputs: {exc}", file=sys.stderr)
         return 1
+
+    if args.summary and isinstance(summary, dict):
+        record_checkpoint(summary, contract, args.stage, Path(args.contract), Path(args.summary))
 
     print("# AI Work Item Checkpoint")
     print(f"- Stage: `{args.stage}`")

@@ -8,6 +8,7 @@ import sys
 
 from ai_common import PROJECT_ROOT, discover_remote_default_candidates, run_git
 from check_release_preflight import canonical_archive_sha, canonical_source_tree
+from check_supply_chain import sha256_text
 
 
 def _fail(message: str) -> int:
@@ -49,8 +50,10 @@ def main() -> int:
     source_tree = canonical_source_tree(root, source_commit)
     archive_sha = canonical_archive_sha(root, source_commit)
     freeze_path = root / ".ai" / "cockpit" / "release-freeze.json"
+    release_digests_path = root / ".ai" / "cockpit" / "release-digests.json"
     release_path = root / "release.json"
     freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+    release_digests = json.loads(release_digests_path.read_text(encoding="utf-8"))
     release = json.loads(release_path.read_text(encoding="utf-8"))
     freeze.update(
         {
@@ -72,6 +75,14 @@ def main() -> int:
     )
     release_path.write_text(
         json.dumps(release, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    release_digests["sourceCommit"] = source_commit
+    release_digests["releaseTag"] = release.get("releaseTag")
+    release_digests.setdefault("artifacts", {})["release.json"] = sha256_text(
+        release_path.read_text(encoding="utf-8")
+    )
+    release_digests_path.write_text(
+        json.dumps(release_digests, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     print(f"release freeze finalized: source={source_commit} archive={archive_sha}")
     return 0

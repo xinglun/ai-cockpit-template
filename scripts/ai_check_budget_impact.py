@@ -18,23 +18,29 @@ def validate_budget_impact(
     impact = contract.get("budgetImpact")
     issues: list[str] = []
     for metric, limit in limits.items():
-        actual = metrics.get(metric)
-        if not isinstance(actual, (int, float)) or not isinstance(limit, (int, float)):
+        values = [metrics.get(metric)]
+        if isinstance(impact, dict):
+            expected = impact.get("expectedMetrics", {})
+            if isinstance(expected, dict):
+                values.append(expected.get(metric))
+        if not isinstance(limit, (int, float)):
             continue
-        if actual <= limit:
-            continue
-        if (
-            isinstance(impact, dict)
-            and impact.get("approved") is True
-            and impact.get("repaymentWorkItem")
-            and impact.get("repaymentRecords")
-        ):
-            continue
-        issues.append(f"{metric} exceeds policy max: {actual} > {limit}")
-        if not isinstance(impact, dict) or not impact.get("repaymentWorkItem"):
-            issues.append(f"{metric} overrun requires budgetImpact.repaymentWorkItem")
-        if not isinstance(impact, dict) or not impact.get("repaymentRecords"):
-            issues.append(f"{metric} overrun requires budgetImpact.repaymentRecords")
+        for value in values:
+            if not isinstance(value, (int, float)) or value <= limit:
+                continue
+            approved = (
+                isinstance(impact, dict)
+                and impact.get("approved") is True
+                and impact.get("repaymentWorkItem")
+                and impact.get("repaymentRecords")
+            )
+            if approved:
+                continue
+            issues.append(f"{metric} exceeds policy max: {value} > {limit}")
+            if not isinstance(impact, dict) or not impact.get("repaymentWorkItem"):
+                issues.append(f"{metric} overrun requires budgetImpact.repaymentWorkItem")
+            if not isinstance(impact, dict) or not impact.get("repaymentRecords"):
+                issues.append(f"{metric} overrun requires budgetImpact.repaymentRecords")
     return issues
 
 

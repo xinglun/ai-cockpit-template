@@ -26,3 +26,17 @@ def test_budget_with_explicit_repayment_is_allowed():
         )
         == []
     )
+
+
+def test_declared_budget_projection_is_checked_before_implementation():
+    issues = ai_check_budget_impact.validate_budget_impact(
+        {
+            "budgetImpact": {
+                "expectedMetrics": {"pythonLines": 101},
+                "approved": False,
+            }
+        },
+        {"pythonLines": 100},
+        {"max": {"pythonLines": 100}},
+    )
+    assert "pythonLines exceeds policy max" in issues[0]

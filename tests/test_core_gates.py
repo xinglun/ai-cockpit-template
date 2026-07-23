@@ -336,6 +336,10 @@ def test_checkpoint_main_reports_required_state(tmp_path, monkeypatch, capsys):
     )
 
     assert ai_checkpoint.main() == 0
+    recorded = json.loads(summary.read_text(encoding="utf-8"))["checkpointEvidence"][0]
+    assert recorded["stage"] == "before_finish"
+    assert recorded["recorded"] is True
+    assert recorded["requiredChecks"] == 1
     output = capsys.readouterr().out
     assert "Required Checks Passed: `1`" in output
     assert "problem: not provided" in output

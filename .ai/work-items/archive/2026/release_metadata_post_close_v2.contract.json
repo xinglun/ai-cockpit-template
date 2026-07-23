@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_metadata_post_close_v2",
+  "mode": "code",
+  "title": "harden release freeze finalizer to regenerate complete candidate evidence",
+  "rawUserRequest": "最后一个 archive-boundary 工单合并并 ai-close-work-item 后，release preflight 发现 baseCommit、sourceTree、archiveSha256 与 release.json 仍是旧候选值。发布必须保持冻结，先在 protected main 上通过完整 Contract/Preflight/PR/合并/ai-close-work-item 流程重新生成并提交 release metadata。",
+  "rawRequestSource": {"type":"human","reference":"user-request-2026-07-23-release-metadata-after-closure","capturedAt":"2026-07-23","digest":"post-close-metadata-authorized"},
+  "declaredIntent": {"summary":"在所有前置纠正工单关闭且默认分支同步后，重新生成 source-bound release freeze/digests/release.json，使候选发布身份与当前默认分支一致。","requestedCapabilities":["ai_governance","software_design"]},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "ad58db3b0f49834c573090f98a28c48f006d9531",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/finalize_release_freeze.py",
+    "scripts/ai_check_budget_impact.py",
+    "scripts/ai_checkpoint.py",
+    ".ai/guards/coverage_policy.yaml",
+    "tests/test_release_preflight.py",
+    "tests/test_ai_check_budget_impact.py",
+    "tests/test_core_gates.py",
+    ".ai/work-items/active/release_metadata_post_close_v2.contract.json",
+    ".ai/work-items/active/release_metadata_post_close_v2.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": ["Publishing a provider release or creating a tag","Adopter/runtime repositories","Starting or reordering planned Work Items","Modifying immutable prior archive evidence"],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "finalize-release-freeze generates source-bound candidate metadata."},
+    {"path":"scripts/finalize_release_freeze.py","reason":"Fail-closed lifecycle and identity finalizer."},
+    {"path":"scripts/check_release_preflight.py","reason":"Observed post-close identity mismatch and final verification gate."},
+    {"path":"release.json","reason":"Protected-main release metadata projection."},
+    {"path":".ai/cockpit/release-freeze.json","reason":"Candidate lifecycle freeze marker."},
+    {"path":".ai/cockpit/release-digests.json","reason":"Candidate digest evidence."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_governance"
+    ],
+    "reason": "Generated release identity must remain candidate-only and source-bound; publication is explicitly out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized completion of the post-close protected-main metadata lifecycle before release publication."
+  },
+  "preReviewWarnings": [
+    "Review candidate/historical/published state separation and exact source-bound identity."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "make finalize-release-freeze regenerates the complete candidate release projection, including release-digests.json, after lifecycle closure and synchronized-base checks.",
+    "The finalizer updates release-digests.json release.json identity after writing release.json, preventing a stale digest projection.",
+    "The protected-main PR carries exactly one Work Item and the full lifecycle closes after merge.",
+    "Formatter, governance budget, and release evidence checks pass."
+  ],
+  "guidelines": [
+    "Release metadata is candidate evidence, not published evidence.",
+    "Run finalization only after merge, ai-close-work-item, and default-base synchronization.",
+    "Template repository only; do not transplant release identity into adopters."
+  ],
+  "intent": {
+    "problem": "The last archive closure changed the canonical source identity, but the protected-main release projections still attest the earlier candidate. Direct editing or publication would create an unverifiable release identity.",
+    "constraints": ["Keep release publication frozen and out of scope.","Use the repository finalizer and protected-main PR.","Preserve prior immutable evidence.","Do not start or reorder planned Work Items."],
+    "rationale": "Candidate metadata must be regenerated from the exact synchronized source tree after all lifecycle closures; a PR preserves review and protected-main provenance."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized post-close release metadata correction through the protected-main PR lifecycle before publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {"scenario":"finalizer_after_all_closures","required":true,"status":"verified","evidence":["make ai-close-work-item completed for PR #279","make check-release-preflight observed stale candidate mismatch"]},
+    {"scenario":"publication_remains_out_of_scope","required":true,"status":"verified","evidence":["Contract outOfScope excludes provider release/tag publication"]},
+    {"scenario":"source_tree_and_archive_digest_bind_exactly","required":true,"status":"verified","evidence":["scripts/check_release_preflight.py"]}
+  ],
+  "budgetImpact": {"expectedMetrics":{"archiveGrowth":492,"pythonLines":39169},"approved":true,"repaymentWorkItem":"release_metadata_post_close_v2","repaymentRecords":[".ai/guards/governance_complexity_policy.yaml"]},
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_metadata_post_close_v2.json",
+    "baseCommit": "ad58db3b0f49834c573090f98a28c48f006d9531",
+    "initialScopeDigest": "98e62926ddfeedc32dfe42470a353da1f8934c203c73cad68a83b8207e328103",
+    "contractSkeletonDigest": "1367b65d2abde2cd2e0582e46831ec5b2a34d7725559d82e9af335507b0bfcdf"
+  }
+}

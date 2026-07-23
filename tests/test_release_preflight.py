@@ -1,3 +1,4 @@
+import hashlib
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -110,6 +111,11 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     (tmp_path / "release.json").write_text(
         '{"releaseArchive":{"sha256":"old"}}\n', encoding="utf-8"
     )
+    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
+        '{"format":"ai-cockpit-release-digests","version":1,"sourceCommit":"old",'
+        '"releaseTag":"v0.5.39","artifacts":{"release.json":"old"}}\n',
+        encoding="utf-8",
+    )
     monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(
         finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
@@ -134,6 +140,14 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     assert freeze["lifecycle"]["command"] == "make ai-close-work-item"
     assert (
         json.loads((tmp_path / "release.json").read_text())["releaseArchive"]["sha256"] == "archive"
+    )
+    release_digests = json.loads(
+        (tmp_path / ".ai" / "cockpit" / "release-digests.json").read_text()
+    )
+    assert release_digests["sourceCommit"] == "commit"
+    assert (
+        release_digests["artifacts"]["release.json"]
+        == hashlib.sha256((tmp_path / "release.json").read_bytes()).hexdigest()
     )
 
 

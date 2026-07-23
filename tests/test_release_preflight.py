@@ -12,6 +12,7 @@ from scripts.check_release_preflight import canonical_archive_sha
 from scripts.check_release_preflight import resolve_source_commit
 from scripts.check_release_preflight import validate_release_preflight
 from scripts.check_release_preflight import validate_release_identity
+from scripts.check_release_preflight import validate_release_projection
 
 
 def _fixture(**overrides):
@@ -137,6 +138,48 @@ def test_release_preflight_rejects_metadata_commit_drift():
 
 def test_release_preflight_accepts_source_bound_finalized_candidate():
     assert validate_release_identity(**_identity_fixture()) == []
+
+
+def _projection_fixture(**overrides):
+    values = {
+        "state": {
+            "state": "candidate_prepared",
+            "releaseTag": "v0.5.34",
+            "previousRelease": "v0.5.33",
+        },
+        "release": {"releaseTag": "v0.5.33"},
+        "candidate": {
+            "releaseTag": "v0.5.34",
+            "basedOnReleaseTag": "v0.5.33",
+        },
+    }
+    values.update(overrides)
+    return values
+
+
+def test_release_projection_accepts_canonical_candidate_lineage():
+    assert validate_release_projection(**_projection_fixture()) == []
+
+
+def test_release_projection_rejects_mixed_candidate_lineage_before_archive_generation():
+    issues = validate_release_projection(
+        **_projection_fixture(
+            state={
+                "state": "candidate_prepared",
+                "releaseTag": "v0.5.40",
+                "previousRelease": "v0.5.39",
+            }
+        )
+    )
+    assert any("candidate releaseTag" in issue for issue in issues)
+    assert any("previousRelease" in issue for issue in issues)
+
+
+def test_release_projection_rejects_candidate_that_does_not_derive_from_published_release():
+    issues = validate_release_projection(
+        **_projection_fixture(candidate={"releaseTag": "v0.5.34", "basedOnReleaseTag": "v0.5.32"})
+    )
+    assert any("basedOnReleaseTag" in issue for issue in issues)
 
 
 def test_canonical_archive_builder_returns_sha256_for_repository():
@@ -377,6 +420,13 @@ def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
     (tmp_path / ".ai" / "work-items" / "archive").mkdir(parents=True)
     (tmp_path / "release.json").write_text(
         '{"releaseTag":"v0.5.39","releaseArchive":{"sha256":"abc"}}', encoding="utf-8"
+    )
+    (tmp_path / "next-release.json").write_text(
+        '{"releaseTag":"v0.5.40","basedOnReleaseTag":"v0.5.39"}', encoding="utf-8"
+    )
+    (tmp_path / "release-state.json").write_text(
+        '{"state":"candidate_prepared","releaseTag":"v0.5.40","previousRelease":"v0.5.39"}',
+        encoding="utf-8",
     )
     (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
         '{"state":"frozen","sourceTree":"tree","archiveSha256":"abc",'

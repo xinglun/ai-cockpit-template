@@ -18,6 +18,29 @@ class ReleasePreflightError(ValueError):
     """Raised when a release candidate is not frozen and source-bound."""
 
 
+def validate_release_projection(
+    *, state: dict[str, Any], release: dict[str, Any], candidate: dict[str, Any]
+) -> list[str]:
+    """Reject canonical-state/projection drift before archive generation."""
+    issues: list[str] = []
+    state_name = state.get("state")
+    state_tag = state.get("releaseTag")
+    published_tag = release.get("releaseTag")
+    candidate_tag = candidate.get("releaseTag")
+    if state_name in {"candidate_prepared", "candidate_verified"}:
+        if state_tag != candidate_tag:
+            issues.append("canonical candidate releaseTag does not match next-release.json")
+    elif state_name == "release_published" and state_tag != published_tag:
+        issues.append("canonical published releaseTag does not match release.json")
+    if state.get("previousRelease") != published_tag:
+        issues.append("canonical previousRelease does not match release.json releaseTag")
+    if candidate.get("basedOnReleaseTag") != published_tag:
+        issues.append("next-release.json basedOnReleaseTag does not match release.json releaseTag")
+    if published_tag == candidate_tag:
+        issues.append("published and candidate releaseTag values must be distinct")
+    return issues
+
+
 def validate_release_identity(
     *,
     release: dict[str, Any],
@@ -198,6 +221,8 @@ def main() -> int:
     args = parser.parse_args()
     root = args.root.resolve()
     release = _load_object(root / "release.json", "release.json")
+    release_state = _load_object(root / "release-state.json", "release-state.json")
+    candidate = _load_object(root / "next-release.json", "next-release.json")
     freeze = _load_object(root / ".ai" / "cockpit" / "release-freeze.json", "release-freeze.json")
     release_digests = _load_object(
         root / ".ai" / "cockpit" / "release-digests.json", "release-digests.json"
@@ -210,6 +235,14 @@ def main() -> int:
         resolved_declared_source = resolve_source_commit(root, declared_source)
     except ReleasePreflightError as exc:
         print(f"release preflight blocked: {exc}", file=sys.stderr)
+        return 1
+    projection_issues = validate_release_projection(
+        state=release_state, release=release, candidate=candidate
+    )
+    if projection_issues:
+        print("release preflight blocked:", file=sys.stderr)
+        for issue in projection_issues:
+            print(f"- {issue}", file=sys.stderr)
         return 1
     comparable_digests = dict(release_digests)
     comparable_digests["sourceCommit"] = resolved_declared_source

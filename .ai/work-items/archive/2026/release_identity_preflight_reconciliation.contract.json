@@ -1,0 +1,297 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_identity_preflight_reconciliation",
+  "mode": "code",
+  "title": "Reconcile release identity before publication",
+  "baseCommit": "d3d2a395b970b9ab7dffa6fbc4351724228b983d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_identity_preflight_reconciliation.contract.json",
+    ".ai/work-items/active/release_identity_preflight_reconciliation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "release-state.json",
+    "next-release.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/release-freeze.json",
+    "scripts/check_release_preflight.py",
+    "scripts/check_release_state_consistency.py",
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    "tests/test_release_state_consistency.py",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Creating or starting Quick Install or any planned feature Work Item.",
+    "Creating a tag, publishing v0.5.39, or dispatching the release workflow.",
+    "Deleting worktrees or branches in bulk; inventory only in this Work Item.",
+    "Editing the historical remediation plan or rewriting archived evidence.",
+    "Creating a budget-only Work Item; any required budget reservation belongs to this functional correction."
+  ],
+  "sources": [
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository terminology and governance boundaries."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published release projection used by the release workflow."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Candidate release projection used by the release workflow."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Canonical release state machine and source identity."
+    },
+    {
+      "path": ".ai/cockpit/release-freeze.json",
+      "reason": "Frozen lifecycle and archive evidence observed in the release audit."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Source-bound digest manifest observed in the release audit."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Preflight must bind release-state, freeze, digest manifest, and source commit to one immutable identity before expensive checks."
+    },
+    {
+      "path": "scripts/check_release_state_consistency.py",
+      "reason": "Canonical state validation must reject mixed published/candidate projections and stale source identity."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Freeze generation must persist exact identities and avoid symbolic/self-referential references across the commit boundary."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Regression coverage for mixed identity and freeze timing failures."
+    },
+    {
+      "path": "tests/test_release_state_consistency.py",
+      "reason": "Regression coverage for canonical projection/source consistency."
+    },
+    {
+      "path": ".ai/work-items/active/release_identity_preflight_reconciliation.contract.json",
+      "reason": "Defines the bounded root-cause correction and publication stop boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity",
+      "source_binding"
+    ],
+    "reason": "Release metadata controls tag identity and immutable archive evidence; fail-closed validation is required before publication.",
+    "unknownsReviewComplete": true
+  },
+  "rawUserRequest": "同意继续：先修正发布身份、冻结证据和发布前审计的根因流程；当前不启动 Quick Install、不打 tag、不发布，完成本工单的完整 Contract/Preflight/PR/合并/ai-close-work-item 生命周期。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:2026-07-24-continue-release-identity-root-fix",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-authorized-root-cause-release-stop"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "在昂贵发布检查前强制统一 release-state、release.json、next-release.json、release-freeze 和 release-digests 的候选身份；发现流程缺口即停止发布并修复根因。",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "test_automation"
+    ]
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause process correction; publication remains explicitly out of scope."
+  },
+  "preReviewWarnings": [
+    "Review that all release identities are concrete, equal, source-bound, and checked before expensive release tests; verify no publication side effect is introduced."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Preflight rejects mixed releaseTag/sourceCommit/tagTarget/metadataCommit/freeze identities before expensive release checks.",
+    "Canonical state consistency rejects projection/source drift and never derives a candidate from a published placeholder.",
+    "Freeze finalization records concrete identities and cannot preserve symbolic or self-referential source metadata.",
+    "Focused regression tests cover the observed v0.5.39/v0.5.40 and stale-freeze failures.",
+    "Formatting, AI checks, project checks, Summary, PR, merge, and ai-close-work-item complete; no tag or release is created."
+  ],
+  "guidelines": [
+    "Fail closed before expensive CI when release identity evidence is incomplete or inconsistent.",
+    "Keep template release metadata and lifecycle evidence explicit; do not infer publication from a moving ref.",
+    "Do not rewrite historical archived Work Item evidence."
+  ],
+  "intent": {
+    "problem": "The release repository contains mutually inconsistent candidate, published, freeze, digest, and source identities. Several files pass isolated checks while the integrated release preflight fails only after expensive or late-stage work.",
+    "constraints": [
+      "Do not publish, tag, start Quick Install, or delete worktrees in this Work Item.",
+      "Use one canonical concrete source commit and one release identity tuple across all pre-publication evidence.",
+      "Any archive-growth or executable-line budget pressure is corrected in this functional Work Item, never by a budget-only Work Item."
+    ],
+    "rationale": "Move the identity contract to the earliest shared preflight boundary and make generators and consistency checks use the same model, preventing another release loop caused by late discovery of process drift."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Mixed releaseTag/sourceCommit/tagTarget/metadataCommit/freeze evidence is rejected before expensive release checks.",
+      "required": true,
+      "status": "not_applicable",
+      "reason": "Regression coverage will be added in this Work Item; no existing passing evidence is claimed.",
+      "evidence": []
+    },
+    {
+      "scenario": "A finalized candidate uses one concrete source commit across canonical state, freeze, and digest manifest.",
+      "required": true,
+      "status": "not_applicable",
+      "reason": "The current repository is intentionally not a finalized release candidate; this is verified by focused tests and preflight after implementation.",
+      "evidence": []
+    },
+    {
+      "scenario": "Publication and Quick Install remain unavailable while this process-correction Work Item is active.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Contract outOfScope", "No release workflow or tag operation in this Work Item"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized root-cause workflow correction before resuming release; publication itself remains out of scope."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 518,
+      "pythonLines": 40300
+    },
+    "approved": true,
+    "repaymentWorkItem": "conditional_go_plan_cleanup",
+    "repaymentRecords": [
+      {
+        "metric": "archiveGrowth",
+        "from": 517,
+        "to": 518,
+        "approvedBy": "user",
+        "date": "2026-07-24",
+        "reason": "This functional release-identity root correction requires one immutable lifecycle archive; reserve it in the same Work Item and repay during final plan cleanup, not via a budget-only Work Item."
+      },
+      {
+        "metric": "pythonLines",
+        "from": 40200,
+        "to": 40300,
+        "approvedBy": "user",
+        "date": "2026-07-24",
+        "reason": "The functional early release-projection gate and regression coverage measure 40240 Python lines; reserve bounded headroom in the same Work Item and repay during final plan cleanup, not via a budget-only Work Item."
+      },
+      {
+        "metric": "pythonLines",
+        "from": 32000,
+        "to": 40300,
+        "approvedBy": "user",
+        "date": "2026-07-24",
+        "reason": "Record the cumulative executable governance ceiling after this functional release-identity root correction; repay bounded growth during final plan cleanup without rewriting immutable evidence."
+      }
+    ]
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_identity_preflight_reconciliation.json",
+    "baseCommit": "d3d2a395b970b9ab7dffa6fbc4351724228b983d",
+    "initialScopeDigest": "03e2ed0eac67db50f96f149c2fcbc49ed1fac56c3243b35dcf519709fd06721a",
+    "contractSkeletonDigest": "c122309ee210e2d64373aa0b153a61e20179d431c8f2ac6dddbec09e542de38c"
+  }
+}

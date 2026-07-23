@@ -21,7 +21,10 @@ def test_compatibility_runs_lockfile_reproducibility_on_clean_runner():
         "  real-stack-quality:", 1
     )[0]
     assert 'python-version: "3.10"' in lockfile
-    assert "python -m pip install --disable-pip-version-check pip-tools" in lockfile
+    assert (
+        "python -m pip install --disable-pip-version-check pip-tools typing-extensions==4.16.0"
+        in lockfile
+    )
     assert "make check-lockfile-reproducibility" in lockfile
 
 

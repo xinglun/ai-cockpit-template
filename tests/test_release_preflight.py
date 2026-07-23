@@ -208,6 +208,49 @@ def test_finalize_release_freeze_fails_closed_on_malformed_release_state(monkeyp
     assert finalizer.main() == 1
 
 
+def test_finalize_release_freeze_candidate_mode_binds_to_work_item_branch(monkeypatch, tmp_path):
+    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    (active / "task.contract.json").write_text("{}\n", encoding="utf-8")
+    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
+        '{"state":"candidate"}\n', encoding="utf-8"
+    )
+    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
+        '{"sourceCommit":"old","artifacts":{}}\n', encoding="utf-8"
+    )
+    (tmp_path / "release.json").write_text(
+        '{"releaseTag":"v0.5.39","releaseArchive":{"sha256":"old"}}\n',
+        encoding="utf-8",
+    )
+    (tmp_path / "release-state.json").write_text(
+        '{"metadataDigests":{"published":"old"}}\n', encoding="utf-8"
+    )
+    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(
+        finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
+    )
+
+    def fake_git(args):
+        outputs = {
+            ("branch", "--show-current"): "codex/task\n",
+            ("status", "--porcelain", "--untracked-files=all"): "",
+            ("rev-parse", "HEAD"): "candidate-commit\n",
+            ("rev-parse", "origin/main"): "default-commit\n",
+        }
+        return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
+
+    monkeypatch.setattr(finalizer, "run_git", fake_git)
+    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
+    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
+
+    assert finalizer.main(candidate_task="task") == 0
+    freeze = json.loads((tmp_path / ".ai" / "cockpit" / "release-freeze.json").read_text())
+    assert freeze["lifecycle"]["state"] == "candidate_prepared"
+    assert freeze["lifecycle"]["candidateBranch"] == "codex/task"
+    assert freeze["lifecycle"]["defaultBranch"] == "main"
+
+
 def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
     (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
     (tmp_path / ".ai" / "guards").mkdir(parents=True)

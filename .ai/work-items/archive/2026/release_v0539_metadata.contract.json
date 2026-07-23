@@ -1,0 +1,172 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0539_metadata",
+  "mode": "code",
+  "title": "Publish v0.5.39 release metadata through protected PR",
+  "rawUserRequest": "同意，走完整 Contract/Preflight/PR/合并/ai-close-work-item 流程后再发布；每次发现流程问题都从根本上修改，不做表面重复。当前只修正受保护主分支的发布元数据流程，不启动或跳过任何计划内工单；预算和格式检查必须作为事前门禁，不单独拆预算工单。",
+  "rawRequestSource": {"type": "human", "reference": "user-request-2026-07-23-protected-release-and-budget-preflight", "capturedAt": "2026-07-23", "digest": "user-authorized-corrective-release-workflow"},
+  "declaredIntent": {"summary": "将 v0.5.39 发布元数据通过受保护默认分支的独立 PR 生命周期交付，并在合并、ai-close-work-item 和默认分支同步后再进行发布确认。", "requestedCapabilities": ["ai_governance", "documentation", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "4991635f503be563e08a46a8e8d6370468a475bc",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "release.json",
+    "release-state.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/release_v0539_metadata.contract.json",
+    ".ai/work-items/active/release_v0539_metadata.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Direct pushes to main",
+    "Git tag creation and provider release publication",
+    "Provider assets, SBOM, provenance, and external release evidence",
+    "Adopter-project installation or template-consumer changes"
+  ],
+  "sources": [
+    {"path": "scripts/finalize_release_freeze.py", "reason": "Canonical release metadata generator and source identity rules."},
+    {"path": "scripts/check_release_preflight.py", "reason": "Release metadata and source/archive preflight gate."},
+    {"path": "scripts/check_release_state_consistency.py", "reason": "Canonical release-state digest consistency gate."},
+    {"path": "release-state.json", "reason": "Canonical release lifecycle state projection."},
+    {"path": "release.json", "reason": "Version and archive metadata consumed by release workflow."},
+    {"path": ".ai/work-items/archive/2026/release_state_finalizer_sync.archive-manifest.json", "reason": "Predecessor evidence for the finalizer synchronization root correction."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_metadata_integrity"],
+    "reason": "Metadata must remain internally consistent while being delivered through a protected PR."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Release metadata candidate is scoped to a protected PR; provider publication remains a later gated operation."
+  },
+  "preReviewWarnings": ["Review source commit/archive digest stability and canonical release-state synchronization before merge."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Release metadata for v0.5.39 is generated from the latest synchronized origin/main state and has matching archive/source digests.",
+    "release-state.json metadataDigests.published exactly matches the generated release.json digest.",
+    "PR-stage metadata, format, budget, and release-state consistency checks pass; the full release preflight runs only after PR merge, ai-close-work-item, and default-branch synchronization.",
+    "The metadata is delivered only through a PR; no direct default-branch push or provider publication occurs in this Work Item.",
+    "The Work Item completes the full archive, PR, merge, ai-close-work-item, branch-cleanup, and default-sync lifecycle."
+  ],
+  "guidelines": [
+    "Generate metadata with the repository release finalizer; do not hand-edit generated release projections.",
+    "Canonical release-state projections must be updated atomically with the metadata they digest.",
+    "Keep template-repository release metadata separate from adopter-project installation changes.",
+    "Budget and formatting checks are mandatory preflight gates; do not create a budget-only Work Item."
+  ],
+  "intent": {
+    "problem": "Directly committing generated release metadata to the protected default branch was rejected, and the release-state published digest could become stale relative to release.json.",
+    "constraints": ["Use a dedicated Work Item branch from latest origin/main.", "Do not publish or tag from this Work Item.", "Preserve exact generated metadata and pass budget/format gates before PR."],
+    "rationale": "Make release metadata reviewable and mergeable through the same protected PR lifecycle as all other governed changes, while validating canonical digest synchronization before publication."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the complete Contract/Preflight/PR/merge/ai-close-work-item release workflow and version publication."
+  },
+  "rollbackNote": "Revert the metadata PR before provider publication; restore the prior release projections and retain the archived Work Item evidence.",
+  "budgetImpact": {
+    "expectedMetrics": {"archiveGrowth": 501, "pythonLines": 39442},
+    "approved": true,
+    "repaymentWorkItem": "release_v0539_metadata",
+    "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"],
+    "reason": "Release metadata changes add no Python implementation; budget remains measured and enforced in this functional release Work Item."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_v0539_metadata.json",
+    "baseCommit": "4991635f503be563e08a46a8e8d6370468a475bc",
+    "initialScopeDigest": "c0d9a19684ee62e901b2751afc18315c067c222fbad9b5d7a02dc04c7e90663e",
+    "contractSkeletonDigest": "847fccb3fefeab0b04556a6bfaba75a93e76c0ae0a77bec4abd4622d9799ff7c"
+  }
+}

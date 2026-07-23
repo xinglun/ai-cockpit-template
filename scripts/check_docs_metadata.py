@@ -287,6 +287,45 @@ def japanese_style_errors(root: Path) -> list[str]:
     return errors
 
 
+def capability_claim_errors(root: Path) -> list[str]:
+    """Reject known stale capability claims using the authoritative matrix."""
+    matrix_path = root / "docs" / "reference" / "capability-truth-matrix.json"
+    matrix = json.loads(matrix_path.read_text(encoding="utf-8"))
+    statuses = {item["id"]: item["status"] for item in matrix["capabilities"]}
+    stale_claims: list[str] = []
+    if statuses.get("ten_stage_calibration_session") == "implemented":
+        stale_claims.extend(
+            (
+                "ten-stage session and Candidate activation remain planned capabilities",
+                "10 Stage セッションと Candidate 有効化は計画中の能力です",
+                "十 Stage 会话与 Candidate 激活仍属于计划能力",
+                "10 Stage セッションと Candidate 有効化は専用 Work Item の完了まで計画中です",
+            )
+        )
+    if statuses.get("candidate_activation_and_active_preservation") == "implemented":
+        stale_claims.append(
+            "Candidate activation and preservation of the old Active Configuration are planned capabilities until the corresponding Work Item evidence exists"
+        )
+    errors: list[str] = []
+    paths = (
+        root / "README.md",
+        root / "README.ja.md",
+        root / "README.zh-CN.md",
+        root / "docs" / "getting-started" / "installation.md",
+        root / "docs" / "getting-started" / "installation.ja.md",
+        root / "docs" / "reference" / "upgrade.md",
+    )
+    for path in paths:
+        relative = path.relative_to(root).as_posix()
+        text = path.read_text(encoding="utf-8")
+        for claim in stale_claims:
+            if claim in text:
+                errors.append(
+                    f"{relative}: unsupported current-capability claim contradicts matrix: {claim}"
+                )
+    return errors
+
+
 def check_repository(root: Path) -> list[str]:
     errors = []
     for path in documentation_files(root):
@@ -294,6 +333,7 @@ def check_repository(root: Path) -> list[str]:
     errors.extend(stack_errors(root))
     errors.extend(installation_command_errors(root))
     errors.extend(japanese_style_errors(root))
+    errors.extend(capability_claim_errors(root))
     return errors
 
 

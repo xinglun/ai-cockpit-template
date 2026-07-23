@@ -1,0 +1,177 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_archive_budget_repayment_v2",
+  "mode": "code",
+  "title": "Repay the archive growth budget from the latest default branch",
+  "baseCommit": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/conditional_go_archive_budget_repayment_v2.contract.json",
+    ".ai/work-items/active/conditional_go_archive_budget_repayment_v2.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "The merged archive repair will raise immutable archiveGrowth beyond the current 480 ceiling."
+    },
+    {
+      "path": "gh run 29979732869",
+      "reason": "CI rejected the unmerged repair branch because its two Work Items violated PR ownership; this clean Work Item starts from origin/main."
+    }
+  ],
+  "rawUserRequest": "从最新默认分支建立单一预算偿还工单，修复发布归档后 archiveGrowth 预算，按完整 Work Item、PR、合并、ai-close-work-item 和默认分支同步流程完成。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-23-clean-budget-work-item",
+    "capturedAt": "2026-07-23T13:45:00+09:00",
+    "digest": "origin-main-1632782d-budget-v2"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Reserve bounded archive budget from the latest default branch for the already-authorized release repair sequence.",
+    "requestedCapabilities": ["ai_governance"]
+  },
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "archive_budget_repayment"
+    ],
+    "reason": "Initial skeleton; replace with task-specific implementation and review risks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The bounded budget correction is authorized and has a concrete CI/repository evidence source."
+  },
+  "preReviewWarnings": [
+    "Confirm one Work Item is represented in the PR and no prior unmerged Work Item is included."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "archiveGrowth maximum is raised to cover the projected post-archive count with an explicit repayment record.",
+    "The PR contains exactly one newly maintained Work Item.",
+    "Governance complexity and required AI checks pass before archive."
+  ],
+  "guidelines": [
+    "Preserve immutable Work Item lifecycle evidence.",
+    "Keep archive budget repayment explicit and bounded."
+  ],
+  "intent": {
+    "problem": "The prior budget PR was incorrectly based on an unmerged repair PR and therefore contained two Work Items; a clean budget reservation must start from origin/main.",
+    "constraints": [
+      "Start from origin/main 1632782ddb038a264312cadaa26cc0a2344f4bb9.",
+      "Change only the governance budget and this Work Item evidence.",
+      "Do not delete or rewrite existing archive records."
+    ],
+    "rationale": "A clean base is required by repository governance and makes the PR ownership check independently verifiable."
+  },
+  "scenarioCoverage": [],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the current plan implementation and required governance budget repair."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_archive_budget_repayment_v2.json",
+    "baseCommit": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+    "initialScopeDigest": "281411d5ccb84df5cd6935c673964af313e24aed8e8450b0e6b5bfbf3a98a58f",
+    "contractSkeletonDigest": "db82ddb068a1cf5668ccf9caee02a86b6aa7070fff3aa30ddc5143ef5647781c"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_archive_boundary_v1",
+  "mode": "code",
+  "title": "exclude transient Work Item start evidence from release archive",
+  "rawUserRequest": "以后遇到 CI 或 PR 被挡住，先分析是否能从根本流程上改善；如果可以，先停下来改流程。此次发布前门禁发现 Work Item start receipt 进入 canonical archive，先修正归档边界，不启动或跳过任何计划内工单。",
+  "rawRequestSource": {"type":"human","reference":"user-request-2026-07-23-process-root-cause-ci-pr-block","capturedAt":"2026-07-23","digest":"root-cause-first"},
+  "declaredIntent": {"summary":"将 transient Work Item start receipt 从 canonical release archive 中排除，使生命周期证据不会改变发布源归档摘要。","requestedCapabilities":["ai_governance","documentation"]},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "05cf82778b2441ac77e670c846920cffc5fa625c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_archive_boundary_v1.contract.json",
+    ".ai/work-items/active/release_archive_boundary_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".gitattributes"
+  ],
+  "outOfScope": ["Any adopter or installed runtime repository","Starting or reordering planned Work Items","Changing release publication workflow logic","Deleting prior immutable evidence"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/release_archive_boundary_v1.contract.json",
+      "reason": "Defines the root-cause archive boundary correction."
+    },
+    {"path":".gitattributes","reason":"Canonical archive inclusion/exclusion rules."},
+    {"path":".ai/cockpit/release-freeze.json","reason":"Observed post-close preflight mismatch evidence."},
+    {"path":"scripts/check_release_preflight.py","reason":"Fail-closed release identity validation."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_governance"],
+    "reason": "One export-boundary rule changes canonical archive membership; no runtime code changes."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause workflow correction."
+  },
+  "preReviewWarnings": ["Verify canonical archive digest changes only because of the intended boundary rule."],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Work Item start receipts are excluded from the canonical release archive while archived immutable evidence remains preserved.",
+    "The release preflight reproduces a stable archive identity after merge, ai-close-work-item, and default-base synchronization.",
+    "The full Contract/Preflight/PR/merge/ai-close-work-item lifecycle passes without starting or reordering planned Work Items."
+  ],
+  "guidelines": [
+    "Canonical release archive boundaries are explicit and reviewable.",
+    "Template evidence remains separate from adopter or installed runtime state.",
+    "Budget and formatting preflight must pass before PR."
+  ],
+  "intent": {
+    "problem": "The post-close release preflight still reports a source/archive mismatch because the Work Item start receipt is included in the canonical archive after closure.",
+    "constraints": ["Template repository only.","Preserve all prior immutable evidence.","Do not change release publication workflow logic or planned Work Item order."],
+    "rationale": "Lifecycle bookkeeping must not perturb the source archive that release metadata attests; the boundary belongs in repository export rules."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized root-cause process corrections when CI/PR/release gates expose workflow defects."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_archive_boundary_v1.json",
+    "baseCommit": "05cf82778b2441ac77e670c846920cffc5fa625c",
+    "initialScopeDigest": "41c631de227c3915c3fd8246540647c926d56a79d2a7224fba4e30a23f80dbc7",
+    "contractSkeletonDigest": "437bda3b119dd163e7f660f01b123802f88a3986ebcc150a2c75375982e79b08"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_metadata_post_close_pr_v1",
+  "mode": "code",
+  "title": "release metadata post-close PR",
+  "rawUserRequest": "同意，走完整 Contract/Preflight/PR/合并/ai-close-work-item 流程后再发布；每次发现流程问题都从根本上修改，不做表面重复。当前只修正发布冻结后的受保护主分支流程，不启动或跳过任何计划内工单。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-request-2026-07-23-process-root-cause-release-freeze",
+    "capturedAt": "2026-07-23",
+    "digest": "user-authorized-corrective-release-workflow"
+  },
+  "declaredIntent": {
+    "summary": "将发布冻结后的 release.json 与 release-freeze.json 投影纳入受保护主分支的独立 PR 生命周期，并在合并、ai-close-work-item 和默认分支同步后再进行最终发布确认。",
+    "requestedCapabilities": ["ai_governance", "documentation", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "13e2436e984ec1112a4ee02d404bc13e6532ae71",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_metadata_post_close_pr_v1.contract.json",
+    ".ai/work-items/active/release_metadata_post_close_pr_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "release.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "outOfScope": [
+    "Any adopter project or installed runtime repository",
+    "Starting or reordering planned Work Items",
+    "Changing release archive encoding or publication workflow logic",
+    "Deleting prior immutable evidence"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/release_metadata_post_close_pr_v1.contract.json",
+      "reason": "Post-close release metadata must pass repository PR protection before publication."
+    },
+    {
+      "path": "release.json",
+      "reason": "Generated source-bound archive digest projection."
+    },
+    {
+      "path": ".ai/cockpit/release-freeze.json",
+      "reason": "Generated post-close lifecycle freeze projection."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Generated supply-chain digest projection updated when release.json changes."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "Only export-ignored release projections change; source archive identity remains stable."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized the corrective post-close release metadata PR and publication confirmation."
+  },
+  "preReviewWarnings": [
+    "Verify exact post-close source identity, PR protection, required checks, and no plan Work Item changes."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Protected main rejects direct release metadata push",
+      "required": true,
+      "riskDomain": "release_governance",
+      "status": "verified",
+      "evidence": ["Repository rules response", "release.json", ".ai/cockpit/release-freeze.json"]
+    },
+    {
+      "scenario": "Metadata PR preserves canonical archive identity",
+      "required": true,
+      "riskDomain": "source_binding",
+      "status": "verified",
+      "evidence": ["scripts/check_release_preflight.py", "make check-release-preflight"]
+    }
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json and release-freeze.json match the canonical archive identity after ai-close-work-item and default-base synchronization.",
+    "The metadata-only PR passes template-smoke and compatibility-gate before merge; no planned Work Item is started or reordered.",
+    "PR merge, ai-close-work-item, branch cleanup, default-base equality, and final release preflight complete successfully."
+  ],
+  "guidelines": [
+    "Release metadata is generated only after Work Item closure and synchronized default-base state.",
+    "Template release evidence remains separate from adopter runtime state."
+    ,"Budget and formatting preflight evidence must pass before PR; any measured archive growth is explicitly reserved in the same corrective Work Item."
+  ],
+  "intent": {
+    "problem": "Repository rules reject direct post-close metadata pushes, so final freeze projections must themselves use a PR and required checks before publication.",
+    "constraints": ["Template repository only.", "Do not start or reorder planned Work Items.", "Preserve canonical archive encoding and prior evidence."],
+    "rationale": "A dedicated corrective PR makes the final release projection comply with the same protected-main lifecycle as every other governed change."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the complete corrective release workflow including PR, merge, closure, and publication confirmation."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_metadata_post_close_pr_v1.json",
+    "baseCommit": "13e2436e984ec1112a4ee02d404bc13e6532ae71",
+    "initialScopeDigest": "33fc26c2e372e295af34ef687a078e5156596b55d290a5f2f525c6c068f02b0c",
+    "contractSkeletonDigest": "c025066dc79c5efa479a41f5dbc58ec2aab72ea3ee8ff8120d0a5ac0382da731"
+  }
+}

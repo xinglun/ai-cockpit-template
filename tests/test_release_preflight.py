@@ -1,7 +1,9 @@
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
+import scripts.check_release_preflight as preflight
 from scripts.check_release_preflight import ReleasePreflightError
 from scripts.check_release_preflight import _load_object
 from scripts.check_release_preflight import canonical_archive_sha
@@ -64,3 +66,32 @@ def test_load_object_rejects_malformed_json(tmp_path):
     path.write_text("{", encoding="utf-8")
     with pytest.raises(ReleasePreflightError, match="missing or invalid"):
         _load_object(path, "fixture")
+
+
+def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
+    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
+    (tmp_path / ".ai" / "guards").mkdir(parents=True)
+    (tmp_path / ".ai" / "work-items" / "active").mkdir(parents=True)
+    (tmp_path / ".ai" / "work-items" / "archive").mkdir(parents=True)
+    (tmp_path / "release.json").write_text(
+        '{"releaseArchive":{"sha256":"abc"}}', encoding="utf-8"
+    )
+    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
+        '{"state":"frozen","sourceTree":"tree","archiveSha256":"abc"}',
+        encoding="utf-8",
+    )
+    (tmp_path / ".ai" / "guards" / "governance_complexity_policy.yaml").write_text(
+        "archiveGrowth: 10\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(preflight, "canonical_archive_sha", lambda root, commit: "abc")
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda *args, **kwargs: SimpleNamespace(stdout="tree\n"),
+    )
+    monkeypatch.setattr(
+        "sys.argv",
+        ["check_release_preflight", "--root", str(tmp_path), "--source-commit", "HEAD"],
+    )
+    assert preflight.main() == 0
+    assert "release preflight passed" in capsys.readouterr().out

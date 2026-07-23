@@ -23,6 +23,9 @@ def validate_budget_impact(
             expected = impact.get("expectedMetrics", {})
             if isinstance(expected, dict):
                 values.append(expected.get(metric))
+            future = impact.get("reservedFutureMetrics", {})
+            if isinstance(future, dict):
+                values.append(future.get(metric))
         normalized_limit = numeric_value(limit)
         if normalized_limit is None:
             continue

@@ -157,6 +157,8 @@ def validate_archive_growth_reservation(
     impact = contract.get("budgetImpact")
     expected_metrics = impact.get("expectedMetrics") if isinstance(impact, dict) else None
     expected = expected_metrics.get("archiveGrowth") if isinstance(expected_metrics, dict) else None
+    future_metrics = impact.get("reservedFutureMetrics") if isinstance(impact, dict) else None
+    future = future_metrics.get("archiveGrowth") if isinstance(future_metrics, dict) else None
     issues: list[str] = []
     if not isinstance(expected, int) or isinstance(expected, bool):
         issues.append(
@@ -167,6 +169,12 @@ def validate_archive_growth_reservation(
         issues.append(
             "archiveGrowth reservation is stale: "
             f"expected {expected}, projected archive count is {projected}"
+        )
+    if future is not None and (
+        not isinstance(future, int) or isinstance(future, bool) or future < projected
+    ):
+        issues.append(
+            "reservedFutureMetrics.archiveGrowth must be an integer at least the current projected archive count"
         )
     if isinstance(limit, int) and projected > limit:
         issues.append(f"projected archiveGrowth={projected} exceeds configured maximum {limit}")

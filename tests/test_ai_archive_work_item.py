@@ -30,6 +30,25 @@ def test_archive_growth_reservation_accepts_projected_count_and_repayment():
     )
 
 
+def test_archive_growth_accepts_bounded_future_reservation():
+    contract = {
+        "workItemId": "budget-window",
+        "budgetImpact": {
+            "expectedMetrics": {"archiveGrowth": 496},
+            "reservedFutureMetrics": {"archiveGrowth": 497},
+            "approved": True,
+            "repaymentWorkItem": "budget-window",
+            "repaymentRecords": ["policy"],
+        },
+    }
+    assert (
+        ai_archive_work_item.validate_archive_growth_reservation(
+            contract, 495, {"max": {"archiveGrowth": 497}}
+        )
+        == []
+    )
+
+
 def test_archive_growth_string_policy_limit_rejects_unapproved_overrun():
     contract = {
         "workItemId": "task",

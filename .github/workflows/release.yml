@@ -191,7 +191,7 @@ jobs:
           bash scripts/check_ci_release_evidence.sh "$RUNNER_TEMP/release-evidence/ci-release-evidence.json" "$SOURCE_COMMIT"
           archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
           git archive --format=tar --mtime='1970-01-01 00:00:00' --prefix="ai-cockpit/" "$SOURCE_COMMIT^{tree}" \
-            | python3 -c 'import gzip,sys; sys.stdout.buffer.write(gzip.compress(sys.stdin.buffer.read(), compresslevel=9, mtime=0))' \
+            | python3 -c 'import gzip,sys; data=sys.stdin.buffer.read(); out=gzip.GzipFile(fileobj=sys.stdout.buffer, mode="wb", compresslevel=9, mtime=0); out.write(data); out.close()' \
             > "$RUNNER_TEMP/release-evidence/$archive_name"
           archive_sha="$(sha256sum "$RUNNER_TEMP/release-evidence/$archive_name" | cut -d' ' -f1)"
           test "$archive_sha" = "$(jq -r '.releaseArchive.sha256' release.json)"

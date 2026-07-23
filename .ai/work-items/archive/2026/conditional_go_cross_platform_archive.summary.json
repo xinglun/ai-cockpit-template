@@ -1,0 +1,388 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "conditional_go_cross_platform_archive",
+  "contractPath": ".ai/work-items/archive/2026/conditional_go_cross_platform_archive.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_cross_platform_archive.contract.json",
+      "reason": "Defined the cross-platform archive repair scope, evidence, acceptance, and explicit user authorization."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_cross_platform_archive.summary.json",
+      "reason": "Records verification, guideline compliance, and the final release handoff."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Uses explicit gzip.GzipFile stream construction for deterministic release archive bytes."
+    },
+    {
+      "path": "tests/test_release_archive_contract.sh",
+      "reason": "Mirrors the workflow compression behavior in the local archive contract test."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/conditional_go_cross_platform_archive.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+    ".github/workflows/release.yml",
+    "tests/test_release_archive_contract.sh",
+    "gh run 29978045161"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:41.786917+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "cd7d24ada036a2d1d9b6226ea4a404c69574feb338869ddd5cbd7a4842637fb9",
+      "commandHash": "dc172859da46a1935f8c706e7091dffba2e7ff2edd7890ac5ec07f6e79f77915",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/conditional_go_cross_platform_archive.contract.json work item contract check passed: .ai/work-items/active/conditional_go_cross_platform_archive.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:41.982828+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "6f6d27e1d079b744402363c92a90e5d5835cda883748063554e716afed11d957",
+      "commandHash": "69b6ea3318f5c8a50546562e5ea50161190c2032b4d75696b456d93e3e02c0e7",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/conditional_go_cross_platform_archive.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:42.209364+00:00",
+      "exitCode": 0,
+      "durationMs": 144,
+      "outputDigest": "e0e465e072b9fcdf6f1aeafbc6596492ad3bce98d0822df7c53cdc25318f24d6",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:42.542370+00:00",
+      "exitCode": 0,
+      "durationMs": 258,
+      "outputDigest": "46901308e85d38b6d183366387c5677b34ed1c8755d81e994eb22fe7690f7df5",
+      "commandHash": "c446ea287986dc9b897e5030f3df0c25e740d8f76b07cc8886104bc37b76abcf",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `conditional_go_cross_platform_archive` - Contract Hash: `0821950f0605a792` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:42.749611+00:00",
+      "exitCode": 0,
+      "durationMs": 125,
+      "outputDigest": "7a13e37449bca3c3029cd9d4d2a38a3c0ab872917208de65b049661df4f5b303",
+      "commandHash": "fa076010e2b402f85d150387e5885ebc1e3a8a9cbc50736461e8006d38a04cc1",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/conditional_go_cross_platform_archive.json [review] .ai/cockpit/current_status.md [review] .github/workflows/release.yml review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:43.045444+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:43.236337+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:43.352584+00:00",
+      "exitCode": 0,
+      "durationMs": 45,
+      "outputDigest": "ecdd67d7b1409100dcdaf0c18cea0e5595414a4276f51d6ad42d72b0e17308e3",
+      "commandHash": "3ad400f9f40e9023ac77f60383099d7dbcecc69ae8997cc96ec0f73922a76b22",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:43.465975+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "4497791c955b77ebf28a17745030246014a5e2bd6d475fbbbf790de4b2ac7c38",
+      "commandHash": "5a57d1c2c10552f795f04a0945db2daa4a6146d1e9db8f4bffd9bd0f0fac93cc",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:06:43.808306+00:00",
+      "exitCode": 0,
+      "durationMs": 270,
+      "outputDigest": "438d044faf5c5df7be42b6362420867141752f5913aeb8e455bdcba20bb5c190",
+      "commandHash": "f35a7b30fd9dba0eff1d22e32996cc52f2e34801fdc9f87d4ba0486df20d4fbc",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/conditional_go_cross_platform_archive.json` — covered by Contract scope - [active_owned] "
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:11:14.835138+00:00",
+      "exitCode": 0,
+      "durationMs": 270953,
+      "outputDigest": "199102c3b0c5e14058694ac60e97285201b3d2589bb7e2358c2b7b55c6738ec3",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "0c0cc2b8537599abd2401edcc69a8076e9d102888f3ee07d20914407812b9a29",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 178 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 8%] ........................................................................ [ 16%] ........................................................................ [ 24%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:11:16.551659+00:00",
+      "exitCode": 0,
+      "durationMs": 316,
+      "outputDigest": "1063d27e059b14f679997ac9f5bddb42aad0db638ee1864151435835e4826f2c",
+      "commandHash": "ce6b1a59ff173a0c1eae2c3a5e4d9fd50f4831a1ae26c3849204164c9610da5f",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "8fb6913a2860244824beaebc0ae78c905f0d87cb1fc25db3ee45f4e026ce564c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/conditional_go_cross_platform_archive.contract.json --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:11:16.878103+00:00",
+      "exitCode": 0,
+      "durationMs": 257,
+      "outputDigest": "9cf08e6f66a81ef4cfec984de394dae8a6d66a383ecd506f463a1c0bc34293a8",
+      "commandHash": "6e80b06d3c41638d7b0c59b90e27f8b38a9f26aa19ac5bdbbc66eff316e53ac7",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "8fb6913a2860244824beaebc0ae78c905f0d87cb1fc25db3ee45f4e026ce564c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:11:16.987582+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "8fb6913a2860244824beaebc0ae78c905f0d87cb1fc25db3ee45f4e026ce564c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:11:17.177762+00:00",
+      "exitCode": 0,
+      "durationMs": 82,
+      "outputDigest": "6653b775ebdf62f6e1f629ddfe87e0ac988b94592e8cb66ffdf26d2155a0978f",
+      "commandHash": "782486762ea8bef56afaf7627f60cf3adf7105cc7c2e79006c1ed2abdbe29589",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "8fb6913a2860244824beaebc0ae78c905f0d87cb1fc25db3ee45f4e026ce564c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json --summary .ai/work-items/active/conditional_go_cross_platform_archive.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/conditional_go_cross_platform_archive.summary.json CONTRACT=.ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T04:11:18.237111+00:00",
+      "exitCode": 0,
+      "durationMs": 115,
+      "outputDigest": "14927d7eb35de47a7755641f87997d75d59515febfbb05527005f0eb95202af3",
+      "commandHash": "62918e62e046fe65f115ececa2696bb75129648bb96aac85288fd8e6eb7288b0",
+      "contractHash": "0821950f0605a792f39d0eafb801ab607b5a95c5f830ff9515c1f7496644f33d",
+      "commitSha": "1632782ddb038a264312cadaa26cc0a2344f4bb9",
+      "executionContractPath": ".ai/work-items/active/conditional_go_cross_platform_archive.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/conditional_go_cross_platform_archive.summary.json",
+      "worktreeDigest": "a06ee7417eceb8d761697b56563f9f44f84cf7e1f3b00489694b9ca1caf1d1fd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/conditional_go_cross_platform_archive.summary.json --contract .ai/work-items/active/conditional_go_cross_platform_archive.contract.json ai summary check passed: .ai/work-items/active/conditional_go_cross_platform_archive.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep release archive bytes deterministic across supported runner platforms.",
+      "compliant": true,
+      "evidence": "Workflow and local contract use the same explicit gzip.GzipFile settings: level 9 and mtime 0."
+    },
+    {
+      "guideline": "Keep the workflow and local contract implementation identical in behavior.",
+      "compliant": true,
+      "evidence": "Both paths use standard-library gzip.GzipFile over the same deterministic git archive tar stream."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Only deterministic release archive compression commands are changed; release metadata remains post-archive bound."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "scope",
+      "detail": "Linux CI verification remains required before release publication.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Verify deterministic gzip header and trailer behavior on Linux CI."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "0821950f0605a792",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0,
+      "recordedAt": "2026-07-23T13:00:00+09:00",
+      "evidence": "Preflight ready; baseline origin/main is 1632782ddb038a264312cadaa26cc0a2344f4bb9; local archive contract and shell syntax checked."
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "0821950f0605a792",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16,
+      "recordedAt": "2026-07-23T13:15:00+09:00",
+      "evidence": "make quality passed: pytest 100%, Ruff, mypy, Bandit baseline, supply-chain checks, invariants, and adopter long-cycle checks."
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 480
+}

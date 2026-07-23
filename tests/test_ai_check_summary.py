@@ -349,6 +349,41 @@ def test_summary_validator_rejects_unknown_active_fields():
     assert "unknown field: unexpectedField" in issues
 
 
+def test_summary_validator_accepts_structured_preflight_decision_evidence():
+    summary = {
+        "summaryVersion": 2,
+        "workItemId": "task",
+        "contractPath": ".ai/work-items/active/task.contract.json",
+        "changedFiles": [{"path": "scripts/app.py", "reason": "changed"}],
+        "sourcesUsed": ["spec"],
+        "verification": [{"check": "quality", "result": "passed"}],
+        "unknownsRemaining": [],
+        "risk": {"level": "low", "detail": "fixture"},
+        "generatedFiles": [],
+        "destructiveChanges": [],
+        "observedIssues": [],
+        "decisionEvidence": {
+            "decisionId": "HD-test",
+            "decision": "A",
+            "workItemId": "task",
+            "contractHash": "a" * 16,
+            "preflightHash": "b" * 16,
+            "recordedAt": "2026-07-24T00:00:00Z",
+            "recordedBy": "user",
+        },
+    }
+    issues = ai_check_summary.validate_summary(
+        summary,
+        {
+            "contractVersion": 2,
+            "workItemId": "task",
+            "verification": [{"check": "quality", "required": True}],
+        },
+        summary_path=".ai/work-items/active/task.summary.json",
+    )
+    assert not any("unknown field: decisionEvidence" in issue for issue in issues)
+
+
 def test_summary_validator_accepts_positive_archive_sequence_and_rejects_invalid_value():
     summary = {
         "summaryVersion": 2,

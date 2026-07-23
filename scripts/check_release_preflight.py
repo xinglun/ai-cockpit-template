@@ -111,12 +111,27 @@ def validate_release_preflight(
     if freeze.get("state") != "frozen":
         issues.append("release-freeze.json state must be frozen")
     lifecycle = freeze.get("lifecycle")
-    if not isinstance(lifecycle, dict) or lifecycle.get("state") != "closed_and_synchronized":
+    if not isinstance(lifecycle, dict) or lifecycle.get("state") not in {
+        "closed_and_synchronized",
+        "premerge_finalized",
+    }:
         issues.append(
-            "release freeze lifecycle must be generated after ai-close-work-item and base synchronization"
+            "release freeze lifecycle must be finalized after Work Item archive and before publication"
         )
     else:
-        if lifecycle.get("command") != "make ai-close-work-item":
+        lifecycle_state = lifecycle.get("state")
+        expected_command = (
+            "make ai-close-work-item" if lifecycle_state == "closed_and_synchronized" else None
+        )
+        if lifecycle_state == "premerge_finalized":
+            command = lifecycle.get("command")
+            if not isinstance(command, str) or not command.startswith(
+                "make finalize-release-freeze-premerge TASK="
+            ):
+                issues.append(
+                    "pre-merge release freeze lifecycle command must identify the archived Work Item"
+                )
+        elif lifecycle.get("command") != expected_command:
             issues.append("release freeze lifecycle command must be make ai-close-work-item")
         if lifecycle.get("baseCommit") != source_tree:
             issues.append(

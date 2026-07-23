@@ -17,7 +17,9 @@ def _fail(message: str) -> int:
     return 1
 
 
-def main(candidate_task: str | None = None) -> int:
+def main(candidate_task: str | None = None, premerge_task: str | None = None) -> int:
+    if candidate_task is not None and premerge_task is not None:
+        return _fail("candidate and pre-merge modes are mutually exclusive")
     root = PROJECT_ROOT
     candidates = discover_remote_default_candidates(run_git)
     if len(candidates) != 1:
@@ -25,32 +27,50 @@ def main(candidate_task: str | None = None) -> int:
     remote, branch = candidates[0]
     current = run_git(["branch", "--show-current"])
     current_branch = current.stdout.strip() if current.returncode == 0 else ""
-    if candidate_task is None and current_branch != branch:
+    if candidate_task is None and premerge_task is None and current_branch != branch:
         return _fail(f"must run on synchronized default branch {branch}")
-    if candidate_task is not None and (not current_branch or current_branch == branch):
+    if (candidate_task is not None or premerge_task is not None) and (
+        not current_branch or current_branch == branch
+    ):
         return _fail(f"candidate mode must run on a dedicated Work Item branch, not {branch}")
     status = run_git(["status", "--porcelain", "--untracked-files=all"])
     if status.returncode != 0 or status.stdout.strip():
         return _fail("worktree must be clean before freeze finalization")
     head = run_git(["rev-parse", "HEAD"])
     remote_head = run_git(["rev-parse", f"{remote}/{branch}"])
-    if candidate_task is None and (
-        head.returncode != 0
-        or remote_head.returncode != 0
-        or head.stdout.strip() != remote_head.stdout.strip()
+    if (
+        candidate_task is None
+        and premerge_task is None
+        and (
+            head.returncode != 0
+            or remote_head.returncode != 0
+            or head.stdout.strip() != remote_head.stdout.strip()
+        )
     ):
         return _fail("local default branch must equal the remote default branch")
     active = sorted(
         path.name.removesuffix(".contract.json")
         for path in (root / ".ai" / "work-items" / "active").glob("*.contract.json")
     )
-    if candidate_task is None and active:
+    if candidate_task is None and premerge_task is None and active:
         return _fail(f"active Work Items remain: {', '.join(active)}")
     if candidate_task is not None and active != [candidate_task]:
         return _fail(
             f"candidate mode requires exactly the active Work Item {candidate_task!r}; "
             f"found {active or 'none'}"
         )
+    if premerge_task is not None:
+        archived_contract = (
+            root / ".ai" / "work-items" / "archive" / "2026" / f"{premerge_task}.contract.json"
+        )
+        if active:
+            return _fail(
+                f"pre-merge finalization requires no active Work Items; found {', '.join(active)}"
+            )
+        if not archived_contract.exists():
+            return _fail(
+                f"pre-merge finalization requires archived Work Item evidence: {premerge_task}"
+            )
     status_path = root / ".ai" / "cockpit" / "current_status.md"
     if candidate_task is None and "- State: `no_active_work_item`" not in status_path.read_text(
         encoding="utf-8"
@@ -82,14 +102,28 @@ def main(candidate_task: str | None = None) -> int:
             "sourceTree": source_tree,
             "archiveSha256": archive_sha,
             "lifecycle": {
-                "state": "closed_and_synchronized"
-                if candidate_task is None
-                else "candidate_prepared",
-                "command": "make ai-close-work-item"
-                if candidate_task is None
-                else f"make finalize-release-freeze-candidate CANDIDATE_TASK={candidate_task}",
+                "state": (
+                    "closed_and_synchronized"
+                    if candidate_task is None and premerge_task is None
+                    else "candidate_prepared"
+                    if candidate_task is not None
+                    else "premerge_finalized"
+                ),
+                "command": (
+                    "make ai-close-work-item"
+                    if candidate_task is None and premerge_task is None
+                    else f"make finalize-release-freeze-candidate CANDIDATE_TASK={candidate_task}"
+                    if candidate_task is not None
+                    else f"make finalize-release-freeze-premerge TASK={premerge_task}"
+                ),
                 "defaultBranch": branch,
-                **({"candidateBranch": current_branch} if candidate_task is not None else {}),
+                **(
+                    {"candidateBranch": current_branch}
+                    if candidate_task is not None
+                    else {"premergeWorkItem": premerge_task}
+                    if premerge_task is not None
+                    else {}
+                ),
                 "baseCommit": source_tree,
                 "worktreeClean": True,
             },
@@ -124,5 +158,6 @@ def main(candidate_task: str | None = None) -> int:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidate-task", default=None)
+    parser.add_argument("--premerge-task", default=None)
     args = parser.parse_args()
-    raise SystemExit(main(candidate_task=args.candidate_task))
+    raise SystemExit(main(candidate_task=args.candidate_task, premerge_task=args.premerge_task))

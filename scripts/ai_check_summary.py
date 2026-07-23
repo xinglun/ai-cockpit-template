@@ -62,6 +62,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "userCorrectionSolidification",
     "userCorrectionsCaptured",
     "intentAlignment",
+    "decisionEvidence",
 }
 RESULTS = {"passed", "failed", "not_run"}
 RISK_LEVELS = {"low", "medium", "high"}

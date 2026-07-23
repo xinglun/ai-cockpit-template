@@ -148,6 +148,10 @@ finalize-release-freeze-candidate:
 	test -n "$(CANDIDATE_TASK)"
 	$(AI_PYTHON) scripts/finalize_release_freeze.py --candidate-task "$(CANDIDATE_TASK)"
 
+finalize-release-freeze-premerge:
+	test -n "$(TASK)"
+	$(AI_PYTHON) scripts/finalize_release_freeze.py --premerge-task "$(TASK)"
+
 check-ci-release-evidence:
 	test -n "$(CI_RELEASE_EVIDENCE)"
 	bash scripts/check_ci_release_evidence.sh "$(CI_RELEASE_EVIDENCE)" "$(CI_EXPECTED_HEAD_SHA)"

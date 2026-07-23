@@ -1,0 +1,304 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_freeze_premerge_v2",
+  "mode": "code",
+  "title": "Bind final release freeze after archive before merge (latest-base rerun)",
+  "baseCommit": "e528cda6b6a53a73884753bbcedcb79b383d55ca",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/finalize_release_freeze.py",
+    "scripts/check_release_preflight.py",
+    "scripts/ai_check_summary.py",
+    "Makefile",
+    "tests/test_release_preflight.py",
+    "tests/test_ai_check_summary.py",
+    "release.json",
+    "release-state.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/release_freeze_premerge_v2.contract.json",
+    ".ai/work-items/active/release_freeze_premerge_v2.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/decisions/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_pr.py",
+    "tests/test_pr_aggregate.py"
+  ],
+  "outOfScope": [
+    "release tag creation and provider publication",
+    "provider assets and external distribution",
+    "unrelated product or adopter-runtime changes"
+  ],
+  "sources": [
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Canonical release-freeze timing gate."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Release publication preflight and lifecycle validation."
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Summary validator must accept persisted structured Preflight decisions."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Regression coverage for candidate/final freeze timing."
+    },
+    {
+      "path": "tests/test_ai_check_summary.py",
+      "reason": "Regression coverage for structured decision evidence in Summary."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Canonical pre-merge finalization entry point."
+    },
+    {
+      "path": "release.json",
+      "reason": "Source-bound release archive digest."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Release metadata digest state."
+    },
+    {
+      "path": ".ai/cockpit/release-freeze.json",
+      "reason": "Final freeze lifecycle evidence."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Release source and metadata digests."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Functional Work Item archive-growth budget and repayment record."
+    },
+    {
+      "path": ".ai/work-items/active/release_freeze_premerge_v2.contract.json",
+      "reason": "This Work Item Contract."
+    },
+    {
+      "path": ".ai/work-items/active/release_freeze_premerge_v2.summary.json",
+      "reason": "This Work Item Summary."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository governance terminology."
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR ownership gate for archive-bound generated release metadata."
+    },
+    {
+      "path": "tests/test_pr_aggregate.py",
+      "reason": "Regression coverage for archive-bound metadata ownership."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_lifecycle",
+      "governance_process"
+    ],
+    "reason": "Changes the release-freeze timing contract and generated release evidence; publication remains out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause process correction before publication."
+  },
+  "preReviewWarnings": [
+    "Verify the finalization command is only usable after archive creation and before PR merge; publication remains blocked until post-merge closure evidence is verified."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Finalization before archive or with active Work Items is rejected.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py::test_finalize_release_freeze_requires_clean_synchronized_default_branch",
+        "tests/test_release_preflight.py::test_finalize_release_freeze_candidate_mode_binds_to_work_item_branch"
+      ]
+    },
+    {
+      "scenario": "Archived Work Item finalization on a dedicated branch produces source-bound evidence that survives PR merge.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py::test_finalize_release_freeze_premerge_requires_archived_work_item",
+        "tests/test_release_preflight.py::test_release_preflight_accepts_archive_bound_premerge_freeze",
+        "scripts/finalize_release_freeze.py"
+      ]
+    }
+  ],
+  "acceptance": [
+    "A canonical pre-merge finalization mode generates release freeze evidence after Work Item archive creation, so the PR tree already contains the final archive-bound digest.",
+    "Release preflight accepts the final freeze only when the merged default tree matches the source-bound freeze and there are no active Work Items; direct protected-main mutation is not required.",
+    "Regression tests fail closed for finalization before archive, active Work Items, wrong branch, dirty tree, stale source tree, and archive mismatch.",
+    "The archive-growth budget increases from 511 to 512 on the latest default base as evidence for this functional process correction, with repayment recorded; no budget-only Work Item is created."
+  ],
+  "guidelines": [
+    "Use canonical finalizer/preflight commands; do not hand-edit generated release evidence.",
+    "Keep release-process changes scoped to the template repository and distinguish template from adopter runtime.",
+    "Do not publish tags or provider assets from this Work Item."
+  ],
+  "intent": {
+    "problem": "The completed release-freeze Work Item exposed a structural timing flaw: candidate evidence is generated before archive mutation, while final evidence can only be generated on synchronized default main, which would require a protected-main direct commit after PR merge.",
+    "constraints": [
+      "Finalization must happen after archive creation and before PR merge on the dedicated Work Item branch.",
+      "The merged default tree must be content-identical to the finalized PR tree; no post-merge metadata commit is allowed.",
+      "Publication and provider assets remain out of scope until the complete lifecycle and final preflight pass."
+    ],
+    "rationale": "Move the final freeze mutation into the governed PR tree and make post-merge preflight a verification step, eliminating the direct protected-main write and its repeated PR failure."
+  },
+  "rawUserRequest": "Complete the Conditional GO plan and release using Contract/Preflight/PR/merge/ai-close-work-item for every Work Item. If a CI or PR gate reveals a process defect, stop publication and fix the root process first. Do not create a separate budget-only Work Item.",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:2026-07-24-root-cause-process-improvement",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-authorized-process-correction"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Move final release freeze generation into the archived Work Item PR tree and enforce post-merge verification without a protected-main write.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "documentation",
+      "test_automation"
+    ]
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized root-cause governance and release-process corrections before publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 512,
+      "pythonLines": 39850
+    },
+    "approved": true,
+    "repaymentWorkItem": "conditional_go_plan_cleanup",
+    "repaymentRecords": [
+      {
+        "metric": "archiveGrowth",
+        "from": 511,
+        "to": 512,
+        "approvedBy": "user",
+        "date": "2026-07-24",
+        "reason": "Functional archive-bound release-freeze rerun on the latest default base; no budget-only Work Item, repay during conditional_go_plan_cleanup after preserving evidence."
+      },
+      {
+        "metric": "pythonLines",
+        "from": 39700,
+        "to": 39850,
+        "approvedBy": "user",
+        "date": "2026-07-24",
+        "reason": "Measured latest-base rerun governance growth; no budget-only Work Item, repay during conditional_go_plan_cleanup after preserving evidence."
+      }
+    ],
+    "reason": "The archive is immutable evidence of this functional process correction, not a separate budget reservation."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_freeze_premerge_v2.json",
+    "baseCommit": "e528cda6b6a53a73884753bbcedcb79b383d55ca",
+    "initialScopeDigest": "ad4945471fcb7387639eeba6eb41f92c1b02392810216a4e335995857edc2007",
+    "contractSkeletonDigest": "604e8de9641a5a6e162826f5f56fbde707e2bf6fc32b1156973ba5781d961dec"
+  }
+}

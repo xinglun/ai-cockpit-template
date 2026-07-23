@@ -1,0 +1,427 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_freeze_source_ref_resolution",
+  "contractPath": ".ai/work-items/archive/2026/release_freeze_source_ref_resolution.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Resolve CLI and manifest source refs before strict identity comparison and fail closed on invalid refs."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Persist HEAD symbolically so the generated manifest remains valid after its metadata commit."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Cover symbolic resolution, finalizer commit stability, stale refs, and main preflight behavior."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Record the measured complexity budget impact for this corrective Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_freeze_source_ref_resolution.contract.json",
+      "reason": "Declare the expanded root-cause scope, acceptance, and budget impact."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_freeze_source_ref_resolution.summary.json",
+      "reason": "Record evidence and review handoff for the corrective Work Item."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_freeze_source_ref_resolution.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/check_release_preflight.py",
+    "scripts/finalize_release_freeze.py",
+    ".github/workflows/release.yml",
+    "tests/test_release_preflight.py",
+    ".ai/work-items/archive/2026/release_freeze_source_consistency.archive-manifest.json"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:41.891386+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "8ff41a9004c3def73bbd6ee722304e04c570fbbfda88a8c0d3ba8ded968ee70e",
+      "commandHash": "826449466ba941985f00befac02e00f0078511de876dc802fb16fc56ff074857",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_freeze_source_ref_resolution.contract.json work item contract check passed: .ai/work-items/active/release_freeze_source_ref_resolution.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:42.085752+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "d376846b8822117d7dfd4b71a31018ed540c83423cd1100ed63f8a260d6b7f0a",
+      "commandHash": "9d235ab508a010816970b2ff89416ad7cf2ffee6bb582acd5d9f5245b444df0b",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_freeze_source_ref_resolution.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:42.317582+00:00",
+      "exitCode": 0,
+      "durationMs": 142,
+      "outputDigest": "2d54c9f5568b4a63673d81a0201ed060fe67ae3ee72d68a5ee0f190a2bb76b28",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:42.688802+00:00",
+      "exitCode": 0,
+      "durationMs": 283,
+      "outputDigest": "e2a9c9ffa9a981d617c70f0f0cf28709de8bee15ceabf86b6fcdd89aab11d64a",
+      "commandHash": "97d14c94d15f41750b8603958f87d82322a23883ac0ddab326284cdf31e7958a",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_freeze_source_ref_resolution` - Contract Hash: `a2fbcfecc5f6ffe8` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:42.901876+00:00",
+      "exitCode": 0,
+      "durationMs": 129,
+      "outputDigest": "05e2ad402bd57585ec086a73abbb3ecd8736fd5b1dc53a8e438122e3b0e82217",
+      "commandHash": "5cdf9d3bad9b2b689b42fb8ffd32b782305bbe472da41bcf6dcb01379e30a73b",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/release_freeze_source_ref_resolution.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:43.110936+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:43.307911+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:43.442020+00:00",
+      "exitCode": 0,
+      "durationMs": 59,
+      "outputDigest": "dc5e564f5a57bcc51eabe45e86613b63d117b357cef02026703c531abdbd0d1f",
+      "commandHash": "71ccb04ab1e7a3b83123b6df30b3621d7b6950954b085e1fc169003171ffbc69",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:43.557172+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "96eefd950e74d5937274e301d3016ddb19a7df1bff745d6cada81a4807a70e76",
+      "commandHash": "686c11faac5eda6499fb0213859d9271c6a263a09b7b96a1db1bd5e9aba8d125",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:36:43.929620+00:00",
+      "exitCode": 0,
+      "durationMs": 294,
+      "outputDigest": "7ca39c941391b2a6ad6bcfa97b7d6ea146a2baac34c0e6ba39d3c82dc8e03a5e",
+      "commandHash": "4d07bce28bee496e41ad4f2cf2b781b9e9f4c2f07624e6cc99d1403540b1fcb6",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/start"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:40:45.961114+00:00",
+      "exitCode": 0,
+      "durationMs": 241950,
+      "outputDigest": "ace170fc99a7fe6a9d30c4cf38eb78f8f50cde69c0f1521aa6fdfdde582bdf79",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "1e148ffe69eba3998520bede69a5bfd892677d9ebc76bd4152d36a2571530a6e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 23%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:40:48.144346+00:00",
+      "exitCode": 0,
+      "durationMs": 555,
+      "outputDigest": "d749cbf466d02585a5af44f64803a2372f3d002867c619c890a44e6aeb208ec2",
+      "commandHash": "a05746a3f471b0ec85f51f6a7b116ee532dd96d1bfeafaeaa2cfd4e6ffec5aab",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "65d2b074bba13f193c6aa1922f58c785a14ce2dde38d37ab85025f79d15739fe",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_freeze_source_ref_resolution.contract.json --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:40:48.486120+00:00",
+      "exitCode": 0,
+      "durationMs": 263,
+      "outputDigest": "a93d10643aed3cc5a20bbc080723ffeaf3bea13a57ad7d668ad25b56f53990fc",
+      "commandHash": "bf3cb7cdd80b0ed23d45ff94c1671b538e9d9693724151f40bc53b423bb18756",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "65d2b074bba13f193c6aa1922f58c785a14ce2dde38d37ab85025f79d15739fe",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:40:48.606366+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "65d2b074bba13f193c6aa1922f58c785a14ce2dde38d37ab85025f79d15739fe",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:40:48.938259+00:00",
+      "exitCode": 0,
+      "durationMs": 222,
+      "outputDigest": "a4d24971df77a8d5ea3b6ba10425a3c36294f9390662c7dfa5287b9e49987d80",
+      "commandHash": "02661c4837eacb9ca9d7f1b98fea87e825412cfa5a3a3785335f37de192ef1ab",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "65d2b074bba13f193c6aa1922f58c785a14ce2dde38d37ab85025f79d15739fe",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json --summary .ai/work-items/active/release_freeze_source_ref_resolution.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_freeze_source_ref_resolution.summary.json CONTRACT=.ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T13:40:49.964108+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "7cf8ca7401410a68c959a8d46f9c6d22c4fb3531d2df017cfeebde46304567d0",
+      "commandHash": "b18b83bff8b2d5f19cc21e35fd6db0309b2c16b29dfe16c032d6262966381ed7",
+      "contractHash": "dba5907750ec24f2d5134f83feaa1410974879d1135bb979fbe54f1732c6786c",
+      "commitSha": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+      "executionContractPath": ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json",
+      "worktreeDigest": "dd8314f5defaccd6ece1acb23ddd24fcaa7aee3e1e6e5a52daa8daea7ef31e5c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_freeze_source_ref_resolution.summary.json --contract .ai/work-items/active/release_freeze_source_ref_resolution.contract.json ai summary check passed: .ai/work-items/active/release_freeze_source_ref_resolution.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Compare canonical commit identities, not ref spelling.",
+      "compliant": true,
+      "evidence": "resolve_source_commit is used for both source references before validation."
+    },
+    {
+      "guideline": "Keep committed freeze metadata self-stable across the metadata commit; the immutable release workflow still binds provider evidence to the tag target.",
+      "compliant": true,
+      "evidence": "finalize_release_freeze.py writes HEAD and tests assert the symbolic value."
+    },
+    {
+      "guideline": "Do not publish or tag from this Work Item.",
+      "compliant": true,
+      "evidence": "No provider release or tag operation is in scope."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change tightens source identity validation while permitting only refs that resolve to the same commit; invalid refs remain fail closed."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "Finalizer wrote a concrete SHA before committing the generated metadata, making sourceCommit stale after commit.",
+      "disposition": "Root-fixed by using a symbolic HEAD manifest ref and canonicalizing both refs in preflight."
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "release-finalization",
+      "detail": "Provider release evidence must still bind the immutable tag target; this Work Item does not publish or alter provider workflow evidence.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "symbolic reference resolution",
+      "metadata commit stability",
+      "fail-closed behavior"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "release preflight output remains source-bound",
+    "persistence": "release freeze manifest behavior changed",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "check-release-preflight and finalize-release-freeze behavior covered"
+  },
+  "userCorrectionsCaptured": [
+    "Do not create a separate budget reservation Work Item; include the measured budget in the functional/process correction.",
+    "When a CI or PR gate exposes a process defect, stop publication and fix the root process before retrying."
+  ],
+  "userCorrectionSolidification": [
+    "Budget impact is declared in the Contract and will be measured before Finish Gate.",
+    "The finalizer/preflight sequence now encodes the commit-stability invariant instead of relying on operator timing."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "a2fbcfecc5f6ffe8",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "a2fbcfecc5f6ffe8",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [
+    "Full repository checks, archive evidence, PR review, merge, and ai-close-work-item evidence will be recorded before completion."
+  ],
+  "overclaimPrevention": "Focused tests do not constitute Work Item completion; completion will be claimed only after the full Finish Gate, PR merge, close evidence, branch cleanup, and synchronized base are verified.",
+  "acceptanceEvidence": [
+    {
+      "acceptance": "Both source refs resolve before comparison",
+      "evidence": "tests/test_release_preflight.py::test_source_ref_resolves_symbolic_head_to_a_concrete_commit and main-path coverage"
+    },
+    {
+      "acceptance": "Metadata commit cannot stale the finalized source ref",
+      "evidence": "tests/test_release_preflight.py::test_finalize_release_freeze_writes_post_close_lifecycle_evidence"
+    },
+    {
+      "acceptance": "Stale or invalid refs fail closed",
+      "evidence": "stale digest regression plus resolve_source_commit exception path"
+    }
+  ],
+  "archiveSequence": 498
+}

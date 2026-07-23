@@ -1,0 +1,130 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_freeze_source_ref_resolution",
+  "mode": "code",
+  "title": "release freeze source ref resolution",
+  "baseCommit": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+  "baselineDirtyPaths": [],
+  "scope": ["scripts/check_release_preflight.py", "scripts/finalize_release_freeze.py", "tests/test_release_preflight.py", ".ai/guards/governance_complexity_policy.yaml", ".ai/work-items/active/release_freeze_source_ref_resolution.contract.json", ".ai/work-items/active/release_freeze_source_ref_resolution.summary.json", ".ai/cockpit/current_status.md", ".ai/work-items/starts/**", ".ai/work-items/archive/**"],
+  "outOfScope": ["publishing, tagging, and provider release operations", "release metadata generation until after this Work Item closes", "adopter files and unrelated code"],
+  "sources": [{"path": "scripts/check_release_preflight.py", "reason": "Current sourceCommit validation."}, {"path": "scripts/finalize_release_freeze.py", "reason": "Finalization currently writes a concrete SHA before the metadata commit changes HEAD."}, {"path": ".github/workflows/release.yml", "reason": "Release workflow resolves the immutable tag checkout as HEAD."}, {"path": "tests/test_release_preflight.py", "reason": "Existing preflight and finalizer regression contract."}, {"path": ".ai/work-items/archive/2026/release_freeze_source_consistency.archive-manifest.json", "reason": "Predecessor correction and observed source-reference defect."}],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_metadata_integrity"],
+    "reason": "Resolve symbolic source refs before comparing release digest identity."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause release-process correction before publication."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["Release preflight resolves both the CLI source ref and the committed release-digests source ref to authoritative commits before comparing identities.", "Finalization records a stable symbolic source ref for the committed freeze manifest, so committing the generated metadata cannot make its own source identity stale.", "Regression coverage proves symbolic HEAD and explicit SHA matching pass while stale or unresolvable refs fail.", "The complete corrective Work Item lifecycle is recorded before release metadata is regenerated or published."],
+  "guidelines": ["Compare canonical commit identities, not ref spelling.", "Keep committed freeze metadata self-stable across the metadata commit; the immutable release workflow still binds provider evidence to the tag target.", "Do not publish or tag from this Work Item."],
+  "intent": {
+    "problem": "The source consistency gate compares a digest's concrete SHA to the literal CLI default HEAD, and finalization writes a concrete pre-metadata SHA that becomes stale when the generated metadata is committed.",
+    "constraints": ["This is the template repository, not an adopter project.", "Stop publication until the gate handles symbolic refs correctly.", "Do not create a separate budget Work Item; include measured budget in this correction."],
+    "rationale": "Normalize both source references at the gate boundary and persist HEAD as the freeze manifest's symbolic source ref, preserving strict identity checks without creating a commit-hash cycle."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User authorized root-cause process corrections and subsequent release publication."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {"expectedMetrics": {"archiveGrowth": 499, "pythonLines": 39389}, "approved": true, "repaymentWorkItem": "release_freeze_source_ref_resolution", "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"], "reason": "Measured budget growth belongs to this root-cause process correction; no separate budget reservation Work Item is created."},
+  "scenarioCoverage": [{"scenario": "symbolic CLI and manifest refs resolve to the same concrete commit", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]}, {"scenario": "metadata commit does not stale the finalized symbolic source ref", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]}, {"scenario": "stale or unresolvable source refs are rejected", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]}],
+  "rawUserRequest": "继续根治发布源提交门禁；不要绕过失败，修正引用解析后再发布。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:release-freeze-symbolic-ref-resolution", "capturedAt": "2026-07-23", "digest": "sha256:user-authorized-source-ref-normalization"},
+  "declaredIntent": {"summary": "Normalize symbolic source refs before release source identity comparison and make finalization safe to commit.", "requestedCapabilities": ["ai_governance", "software_design"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "predecessorWorkItem": {"workItemId": "release_freeze_source_consistency", "status": "closed", "pr": {"number": 286, "merged": true, "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/286", "mergeCommit": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60"}, "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": ".ai/work-items/archive/2026/release_freeze_source_consistency.archive-manifest.json"}},
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_freeze_source_ref_resolution.json",
+    "baseCommit": "dfa8d4e6036ca3f0c9e22069374bc7bb30400e60",
+    "initialScopeDigest": "0a9615df804fda629c949f5b29cef22381fea2908b028aa3932268a8fbb0eddd",
+    "contractSkeletonDigest": "f1d56467d5426af6c55df0341063ba7b94d0d89c24a8b553b71e270fd5deeb35"
+  }
+}

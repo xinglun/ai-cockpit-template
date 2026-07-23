@@ -76,7 +76,10 @@ def main() -> int:
     release_path.write_text(
         json.dumps(release, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    release_digests["sourceCommit"] = source_commit
+    # The manifest is committed after this command runs.  Persisting the
+    # symbolic ref keeps it valid when that metadata commit changes HEAD;
+    # preflight resolves it and still compares canonical commit identities.
+    release_digests["sourceCommit"] = "HEAD"
     release_digests["releaseTag"] = release.get("releaseTag")
     release_digests.setdefault("artifacts", {})["release.json"] = sha256_text(
         release_path.read_text(encoding="utf-8")

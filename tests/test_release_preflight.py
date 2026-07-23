@@ -9,6 +9,7 @@ import scripts.finalize_release_freeze as finalizer
 from scripts.check_release_preflight import ReleasePreflightError
 from scripts.check_release_preflight import _load_object
 from scripts.check_release_preflight import canonical_archive_sha
+from scripts.check_release_preflight import resolve_source_commit
 from scripts.check_release_preflight import validate_release_preflight
 
 
@@ -90,6 +91,12 @@ def test_normalized_source_tree_identity_is_stable():
     assert digest == preflight.canonical_source_tree(Path.cwd(), "HEAD")
 
 
+def test_source_ref_resolves_symbolic_head_to_a_concrete_commit():
+    resolved = resolve_source_commit(Path.cwd(), "HEAD")
+    assert len(resolved) == 40
+    assert resolved == resolve_source_commit(Path.cwd(), resolved)
+
+
 def test_load_object_rejects_invalid_json(tmp_path):
     path = tmp_path / "invalid.json"
     path.write_text("[]", encoding="utf-8")
@@ -155,7 +162,7 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     release_digests = json.loads(
         (tmp_path / ".ai" / "cockpit" / "release-digests.json").read_text()
     )
-    assert release_digests["sourceCommit"] == "commit"
+    assert release_digests["sourceCommit"] == "HEAD"
     assert (
         release_digests["artifacts"]["release.json"]
         == hashlib.sha256((tmp_path / "release.json").read_bytes()).hexdigest()
@@ -183,6 +190,7 @@ def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
     )
     monkeypatch.setattr(preflight, "canonical_archive_sha", lambda root, commit: "abc")
     monkeypatch.setattr(preflight, "canonical_source_tree", lambda root, commit: "tree")
+    monkeypatch.setattr(preflight, "resolve_source_commit", lambda root, ref: "commit")
     monkeypatch.setattr(
         "sys.argv",
         ["check_release_preflight", "--root", str(tmp_path), "--source-commit", "HEAD"],

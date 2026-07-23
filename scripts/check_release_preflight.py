@@ -17,6 +17,26 @@ class ReleasePreflightError(ValueError):
     """Raised when a release candidate is not frozen and source-bound."""
 
 
+def resolve_source_commit(root: Path, source_ref: str) -> str:
+    """Resolve a symbolic or concrete source reference to one commit identity."""
+    try:
+        result = subprocess.run(  # nosec B603 B607
+            ["git", "-C", str(root), "rev-parse", f"{source_ref}^{{commit}}"],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ReleasePreflightError(
+            f"source commit reference cannot be resolved: {source_ref!r}"
+        ) from exc
+    resolved = result.stdout.strip()
+    if not resolved:
+        raise ReleasePreflightError(f"source commit reference resolved empty: {source_ref!r}")
+    return resolved
+
+
 def _load_object(path: Path, label: str) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -128,7 +148,17 @@ def main() -> int:
     release_digests = _load_object(
         root / ".ai" / "cockpit" / "release-digests.json", "release-digests.json"
     )
-    source_commit = args.source_commit
+    try:
+        source_commit = resolve_source_commit(root, args.source_commit)
+        declared_source = release_digests.get("sourceCommit")
+        if not isinstance(declared_source, str) or not declared_source:
+            raise ReleasePreflightError("release-digests sourceCommit is missing or invalid")
+        resolved_declared_source = resolve_source_commit(root, declared_source)
+    except ReleasePreflightError as exc:
+        print(f"release preflight blocked: {exc}", file=sys.stderr)
+        return 1
+    comparable_digests = dict(release_digests)
+    comparable_digests["sourceCommit"] = resolved_declared_source
     actual = canonical_archive_sha(root, source_commit)
     source_tree = canonical_source_tree(root, source_commit)
     active = sorted(
@@ -145,7 +175,7 @@ def main() -> int:
     issues = validate_release_preflight(
         release=release,
         freeze=freeze,
-        release_digests=release_digests,
+        release_digests=comparable_digests,
         source_commit=source_commit,
         actual_archive_sha=actual,
         source_tree=source_tree,

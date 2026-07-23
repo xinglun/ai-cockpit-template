@@ -1,0 +1,225 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_metadata_rebind_v4_budget",
+  "mode": "code",
+  "title": "Reserve archive budget before release metadata rebinding",
+  "baseCommit": "7566bd440477119a8ea2e3096608b3ea8bc89a89",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "b2e1f38809b96dc23a7bcfc29d88b8e923f40cb5e3478fa10611ee90d3367319"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/release_metadata_rebind_v4_budget.contract.json",
+    ".ai/work-items/active/release_metadata_rebind_v4_budget.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "release.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    "Publishing or tagging a release",
+    "Starting the original plan Work Items"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current archiveGrowth ceiling is 493 and the next metadata Work Item requires one additional immutable archive record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_metadata_rebind_v3.archive-manifest.json",
+      "reason": "Authoritative current archive sequence and predecessor evidence."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-22-conditional-go-review-remediation.md",
+      "reason": "Release remains gated by serial Work Item closure and complete release evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_budget"],
+    "reason": "Bounded policy-only reservation for the next immutable archive record."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause budget reservation before release metadata implementation."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The archiveGrowth ceiling is raised from 493 to exactly 494 with an explicit user-owned repayment record.",
+    "The change is limited to governance budget policy and preserves immutable evidence.",
+    "The complete Finish Gate, PR, merge, ai-close-work-item, branch cleanup, and synchronized-base evidence is recorded."
+  ],
+  "guidelines": [
+    "Reserve only the measured next archive record; do not widen unrelated limits.",
+    "Do not rewrite immutable archives or generate release metadata in this budget Work Item."
+  ],
+  "intent": {
+    "problem": "The next release metadata Work Item will add one immutable archive record, moving archiveGrowth from 493 to 494; the current policy has no reserved headroom.",
+    "constraints": [
+      "Change only the governance budget policy and lifecycle evidence for this Work Item.",
+      "Do not start release metadata implementation or publish a release before this Work Item closes.",
+      "Preserve all prior immutable archive evidence."
+    ],
+    "rationale": "A dedicated budget reservation makes the projected archive cost explicit before the metadata Work Item starts, preventing another late CI/PR budget failure."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized process correction and bounded budget reservations before release."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Current archiveGrowth=493 is reserved to become exactly 494 for the next metadata Work Item.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/work-items/archive/index.json", ".ai/guards/governance_complexity_policy.yaml"]
+    },
+    {
+      "scenario": "The policy record identifies this Work Item, user authority, date, and repayment rationale.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/guards/governance_complexity_policy.yaml"]
+    }
+  ],
+  "rawUserRequest": "预算不足必须在事前检查中拦截；先完成预算流程修正，再按完整 Contract/Preflight/PR/合并/ai-close-work-item 流程继续发布，不绕过任何计划工单。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:budget-preflight-before-release-metadata",
+    "capturedAt": "2026-07-23",
+    "digest": "sha256:user-authorized-budget-reservation-before-release"
+  },
+  "declaredIntent": {
+    "summary": "Reserve exactly one projected archive record before the release metadata Work Item.",
+    "requestedCapabilities": ["ai_governance", "software_design"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "predecessorWorkItem": {
+    "workItemId": "release_metadata_rebind_v3",
+    "status": "closed",
+    "pr": {
+      "number": 281,
+      "merged": true,
+      "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/281",
+      "mergeCommit": "7566bd440477119a8ea2e3096608b3ea8bc89a89"
+    },
+    "closure": {
+      "succeeded": true,
+      "localBranchDeleted": true,
+      "remoteBranchDeleted": true,
+      "baseSynchronized": true,
+      "evidence": ".ai/work-items/archive/2026/release_metadata_rebind_v3.archive-manifest.json"
+    }
+  },
+  "budgetImpact": {
+    "expectedMetrics": {"archiveGrowth": 494},
+    "approved": true,
+    "repaymentWorkItem": "release_metadata_rebind_v4_budget",
+    "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_metadata_rebind_v4_budget.json",
+    "baseCommit": "7566bd440477119a8ea2e3096608b3ea8bc89a89",
+    "initialScopeDigest": "563c2f73d98ac1b0e9eb90933577a0d826c1ac0b610883bc4dee85a777984d81",
+    "contractSkeletonDigest": "c8c1132ab64990e40870e4f90f9e6a3a68760ee7136c19be2a4297a61733e517"
+  }
+}

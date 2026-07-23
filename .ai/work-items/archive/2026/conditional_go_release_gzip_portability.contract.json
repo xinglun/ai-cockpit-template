@@ -1,0 +1,158 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_release_gzip_portability",
+  "mode": "code",
+  "title": "conditional go release gzip portability",
+  "baseCommit": "d9a088c46102f17a57524e900c6471435377698f",
+  "baselineDirtyPaths": [],
+  "rawUserRequest": "Continue the Conditional GO document Work Item workflow and publish the new version after all required evidence is complete.",
+  "rawRequestSource": {"type":"human","reference":"user-goal:publish-after-conditional-go-plan","capturedAt":"2026-07-23","digest":"sha256:publish-after-conditional-go-plan"},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "declaredIntent": {"summary":"Make source-bound release archive bytes stable across macOS and Ubuntu runners by using a fixed Python gzip implementation in workflow and regression test.","requestedCapabilities":["ai_governance","documentation","test_automation"]},
+  "scenarioCoverage": [{"scenario":"same source tree produces the declared archive digest on local and runner-compatible Python gzip","required":true,"riskDomain":"release_integrity","status":"verified","evidence":[".github/workflows/release.yml","tests/test_release_archive_contract.sh","release.json"]}],
+  "scope": [
+    ".ai/work-items/active/conditional_go_release_gzip_portability.contract.json",
+    ".ai/work-items/active/conditional_go_release_gzip_portability.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "tests/test_release_archive_contract.sh",
+    "release.json",
+    "release-state.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "outOfScope": ["Plan implementation Work Items other than release-integrity follow-up"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/conditional_go_release_gzip_portability.contract.json",
+      "reason": "Release archive workflow and regression evidence."
+    },
+    {"path":".github/workflows/release.yml","reason":"Provider release archive generation."},
+    {"path":"tests/test_release_archive_contract.sh","reason":"Archive reproducibility regression."},
+    {"path":"release.json","reason":"Source-bound archive digest."},
+    {"path":"release-state.json","reason":"Release digest binding."},
+    {"path":".ai/cockpit/release-digests.json","reason":"Release digest projection."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "Bounded workflow/test compression implementation with source-bound digest verification."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized completion of the full release plan and publication."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [".github/workflows/release.yml and tests/test_release_archive_contract.sh invoke the same Python gzip parameters","releaseArchive.sha256 equals the archive produced by the regression test","Finish Gate, PR checks, merge, closure, and default-branch synchronization complete"],
+  "guidelines": [
+    "Keep the archive format and prefix unchanged.",
+    "Do not weaken source-bound digest verification."
+  ],
+  "intent": {
+    "problem": "The release workflow fails after the exact-SHA checks because Apple gzip and runner gzip produce different archive bytes for the same tar stream.",
+    "constraints": ["Preserve source-bound verification.","Do not publish before lifecycle closure."],
+    "rationale": "A fixed Python gzip implementation is available on the runner and can produce the same bytes in the workflow and regression test."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized completion of the full release plan and publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_release_gzip_portability.json",
+    "baseCommit": "d9a088c46102f17a57524e900c6471435377698f",
+    "initialScopeDigest": "1fbffcce58b5472afaeb04f4aa877d4112fe7c8d7f1e5a3fe76b497ef6fdfbf5",
+    "contractSkeletonDigest": "7ff8559b0cc239bc2d7dc5610aa2edd94e89e279e8c93b3eb88388628778df9c"
+  }
+}

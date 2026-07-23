@@ -2,7 +2,9 @@
 set -euo pipefail
 
 archive_dir="$(mktemp -d)"
-git archive --format=tar --mtime='1970-01-01 00:00:00' --prefix=ai-cockpit/ HEAD^{tree} | gzip -n -9 > "$archive_dir/source.tgz"
+git archive --format=tar --mtime='1970-01-01 00:00:00' --prefix=ai-cockpit/ HEAD^{tree} \
+  | python3 -c 'import gzip,sys; sys.stdout.buffer.write(gzip.compress(sys.stdin.buffer.read(), compresslevel=9, mtime=0))' \
+  > "$archive_dir/source.tgz"
 archive_hash="$(shasum -a 256 "$archive_dir/source.tgz" | awk '{print $1}')"
 declared_hash="$(jq -r '.releaseArchive.sha256' release.json)"
 test "$archive_hash" = "$declared_hash"

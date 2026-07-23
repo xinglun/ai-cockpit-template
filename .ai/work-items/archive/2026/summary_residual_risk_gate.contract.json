@@ -1,0 +1,199 @@
+{
+  "contractVersion": 2,
+  "workItemId": "summary_residual_risk_gate",
+  "mode": "code",
+  "title": "Harden Summary residual-risk placeholder gate",
+  "baseCommit": "6effc24a0497831169056e97894e54dbf1eb326d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/summary_residual_risk_gate.contract.json",
+    ".ai/work-items/active/summary_residual_risk_gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_check_summary.py",
+    "tests/test_ai_check_summary.py",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Quick Install or release publication",
+    "Bulk worktree deletion",
+    "Repairing historical Summary files in place",
+    "Budget-only changes"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Authoritative Summary validation pipeline; currently validates residualRisks shape but not generated skeleton text."
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Existing semantic placeholder gate for Contract v2, used as the policy precedent."
+    },
+    {
+      "path": "tests/test_ai_check_summary.py",
+      "reason": "Focused Summary validator regression coverage."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capability_truth_matrix.summary.json",
+      "reason": "Observed archived Summary containing the generic residual-risk skeleton text."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/installed_runtime_parity.summary.json",
+      "reason": "Observed archived Summary containing the generic residual-risk skeleton text."
+    }
+  ],
+  "rawUserRequest": "Fix the discovered process gap at its root: Summary residualRisks must reject generic generated skeleton text before Finish/archive, with regression tests; do not start Quick Install or publish a release in this Work Item.",
+  "rawRequestSource": {"type": "human", "reference": "conversation:summary-placeholder-gate-approval", "capturedAt": "2026-07-24", "digest": "sha256:summary-placeholder-gate-approval"},
+  "declaredIntent": {"summary": "Harden the Summary evidence gate so generated placeholder residual risks cannot be archived as ready_with_risks.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["governance_evidence_integrity"],
+    "reason": "A weak Summary gate can allow unsupported readiness claims into immutable archive evidence; the change is confined to validation and tests.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root process correction; no release or destructive operation is in scope."
+  },
+  "preReviewWarnings": [
+    "User confirmed all three required scenarios on 2026-07-24; implementation and Finish must provide actual evidence before archive."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Generated residual-risk skeleton text is rejected before Summary validation succeeds.", "required": true, "status": "not_applicable", "reason": "Finish-stage regression scenario; user confirmed it must be verified before archive.", "evidence": ["scripts/ai_check_summary.py", "tests/test_ai_check_summary.py"]},
+    {"scenario": "Concrete project-specific residual risk is accepted and remains backward-compatible.", "required": true, "status": "not_applicable", "reason": "Finish-stage regression scenario; user confirmed it must be verified before archive.", "evidence": ["scripts/ai_check_summary.py", "tests/test_ai_check_summary.py"]},
+    {"scenario": "No Quick Install, release, archive rewrite, or bulk worktree deletion occurs in this Work Item.", "required": true, "status": "not_applicable", "reason": "Explicit Contract boundary; verified by final scope and diff ownership checks.", "evidence": [".ai/work-items/archive/2026/summary_residual_risk_gate.summary.json"]}
+  ],
+  "acceptance": [
+    "Summary validation rejects residualRisks entries whose detail is a generated skeleton placeholder, while accepting concrete risk detail.",
+    "Focused regression tests cover both rejection and acceptance, and the existing Contract placeholder gate remains unchanged.",
+    "The Summary and Finish path use the same validator so the rejection occurs before archive creation.",
+    "No Quick Install, release, bulk worktree deletion, historical archive rewrite, or budget-only change is included."
+  ],
+  "guidelines": [
+    "Keep validation fail-closed and backward-compatible for concrete historical risk evidence.",
+    "Keep the fix in the Summary governance validator and focused tests; do not broaden release or worktree scope."
+  ],
+  "intent": {
+    "problem": "Archived Summary files can pass validation with the generic ai-start residual-risk skeleton text, which weakens the evidence boundary and allows ready_with_risks to be asserted without task-specific risk analysis.",
+    "constraints": [
+      "Do not rewrite historical archive evidence in this Work Item.",
+      "Reject only known generated skeleton language, not legitimate project-specific risk descriptions.",
+      "Do not start another plan feature or release operation."
+    ],
+    "rationale": "The existing Contract validator already rejects semantic placeholders; applying the same root policy to Summary residual risks closes the observed gap at the shared validation boundary instead of repairing individual archives."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized root process correction before continuing plan execution."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 517,
+      "pythonLines": 40200
+    },
+    "approved": true,
+    "repaymentWorkItem": "conditional_go_plan_cleanup",
+    "repaymentRecords": [
+      {"metric": "archiveGrowth", "from": 516, "to": 517, "owner": "user", "reason": "This functional Summary gate correction requires one immutable archive record; reserve bounded headroom in the current Work Item and repay during final plan cleanup."},
+      {"metric": "pythonLines", "from": 32000, "to": 40200, "owner": "user", "reason": "Record the cumulative executable governance ceiling after the functional Summary semantic gate; reserve bounded headroom in the current Work Item and repay during final plan cleanup."},
+      {"metric": "pythonLines", "from": 40100, "to": 40200, "owner": "user", "reason": "The functional Summary semantic gate adds measured validator and regression coverage; reserve bounded headroom in the same Work Item and repay during final plan cleanup."}
+    ]
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/summary_residual_risk_gate.json",
+    "baseCommit": "6effc24a0497831169056e97894e54dbf1eb326d",
+    "initialScopeDigest": "614e1d5deb3395767b228086355c2d71b7576e0eaee1718aed6d78cc4dfad1b9",
+    "contractSkeletonDigest": "4d2fe95c876986b0b488844ddfa441e489644ad8fa7bf6db9ce8cbe7752bf51a"
+  }
+}

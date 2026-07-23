@@ -5,7 +5,7 @@ proposal:
   confirmedBy: governance-maintainers
   reason: Existing template policy is explicitly confirmed; adopter policies must remain proposed until human review.
 max:
-  pythonLines: 40100
+  pythonLines: 40200
   markdownLines: 9550
   functionComplexity: 50
   schemaCount: 10
@@ -13,11 +13,14 @@ max:
   repeatedProtocolFields: 50
   dependencyCycles: 0
   installAllowlistEntries: 20
-  archiveGrowth: 516
+  archiveGrowth: 517
   generatedEvidenceRatio: 1.0
 baseline:
   pythonLines: 32000
 repaymentRecords:
+  - summary_residual_risk_gate|pythonLines|32000|40200|user|2026-07-24|Record the cumulative executable governance ceiling after the functional Summary semantic gate; reserve bounded headroom in the current Work Item and repay during final plan cleanup.
+  - summary_residual_risk_gate|pythonLines|40100|40200|user|2026-07-24|The functional Summary semantic gate adds measured validator and regression coverage; reserve bounded headroom in the same Work Item and repay during final plan cleanup.
+  - summary_residual_risk_gate|archiveGrowth|516|517|user|2026-07-24|This functional Summary gate correction requires one immutable archive record; reserve bounded headroom in the current Work Item and repay during final plan cleanup.
   - installed_runtime_parity|archiveGrowth|515|516|user|2026-07-24|The functional Installed Runtime parity Work Item requires one immutable archive record; reserve bounded headroom and repay during conditional_go_plan_cleanup after preserving lifecycle evidence.
   - capability_truth_matrix|pythonLines|32000|40100|user|2026-07-24|Record the cumulative executable ceiling after the functional capability-claim enforcement gate measured 40048 Python lines; this is a bounded reservation in the current Work Item, not a budget-only Work Item, and repayment belongs to conditional_go_plan_cleanup.
   - capability_truth_matrix|pythonLines|40000|40100|user|2026-07-24|The functional capability-claim enforcement gate measures 40048 Python lines in the full Finish run; reserve only bounded headroom in this Work Item and repay during conditional_go_plan_cleanup after preserving the gate evidence.

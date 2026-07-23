@@ -69,6 +69,11 @@ RISK_LEVELS = {"low", "medium", "high"}
 REVIEW_READINESS_STATUSES = {"not_ready", "ready", "ready_with_risks", "blocked"}
 INTENT_ALIGNMENT_BOOL_KEYS = {"problemResolved", "constraintsRespected", "nonGoalsAvoided"}
 INTENT_ALIGNMENT_STRING_KEYS = {"rationaleValidated"}
+RESIDUAL_RISK_PLACEHOLDER_MARKERS = (
+    "initial skeleton",
+    "replace this",
+    "replace with actual residual risks",
+)
 
 
 def intent_alignment_is_compat_evidence_key(key: str) -> bool:
@@ -457,6 +462,11 @@ def validate_summary(
         )
     )
     issues.extend(_validate_summary_metadata(summary))
+    issues.extend(
+        validate_residual_risk_semantics(
+            summary, legacy_archive=legacy_archive, summary_path=summary_path
+        )
+    )
     issues.extend(_validate_required_verification(summary, contract))
     if isinstance(contract, dict):
         issues.extend(
@@ -506,6 +516,29 @@ def validate_intent_alignment(summary: dict[str, Any]) -> list[str]:
         if value is not None and not non_empty_string(value):
             issues.append(f"intentAlignment.{key} must be a non-empty string when provided")
 
+    return issues
+
+
+def validate_residual_risk_semantics(
+    summary: dict[str, Any], *, legacy_archive: bool = False, summary_path: str = ""
+) -> list[str]:
+    """Reject generated residual-risk skeleton text before a new Summary is archived.
+
+    Historical archive evidence remains readable and immutable; the gate applies to
+    active v2 Summaries so the generated ai-start placeholder cannot reach Finish.
+    """
+    if legacy_archive or "/archive/" in Path(summary_path).as_posix():
+        return []
+    residual = summary.get("residualRisks")
+    if not isinstance(residual, list):
+        return []
+    issues: list[str] = []
+    for index, item in enumerate(residual):
+        if not isinstance(item, dict) or not isinstance(item.get("detail"), str):
+            continue
+        detail = item["detail"].casefold()
+        if any(marker in detail for marker in RESIDUAL_RISK_PLACEHOLDER_MARKERS):
+            issues.append(f"residualRisks[{index}].detail contains generated placeholder text")
     return issues
 
 

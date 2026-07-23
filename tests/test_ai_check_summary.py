@@ -40,6 +40,56 @@ def test_summary_validator_orchestrates_focused_validation_helpers(monkeypatch):
     ]
 
 
+def test_summary_residual_risk_rejects_generated_skeleton_text():
+    summary = {
+        "summaryVersion": 2,
+        "residualRisks": [
+            {
+                "level": "medium",
+                "area": "scope",
+                "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+            }
+        ],
+    }
+
+    issues = ai_check_summary.validate_residual_risk_semantics(summary)
+
+    assert issues == ["residualRisks[0].detail contains generated placeholder text"]
+
+
+def test_summary_residual_risk_accepts_concrete_detail_and_preserves_legacy_archive():
+    concrete = {
+        "summaryVersion": 2,
+        "residualRisks": [
+            {
+                "level": "medium",
+                "area": "historical-evidence",
+                "detail": "Historical archive evidence remains immutable and is not rewritten.",
+            }
+        ],
+    }
+    legacy = {
+        "summaryVersion": 2,
+        "residualRisks": [
+            {
+                "level": "medium",
+                "area": "scope",
+                "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+            }
+        ],
+    }
+
+    assert ai_check_summary.validate_residual_risk_semantics(concrete) == []
+    assert (
+        ai_check_summary.validate_residual_risk_semantics(
+            legacy,
+            legacy_archive=True,
+            summary_path=".ai/work-items/archive/2026/old.summary.json",
+        )
+        == []
+    )
+
+
 def test_required_verification_does_not_self_block_ai_summary():
     contract = {
         "verification": [

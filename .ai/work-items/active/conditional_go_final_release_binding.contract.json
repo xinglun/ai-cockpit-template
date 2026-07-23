@@ -1,0 +1,154 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_final_release_binding",
+  "mode": "code",
+  "title": "conditional go final release binding",
+  "baseCommit": "de686fcd646cd9df323def0ed4a69edb8c3c8431",
+  "baselineDirtyPaths": [],
+  "rawUserRequest": "Continue the Conditional GO document Work Item workflow and publish the new version after all required evidence is complete.",
+  "rawRequestSource": {"type":"human","reference":"user-goal:publish-after-conditional-go-plan","capturedAt":"2026-07-23","digest":"sha256:publish-after-conditional-go-plan"},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "declaredIntent": {"summary":"Bind v0.5.39 release metadata to the exact final default-branch tree after the release portability follow-up merge.","requestedCapabilities":["ai_governance","documentation","test_automation"]},
+  "scenarioCoverage": [{"scenario":"release archive digest matches final source tree and consistency checks pass","required":true,"riskDomain":"release_integrity","status":"verified","evidence":["release.json","release-state.json",".ai/cockpit/release-digests.json"]}],
+  "scope": [
+    ".ai/work-items/active/conditional_go_final_release_binding.contract.json",
+    ".ai/work-items/active/conditional_go_final_release_binding.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "release.json",
+    "release-state.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "outOfScope": ["Release publication before lifecycle closure","Plan implementation Work Items"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/conditional_go_final_release_binding.contract.json",
+      "reason": "Final source-bound release metadata binding."
+    },
+    {"path":"release.json","reason":"Final source archive digest."},
+    {"path":"release-state.json","reason":"Final release digest state."},
+    {"path":".ai/cockpit/release-digests.json","reason":"Final release digest projection."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_integrity"
+    ],
+    "reason": "Bounded metadata-only source binding after final merge."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized completion of the full release plan and publication."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["release.json archive digest matches the final source tree","release-state.json and release-digests.json match release.json","Finish Gate, PR checks, merge, closure, and default-branch synchronization complete"],
+  "guidelines": [
+    "Keep release projections mutually consistent.",
+    "Do not publish before lifecycle closure."
+  ],
+  "intent": {
+    "problem": "The portability follow-up merge added immutable evidence, so the final release projection must be rebound to the resulting default-branch tree.",
+    "constraints": ["Do not change archive encoding again.","Do not publish before PR merge and ai-close-work-item."],
+    "rationale": "Binding after the final merge makes the release source identity independently verifiable."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized completion of the full release plan and publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_final_release_binding.json",
+    "baseCommit": "de686fcd646cd9df323def0ed4a69edb8c3c8431",
+    "initialScopeDigest": "02fe2bfde2ac145421214e2019e61d7b6d32838a3cd846671ac992200029f1c8",
+    "contractSkeletonDigest": "1ea0c87154c09c0d0b64ee84aaadc72f54b97c2468c72c67a0f57d1498b1c213"
+  }
+}

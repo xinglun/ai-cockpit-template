@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import argparse
 import sys
 
 from ai_common import PROJECT_ROOT, discover_remote_default_candidates, run_git
@@ -16,21 +17,24 @@ def _fail(message: str) -> int:
     return 1
 
 
-def main() -> int:
+def main(candidate_task: str | None = None) -> int:
     root = PROJECT_ROOT
     candidates = discover_remote_default_candidates(run_git)
     if len(candidates) != 1:
         return _fail("remote default branch is not uniquely discoverable")
     remote, branch = candidates[0]
     current = run_git(["branch", "--show-current"])
-    if current.returncode != 0 or current.stdout.strip() != branch:
+    current_branch = current.stdout.strip() if current.returncode == 0 else ""
+    if candidate_task is None and current_branch != branch:
         return _fail(f"must run on synchronized default branch {branch}")
+    if candidate_task is not None and (not current_branch or current_branch == branch):
+        return _fail(f"candidate mode must run on a dedicated Work Item branch, not {branch}")
     status = run_git(["status", "--porcelain", "--untracked-files=all"])
     if status.returncode != 0 or status.stdout.strip():
         return _fail("worktree must be clean before freeze finalization")
     head = run_git(["rev-parse", "HEAD"])
     remote_head = run_git(["rev-parse", f"{remote}/{branch}"])
-    if (
+    if candidate_task is None and (
         head.returncode != 0
         or remote_head.returncode != 0
         or head.stdout.strip() != remote_head.stdout.strip()
@@ -40,10 +44,17 @@ def main() -> int:
         path.name.removesuffix(".contract.json")
         for path in (root / ".ai" / "work-items" / "active").glob("*.contract.json")
     )
-    if active:
+    if candidate_task is None and active:
         return _fail(f"active Work Items remain: {', '.join(active)}")
+    if candidate_task is not None and active != [candidate_task]:
+        return _fail(
+            f"candidate mode requires exactly the active Work Item {candidate_task!r}; "
+            f"found {active or 'none'}"
+        )
     status_path = root / ".ai" / "cockpit" / "current_status.md"
-    if "- State: `no_active_work_item`" not in status_path.read_text(encoding="utf-8"):
+    if candidate_task is None and "- State: `no_active_work_item`" not in status_path.read_text(
+        encoding="utf-8"
+    ):
         return _fail("Cockpit Status is not no_active_work_item")
 
     source_commit = head.stdout.strip()
@@ -71,9 +82,14 @@ def main() -> int:
             "sourceTree": source_tree,
             "archiveSha256": archive_sha,
             "lifecycle": {
-                "state": "closed_and_synchronized",
-                "command": "make ai-close-work-item",
+                "state": "closed_and_synchronized"
+                if candidate_task is None
+                else "candidate_prepared",
+                "command": "make ai-close-work-item"
+                if candidate_task is None
+                else f"make finalize-release-freeze-candidate CANDIDATE_TASK={candidate_task}",
                 "defaultBranch": branch,
+                **({"candidateBranch": current_branch} if candidate_task is not None else {}),
                 "baseCommit": source_tree,
                 "worktreeClean": True,
             },
@@ -106,4 +122,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--candidate-task", default=None)
+    args = parser.parse_args()
+    raise SystemExit(main(candidate_task=args.candidate_task))

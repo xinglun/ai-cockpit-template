@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_finalizer_candidate_mode",
+  "mode": "code",
+  "title": "Generate release metadata from candidate branch final tree",
+  "rawUserRequest": "发布 preflight 在 PR 合并后发现：预算/治理文件改变最终归档，旧 finalizer 只能在默认分支生成元数据，导致发布元数据与最终合并树时序冲突。按根因方针，先修正 finalizer，使其在受 Contract 约束的候选分支最终树上生成元数据；不发布 tag/provider release，不跳过计划工单。预算和格式检查必须作为本工单事前门禁，不单独拆预算工单。",
+  "rawRequestSource": {"type": "human", "reference": "user-request-2026-07-23-release-preflight-root-cause", "capturedAt": "2026-07-23", "digest": "user-authorized-root-process-correction"},
+  "declaredIntent": {"summary": "让 release finalizer 能在候选 Work Item 分支的最终源码树上生成 source-bound release metadata，从流程上消除合并后归档变化导致的发布冻结失效。", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "f2987d231e65aae150384421a79ab5e7620a35a4",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_finalizer_candidate_mode.contract.json",
+    ".ai/work-items/active/release_finalizer_candidate_mode.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/finalize_release_freeze.py",
+    "Makefile",
+    "tests/test_release_preflight.py",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Release tag/provider publication", "Adopter projects and installed runtime repositories", "Changing archive encoding or weakening exact source checks"],
+  "sources": [
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Current finalizer enforces default-branch execution and creates the timing deadlock."
+    },
+    {"path": "scripts/check_release_preflight.py", "reason": "Canonical source/archive validation that must remain fail-closed."},
+    {"path": "tests/test_release_preflight.py", "reason": "Regression coverage for finalizer behavior."},
+    {"path": ".gitattributes", "reason": "Defines release archive inclusion boundaries."},
+    {"path": ".ai/work-items/archive/2026/release_v0539_metadata.archive-manifest.json", "reason": "Evidence of the post-merge source-tree mismatch."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_integrity"],
+    "reason": "The correction changes only finalizer execution mode and regression coverage; exact source/archive checks remain fail-closed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root process correction before publication retry."
+  },
+  "preReviewWarnings": [
+    "Verify candidate-branch source identity, default-branch safety, and unchanged exact archive checks."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The finalizer has an explicit candidate-branch mode that computes metadata from the candidate final tree.",
+    "Default-branch mode remains synchronized and fail-closed, and candidate mode cannot publish or tag.",
+    "Regression tests cover candidate success, default-branch safety, and malformed canonical release-state failure.",
+    "Budget/format gates pass with the measured archiveGrowth reservation in this same functional correction.",
+    "The Work Item completes archive, PR, merge, ai-close-work-item, branch cleanup, and default sync."
+  ],
+  "guidelines": [
+    "Candidate metadata generation must remain source-bound to the candidate tree.",
+    "Do not weaken exact archive/source checks or perform provider publication from this Work Item.",
+    "Budget and formatting checks are hard preflight gates; do not create a budget-only Work Item."
+  ],
+  "intent": {
+    "problem": "The final metadata PR introduced non-ignored governance policy changes after metadata was generated, so the merged tree no longer matched the frozen source/archive identity.",
+    "constraints": ["Preserve default-branch synchronized mode.", "Require explicit candidate mode for feature branches.", "Keep release metadata export-ignored and provider publication out of scope."],
+    "rationale": "Generate release metadata only after the candidate branch contains every non-metadata change, eliminating the circular dependency between protected PR delivery and source-bound archive identity."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized root process correction before retrying release publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {"archiveGrowth": 502, "pythonLines": 39504},
+    "approved": true,
+    "repaymentWorkItem": "release_finalizer_candidate_mode",
+    "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"],
+    "reason": "Reserve the functional correction archive and measured finalizer/test growth in this same root-cause Work Item."
+  },
+  "scenarioCoverage": [
+    {"scenario": "Candidate mode generates metadata from the candidate branch final tree", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "Default-branch mode remains synchronized and fail-closed", "required": false, "status": "unverified", "evidence": []}
+  ],
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_finalizer_candidate_mode.json",
+    "baseCommit": "f2987d231e65aae150384421a79ab5e7620a35a4",
+    "initialScopeDigest": "5daaef7f14b0768310a2412651933c5464cb73e01b46c67b5866e1baec26bbfa",
+    "contractSkeletonDigest": "3c0460e806c7f1881ac9a84f81edba6c1a9d69e28b927a8496087c6655a58657"
+  }
+}

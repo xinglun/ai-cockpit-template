@@ -19,6 +19,24 @@ def test_governance_entrypoints_can_clean_ambient_git_environment():
     assert all(not key.startswith("GIT_") for key in ai_common.clean_git_environment())
 
 
+def test_finish_run_merges_stabilization_environment(monkeypatch):
+    captured = {}
+
+    def fake_run(command, **kwargs):
+        captured["command"] = command
+        captured["env"] = kwargs["env"]
+        return SimpleNamespace(returncode=0, stdout="passed\n")
+
+    monkeypatch.setattr(ai_finish.subprocess, "run", fake_run)
+    code, _, output = ai_finish.run(
+        ["make", "check-ai-agent-risk"], extra_env={"AI_FINISH_STABILIZING": "1"}
+    )
+    assert code == 0
+    assert output == "passed\n"
+    assert captured["command"] == ["make", "check-ai-agent-risk"]
+    assert captured["env"]["AI_FINISH_STABILIZING"] == "1"
+
+
 @pytest.fixture(autouse=True)
 def isolate_diff_ownership_preview(monkeypatch):
     monkeypatch.setattr(ai_finish, "preview", lambda **_kwargs: [])
@@ -645,7 +663,9 @@ def test_finish_main_stabilizes_successful_work_item(tmp_path, monkeypatch):
     )
     executed = []
     monkeypatch.setattr(
-        ai_finish, "run", lambda command: executed.append(command) or (0, 2, "passed")
+        ai_finish,
+        "run",
+        lambda command, **_kwargs: executed.append(command) or (0, 2, "passed"),
     )
     monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task", "--no-archive"])
@@ -685,7 +705,7 @@ def test_finish_main_demotes_readiness_when_final_status_check_fails(tmp_path, m
     )
     executed = []
 
-    def fail_final_status(command):
+    def fail_final_status(command, **_kwargs):
         executed.append(command)
         is_final_status = len(executed) > 6 and command[:2] == ["make", "check-ai-status"]
         return (1, 2, "status failed") if is_final_status else (0, 2, "passed")
@@ -810,7 +830,7 @@ def test_finish_main_fails_when_archive_step_fails(tmp_path, monkeypatch):
         lambda check, **_kwargs: (f"make {check}", ["make", check]),
     )
 
-    def run(command):
+    def run(command, **_kwargs):
         if command[:2] == ["make", "archive-work-item"]:
             return 5, 3, "archive failed"
         return 0, 1, "passed"
@@ -847,7 +867,7 @@ def test_finish_main_fails_when_stabilization_check_fails(tmp_path, monkeypatch)
         lambda check, **_kwargs: (f"make {check}", ["make", check]),
     )
 
-    def run(command):
+    def run(command, **_kwargs):
         if command[:2] == ["make", "check-ai-status"]:
             return 4, 2, "status failed"
         return 0, 1, "passed"
@@ -887,7 +907,7 @@ def test_finish_main_allows_optional_check_failure(tmp_path, monkeypatch):
         lambda check, **_kwargs: (f"make {check}", ["make", check]),
     )
 
-    def run(command):
+    def run(command, **_kwargs):
         if command[-1] == "aiReviewPolicy":
             return 1, 1, "optional failed"
         return 0, 1, "passed"
@@ -966,7 +986,7 @@ def test_finish_main_archives_on_success(tmp_path, monkeypatch):
         "render_check_command",
         lambda check, **_kwargs: (f"make {check}", ["make", check]),
     )
-    monkeypatch.setattr(ai_finish, "run", lambda command: (0, 1, "passed"))
+    monkeypatch.setattr(ai_finish, "run", lambda command, **_kwargs: (0, 1, "passed"))
     monkeypatch.setattr(ai_finish, "create_observability", lambda **_kwargs: ObservabilityStub())
     monkeypatch.setattr(sys, "argv", ["ai_finish.py", "--task", "task"])
 

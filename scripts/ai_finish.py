@@ -77,13 +77,16 @@ def task_paths(task: str) -> tuple[str, str]:
     ).as_posix()
 
 
-def run(command: list[str]) -> tuple[int, int, str]:
+def run(command: list[str], *, extra_env: dict[str, str] | None = None) -> tuple[int, int, str]:
     print("$ " + " ".join(command))
     start = time.time()
+    environment = clean_git_environment()
+    if extra_env:
+        environment.update(extra_env)
     result = subprocess.run(
         command,
         cwd=PROJECT_ROOT,
-        env=clean_git_environment(),
+        env=environment,
         check=False,
         text=True,
         stdout=subprocess.PIPE,
@@ -496,7 +499,10 @@ def main() -> int:
     ]
     for check_id, command in stabilization:
         obs.check_started(check_id=check_id, command=" ".join(command))
-        code, duration, output = run(command)
+        if check_id == "aiAgentRisk":
+            code, duration, output = run(command, extra_env={"AI_FINISH_STABILIZING": "1"})
+        else:
+            code, duration, output = run(command)
         # Record actual result of stabilization check to Summary for debugging.
         current_worktree_digest = worktree_digest(changed_paths(contract_data))
         record_result(

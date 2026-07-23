@@ -4,6 +4,31 @@ import sys
 import ai_check_agent_risk
 
 
+def test_agent_risk_allows_finish_stabilization_dependencies(monkeypatch):
+    monkeypatch.setenv("AI_FINISH_STABILIZING", "1")
+    contract = {
+        "verification": [
+            {"check": "aiWorkItem", "required": True},
+            {"check": "aiScope", "required": True},
+            {"check": "aiAgentRisk", "required": True},
+            {"check": "aiSummary", "required": True},
+            {"check": "aiStatus", "required": True},
+            {"check": "aiStatusCheck", "required": True},
+        ],
+        "unknowns": [],
+        "notCodable": False,
+        "executionDecision": {"status": "continue"},
+        "agentCapability": {"canImplement": True, "needsHumanDecision": False},
+    }
+    summary = {
+        "verification": [
+            {"check": "aiWorkItem", "result": "passed"},
+            {"check": "aiScope", "result": "passed"},
+        ]
+    }
+    assert ai_check_agent_risk.validate_agent_risks(contract, summary) == []
+
+
 def test_agent_risk_helpers_extract_required_commands_and_statuses():
     contract = {"verification": [{"check": "quality", "required": True}, "bad"]}
     summary = {"verification": [{"check": "quality", "result": "passed"}]}

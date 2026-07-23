@@ -1,0 +1,230 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_metadata_final_sync",
+  "mode": "code",
+  "title": "Synchronize canonical release metadata after lockfile lifecycle closure",
+  "rawUserRequest": "继续实施 Conditional GO 全部计划并在完成后发布新版本；每个工单必须走 Contract/Preflight/PR/合并/ai-close-work-item/分支清理/默认分支同步完整流程。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-goal:2026-07-22-conditional-go-review-remediation-publish",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:conditional-go-release-metadata-final-sync"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "declaredIntent": {
+    "summary": "Rebind the canonical release metadata and freeze evidence after the final lockfile corrective Work Items close, without publishing provider assets in this Work Item.",
+    "requestedCapabilities": ["ai_governance", "documentation", "test_automation"]
+  },
+  "baseCommit": "c170091dd3191460b1c95e54d5b79c4b8137d9a4",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "release.json",
+    "release-state.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/release_metadata_final_sync.contract.json",
+    ".ai/work-items/active/release_metadata_final_sync.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "创建或推送版本 Tag、发布 GitHub Release 或上传 provider 资产。",
+    "修改 requirements-dev.lock、SBOM、Provenance 或无关 CI/业务代码。",
+    "Adopter 工程安装与运行时验证。"
+  ],
+  "sources": [
+    {
+      "path": "release-state.json",
+      "reason": "Canonical state currently reports a published metadata digest that does not match release.json."
+    },
+    {
+      "path": "release.json",
+      "reason": "Published projection must be rebound to the frozen source/archive evidence after the lockfile lifecycle closed."
+    },
+    {
+      "path": ".ai/cockpit/release-freeze.json",
+      "reason": "Freeze evidence must be regenerated from the synchronized source tree."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Release digest evidence must identify the exact synchronized source and release metadata."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Terminology boundary for candidate, published, frozen, and provider-verified evidence."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Canonical command for lifecycle-bound release freeze regeneration."
+    },
+    {
+      "path": "scripts/check_release_state_consistency.py",
+      "reason": "Fail-closed checker for canonical/projection metadata digests."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Fail-closed checker for source-bound frozen release evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_metadata_integrity"
+    ],
+    "reason": "Stale metadata can make a later published release unverifiable even when the source and lockfile are correct."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The stale digest mismatch, regeneration command, and fail-closed checks are deterministic."
+  },
+  "preReviewWarnings": [
+    "Confirm candidate and published projections remain distinct, no provider publication occurs in this Work Item, and every digest is recomputed after the final metadata write."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Candidate freeze regeneration binds release-freeze.json and release-digests.json to the exact synchronized Work Item base and recomputed canonical archive digest.",
+    "release-state.json metadataDigests.published equals the SHA-256 of the final release.json bytes, and candidate metadata remains distinct and unpublished.",
+    "make check-release-state-consistency, make check-release-evidence, make check-release-preflight, and make check-release-distribution pass after the Work Item is closed and the default branch is synchronized.",
+    "No tag, provider release asset, or published release is created by this Work Item; publication remains a later explicitly evidenced step."
+  ],
+  "guidelines": [],
+  "intent": {
+    "problem": "After the lockfile corrective Work Items closed, release.json changed but release-state.json retained an older published metadata digest. This makes the canonical release state fail closed and prevents trustworthy publication.",
+    "constraints": [
+      "Use the repository's canonical finalize-release-freeze command; do not hand-edit generated status or digest files.",
+      "Keep candidate, published, and provider-verified states distinct.",
+      "Do not publish a tag or provider asset in this Work Item.",
+      "Keep all changes inside the declared release-evidence and lifecycle scope."
+    ],
+    "rationale": "Rebinding metadata after all corrective Work Items close prevents a stale digest from crossing the publication boundary and makes the next release preflight reproducible."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Stale published metadata digest is detected and corrected by the canonical freeze command.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release-state.json", "release.json", "scripts/finalize_release_freeze.py", "scripts/check_release_state_consistency.py"]
+    },
+    {
+      "scenario": "Candidate evidence remains unpublished and no provider asset is created.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["next-release.json", "release-state.json", "release.json"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the complete Conditional GO plan implementation, including lifecycle budget and release-evidence governance corrections."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 509,
+      "pythonLines": 39549
+    },
+    "approved": true,
+    "repaymentWorkItem": "release_metadata_final_sync",
+    "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_metadata_final_sync.json",
+    "baseCommit": "c170091dd3191460b1c95e54d5b79c4b8137d9a4",
+    "initialScopeDigest": "c7b29e7849ca0647803d067b5010d91f978fe760c917e55561692b2c44e21f32",
+    "contractSkeletonDigest": "2690492f667578031595051252f34430baa6a28b5634e7b2fbda6484512a85f0"
+  }
+}

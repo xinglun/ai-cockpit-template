@@ -23,7 +23,7 @@ keywords:
 
 | 计划 | 状态 | 说明 |
 | --- | --- | --- |
-| [2026-07-22 Conditional GO 全面评审整改](2026-07-22-conditional-go-review-remediation.md) | 已完成/需审计 | WI1–WI11 严格串行；每项 PR、合并、归档、关闭、分支清理和默认分支同步均有证据。 |
+| [2026-07-22 Conditional GO 全面评审整改](2026-07-22-conditional-go-review-remediation.md) | 历史保留/已完成 | WI1–WI11 严格串行；每项 PR、合并、归档、关闭、分支清理和默认分支同步均有证据；不得启动新工单。 |
 | [2026-07-22 Project Calibration and Update Recalibration](2026-07-22-project-calibration-recalibration.md) | 执行中 | 评审整改计划；14 个工单串行执行，最后一项为清理执行计划文档。 |
 
 ## 历史保留计划

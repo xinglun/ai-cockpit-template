@@ -27,9 +27,9 @@ def _load_object(path: Path, label: str) -> dict[str, Any]:
     return value
 
 
-def canonical_archive_sha(root: Path, source_commit: str) -> str:
-    """Create the same deterministic gzip stream as the release workflow."""
-    tar = subprocess.run(
+def _canonical_tar(root: Path, source_commit: str) -> bytes:
+    """Create the deterministic source tar; Git export-ignore removes metadata."""
+    return subprocess.run(
         [
             "git",
             "-C",
@@ -43,6 +43,16 @@ def canonical_archive_sha(root: Path, source_commit: str) -> str:
         check=True,
         stdout=subprocess.PIPE,
     ).stdout
+
+
+def canonical_source_tree(root: Path, source_commit: str) -> str:
+    """Return a normalized source identity that excludes self-referential metadata."""
+    return hashlib.sha256(_canonical_tar(root, source_commit)).hexdigest()
+
+
+def canonical_archive_sha(root: Path, source_commit: str) -> str:
+    """Create the same deterministic gzip stream as the release workflow."""
+    tar = _canonical_tar(root, source_commit)
     digest = hashlib.sha256()
     compressor = gzip.GzipFile(  # type: ignore[call-overload]
         fileobj=_HashWriter(digest), mode="wb", compresslevel=9, mtime=0
@@ -98,12 +108,7 @@ def main() -> int:
     freeze = _load_object(root / ".ai" / "cockpit" / "release-freeze.json", "release-freeze.json")
     source_commit = args.source_commit
     actual = canonical_archive_sha(root, source_commit)
-    source_tree = subprocess.run(
-        ["git", "-C", str(root), "rev-parse", f"{source_commit}^{{tree}}"],
-        check=True,
-        text=True,
-        stdout=subprocess.PIPE,
-    ).stdout.strip()
+    source_tree = canonical_source_tree(root, source_commit)
     active = sorted(
         path.name.removesuffix(".contract.json")
         for path in (root / ".ai" / "work-items" / "active").glob("*.contract.json")

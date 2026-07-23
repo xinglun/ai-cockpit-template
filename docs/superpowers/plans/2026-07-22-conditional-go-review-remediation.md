@@ -10,6 +10,7 @@ keywords:
   - work-item-lifecycle
 ---
 # Conditional GO 全面评审整改执行计划
+> **Historical status:** Finalized by `conditional_go_final_release_preflight_v2`; retained for audit and must not launch new Work Items.
 
 **Status:** historical; WI1–WI10 completed and WI11 is the final documentation-cleanup Work Item owned by `conditional_go_plan_cleanup`.
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
@@ -206,3 +207,17 @@ make check-ai-pr AI_BASE_COMMIT=<merge-base>
 ```
 
 计划完成不会改变企业级安全/合规 NO-GO，也不会产生“能理解所有未知危险意图”的承诺。若未来要改变这些边界，必须另有外部身份、权限、隔离、秘密管理、不可篡改审计和合规证据。
+## 5. Final audit closure
+The template-only audit map is retained with immutable evidence in `.ai/work-items/archive/index.json` and `.ai/work-items/archive/2026/`; Adopter Runtime state is out of scope.
+- 1 `conditional_go_review_execution_plan` → [#242](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/242), archived/closed
+- 2 `conditional_go_capability_truth_matrix` → [#244](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/244), archived/closed
+- 3 `conditional_go_installed_runtime_parity` → [#246](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/246), archived/closed
+- 4 `conditional_go_verified_quick_install` → [#247](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/247), archived/closed
+- 5 `conditional_go_calibration_scaffold_core` → [#248](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/248), archived/closed
+- 6 `conditional_go_calibration_inventory_status_matrix` → [#249](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/249), archived/closed
+- 7 `conditional_go_bootstrap_lifecycle_schema` → [#251](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/251), archived/closed
+- 8 `conditional_go_ownership_installed_lifecycle` → [#252](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/252), archived/closed
+- 9 `conditional_go_ci_release_evidence` → [#253](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/253), archived/closed
+- 10 `conditional_go_complexity_installer` → [#254](https://github.com/spirex-ds-dev/ai-cockpit-template/pull/254), archived/closed
+- 11 final cleanup → `conditional_go_final_release_preflight_v2`; provider release evidence is authoritative after publication.
+Prior failed/repaired release attempts remain immutable historical evidence and are not treated as final publication proof.

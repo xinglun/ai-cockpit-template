@@ -1,6 +1,4 @@
 from pathlib import Path
-from types import SimpleNamespace
-
 import pytest
 
 import scripts.check_release_preflight as preflight
@@ -54,6 +52,12 @@ def test_canonical_archive_builder_returns_sha256_for_repository():
     assert all(character in "0123456789abcdef" for character in digest)
 
 
+def test_normalized_source_tree_identity_is_stable():
+    digest = preflight.canonical_source_tree(Path.cwd(), "HEAD")
+    assert len(digest) == 64
+    assert digest == preflight.canonical_source_tree(Path.cwd(), "HEAD")
+
+
 def test_load_object_rejects_invalid_json(tmp_path):
     path = tmp_path / "invalid.json"
     path.write_text("[]", encoding="utf-8")
@@ -82,11 +86,7 @@ def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):
         "archiveGrowth: 10\n", encoding="utf-8"
     )
     monkeypatch.setattr(preflight, "canonical_archive_sha", lambda root, commit: "abc")
-    monkeypatch.setattr(
-        preflight.subprocess,
-        "run",
-        lambda *args, **kwargs: SimpleNamespace(stdout="tree\n"),
-    )
+    monkeypatch.setattr(preflight, "canonical_source_tree", lambda root, commit: "tree")
     monkeypatch.setattr(
         "sys.argv",
         ["check_release_preflight", "--root", str(tmp_path), "--source-commit", "HEAD"],

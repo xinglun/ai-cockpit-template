@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from ai_common import load_json, parse_yaml
+from ai_common import load_json, numeric_value, parse_yaml
 
 
 def validate_budget_impact(
@@ -23,10 +23,12 @@ def validate_budget_impact(
             expected = impact.get("expectedMetrics", {})
             if isinstance(expected, dict):
                 values.append(expected.get(metric))
-        if not isinstance(limit, (int, float)):
+        normalized_limit = numeric_value(limit)
+        if normalized_limit is None:
             continue
         for value in values:
-            if not isinstance(value, (int, float)) or value <= limit:
+            normalized_value = numeric_value(value)
+            if normalized_value is None or normalized_value <= normalized_limit:
                 continue
             approved = (
                 isinstance(impact, dict)

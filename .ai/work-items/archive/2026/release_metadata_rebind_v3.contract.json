@@ -1,0 +1,245 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_metadata_rebind_v3",
+  "mode": "code",
+  "title": "Harden numeric budget preflight before release metadata rebinding",
+  "baseCommit": "b254387d58a88a7471d269695d86f4ff642f46de",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_metadata_rebind_v3.contract.json",
+    ".ai/work-items/active/release_metadata_rebind_v3.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/ai_check_budget_impact.py",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_common.py",
+    "tests/test_ai_check_budget_impact.py",
+    "tests/test_ai_archive_work_item.py"
+  ],
+  "outOfScope": [
+    "release.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    "Publishing or tagging a release",
+    "Starting the original plan Work Items"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_budget_impact.py",
+      "reason": "Preflight compares policy limits and declared projections but currently ignores numeric limits parsed from the repository YAML subset."
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Archive mutation gate must enforce the same projected archive-growth limit before creating immutable evidence."
+    },
+    {
+      "path": "tests/test_ai_check_budget_impact.py",
+      "reason": "Existing budget preflight regression coverage; add the policy-string numeric regression."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Existing archive-growth reservation coverage; add the policy-string numeric regression."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current archiveGrowth ceiling is 492 while this corrective Work Item adds the next immutable archive record."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_metadata_post_close_v2.archive-manifest.json",
+      "reason": "Authoritative predecessor closure evidence and current archive sequence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_budget", "preflight_false_negative"],
+    "reason": "A false negative in a budget gate permits an over-limit archive or implementation to proceed; the fix is bounded to policy parsing and regression coverage."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized root-cause process correction before any release retry; the affected gates and regression scenarios are explicit."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Numeric policy limits are enforced by budget preflight even when the repository YAML subset returns them as strings.",
+    "Archive mutation rejects a projected archiveGrowth overrun under the same string-valued policy representation.",
+    "Regression tests cover both pre-implementation budget checks and pre-archive mutation checks.",
+    "The archiveGrowth and pythonLines ceilings and repayment ledger reserve this Work Item's measured growth without rewriting prior evidence.",
+    "The complete Finish Gate, PR, merge, ai-close-work-item, branch cleanup, and synchronized-base evidence is recorded."
+  ],
+  "guidelines": [
+    "Keep budget parsing fail closed; malformed or non-numeric policy limits must not silently disable enforcement.",
+    "Preserve immutable archived evidence and do not generate release metadata in this corrective Work Item."
+  ],
+  "intent": {
+    "problem": "The repository's YAML subset parses numeric governance limits as strings. The budget preflight and archive reservation code then use integer-only checks, so archiveGrowth and other numeric ceilings can be silently skipped before expensive CI or immutable archive mutation.",
+    "constraints": [
+      "Fix the process gate before resuming release metadata or publication.",
+      "Keep malformed limits fail closed and preserve existing approved overrun semantics.",
+      "Do not rewrite archived Contracts, Summaries, manifests, or release evidence.",
+      "The policy increase must be bounded to the measured next archive record and explicitly linked to this Work Item."
+    ],
+    "rationale": "Normalizing numeric policy values at the two budget enforcement boundaries closes the observed false-negative path without changing unrelated YAML consumers; regression tests make the preflight guarantee executable before release retries."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized root-cause process correction before resuming release."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Preflight rejects an expected pythonLines or archiveGrowth value above a string-valued policy maximum.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ai_check_budget_impact.py"]
+    },
+    {
+      "scenario": "Archive mutation rejects projected archiveGrowth above a string-valued policy maximum before writing evidence.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/test_ai_archive_work_item.py"]
+    },
+    {
+      "scenario": "The policy reservation admits exactly the projected archive sequence 493 and records repayment ownership.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/guards/governance_complexity_policy.yaml", ".ai/work-items/archive/index.json"]
+    }
+  ],
+  "rawUserRequest": "发现发布流程问题时先停止发布并从根本上改善流程；预算上限不足、格式化和重复 CI 等问题必须固化为事前硬门禁。完成修正后再继续完整 Contract/Preflight/PR/合并/ai-close-work-item 流程。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:stop-release-on-process-root-cause",
+    "capturedAt": "2026-07-23",
+    "digest": "sha256:user-authorized-process-correction-before-release"
+  },
+  "declaredIntent": {
+    "summary": "Make numeric governance budget limits enforceable before implementation and before immutable archive mutation.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "predecessorWorkItem": {
+    "workItemId": "release_metadata_post_close_v2",
+    "status": "closed",
+    "pr": {
+      "number": 280,
+      "merged": true,
+      "url": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/280",
+      "mergeCommit": "b254387d58a88a7471d269695d86f4ff642f46de"
+    },
+    "closure": {
+      "succeeded": true,
+      "localBranchDeleted": true,
+      "remoteBranchDeleted": true,
+      "baseSynchronized": true,
+      "evidence": ".ai/work-items/archive/2026/release_metadata_post_close_v2.archive-manifest.json"
+    }
+  },
+  "budgetImpact": {
+    "expectedMetrics": {"archiveGrowth": 493, "pythonLines": 39217},
+    "approved": true,
+    "repaymentWorkItem": "release_metadata_rebind_v3",
+    "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_metadata_rebind_v3.json",
+    "baseCommit": "b254387d58a88a7471d269695d86f4ff642f46de",
+    "initialScopeDigest": "9cf051e28de8e2deb22ed3e6efb8861b7cfe53f4330b39835ad13c2ace322263",
+    "contractSkeletonDigest": "153d1a795a6b7303b8f8bc81c7c86bbb161416dcc8a9c40b164c46807d7b3d7f"
+  }
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
@@ -404,6 +405,27 @@ def parse_yaml(path: Path) -> dict[str, Any]:
                 stack.append((indent, key, new_container))
 
     return root
+
+
+def numeric_value(value: Any) -> int | float | None:
+    """Return a finite numeric policy value, including numeric YAML strings."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return value
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    if not text:
+        return None
+    try:
+        number: int | float = int(text)
+    except ValueError:
+        try:
+            number = float(text)
+        except ValueError:
+            return None
+    return number if math.isfinite(number) else None
 
 
 def _flatten_lists(

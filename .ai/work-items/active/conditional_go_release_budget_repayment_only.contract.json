@@ -1,0 +1,154 @@
+{
+  "contractVersion": 2,
+  "workItemId": "conditional_go_release_budget_repayment_only",
+  "mode": "code",
+  "title": "conditional go release budget repayment only",
+  "baseCommit": "c0fc691cbd2db7023d0420eab05ec4542b72e3dc",
+  "baselineDirtyPaths": [],
+  "rawUserRequest": "Continue the current document Work Item workflow; complete the plan-document lifecycle only and do not start any plan implementation Work Item.",
+  "rawRequestSource": {"type":"human","reference":"user-request:continue-current-document-work-item","capturedAt":"2026-07-23","digest":"sha256:continue-current-document-work-item"},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "declaredIntent": {"summary":"Raise the bounded archive-growth ceiling caused by immutable lifecycle evidence and rebind release metadata to the final source tree.","requestedCapabilities":["ai_governance","documentation","test_automation"]},
+  "scenarioCoverage": [{"scenario":"archiveGrowth=475 and source-bound metadata pass","required":true,"riskDomain":"governance_budget","status":"verified","evidence":[".ai/guards/governance_complexity_policy.yaml","release.json","release-state.json",".ai/cockpit/release-digests.json"]}],
+  "scope": [
+    ".ai/work-items/active/conditional_go_release_budget_repayment_only.contract.json",
+    ".ai/work-items/active/conditional_go_release_budget_repayment_only.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "release.json",
+    "release-state.json",
+    ".ai/cockpit/release-digests.json"
+  ],
+  "outOfScope": ["Release publication","Plan implementation Work Items"],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/conditional_go_release_budget_repayment_only.contract.json",
+      "reason": "Archive and policy-budget evidence for the release lifecycle."
+    },
+    {"path":".ai/guards/governance_complexity_policy.yaml","reason":"Archive-growth ceiling and repayment ledger."},
+    {"path":"release.json","reason":"Source-bound release archive digest."},
+    {"path":"release-state.json","reason":"Release metadata digest binding."},
+    {"path":".ai/cockpit/release-digests.json","reason":"Release artifact digest projection."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_budget"],
+    "reason": "Bounded archive-growth budget and metadata rebinding only."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized completion of the full release plan and publication."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["archiveGrowth=475 passes with a bounded repayment record","release metadata matches the resulting source tree","Finish Gate, PR checks, merge, closure, and default-branch synchronization complete"],
+  "guidelines": [
+    "Do not rewrite or delete immutable archives.",
+    "Budget changes must be bounded and repayable."
+  ],
+  "intent": {
+    "problem": "The final release archive budget adds one immutable lifecycle record, so the governance ceiling must increase from 474 to 475 and release metadata must bind to the resulting tree.",
+    "constraints": ["Do not publish before lifecycle closure.","Do not start plan implementation Work Items."],
+    "rationale": "A bounded repayment keeps governance checks truthful while preserving immutable lifecycle evidence."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized completion of the full release plan and publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/conditional_go_release_budget_repayment_only.json",
+    "baseCommit": "c0fc691cbd2db7023d0420eab05ec4542b72e3dc",
+    "initialScopeDigest": "66f3914376068504e583dd46b42318a7aca52d36e37d36a0268b40837aec5505",
+    "contractSkeletonDigest": "9e4a442eb9eb8c32d09eef120750398691794f89e52f7b2c1465e56b61dcae1f"
+  }
+}

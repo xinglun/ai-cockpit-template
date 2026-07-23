@@ -1,0 +1,157 @@
+{
+  "contractVersion": 2,
+  "workItemId": "lockfile_ci_dependency",
+  "mode": "code",
+  "title": "Install lockfile compiler runtime dependencies explicitly in CI",
+  "baseCommit": "6a5cd6d43aae4502566741911772e5d9afb9d4b0",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/compatibility.yml",
+    "tests/test_workflows.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/lockfile_ci_dependency.contract.json",
+    ".ai/work-items/active/lockfile_ci_dependency.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Lockfile content or dependency selection changes.", "Release publication, tags, provider assets, and adopter-project installation."],
+  "sources": [
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "The CI lockfile lane installs pip-tools without its required typing_extensions runtime dependency."
+    },
+    {"path": "tests/test_workflows.py", "reason": "Regression coverage must enforce explicit lockfile compiler runtime dependencies."},
+    {"path": "Makefile", "reason": "The failing CI lane invokes the shared lockfile reproducibility target."},
+    {"path": "PR #294 job 89266344001", "reason": "Provider evidence shows ModuleNotFoundError: typing_extensions in the lockfile lane."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["ci_dependency_contract"],
+    "reason": "The CI lane can fail before exercising the release gate when its compiler runtime dependencies are implicit."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failed provider job identifies a narrow workflow dependency defect with a deterministic fix."
+  },
+  "preReviewWarnings": [
+    "Keep compiler installation explicit and deterministic without changing the committed lockfile."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["Compatibility CI installs pip-tools and typing_extensions before invoking make check-lockfile-reproducibility.", "A workflow regression test asserts the explicit typing_extensions installation command."],
+  "guidelines": [],
+  "intent": {
+    "problem": "The CI lockfile lane installs pip-tools without explicitly installing typing_extensions; the current pip-tools package then fails at import time before the reproducibility check runs.",
+    "constraints": ["Fix the workflow dependency contract, not the lockfile output.", "Keep release publication frozen until this Work Item and the blocked predecessor PR are resolved."],
+    "rationale": "A deterministic CI environment must exercise the intended lockfile gate rather than fail because an implicit compiler runtime dependency is missing."
+  },
+  "declaredIntent": {"requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "rawUserRequest": "When CI or PR exposes a process problem, stop publication and fix the root workflow first. Do not bypass the failure or create a budget-only Work Item.",
+  "rawRequestSource": {"type": "human", "reference": "user-request:root-cause-first-release-process", "capturedAt": "2026-07-24", "digest": "sha256:root-cause-first-release-process"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [{"scenario": "CI lockfile lane imports pip-tools and completes lockfile comparison.", "required": false, "status": "unverified", "evidence": [], "reason": "Provider CI must verify after push."}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized root-cause workflow improvement before resuming release; the archive budget change is part of this functional Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 506,
+      "pythonLines": 39512
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/lockfile_ci_dependency.json",
+    "baseCommit": "6a5cd6d43aae4502566741911772e5d9afb9d4b0",
+    "initialScopeDigest": "993df4f4deaf31df9bc671a17457e58aaa7acb38cf6cd8875db742130a765676",
+    "contractSkeletonDigest": "ee13f3ad0fb07824dbea1f108cd4cfbb2a6f19471a3af2172ec56e0e70838015"
+  }
+}

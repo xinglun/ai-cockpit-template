@@ -8,6 +8,10 @@
   "scope": [
     "requirements-dev.in",
     "requirements-dev.lock",
+    "release.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
     "Makefile",
     ".github/workflows/compatibility.yml",
     "tests/test_workflows.py",
@@ -26,6 +30,7 @@
       "reason": "The exact stevedore pin is not installable on the supported Python 3.10 lockfile lane."
     },
     {"path": "requirements-dev.lock", "reason": "Committed lock output currently records the Python 3.10-compatible stevedore version."},
+    {"path": "release.json", "reason": "The committed release evidence binds the supply-chain lock digest and must remain consistent with the corrected lock output."},
     {"path": "Makefile", "reason": "The reproducibility gate must compare semantic lock output rather than environment-specific pip-tools comment grouping."},
     {"path": ".github/workflows/compatibility.yml", "reason": "The provider lane must use the same pinned pip-tools compiler as the canonical lockfile process."},
     {"path": "tests/test_workflows.py", "reason": "Regression coverage must keep input and lock output aligned for the supported baseline."},
@@ -60,7 +65,7 @@
     ],
     "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
   },
-  "acceptance": ["The Python 3.10 lockfile reproducibility lane passes after the stevedore pin correction, using a pinned pip-tools compiler and semantic lockfile normalization."],
+  "acceptance": ["The Python 3.10 lockfile reproducibility lane passes after the stevedore pin correction, using a pinned pip-tools compiler and the CI-generated lock output.", "release.json requirementsLockDigest matches the committed lockfile without publishing a release."],
   "guidelines": [],
   "intent": {
     "problem": "The dependency input requests stevedore==5.9.0 while the supported Python 3.10 reproducibility lane cannot install that release; the committed lock output remains at 5.8.0.",

@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "lockfile_input_compatibility",
+  "mode": "code",
+  "title": "Align lockfile input with supported Python versions",
+  "baseCommit": "7ed5c336ddfb4ec254461053640869c5903b3193",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "requirements-dev.in",
+    "requirements-dev.lock",
+    "release.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    "Makefile",
+    ".github/workflows/compatibility.yml",
+    "tests/test_workflows.py",
+    "tests/test_makefile.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+    ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Unrelated dependency upgrades or unrelated lockfile tool behavior changes.", "Release publication, tags, provider assets, and adopter-project installation."],
+  "sources": [
+    {
+      "path": "requirements-dev.in",
+      "reason": "The exact stevedore pin is not installable on the supported Python 3.10 lockfile lane."
+    },
+    {"path": "requirements-dev.lock", "reason": "Committed lock output currently records the Python 3.10-compatible stevedore version."},
+    {"path": "release.json", "reason": "The committed release evidence binds the supply-chain lock digest and must remain consistent with the corrected lock output."},
+    {"path": "Makefile", "reason": "The reproducibility gate must compare semantic lock output rather than environment-specific pip-tools comment grouping."},
+    {"path": ".github/workflows/compatibility.yml", "reason": "The provider lane must use the same pinned pip-tools compiler as the canonical lockfile process."},
+    {"path": "tests/test_workflows.py", "reason": "Regression coverage must keep input and lock output aligned for the supported baseline."},
+    {"path": "tests/test_makefile.py", "reason": "Regression coverage must keep lockfile normalization and executable resolution as hard preflight behavior."},
+    {"path": "PR #294 job 89271030797", "reason": "Provider evidence shows stevedore==5.9.0 cannot be resolved on Python 3.10."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["cross_version_dependency_compatibility"],
+    "reason": "An input pin unsupported by the lowest supported Python version makes the reproducibility gate impossible to pass."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The provider failure identifies a deterministic dependency-input correction."
+  },
+  "preReviewWarnings": [
+    "Verify the input pin, committed lock output, and Python 3.10 provider gate remain aligned."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["The Python 3.10 lockfile reproducibility lane passes after the stevedore pin correction, using a pinned pip-tools compiler and the CI-generated lock output.", "release.json requirementsLockDigest matches the committed lockfile without publishing a release."],
+  "guidelines": [],
+  "intent": {
+    "problem": "The dependency input requests stevedore==5.9.0 while the supported Python 3.10 reproducibility lane cannot install that release; the committed lock output remains at 5.8.0.",
+    "constraints": ["Preserve the supported Python 3.10 baseline.", "Do not broaden this Work Item into unrelated dependency updates.", "Keep publication frozen until the lockfile gate passes in provider CI."],
+    "rationale": "Dependency inputs must describe selections that the lowest supported execution environment can actually resolve and reproduce."
+  },
+  "declaredIntent": {"requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "rawUserRequest": "When CI or PR exposes a process defect, stop publication and fix the root workflow first. Do not bypass the failure or create a budget-only Work Item.",
+  "rawRequestSource": {"type": "human", "reference": "user-request:root-cause-first-release-process", "capturedAt": "2026-07-24", "digest": "sha256:root-cause-first-release-process"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [{"scenario": "Python 3.10 lockfile CI resolves the input and reproduces the committed lock output.", "required": false, "status": "unverified", "evidence": [], "reason": "Provider CI must verify after push."}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized root-cause dependency compatibility correction before resuming release; archive budget is recorded in this functional Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 507,
+    "pythonLines": 39533
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/lockfile_input_compatibility.json",
+    "baseCommit": "7ed5c336ddfb4ec254461053640869c5903b3193",
+    "initialScopeDigest": "5edc510735fd85a3f06df5480e564cb3acb61802eb03e40caca75b4edaf575ed",
+    "contractSkeletonDigest": "206fbc347c425352900877d19104166da7a33ae06f017d0ae9865290885af6c5"
+  }
+}

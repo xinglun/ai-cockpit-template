@@ -1,0 +1,416 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "lockfile_input_compatibility",
+  "contractPath": ".ai/work-items/archive/2026/lockfile_input_compatibility.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/lockfile_input_compatibility.contract.json",
+      "reason": "Defines the cross-version dependency compatibility root cause and acceptance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lockfile_input_compatibility.summary.json",
+      "reason": "Records verification and lifecycle evidence for the dependency-input correction."
+    },
+    {
+      "path": "requirements-dev.in",
+      "reason": "Aligns the exact stevedore pin with the supported Python 3.10 baseline."
+    },
+    {
+      "path": "requirements-dev.lock",
+      "reason": "Commits the full Python 3.10-compatible resolver output required by the reproducibility lane after the input pin correction."
+    },
+    {
+      "path": "release.json",
+      "reason": "Updates the candidate release evidence to the corrected lockfile digest without publishing a release."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Generated candidate SBOM is refreshed from the corrected lockfile while retaining the existing source identity."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Generated candidate provenance is refreshed so its lockfile and SBOM digests match the corrected evidence."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Generated candidate release digests bind the corrected lockfile, SBOM, provenance, installer, and release metadata."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Normalizes non-semantic pip-tools comment grouping before lockfile comparison, preventing patch-version environment drift from failing the gate."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Pins the provider lockfile compiler to pip-tools 7.6.0 so the verification process is explicit and reproducible."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Adds regression coverage for input/lock alignment."
+    },
+    {
+      "path": "tests/test_makefile.py",
+      "reason": "Adds regression coverage for executable lockfile normalization and the hard reproducibility gate."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Records the same-Work-Item archive budget impact."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lockfile_input_compatibility.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+    "requirements-dev.in",
+    "requirements-dev.lock",
+    "tests/test_workflows.py",
+    "PR #294 job 89271030797"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:33.902653+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "7afea7c08a8e2220ad9b70710d0360d21775ddfe4386bda6a74740915cd1b839",
+      "commandHash": "fdeb2e8c924e87530d0a59811b3e1c6477fb01853ee3fadb255671573b8abef7",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/lockfile_input_compatibility.contract.json work item contract check passed: .ai/work-items/active/lockfile_input_compatibility.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:34.435937+00:00",
+      "exitCode": 0,
+      "durationMs": 290,
+      "outputDigest": "5ee0f71a091426158ec99127298249682cf0f4c7b943248d3568552c0e906f86",
+      "commandHash": "650131cb05c317415096e55663788973f35bf08a3a0f0fc6cdfd6fe8d33352df",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/lockfile_input_compatibility.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:35.006057+00:00",
+      "exitCode": 0,
+      "durationMs": 322,
+      "outputDigest": "06386c11f95fa392c5999a41af3df5601b4525945509fcce80219b18689a2a50",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/lockfile_input_compatibility.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:36.068091+00:00",
+      "exitCode": 0,
+      "durationMs": 812,
+      "outputDigest": "ef79e57c90f6569bbe8174dbf642c6af3faebc626a402282f7acbfdddc12696c",
+      "commandHash": "aa8382a9efa310b49f2bc9bc8486ef00367387570a6abedeb1937fcba6bd6bf4",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/lockfile_input_compatibility.contract.json --summary .ai/work-items/active/lockfile_input_compatibility.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `lockfile_input_compatibility` - Contract Hash: `a51d6f4804451abc` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `1` - Unknown Count: `0` - Required Checks: `1"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:36.619792+00:00",
+      "exitCode": 0,
+      "durationMs": 299,
+      "outputDigest": "fef963e9a0e40dda1b828316abebcd24c687e61904832cc8ffc92192e4e1da00",
+      "commandHash": "3f35332317db0d28d6bb1b794c44f0e5e2a44b35bb4c5a4a469102d2309b4dae",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/lockfile_input_compatibility.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/lockfile_input_compatibility.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml review focus recorded: 2 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:37.268505+00:00",
+      "exitCode": 0,
+      "durationMs": 373,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:37.868377+00:00",
+      "exitCode": 0,
+      "durationMs": 348,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:38.203404+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "15f5515b27a5a717fb5c798678fa749ee576141a11d883be18d58965301f951a",
+      "commandHash": "972810d893159b3118648ef6f09fedea27c6d7ec0ac1e5aa9dc3cdd4c4340235",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/lockfile_input_compatibility.contract.json --summary .ai/work-items/active/lockfile_input_compatibility.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:38.498651+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "dc4d3b622fa894566671d6a5368a17fc52fcd4bce1c45f8c5f3eaaf613896426",
+      "commandHash": "107f051793203a29cedab1de934b2401e58faa14d691a664abf2b22fa1559571",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/lockfile_input_compatibility.contract.json --summary .ai/work-items/active/lockfile_input_compatibility.summary.json guidelines compliance check passed: 0 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:45:39.572585+00:00",
+      "exitCode": 0,
+      "durationMs": 826,
+      "outputDigest": "09e8c07c09e929b17a933c8157341aae8a456a55f60154db76714d49e458e9db",
+      "commandHash": "833277d3a081be35d974770e9998c899c865ce152cee0530166b8bd803dc7c85",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/lockfile_input_compatibility.contract.json ## Diff Ownership Preview - active_owned: `5`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/starts/lockfi"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:49:43.010716+00:00",
+      "exitCode": 0,
+      "durationMs": 243359,
+      "outputDigest": "11ac06c803ed86a76ba43ff1b199548eac005ac43e32543b39663ea58a595106",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f77b50718da0464dd1256460a079e1c9d17716abbf09622c5b8f0bbec1573036",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 23%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:49:45.014054+00:00",
+      "exitCode": 0,
+      "durationMs": 311,
+      "outputDigest": "2a7dd99f96f2e54ca411c9f615f6a25ed8e50189ff496d808c24a4eaf498d2cf",
+      "commandHash": "838031e349886f2e9795f3a140fd74ada4b1ceba288ace78d75272b6ad3f6e3a",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f58572f013f9aeefcd371e3de97b965f3bdd980457d4004353975402c3e618c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/lockfile_input_compatibility.contract.json --summary .ai/work-items/active/lockfile_input_compatibility.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:49:45.358451+00:00",
+      "exitCode": 0,
+      "durationMs": 268,
+      "outputDigest": "8be7f93eea5cd31f15d576bf3c8f2f075c1231822187f74bc771bad5e5eb327f",
+      "commandHash": "5ecae8d2d3786de44ca2aef06bede62d7bc56ebd39101ea55166d70b5777e5e2",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f58572f013f9aeefcd371e3de97b965f3bdd980457d4004353975402c3e618c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/lockfile_input_compatibility.contract.json --summary .ai/work-items/active/lockfile_input_compatibility.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:49:45.473606+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f58572f013f9aeefcd371e3de97b965f3bdd980457d4004353975402c3e618c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:49:45.625629+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "be289f55aebb73076832ed1c162ee7f73fb7490d9e2f5b5f6a022a2902a61970",
+      "commandHash": "8fc5dc042c0fa32fa66ff8561f050468e5a20b3802f042dd837533eefdf9c589",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "f58572f013f9aeefcd371e3de97b965f3bdd980457d4004353975402c3e618c7",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/lockfile_input_compatibility.contract.json --summary .ai/work-items/active/lockfile_input_compatibility.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/lockfile_input_compatibility.summary.json CONTRACT=.ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-23T16:49:46.644693+00:00",
+      "exitCode": 0,
+      "durationMs": 111,
+      "outputDigest": "060ab1c4b287061e029dc81589627c328a565c58b796b428df567083b776d4de",
+      "commandHash": "6a15d3622a85afa9418290f00f9de92d7dfa3b0f043dbac6ff907988f7e8075b",
+      "contractHash": "db1dcf2eff8c4ebecbf734a7ef8e1d6e8e7472100d5f72c880fd318c895afc3f",
+      "commitSha": "7ed5c336ddfb4ec254461053640869c5903b3193",
+      "executionContractPath": ".ai/work-items/active/lockfile_input_compatibility.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lockfile_input_compatibility.summary.json",
+      "worktreeDigest": "7219da59427088a358b5c93ecc36907a2e3969baf486f232e9feb020742ad560",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/lockfile_input_compatibility.summary.json --contract .ai/work-items/active/lockfile_input_compatibility.contract.json ai summary check passed: .ai/work-items/active/lockfile_input_compatibility.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The change is limited to one dependency pin and a regression assertion for the supported baseline."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "cross_version_dependency_compatibility",
+      "detail": "The supported Python baseline is enforced at the dependency-input boundary; provider CI must verify the gate.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Python 3.10 compatibility",
+      "Input/lock alignment"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "Stop publication on process failures and fix the root cause first.",
+    "Do not create a budget-only Work Item."
+  ],
+  "userCorrectionSolidification": [
+    "The supported Python baseline is now enforced at the dependency-input boundary."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "db1dcf2eff8c4ebec",
+      "acceptanceCount": 1,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "db1dcf2eff8c4ebec",
+      "acceptanceCount": 1,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 506
+}

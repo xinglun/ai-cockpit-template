@@ -111,6 +111,19 @@ def test_lockfile_reproducibility_uses_python_module_invocation():
     assert f'"{ROOT}/python3" -m piptools compile' not in result.stdout
 
 
+def test_lockfile_reproducibility_normalizes_nonsemantic_via_comments():
+    result = subprocess.run(
+        ["make", "-n", "check-lockfile-reproducibility", "PYTHON=python3"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "awk '/^    # via/" in result.stdout
+    assert "normalized/generated.lock" in result.stdout
+
+
 def test_lockfile_reproducibility_fails_when_compiler_fails(tmp_path):
     failing_python = tmp_path / "failing-python"
     failing_python.write_text("#!/bin/sh\nexit 17\n", encoding="utf-8")

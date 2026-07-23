@@ -1,0 +1,174 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_budget_inflight_v1",
+  "mode": "code",
+  "title": "reconcile in-flight archive reservations before PR gates",
+  "rawUserRequest": "当发现 CI/PR/发布被流程问题挡住时，必须停止后续发布和重复重试，先从根本上改善流程；本次 archiveGrowth=489 超过 488 的阻断要修正预算与在途工单的时序协调，并完成完整 Contract/Preflight/PR/合并/ai-close-work-item 流程。",
+  "rawRequestSource": {"type":"human","reference":"user-request-2026-07-23-stop-release-on-process-root-cause","capturedAt":"2026-07-23","digest":"inflight-budget-reconciliation-authorized"},
+  "declaredIntent": {"summary":"将预算闸门从单纯检查当前树绝对值，提升为可解释、可审计地协调已冻结但尚未并入默认分支的归档增长；保留旧证据，避免靠重复改上限绕过流程。","requestedCapabilities":["ai_governance","software_design","test_automation"]},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "0edf53588866eb33d9d65b5b02811fc5e964b650",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/archive_budget_inflight_v1.contract.json",
+    ".ai/work-items/active/archive_budget_inflight_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/decisions/HDR-ff46d7815c38a7e6-c74e3b33.*",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_governance_complexity.py",
+    "scripts/ai_archive_work_item.py",
+    "tests/test_ai_archive_work_item.py"
+  ],
+  "outOfScope": ["Adopter or installed runtime repositories","Publishing a release","Starting or reordering plan Work Items","Modifying immutable archived Contracts or Summaries"],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current archiveGrowth ceiling and repayment records expose the absolute-budget failure."},
+    {"path":"scripts/check_governance_complexity.py","reason":"PR complexity gate that currently rejects an explainable in-flight archive transition."},
+    {"path":"scripts/ai_archive_work_item.py","reason":"Pre-archive reservation gate introduced by the preceding corrective Work Item."},
+    {"path":"tests/test_ai_archive_work_item.py","reason":"Regression tests for archive reservation behavior."},
+    {"path":".ai/work-items/archive/2026/release_archive_boundary_v1.contract.json","reason":"Frozen pre-gate Work Item that exposed the in-flight reservation gap."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_governance"
+    ],
+    "reason": "Changing budget gate semantics can affect PR admission; preserve fail-closed behavior and immutable evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized stopping release and correcting the process root cause before retrying the PR."
+  },
+  "preReviewWarnings": [
+    "Do not solve the observed overage by an undocumented limit bump; require explicit reconciliation evidence for legacy in-flight archives."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The budget gate has an explicit, tested reconciliation path for a frozen archive created before the pre-archive reservation gate merged.",
+    "The current archiveGrowth=489 transition is represented by an auditable policy reservation with owner, date, and repayment rationale; no immutable evidence is rewritten.",
+    "A regression test proves ordinary stale or unreserved growth remains fail closed.",
+    "PR preflight passes formatter and governance budget checks before the corrective PR is opened."
+  ],
+  "guidelines": [
+    "Fail closed for unreserved or ambiguous archive growth.",
+    "Template repository only; do not transplant template budgets into adopter projects.",
+    "Do not modify immutable archived evidence."
+  ],
+  "intent": {
+    "problem": "The new pre-archive gate reserved archiveGrowth=488 for its own archive, but an already-frozen release_archive_boundary_v1 archive was created on the prior base and is now included when its branch is rebased. check-ai-pr therefore reports 489>488 after the process correction, blocking the next PR and exposing an in-flight lifecycle reservation gap.",
+    "constraints": ["Stop release and PR retries until the process correction is complete.","Preserve immutable archive evidence and the full Work Item lifecycle.","Keep normal over-budget and stale reservation cases fail closed.","Separate template governance policy from adopter runtime policy."],
+    "rationale": "A bounded, explicit reconciliation path makes the exceptional pre-gate transition auditable while ensuring future Work Items reserve growth before mutation and cannot silently exceed the policy."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized stopping release and correcting the root governance process before retrying PR/release gates."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "scenarioCoverage": [
+    {"scenario":"legacy_frozen_archive_rebased_after_gate","required":true,"status":"verified","evidence":["observed check-ai-pr failure: archiveGrowth=489 exceeds configured maximum 488",".ai/work-items/archive/2026/release_archive_boundary_v1.contract.json"]},
+    {"scenario":"ordinary_unreserved_archive_growth","required":true,"status":"verified","evidence":["tests/test_ai_archive_work_item.py::test_archive_growth_requires_reservation"]},
+    {"scenario":"stale_contract_reservation","required":true,"status":"verified","evidence":["tests/test_ai_archive_work_item.py::test_archive_growth_rejects_stale_reservation"]}
+  ],
+  "budgetImpact": {
+    "expectedMetrics": {"archiveGrowth": 489},
+    "approved": true,
+    "repaymentWorkItem": "archive_budget_inflight_v1",
+    "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/archive_budget_inflight_v1.json",
+    "baseCommit": "0edf53588866eb33d9d65b5b02811fc5e964b650",
+    "initialScopeDigest": "1c7a425953e896fd93bfc3a4f605cf4f716283ac3795feb4cc9b84c518d721bd",
+    "contractSkeletonDigest": "8e6f5d2485731ef978be55160164cf916c4579dc45af10073946e744f2237908"
+  }
+}

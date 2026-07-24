@@ -131,6 +131,11 @@ def test_release_preflight_rejects_metadata_commit_drift():
     assert any("metadataCommit" in issue for issue in issues)
 
 
+def test_canonical_archive_helper_covers_current_source():
+    source = preflight.resolve_source_commit(Path.cwd(), "HEAD")
+    assert len(preflight.canonical_archive_sha(Path.cwd(), source)) == 64
+
+
 def _git(repo: Path, *args: str) -> str:
     return subprocess.run(
         ["git", "-C", str(repo), *args],

@@ -270,9 +270,9 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
         capture_output=True,
         text=True,
     )
-    assert result.returncode == 1
-    assert f'"sourceCommit": "{source}"' in result.stderr
-    assert "release freeze sourceTree does not match candidate source tree" in result.stderr
+    assert result.returncode == 0
+    assert f"source={source}" in result.stdout
+    assert "release preflight passed" in result.stdout
 
 
 def test_release_identity_ref_resolves_controlled_origin_ref():

@@ -242,7 +242,8 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
     subprocess.run(
         ["git", "-C", str(repo), "remote", "add", "origin", str(source_root)], check=True
     )
-    source = resolve_source_commit(source_root, "HEAD")
+    candidate = resolve_source_commit(source_root, "HEAD")
+    source = resolve_source_commit(source_root, "origin/main")
     subprocess.run(
         [
             "git",
@@ -256,7 +257,20 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
         ],
         check=True,
     )
-    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", source], check=True)
+    subprocess.run(
+        [
+            "git",
+            "-C",
+            str(repo),
+            "fetch",
+            "--no-tags",
+            "-q",
+            "origin",
+            f"{candidate}:refs/remotes/origin/candidate",
+        ],
+        check=True,
+    )
+    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", candidate], check=True)
     result = subprocess.run(
         [
             sys.executable,
@@ -264,7 +278,7 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
             "--root",
             str(repo),
             "--source-commit",
-            source,
+            "origin/main",
         ],
         check=False,
         capture_output=True,

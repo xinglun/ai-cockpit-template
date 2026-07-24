@@ -13,7 +13,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import cast
+from typing import Iterable, cast
 
 from ai_generate_status import write_no_active_status
 from ai_adoption_evidence import build_runtime_verification
@@ -23,6 +23,7 @@ from ai_start_receipt import build_receipt, receipt_binding
 from ai_install_facts import FACT_NAMES, write_fact_bundle
 from ai_installer_bootstrap import adoption_record_paths
 from ai_installer_detection import missing_runtime_scripts
+from ai_installer_detection import InstallationDetection, collect_installation_detection
 from ai_installer_evidence import action_counts
 from ai_installer_ownership import is_project_owned
 from ai_installer_repository import clean_git_environment, git_records, git_target_args, run_git
@@ -92,6 +93,13 @@ RESERVED_MAKE_TARGETS = {
 
 
 Action = TransactionAction
+
+
+def inspect_installation(
+    target: Path, *, mode: str, stacks: Iterable[str] = ()
+) -> InstallationDetection:
+    """Expose the read-only wizard facts without entering the Installer transaction."""
+    return collect_installation_detection(target, mode=mode, stacks=stacks)
 
 
 @dataclass(frozen=True)

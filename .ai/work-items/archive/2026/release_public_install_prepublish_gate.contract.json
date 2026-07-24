@@ -1,0 +1,292 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_public_install_prepublish_gate",
+  "mode": "code",
+  "title": "Require verified Quick Install before release publication",
+  "baseCommit": "9f8afbbb73ae261ec4044676e6c29df9f631deeb",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_public_install_prepublish_gate.contract.json",
+    ".ai/work-items/active/release_public_install_prepublish_gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "install.sh",
+    "scripts/finalize_release_freeze.py",
+    "scripts/check_release_distribution.py",
+    "scripts/check_system_invariants.py",
+    "tests/test_release_preflight.py",
+    "tests/test_release_distribution.py",
+    "tests/test_project_governance.py",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/releases/v0.5.41.md",
+    "release.json",
+    "next-release.json",
+    "release-state.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json"
+  ],
+  "outOfScope": [
+    "Rewriting or deleting the immutable v0.5.39 or v0.5.40 tags",
+    "Publishing the quarantined Draft v0.5.39 or v0.5.40 Releases",
+    "Publishing v0.5.41 before this Work Item merges, closes, and passes exact-main verification",
+    "Weakening Quick Install, source, archive, evidence, smoke, compatibility, or public-distribution checks"
+  ],
+  "sources": [
+    {
+      "path": "make check-release-distribution output after release run 30109893338",
+      "reason": "The first independent v0.5.40 public install failed because release.json archive verification remained false."
+    },
+    {
+      "path": "scripts/verify_quick_install_release.py",
+      "reason": "Quick Install requires sha256ArchiveVerification supported and verified before downloading the declared archive."
+    },
+    {
+      "path": "release.json",
+      "reason": "The immutable v0.5.40 tag permanently records verified false and candidate status."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Finalization binds exact source/archive/installer data but does not promote the archive verification contract."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "The workflow validates Draft assets but does not execute the final Quick Install contract before publish."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30109893338",
+      "reason": "v0.5.40 release passed every workflow step and published despite the unusable immutable contract."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30109933145",
+      "reason": "Strict smoke passed before tag/Draft creation and therefore could not exercise the final tagged Quick Install path."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "release_integrity",
+      "immutable_artifact",
+      "workflow_regression",
+      "public_distribution"
+    ],
+    "reason": "Two consecutive immutable corrective tags exposed distinct prepublication gate gaps; the next correction must prove the final tagged Quick Install contract before publication.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The immutable false capability, missing Draft Quick Install gate, and public failure are directly reproduced; the user delegated process-first corrective authority."
+  },
+  "preReviewWarnings": [
+    "Confirm finalization promotes verification only after exact archive and installer bindings exist.",
+    "Confirm the Draft tag is exercised with the same Quick Install verifier before publish.",
+    "Confirm v0.5.39 and v0.5.40 remain immutable Draft quarantine evidence."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A regression test first proves finalization leaves sha256ArchiveVerification verified false after binding the canonical archive.",
+    "Finalization writes supported true, verified true, and verified status only when canonical archive and installer bindings are generated.",
+    "A workflow regression test first proves release publication lacks a final tagged Quick Install verification step.",
+    "release.json declares the stable GitHub Release asset URL, and the workflow asserts that repo/tag/asset identity, authenticates and downloads the canonical Draft archive, rehashes it, and executes verify_quick_install_release.py against the exact Draft tag and that asset before draft=false.",
+    "The failed v0.5.39 and v0.5.40 tags remain unchanged and quarantined while v0.5.41 is prepared as the corrective public release and v0.5.42 as the next candidate.",
+    "English and Japanese release documentation describes immutable verified capability generation and the prepublish tagged install gate.",
+    "Focused tests and full quality pass without raising governance complexity or coverage thresholds; archiveGrowth remains warning-only.",
+    "The Work Item PR passes Actions, merges, closes, and exact merged main passes post-merge Actions before v0.5.41 publication.",
+    "The published v0.5.41 passes independent public check-release-distribution after tag, assets, and Release publication."
+  ],
+  "guidelines": [
+    "Fix the immutable contract generator and add an executable prepublish gate rather than hand-editing release.json.",
+    "Use the same Quick Install verifier for prepublish and independent public verification.",
+    "Do not rewrite or republish failed immutable tags; supersede them with the next patch release.",
+    "Keep archiveGrowth warning-only and do not relax any existing release check.",
+    "Use test-driven development and preserve exact-source workflow ordering."
+  ],
+  "intent": {
+    "problem": "v0.5.40 passed release workflow and strict smoke, then independent public distribution failed because immutable release.json still declared archive verification false. The workflow assumes this tag-owned field becomes verified after provider publication, but no publication step can change immutable tag contents, and the final tagged Quick Install contract is never exercised before draft=false.",
+    "constraints": [
+      "Keep v0.5.39 and v0.5.40 Releases quarantined as Draft and preserve both immutable tags as failed historical evidence.",
+      "Do not publish v0.5.41 until this process fix and corrective metadata are reviewed, merged, closed, and verified on exact main.",
+      "Execute the final tagged Quick Install verifier after Draft creation but before Release publication.",
+      "Do not weaken existing installer, source, archive, evidence, CI, or distribution gates."
+    ],
+    "rationale": "A release is publishable only when the exact immutable contract consumed by anonymous Quick Install has already passed the same verifier used by the independent public audit. Finalization owns deterministic contract promotion; the Draft boundary supplies the exact tag and downloadable archive needed for the last prepublish proof."
+  },
+  "rawUserRequest": "发布遇到流程问题或过时代码时先修改流程，不做临时对应；所有阻挡新版本发布的问题都先修复，并持续监控 GitHub Actions。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-process-first-release-remediation",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:1cc3f54f33e2f618fb1947a6abe3f1d1a3c9cef69d91e9ea107eab4d3d051b56"
+  },
+  "declaredIntent": {
+    "summary": "Generate a verified immutable Quick Install contract and prove the final tagged path before Release publication.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "test_automation",
+      "documentation"
+    ]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {
+      "id": "immutable_false_contract",
+      "scenario": "An immutable release tag contains a bound archive digest but sha256ArchiveVerification remains verified false.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.40 tag 9f8afbbb73ae261ec4044676e6c29df9f631deeb",
+        "release.json capabilities.sha256ArchiveVerification.verified=false",
+        "make check-release-distribution public install failure"
+      ]
+    },
+    {
+      "id": "strict_smoke_blind_spot",
+      "scenario": "Strict smoke passes before the immutable tag exists and cannot exercise the final tagged Quick Install contract.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "release run 30109893338",
+        "strict smoke run 30109933145",
+        ".github/workflows/release.yml ordering"
+      ]
+    },
+    {
+      "id": "draft_prepublish_install",
+      "scenario": "The exact Draft tag and archive pass Quick Install verification before draft=false.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_workflows.py",
+        "scripts/verify_quick_install_release.py"
+      ]
+    },
+    {
+      "id": "immutable_recovery",
+      "scenario": "v0.5.39 and v0.5.40 remain unchanged Draft quarantines while v0.5.41 is prepared without publication.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.39 target 841ce411389fafe8fa841d605375969215231767",
+        "v0.5.40 target 9f8afbbb73ae261ec4044676e6c29df9f631deeb",
+        "both GitHub Releases are Draft"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly delegated confirmation, judgment, execution, process-first release remediation, and GitHub Actions monitoring."
+  },
+  "rollbackNote": "Revert this Work Item diff; keep the immutable failed tags and Draft quarantine history unchanged.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 544
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_public_install_prepublish_gate.json",
+    "baseCommit": "9f8afbbb73ae261ec4044676e6c29df9f631deeb",
+    "initialScopeDigest": "355fd4c727ba9ba4e27afa5632c9896785deafa909b5a15b4ca4a59bb8302c15",
+    "contractSkeletonDigest": "7543b2e8e38290835c2edb4259de3c1ef733ff23c1cdaf18a6d1fcdf5cb71e29"
+  }
+}

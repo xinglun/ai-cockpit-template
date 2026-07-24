@@ -311,9 +311,23 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           set -euo pipefail
+          archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
+          download_dir="$RUNNER_TEMP/tagged-install"
+          mkdir -p "$download_dir"
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$archive_name" \
+            --dir "$download_dir"
+          verified_archive="$download_dir/$archive_name"
+          test "$(sha256sum "$verified_archive" | cut -d' ' -f1)" = \
+            "$(jq -r '.releaseArchive.sha256' release.json)"
+          verified_archive_url="$(python3 -c \
+            'import pathlib,sys; print(pathlib.Path(sys.argv[1]).resolve().as_uri())' \
+            "$verified_archive")"
           python3 scripts/verify_quick_install_release.py \
             --root "$GITHUB_WORKSPACE" \
-            --ref "$RELEASE_TAG"
+            --ref "$RELEASE_TAG" \
+            --asset-url "$verified_archive_url"
 
       - name: Publish verified Draft Release
         run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

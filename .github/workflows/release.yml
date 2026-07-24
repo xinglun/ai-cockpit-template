@@ -121,6 +121,10 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: python3 -m pip install --disable-pip-version-check --require-hashes -r requirements-dev.lock
 
+      - name: Install pinned lockfile compiler
+        working-directory: ${{ github.workspace }}
+        run: python3 -m pip install --disable-pip-version-check pip-tools==7.6.0 typing-extensions==4.16.0
+
       - name: Require reproducible dependency lockfile
         working-directory: ${{ github.workspace }}
         run: make check-lockfile-reproducibility

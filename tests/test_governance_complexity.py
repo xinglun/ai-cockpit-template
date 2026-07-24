@@ -261,6 +261,21 @@ def test_tracked_files_raises_when_git_listing_fails(tmp_path, monkeypatch):
         check_governance_complexity.tracked_files(tmp_path)
 
 
+def test_tracked_files_includes_non_ignored_worktree_files(tmp_path, monkeypatch):
+    calls = []
+
+    def run(*args, **kwargs):
+        calls.append(args[0])
+        return SimpleNamespace(returncode=0, stdout="tracked.py\0new.py\0")
+
+    monkeypatch.setattr(check_governance_complexity.subprocess, "run", run)
+    assert check_governance_complexity.tracked_files(tmp_path) == [
+        tmp_path / "tracked.py",
+        tmp_path / "new.py",
+    ]
+    assert calls == [["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"]]
+
+
 def test_archive_metrics_reports_unpaired_records(tmp_path):
     archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
     archive.mkdir(parents=True)

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -15,6 +16,32 @@ from release_archive import canonical_archive_sha, canonical_source_tree
 
 class ReleasePreflightError(ValueError):
     """Raised when a release candidate is not frozen and source-bound."""
+
+
+def validate_installer_digest(release: dict[str, Any], actual_installer_sha: str) -> list[str]:
+    """Reject a release projection that is not bound to source install.sh bytes."""
+    expected = release.get("installerDigest")
+    if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+        return ["release.json installerDigest is missing or invalid"]
+    if expected != actual_installer_sha:
+        return ["release.json installerDigest does not match source install.sh"]
+    return []
+
+
+def source_file_sha256(root: Path, source_commit: str, path: str) -> str:
+    """Hash one file exactly as stored in the selected release source commit."""
+    try:
+        result = subprocess.run(  # nosec B603 B607
+            ["git", "-C", str(root), "show", f"{source_commit}:{path}"],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise ReleasePreflightError(
+            f"release source file cannot be read: {source_commit}:{path}"
+        ) from exc
+    return hashlib.sha256(result.stdout).hexdigest()
 
 
 def validate_release_projection(
@@ -210,6 +237,7 @@ def main() -> int:
             resolved_freeze[field] = resolve_release_identity_ref(
                 root, freeze.get(field), f"freeze {field}"
             )
+        actual_installer_sha = source_file_sha256(root, source_commit, "install.sh")
     except ReleasePreflightError as exc:
         print(f"release preflight blocked: {exc}", file=sys.stderr)
         return 1
@@ -267,6 +295,7 @@ def main() -> int:
             metadata_commit=comparable_digests.get("metadataCommit", ""),
         )
     )
+    issues.extend(validate_installer_digest(release, actual_installer_sha))
     if issues:
         print(
             "release preflight diagnostics: "
@@ -279,6 +308,8 @@ def main() -> int:
                     "archiveSha256": actual,
                     "declaredArchiveSha256": freeze.get("archiveSha256"),
                     "declaredReleaseArchiveSha256": release.get("releaseArchive", {}).get("sha256"),
+                    "installerSha256": actual_installer_sha,
+                    "declaredInstallerSha256": release.get("installerDigest"),
                 },
                 sort_keys=True,
             ),

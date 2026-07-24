@@ -150,8 +150,12 @@ def test_release_workflow_binds_one_source_identity_before_provider_checks():
     workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
     assert '--arg tagTarget "$SOURCE_COMMIT"' in workflow
     assert '--arg metadataCommit "$SOURCE_COMMIT"' in workflow
+    assert "Fail closed on release freeze, installer, and source-bound archive" in workflow
     assert workflow.index("make check-release-preflight") < workflow.index(
         "Install locked release evidence dependencies"
+    )
+    assert workflow.index("make check-release-preflight") < workflow.index(
+        'git push origin "$SOURCE_COMMIT:refs/tags/$RELEASE_TAG"'
     )
 
 

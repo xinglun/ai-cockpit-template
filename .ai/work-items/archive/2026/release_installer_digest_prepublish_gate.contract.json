@@ -1,0 +1,297 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_installer_digest_prepublish_gate",
+  "mode": "code",
+  "title": "release installer digest prepublish gate",
+  "baseCommit": "841ce411389fafe8fa841d605375969215231767",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+    ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "install.sh",
+    "scripts/finalize_release_freeze.py",
+    "scripts/check_release_preflight.py",
+    "scripts/check_release_distribution.py",
+    "scripts/check_docs_metadata.py",
+    "tests/test_release_preflight.py",
+    "tests/test_release_distribution.py",
+    "tests/test_workflows.py",
+    "tests/test_install_script.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md",
+    "docs/getting-started/installation.md",
+    "docs/getting-started/installation.ja.md",
+    "docs/releases/v0.5.40.md",
+    "release.json",
+    "next-release.json",
+    "release-state.json",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json"
+  ],
+  "outOfScope": [
+    "Rewriting or deleting the v0.5.39 tag",
+    "Publishing the Draft v0.5.39 Release",
+    "Publishing v0.5.40 before this Work Item merges, closes, and passes exact-main verification",
+    "Weakening exact-source, archive, lockfile, smoke, compatibility, or public-distribution checks"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30103574643",
+      "reason": "The release workflow published v0.5.39 after all existing pre-publication gates passed."
+    },
+    {
+      "path": "make check-release-distribution output on 2026-07-24",
+      "reason": "Independent public verification failed with installer digest expected 968e4c... and actual a9327066...."
+    },
+    {
+      "path": "release.json",
+      "reason": "The published projection contains the stale installerDigest."
+    },
+    {
+      "path": "install.sh",
+      "reason": "The immutable tag contains the actual installer bytes whose SHA-256 must be bound."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Finalization updates archive and metadata digests but currently omits installerDigest."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "The release workflow executes this gate before any tag mutation, but it does not validate installerDigest."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Preparation mode returns success for a not-yet-public tag without validating the local installer digest."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Defines the required pre-mutation gate ordering."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "release_integrity",
+      "immutable_artifact",
+      "workflow_regression",
+      "public_distribution"
+    ],
+    "reason": "The existing workflow published an immutable tag whose declared installer digest does not match its installer, and every correction must preserve historical tag immutability while preventing recurrence.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The public failure, stale field, omitted finalizer update, and preparation-mode early return are directly observed; the user delegated process-first corrective authority."
+  },
+  "preReviewWarnings": [
+    "Confirm both generation and independent validation are fixed; either alone is insufficient.",
+    "Confirm every new validation runs before tag creation and publication.",
+    "Confirm v0.5.39 is not rewritten or republished by this Work Item."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A regression test first proves that release preflight currently accepts a release.json installerDigest that differs from the exact source commit's install.sh.",
+    "Release finalization deterministically writes release.json installerDigest from install.sh before updating release-state and release-digests projections.",
+    "Release preflight rejects a missing, malformed, or mismatched installerDigest before the workflow reaches any tag or GitHub Release mutation.",
+    "Release preparation distribution checks reject local installerDigest drift even when the requested release tag is exactly one patch after the highest public tag.",
+    "The failed immutable v0.5.39 tag remains unchanged while release projections prepare v0.5.40 as the corrective public version and v0.5.41 as the next candidate.",
+    "Workflow tests prove the installer binding preflight remains before strict smoke, tag creation, Draft Release creation, and publication.",
+    "English and Japanese distribution documentation describe the pre-publication installer binding and the corrective-release policy for a failed immutable tag.",
+    "Focused tests and full quality pass; archiveGrowth remains warning-only and no governance threshold is raised.",
+    "The process-fix PR passes Actions, merges, closes through ai-close-work-item, and exact merged main passes post-merge Actions before corrective release preparation starts."
+  ],
+  "guidelines": [
+    "Fix the generator and mandatory pre-mutation gates rather than hand-editing one release projection.",
+    "Hash the exact installer bytes associated with the release source and fail closed on any mismatch.",
+    "Do not rewrite or delete the failed immutable v0.5.39 tag; supersede it with a new corrective patch release after this Work Item closes.",
+    "Keep archiveGrowth warning-only and do not relax any existing release check.",
+    "Use test-driven development and preserve exact-source workflow ordering."
+  ],
+  "intent": {
+    "problem": "The v0.5.39 release workflow passed every pre-publication gate and published, but the first independent public distribution audit failed because release.json installerDigest was stale. Finalization updates archive and release projection digests without rebinding installerDigest, while preparation mode can return success without comparing installerDigest to install.sh.",
+    "constraints": [
+      "Keep v0.5.39 quarantined as a Draft Release and preserve its immutable tag as failed historical evidence.",
+      "Do not publish the corrective release until this process fix and corrective metadata are reviewed, merged, closed, and verified on exact main.",
+      "Place validation before every tag or GitHub Release mutation.",
+      "Do not weaken existing source, archive, evidence, CI, or distribution gates."
+    ],
+    "rationale": "Installer identity is part of the public Quick Install trust boundary. The correct repair is to make finalization generate the binding and have independent pre-mutation gates recompute it from the exact source, so stale metadata cannot reach an immutable tag again."
+  },
+  "rawUserRequest": "发布遇到流程问题或过时代码时先修改流程，不做临时对应；所有阻挡新版本发布的问题都先修复，并持续监控 GitHub Actions。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-process-first-release-remediation",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:1cc3f54f33e2f618fb1947a6abe3f1d1a3c9cef69d91e9ea107eab4d3d051b56"
+  },
+  "declaredIntent": {
+    "summary": "Bind installer digest generation and validation into the mandatory pre-publication release workflow.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "test_automation",
+      "documentation"
+    ]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {
+      "id": "published_digest_mismatch",
+      "scenario": "A release tag contains install.sh bytes whose SHA-256 differs from release.json installerDigest.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.39 tag 841ce411389fafe8fa841d605375969215231767",
+        "expected 968e4cfff1d17dcc0bbc4f5348f0b448302d39f24fb3d67e6643afc17ef35531",
+        "actual a9327066233a51cf9ad72ef943da2d4b366a0f714eff8dadd3116e88b3755270"
+      ]
+    },
+    {
+      "id": "preparation_mode_false_success",
+      "scenario": "Preparation mode sees a local next-patch release tag and returns success despite installer digest drift.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/check_release_distribution.py preparation_mode early-return branch",
+        "smoke run 30103609591 succeeded before public distribution failed"
+      ]
+    },
+    {
+      "id": "pre_mutation_rejection",
+      "scenario": "Missing, malformed, or mismatched installer binding is rejected before tag and Release mutation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py",
+        "tests/test_release_distribution.py",
+        "tests/test_workflows.py"
+      ]
+    },
+    {
+      "id": "immutable_recovery",
+      "scenario": "The failed v0.5.39 tag remains unchanged and quarantined while v0.5.40 publication stays blocked until the corrective Work Item is merged and closed.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.39 target 841ce411389fafe8fa841d605375969215231767",
+        "v0.5.39 GitHub Release quarantined as Draft",
+        "release.json prepares v0.5.40 without a v0.5.40 tag or Release"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly delegated confirmation, judgment, execution, process-first release remediation, and GitHub Actions monitoring."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 543
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_installer_digest_prepublish_gate.json",
+    "baseCommit": "841ce411389fafe8fa841d605375969215231767",
+    "initialScopeDigest": "d3cb9badbb639b6500eaf39f6fb646d795c14bfd98e67f6ca389bcec4427151e",
+    "contractSkeletonDigest": "0b843b67f8ec4f5f2912c5c731ce562bf71911e14c5d27f0e0fa5ee14fb0133b"
+  }
+}

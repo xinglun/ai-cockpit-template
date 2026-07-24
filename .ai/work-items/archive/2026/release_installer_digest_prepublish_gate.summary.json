@@ -1,0 +1,569 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_installer_digest_prepublish_gate",
+  "contractPath": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.contract.json",
+      "reason": "Maintain the active process-correction boundary until ai-finish archives the Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.summary.json",
+      "reason": "Maintain the active verification and review record until ai-finish archives the Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.contract.json",
+      "reason": "Declare the installer-binding process correction and corrective-release recovery boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.summary.json",
+      "reason": "Record public failure evidence, TDD, cleanup, verification, and release recovery."
+    },
+    {
+      "path": ".ai/work-items/starts/release_installer_digest_prepublish_gate.json",
+      "reason": "Record the exact base and dedicated Work Item branch."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Name the mandatory installer/source/archive pre-mutation gate explicitly."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Regenerate both installerDigest and the install.sh artifact digest during every release finalization."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Rehash install.sh from the selected source commit and reject stale metadata."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Reject installer drift in preparation mode before the next tag exists."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Treat historical specs like release notes and plans instead of forcing their version examples to track the current release."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Cover installer rejection, both finalizer installer bindings, and real fresh-detached archive parity while consolidating duplicated projection tests."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Cover preparation-time installer digest drift."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Enforce release preflight ordering before tag and publication."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Derive the fixture release tag from release.json instead of an obsolete hard-coded version."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Advance the fixed Quick Install default to corrective release v0.5.40."
+    },
+    {
+      "path": "release.json",
+      "reason": "Project the corrective v0.5.40 installer and archive contract."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Keep v0.5.41 as the distinct unpublished candidate."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Record canonical v0.5.40/v0.5.41 projection lineage and metadata digests."
+    },
+    {
+      "path": ".ai/cockpit/release-freeze.json",
+      "reason": "Generated candidate freeze identity and deterministic archive evidence."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Generated release artifact digest bindings."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated candidate SBOM baseline for v0.5.40."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated candidate provenance with the corrected installer digest."
+    },
+    {
+      "path": "docs/releases/v0.5.40.md",
+      "reason": "Document the corrective release and immutable-tag recovery."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document installer rebinding, preflight, and corrective patch recovery."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Document the same release recovery in Japanese."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Advance the documented published installer ref to v0.5.40."
+    },
+    {
+      "path": "docs/getting-started/installation.ja.md",
+      "reason": "Advance the Japanese installer ref to v0.5.40."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated lifecycle status."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/glossary.md",
+    ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+    "release.json",
+    "install.sh",
+    "scripts/finalize_release_freeze.py",
+    "scripts/check_release_preflight.py",
+    "scripts/check_release_distribution.py",
+    ".github/workflows/release.yml",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30103574643",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30103609591"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:55.741867+00:00",
+      "exitCode": 0,
+      "durationMs": 38,
+      "outputDigest": "aa8a3746542f6c5283155f320c199b05635af5436fc371b8514b3a563181a80d",
+      "commandHash": "fce8da5c86ecbde61de4d333910f4da988989c54a757431048287038014e2b58",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "f06e864b17ef01e60795a82441ba7288984f4e2675fc4871ed9b8adffc9c6719",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json work item contract check passed: .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:55.943806+00:00",
+      "exitCode": 0,
+      "durationMs": 127,
+      "outputDigest": "8c8cbf22c9d04bf264735ce7eb7db3afe86845ea058d0e5c502928c75ac39eac",
+      "commandHash": "61442e374bc5166a3dffb861b725f3a67ee21bc0af64ce21a69fba757a72ae5a",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "e9945b62369760ad9e3d3a341ece4bc2a9b8d187f912f3d5d690d7df2cf59f3f",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json scope guard passed: 26 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:56.466555+00:00",
+      "exitCode": 0,
+      "durationMs": 182,
+      "outputDigest": "472d60d379e4a2848fec830c9d1413fbb386aae7a28b33857c1d1f9ef11d9a82",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "fa0d912f05ae3acb60095a9a47d92de38c914787d5ada89b41e2f64c126aa0da",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json [warning] restricted_write: .ai/cockpit/provenance.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/release-digests.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/release-freeze.json (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/cockpit/sbom.json (.ai"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:56.820502+00:00",
+      "exitCode": 0,
+      "durationMs": 276,
+      "outputDigest": "987c86807577fde38f6552d7bbf828bf86cec0b9bfb4cad1e45b18f4d5205741",
+      "commandHash": "260b0b607e033e04b0652e59dc228ae3474b1a6181277861a1be47feb299731e",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "c4c42311f0b116f778fee3cf269e8c1ce083bba8b12f6e4271ef8007a174f964",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_installer_digest_prepublish_gate` - Contract Hash: `f6c2158da2c0ef54` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `9` - Unkn"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:57.019149+00:00",
+      "exitCode": 0,
+      "durationMs": 117,
+      "outputDigest": "a810133046f135d058d1e7b267d2d84f010d1c06d3153952b0f2d5ca9aab013c",
+      "commandHash": "036779c16fb9375dbe5665c7715a21cc3cff11fa34bd646d757e795315c4d77d",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "d47602584f7cc7835c6968949b9cc1119aaeb4f0ddb29d82e403520735070f97",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json review policy matched 8 path(s) [review] .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json [review] .ai/work-items/starts/release_installer_digest_prepublish_gate.json [review] .ai/cockpit/current_status.md [review] .ai/cockpit/provenance.json [review] .ai/cockpit/release-digests.json [review] .ai/cockpit/release-free"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:57.216668+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "057474233e4c5b26ac6a4aacc02e077654a169bbd4abf05d75f61e7f24b0754d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:57.413544+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "96c5db7498d94e3e48e73b497355f4c8bc4714e3ad671439f453cb26df3f1025",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:57.542595+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "8166d0f255b71976759a055f560aad4e8c18b8a3d91a45ccb675675d8c0ff3ee",
+      "commandHash": "3d969a64f8569a276d7ec336eeeef0e2ec6b4aeed862751f21d834c079105360",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "cd83f30278fe755044556a79191c034baa45b587c045adedd9116f07621cdd43",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:57.669972+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "f0b87ea32ef6856c4f3d5abf0a209d1a61f9f5d5327670bf4d7d049126bb2f62",
+      "commandHash": "2f8759b68a2d872a45bc01fc77299899f8958a8dc39d01621cc5e089cc57d114",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "4c07f971902e0a4a5fb59085b597634153b9626de9a90841a172adfb50d08bed",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json guidelines compliance check passed: 5 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:17:58.021956+00:00",
+      "exitCode": 0,
+      "durationMs": 278,
+      "outputDigest": "c776917cf11891821e70df3ff1bd0eb4781ffa63c43da11c476e349bc1c38aad",
+      "commandHash": "ad1d3911ab782629b722c9b1d6968ce6643e61fa8f4475536908ff9f41462da6",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "97e29d151924e8bf386409cc587f047ee034b209a5515ad768929b3776eb6434",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json ## Diff Ownership Preview - active_owned: `26`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/cockpit/provenance.json` — covered by Contract scope - [active_owned] `.ai/cockpit/release-digests.json"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:22:49.831194+00:00",
+      "exitCode": 0,
+      "durationMs": 291715,
+      "outputDigest": "7519e027f0fd401abfa03ff855043fc96f162e1a7adebc2d4f5213591e5851f6",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "5ae7e8e761cd8dea34565578ccd94f3c40ae43042791a6cfe48efdc5161f6e9c",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 182 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 23%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:22:51.659300+00:00",
+      "exitCode": 0,
+      "durationMs": 292,
+      "outputDigest": "1da535b89992fbd4ab827e171bbd0fbcb03f2d1350c7d3b1c93cd6bd62a478f4",
+      "commandHash": "a6e87d1734654dd42b1b4bbfd3ad03b66d88410bf5786f954166268cc018a1df",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "f2753c275fa8cc7c933c3f83fef0a41fd159f79a4adfab846b1ea92f776db884",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:22:52.052460+00:00",
+      "exitCode": 0,
+      "durationMs": 319,
+      "outputDigest": "32342ed06f9efe105e97bdaa0e4a45846d2fb4e0e58ff93b7af16f499f1ea944",
+      "commandHash": "284bf69e1be02e120a5dd41f840b955278db0f0f49933bd331d7b51a047a3dd9",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "2427bbc9b1c9c60167704e843a574b40782b71dbf9bc16930c483b773fc0d310",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:22:52.176523+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "ef7392b237737ba37e596ea1cc5774d429cd264469f91249857a5e2fca165aec",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:22:52.300851+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "21ba4defb77217a32a6397d95a4537c5bbbf4a9576abbdbf49c7641033c28e19",
+      "commandHash": "37e8cd70874f35e564552b00c3b5da82763a111e0bb074f3fb8b3465bc6ea12e",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "b4c21217dde320a12f5762789a33b45ae3de9c44f836f796e5fdd5a57f0b6291",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json --summary .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_installer_digest_prepublish_gate.summary.json CONTRACT=.ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T16:22:53.368904+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "f3c13b414141cea810b06ef33b1d99e12025e5ec1e17d70c75b48d17b1b9a3aa",
+      "commandHash": "a820100dd16007158b6e9a4157a94716b8402f59fe5002a81e94d4f7bc8ecc53",
+      "contractHash": "f6c2158da2c0ef54fa358d3749d9399d144a5219c1dcb9027890d3cc09d84730",
+      "commitSha": "c8b04eaaf55bf87aad64631c03b78ed2cafc170b",
+      "executionContractPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
+      "worktreeDigest": "30d49b8912b6a3050f49aa07d8ab1be5d922661790e716016adb5a3fab0971b6",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json --contract .ai/work-items/active/release_installer_digest_prepublish_gate.contract.json ai summary check passed: .ai/work-items/active/release_installer_digest_prepublish_gate.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Fix the generator and mandatory pre-mutation gates rather than hand-editing one release projection.",
+      "compliant": true,
+      "evidence": "Finalizer generation, exact-source preflight, preparation distribution, and workflow ordering were all corrected and tested."
+    },
+    {
+      "guideline": "Hash the exact installer bytes associated with the release source and fail closed on any mismatch.",
+      "compliant": true,
+      "evidence": "check_release_preflight hashes sourceCommit:install.sh; focused tests cover missing, malformed, mismatched, and matching digests."
+    },
+    {
+      "guideline": "Do not rewrite or delete the failed immutable v0.5.39 tag; supersede it with a new corrective patch release after this Work Item closes.",
+      "compliant": true,
+      "evidence": "Remote v0.5.39 remains at 841ce411; its GitHub Release is quarantined as Draft and v0.5.40 is prepared without publication."
+    },
+    {
+      "guideline": "Keep archiveGrowth warning-only and do not relax any existing release check.",
+      "compliant": true,
+      "evidence": "No threshold changed; complexity passed at Python 40900, Markdown 9549, with archiveGrowth 542 warning-only."
+    },
+    {
+      "guideline": "Use test-driven development and preserve exact-source workflow ordering.",
+      "compliant": true,
+      "evidence": "Four focused tests failed before implementation and passed after it; workflow tests keep preflight before all mutations."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Local implementation and preparation evidence pass; hosted PR, exact-main, and final public-distribution verification remain required."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/release-freeze.json",
+    "release-state.json",
+    "release.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Public v0.5.39 Quick Install verification failed because release.json declared installerDigest 968e4c... while immutable install.sh hashed to a9327066....",
+    "The v0.5.39 GitHub Release was moved back to Draft as reversible quarantine; its immutable tag was not changed.",
+    "The first full quality run exposed obsolete hard-coded v0.5.39 installer fixtures and historical-spec version scanning; both process paths were corrected.",
+    "New release tests initially exceeded Python/Markdown limits and later reduced coverage to 84.83%; duplicated tests and prose were consolidated without raising thresholds, and detached archive coverage was retained until full quality passed at 85.07%.",
+    "Independent premerge review found that finalization refreshed release.json but could retain a stale release-digests install.sh artifact; a red-green regression now requires both installer bindings to refresh atomically."
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "hosted_release",
+      "detail": "The corrective PR, exact merged main, v0.5.40 workflow, and independent public asset/install audit must still pass before publication is complete.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Finalizer updates installerDigest before release-state and digest projections.",
+      "Preflight hashes install.sh from the selected source commit and runs before mutations.",
+      "Preparation mode rejects local installer drift.",
+      "v0.5.39 remains immutable and quarantined while v0.5.40 is only prepared.",
+      "Test consolidation preserves detached archive and release-lineage coverage within existing complexity and coverage limits."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "verified: install.sh defaults to v0.5.40 and release.yml invokes exact-source preflight before mutation",
+    "userVisibleOutput": "verified: preflight and distribution diagnostics name installer digest drift",
+    "persistence": "verified: finalizer writes release.json before release-state and release-digests metadata hashes",
+    "localization": "verified: English and Japanese distribution/install documentation updated together",
+    "generatedArtifacts": "verified: SBOM, provenance, release digests, freeze, state, and release projection generated through repository commands",
+    "makeEntrypoints": "verified: finalize-release-freeze-candidate and quality exercised"
+  },
+  "userCorrectionsCaptured": [
+    "Repair every workflow or obsolete-code blocker before attempting a release.",
+    "Do not use temporary workarounds for release-process defects.",
+    "Monitor GitHub Actions after CI starts."
+  ],
+  "userCorrectionSolidification": [
+    "Installer identity is now generated and independently validated before mutation, and immutable-tag failure recovery is documented as a corrective patch rather than tag rewriting.",
+    "Obsolete version fixtures and historical-spec scanning were corrected; complexity and coverage thresholds were preserved."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "f6c2158da2c0ef54",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "f6c2158da2c0ef54",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [
+    "PR Actions, merge, ai-close-work-item, exact-main Actions, v0.5.40 publication, and public distribution verification remain pending."
+  ],
+  "overclaimPrevention": "Do not report v0.5.40 published until the immutable tag, non-Draft Release, exact-main Actions, release workflow, assets, and anonymous public distribution all verify the same source.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Stale installerDigest is rejected before tag or GitHub Release mutation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py",
+        "tests/test_release_distribution.py",
+        "tests/test_workflows.py",
+        "124 focused tests passed"
+      ]
+    },
+    {
+      "scenario": "Finalization rebinds installerDigest after the fixed installer ref changes.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make finalize-release-freeze-candidate",
+        "release.json installerDigest=21c224483937053b7ee654c5cec9e6291a5745879625b84d1e6069af85679b9f"
+      ]
+    },
+    {
+      "scenario": "The failed immutable tag remains unchanged while the corrective patch is prepared.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.39 target=841ce411389fafe8fa841d605375969215231767",
+        "v0.5.39 GitHub Release is Draft",
+        "release.json prepares v0.5.40"
+      ]
+    },
+    {
+      "scenario": "Complexity and coverage remain within existing policy after cleanup.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make quality passed",
+        "939 tests passed",
+        "coverage=85.07%",
+        "pythonLines=40900",
+        "markdownLines=9549",
+        "archiveGrowth=542 warning-only"
+      ]
+    }
+  ],
+  "archiveSequence": 542
+}

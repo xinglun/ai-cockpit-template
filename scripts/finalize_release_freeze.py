@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import argparse
+import hashlib
 import sys
 
 from ai_common import PROJECT_ROOT, discover_remote_default_candidates, included, run_git
@@ -121,10 +122,8 @@ def main(
         resolved_source = run_git(["rev-parse", source_identity])
         if resolved_source.returncode != 0 or not resolved_source.stdout.strip():
             return _fail(f"source identity cannot be resolved: {source_identity}")
-    # The controlled source identity remains a future default-branch ref for
-    # post-merge resolution. Canonical content is materialized from this clean
-    # candidate HEAD; export-ignored metadata and Work Item evidence let a clean
-    # merge preserve those bytes while changing commit identity.
+    # Controlled identity may remain a future default-branch ref; export-ignored
+    # Work Item evidence lets a clean merge preserve candidate bytes.
     materialization_commit = resolved_head if premerge_task is not None else source_identity
     source_tree = canonical_source_tree(root, materialization_commit)
     archive_sha = canonical_archive_sha(root, materialization_commit)
@@ -182,6 +181,12 @@ def main(
         }
     )
     release.setdefault("releaseArchive", {})["sha256"] = archive_sha
+    installer_path = root / "install.sh"
+    try:
+        installer_sha = hashlib.sha256(installer_path.read_bytes()).hexdigest()
+    except OSError as exc:
+        return _fail(f"install.sh is missing or unreadable: {exc}")
+    release["installerDigest"] = installer_sha
     freeze_path.write_text(
         json.dumps(freeze, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
@@ -202,6 +207,7 @@ def main(
     release_digests.setdefault("artifacts", {})["release.json"] = sha256_text(
         release_path.read_text(encoding="utf-8")
     )
+    release_digests["artifacts"]["install.sh"] = installer_sha
     release_digests_path.write_text(
         json.dumps(release_digests, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

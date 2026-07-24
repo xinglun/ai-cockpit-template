@@ -312,6 +312,9 @@ jobs:
         run: |
           set -euo pipefail
           archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
+          declared_archive_url="$(jq -r '.releaseArchive.url' release.json)"
+          expected_archive_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/${archive_name}"
+          test "$declared_archive_url" = "$expected_archive_url"
           download_dir="$RUNNER_TEMP/tagged-install"
           mkdir -p "$download_dir"
           gh release download "$RELEASE_TAG" \

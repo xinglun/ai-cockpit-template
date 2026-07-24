@@ -113,7 +113,8 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD^{commit})" = "$SOURCE_COMMIT"
           echo "release preflight boundary: head=$(git rev-parse HEAD^{commit}) source=$SOURCE_COMMIT"
-          echo "release preflight attributes=$(git show \"$SOURCE_COMMIT:.gitattributes\" | sha256sum | cut -d' ' -f1)"
+          attributes_sha="$(git show "${SOURCE_COMMIT}:.gitattributes" | sha256sum | cut -d' ' -f1)"
+          echo "release preflight attributes=$attributes_sha"
           make check-release-preflight RELEASE_PREFLIGHT_SOURCE_COMMIT="$SOURCE_COMMIT"
 
       - name: Install locked release evidence dependencies
@@ -201,9 +202,9 @@ jobs:
             }' > "$RUNNER_TEMP/release-evidence/ci-release-evidence.json"
           bash scripts/check_ci_release_evidence.sh "$RUNNER_TEMP/release-evidence/ci-release-evidence.json" "$SOURCE_COMMIT"
           archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
-          git archive --format=tar --mtime='1970-01-01 00:00:00' --prefix="ai-cockpit/" "$SOURCE_COMMIT^{tree}" \
-            | python3 -c 'import gzip,sys; out=gzip.GzipFile(fileobj=sys.stdout.buffer, mode="wb", compresslevel=9, mtime=0); out.write(sys.stdin.buffer.read()); out.close()' \
-            > "$RUNNER_TEMP/release-evidence/$archive_name"
+          python3 scripts/release_archive.py --root "$GITHUB_WORKSPACE" \
+            --source-commit "$SOURCE_COMMIT" \
+            --output "$RUNNER_TEMP/release-evidence/$archive_name"
           archive_sha="$(sha256sum "$RUNNER_TEMP/release-evidence/$archive_name" | cut -d' ' -f1)"
           test "$archive_sha" = "$(jq -r '.releaseArchive.sha256' release.json)"
 

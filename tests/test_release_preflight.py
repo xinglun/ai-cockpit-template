@@ -16,6 +16,8 @@ from scripts.check_release_preflight import resolve_release_identity_ref
 from scripts.check_release_preflight import validate_release_preflight
 from scripts.check_release_preflight import validate_release_identity
 from scripts.check_release_preflight import validate_release_projection
+from scripts.release_archive import canonical_archive_sha as deterministic_archive_sha
+from scripts.release_archive import canonical_source_tree as deterministic_source_tree
 
 
 def _fixture(**overrides):
@@ -196,6 +198,23 @@ def test_canonical_archive_builder_returns_sha256_for_repository():
     digest = canonical_archive_sha(Path.cwd(), "HEAD")
     assert len(digest) == 64
     assert all(character in "0123456789abcdef" for character in digest)
+
+
+def test_deterministic_archive_matches_in_fresh_detached_repository(tmp_path):
+    source_root = Path.cwd()
+    source = resolve_source_commit(source_root, "HEAD")
+    repo = tmp_path / "fresh-archive-repository"
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    subprocess.run(
+        ["git", "-C", str(repo), "remote", "add", "origin", str(source_root)], check=True
+    )
+    subprocess.run(
+        ["git", "-C", str(repo), "fetch", "-q", "origin", f"{source}:refs/remotes/origin/main"],
+        check=True,
+    )
+    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", source], check=True)
+    assert deterministic_source_tree(repo, source) == deterministic_source_tree(source_root, source)
+    assert deterministic_archive_sha(repo, source) == deterministic_archive_sha(source_root, source)
 
 
 def test_normalized_source_tree_identity_is_stable():

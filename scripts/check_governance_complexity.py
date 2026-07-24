@@ -59,8 +59,13 @@ def strict_archive_entry(root: Path, entry: dict[str, Any], contract_path: Path)
 
 
 def tracked_files(root: Path) -> list[Path]:
+    """Return tracked and non-ignored worktree files for pre-commit budgeting."""
     result = subprocess.run(
-        ["git", "ls-files", "-z"], cwd=root, capture_output=True, text=True, check=False
+        ["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=False,
     )
     if result.returncode:
         raise RuntimeError("git ls-files failed")

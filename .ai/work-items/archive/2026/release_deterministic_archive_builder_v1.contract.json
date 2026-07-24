@@ -1,0 +1,164 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_deterministic_archive_builder_v1",
+  "mode": "code",
+  "title": "Make release archive bytes deterministic across GitHub runners",
+  "rawUserRequest": "先修复该流程问题，再重新进入。Hosted 与本地同一 SHA 的 archive 必须字节一致，修复后再重新走发布流程。",
+  "rawRequestSource": {"type":"human","reference":"user-message:2026-07-24","capturedAt":"2026-07-24","digest":"sha256:user-authorized-deterministic-archive-process-fix"},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "22729a114fada652cdd50ad026bcf915c0dcf74d",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_release_preflight.py",
+    "scripts/release_archive.py",
+    "scripts/finalize_release_freeze.py",
+    ".github/workflows/release.yml",
+    "tests/test_release_preflight.py",
+    "docs/reference/distribution.md",
+    ".ai/cockpit/bandit_low_risk_baseline.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_governance_complexity.py",
+    "tests/test_governance_complexity.py",
+    ".ai/work-items/active/release_deterministic_archive_builder_v1.contract.json",
+    ".ai/work-items/active/release_deterministic_archive_builder_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Creating or pushing v0.5.39 tag","Creating or editing GitHub Release","Changing adopter behavior","Changing archive warning policy"],
+  "sources": [{"path":"scripts/check_release_preflight.py","reason":"Current canonical archive builder and failing Hosted boundary."},{"path":"scripts/finalize_release_freeze.py","reason":"Premerge metadata must use the same builder."},{"path":".github/workflows/release.yml","reason":"Hosted release archive generation boundary."},{"path":"tests/test_release_preflight.py","reason":"Regression coverage for archive bytes."},{"path":".ai/work-items/archive/2026/release_hosted_preflight_parity_v1.contract.json","reason":"Predecessor process correction and Hosted evidence."}],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_integrity","cross_runner_reproducibility"],
+    "reason": "The canonical release archive algorithm changes; it must remain deterministic, export-ignore aware, and fail closed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root process correction before re-entering publication."
+  },
+  "preReviewWarnings": [
+    "Verify byte-identical archive output across fresh repositories and all three production call sites."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A single repository-owned deterministic archive builder is used by preflight, finalizer, and Hosted release workflow.",
+    "Fresh-repository regression tests prove identical sourceTree/archive digests without relying on Git archive implementation details.",
+    "Export-ignore behavior and fail-closed release gates remain preserved.",
+    "Documentation records the cross-runner reproducibility contract; no publication mutation occurs."
+  ],
+  "guidelines": [
+    "Use one canonical archive builder across local, finalizer, and Hosted execution.",
+    "Preserve .gitattributes export-ignore semantics.",
+    "Do not weaken fail-closed publication gates."
+  ],
+  "intent": {
+    "problem": "The same source SHA produces different canonical archive bytes locally and on Hosted Runner because git archive serialization is environment/version dependent despite fixed mtime.",
+    "constraints": ["No tag or GitHub Release in this Work Item.","Keep archive prefix, gzip settings, and export-ignore semantics stable.","Reuse the builder at all release call sites."],
+    "rationale": "Move serialization into deterministic Python code over Git tree/blob contents so the source-bound digest is independent of Git implementation versions."
+  },
+  "declaredIntent": {"summary":"Replace Git-version-dependent release archiving with one deterministic repository-owned builder.","requestedCapabilities":["ai_governance","software_design","test_automation"]},
+  "scenarioCoverage": [{"scenario":"fresh repository archive bytes equal canonical digest","required":false,"status":"unverified","evidence":[],"reason":"Pending implementation."},{"scenario":"export-ignore paths remain excluded","required":false,"status":"unverified","evidence":[],"reason":"Pending implementation."},{"scenario":"publication remains out of scope","required":true,"status":"verified","evidence":["Contract outOfScope"]}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+      "approved": true,
+      "approvedBy": "user",
+      "reason": "User authorized root process correction before re-entering publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 537
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_deterministic_archive_builder_v1.json",
+    "baseCommit": "22729a114fada652cdd50ad026bcf915c0dcf74d",
+    "initialScopeDigest": "806c48d34621bc5e6e0388db0e20a007d247edddf08cf20fc04f2de89efada9e",
+    "contractSkeletonDigest": "9598e1d9829f31a0ece5ccf579314fd7e231dc39a4ea08164c74f8820cf6a463"
+  }
+}

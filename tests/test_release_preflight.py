@@ -1,5 +1,7 @@
 import hashlib
 import json
+import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -67,7 +69,9 @@ def test_release_preflight_blocks_archive_budget_overflow_and_unfrozen_state():
 
 def test_release_preflight_warns_on_archive_growth_when_policy_is_warning_only():
     assert (
-        validate_release_preflight(**_fixture(archive_count=11, archive_enforcement="warning"))
+        validate_release_preflight(
+            **_fixture(archive_count=538, archive_max=200, archive_enforcement="warning")
+        )
         == []
     )
 
@@ -235,58 +239,182 @@ def test_source_ref_resolves_symbolic_head_to_a_concrete_commit():
     assert resolved == resolve_source_commit(Path.cwd(), resolved)
 
 
-def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
-    source_root = Path.cwd()
-    repo = tmp_path / "fresh-repository"
-    subprocess.run(["git", "init", "-q", str(repo)], check=True)
-    subprocess.run(
-        ["git", "-C", str(repo), "remote", "add", "origin", str(source_root)], check=True
-    )
-    candidate = resolve_source_commit(source_root, "HEAD")
-    source = resolve_source_commit(source_root, "origin/main")
-    subprocess.run(
-        [
-            "git",
-            "-C",
-            str(repo),
-            "fetch",
-            "--no-tags",
-            "-q",
-            "origin",
-            f"{source}:refs/remotes/origin/main",
-        ],
+def _git(repo: Path, *args: str) -> str:
+    return subprocess.run(
+        ["git", "-C", str(repo), *args],
         check=True,
-    )
-    subprocess.run(
-        [
-            "git",
-            "-C",
-            str(repo),
-            "fetch",
-            "--no-tags",
-            "-q",
-            "origin",
-            f"{candidate}:refs/remotes/origin/candidate",
-        ],
-        check=True,
-    )
-    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", candidate], check=True)
-    result = subprocess.run(
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+
+
+def _write_json(path: Path, value: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+
+def _run_release_preflight(repo: Path, source_ref: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
         [
             sys.executable,
-            str(source_root / "scripts/check_release_preflight.py"),
+            str(repo / "scripts" / "check_release_preflight.py"),
             "--root",
             str(repo),
             "--source-commit",
-            "origin/main",
+            source_ref,
         ],
         check=False,
         capture_output=True,
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
         text=True,
     )
-    assert result.returncode == 0
-    assert f"source={source}" in result.stdout
+
+
+def _build_candidate_merge(tmp_path: Path) -> tuple[Path, Path, str]:
+    source_root = Path.cwd()
+    repo = tmp_path / "source"
+    remote = tmp_path / "origin.git"
+    fresh = tmp_path / "fresh"
+    repo.mkdir()
+    for relative in (
+        "ai_common.py",
+        "finalize_release_freeze.py",
+        "check_release_preflight.py",
+        "release_archive.py",
+    ):
+        target = repo / "scripts" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_root / "scripts" / relative, target)
+    (repo / "scripts" / "check_supply_chain.py").write_text(
+        "import hashlib\n\n"
+        "def sha256_text(value: str) -> str:\n"
+        "    return hashlib.sha256(value.encode()).hexdigest()\n",
+        encoding="utf-8",
+    )
+    (repo / ".gitattributes").write_text(
+        "release.json export-ignore\n"
+        "next-release.json export-ignore\n"
+        "release-state.json export-ignore\n"
+        ".ai/cockpit/release-digests.json export-ignore\n"
+        ".ai/cockpit/release-freeze.json export-ignore\n"
+        ".ai/work-items/archive export-ignore\n"
+        ".ai/work-items/active export-ignore\n"
+        ".ai/cockpit/current_status.md export-ignore\n",
+        encoding="utf-8",
+    )
+    (repo / "source.txt").write_text("base\n", encoding="utf-8")
+    (repo / ".ai" / "cockpit").mkdir(parents=True)
+    (repo / ".ai" / "cockpit" / "current_status.md").write_text(
+        "- State: `no_active_work_item`\n", encoding="utf-8"
+    )
+    _write_json(repo / ".ai" / "cockpit" / "release-freeze.json", {"state": "candidate"})
+    _write_json(
+        repo / ".ai" / "cockpit" / "release-digests.json",
+        {"sourceCommit": "old", "artifacts": {}},
+    )
+    _write_json(
+        repo / "release.json",
+        {"releaseTag": "v0.5.39", "releaseArchive": {"sha256": "old"}},
+    )
+    _write_json(
+        repo / "next-release.json",
+        {"releaseTag": "v0.5.40", "basedOnReleaseTag": "v0.5.39"},
+    )
+    _write_json(
+        repo / "release-state.json",
+        {
+            "state": "candidate_prepared",
+            "releaseTag": "v0.5.40",
+            "previousRelease": "v0.5.39",
+            "metadataDigests": {"published": "old"},
+        },
+    )
+    policy = repo / ".ai" / "guards" / "governance_complexity_policy.yaml"
+    policy.parent.mkdir(parents=True)
+    policy.write_text(
+        "max:\n  archiveGrowth: 538\nenforcement:\n  archiveGrowth: warning\n",
+        encoding="utf-8",
+    )
+    _git(repo, "init", "-q", "-b", "main")
+    _git(repo, "config", "user.name", "Release Test")
+    _git(repo, "config", "user.email", "release-test@example.invalid")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", "base")
+    subprocess.run(["git", "init", "--bare", "-q", str(remote)], check=True)
+    subprocess.run(
+        ["git", "--git-dir", str(remote), "symbolic-ref", "HEAD", "refs/heads/main"],
+        check=True,
+    )
+    _git(repo, "remote", "add", "origin", str(remote))
+    _git(repo, "push", "-q", "-u", "origin", "main")
+    _git(repo, "remote", "set-head", "origin", "main")
+    _git(repo, "switch", "-q", "-c", "candidate")
+    (repo / "source.txt").write_text("candidate\n", encoding="utf-8")
+    contract = repo / ".ai" / "work-items" / "archive" / "2026" / "task.contract.json"
+    _write_json(
+        contract,
+        {
+            "scope": [
+                "release.json",
+                "release-state.json",
+                ".ai/cockpit/release-freeze.json",
+                ".ai/cockpit/release-digests.json",
+            ]
+        },
+    )
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", "candidate")
+    subprocess.run(
+        [
+            sys.executable,
+            str(repo / "scripts" / "finalize_release_freeze.py"),
+            "--premerge-task",
+            "task",
+            "--source-commit",
+            "origin/main",
+            "--tag-target",
+            "origin/main",
+            "--metadata-commit",
+            "origin/main",
+        ],
+        cwd=repo,
+        check=True,
+        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+    )
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", "freeze candidate")
+    _git(repo, "switch", "-q", "main")
+    _git(repo, "merge", "-q", "--no-ff", "candidate", "-m", "merge candidate")
+    merge_commit = _git(repo, "rev-parse", "HEAD")
+    _git(repo, "push", "-q", "origin", "main")
+    _git(fresh.parent, "init", "-q", str(fresh))
+    _git(fresh, "remote", "add", "origin", str(remote))
+    _git(fresh, "fetch", "-q", "origin", "main:refs/remotes/origin/main")
+    _git(fresh, "checkout", "--detach", "-q", merge_commit)
+    return repo, fresh, merge_commit
+
+
+def test_candidate_freeze_survives_real_no_ff_merge_and_detached_preflight(tmp_path):
+    _, fresh, merge_commit = _build_candidate_merge(tmp_path)
+    result = _run_release_preflight(fresh, "origin/main")
+    assert result.returncode == 0, result.stderr
+    assert f"source={merge_commit}" in result.stdout
     assert "release preflight passed" in result.stdout
+
+
+def test_postmerge_preflight_rejects_included_content_after_candidate_merge(tmp_path):
+    repo, fresh, _ = _build_candidate_merge(tmp_path)
+    (repo / "source.txt").write_text("post-merge drift\n", encoding="utf-8")
+    _git(repo, "add", "source.txt")
+    _git(repo, "commit", "-q", "-m", "drift after merge")
+    drift_commit = _git(repo, "rev-parse", "HEAD")
+    _git(repo, "push", "-q", "origin", "main")
+    _git(fresh, "fetch", "-q", "origin", "main:refs/remotes/origin/main")
+    _git(fresh, "checkout", "--detach", "-q", drift_commit)
+    result = _run_release_preflight(fresh, "origin/main")
+    assert result.returncode == 1
+    assert "release preflight blocked" in result.stderr
+    assert "archiveSha256 does not match regenerated archive" in result.stderr
 
 
 def test_release_identity_ref_resolves_controlled_origin_ref():
@@ -319,27 +447,41 @@ def test_finalize_release_freeze_requires_clean_synchronized_default_branch(monk
     assert finalizer.main() == 1
 
 
-def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatch, tmp_path):
+def _configure_finalizer(
+    monkeypatch,
+    tmp_path: Path,
+    *,
+    branch: str = "main",
+    head: str = "commit",
+    remote_head: str = "commit",
+    active_task: str | None = None,
+    release_state: str = '{"metadataDigests":{"published":"old"}}\n',
+) -> list[tuple[str, str]]:
     (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
-    (tmp_path / ".ai" / "work-items" / "active").mkdir(parents=True)
+    active = tmp_path / ".ai" / "work-items" / "active"
+    active.mkdir(parents=True)
+    if active_task is not None:
+        (active / f"{active_task}.contract.json").write_text(
+            '{"scope":["release.json","release-state.json",".ai/cockpit/release-freeze.json",'
+            '".ai/cockpit/release-digests.json"]}\n',
+            encoding="utf-8",
+        )
     (tmp_path / ".ai" / "cockpit" / "current_status.md").write_text(
         "- State: `no_active_work_item`\n", encoding="utf-8"
     )
     (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
         '{"state":"candidate"}\n', encoding="utf-8"
     )
-    (tmp_path / "release.json").write_text(
-        '{"releaseArchive":{"sha256":"old"}}\n', encoding="utf-8"
-    )
-    (tmp_path / "release-state.json").write_text(
-        '{"metadataDigests":{"published":"old","candidate":"candidate"}}\n',
-        encoding="utf-8",
-    )
     (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
         '{"format":"ai-cockpit-release-digests","version":1,"sourceCommit":"old",'
         '"releaseTag":"v0.5.39","artifacts":{"release.json":"old"}}\n',
         encoding="utf-8",
     )
+    (tmp_path / "release.json").write_text(
+        '{"releaseTag":"v0.5.39","releaseArchive":{"sha256":"old"}}\n',
+        encoding="utf-8",
+    )
+    (tmp_path / "release-state.json").write_text(release_state, encoding="utf-8")
     monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
     monkeypatch.setattr(
         finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
@@ -347,10 +489,10 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
 
     def fake_git(args):
         outputs = {
-            ("branch", "--show-current"): "main\n",
+            ("branch", "--show-current"): f"{branch}\n",
             ("status", "--porcelain", "--untracked-files=all"): "",
-            ("rev-parse", "HEAD"): "commit\n",
-            ("rev-parse", "origin/main"): "commit\n",
+            ("rev-parse", "HEAD"): f"{head}\n",
+            ("rev-parse", "origin/main"): f"{remote_head}\n",
         }
         return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
 
@@ -366,6 +508,30 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
         "canonical_archive_sha",
         lambda _root, commit: materialized.append(("archive", commit)) or "archive",
     )
+    return materialized
+
+
+def _archive_finalizer_task(tmp_path: Path) -> None:
+    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
+    archive.mkdir(parents=True)
+    (archive / "task.contract.json").write_text(
+        '{"scope":["release.json","release-state.json",".ai/cockpit/release-freeze.json",'
+        '".ai/cockpit/release-digests.json"]}\n',
+        encoding="utf-8",
+    )
+
+
+def _finalize_premerge(source_identity: str) -> int:
+    return finalizer.main(
+        premerge_task="task",
+        source_commit=source_identity,
+        tag_target=source_identity,
+        metadata_commit=source_identity,
+    )
+
+
+def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatch, tmp_path):
+    _configure_finalizer(monkeypatch, tmp_path)
 
     assert (
         finalizer.main(
@@ -402,83 +568,19 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
 
 
 def test_finalize_release_freeze_fails_closed_on_malformed_release_state(monkeypatch, tmp_path):
-    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
-    (tmp_path / ".ai" / "work-items" / "active").mkdir(parents=True)
-    (tmp_path / ".ai" / "cockpit" / "current_status.md").write_text(
-        "- State: `no_active_work_item`\n", encoding="utf-8"
-    )
-    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text("{}\n")
-    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text("{}\n")
-    (tmp_path / "release.json").write_text("{}\n")
-    (tmp_path / "release-state.json").write_text("[]\n")
-    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
-    monkeypatch.setattr(
-        finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
-    )
-
-    def fake_git(args):
-        outputs = {
-            ("branch", "--show-current"): "main\n",
-            ("status", "--porcelain", "--untracked-files=all"): "",
-            ("rev-parse", "HEAD"): "commit\n",
-            ("rev-parse", "origin/main"): "commit\n",
-        }
-        return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
-
-    monkeypatch.setattr(finalizer, "run_git", fake_git)
-    materialized = []
-    monkeypatch.setattr(
-        finalizer,
-        "canonical_source_tree",
-        lambda _root, commit: materialized.append(("tree", commit)) or "tree",
-    )
-    monkeypatch.setattr(
-        finalizer,
-        "canonical_archive_sha",
-        lambda _root, commit: materialized.append(("archive", commit)) or "archive",
-    )
+    _configure_finalizer(monkeypatch, tmp_path, release_state="[]\n")
     assert finalizer.main() == 1
 
 
 def test_finalize_release_freeze_candidate_mode_binds_to_work_item_branch(monkeypatch, tmp_path):
-    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
-    active = tmp_path / ".ai" / "work-items" / "active"
-    active.mkdir(parents=True)
-    (active / "task.contract.json").write_text(
-        '{"scope":["release.json","release-state.json",".ai/cockpit/release-freeze.json",'
-        '".ai/cockpit/release-digests.json"]}\n',
-        encoding="utf-8",
+    _configure_finalizer(
+        monkeypatch,
+        tmp_path,
+        branch="codex/task",
+        head="candidate-commit",
+        remote_head="default-commit",
+        active_task="task",
     )
-    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
-        '{"state":"candidate"}\n', encoding="utf-8"
-    )
-    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
-        '{"sourceCommit":"old","artifacts":{}}\n', encoding="utf-8"
-    )
-    (tmp_path / "release.json").write_text(
-        '{"releaseTag":"v0.5.39","releaseArchive":{"sha256":"old"}}\n',
-        encoding="utf-8",
-    )
-    (tmp_path / "release-state.json").write_text(
-        '{"metadataDigests":{"published":"old"}}\n', encoding="utf-8"
-    )
-    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
-    monkeypatch.setattr(
-        finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
-    )
-
-    def fake_git(args):
-        outputs = {
-            ("branch", "--show-current"): "codex/task\n",
-            ("status", "--porcelain", "--untracked-files=all"): "",
-            ("rev-parse", "HEAD"): "candidate-commit\n",
-            ("rev-parse", "origin/main"): "default-commit\n",
-        }
-        return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
-
-    monkeypatch.setattr(finalizer, "run_git", fake_git)
-    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
-    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
 
     assert finalizer.main(candidate_task="task") == 0
     freeze = json.loads((tmp_path / ".ai" / "cockpit" / "release-freeze.json").read_text())
@@ -488,80 +590,30 @@ def test_finalize_release_freeze_candidate_mode_binds_to_work_item_branch(monkey
 
 
 def test_finalize_release_freeze_premerge_requires_archived_work_item(monkeypatch, tmp_path):
-    (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
-    active = tmp_path / ".ai" / "work-items" / "active"
-    active.mkdir(parents=True)
-    archive = tmp_path / ".ai" / "work-items" / "archive" / "2026"
-    archive.mkdir(parents=True)
-    (tmp_path / ".ai" / "cockpit" / "current_status.md").write_text(
-        "- State: `no_active_work_item`\n", encoding="utf-8"
-    )
-    (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
-        '{"state":"candidate"}\n', encoding="utf-8"
-    )
-    (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
-        '{"sourceCommit":"old","artifacts":{}}\n', encoding="utf-8"
-    )
-    (tmp_path / "release.json").write_text(
-        '{"releaseArchive":{"sha256":"old"}}\n', encoding="utf-8"
-    )
-    (tmp_path / "release-state.json").write_text(
-        '{"metadataDigests":{"published":"old"}}\n', encoding="utf-8"
-    )
-    monkeypatch.setattr(finalizer, "PROJECT_ROOT", tmp_path)
-    monkeypatch.setattr(
-        finalizer, "discover_remote_default_candidates", lambda _run: [("origin", "main")]
+    materialized = _configure_finalizer(
+        monkeypatch,
+        tmp_path,
+        branch="codex/task",
+        remote_head="old-commit",
     )
 
-    def fake_git(args):
-        outputs = {
-            ("branch", "--show-current"): "codex/task\n",
-            ("status", "--porcelain", "--untracked-files=all"): "",
-            ("rev-parse", "HEAD"): "commit\n",
-            ("rev-parse", "origin/main"): "old-commit\n",
-        }
-        return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
-
-    monkeypatch.setattr(finalizer, "run_git", fake_git)
-    materialized = []
-    monkeypatch.setattr(
-        finalizer,
-        "canonical_source_tree",
-        lambda _root, commit: materialized.append(("tree", commit)) or "tree",
-    )
-    monkeypatch.setattr(
-        finalizer,
-        "canonical_archive_sha",
-        lambda _root, commit: materialized.append(("archive", commit)) or "archive",
-    )
-
-    assert (
-        finalizer.main(
-            premerge_task="task",
-            source_commit="origin/main",
-            tag_target="origin/main",
-            metadata_commit="origin/main",
-        )
-        == 1
-    )
-    (archive / "task.contract.json").write_text(
-        '{"scope":["release.json","release-state.json",".ai/cockpit/release-freeze.json",'
-        '".ai/cockpit/release-digests.json"]}\n',
-        encoding="utf-8",
-    )
-    assert (
-        finalizer.main(
-            premerge_task="task",
-            source_commit="origin/main",
-            tag_target="origin/main",
-            metadata_commit="origin/main",
-        )
-        == 0
-    )
-    assert materialized == [("tree", "old-commit"), ("archive", "old-commit")]
+    assert _finalize_premerge("origin/main") == 1
+    _archive_finalizer_task(tmp_path)
+    assert _finalize_premerge("origin/main") == 0
+    assert materialized == [("tree", "commit"), ("archive", "commit")]
     freeze = json.loads((tmp_path / ".ai" / "cockpit" / "release-freeze.json").read_text())
     assert freeze["lifecycle"]["state"] == "premerge_finalized"
     assert freeze["lifecycle"]["command"] == "make finalize-release-freeze-premerge TASK=task"
+
+
+def test_finalize_release_freeze_premerge_rejects_unresolved_source_identity(monkeypatch, tmp_path):
+    _archive_finalizer_task(tmp_path)
+    materialized = _configure_finalizer(monkeypatch, tmp_path, branch="codex/task")
+    release_before = (tmp_path / "release.json").read_bytes()
+
+    assert _finalize_premerge("missing/ref") == 1
+    assert materialized == []
+    assert (tmp_path / "release.json").read_bytes() == release_before
 
 
 def test_main_accepts_frozen_candidate(tmp_path, monkeypatch, capsys):

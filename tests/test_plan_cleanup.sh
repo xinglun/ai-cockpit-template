@@ -25,5 +25,19 @@ for archive in \
   rg -q "$archive" "$plan"
 done
 rg -q '已完成/需审计' "$index"
-rg -q '没有删除计划文件' "$index"
+rg -q '已替代/错误计划' "$index"
+rg -q '引用扫描并记录替代证据后删除' "$index"
+for entry in \
+  'docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md:project-calibration-final-plan-reconciliation' \
+  'docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md:installed-lifecycle-plan-cleanup' \
+  'docs/superpowers/plans/2026-07-22-ai-cockpit-governance-hardening.md:ai-cockpit-governance-hardening'; do
+  plan_path=${entry%%:*}
+  work_item=${entry#*:}
+  for evidence in contract summary archive-manifest; do
+    evidence_path=".ai/work-items/archive/2026/${work_item}.${evidence}.json"
+    test -f "$evidence_path"
+    rg -q "$evidence_path" "$plan_path"
+  done
+done
+test ! -e docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md
 printf '%s\n' 'plan cleanup scan: PASS'

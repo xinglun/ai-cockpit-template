@@ -1,0 +1,263 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_postmerge_source_verification_v2",
+  "mode": "code",
+  "title": "Restore fail-closed post-merge release source verification",
+  "rawUserRequest": "发布遇到流程或过时代码问题时先修复流程/代码，再继续 v0.5.39；用户批准方案 A，并授权 agent 判断、执行和监控 GitHub Actions。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-release-process-root-fix",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-approved-scheme-a-process-first-and-ci-monitoring"
+  },
+  "declaredIntent": {
+    "summary": "Restart the abandoned unmerged correction from latest main, preserve candidate-content materialization, restore eager controlled-identity validation, and require independent review before immutable archive creation.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "test_automation",
+      "documentation"
+    ]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "6c0b8a520c92cfd5cbc699962993d69c433acc6a",
+  "baselineDirtyPaths": [],
+  "intent": {
+    "problem": "PR #329 correctly separated candidate content from merged identity, but independent review after ai-finish found that premerge finalization no longer eagerly validated the controlled source identity. Because its Work Item was already immutable, #329 was closed unmerged. The correction must restart from latest main with one fresh Work Item, retain the valid topology regression, restore fail-closed identity validation, and move independent review before ai-finish.",
+    "constraints": [
+      "Do not amend or import the abandoned v1 archive into this PR.",
+      "Do not create or move v0.5.39 until this Work Item is merged, closed, synchronized, and exact main passes post-merge checks.",
+      "Premerge canonical content must come from clean candidate HEAD, while the controlled source identity must still resolve eagerly and remain the hosted post-merge identity reference.",
+      "Identity, tree, archive, lifecycle, and ownership mismatches remain fail closed before release mutation.",
+      "Use one Work Item, one branch based on latest origin/main, and one replacement PR.",
+      "Run independent code review before ai-finish so required fixes remain inside mutable active evidence.",
+      "Archive growth remains warning-only; do not raise complexity limits."
+    ],
+    "rationale": "Candidate content and merged identity are separate facts, but both must be validated at the earliest stage where each is knowable. Restarting the unmerged PR preserves immutable-evidence rules and restores one-Work-Item ownership."
+  },
+  "scope": [
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    "tests/test_plan_cleanup.sh",
+    "docs/reference/distribution.md",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md",
+    "docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md",
+    "docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md",
+    "docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md",
+    "docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md",
+    "docs/superpowers/plans/2026-07-22-ai-cockpit-governance-hardening.md",
+    "docs/superpowers/plans/README.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/release_postmerge_source_verification_v2.json",
+    ".ai/work-items/active/release_postmerge_source_verification_v2.contract.json",
+    ".ai/work-items/active/release_postmerge_source_verification_v2.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Creating or publishing the v0.5.39 tag or GitHub Release",
+    "Modifying abandoned v1 archived evidence",
+    "Weakening exact-SHA, controlled-ref, archive, source-tree, lifecycle, or ownership validation",
+    "Changing release metadata values before the later release-preparation Work Item",
+    "Changing adopter-project behavior",
+    "Raising complexity thresholds or creating a budget-only Work Item"
+  ],
+  "sources": [
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Current finalizer and the reviewed eager-identity regression."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Existing finalizer and detached release-preflight coverage."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Hosted exact-main resolution and pre-tag mutation boundary."
+    },
+    {
+      "path": ".gitattributes",
+      "reason": "Canonical archive inclusion and export-ignore boundary."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "One-Work-Item PR and archive lifecycle requirements."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/correct_articulate_design_philosophy_acceptance.contract.json",
+      "reason": "Repository precedent requiring a fresh correction Work Item after archive."
+    },
+    {
+      "path": "PR #329 independent review",
+      "reason": "Evidence of missing eager controlled-identity validation and weak plan-cleanup assertions."
+    },
+    {
+      "path": "user-message:2026-07-24",
+      "reason": "Process-first correction, delegated decisions, and CI monitoring authority."
+    }
+  ],
+  "problemStatement": "Make candidate-to-merge release verification both content-correct and identity-fail-closed, while preserving immutable Work Item ownership after abandoning the reviewed unmerged PR.",
+  "scenarioCoverage": [
+    {
+      "id": "candidate_tree_materialization",
+      "scenario": "Premerge finalization hashes clean candidate HEAD while preserving the controlled default-branch identity reference.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/finalize_release_freeze.py",
+        "tests/test_release_preflight.py"
+      ]
+    },
+    {
+      "id": "invalid_controlled_identity",
+      "scenario": "An unresolved controlled source identity fails finalization before canonical hashing or metadata rewrite.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py"
+      ]
+    },
+    {
+      "id": "candidate_to_merge_topology",
+      "scenario": "A real candidate, no-ff merge, and fresh detached checkout accept unchanged canonical content.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py",
+        ".gitattributes"
+      ]
+    },
+    {
+      "id": "merged_source_drift",
+      "scenario": "Included-content drift after candidate merge fails closed.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py"
+      ]
+    },
+    {
+      "id": "plan_retention_evidence",
+      "scenario": "Compacted plans retain their Contract/Summary/manifest references and the known-wrong superseded plan remains deleted.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_plan_cleanup.sh"
+      ]
+    },
+    {
+      "id": "archive_growth_warning",
+      "scenario": "Archive growth remains warning-only.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/guards/governance_complexity_policy.yaml",
+        "make check-governance-complexity"
+      ]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity",
+      "source_binding",
+      "workflow_regression",
+      "lifecycle_ownership"
+    ],
+    "reason": "An incorrect candidate/identity boundary could publish evidence for the wrong source; the correction also exercises immutable archive recovery.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user delegated evidence-based process decisions; the reviewed defect, recovery path, scope, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Prove invalid controlled identity fails before metadata rewrite.",
+    "Review the real Git topology rather than mocked commit names alone.",
+    "Complete independent review before ai-finish.",
+    "Do not publish or tag in this Work Item."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Preserve source-binding, review-order, and no-publication constraints through the replacement correction."
+  },
+  "acceptance": [
+    "Premerge sourceTree and archiveSha256 come from clean candidate HEAD while sourceCommit, tagTarget, and metadataCommit retain controlled identity references.",
+    "The controlled source identity resolves eagerly; an invalid ref returns failure before canonical hashing or any release metadata rewrite.",
+    "A real candidate commit to no-ff merge to fresh detached checkout passes post-merge preflight when canonical content is unchanged.",
+    "Included-content drift remains fail closed before tag or release mutation.",
+    "Plan-cleanup regression verifies each compacted plan's existing Contract, Summary, and manifest evidence and verifies the superseded incorrect plan is absent.",
+    "Lifecycle documentation distinguishes candidate content from merged identity and requires independent review before ai-finish.",
+    "The replacement PR contains exactly this v2 Work Item from latest origin/main; PR #329 has state CLOSED and no v1 archive path appears in the replacement diff.",
+    "Archive growth remains warning-only and Markdown/Python budgets pass without threshold increases.",
+    "All local gates, independent review, replacement PR Actions, merge, ai-close-work-item, exact-main post-merge audit, and subsequent governed release preparation complete before v0.5.39 publication."
+  ],
+  "guidelines": [
+    "Fail closed on release identity, lifecycle, source-tree, archive, or ownership mismatch.",
+    "Keep candidate content evidence distinct from provider-bound published identity evidence.",
+    "Preserve immutable archived evidence and use a fresh Work Item after post-archive correction.",
+    "Run independent review before ai-finish.",
+    "Do not publish or tag until post-merge verification is complete."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true},
+    {"check": "aiScope", "required": true},
+    {"check": "aiGuards", "required": true},
+    {"check": "aiCheckpoint", "required": true},
+    {"check": "aiAgentRisk", "required": true},
+    {"check": "aiReviewPolicy", "required": true},
+    {"check": "aiBacktrack", "required": true},
+    {"check": "aiCoverage", "required": true},
+    {"check": "aiScenarioCoverage", "required": true},
+    {"check": "aiGuidelines", "required": true},
+    {"check": "aiSummary", "required": true},
+    {"check": "aiStatus", "required": true},
+    {"check": "aiStatusCheck", "required": true},
+    {"check": "aiStatusConsistency", "required": true},
+    {"check": "aiDiffOwnership", "required": true},
+    {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user approved scheme A and delegated future evidence-based release-process decisions."
+  },
+  "rollbackNote": "Close the replacement PR without merge and preserve main; do not amend prior immutable evidence or retain stale origin/main hashing.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "pythonLines": 40900,
+      "markdownLines": 9550,
+      "archiveGrowth": 539
+    },
+    "reason": "One replacement functional archive; the abandoned v1 archive is not part of main or this PR."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_postmerge_source_verification_v2.json",
+    "baseCommit": "6c0b8a520c92cfd5cbc699962993d69c433acc6a",
+    "initialScopeDigest": "d330f19a9828849ec3ce31eb3c970b5397e1bcf1b130e1cef98415001786168b",
+    "contractSkeletonDigest": "87d4de5d5ce1f25815ad0e6e1178422bedea64cd35389e8b25dee2c59cd4830e"
+  }
+}

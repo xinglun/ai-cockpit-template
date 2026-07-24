@@ -9,22 +9,22 @@ keywords:
 ---
 # Execution Plan Index
 
-本目录保存可审计的执行计划。完成计划保留，用于追溯 Work Item、PR、验证结果和发布证据。
+本目录保存当前执行计划和历史关闭索引。不可变 Work Item archive 是完成事实的权威来源。
 
 ## 保留规则
 
 | 分类 | 处理方式 |
 | --- | --- |
 | 当前执行 | 保留原文，标注执行中并链接 Work Item。 |
-| 已完成/需审计 | 保留原文，补充完成状态、PR/发布证据和归档位置。 |
-| 已替代/历史专项 | 保留原文，标注替代关系；删除必须另立工单并先完成链接扫描。 |
+| 已完成/需审计 | 引用扫描后可压缩为关闭索引；必须保留 archive evidence 路径和 Git 恢复方式。 |
+| 已替代/错误计划 | 新 Work Item 完成引用扫描并记录替代证据后删除；不得删除 Contract、Summary 或 manifest。 |
 
 ## 当前计划
 
 | 计划 | 状态 | 说明 |
 | --- | --- | --- |
 | [2026-07-22 Conditional GO 全面评审整改](2026-07-22-conditional-go-review-remediation.md) | 历史保留/已完成 | WI1–WI11 严格串行；每项 PR、合并、归档、关闭、分支清理和默认分支同步均有证据；不得启动新工单。 |
-| [2026-07-22 Project Calibration and Update Recalibration](2026-07-22-project-calibration-recalibration.md) | 执行中 | 评审整改计划；14 个工单串行执行，最后一项为清理执行计划文档。 |
+| [2026-07-24 Release Post-Merge Source Verification](2026-07-24-release-postmerge-source-verification.md) | 执行中 | 修复候选内容与合并后精确来源身份之间的发布门禁。 |
 
 ## 历史保留计划
 
@@ -38,6 +38,9 @@ keywords:
 - [2026-07-20 全面评审整改（修订版）](2026-07-20-comprehensive-review-remediation.md) — 已被 2026-07-21 计划替代，保留审计历史。
 - [2026-07-21 最新评审整改](2026-07-21-review-remediation.md) — 工单 1–17 已完成，PR #168 合并，上一版已发布，最后工单已关闭。
 - [2026-07-21 Bootstrap Adoption 评审整改](2026-07-21-bootstrap-adoption-review-remediation.md) — WI01–WI15 已完成，PR #172–#186 合并，上一版已发布，保留完整审计证据。
-- [2026-07-22 Installed Lifecycle Management 评审整改](2026-07-22-installed-lifecycle-review-remediation.md) — 工单 1–15 已完成，PR #198–#212 合并，上一版已发布；工单 16 清理后标记为历史保留。
+- [2026-07-22 Project Calibration and Update Recalibration](2026-07-22-project-calibration-recalibration.md) — 已完成并压缩为 archive-backed closure index。
+- [2026-07-22 Installed Lifecycle Management 评审整改](2026-07-22-installed-lifecycle-review-remediation.md) — 工单 1–16 已完成并压缩为 archive-backed closure index。
+- [2026-07-22 AI Cockpit Governance Hardening](2026-07-22-ai-cockpit-governance-hardening.md) — 已完成并压缩为 archive-backed closure index。
 
-相邻的 `../specs/` 属于独立设计证据，不随计划清理删除。2026-07-23 清理结论：已完成计划、重复内容、状态和引用扫描；未发现可证明“无审计价值且无引用”的计划副本，因此没有删除计划文件。所有计划与 specs 保留以支持历史追溯；最终发布另由用户授权后的独立发布工单执行，不会跳过本计划任何工单。
+相邻的 `../specs/` 属于独立设计证据。计划压缩或删除必须由 Contract
+声明 scope，先完成引用扫描，并在 Summary 记录权威 archive 与 Git 恢复路径。

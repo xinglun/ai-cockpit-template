@@ -29,29 +29,31 @@ keywords:
 - Use subprocess argument lists, never `shell=True` with user input; validate repository path, remote, branch, stack, language, and session ID.
 - Dangerous actions default to `N`; show facts, recommendations, unknowns, blocking errors, examples, impact, checklist, expected result, and stop conditions.
 - No planned Work Item may start until its predecessor's PR is merged, archive is complete, `make ai-close-work-item` succeeds, local and remote task branches are deleted, the default branch is synchronized, and the worktree is clean.
-- The user has authorized this turn only for authoring and fully closing this plan-document Work Item. Future feature Work Items require a later user confirmation and instruction.
+- The user has authorized serial execution of the full plan. Each Work Item still requires its own Contract, branch, checks, PR, merge, `ai-close-work-item`, and branch cleanup before the next begins.
 
 ## Work Item Summary
 
-The requested feature is decomposed into the following serial Work Items. The final item is intentionally the plan-document cleanup item requested by the user.
+The requested feature is decomposed into the following serial Work Items. The issue-recording Work Item is first so every later Work Item has a documented place for problems and resolutions. The AI Cockpit verification-flow refactor follows it so installation and calibration implementation proceeds on the lighter, three-stage governance model. The final item is intentionally the plan-document cleanup item requested by the user.
 
 | Order | Work Item | Deliverable | Depends on |
 | --- | --- | --- | --- |
 | 0 | `interactive-installation-calibration-wizard-plan` | This execution plan and its governance evidence | Latest `origin/main`; current turn authorization |
-| 1 | `wizard-core-detection-plan` | Reusable read-only facts and Installation Plan model | Work Item 0 closure |
-| 2 | `wizard-io-and-localization` | TTY-safe input/output, help/back/pause/quit, color/accessibility, three-language resources and parity checks | Work Item 1 closure |
-| 3 | `interactive-installation-wizard` | Eight-step Installation Wizard for Target Repository, Readiness, Mode, Stack, Options, Branch, Review, Install/Result | Work Item 2 closure |
-| 4 | `interactive-installation-entrypoint-compatibility` | `install.sh` routing: TTY/no-args, `--interactive`, explicit legacy CLI, non-TTY fail-closed | Work Item 3 closure |
-| 5 | `interactive-calibration-wizard` | Calibration Wizard adapter over Doctor, Proposal, persisted Session, ten stages, self-check, simulation, review, confirmations, activation | Work Item 4 closure |
-| 6 | `wizard-recovery-and-blocking-ux` | Stale revalidation, blocking Unknown, N/A reasons, recovery, activation-failure preservation, human handoff | Work Item 5 closure |
-| 7 | `wizard-tests-and-fixtures` | Unit, integration, snapshot, TTY/non-TTY, multilingual, mobile-stack, rollback, stale, and activation-failure coverage | Work Item 6 closure |
-| 8 | `wizard-documentation-and-truth-evidence` | README/guides/reference/checklists/examples, Capability Truth Matrix, troubleshooting, roadmap/version history, release evidence | Work Item 7 closure |
-| 9 | `wizard-final-verification-and-user-report` | Full quality/governance/release verification and explicit Known Gaps report | Work Item 8 closure |
-| 10 | `clean-interactive-wizard-execution-plan-documents` | Remove or archive superseded execution-plan documents, update plan index/evidence, verify no stale plan remains | Work Item 9 closure |
+| 1 | `interactive-wizard-work-item-issue-log` | Structured issue log, per-Work-Item problem records, resolutions, residual risks, and final issue overview | Work Item 0 closure |
+| 2 | `lightweight-verification-soft-gates` | Three-layer Task/PR/Release verification, unified context, impact classification, checker registry/deduplication, structured verification evidence, trend-based complexity, and legacy repayment freeze | Work Item 1 closure |
+| 3 | `wizard-core-detection-plan` | Reusable read-only facts and Installation Plan model | Work Item 2 closure |
+| 4 | `wizard-io-and-localization` | TTY-safe input/output, help/back/pause/quit, color/accessibility, three-language resources and parity checks | Work Item 3 closure |
+| 5 | `interactive-installation-wizard` | Eight-step Installation Wizard for Target Repository, Readiness, Mode, Stack, Options, Branch, Review, Install/Result | Work Item 4 closure |
+| 6 | `interactive-installation-entrypoint-compatibility` | `install.sh` routing: TTY/no-args, `--interactive`, explicit legacy CLI, non-TTY fail-closed | Work Item 5 closure |
+| 7 | `interactive-calibration-wizard` | Calibration Wizard adapter over Doctor, Proposal, persisted Session, ten stages, self-check, simulation, review, confirmations, activation | Work Item 6 closure |
+| 8 | `wizard-recovery-and-blocking-ux` | Stale revalidation, blocking Unknown, N/A reasons, recovery, activation-failure preservation, human handoff | Work Item 7 closure |
+| 9 | `wizard-tests-and-fixtures` | Unit, integration, snapshot, TTY/non-TTY, multilingual, mobile-stack, rollback, stale, and activation-failure coverage | Work Item 8 closure |
+| 10 | `wizard-documentation-and-truth-evidence` | README/guides/reference/checklists/examples, Capability Truth Matrix, troubleshooting, roadmap/version history, release evidence | Work Item 9 closure |
+| 11 | `wizard-final-verification-and-user-report` | Full quality/governance/release verification, final issue overview, and explicit Known Gaps report | Work Item 10 closure |
+| 12 | `clean-interactive-wizard-execution-plan-documents` | Remove or archive superseded execution-plan documents, update plan index/evidence, verify no stale plan remains | Work Item 11 closure |
 
 ## Mandatory Lifecycle for Every Work Item
 
-The following procedure is part of every Work Item, including Work Item 0 and Work Item 10. It is not optional and must be repeated serially:
+The following procedure is part of every Work Item, including Work Item 0 and Work Item 12. It is not optional and must be repeated serially:
 
 1. Confirm the predecessor closure evidence. Fetch the repository's latest remote default branch, discover the remote/default branch rather than assuming it for adopter repositories, record `baseRemote`, `baseBranch`, and `baseCommit`, and create a dedicated `codex/<work-item>` branch directly from that base.
 2. Run `make ai-start TASK=<task> TITLE="..." MODE=code`, complete the v2 Contract (`intent`, `scope`, `outOfScope`, `sources`, `unknowns`, `acceptance`, `scenarioCoverage`, `verification`, `budgetImpact`, `agentCapability`, and `executionDecision`), then run `make ai-preflight`, `make check-ai-serial-order`, and `make check-ai-budget-impact`. A `needs_human_confirmation`, `not_ready`, stale-base, unknown, or budget failure stops the Work Item.
@@ -80,12 +82,50 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 - The plan covers Bootstrap Adoption, New Adoption vs Upgrade, both wizard entrypoints, core/UI separation, standard-library constraint, subprocess safety, three languages, all eight installation steps, ten calibration stages, blocking/unknown/recovery behavior, tests, docs, truth matrix, compatibility, release evidence, and the final self-check report.
 - The table ends with `clean-interactive-wizard-execution-plan-documents`.
-- The plan records that authorization was received for this plan Work Item only and that future feature implementation waits for a later user instruction.
+- The plan records that the user authorized serial execution of every Work Item, while each Work Item retains its own full PR and lifecycle-closure boundary.
 - This Work Item itself completes the full lifecycle in the Mandatory Lifecycle section, then stops for user review.
 
 **Verification:** Contract/preflight, all repository AI checks declared by the Contract, markdown/link/plan checks if present, clean diff ownership, PR ownership, merged-PR closure, and clean base synchronization.
 
-### Work Item 1: `wizard-core-detection-plan`
+### Work Item 1: `interactive-wizard-work-item-issue-log`
+
+**Files:**
+
+- Create: `scripts/ai_verify.py`, `scripts/ai_verification_context.py`, `scripts/ai_impact_classifier.py`, `scripts/ai_check_registry.py`
+- Create: `.ai/policies/complexity_trend.yaml`, `.ai/policies/verification_impact.yaml`
+- Create: `docs/architecture/lightweight-verification-and-soft-gates.md`, `docs/maintainers/adding-or-classifying-a-check.md`, and synchronized Japanese/English/Chinese user guidance
+- Modify: `Makefile`, existing checker registration/orchestration, complexity policy readers, and only the tests required by the Contract
+- Preserve: all existing `.ai/work-items/archive/**` history and historical `repaymentRecords`
+
+**Purpose:** Establish a durable, structured record for every problem encountered during the serial plan, without silently treating warnings, blocked states, external failures, scope corrections, or verification gaps as resolved.
+
+**Implementation:** Define one record per issue with Work Item, stage, timestamp, severity (`informational`, `warning`, `needs_human_confirmation`, or `blocked`), observed evidence, impact, owner, immediate containment, resolution or explicit unresolved state, verification reference, and whether the issue affects the final completion claim. Every later Work Item must append or reference its issue records during Summary and final closure; historical records must not be rewritten. The final verification Work Item must produce a complete issue overview as a document for the user to review after the plan completes.
+
+Move normal complexity growth, archive count, checker count, documentation drift, and duration changes to trend warnings or human confirmation. Keep dependency cycles, Secret exposure, Evidence/Commit mismatch or tampering, unauthorized files, Trust Boundary removal, Fail Closed to Fail Open changes, missing Human Confirmation, validator failure, and Release Identity failures as hard gates. Freeze historical repayment records without editing them and stop creating per-Task line/archive repayment entries. Treat `current_status.json` and `.md` as derived views generated from `verification.json`, not machine facts.
+
+**Verification:** Validate the issue schema, append-only behavior, Work Item and commit binding, redaction of secrets, one-to-one links from issue records to Summary/Verification evidence, and a final report that distinguishes resolved issues from accepted residual risks and blockers. Demonstrate that an unresolved Hard Gate or missing evidence cannot be reported as Green.
+
+**Lifecycle boundary:** This Work Item creates the issue-recording mechanism only. It must complete its own PR and closure before Work Item 2, the verification optimization, starts.
+
+### Work Item 2: `lightweight-verification-soft-gates`
+
+**Files:**
+
+- Create: `docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md`
+- Create: the Contract-scoped structured issue-log evidence for this Work Item
+- Modify: the execution-plan document only where the issue-log schema, update cadence, ownership, and final reporting gate must be referenced
+
+**Purpose:** Replace the user-visible verification surface with Task, PR, and Release while preserving one Task = one Branch = one PR, Trust Boundaries, Human Confirmation, Evidence/Commit binding, irreversible-operation protection, and strict Release proof.
+
+**Implementation:** Build one immutable `VerificationContext` that reads Git diff, Contract, Summary, project profile, impact policy, and complexity policy once. Classify changed files into docs, project code, tests, governance, trust, dependency, installer, lifecycle, release, workflow, or unknown. Register each Checker once per verification run and emit structured `CheckResult` records with `hard`, `soft`, or `informational` gate type. Record every stage-inapplicable check as `skipped` with a reason code; the Agent may not invent skip decisions. Keep Task checks focused on changed files and affected tests, PR checks on core project health and critical trust checks, and Release checks on full strict proof including supply chain, installer lifecycle, compatibility, identity, assets, and distribution.
+
+Move normal complexity growth, archive count, checker count, documentation drift, and duration changes to trend warnings or human confirmation. Keep dependency cycles, Secret exposure, Evidence/Commit mismatch or tampering, unauthorized files, Trust Boundary removal, Fail Closed to Fail Open changes, missing Human Confirmation, validator failure, and Release Identity failures as hard gates. Freeze historical repayment records without editing them and stop creating per-Task line/archive repayment entries. Treat `current_status.json` and `.md` as derived views generated from `verification.json`, not machine facts.
+
+**Verification:** Test hard/soft/informational decisions, threshold escalation, immutable context and single-read behavior, impact classification including unknown files, checker deduplication, explicit skipped-check reasons, legacy/unified/compare modes, Task/PR/Release command compatibility, trend behavior with insufficient samples, historical repayment preservation, Release strictness, and regression protection for every retained hard gate. Measure subprocess, checker, Git, parse, and Release-check counts for docs-only, project-code, governance, installer, and release changes. The Work Item must demonstrate that no dangerous legacy hard failure becomes Green without `needs_human_confirmation`.
+
+**Lifecycle boundary:** This Work Item changes verification/governance behavior only. It must complete its own PR and closure before Work Item 3, the installation improvement plan, starts.
+
+### Work Item 3: `wizard-core-detection-plan`
 
 **Files to inspect/change:** `scripts/ai_install_facts.py`, `scripts/ai_installer_detection.py`, `scripts/ai_installer_repository.py`, `scripts/ai_installer_bootstrap.py`, `scripts/install_ai_cockpit.py`, related installer tests.
 
@@ -93,7 +133,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Unit tests prove detection is read-only and plan serialization is deterministic; tests prove New Adoption does not require an existing Work Item and that Upgrade detects active Work Items/conflicts.
 
-### Work Item 2: `wizard-io-and-localization`
+### Work Item 4: `wizard-io-and-localization`
 
 **Files to create/modify:** `scripts/ai_wizard_io.py`, `scripts/wizard_messages/ja.json`, `scripts/wizard_messages/en.json`, `scripts/wizard_messages/zh-CN.json`, `scripts/ai_wizard_messages.py`, `tests/test_wizard_io.py`, `tests/test_wizard_messages.py`.
 
@@ -101,7 +141,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Unit tests cover all aliases, locale precedence, default `ja`, non-TTY no-input behavior, EOF/Ctrl+C, dangerous default N, and three-language key/placeholder equality.
 
-### Work Item 3: `interactive-installation-wizard`
+### Work Item 5: `interactive-installation-wizard`
 
 **Files to create/modify:** `scripts/ai_install_wizard.py`, `scripts/ai_install_plan.py`, installer integration tests and snapshots.
 
@@ -109,7 +149,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Scripted wizard tests assert no target writes before confirmation, correct installer reuse after confirmation, branch/remote facts are real, conflict files are protected, and dry run is strictly read-only.
 
-### Work Item 4: `interactive-installation-entrypoint-compatibility`
+### Work Item 6: `interactive-installation-entrypoint-compatibility`
 
 **Files to modify:** `install.sh`, `scripts/install_ai_cockpit.py` only where routing is required, shell/install tests.
 
@@ -117,7 +157,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** `bash -n install.sh`, ShellCheck, legacy CLI regression tests, TTY and non-TTY integration tests, and explicit dry-run tests.
 
-### Work Item 5: `interactive-calibration-wizard`
+### Work Item 7: `interactive-calibration-wizard`
 
 **Files to create/modify:** `scripts/ai_calibration_wizard.py`, `Makefile`, calibration tests.
 
@@ -125,7 +165,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Calibration tests prove persisted resume, fixed stage order, Back behavior, self-check/simulation reuse, separate confirmations, and activation preserves the original Active Configuration on failure.
 
-### Work Item 6: `wizard-recovery-and-blocking-ux`
+### Work Item 8: `wizard-recovery-and-blocking-ux`
 
 **Files to modify:** wizard UI/core modules, message resources, tests, troubleshooting docs only if required by the Contract.
 
@@ -133,7 +173,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Tests cover dirty worktree, missing remote/default branch, stale session, invalid input, EOF/Ctrl+C, interrupted installation rollback, blocking unknown, and activation failure with original active configuration retained.
 
-### Work Item 7: `wizard-tests-and-fixtures`
+### Work Item 9: `wizard-tests-and-fixtures`
 
 **Files to create/modify:** `tests/test_wizard_*.py`, integration fixture harness, snapshot fixtures, mobile project fixtures.
 
@@ -141,7 +181,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Run focused tests first, then the complete unit/integration/snapshot suite; record test count, Python versions, and any unavailable external checks in the Summary rather than overstating coverage.
 
-### Work Item 8: `wizard-documentation-and-truth-evidence`
+### Work Item 10: `wizard-documentation-and-truth-evidence`
 
 **Files to modify:** `README.md`, `README.ja.md`, installation guides, Calibration Session reference, Capability Truth Matrix, documentation architecture, adoption checklist, troubleshooting, roadmap/version history, release evidence files as required.
 
@@ -149,7 +189,7 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** Documentation metadata/link checks, truth-matrix validation, `make quality`, `make check-ai`, release evidence checks, and review for no unsupported capability claims.
 
-### Work Item 9: `wizard-final-verification-and-user-report`
+### Work Item 11: `wizard-final-verification-and-user-report`
 
 **Files:** Only files required by evidence corrections; create the final completion report in the Work Item Summary or the repository's prescribed evidence location.
 
@@ -157,11 +197,11 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 **Verification:** All required checks pass or are explicitly recorded as not run with a reason; required CI checks are green before merge; the PR contains only this Work Item.
 
-### Work Item 10: `clean-interactive-wizard-execution-plan-documents`
+### Work Item 12: `clean-interactive-wizard-execution-plan-documents`
 
 **Files:** Superseded plan documents identified by read-only inventory; `docs/superpowers/plans/README.md` or index; Work Item evidence for the cleanup.
 
-**Precondition:** Work Items 1–9 have each completed PR merge, archive, `ai-close-work-item`, local/remote task-branch cleanup, default-base synchronization, and clean-worktree verification. This item is never started early.
+**Precondition:** Work Items 1–11 have each completed PR merge, archive, `ai-close-work-item`, local/remote task-branch cleanup, default-base synchronization, and clean-worktree verification. This item is never started early.
 
 **Implementation:** Inventory plan/spec documents related to the Interactive Installation and Calibration Wizard, identify the canonical completed plan and any superseded duplicates, then remove or archive only the explicitly approved obsolete documents. Update the plan index and references so no stale execution plan remains. Do not delete Work Item evidence or active/archived governance records without a documented reason and guard approval.
 
@@ -169,15 +209,15 @@ The following procedure is part of every Work Item, including Work Item 0 and Wo
 
 ## Stop and Human Confirmation Gates
 
-The following are already authorized for this turn: create and validate Work Item 0, write this plan, complete its PR/merge/closure lifecycle, clean its branch, synchronize the base, and then stop.
+The following are already authorized: update and validate the execution plan so that the issue-record mechanism is Work Item 1, the lightweight verification and soft-gate refactor is Work Item 2, and the installation improvement starts at Work Item 3. The user has also authorized serial execution of every Work Item, with full PR and closure lifecycle, followed by a final issue overview document for user review.
 
-The following are not authorized by this turn and require a new user instruction after the plan is reviewed: starting Work Item 1 or any later feature Work Item; changing `install.sh`, `scripts/**`, tests, Makefile, runtime behavior, release metadata, or user-facing implementation docs; deleting or archiving plan documents in Work Item 10; changing governance policy or budgets; merging future PRs; or claiming the feature is implemented.
+The following are not authorized without the applicable Work Item Contract and its serial predecessor closure: scope expansion beyond the current Work Item, unrecorded Hard Gate bypasses, deletion or rewriting of historical Archive/Evidence, or claiming the entire plan complete before the final issue overview document is produced. Each authorized Work Item still requires its own Contract, branch, PR, merge, closure, and cleanup before the next starts.
 
 Any preflight report of `needs_human_confirmation` or `not_ready`, any unknown, stale base, scope conflict, missing required check, review disagreement, or release-evidence mismatch pauses the current Work Item and is reported with its evidence path. No later Work Item may be used to bypass that gate.
 
 ## Plan Self-Review
 
-- Spec coverage: mapped sections 4–8 to Work Items 1–2; sections 9–18 to Work Items 3–4; sections 19–29 to Work Items 5–6; sections 30–33 to Work Items 3, 5, 7, and 8; sections 34–41 to Work Items 2–7; sections 42–46 to Work Item 8; sections 47–50 to Work Items 6–9; and section 48's final cleanup requirement to Work Item 10.
+- Spec coverage: mapped issue recording to Work Item 1; mapped the verification-flow refactor sections 1–30 to Work Item 2; mapped final reporting to Work Item 11; mapped the installation/calibration specification sections 4–8 to Work Items 3–4; sections 9–18 to Work Items 5–6; sections 19–29 to Work Items 7–8; sections 30–33 to Work Items 5, 7, 9, and 10; sections 34–41 to Work Items 4–9; sections 42–46 to Work Item 10; sections 47–50 to Work Items 8–11; and the final cleanup requirement to Work Item 12.
 - Placeholder scan: no `TBD`, `TODO`, or unspecified “add appropriate handling” step is used as an acceptance criterion; each Work Item names its boundary and verification.
-- Boundary consistency: Installation UI calls the existing installer; Calibration UI calls the existing `CalibrationSession` and activation logic; future Work Items remain serial and one-to-one with PRs.
-- User stop condition: this plan is complete only when Work Item 0 is closed; execution stops before Work Item 1 pending user confirmation.
+- Boundary consistency: the verification refactor owns orchestration and evidence only; Installation UI calls the existing installer; Calibration UI calls the existing `CalibrationSession` and activation logic; future Work Items remain serial and one-to-one with PRs.
+- User review condition: all Work Items must close serially; Work Item 11 must produce the complete issue overview document, and the user reviews that document after Work Item 12 closes the plan-document cleanup. Completion does not require retaining `needs_human_confirmation` as the final plan state.

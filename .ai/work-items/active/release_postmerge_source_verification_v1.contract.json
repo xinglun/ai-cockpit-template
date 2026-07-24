@@ -46,6 +46,7 @@
     "docs/reference/ai-cockpit-work-item-lifecycle.md",
     "docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md",
     "docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md",
+    "docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md",
     ".ai/cockpit/current_status.md",
     ".ai/work-items/starts/release_postmerge_source_verification_v1.json",
     ".ai/work-items/active/release_postmerge_source_verification_v1.contract.json",
@@ -179,6 +180,7 @@
     "The regression fails against the current implementation for the observed stale-base archive mismatch and passes after the minimal finalizer correction.",
     "An included-content drift case remains fail-closed before tag or release mutation.",
     "Documentation distinguishes candidate content materialization from merged default-branch identity and preserves the external release-source.json authority.",
+    "The superseded plan that prescribes hashing old origin/main is removed; transient design and execution-plan artifacts remain auditable in branch history but are removed from the final tree so markdown complexity does not grow.",
     "Archive growth 538 remains warning-only and is covered by focused verification.",
     "The corrective Work Item completes Contract, Preflight, tests, ai-finish/archive, check-ai-pr, PR, merge, ai-close-work-item, and default-branch synchronization before any v0.5.39 release attempt.",
     "After closure, the exact merged main SHA passes smoke, compatibility, release preflight, and release evidence audit before v0.5.39 is tagged and published."
@@ -270,6 +272,7 @@
   "budgetImpact": {
     "expectedMetrics": {
       "pythonLines": 40900,
+      "markdownLines": 9550,
       "archiveGrowth": 539
     },
     "reason": "One functional corrective Work Item archive plus bounded regression coverage; archive growth remains warning-only."

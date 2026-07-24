@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import argparse
+import hashlib
 import sys
 
 from ai_common import PROJECT_ROOT, discover_remote_default_candidates, included, run_git
@@ -182,6 +183,11 @@ def main(
         }
     )
     release.setdefault("releaseArchive", {})["sha256"] = archive_sha
+    installer_path = root / "install.sh"
+    try:
+        release["installerDigest"] = hashlib.sha256(installer_path.read_bytes()).hexdigest()
+    except OSError as exc:
+        return _fail(f"install.sh is missing or unreadable: {exc}")
     freeze_path.write_text(
         json.dumps(freeze, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

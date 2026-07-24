@@ -23,9 +23,11 @@ SBOM と provenance のリリース証拠は、`--source-commit` または `SUPP
 
 各リリース試行は一つの不変な Identity Tuple を持ちます。`sourceCommit` はマージ済み既定ブランチのコミット、`tagTarget` は同じコミット、`metadataCommit` は候補メタデータを含むコミット（明示必須）、`releaseTag` は要求されたタグです。`HEAD` は証拠として使いません。候補の Freeze メタデータは PR 境界より前にコミットし、マージ後に Workflow が既定ブランチを一度だけ解決して、この Tuple を Preflight、CI 証拠、tag、Provider Asset まで引き継ぎます。close 後のコマンドで Tuple やリリースメタデータを書き換えません。
 
-変更は Pull Request を経由して `main` に入ります。`smoke` と `compatibility` は `main` への push でも実行されます。保守担当者は検証済みの `main` の SHA と新しいタグを指定して `.github/workflows/release.yml` を実行します。ワークフローは既存タグ、ソース SHA、smoke/compatibility の成功、`release.json` を確認してからタグと GitHub Release を作成します。
+変更は Pull Request を経由して `main` に入ります。`smoke` と `compatibility` は `main` への push でも実行されます。保守担当者は検証済みの `main` の SHA と新しいタグを指定して `.github/workflows/release.yml` を実行します。Premerge Finalizer は clean な候補 `HEAD` から `sourceTree`、`archiveSha256`、`installerDigest` を生成し、Workflow の Preflight は exact source の `install.sh` を独立に再ハッシュします。ワークフローは既存タグ、ソース SHA、smoke/compatibility の成功、`release.json` を確認してからタグと GitHub Release を作成します。
 
 過去のリリースタグは不変の証拠として扱い、書き換えません。導入先プロジェクトは自身のリモート既定ブランチから導入・アップグレード用ブランチを作成し、公開済みリリースタグを利用します。Candidate PR の準備時スナップショットは、リリースの Source of Truth ではありません。PR のマージ後、Workflow はリモートの既定ブランチを一度だけ解決し、`sourceCommit`、`tagTarget`、`metadataCommit` を同じコミットへ結び付け、依存関係のインストール、Provider CI、tag、公開より前に Release Preflight を実行します。指定された `source_commit` は一致確認のためだけに使い、古い値は fail closed します。close 後の Freeze 再生成は行いません。
+
+作成後に不変タグの不整合が判明した場合、そのタグを移動、削除、再公開しません。関連する GitHub Release を Draft に隔離し、失敗証拠を記録し、Generator と公開前 Gate を Work Item と PR で修正してから、次の Patch Version を訂正版として公開します。次のタグが未公開でも、Release Preparation はローカルの Installer Digest を必ず検証します。
 
 ## アーカイブ証拠インデックス
 

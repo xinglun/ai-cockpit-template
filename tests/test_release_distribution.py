@@ -158,6 +158,24 @@ def test_supply_chain_issues_fail_closed_for_missing_mismatched_and_unscanned_ev
     assert "secretScanning must be true" in joined
 
 
+def test_supply_chain_issues_rejects_installer_digest_drift(tmp_path):
+    installer = tmp_path / "install.sh"
+    installer.write_bytes(b"current installer\n")
+    metadata = {
+        "installerDigest": "0" * 64,
+        "supplyChain": {
+            "requirementsLockDigest": "0" * 64,
+            "sbomDigest": "0" * 64,
+            "provenanceDigest": "0" * 64,
+            "secretScanning": True,
+        },
+    }
+
+    issues = supply_chain_issues(metadata, root=tmp_path)
+
+    assert "release.json installerDigest differs from install.sh" in issues
+
+
 def test_release_claims_excludes_generated_supply_chain_digests():
     metadata = {
         "releaseTag": "v1.2.3",

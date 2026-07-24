@@ -7,7 +7,7 @@ import json
 import argparse
 import sys
 
-from ai_common import PROJECT_ROOT, discover_remote_default_candidates, run_git
+from ai_common import PROJECT_ROOT, discover_remote_default_candidates, included, run_git
 from check_release_preflight import canonical_archive_sha, canonical_source_tree
 from check_supply_chain import sha256_text
 
@@ -76,6 +76,36 @@ def main(
         if not archived_contract.exists():
             return _fail(
                 f"pre-merge finalization requires archived Work Item evidence: {premerge_task}"
+            )
+    if candidate_task is not None or premerge_task is not None:
+        contract_path = (
+            root / ".ai" / "work-items" / "active" / f"{candidate_task}.contract.json"
+            if candidate_task is not None
+            else root / ".ai" / "work-items" / "archive" / "2026" / f"{premerge_task}.contract.json"
+        )
+        try:
+            contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            return _fail(f"release metadata ownership Contract is missing or invalid: {exc}")
+        generated_paths = [
+            "release.json",
+            "release-state.json",
+            ".ai/cockpit/release-freeze.json",
+            ".ai/cockpit/release-digests.json",
+        ]
+        scope = [pattern for pattern in contract.get("scope", []) if isinstance(pattern, str)]
+        out_of_scope = [
+            pattern for pattern in contract.get("outOfScope", []) if isinstance(pattern, str)
+        ]
+        missing = [
+            path
+            for path in generated_paths
+            if not included(path, scope) or included(path, out_of_scope)
+        ]
+        if missing:
+            return _fail(
+                "release metadata generation paths are not fully covered by the Work Item "
+                f"Contract scope: {', '.join(missing)}"
             )
     status_path = root / ".ai" / "cockpit" / "current_status.md"
     if candidate_task is None and "- State: `no_active_work_item`" not in status_path.read_text(

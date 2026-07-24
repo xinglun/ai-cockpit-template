@@ -356,7 +356,11 @@ def test_finalize_release_freeze_candidate_mode_binds_to_work_item_branch(monkey
     (tmp_path / ".ai" / "cockpit").mkdir(parents=True)
     active = tmp_path / ".ai" / "work-items" / "active"
     active.mkdir(parents=True)
-    (active / "task.contract.json").write_text("{}\n", encoding="utf-8")
+    (active / "task.contract.json").write_text(
+        '{"scope":["release.json","release-state.json",".ai/cockpit/release-freeze.json",'
+        '".ai/cockpit/release-digests.json"]}\n',
+        encoding="utf-8",
+    )
     (tmp_path / ".ai" / "cockpit" / "release-freeze.json").write_text(
         '{"state":"candidate"}\n', encoding="utf-8"
     )
@@ -452,7 +456,11 @@ def test_finalize_release_freeze_premerge_requires_archived_work_item(monkeypatc
         )
         == 1
     )
-    (archive / "task.contract.json").write_text("{}\n", encoding="utf-8")
+    (archive / "task.contract.json").write_text(
+        '{"scope":["release.json","release-state.json",".ai/cockpit/release-freeze.json",'
+        '".ai/cockpit/release-digests.json"]}\n',
+        encoding="utf-8",
+    )
     assert (
         finalizer.main(
             premerge_task="task",

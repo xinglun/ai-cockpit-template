@@ -1,0 +1,230 @@
+{
+  "contractVersion": 2,
+  "workItemId": "interactive-installation-calibration-wizard-plan",
+  "mode": "code",
+  "title": "Create execution plan for interactive installation and calibration wizard",
+  "baseCommit": "560a3f8a1e30d0f3239a6185bfca803b30d4033a",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/interactive-installation-calibration-wizard-plan.contract.json",
+    ".ai/work-items/active/interactive-installation-calibration-wizard-plan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/release-digests.json",
+    ".ai/decisions/**",
+    ".ai/work-items/starts/interactive-installation-calibration-wizard-plan.json",
+    "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "install.sh",
+    "scripts/**",
+    "tests/**",
+    "Makefile",
+    "docs/** except docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+    "PR creation/merge for future feature Work Items"
+  ],
+  "sources": [
+    {
+      "path": "conversation-attachment:pasted-text.txt",
+      "reason": "User-provided complete development instructions for the Interactive Installation and Calibration Wizard."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository operating rules require a dedicated Work Item, full PR lifecycle, and serial closure."
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "Defines Work Item, preflight, archive, PR, and ai-close-work-item lifecycle gates."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines repository governance terminology and architectural boundaries."
+    },
+    {
+      "path": "scripts/install_ai_cockpit.py",
+      "reason": "Existing deterministic installer that future wizard Work Items must reuse."
+    },
+    {
+      "path": "scripts/ai_calibrate.py",
+      "reason": "Existing CalibrationSession that future calibration wizard Work Items must reuse."
+    }
+  ],
+  "rawUserRequest": "查收 Interactive Installation and Calibration Wizard 完整开发指示；确认并总结要求，列出工单，列表最后加入清理执行计划文档；形成修改执行计划的文档；计划明确每个工单必须完成完整流程（包括 PR、合并后的 ai-close-work-item、分支清理）后才能循环到下一个工单；本轮先完成完整的计划文档工单及其 PR/清理流程，随后停止等待用户确认计划和后续执行指示。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message-and-attached-specification:2026-07-25",
+    "capturedAt": "2026-07-25",
+    "digest": "sha256:user-authorized-interactive-wizard-plan"
+  },
+  "declaredIntent": {
+    "summary": "Author and close the serial execution plan for the Interactive Installation and Calibration Wizard without starting any future feature Work Item.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "document",
+    "authorityRequired": false
+  },
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear"
+    ],
+    "reason": "This Work Item changes only a plan and its governance evidence; the future feature is decomposed but not implemented here."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized creation and lifecycle completion of the plan-document Work Item only; feature implementation remains out of scope and awaits a later user instruction."
+  },
+  "preReviewWarnings": [
+    "Verify that the plan separates Bootstrap Adoption from Upgrade, forbids duplicate core logic, captures all three languages and safety gates, and places plan-document cleanup last."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The file docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md exists and contains the requested feature summary, architecture boundaries, constraints, and ordered Work Item table.",
+    "The ordered Work Item table contains exactly the eleven entries numbered 0 through 10, with Work Item 10 named clean-interactive-wizard-execution-plan-documents.",
+    "The Mandatory Lifecycle section lists base discovery, dedicated branch, Contract/preflight, implementation, verification, Summary, ai-finish/archive, push, PR review, merge, ai-close-work-item, branch deletion, clean worktree, and base synchronization as gates before the next item.",
+    "The Stop and Human Confirmation Gates section states that this turn is authorized only for Work Item 0 and that Work Item 1 requires a later user instruction."
+  ],
+  "guidelines": [
+    "Keep this Work Item limited to the execution-plan document and its governance evidence.",
+    "Do not implement the Interactive Installation or Calibration Wizard in this Work Item.",
+    "Use the user-provided specification as the functional source of truth and preserve the existing deterministic installer and CalibrationSession boundaries.",
+    "Treat PR merge, ai-close-work-item, branch deletion, clean worktree, and base synchronization as mandatory gates between planned Work Items."
+  ],
+  "intent": {
+    "problem": "The supplied Interactive Installation and Calibration Wizard specification needs to become an executable, reviewable sequence of Work Items with a mandatory full PR and branch-closure lifecycle.",
+    "constraints": [
+      "Scope is limited to the plan document and its governance evidence.",
+      "Future feature implementation is deferred to separately contracted Work Items.",
+      "The ordered list ends with execution-plan document cleanup.",
+      "This turn ends after plan-document closure and awaits user confirmation."
+    ],
+    "rationale": "A dedicated plan Work Item makes the large feature auditable, preserves the Bootstrap Adoption boundary, and prevents implementation from bypassing the repository's governance lifecycle."
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "The plan contains a serial Work Item list ending with plan-document cleanup.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md"]
+    },
+    {
+      "scenario": "The plan requires PR merge, ai-close-work-item, branch deletion, clean worktree, and base synchronization before the next Work Item.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md#mandatory-lifecycle-for-every-work-item"]
+    },
+    {
+      "scenario": "Future wizard implementation remains out of scope for this Work Item and requires later user authorization.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/work-items/active/interactive-installation-calibration-wizard-plan.contract.json", "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md#stop-and-human-confirmation-gates"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user explicitly authorized this plan-document Work Item and its required governance evidence, including preflight decision records."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 556
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/interactive-installation-calibration-wizard-plan.json",
+    "baseCommit": "560a3f8a1e30d0f3239a6185bfca803b30d4033a",
+    "initialScopeDigest": "53760aaedabc04c635910e973d061d78671cfe52a1ae7f24ea940163a84c7f1a",
+    "contractSkeletonDigest": "94016f950ef6c771b4cc1a7a76ea5c7aa950a4ba396571b769e5bacaf64d02ca"
+  }
+}

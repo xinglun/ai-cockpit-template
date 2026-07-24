@@ -159,6 +159,14 @@ def test_release_workflow_binds_one_source_identity_before_provider_checks():
     )
 
 
+def test_release_workflow_verifies_tagged_quick_install_before_publish():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    verifier = "python3 scripts/verify_quick_install_release.py"
+    draft = workflow.index("Verify Draft tag target and release asset subjects")
+    publish = workflow.index('gh release edit "$RELEASE_TAG"')
+    assert draft < workflow.index(verifier) < publish
+
+
 def test_release_workflow_publishes_provider_bundle_digest_in_source_evidence():
     workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
     bind = workflow.index("Bind the generated evidence bundle digest")

@@ -307,5 +307,13 @@ jobs:
           test "$(jq -r '.evidenceBundleDigest' "$RUNNER_TEMP/release-source.json")" = "$EVIDENCE_BUNDLE_DIGEST"
           bash scripts/check_ci_release_evidence.sh "$RUNNER_TEMP/release-evidence/ci-release-evidence.json" "$SOURCE_COMMIT"
 
+      - name: Verify tagged Quick Install contract before publication
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_quick_install_release.py \
+            --root "$GITHUB_WORKSPACE" \
+            --ref "$RELEASE_TAG"
+
       - name: Publish verified Draft Release
         run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

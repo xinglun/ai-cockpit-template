@@ -14,18 +14,14 @@ keywords:
 AI Cockpit の配布物は、公開インストーラーとリリースメタデータによってバージョン管理されます。導入フローに含まれないインストーラーオプション、整合性機能、ローカル導入はこのページで確認してください。導入先が非公開または社内ミラーの場合は、ローカルまたは設定済みのソースを使用します。
 
 SBOM と provenance のリリース証拠は、`--source-commit` または `SUPPLY_CHAIN_SOURCE_COMMIT` で明示したソースコミットから生成します。現在の `HEAD` を証拠の識別子に使うことはありません。
-
-コミット済みの `.ai/cockpit/sbom.json`、`provenance.json`、`release-digests.json` は候補ベースラインにすぎません。リリース Workflow は不変の `SOURCE_COMMIT` を checkout した後に `check_supply_chain.py release-assets` を実行し、生成された provenance と digest の subject が同じコミットを指すことを検証し、同じソースコミットに対する厳格な Smoke を通過してから tag と Draft Release を作成します。tag 対象と Asset subject の検証後にのみ Draft Release を公開します。以前の公開リリース向けに生成された provenance は、現在のリリースの最終証明として扱いません。
-
+コミット済みの `.ai/cockpit/sbom.json`、`provenance.json`、`release-digests.json` は候補ベースラインにすぎません。リリース Workflow は不変の `SOURCE_COMMIT` を checkout した後に `check_supply_chain.py release-assets` を実行し、生成された provenance と digest の subject が同じコミットを指すことを検証し、同じソースコミットに対する厳格な Smoke を通過してから tag と Draft Release を作成します。Draft のまま tag 対象と Asset subject を検証し、`verify_quick_install_release.py` が正確な tag、canonical archive、installer digest、不変の verified capability を検証した場合にだけ公開します。以前のリリース試行向け provenance は現在の最終証明として扱いません。
 候補記録は準備時点のスナップショットですが、リリース Workflow は dispatch 時に default branch を再取得し、最新の `SOURCE_COMMIT` を計算します。`source_commit` を省略した場合はその値を使用し、指定した場合は同じ値であることだけを確認します。古い、または不一致の指定は checkout や公開の前に fail closed します。Detached checkout、tag、Workflow、SBOM、provenance、digest はすべて計算された同一の不変コミットを参照しなければなりません。
 
 ## PR を起点とするリリース手順
 
 各リリース試行は一つの不変な Identity Tuple を持ちます。`sourceCommit` はマージ済み既定ブランチのコミット、`tagTarget` は同じコミット、`metadataCommit` は候補メタデータを含むコミット（明示必須）、`releaseTag` は要求されたタグです。`HEAD` は証拠として使いません。候補の Freeze メタデータは PR 境界より前にコミットし、マージ後に Workflow が既定ブランチを一度だけ解決して、この Tuple を Preflight、CI 証拠、tag、Provider Asset まで引き継ぎます。close 後のコマンドで Tuple やリリースメタデータを書き換えません。
-
 変更は Pull Request を経由して `main` に入ります。`smoke` と `compatibility` は `main` への push でも実行されます。保守担当者は検証済みの `main` の SHA と新しいタグを指定して `.github/workflows/release.yml` を実行します。Premerge Finalizer は clean な候補 `HEAD` から `sourceTree`、`archiveSha256`、`installerDigest` を生成し、Workflow の Preflight は exact source の `install.sh` を独立に再ハッシュします。ワークフローは既存タグ、ソース SHA、smoke/compatibility の成功、`release.json` を確認してからタグと GitHub Release を作成します。
-
-過去のリリースタグは不変の証拠として扱い、書き換えません。導入先プロジェクトは自身のリモート既定ブランチから導入・アップグレード用ブランチを作成し、公開済みリリースタグを利用します。Candidate PR の準備時スナップショットは、リリースの Source of Truth ではありません。PR のマージ後、Workflow はリモートの既定ブランチを一度だけ解決し、`sourceCommit`、`tagTarget`、`metadataCommit` を同じコミットへ結び付け、依存関係のインストール、Provider CI、tag、公開より前に Release Preflight を実行します。指定された `source_commit` は一致確認のためだけに使い、古い値は fail closed します。close 後の Freeze 再生成は行いません。作成後に不変タグの不整合が判明した場合、そのタグを移動、削除、再公開しません。関連する GitHub Release を Draft に隔離し、失敗証拠を記録し、Generator と公開前 Gate を Work Item と PR で修正してから、次の Patch Version を訂正版として公開します。次のタグが未公開でも、Release Preparation はローカルの Installer Digest を必ず検証します。
+過去のリリースタグは不変の証拠として扱い、書き換えません。導入先プロジェクトは自身のリモート既定ブランチから導入・アップグレード用ブランチを作成し、公開済みリリースタグを利用します。Candidate PR の準備時スナップショットは、リリースの Source of Truth ではありません。PR のマージ後、Workflow はリモートの既定ブランチを一度だけ解決し、`sourceCommit`、`tagTarget`、`metadataCommit` を同じコミットへ結び付け、依存関係のインストール、Provider CI、tag、公開より前に Release Preflight を実行します。厳格な Smoke は変更前に実行し、tag と Draft Release の作成後は実際の tag に対する Quick Install を通過するまで公開しません。指定された `source_commit` は一致確認のためだけに使い、古い値は fail closed します。作成後に不変タグの不整合が判明した場合、そのタグを移動、削除、再公開しません。関連する GitHub Release を Draft に隔離し、失敗証拠を記録し、Generator と公開前 Gate を Work Item と PR で修正してから、次の Patch Version を訂正版として公開します。
 ## アーカイブ証拠インデックス
 
 `archive/index.json` は `archive-work-item` が管理する追加型の発見インデックスです。Work Item の識別子、アーカイブ順序、Contract/Summary の相対パス、ファイルハッシュを記録します。アーカイブ済み Contract と Summary が正本であり、インデックスは必要に応じて再生成できます。

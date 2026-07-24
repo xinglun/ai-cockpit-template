@@ -68,3 +68,22 @@ def test_bounded_future_reservation_is_checked_against_policy():
         )
         == []
     )
+
+
+def test_archive_growth_overrun_is_warning_only_when_policy_declares_warning_mode():
+    contract = {
+        "budgetImpact": {
+            "expectedMetrics": {"archiveGrowth": 528},
+        }
+    }
+    policy = {
+        "max": {"archiveGrowth": 200},
+        "enforcement": {"archiveGrowth": "warning"},
+    }
+
+    assert (
+        ai_check_budget_impact.validate_budget_impact(contract, {"archiveGrowth": 527}, policy)
+        == []
+    )
+    warnings = ai_check_budget_impact.budget_warnings(contract, {"archiveGrowth": 527}, policy)
+    assert warnings == ["archiveGrowth exceeds policy max (warning): 528 > 200"]

@@ -160,25 +160,34 @@ def validate_archive_growth_reservation(
     future_metrics = impact.get("reservedFutureMetrics") if isinstance(impact, dict) else None
     future = future_metrics.get("archiveGrowth") if isinstance(future_metrics, dict) else None
     issues: list[str] = []
+    warning_mode = archive_growth_enforcement(policy) == "warning"
     if not isinstance(expected, int) or isinstance(expected, bool):
-        issues.append(
-            "archiveGrowth reservation is required: budgetImpact.expectedMetrics.archiveGrowth "
-            f"must equal projected archive count {projected}"
-        )
+        if not warning_mode:
+            issues.append(
+                "archiveGrowth reservation is required: budgetImpact.expectedMetrics.archiveGrowth "
+                f"must equal projected archive count {projected}"
+            )
     elif expected != projected:
-        issues.append(
-            "archiveGrowth reservation is stale: "
-            f"expected {expected}, projected archive count is {projected}"
-        )
+        if not warning_mode:
+            issues.append(
+                "archiveGrowth reservation is stale: "
+                f"expected {expected}, projected archive count is {projected}"
+            )
     if future is not None and (
         not isinstance(future, int) or isinstance(future, bool) or future < projected
     ):
-        issues.append(
-            "reservedFutureMetrics.archiveGrowth must be an integer at least the current projected archive count"
-        )
-    if isinstance(limit, int) and projected > limit:
+        if not warning_mode:
+            issues.append(
+                "reservedFutureMetrics.archiveGrowth must be an integer at least the current projected archive count"
+            )
+    if isinstance(limit, int) and projected > limit and not warning_mode:
         issues.append(f"projected archiveGrowth={projected} exceeds configured maximum {limit}")
-    if isinstance(expected, int) and isinstance(limit, int) and expected > limit:
+    if (
+        isinstance(expected, int)
+        and isinstance(limit, int)
+        and expected > limit
+        and not warning_mode
+    ):
         if not isinstance(impact, dict) or impact.get("approved") is not True:
             issues.append("archiveGrowth reservation requires budgetImpact.approved=true")
         if not isinstance(impact, dict) or not impact.get("repaymentWorkItem"):
@@ -186,6 +195,25 @@ def validate_archive_growth_reservation(
         if not isinstance(impact, dict) or not impact.get("repaymentRecords"):
             issues.append("archiveGrowth reservation requires repaymentRecords")
     return issues
+
+
+def archive_growth_enforcement(policy: dict[str, Any]) -> str:
+    enforcement = policy.get("enforcement", {}) if isinstance(policy, dict) else {}
+    mode = enforcement.get("archiveGrowth") if isinstance(enforcement, dict) else None
+    return mode if mode in {"error", "warning"} else "error"
+
+
+def archive_growth_warnings(
+    contract: dict[str, Any], current_count: int, policy: dict[str, Any]
+) -> list[str]:
+    if archive_growth_enforcement(policy) != "warning":
+        return []
+    limits = policy.get("max", {}) if isinstance(policy, dict) else {}
+    limit = numeric_value(limits.get("archiveGrowth"))
+    projected = current_count + 1
+    if isinstance(limit, int) and projected > limit:
+        return [f"projected archiveGrowth={projected} exceeds configured maximum {limit} (warning)"]
+    return []
 
 
 def _archive_growth_issues(contract: dict[str, Any]) -> list[str]:
@@ -196,6 +224,16 @@ def _archive_growth_issues(contract: dict[str, Any]) -> list[str]:
         return [f"cannot read archiveGrowth policy before mutation: {exc}"]
     current_count = len(list(ARCHIVE_BASE_DIR.rglob("*.contract.json")))
     return validate_archive_growth_reservation(contract, current_count, policy)
+
+
+def _archive_growth_warnings(contract: dict[str, Any]) -> list[str]:
+    policy_path = PROJECT_ROOT / ".ai" / "guards" / "governance_complexity_policy.yaml"
+    try:
+        policy = parse_yaml(policy_path)
+    except (OSError, ValueError):
+        return []
+    current_count = len(list(ARCHIVE_BASE_DIR.rglob("*.contract.json")))
+    return archive_growth_warnings(contract, current_count, policy)
 
 
 def _archive_entry(
@@ -464,6 +502,8 @@ def main() -> int:
             return 1
 
     archive_growth_issues = _archive_growth_issues(contract)
+    for warning in _archive_growth_warnings(contract):
+        print(f"[WARNING] {warning}", file=sys.stderr)
     if archive_growth_issues:
         for issue in archive_growth_issues:
             print(f"[ERROR] {issue}", file=sys.stderr)

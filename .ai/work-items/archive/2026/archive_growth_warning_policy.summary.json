@@ -1,0 +1,432 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "archive_growth_warning_policy",
+  "contractPath": ".ai/work-items/archive/2026/archive_growth_warning_policy.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Sets archiveGrowth to a 200 warning threshold and declares warning enforcement."
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documents warning-only archive growth versus hard archive integrity gates."
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Allows archive growth threshold overruns to warn without blocking archive mutation."
+    },
+    {
+      "path": "scripts/ai_check_budget_impact.py",
+      "reason": "Reports warning-mode archive growth overruns without requiring budget repayment evidence."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Separates archive growth warnings from structural archive integrity errors."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Regression coverage for warning-only archive mutation."
+    },
+    {
+      "path": "tests/test_ai_check_budget_impact.py",
+      "reason": "Regression coverage for warning-only budget impact reporting."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression coverage for warning-only growth and hard integrity failures."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_growth_warning_policy.contract.json",
+      "reason": "Records the functional policy-change boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_growth_warning_policy.summary.json",
+      "reason": "Records implementation and verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/archive_growth_warning_policy.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/README.md",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_check_budget_impact.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_ai_archive_work_item.py",
+    "tests/test_ai_check_budget_impact.py",
+    "tests/test_governance_complexity.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:49.780810+00:00",
+      "exitCode": 0,
+      "durationMs": 47,
+      "outputDigest": "0b3d0dec47f9b0106057ec6881a187e78f107f0a266b90480aed513085e34f9f",
+      "commandHash": "98d7c778f8595e5c25cbd9e3a9104d220ff06e7f634514ff48dc6b517e232423",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/archive_growth_warning_policy.contract.json work item contract check passed: .ai/work-items/active/archive_growth_warning_policy.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:50.001388+00:00",
+      "exitCode": 0,
+      "durationMs": 139,
+      "outputDigest": "1db7961211f31a8cf09eb18345fdc55b9db1470d13a0c3e6756e5e10fa91ec85",
+      "commandHash": "a9beb65741c44b1b371257a575bae9adaaea74519b852ed22384847465f7533c",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/archive_growth_warning_policy.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:50.290685+00:00",
+      "exitCode": 0,
+      "durationMs": 184,
+      "outputDigest": "c9dff5933ea0e63c23f8b673aea1137d9ad2ed3caae5d2ebcdef6edf2c519ad4",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/archive_growth_warning_policy.contract.json [warning] restricted_write: .ai/cockpit/README.md (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. guard check completed: 2 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:50.698952+00:00",
+      "exitCode": 0,
+      "durationMs": 321,
+      "outputDigest": "f58fcf2e722b93f3b296029d98663fb8c6ba047663ba15c103237da4127b12fb",
+      "commandHash": "3c7c407c5a3c83bdff03486807142de5763ad7fa5c6488e0e4d85f5d5980d491",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/archive_growth_warning_policy.contract.json --summary .ai/work-items/active/archive_growth_warning_policy.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `archive_growth_warning_policy` - Contract Hash: `6aadeaba953504dc` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:50.900526+00:00",
+      "exitCode": 0,
+      "durationMs": 126,
+      "outputDigest": "32be00e2d729665cb5b20c8a16a9249a5c309abd4d758890717988c6aa1b4e0b",
+      "commandHash": "0381a0af1b076f8542dbe35a6f97818aa7322e262261588d7fc661694db519c7",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/archive_growth_warning_policy.summary.json review policy matched 6 path(s) [review] .ai/work-items/starts/archive_growth_warning_policy.json [review] .ai/cockpit/README.md [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] scripts/ai_archive_work_item.py [review] scripts/ai_check_budget_impact.py review focus recorded: 2 item(s) report: target/ai_"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:51.123945+00:00",
+      "exitCode": 0,
+      "durationMs": 138,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:51.340139+00:00",
+      "exitCode": 0,
+      "durationMs": 134,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:51.480295+00:00",
+      "exitCode": 0,
+      "durationMs": 51,
+      "outputDigest": "b505d243d47bf02a222e5d502e2832a194ce292983587a616e38b5fbc92b1485",
+      "commandHash": "e640f3456d23fbf5321fd5f7a68399efe8cd6561466563722b25bc225a8cdb24",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/archive_growth_warning_policy.contract.json --summary .ai/work-items/active/archive_growth_warning_policy.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:51.648698+00:00",
+      "exitCode": 0,
+      "durationMs": 60,
+      "outputDigest": "d34f65ef3ed8eaba9e68db20f4d962355ecc764304779e1f885f2c7d002bb321",
+      "commandHash": "90b27538293b83dcdaf60d5b3a09182ec062dc3d24696ec42b15c7fd8e51f862",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/archive_growth_warning_policy.contract.json --summary .ai/work-items/active/archive_growth_warning_policy.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:22:52.030421+00:00",
+      "exitCode": 0,
+      "durationMs": 302,
+      "outputDigest": "3531bd7b8b4496ae08e03713e684d9add675717a05b6d70001cad25c3f4b78a8",
+      "commandHash": "88ec9b8a336c20306491b2e7f0867407cba7eca15f16597dcf81a226d5fc04ee",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/archive_growth_warning_policy.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/README.md` — covered by Contract scope - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — c"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:27:09.683466+00:00",
+      "exitCode": 0,
+      "durationMs": 257532,
+      "outputDigest": "c725a814f6e5b8767930d33d0251b38343e553587e64d01018cad6ca1cdaff36",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "bd7ea58a4716acc0b7e94dc7a6fdd1bb65b8c427ef7238ffebd6d0ee0ff43555",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 22%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:27:10.212400+00:00",
+      "exitCode": 0,
+      "durationMs": 327,
+      "outputDigest": "015284471ec5139e7a9b857d75aa5afc7361dcd5fa16a0912eb919cc71c5a36b",
+      "commandHash": "a9fcf518ca23e47c3e77f56071d017b7537acec1a0a7014fe16cd46b6f3b67e0",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "6c51c679c25cc62bcaa187c9f70ff8e5f85cd271a932207b7d36faf781144076",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/archive_growth_warning_policy.contract.json --summary .ai/work-items/active/archive_growth_warning_policy.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:27:10.617815+00:00",
+      "exitCode": 0,
+      "durationMs": 315,
+      "outputDigest": "6a053ed5db7e95a62d530f6464538bbf192a418e4cd34d26f0650a7c5e294d32",
+      "commandHash": "36e0bc90a3fed37cbb29633802617d7779e789532a88c2ba133fdce9af175b99",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "6c51c679c25cc62bcaa187c9f70ff8e5f85cd271a932207b7d36faf781144076",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/archive_growth_warning_policy.contract.json --summary .ai/work-items/active/archive_growth_warning_policy.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:27:10.746315+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "6c51c679c25cc62bcaa187c9f70ff8e5f85cd271a932207b7d36faf781144076",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:27:10.965925+00:00",
+      "exitCode": 0,
+      "durationMs": 130,
+      "outputDigest": "b45b886477d04ab1b003c4beca0b78a432ef6360b49ef0e1454e7b59c1fa3e9b",
+      "commandHash": "1aab380c6e2ad4633944af992b3d27af490541bf746c99bb1f771f80c0183d2b",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "6c51c679c25cc62bcaa187c9f70ff8e5f85cd271a932207b7d36faf781144076",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/archive_growth_warning_policy.contract.json --summary .ai/work-items/active/archive_growth_warning_policy.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/archive_growth_warning_policy.summary.json CONTRACT=.ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T15:28:06+09:00",
+      "exitCode": 0,
+      "durationMs": 1000,
+      "outputDigest": "9f3a5c6c2cb2f1c56455e96a63a0ff1f32ddf6be7f1ad0ca6f82c2b11541b82a",
+      "commandHash": "07a5a6753330e5a075206b72cd83d590b3063549d5201009d976a190d836270b",
+      "contractHash": "6aadeaba953504dce53dff1cccfe98f9dcce525f85885ae0160cb01d36f31b06",
+      "commitSha": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+      "executionContractPath": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "worktreeDigest": "0ec42d51aee635f6dfd7e30ab0f8ef8005291f2e3e4a7ee00b4d4148f3d6c8e9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/archive_growth_warning_policy.summary.json --contract .ai/work-items/active/archive_growth_warning_policy.contract.json ai summary check passed"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Policy semantics are documented in the governance workflow guide.",
+      "compliant": true,
+      "evidence": ".ai/cockpit/README.md documents the warning threshold and hard integrity boundary."
+    },
+    {
+      "guideline": "The change preserves existing module boundaries and uses current shared helpers.",
+      "compliant": true,
+      "evidence": "Focused tests and project quality checks cover the modified scripts without new cross-feature imports."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Warning-only archive growth is intentionally visible after threshold 200; structural archive integrity remains hard-fail."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "The warning threshold is intentionally exceeded by the current historical archive count; this remains visible without blocking lifecycle operations.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Focused regression tests passed; full lifecycle checks remain required before PR.",
+    "expectedReviewFocus": [
+      "Confirm archiveGrowth warning mode cannot weaken duplicate sequence or archive digest checks.",
+      "Confirm the Python-line ceiling increase is measured and reserved in this functional Work Item."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "Archive growth is unbounded historical evidence and must not permanently block the lifecycle; use a 200 warning threshold.",
+    "Do not weaken structural archive integrity gates."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Archive growth over 200 warns instead of blocking.",
+      "solidifiedIn": [
+        ".ai/guards/governance_complexity_policy.yaml",
+        "scripts/ai_archive_work_item.py",
+        "scripts/ai_check_budget_impact.py",
+        "scripts/check_governance_complexity.py",
+        "tests/test_ai_archive_work_item.py",
+        "tests/test_ai_check_budget_impact.py",
+        "tests/test_governance_complexity.py"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "6aadeaba953504dc",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "6aadeaba953504dc",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "knownGaps": [
+    "The already blocked PR #316 retains duplicate archiveSequence evidence and is explicitly out of scope; it remains frozen for separate user direction."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 527
+}

@@ -11,6 +11,12 @@ from typing import Any
 from ai_common import load_json, numeric_value, parse_yaml
 
 
+def enforcement_mode(policy: dict[str, Any], metric: str) -> str:
+    enforcement = policy.get("enforcement", {}) if isinstance(policy, dict) else {}
+    mode = enforcement.get(metric) if isinstance(enforcement, dict) else None
+    return mode if mode in {"error", "warning"} else "error"
+
+
 def validate_budget_impact(
     contract: dict[str, Any], metrics: dict[str, Any], policy: dict[str, Any]
 ) -> list[str]:
@@ -33,6 +39,8 @@ def validate_budget_impact(
             normalized_value = numeric_value(value)
             if normalized_value is None or normalized_value <= normalized_limit:
                 continue
+            if enforcement_mode(policy, metric) == "warning":
+                continue
             approved = (
                 isinstance(impact, dict)
                 and impact.get("approved") is True
@@ -47,6 +55,36 @@ def validate_budget_impact(
             if not isinstance(impact, dict) or not impact.get("repaymentRecords"):
                 issues.append(f"{metric} overrun requires budgetImpact.repaymentRecords")
     return issues
+
+
+def budget_warnings(
+    contract: dict[str, Any], metrics: dict[str, Any], policy: dict[str, Any]
+) -> list[str]:
+    limits = policy.get("max", {}) if isinstance(policy, dict) else {}
+    warnings: list[str] = []
+    impact = contract.get("budgetImpact") if isinstance(contract, dict) else None
+    expected = impact.get("expectedMetrics", {}) if isinstance(impact, dict) else {}
+    future = impact.get("reservedFutureMetrics", {}) if isinstance(impact, dict) else {}
+    for metric, limit in limits.items():
+        if enforcement_mode(policy, metric) != "warning":
+            continue
+        normalized_limit = numeric_value(limit)
+        if normalized_limit is None:
+            continue
+        values = [metrics.get(metric)]
+        if isinstance(expected, dict):
+            values.append(expected.get(metric))
+        if isinstance(future, dict):
+            values.append(future.get(metric))
+        overrun_values: list[tuple[int | float, Any]] = []
+        for value in dict.fromkeys(values):
+            normalized_value = numeric_value(value)
+            if normalized_value is not None and normalized_value > normalized_limit:
+                overrun_values.append((normalized_value, value))
+        if overrun_values:
+            _normalized, value = max(overrun_values, key=lambda item: item[0])
+            warnings.append(f"{metric} exceeds policy max (warning): {value} > {limit}")
+    return warnings
 
 
 def main() -> int:
@@ -64,6 +102,8 @@ def main() -> int:
         print(f"budget impact check failed: {exc}", file=sys.stderr)
         return 1
     issues = validate_budget_impact(contract, metrics, policy)
+    for warning in budget_warnings(contract, metrics, policy):
+        print(f"[WARNING] {warning}", file=sys.stderr)
     if issues:
         for issue in issues:
             print(f"[ERROR] {issue}", file=sys.stderr)

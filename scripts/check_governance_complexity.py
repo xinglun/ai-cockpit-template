@@ -380,6 +380,13 @@ def load_policy(path: Path) -> tuple[dict[str, float], dict[str, float], list[st
     return result, baseline, records if isinstance(records, list) else []
 
 
+def enforcement_mode(policy_path: Path, metric: str) -> str:
+    raw = parse_yaml(policy_path)
+    enforcement = raw.get("enforcement", {}) if isinstance(raw, dict) else {}
+    mode = enforcement.get(metric) if isinstance(enforcement, dict) else None
+    return mode if mode in {"error", "warning"} else "error"
+
+
 def repayment_issues(
     limits: dict[str, float], baseline: dict[str, float], records: list[Any]
 ) -> list[str]:
@@ -483,15 +490,28 @@ def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[st
     baseline = int(os.environ.get("AI_COMPLEXITY_BASELINE_PYTHON_LINES", metrics["pythonLines"]))
     limits, policy_baseline, repayment_records = load_policy(policy_path)
     issues = list(archive_issues)
+    warnings = [
+        f"{metric}={metrics[metric]} exceeds configured maximum {limit:g} (warning)"
+        for metric, limit in limits.items()
+        if metric in metrics
+        and metrics[metric] > limit
+        and enforcement_mode(policy_path, metric) == "warning"
+    ]
     issues.extend(
         f"{metric}={metrics[metric]} exceeds configured maximum {limit:g}"
         for metric, limit in limits.items()
-        if metric in metrics and metrics[metric] > limit
+        if metric in metrics
+        and metrics[metric] > limit
+        and enforcement_mode(policy_path, metric) != "warning"
     )
     issues.extend(repayment_issues(limits, policy_baseline, repayment_records))
+    try:
+        policy_reference = str(policy_path.relative_to(root))
+    except ValueError:
+        policy_reference = str(policy_path)
     return {
         "reportVersion": 2,
-        "policy": str(policy_path.relative_to(root)),
+        "policy": policy_reference,
         "metrics": metrics,
         "limits": limits,
         "complexityDelta": {
@@ -504,6 +524,7 @@ def build_report(root: Path, policy_path: Path) -> tuple[dict[str, Any], list[st
         },
         "baselineEvidence": baseline_evidence(root),
         "policyActivation": policy_activation(policy_path),
+        "warnings": warnings,
         "classification": {
             "historicalDebt": {
                 "status": "unavailable",
@@ -542,6 +563,8 @@ def main() -> int:
         for issue in issues:
             print(f"[ERROR] {issue}", file=sys.stderr)
         return 1
+    for warning in report.get("warnings", []):
+        print(f"[WARNING] {warning}", file=sys.stderr)
     print(f"governance complexity check passed: {report['metrics']}")
     return 0
 

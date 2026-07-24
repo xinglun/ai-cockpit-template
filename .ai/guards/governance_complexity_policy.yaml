@@ -5,7 +5,7 @@ proposal:
   confirmedBy: governance-maintainers
   reason: Existing template policy is explicitly confirmed; adopter policies must remain proposed until human review.
 max:
-  pythonLines: 40550
+  pythonLines: 40700
   markdownLines: 9550
   functionComplexity: 50
   schemaCount: 10
@@ -13,11 +13,15 @@ max:
   repeatedProtocolFields: 50
   dependencyCycles: 0
   installAllowlistEntries: 20
-  archiveGrowth: 527
+  archiveGrowth: 200
   generatedEvidenceRatio: 1.0
+enforcement:
+  archiveGrowth: warning
 baseline:
   pythonLines: 32000
 repaymentRecords:
+  - archive_growth_warning_policy|pythonLines|32000|40700|user|2026-07-24|Reserve the measured cumulative Python-line ceiling for the functional archive-growth warning policy correction; repay during final plan cleanup.
+  - archive_growth_warning_policy|pythonLines|40550|40700|user|2026-07-24|Reserve the measured validator and regression growth for the functional archive-growth warning policy correction; repay during final plan cleanup.
   - release_finalizer_scope_preflight|archiveGrowth|526|527|user|2026-07-24|Reserve process correction archive; repay during final plan cleanup.
   - release_workflow_precondition_indent_fix|archiveGrowth|525|526|user|2026-07-24|Reserve the single workflow precondition correction archive required after the release workflow indentation failure; repay during final plan cleanup.
   - release_v0539_metadata_rebind|archiveGrowth|524|525|user|2026-07-24|Reserve the single metadata rebind archive required after the root release-process correction; repay during final plan cleanup.

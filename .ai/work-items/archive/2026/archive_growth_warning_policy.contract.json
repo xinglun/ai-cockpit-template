@@ -1,0 +1,227 @@
+{
+  "contractVersion": 2,
+  "workItemId": "archive_growth_warning_policy",
+  "mode": "code",
+  "title": "Make archive growth a warning threshold",
+  "rawUserRequest": "归档会一直增加，不能总是被卡住。将上线归档增长阈值改成 200，超过后给出警告，不再阻塞流程；结构性证据错误仍然硬失败。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-archive-growth-warning-policy",
+    "capturedAt": "2026-07-24",
+    "digest": "archive-growth-warning-policy"
+  },
+  "declaredIntent": {
+    "summary": "把 archiveGrowth 从会阻塞归档的硬预算上限改为 200 的可见预警阈值，避免历史归档增长永久阻断发布流程。",
+    "requestedCapabilities": ["ai_governance", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/README.md",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_check_budget_impact.py",
+    "scripts/check_governance_complexity.py",
+    "tests/test_ai_archive_work_item.py",
+    "tests/test_ai_check_budget_impact.py",
+    "tests/test_governance_complexity.py",
+    ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+    ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Rewriting immutable archived Work Item evidence",
+    "Changing archiveSequence allocation or repairing the already blocked PR #316",
+    "Creating or publishing a release tag or GitHub Release",
+    "Adopter repositories"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Documents the distinction between warning thresholds and hard evidence-integrity gates."
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "Allows archive growth threshold overruns to warn without blocking archive mutation."
+    },
+    {
+      "path": "scripts/ai_check_budget_impact.py",
+      "reason": "Reports archiveGrowth threshold overruns as warnings under the policy."
+    },
+    {
+      "path": "scripts/check_governance_complexity.py",
+      "reason": "Separates observational archive growth threshold warnings from structural archive integrity failures."
+    },
+    {
+      "path": "tests/test_ai_archive_work_item.py",
+      "reason": "Verifies archive mutation remains allowed above the warning threshold."
+    },
+    {
+      "path": "tests/test_ai_check_budget_impact.py",
+      "reason": "Verifies budget impact reports warning-only archive growth overruns."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Verifies archive integrity remains fail-closed while growth is warning-only."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Sets archiveGrowth warning threshold to 200."
+    },
+    {
+      "path": ".ai/work-items/active/archive_growth_warning_policy.contract.json",
+      "reason": "Declares the functional policy change and its boundaries."
+    },
+    {
+      "path": ".ai/work-items/active/archive_growth_warning_policy.summary.json",
+      "reason": "Records implementation and verification evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_policy"],
+    "reason": "The change relaxes only the archive growth budget threshold; archive evidence integrity remains fail-closed and is covered by regression tests."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized the functional archive-growth policy correction."
+  },
+  "preReviewWarnings": [
+    "Confirm warning-only behavior is limited to archiveGrowth and does not weaken structural archive integrity gates."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record before-edit and before-finish evidence for the policy behavior change."
+  },
+  "acceptance": [
+    "governance_complexity_policy.yaml sets archiveGrowth to 200 with warning enforcement.",
+    "Archive growth above 200 is visible as a warning but does not block budget preflight or archive mutation.",
+    "Duplicate archive sequences and other archive evidence integrity violations remain hard failures.",
+    "Regression tests cover warning-only growth and hard structural failures.",
+    "The governance workflow documentation explains the threshold semantics."
+  ],
+  "guidelines": [
+    "Policy semantics are documented in the governance workflow guide.",
+    "The change preserves existing module boundaries and uses current shared helpers."
+  ],
+  "intent": {
+    "problem": "The immutable archive count keeps increasing, but archiveGrowth is currently treated as a hard budget ceiling. This causes routine lifecycle closure and release work to be blocked by historical record growth rather than by a current integrity defect.",
+    "constraints": [
+      "The threshold is 200 and overruns are warning-only.",
+      "Duplicate archiveSequence, missing evidence, digest mismatch, and Contract/Summary inconsistency remain hard failures.",
+      "Do not rewrite historical archive evidence or publish a release in this Work Item."
+    ],
+    "rationale": "Separate observational repository growth from evidence integrity so the archive can continue to grow while real corruption remains fail-closed."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the functional governance policy correction and explicitly requested a 200 warning threshold."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 528
+    },
+    "approved": true,
+    "reason": "Archive growth is now an observational warning metric; no budget-only repayment Work Item is required."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/archive_growth_warning_policy.json",
+    "baseCommit": "54db9b4aa8736b5af5c14b07a21c9a2729dafc6c",
+    "initialScopeDigest": "6ee5507686481c2663713bfc0564abf424a1bba185aa03fd5d591a316213488e",
+    "contractSkeletonDigest": "cb0ee94a13180ede6e49102ea8f01d72ff5a1202b5c0feec1770239755589351"
+  }
+}

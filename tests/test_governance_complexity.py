@@ -406,6 +406,28 @@ def test_archive_metrics_rejects_duplicate_strict_paths(tmp_path):
     assert any("duplicates archiveSequence" in issue for issue in issues)
 
 
+def test_archive_growth_threshold_is_warning_only_but_integrity_issues_remain_errors(
+    tmp_path, monkeypatch
+):
+    policy_file = tmp_path / "policy.yaml"
+    policy_file.write_text(
+        "max:\n  archiveGrowth: 200\nenforcement:\n  archiveGrowth: warning\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        check_governance_complexity,
+        "archive_metrics",
+        lambda _root: ({"archiveContracts": 201}, []),
+    )
+
+    report, issues = check_governance_complexity.build_report(
+        check_governance_complexity.ROOT, policy_file
+    )
+
+    assert issues == []
+    assert report["warnings"] == ["archiveGrowth=201 exceeds configured maximum 200 (warning)"]
+
+
 def test_main_writes_success_report(tmp_path, monkeypatch):
     output = tmp_path / "target" / "report.json"
     monkeypatch.setattr(

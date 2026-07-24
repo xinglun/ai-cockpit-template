@@ -74,6 +74,16 @@ def test_archive_growth_reservation_rejects_stale_projection():
     assert any("reservation is stale" in issue for issue in issues)
 
 
+def test_archive_growth_overrun_is_warning_only_when_policy_declares_warning_mode():
+    contract = {"workItemId": "task", "budgetImpact": {}}
+    policy = {"max": {"archiveGrowth": 200}, "enforcement": {"archiveGrowth": "warning"}}
+
+    assert ai_archive_work_item.validate_archive_growth_reservation(contract, 527, policy) == []
+    assert ai_archive_work_item.archive_growth_warnings(contract, 527, policy) == [
+        "projected archiveGrowth=528 exceeds configured maximum 200 (warning)"
+    ]
+
+
 def test_archive_moves_task_owned_success_criteria_sibling(tmp_path):
     contract = tmp_path / ".ai" / "work-items" / "active" / "task.contract.json"
     assert ai_archive_work_item.owned_success_criteria_path(contract) == contract.with_name(

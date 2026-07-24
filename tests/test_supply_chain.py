@@ -282,6 +282,41 @@ def test_supply_chain_reuses_candidate_baseline_for_next_patch_preparation(monke
     ]
 
 
+def test_supply_chain_prefers_finalized_candidate_identity(monkeypatch):
+    monkeypatch.setattr(check_supply_chain, "release_tag", lambda: "v0.5.39")
+    monkeypatch.setattr(
+        check_supply_chain,
+        "load_json",
+        lambda path: (
+            {
+                "format": "ai-cockpit-release-digests",
+                "sourceCommit": "finalized-source",
+                "tagTarget": "finalized-source",
+                "metadataCommit": "finalized-source",
+                "releaseTag": "v0.5.39",
+            }
+            if path.name == "release-digests.json"
+            else {"releaseState": "candidate", "published": False}
+        ),
+    )
+    calls = []
+
+    def fake_run(command, *, cwd, env, text, capture_output, check):
+        calls.append(command)
+        if command == ["git", "rev-parse", "v0.5.39^{commit}"]:
+            return subprocess.CompletedProcess(command, 128, stdout="", stderr="missing tag")
+        if command == ["git", "rev-parse", "finalized-source"]:
+            return subprocess.CompletedProcess(command, 0, stdout="finalized-source\n", stderr="")
+        raise AssertionError(f"unexpected command: {command}")
+
+    monkeypatch.setattr(check_supply_chain.subprocess, "run", fake_run)
+    assert check_supply_chain.source_commit_sha() == "finalized-source"
+    assert calls == [
+        ["git", "rev-parse", "v0.5.39^{commit}"],
+        ["git", "rev-parse", "finalized-source"],
+    ]
+
+
 def test_supply_chain_does_not_reuse_recorded_provenance_source(tmp_path, monkeypatch):
     provenance = tmp_path / "provenance.json"
     provenance.write_text("{}", encoding="utf-8")

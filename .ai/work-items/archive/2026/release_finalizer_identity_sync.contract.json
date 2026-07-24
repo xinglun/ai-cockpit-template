@@ -1,0 +1,62 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_finalizer_identity_sync",
+  "mode": "code",
+  "title": "Use finalized candidate identity in supply-chain evidence",
+  "baseCommit": "52e50cf566581b75415f32a37fd79f8799780c9f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_finalizer_identity_sync.contract.json",
+    ".ai/work-items/active/release_finalizer_identity_sync.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Publishing or tagging v0.5.39, creating a provider release, or dispatching release workflows.",
+    "Changing public distribution semantics or weakening fail-closed checks.",
+    "Quick Install and unrelated planned Work Items.",
+    "A separate budget-only Work Item or rewriting historical archive evidence."
+  ],
+  "sources": [
+    {"path": ".ai/glossary.md", "reason": "Release evidence terminology and boundary."},
+    {"path": "scripts/check_supply_chain.py", "reason": "Candidate source identity fallback currently disagrees with finalized evidence."},
+    {"path": "scripts/finalize_release_freeze.py", "reason": "Authoritative finalized sourceCommit/tagTarget/metadataCommit tuple."},
+    {"path": "scripts/check_release_preflight.py", "reason": "Post-finalization source binding checks."},
+    {"path": ".ai/cockpit/release-digests.json", "reason": "Concrete finalized candidate identity showing the mismatch."},
+    {"path": "tests/test_supply_chain.py", "reason": "Source resolution and release-evidence regression coverage."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["release_integrity", "source_binding"], "reason": "Candidate-mode evidence must honor a finalized concrete identity without allowing stale or forged identity fields.", "unknownsReviewComplete": true},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "User authorized stopping publication to correct the root release-identity process before continuing."},
+  "preReviewWarnings": ["Review precedence between finalized release-digests identity and historical provenance fallback.", "Review stale identity rejection and unpublished distribution barrier."],
+  "acceptance": [
+    "When finalizer has written a concrete candidate release-digests identity for the current release tag, supply-chain generation uses that identity tuple.",
+    "Candidate-mode fallback still reuses historical provenance only when no concrete finalized identity exists.",
+    "Regression tests prove post-finalizer release evidence passes and stale/mismatched identity remains fail-closed.",
+    "Formatting, budget, AI Finish, archive, PR, merge, and ai-close-work-item complete; no tag or release is created."
+  ],
+  "guidelines": ["Fail closed on identity mismatch.", "Preserve candidate versus published evidence distinction.", "Do not weaken distribution or rewrite immutable evidence."],
+  "intent": {"problem": "After PR #308, finalizer binds release-digests to merge commit 52e50cf..., but candidate supply-chain fallback still resolves provenance commit 21c193..., so release evidence fails after a successful finalization.", "constraints": ["Publication remains out of scope.", "Keep stale/mismatched evidence fail-closed."], "rationale": "The finalized candidate identity must be the authoritative input for all downstream evidence generators; historical provenance is only a fallback before finalization."},
+  "rawUserRequest": "发现发布流程问题后停止发布，继续做根本流程修复，扫清发布版本之前的障碍；不要重复 CI/PR 循环，不发布 tag。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-24-root-release-identity-correction", "capturedAt": "2026-07-24", "digest": "sha256:user-authorized-stop-and-fix-release-process"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Make candidate supply-chain evidence consume the concrete identity emitted by finalizer while preserving fail-closed and unpublished-release gates.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized root-cause process correction before continuing publication."},
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record pre-edit and pre-finish evidence for a medium-risk release identity change."},
+  "scenarioCoverage": [
+    {"id": "finalized_identity_precedence", "scenario": "After finalizer writes a concrete candidate identity, supply-chain generation uses that same tuple.", "required": true, "status": "not_applicable", "reason": "Verification is pending before implementation.", "evidence": []},
+    {"id": "historical_fallback", "scenario": "Before a concrete finalized identity exists, candidate mode retains the historical provenance fallback.", "required": true, "status": "not_applicable", "reason": "Verification is pending before implementation.", "evidence": []},
+    {"id": "unpublished_distribution_barrier", "scenario": "Distribution remains blocked while v0.5.39 is not publicly published.", "required": true, "status": "verified", "evidence": ["scripts/check_release_distribution.py", "Contract outOfScope"]}
+  ],
+  "verification": [{"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "Revert this Work Item diff and restore the previous candidate identity resolver and tests.",
+  "budgetImpact": {"expectedMetrics": {"pythonLines": 40400, "archiveGrowth": 520}, "approved": true, "repaymentWorkItem": "conditional_go_plan_cleanup", "repaymentRecords": ["release_finalizer_identity_sync|archiveGrowth|519|520|user|2026-07-24|Reserve this functional root-process correction archive in the same Work Item; repay during final plan cleanup, not through a budget-only Work Item."]},
+  "startReceipt": {"path": ".ai/work-items/starts/release_finalizer_identity_sync.json", "baseCommit": "52e50cf566581b75415f32a37fd79f8799780c9f", "initialScopeDigest": "b54dcff7f9d8711c02f4150229998b918a45d26a41910895919f2f2e1ddef70a", "contractSkeletonDigest": "a46ae6fd550cc486c7dc3bdcde179dc33967c13867b7d62670c5411f60aff556"}
+}

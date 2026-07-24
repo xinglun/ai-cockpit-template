@@ -1,5 +1,7 @@
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 import pytest
@@ -212,6 +214,46 @@ def test_source_ref_resolves_symbolic_head_to_a_concrete_commit():
     resolved = resolve_source_commit(Path.cwd(), "HEAD")
     assert len(resolved) == 40
     assert resolved == resolve_source_commit(Path.cwd(), resolved)
+
+
+def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
+    source_root = Path.cwd()
+    repo = tmp_path / "fresh-repository"
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    subprocess.run(
+        ["git", "-C", str(repo), "remote", "add", "origin", str(source_root)], check=True
+    )
+    source = resolve_source_commit(source_root, "HEAD")
+    subprocess.run(
+        [
+            "git",
+            "-C",
+            str(repo),
+            "fetch",
+            "--no-tags",
+            "-q",
+            "origin",
+            f"{source}:refs/remotes/origin/main",
+        ],
+        check=True,
+    )
+    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", source], check=True)
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(source_root / "scripts/check_release_preflight.py"),
+            "--root",
+            str(repo),
+            "--source-commit",
+            source,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 1
+    assert f'"sourceCommit": "{source}"' in result.stderr
+    assert "release freeze sourceTree does not match candidate source tree" in result.stderr
 
 
 def test_release_identity_ref_resolves_controlled_origin_ref():

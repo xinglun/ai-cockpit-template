@@ -1,0 +1,215 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_hosted_preflight_parity_v1",
+  "mode": "code",
+  "title": "Make hosted release preflight environment-equivalent and diagnostically verifiable",
+  "rawUserRequest": "先修复该流程问题，再重新进入。发布流程必须先完成根因修复、Contract/Preflight/PR/合并/ai-close-work-item，再重新尝试发布。",
+  "rawRequestSource": {"type":"human","reference":"user-message:2026-07-24","capturedAt":"2026-07-24","digest":"sha256:user-authorized-hosted-preflight-process-fix"},
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "20e1167dfbec71d9df768f5ab06b089ba5278409",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".github/workflows/release.yml",
+    "Makefile",
+    "scripts/check_release_preflight.py",
+    "tests/test_release_preflight.py",
+    "docs/reference/distribution.md",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/work-items/active/release_hosted_preflight_parity_v1.contract.json",
+    ".ai/work-items/active/release_hosted_preflight_parity_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "release tag creation",
+    "GitHub Release creation",
+    "manual metadata edits outside the Work Item",
+    "template adopter projects"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "The failed hosted run invokes release preflight in a freshly initialized repository; this is the production boundary that diverged from local reproduction."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "The failed step reports source-tree and archive parity mismatches; this is the canonical validator used by both local and hosted execution."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Regression coverage for explicit source identity and fresh-repository execution."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document the exact hosted/local preflight contract and diagnostics."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+      "riskTypes": ["release_integrity", "ci_environment_parity"],
+    "reason": "The fix changes only the release preflight invocation and its diagnostics; it must remain fail closed and must not create tags or Releases."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized fixing the release process before re-entering publication."
+  },
+  "preReviewWarnings": [
+    "Verify that hosted and local preflight use the same concrete source SHA and canonical archive implementation; no fail-open behavior is permitted."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Hosted release preflight passes the explicit SOURCE_COMMIT and emits deterministic source/archive parity diagnostics.",
+    "A regression test covers a freshly initialized repository with a detached exact source commit.",
+    "The workflow remains fail closed and does not create a tag or Release before preflight passes.",
+    "Distribution documentation records the local/hosted identity and diagnostic contract."
+  ],
+  "guidelines": [
+    "Release identity must be a concrete source SHA at the hosted boundary.",
+    "Use the repository canonical archive builder; do not introduce a second digest algorithm.",
+    "Do not weaken or bypass fail-closed release gates."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "hosted_release_preflight_exact_sha",
+      "required": false,
+      "status": "unverified",
+      "evidence": ["Pending regression and PR verification."]
+    },
+    {
+      "scenario": "fresh_repository_detached_checkout",
+      "required": false,
+      "status": "unverified",
+      "evidence": ["Pending regression verification."]
+    },
+    {
+      "scenario": "stale_or_mismatched_release_metadata",
+      "required": false,
+      "status": "unverified",
+      "evidence": ["Pending fail-closed regression verification."]
+    }
+  ],
+  "declaredIntent": {"summary":"Make hosted release preflight use and expose one exact source identity with the canonical archive builder.","requestedCapabilities":["ai_governance","software_design","test_automation"]},
+  "intent": {
+    "problem": "The hosted v0.5.39 release run failed in preflight with sourceTree and archive mismatches even though the merged commit passes the same check in the canonical and freshly initialized local repositories. The workflow currently relies on implicit HEAD and provides no boundary diagnostics, so an environment or source-materialization difference cannot be distinguished from stale metadata.",
+    "constraints": [
+      "Do not create v0.5.39 tag or GitHub Release in this Work Item.",
+      "Keep preflight fail closed.",
+      "Use the exact default-branch SHA resolved by the hosted workflow.",
+      "Do not change the template/adopter boundary or archive warning policy."
+    ],
+    "rationale": "Make the hosted boundary explicit and observable, then lock the behavior with a fresh-repository regression test so future release attempts cannot silently compare different source identities or archive implementations."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+      "approved": true,
+      "approvedBy": "user",
+      "reason": "User authorized fixing the release process before re-entering publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "pythonLines": 40752,
+      "archiveGrowth": 535
+    },
+    "reservation": "release_hosted_preflight_parity_v1|pythonLines|32000|40800|user|2026-07-24|Reserve measured hosted-boundary workflow and fresh-repository regression growth in the same functional process correction; repay during final governance cleanup.",
+    "repaymentPlan": "Repay the bounded Python-line growth during final governance cleanup without weakening the hosted preflight regression or rewriting immutable release evidence."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_hosted_preflight_parity_v1.json",
+    "baseCommit": "20e1167dfbec71d9df768f5ab06b089ba5278409",
+    "initialScopeDigest": "8ac268a6b629a9c02cb0341f9be0b13ffe5b54b31086e86dce276dd34c39d266",
+    "contractSkeletonDigest": "cb5e06b505795cc5c3e30f7eac3a11f1f08a4262baff9ec8a3e57b7a247ab58e"
+  }
+}

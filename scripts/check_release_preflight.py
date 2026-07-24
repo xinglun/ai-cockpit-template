@@ -313,6 +313,22 @@ def main() -> int:
         )
     )
     if issues:
+        print(
+            "release preflight diagnostics: "
+            + json.dumps(
+                {
+                    "head": resolve_source_commit(root, "HEAD"),
+                    "sourceCommit": source_commit,
+                    "sourceTree": source_tree,
+                    "declaredSourceTree": freeze.get("sourceTree"),
+                    "archiveSha256": actual,
+                    "declaredArchiveSha256": freeze.get("archiveSha256"),
+                    "declaredReleaseArchiveSha256": release.get("releaseArchive", {}).get("sha256"),
+                },
+                sort_keys=True,
+            ),
+            file=sys.stderr,
+        )
         print("release preflight blocked:", file=sys.stderr)
         for issue in issues:
             print(f"- {issue}", file=sys.stderr)

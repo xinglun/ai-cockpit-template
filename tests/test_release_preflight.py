@@ -267,8 +267,17 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
         return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
 
     monkeypatch.setattr(finalizer, "run_git", fake_git)
-    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
-    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
+    materialized = []
+    monkeypatch.setattr(
+        finalizer,
+        "canonical_source_tree",
+        lambda _root, commit: materialized.append(("tree", commit)) or "tree",
+    )
+    monkeypatch.setattr(
+        finalizer,
+        "canonical_archive_sha",
+        lambda _root, commit: materialized.append(("archive", commit)) or "archive",
+    )
 
     assert (
         finalizer.main(
@@ -329,8 +338,17 @@ def test_finalize_release_freeze_fails_closed_on_malformed_release_state(monkeyp
         return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
 
     monkeypatch.setattr(finalizer, "run_git", fake_git)
-    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
-    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
+    materialized = []
+    monkeypatch.setattr(
+        finalizer,
+        "canonical_source_tree",
+        lambda _root, commit: materialized.append(("tree", commit)) or "tree",
+    )
+    monkeypatch.setattr(
+        finalizer,
+        "canonical_archive_sha",
+        lambda _root, commit: materialized.append(("archive", commit)) or "archive",
+    )
     assert finalizer.main() == 1
 
 
@@ -413,12 +431,38 @@ def test_finalize_release_freeze_premerge_requires_archived_work_item(monkeypatc
         return SimpleNamespace(returncode=0, stdout=outputs.get(tuple(args), ""), stderr="")
 
     monkeypatch.setattr(finalizer, "run_git", fake_git)
-    monkeypatch.setattr(finalizer, "canonical_source_tree", lambda _root, _commit: "tree")
-    monkeypatch.setattr(finalizer, "canonical_archive_sha", lambda _root, _commit: "archive")
+    materialized = []
+    monkeypatch.setattr(
+        finalizer,
+        "canonical_source_tree",
+        lambda _root, commit: materialized.append(("tree", commit)) or "tree",
+    )
+    monkeypatch.setattr(
+        finalizer,
+        "canonical_archive_sha",
+        lambda _root, commit: materialized.append(("archive", commit)) or "archive",
+    )
 
-    assert finalizer.main(premerge_task="task") == 1
+    assert (
+        finalizer.main(
+            premerge_task="task",
+            source_commit="origin/main",
+            tag_target="origin/main",
+            metadata_commit="origin/main",
+        )
+        == 1
+    )
     (archive / "task.contract.json").write_text("{}\n", encoding="utf-8")
-    assert finalizer.main(premerge_task="task") == 0
+    assert (
+        finalizer.main(
+            premerge_task="task",
+            source_commit="origin/main",
+            tag_target="origin/main",
+            metadata_commit="origin/main",
+        )
+        == 0
+    )
+    assert materialized == [("tree", "commit"), ("archive", "commit")]
     freeze = json.loads((tmp_path / ".ai" / "cockpit" / "release-freeze.json").read_text())
     assert freeze["lifecycle"]["state"] == "premerge_finalized"
     assert freeze["lifecycle"]["command"] == "make finalize-release-freeze-premerge TASK=task"

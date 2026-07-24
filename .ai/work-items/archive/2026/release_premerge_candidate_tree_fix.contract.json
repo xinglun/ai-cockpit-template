@@ -1,0 +1,62 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_premerge_candidate_tree_fix",
+  "mode": "code",
+  "title": "Bind premerge release freeze to the candidate tree",
+  "baseCommit": "8b727137692cb0009005b0a9068bd29ec854aa32",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_premerge_candidate_tree_fix.contract.json",
+    ".ai/work-items/active/release_premerge_candidate_tree_fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/decisions/**",
+    ".ai/work-items/archive/**",
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    "docs/reference/distribution.md",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Publishing or tagging v0.5.39",
+    "Changing concrete source identity or HEAD rejection semantics",
+    "Creating a separate budget-only Work Item"
+  ],
+  "sources": [
+    {"path": "scripts/finalize_release_freeze.py", "reason": "Premerge freeze currently hashes the pre-merge default branch instead of the candidate tree."},
+    {"path": "scripts/check_release_preflight.py", "reason": "Post-merge gate compares candidate identity and canonical tree."},
+    {"path": "tests/test_release_preflight.py", "reason": "Regression coverage for finalizer lifecycle and identity behavior."},
+    {"path": "docs/reference/distribution.md", "reason": "Documented candidate versus published release lifecycle."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["release_integrity", "source_binding"], "reason": "A premerge candidate must remain valid after a clean PR merge while final publication remains source-bound.", "unknownsReviewComplete": true},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "User authorized stopping publication to correct the root release-process defect before resuming."},
+  "preReviewWarnings": ["Do not weaken fail-closed identity checks or publish from this Work Item."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record pre-edit and pre-finish evidence for the release lifecycle correction."},
+  "acceptance": [
+    "Premerge finalization computes canonical source tree and archive digest from the clean candidate Work Item branch tree while retaining controlled origin identity for post-merge resolution.",
+    "A clean PR merge with the same tree passes release preflight; stale or conflicting trees remain fail-closed.",
+    "Focused tests, full Finish/archive/PR/merge/ai-close lifecycle complete; publication remains out of scope."
+  ],
+  "guidelines": ["Fail closed on identity or tree mismatch.", "Keep candidate and published evidence distinct.", "Do not rewrite immutable archive evidence."],
+  "intent": {"problem": "The release-preparation PR generated freeze evidence from the old origin/main before merge, so the merged candidate failed its own post-close source-tree audit.", "constraints": ["Use the current clean candidate branch tree for premerge digest generation.", "Keep origin/main as the controlled identity resolved after merge.", "Do not accept HEAD as a release identity."], "rationale": "Separate candidate-tree materialization from post-merge identity resolution so PR-first release preparation has a closed lifecycle without weakening source binding."},
+  "rawUserRequest": "When a release process problem is found, stop publication and fix the root process before continuing.",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-24-root-process-correction", "capturedAt": "2026-07-24", "digest": "sha256:user-authorized-root-correction"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Make premerge release freeze evidence survive a clean PR merge by binding hashes to the candidate tree and identity to the post-merge controlled default branch.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}
+  ],
+  "scenarioCoverage": [
+    {"id": "candidate_tree_binding", "scenario": "Premerge hashes are generated from the clean candidate tree, not the stale default branch.", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]},
+    {"id": "post_merge_resolution", "scenario": "Controlled origin/main identity resolves to the merged default branch and passes when the tree is unchanged.", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]},
+    {"id": "fail_closed_conflict", "scenario": "A changed candidate/default tree remains blocked before publication.", "required": true, "status": "verified", "evidence": ["tests/test_release_preflight.py"]}
+  ],
+  "budgetImpact": {"approved": true, "expectedMetrics": {"pythonLines": 40550, "archiveGrowth": 524}, "reservedFutureMetrics": {"pythonLines": 40550, "archiveGrowth": 524}, "repaymentWorkItem": "conditional_go_plan_cleanup", "repaymentRecords": ["release_premerge_candidate_tree_fix|pythonLines|40450|40550|user|2026-07-24|Reserve the bounded finalizer and regression correction required to close the observed premerge/postmerge tree-binding gap; repay during final plan cleanup.", "release_premerge_candidate_tree_fix|archiveGrowth|523|524|user|2026-07-24|Reserve this functional root-process correction archive; repay during final plan cleanup."], "reason": "Functional release-process correction; no separate budget-only Work Item."},
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized root-cause process correction before continuing publication."},
+  "rollbackNote": "Revert this Work Item diff and restore the prior finalizer behavior and regression coverage.",
+  "startReceipt": {"path": ".ai/work-items/starts/release_premerge_candidate_tree_fix.json", "baseCommit": "8b727137692cb0009005b0a9068bd29ec854aa32", "initialScopeDigest": "55c8f8dce21decd9f545bbf0c05a7fec3557e68dd6438f71c912012a2460c097", "contractSkeletonDigest": "d52557263e5e6bea18e037709beb5b42f382152cd2134e41679f6ca69759650e"}
+}

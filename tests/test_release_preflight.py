@@ -202,6 +202,12 @@ def test_normalized_source_tree_identity_is_stable():
     assert digest == preflight.canonical_source_tree(Path.cwd(), "HEAD")
 
 
+def test_work_item_active_and_archive_evidence_are_excluded_from_release_source_tree():
+    attributes = (Path.cwd() / ".gitattributes").read_text(encoding="utf-8")
+    assert ".ai/work-items/active export-ignore" in attributes
+    assert ".ai/work-items/archive export-ignore" in attributes
+
+
 def test_source_ref_resolves_symbolic_head_to_a_concrete_commit():
     resolved = resolve_source_commit(Path.cwd(), "HEAD")
     assert len(resolved) == 40

@@ -1,0 +1,205 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_archive_source_boundary_v1",
+  "mode": "code",
+  "title": "Keep release source identity stable across Work Item archival",
+  "rawUserRequest": "再来尝试发版本；如果发现发布流程问题，先从根本上修复流程，再继续发布，不绕过 Contract/Preflight/PR/合并/ai-close-work-item。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "current-user-request:retry-release-v0539",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:retry-release-v0539-process-correction"
+  },
+  "baseCommit": "95bbf4907f901066527f245b85edd4528922cd56",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_archive_source_boundary_v1.contract.json",
+    ".ai/work-items/active/release_archive_source_boundary_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".gitattributes",
+    "docs/reference/distribution.md",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "tests/test_release_preflight.py",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Changing release candidate metadata",
+    "Creating or moving any release tag",
+    "Creating or publishing any GitHub Release",
+    "Rewriting immutable archived Work Item evidence",
+    "Changing archive sequence allocation",
+    "Adopter project changes"
+  ],
+  "sources": [
+    {
+      "path": ".gitattributes",
+      "reason": "Defines which mutable governance paths are excluded from the public source archive."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Defines pre-merge freeze generation and source-tree materialization."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Validates source-bound release freeze and archive evidence."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documents PR-first release identity and archive boundaries."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "Documents release freeze lifecycle ordering."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "release_source_boundary"
+    ],
+    "reason": "Initial skeleton; replace with task-specific implementation and review risks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": "No blocker; proceed only through the declared preflight and lifecycle checks."
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user authorized another release attempt and explicitly required root-process correction before resuming publication."
+  },
+  "preReviewWarnings": [
+    "Confirm active Work Item evidence is excluded from the canonical public source tree and that premerge freeze evidence survives merge/archive without weakening fail-closed checks."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The active Work Item directory is explicitly export-ignored so moving evidence to archive does not change the canonical release source tree.",
+    "Regression coverage proves the release source tree remains stable across active-to-archive lifecycle movement.",
+    "Release documentation describes the corrected premerge freeze ordering and archive boundary.",
+    "The Work Item diff contains no release metadata, tag, or GitHub Release mutation; the next metadata Work Item is explicitly identified as a follow-up."
+  ],
+  "guidelines": [
+    "Use the supported premerge release freeze finalizer; do not hand-edit generated release evidence.",
+    "Do not publish or create a tag from this Work Item.",
+    "Preserve immutable archived evidence and keep template/adopter boundaries separate."
+  ],
+  "intent": {
+    "problem": "Post-close release preflight exposed that Work Item archival moves Contract/Summary files from .ai/work-items/active into an export-ignored archive, changing the source tree after premerge freeze. Branch protection also forbids directly pushing a post-close freeze commit to main, so the existing sequence cannot converge.",
+    "constraints": [
+      "Use a PR and complete the full Work Item lifecycle.",
+      "Do not create a tag or GitHub Release in this Work Item.",
+      "Do not rewrite immutable archived evidence or change archive sequence allocation.",
+      "Keep source identity, archive integrity, and release preflight fail-closed."
+    ],
+    "rationale": "The source archive boundary must include both active and archived Work Item evidence. Then premerge finalization can be performed after archival on the dedicated branch and remain stable through PR merge without a forbidden post-close main write."
+  },
+  "declaredIntent": {
+    "requestedCapabilities": ["ai_governance"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized root process correction before resuming release."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 531
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_archive_source_boundary_v1.json",
+    "baseCommit": "95bbf4907f901066527f245b85edd4528922cd56",
+    "initialScopeDigest": "8e7e33995afda6242b16fc88d6ca293356c596cefde10bb527d6abcc22c8f92b",
+    "contractSkeletonDigest": "915842ee6d588006838b1620741cb1e6fe5f858605cd0adac7bf295ffad5607b"
+  }
+}

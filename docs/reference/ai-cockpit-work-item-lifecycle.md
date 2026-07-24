@@ -61,15 +61,17 @@ checks, template/adopter boundary errors, and source-bound evidence design. If t
 failure is preventable in the workflow, open and complete a corrective Work Item
 that adds an executable fail-closed gate before resuming the original operation.
 
-Before release evidence is generated, first run `make finalize-release-freeze` on
-the clean local default branch after the merged Work Item has completed
-`make ai-close-work-item` and the local base equals the remote base. This command
-is the only supported freeze writer: it refuses active Work Items, a dirty
-worktree, a non-default branch, or a stale base. It records the closure command,
-clean-worktree proof, and synchronized base identity in the export-ignored marker.
-Then run `make check-release-preflight`; it fails closed when that post-close
-lifecycle evidence is absent or inconsistent, the archive budget is exceeded,
-or the regenerated archive digest differs from `release.json`.
+Before release evidence is generated, run
+`make finalize-release-freeze-premerge TASK=<task>` on the dedicated Work Item
+branch after `ai-finish` has archived the Work Item and before committing the
+release metadata. This is the only supported premerge freeze writer for a release
+preparation PR: it requires the archived Work Item evidence, a clean branch, and
+source-bound candidate metadata. Both `.ai/work-items/active` and
+`.ai/work-items/archive` are export-ignored, so moving evidence during Finish does
+not change the canonical source tree. Then run `make check-release-preflight`; it
+fails closed when the premerge lifecycle evidence is absent or inconsistent, the
+archive budget is exceeded, or the regenerated archive digest differs from
+`release.json`.
 
 ```json
 {

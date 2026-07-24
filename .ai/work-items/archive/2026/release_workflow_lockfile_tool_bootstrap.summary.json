@@ -1,0 +1,452 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_workflow_lockfile_tool_bootstrap",
+  "contractPath": ".ai/work-items/archive/2026/release_workflow_lockfile_tool_bootstrap.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "reason": "Declare the fail-closed release-runner prerequisite correction."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "reason": "Record hosted failure evidence, TDD, verification, and review readiness."
+    },
+    {
+      "path": ".ai/work-items/starts/release_workflow_lockfile_tool_bootstrap.json",
+      "reason": "Record the exact origin/main base and dedicated Work Item branch."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Install the pinned lockfile compiler before the reproducibility gate."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Enforce the pinned install command and install-before-check ordering."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document explicit lockfile-tool bootstrap on compatibility and release runners."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Document the same runner prerequisite in Japanese."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_workflow_lockfile_tool_bootstrap.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/glossary.md",
+    ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+    ".github/workflows/release.yml",
+    ".github/workflows/compatibility.yml",
+    "Makefile",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30098390871"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "The hosted release runner reaches lockfile reproducibility without relying on an ambient piptools installation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_workflows.py focused test passed",
+        ".github/workflows/release.yml pinned install precedes make check-lockfile-reproducibility"
+      ]
+    },
+    {
+      "scenario": "The correction preserves the no-mutation boundary while the process defect is repaired.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.39 tag absent after failed run 30098390871",
+        "v0.5.39 GitHub Release absent after failed run 30098390871",
+        "Contract excludes publication retry"
+      ]
+    },
+    {
+      "scenario": "The new regression coverage does not evade the governance complexity budget.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-governance-complexity passed with pythonLines=40900",
+        "archiveGrowth=540 remained warning-only"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:24.920115+00:00",
+      "exitCode": 0,
+      "durationMs": 39,
+      "outputDigest": "8c66c83635e868acf18f2fe5fba3f0f367454cd8a499aa9fb8a77dae00f9de3e",
+      "commandHash": "9e6786e16127e7a629685de46d05a7f864da4f9168d913aff8f0f6af057ac3d2",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json work item contract check passed: .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:25.121115+00:00",
+      "exitCode": 0,
+      "durationMs": 107,
+      "outputDigest": "d7107136a6a29e9a84ff2f99ba6f49a0596e6fddfd1bb4b2619a03b4c311ab49",
+      "commandHash": "727a9f3774c6d97a9306b1ac3a575c37d799c2d221242172c05bd5b39f1a707d",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json scope guard passed: 6 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:25.452704+00:00",
+      "exitCode": 0,
+      "durationMs": 254,
+      "outputDigest": "f3ee79049804776a54262f44b27d2f2bb1ad4c165ccc4b56031e67084c89870d",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 1 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:25.780044+00:00",
+      "exitCode": 0,
+      "durationMs": 256,
+      "outputDigest": "fb964538e7e748ebc81f80ed0b77fc4a2c54c591f7f8c94c245eb3a25812a619",
+      "commandHash": "a981c3155a95c3f48b121d35d656b5baeb2c364ddfd28873760035766ba6a948",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_workflow_lockfile_tool_bootstrap` - Contract Hash: `67206875380eb52a` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `6` - Unkn"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:25.974652+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "0297c240e5bd3723caf7fbff5f7aece35e40fa48899bdec0bfe3915054a58117",
+      "commandHash": "b429f1cd135a49e870b677ee6d2fe06934cdcf6fce99f905fb52ce7ad0392a10",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json review policy matched 3 path(s) [review] .ai/work-items/starts/release_workflow_lockfile_tool_bootstrap.json [review] .ai/cockpit/current_status.md [review] .github/workflows/release.yml review focus recorded: 4 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:26.164271+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:26.360442+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:26.486589+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "67a483c43fa7a4cde53595a269a356b488abe6456d1f0ba99dc409004f1c63ee",
+      "commandHash": "394c104789bae2271f4b91cd0f166d2adec9939f47af8e87265a0279e8abce47",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:26.621337+00:00",
+      "exitCode": 0,
+      "durationMs": 53,
+      "outputDigest": "c54bf5dd8efa6b49e7e99a081e632aa630732934f655f82711f7a0678a711dc6",
+      "commandHash": "d9ff505f44cc95631a3513837b98a44d67806f1fc9f599c93b49fa6b26d17db0",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json guidelines compliance check passed: 4 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:12:27.004693+00:00",
+      "exitCode": 0,
+      "durationMs": 303,
+      "outputDigest": "dfb32d35fe6253fcc8628fb1b63ea9155bea688f1005e277522d7271db26cf98",
+      "commandHash": "faf62d65ed22066c9eecf6a3250c3e65f1e5a227cb6ce13d9197306f47a026ce",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json ## Diff Ownership Preview - active_owned: `6`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/release_workflow_lockfile_tool_bootstrap.json` — covered by Contract scope - [active_o"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:17:11.048061+00:00",
+      "exitCode": 0,
+      "durationMs": 283960,
+      "outputDigest": "0fe34efd5b6e3000174174177fa11c04bed19ff1838e6383a5bc3aa95ceb5906",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "9cfd0e376a9ec8875e73ed554c3d50f60d715b4ed5ece3da10053b74f11879cc",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 182 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 22%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:17:12.693870+00:00",
+      "exitCode": 0,
+      "durationMs": 267,
+      "outputDigest": "e5d0ab7392066f94c5b8459149f7223a4c3da5e82c6d50dbf70820493cf944d8",
+      "commandHash": "fdaca5c918671b2b61568a86ec4def7c81efa4714aafbe2624750b61ec8cf7d5",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "0f07c7eda8dd50f284307a9f19df0792a4fc79f71025ee912b85a3e682044614",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:17:13.031705+00:00",
+      "exitCode": 0,
+      "durationMs": 265,
+      "outputDigest": "9854554bd6074ef9f3f6b15f5c0dfe18c0321789a2b27ed275eb749c5c337f7c",
+      "commandHash": "df44935ef08252f55c73ef2067b716e95b2b8c8b33bda55cdef167989aa1bb88",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "0f07c7eda8dd50f284307a9f19df0792a4fc79f71025ee912b85a3e682044614",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:17:13.144232+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "0f07c7eda8dd50f284307a9f19df0792a4fc79f71025ee912b85a3e682044614",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:17:13.265913+00:00",
+      "exitCode": 0,
+      "durationMs": 46,
+      "outputDigest": "60d3191600e212b34ce089c2c77c29d18360c83681e01d648044fc184c322b87",
+      "commandHash": "943bf77705b2d3fcb5f96ddf3d97f6f56f9b4e1d1ee510efa802c8082577c8c4",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "0f07c7eda8dd50f284307a9f19df0792a4fc79f71025ee912b85a3e682044614",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json --summary .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json CONTRACT=.ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T14:17:14.202385+00:00",
+      "exitCode": 0,
+      "durationMs": 114,
+      "outputDigest": "42bb338da08b83148c400527a0c7473745774fef9a0eb9b3cf69190addfb9d15",
+      "commandHash": "1030c9c8fdb8333fd6b1c67fa5c64514ac245676c17fdc60b66b531b94dbaed5",
+      "contractHash": "67206875380eb52a0228b71688290759d8f9ae423a58621642fe92a014dfc258",
+      "commitSha": "8269430b758ab548529dcb3b98c0802e1cace193",
+      "executionContractPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+      "worktreeDigest": "73dd049ed50dfbf24d71a7d1ac88cc9b4762ee81df52d83f8250bfd5846bf7b8",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json --contract .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json ai summary check passed: .ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Fix hosted release prerequisites at the workflow boundary rather than bypassing the gate.",
+      "compliant": true,
+      "evidence": "release.yml now installs the required compiler immediately before the unchanged check-lockfile-reproducibility gate."
+    },
+    {
+      "guideline": "Reuse the pinned tool versions already validated by compatibility CI.",
+      "compliant": true,
+      "evidence": "The release step matches compatibility.yml: pip-tools==7.6.0 and typing-extensions==4.16.0."
+    },
+    {
+      "guideline": "Keep all tag and Release mutation blocked until the correction is merged and closed.",
+      "compliant": true,
+      "evidence": "No tag or Release was created; publication retry is explicitly out of scope for this Work Item."
+    },
+    {
+      "guideline": "Use TDD and require install-before-check ordering evidence.",
+      "compliant": true,
+      "evidence": "The focused workflow test first failed on the absent install command, then passed after implementation and asserts command ordering."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "The workflow-only correction reuses a CI-proven pinned bootstrap and preserves the fail-closed reproducibility gate."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "The first full quality run found that the initial regression-test form raised pythonLines to 40904 above the 40900 hard limit. The test was compacted without weakening its assertions; the limit was not raised, and full quality then passed with pythonLines=40900."
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "hosted_execution",
+      "detail": "The corrective PR and exact merged main still require GitHub Actions validation before release preparation resumes.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Pinned compiler versions match compatibility.yml.",
+      "The install step precedes lockfile reproducibility and all mutation steps.",
+      "Tests enforce both command identity and ordering.",
+      "No release metadata, tag, or Release mutation is included."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "When release is blocked by workflow defects or obsolete code, repair the process before retrying publication.",
+    "Monitor GitHub Actions after CI starts."
+  ],
+  "userCorrectionSolidification": [
+    "Repair the release process through a pinned workflow prerequisite, executable ordering regression test, and bilingual distribution documentation before publication resumes."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "67206875380eb52a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "67206875380eb52a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    }
+  ],
+  "knownGaps": [
+    "GitHub Actions, merge closure, exact-main Actions, and the required post-merge metadata rebind remain pending lifecycle stages."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 540
+}

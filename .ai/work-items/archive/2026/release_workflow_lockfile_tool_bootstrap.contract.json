@@ -1,0 +1,240 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_workflow_lockfile_tool_bootstrap",
+  "mode": "code",
+  "title": "Bootstrap lockfile tooling in release workflow",
+  "rawUserRequest": "发布被流程或过时代码阻挡时先修复流程再继续；监控 GitHub Actions，完成 v0.5.39 发布。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-process-first-release",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-authorized-process-first-release-ci-monitoring"
+  },
+  "declaredIntent": {
+    "summary": "Make the release workflow install its pinned lockfile compiler dependency before invoking the reproducibility gate, with executable ordering coverage.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "2ed8bd81de1050d7a75bec53d70d3677a6b16de4",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.contract.json",
+    ".ai/work-items/active/release_workflow_lockfile_tool_bootstrap.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    "docs/reference/distribution.md",
+    "docs/reference/distribution.ja.md"
+  ],
+  "outOfScope": [
+    "Retrying release run 30098390871 or creating v0.5.39 tag/Release in this Work Item",
+    "Changing dependency versions beyond matching the already validated compatibility workflow bootstrap",
+    "Editing release metadata before this workflow fix is merged and closed",
+    "Weakening lockfile reproducibility or exact-source release checks"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30098390871",
+      "reason": "Hosted failure: /usr/bin/python3: No module named piptools before any tag mutation."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Release workflow installs requirements-dev.lock but omits pip-tools before lockfile reproducibility."
+    },
+    {
+      "path": ".github/workflows/compatibility.yml",
+      "reason": "Working hosted precedent installs pip-tools==7.6.0 and typing-extensions==4.16.0 before the same Make target."
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-lockfile-reproducibility invokes the selected interpreter with -m piptools compile."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Existing workflow contract tests lack release-specific install-before-check ordering."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Release lockfile gate documentation."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity",
+      "workflow_regression",
+      "dependency_bootstrap"
+    ],
+    "reason": "A missing hosted tool dependency blocks publication after expensive source validation; ordering must be executable and fail closed.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failing run, missing dependency, working compatibility precedent, and safe no-tag state are directly observed."
+  },
+  "preReviewWarnings": [
+    "Prove the release workflow installs pinned pip-tools before lockfile reproducibility.",
+    "Do not weaken the reproducibility gate or retry publication here."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "A regression test fails before implementation because release.yml does not install pip-tools before check-lockfile-reproducibility.",
+    "release.yml installs pip-tools==7.6.0 and typing-extensions==4.16.0 before the reproducibility step, matching the successful compatibility workflow.",
+    "Workflow tests assert both the pinned command and its ordering before make check-lockfile-reproducibility.",
+    "Distribution documentation states that both compatibility and release runners bootstrap the lockfile tool explicitly.",
+    "Focused workflow tests and full quality pass; archiveGrowth 541 remains warning-only.",
+    "The corrective PR passes Actions, merges, closes through ai-close-work-item, and exact merged main passes post-merge Actions before release preparation resumes."
+  ],
+  "guidelines": [
+    "Fix hosted release prerequisites at the workflow boundary rather than bypassing the gate.",
+    "Reuse the pinned tool versions already validated by compatibility CI.",
+    "Keep all tag and Release mutation blocked until the correction is merged and closed.",
+    "Use TDD and require install-before-check ordering evidence."
+  ],
+  "intent": {
+    "problem": "Release run 30098390871 passed exact-source identity and archive preflight, then failed because release.yml invoked python3 -m piptools without installing pip-tools. Compatibility CI has the required bootstrap, so release.yml is an obsolete divergent path.",
+    "constraints": [
+      "No tag or GitHub Release exists and none may be created in this corrective Work Item.",
+      "Add the smallest workflow bootstrap matching compatibility.yml.",
+      "Test command presence and ordering before implementation.",
+      "Complete PR, merge, closure, and exact-main Actions before regenerating release metadata."
+    ],
+    "rationale": "The release runner must own every tool prerequisite for its fail-closed gates; reusing the compatibility bootstrap removes environment dependence without weakening reproducibility."
+  },
+  "scenarioCoverage": [
+    {
+      "id": "hosted_missing_tool",
+      "scenario": "The exact-main release workflow fails before mutation because piptools is absent.",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release run 30098390871", "/usr/bin/python3: No module named piptools", "tag_absent", "release_absent"]
+    },
+    {
+      "id": "working_precedent",
+      "scenario": "Compatibility CI installs pinned pip-tools and passes the same reproducibility target.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".github/workflows/compatibility.yml", "main compatibility run 30097921520"]
+    },
+    {
+      "id": "mutation_boundary",
+      "scenario": "Failure occurs before tag and Draft Release creation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [".github/workflows/release.yml step ordering", "tag_absent", "release_absent"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user authorized process-first workflow corrections and delegated execution."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 541
+    },
+    "approved": true,
+    "reason": "One functional release-workflow correction archive; archive growth remains warning-only."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_workflow_lockfile_tool_bootstrap.json",
+    "baseCommit": "2ed8bd81de1050d7a75bec53d70d3677a6b16de4",
+    "initialScopeDigest": "5da598ce78168057b2ba7163ff830c39d137421a1b9e13ba9aa96038bb8c14ac",
+    "contractSkeletonDigest": "ecd6b817910fe4f9abf37f66fd2b4bd4dfdbade9a8a77ff21e8c5b93b0bc00e9"
+  }
+}

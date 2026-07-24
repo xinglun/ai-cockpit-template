@@ -1,0 +1,90 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wizard-core-detection-plan",
+  "mode": "code",
+  "title": "Implement wizard core detection and installation plan",
+  "baseCommit": "aeb8f9a50eda262a1d3fe40b385ab321d49c0e4f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/wizard-core-detection-plan.contract.json",
+    ".ai/work-items/active/wizard-core-detection-plan.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_install_facts.py",
+    "scripts/ai_installer_detection.py",
+    "scripts/ai_installer_repository.py",
+    "scripts/ai_installer_bootstrap.py",
+    "scripts/install_ai_cockpit.py",
+    "tests/test_installer_detection.py",
+    "tests/test_installer_repository.py",
+    "docs/guides/**",
+    "docs/architecture/**"
+  ],
+  "outOfScope": [
+    "Interactive wizard I/O, localization, or routing",
+    "Calibration Wizard behavior or session state transitions",
+    "Changing the existing transactional write, branch, rollback, or PR lifecycle",
+    "Adding third-party runtime dependencies or publishing a release",
+    "Rewriting historical archived Work Item evidence"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md", "reason": "Defines the Work Item 3 detection and Installation Plan requirements."},
+    {"path": ".ai/glossary.md", "reason": "Defines repository governance and architecture boundaries."},
+    {"path": ".ai/work-items/archive/2026/lightweight-verification-soft-gates.archive-manifest.json", "reason": "Evidence that the predecessor PR was merged and closed before this branch started."},
+    {"path": "scripts/install_ai_cockpit.py", "reason": "Authoritative installer transaction, adoption, upgrade, and conflict behavior to preserve."},
+    {"path": "scripts/ai_install_facts.py", "reason": "Existing installation fact bundle and ownership vocabulary."},
+    {"path": "scripts/ai_installer_repository.py", "reason": "Existing Git subprocess adapter and argument-list safety boundary."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["installer", "compatibility", "governance"], "reason": "Read-only detection is a new adapter boundary around installation behavior; incorrect facts could mislead a future wizard, while transaction behavior must remain unchanged.", "unknownsReviewComplete": true},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "Predecessor lightweight-verification-soft-gates is merged, archived, closed, and origin/main is synchronized."},
+  "predecessorWorkItem": {
+    "workItemId": "lightweight-verification-soft-gates",
+    "status": "closed",
+    "pr": {"merged": true, "reference": "origin/main commit aeb8f9a5; PR #341"},
+    "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": ".ai/work-items/archive/2026/lightweight-verification-soft-gates.archive-manifest.json"}
+  },
+  "rawUserRequest": "用户已授权按计划串行执行全部 Work Item。继续执行 wizard-core-detection-plan：完成只读安装事实检测与 Installation Plan、测试、完整治理验证、独立 PR、合并、归档、ai-close-work-item、分支清理和默认分支同步后再进入下一个 Work Item。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-wizard-plan", "capturedAt": "2026-07-25", "digest": "sha256:user-authorized-serial-wizard-plan"},
+  "intent": {
+    "problem": "The future installation wizard needs trustworthy, reusable facts about a target repository and a deterministic Installation Plan before any write or transaction begins; those facts are currently scattered across installer code and are not exposed through a typed read-only boundary.",
+    "constraints": [
+      "Detection must not mutate the target repository or duplicate transaction, branch, rollback, or Work Item state transitions.",
+      "Use standard-library Python and subprocess argument lists; preserve existing deterministic installer behavior.",
+      "New Adoption and Upgrade remain distinct readiness modes and dangerous actions remain human-confirmed."
+    ],
+    "rationale": "A typed read-only adapter gives the future wizard one deterministic source of facts while keeping the existing Installer authoritative for writes."
+  },
+  "declaredIntent": {"summary": "Expose trustworthy read-only repository and toolchain facts and a deterministic Installation Plan for the future human-controlled wizard.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "New Adoption can inspect a repository without requiring an existing active Work Item", "required": true, "status": "verified", "evidence": ["tests/test_installer_detection.py", "tests/test_installer_repository.py"], "reason": "Detection facts and readiness model will explicitly distinguish bootstrap from upgrade."},
+    {"scenario": "Upgrade detects active Work Items, dirty state, tracked hygiene files, and conflicts without writing", "required": true, "status": "verified", "evidence": ["tests/test_installer_detection.py", "scripts/install_ai_cockpit.py"], "reason": "Tests will use injected Git reads and assert no target mutation."},
+    {"scenario": "Missing tools, runtime signals, stacks, symlink risk, remote/default branch, and deterministic plan serialization are represented", "required": true, "status": "verified", "evidence": ["tests/test_installer_detection.py"], "reason": "Typed facts and stable JSON serialization cover each plan field."}
+  ],
+  "acceptance": [
+    "Typed read-only detection exposes Git, remote/default branch, worktree cleanliness, tracked hygiene, symlink risk, Python/Git/Make/curl/POSIX tools, runtime presence, stack signals, and New Adoption versus Upgrade readiness.",
+    "Installation Plan contains facts, recommendation, impact, examples, write boundary, expected result, stop condition, and checklist, and serializes deterministically.",
+    "Detection uses safe argument-list subprocess calls and does not mutate the target repository; existing transactional installer behavior remains authoritative.",
+    "Unit tests prove New Adoption does not require an existing Work Item and Upgrade detects active Work Items/conflicts, including unknown or unavailable tools.",
+    "AI Change Summary records implementation, verification, guidelines, checkpoints, known gaps, and residual risk without overclaiming."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}, {"check": "projectTest", "required": true}
+  ],
+  "guidelines": [
+    "Keep detection read-only and preserve the existing Installer transaction boundary.",
+    "Use standard-library Python and subprocess argument lists; never shell=True with user-controlled input.",
+    "Document public detection and Installation Plan APIs.",
+    "Do not rewrite historical Work Item evidence or introduce unrelated wizard behavior."
+  ],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record evidence before implementation and archival."},
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized serial execution of this governed Work Item."},
+  "rollbackNote": "Revert only this Work Item's diff; preserve predecessor archive evidence and installer transaction behavior.",
+  "budgetImpact": {"approved": true, "expectedMetrics": {"archiveGrowth": 562}, "reason": "Measured start baseline with bounded implementation and no historical evidence edits."},
+  "startReceipt": {"path": ".ai/work-items/starts/wizard-core-detection-plan.json", "baseCommit": "aeb8f9a50eda262a1d3fe40b385ab321d49c0e4f", "initialScopeDigest": "d91d364855c36a983688d3668de79a3d432f441ef3bbfd51240f132fedf884ae", "contractSkeletonDigest": "c689d36eb99ebd4b97609bd40229fb5367e60c8838735ece17a9bd8da3a2db80"}
+}

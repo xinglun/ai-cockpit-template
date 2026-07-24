@@ -112,6 +112,7 @@ Move normal complexity growth, archive count, checker count, documentation drift
 **Files:**
 
 - Create: `docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md`
+- Create: `scripts/ai_issue_log.py` and `tests/test_issue_log.py` for deterministic issue-record validation
 - Create: the Contract-scoped structured issue-log evidence for this Work Item
 - Modify: the execution-plan document only where the issue-log schema, update cadence, ownership, and final reporting gate must be referenced
 

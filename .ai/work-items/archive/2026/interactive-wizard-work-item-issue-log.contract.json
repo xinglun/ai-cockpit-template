@@ -1,0 +1,231 @@
+{
+  "contractVersion": 2,
+  "workItemId": "interactive-wizard-work-item-issue-log",
+  "mode": "code",
+  "title": "Establish append-only issue records for the wizard plan",
+  "baseCommit": "ba0beac25538f61b031ed13e4b753fa1f1cf923e",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/interactive-wizard-work-item-issue-log.contract.json",
+    ".ai/work-items/active/interactive-wizard-work-item-issue-log.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_issue_log.py",
+    "tests/test_issue_log.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md",
+    "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md"
+  ],
+  "outOfScope": [
+    "Changing historical issue records or archived Work Item evidence",
+    "Implementing the lightweight verification engine or wizard runtime",
+    "Changing the Work Item branch/PR/merge/closure policy",
+    "Changing any complexity metric other than the bounded Python line ceiling needed by this validator"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/interactive-wizard-work-item-issue-log.contract.json",
+      "reason": "Work Item boundary and verification contract."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md",
+      "reason": "Issue record schema and user-review overview requirements."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+      "reason": "Serial Work Item lifecycle and issue-log Work Item boundary."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository terminology and evidence boundaries."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Measured Python line ceiling reached while adding the validator."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["evidence_validation"],
+    "reason": "The Work Item adds a local validator and tests for the issue document; it does not change runtime or historical evidence."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The prior plan-amendment Work Item is merged and closed; the user authorized serial execution of this Work Item."
+  },
+  "preReviewWarnings": [
+    "Verify schema validation, append-only record boundaries, secret redaction, commit binding, and final user-review wording."
+  ],
+  "rawUserRequest": "用户已授权按修订计划串行执行。现在执行前置工单问题记录 Work Item：建立结构化、append-only 的问题记录校验，并在每个后续工单中引用问题记录；本工单完成自身 Contract、测试、PR、合并、ai-close-work-item 和分支清理后，才进入下一个工单。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-serial-issue-log-work-item",
+    "capturedAt": "2026-07-25",
+    "digest": "sha256:user-authorized-issue-log-work-item"
+  },
+  "declaredIntent": {
+    "summary": "Make the wizard plan issue log machine-checkable without rewriting history.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "A valid issue record passes required fields and allowed severity/status values",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md"],
+      "reason": "The required fields and allowed values are defined by the issue-log document and will be enforced by the validator tests."
+    },
+    {
+      "scenario": "Missing evidence, unredacted secret-like values, or invalid append-only transitions are rejected",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md"],
+      "reason": "The document requires evidence links, redaction, and append-only behavior; focused tests provide executable enforcement."
+    },
+    {
+      "scenario": "Final issue overview remains a user-review document and historical records are not rewritten",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md", "docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md"],
+      "reason": "The plan assigns final issue overview review to the user and the issue document states that historical records are not rewritten."
+    }
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "scripts/ai_issue_log.py validates the required issue record fields, allowed enums, evidence references, and secret-like value rejection.",
+    "The validator rejects invalid append-only transitions and accepts a resolved record with resolution evidence.",
+    "tests/test_issue_log.py covers valid records, missing evidence, secret rejection, invalid transitions, and final overview references.",
+    "The issue-log document and execution plan describe the validator, per-Work-Item append/reference cadence, and final user-review overview.",
+    "Historical archive and evidence files are unchanged, the bounded Python budget is recorded, and no wizard or verification-runtime implementation is included."
+  ],
+  "guidelines": [
+    "Keep issue evidence append-only and never rewrite historical records.",
+    "Reject secret-like values before persisting issue records.",
+    "Keep the validator standard-library-only and expose a documented CLI.",
+    "Record bounded complexity budget changes with evidence; do not add a repayment record for this validator."
+  ],
+  "intent": {
+    "problem": "The plan has a documented issue log, but no executable validator ensures issue records remain structured, evidence-bound, append-only, and free of sensitive values.",
+    "constraints": [
+      "Do not rewrite historical archive/evidence or alter prior issue records.",
+      "Use Python standard library only and keep the command deterministic.",
+      "Reject invalid records and sensitive values rather than silently normalizing them.",
+      "Keep final issue overview as a human-review document, not an automatic completion claim."
+    ],
+    "rationale": "A small validator makes the issue-document contract testable before later implementation Work Items append records, reducing the chance that warnings or blockers disappear into prose."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the serial issue-log Work Item and its governed evidence/test changes."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "approved": true,
+    "expectedMetrics": {
+      "pythonLines": 41150,
+      "archiveGrowth": 548
+    },
+    "reason": "The validator and its tests add measured Python lines; reserve a bounded 41150 ceiling without changing other complexity metrics or adding a repayment record."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/interactive-wizard-work-item-issue-log.json",
+    "baseCommit": "ba0beac25538f61b031ed13e4b753fa1f1cf923e",
+    "initialScopeDigest": "206f421239a288a6261f106e11a78c51f3ae66907a250bcaf58e8f3f19c96951",
+    "contractSkeletonDigest": "a3e3277c934b376573b43c5be2c040ece7f63a1681a2829cfa2e60f68f197e41"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "contractVersion": 2,
+  "workItemId": "wizard-io-and-localization",
+  "mode": "code",
+  "title": "Implement wizard IO and localization primitives",
+  "baseCommit": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/wizard-io-and-localization.contract.json",
+    ".ai/work-items/active/wizard-io-and-localization.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_wizard_io.py",
+    "scripts/ai_wizard_localization.py",
+    "locales/**",
+    "tests/test_wizard_io.py",
+    "tests/test_wizard_localization.py",
+    "docs/guides/**",
+    "docs/architecture/**"
+  ],
+  "outOfScope": [
+    "Installation wizard step orchestration and installer invocation",
+    "Calibration Wizard behavior and persisted session state",
+    "install.sh routing and legacy CLI compatibility",
+    "Changing project documentation language or adding third-party dependencies",
+    "Rewriting historical Work Item evidence"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md", "reason": "Defines Work Item 4 input, output, localization, and parity requirements."},
+    {"path": ".ai/glossary.md", "reason": "Defines architecture and governance boundaries."},
+    {"path": ".ai/work-items/archive/2026/wizard-core-detection-plan.archive-manifest.json", "reason": "Predecessor Work Item closure evidence."},
+    {"path": "scripts/ai_onboard.py", "reason": "Existing locale/message conventions to preserve without coupling Wizard language to project language."},
+    {"path": "tests/test_ai_onboard.py", "reason": "Existing locale precedence regression expectations."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["user_input", "localization", "accessibility"], "reason": "Interactive input handling and message parity form a safety boundary; incorrect defaults or missing placeholders could mislead operators.", "unknownsReviewComplete": true},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "Predecessor wizard-core-detection-plan is merged, archived, closed, and origin/main is synchronized."},
+  "predecessorWorkItem": {"workItemId": "wizard-core-detection-plan", "status": "closed", "pr": {"merged": true, "reference": "origin/main commit 40271c4d; PR #342"}, "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": ".ai/work-items/archive/2026/wizard-core-detection-plan.archive-manifest.json"}},
+  "rawUserRequest": "用户已授权按计划串行执行全部 Work Item。继续执行 wizard-io-and-localization：完成 TTY 安全输入输出、帮助/返回/暂停/退出、颜色与可访问符号、ja/en/zh-CN 资源和 key/placeholder parity、测试、完整治理验证、独立 PR、合并、归档、ai-close-work-item、分支清理和默认分支同步后再进入下一个 Work Item。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-wizard-plan", "capturedAt": "2026-07-25", "digest": "sha256:user-authorized-serial-wizard-plan"},
+  "intent": {"problem": "The future Wizard needs safe, deterministic operator input/output and complete Japanese, English, and Simplified Chinese messages, but existing onboarding messages do not provide a reusable TTY-safe primitive or parity validation.", "constraints": ["Use argument-list-safe and standard-library-only primitives; never wait for input in non-TTY mode.", "Dangerous confirmation defaults to N; EOF and Ctrl+C are explicit outcomes, not implicit approval.", "Wizard language is selected independently from detected project documentation language and must not silently fall back for user-visible content."], "rationale": "A small input state model and checked message resources make safety behavior testable and let later wizard steps share consistent accessibility and localization semantics."},
+  "declaredIntent": {"summary": "Provide reusable safe Wizard IO primitives and exact-parity ja/en/zh-CN message resources.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Language aliases and precedence resolve explicit option, environment, system locale, then ja", "required": true, "status": "verified", "evidence": ["tests/test_wizard_localization.py"]},
+    {"scenario": "TTY and non-TTY input, EOF, Ctrl+C, Back/Pause/Quit/Help, and dangerous default N are explicit", "required": true, "status": "verified", "evidence": ["tests/test_wizard_io.py"]},
+    {"scenario": "ja, en, and zh-CN resources have exact key and placeholder parity without silent fallback", "required": true, "status": "verified", "evidence": ["tests/test_wizard_localization.py", "locales/**"]}
+  ],
+  "acceptance": ["Reusable IO primitives cover Y/N, selection, text input, Back, Pause, Quit, Help, EOF, Ctrl+C, TTY detection, non-color output, and accessible status symbols.", "Language aliases normalize ja/ja-JP, en/en-US/en-GB, and zh/zh-CN/zh-Hans with explicit > environment > system locale > ja precedence.", "Message resources for ja, en, and zh-CN have exact key and placeholder parity checked at startup and by tests; project documentation language remains independent.", "Tests cover dangerous default N, non-TTY no-input behavior, EOF/Ctrl+C, all aliases, precedence, and parity.", "AI Change Summary records implementation, verification, guidelines, checkpoints, known gaps, and residual risk."],
+  "verification": [{"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}, {"check": "projectTest", "required": true}],
+  "guidelines": ["Keep dangerous actions fail-closed with explicit N defaults and no non-TTY blocking.", "Use standard-library-only implementation and document public IO/localization APIs.", "Require exact resource key/placeholder parity and do not silently fall back user-visible content.", "Do not alter project documentation language or predecessor archive evidence."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Record evidence before implementation and archival."},
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized serial execution of this governed Work Item."},
+  "rollbackNote": "Revert only this Work Item's IO/localization diff; preserve predecessor archive evidence and installer behavior.",
+  "budgetImpact": {"approved": true, "expectedMetrics": {"archiveGrowth": 563}, "reason": "Bounded standard-library implementation with resource fixtures and focused tests."},
+  "startReceipt": {"path": ".ai/work-items/starts/wizard-io-and-localization.json", "baseCommit": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1", "initialScopeDigest": "e41e15826735c6f7a7f03d0ab17b9278c408392cd9e4697994ce6ad49ad1d9f0", "contractSkeletonDigest": "c95dbc612d82963d30b75e14dd9a18a4c7cb7ebaddc4c69feeef4eb6e3324ae8"}
+}

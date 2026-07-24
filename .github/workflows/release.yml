@@ -109,7 +109,12 @@ jobs:
 
       - name: Fail closed on release freeze and source-bound archive
         working-directory: ${{ github.workspace }}
-        run: make check-release-preflight
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^{commit})" = "$SOURCE_COMMIT"
+          echo "release preflight boundary: head=$(git rev-parse HEAD^{commit}) source=$SOURCE_COMMIT"
+          echo "release preflight attributes=$(git show \"$SOURCE_COMMIT:.gitattributes\" | sha256sum | cut -d' ' -f1)"
+          make check-release-preflight RELEASE_PREFLIGHT_SOURCE_COMMIT="$SOURCE_COMMIT"
 
       - name: Install locked release evidence dependencies
         working-directory: ${{ github.workspace }}

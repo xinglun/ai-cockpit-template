@@ -139,7 +139,8 @@ check-release-state-consistency:
 	$(AI_PYTHON) scripts/check_release_state_consistency.py --root .
 
 check-release-preflight:
-	$(AI_PYTHON) scripts/check_release_preflight.py --root .
+	$(AI_PYTHON) scripts/check_release_preflight.py --root . \
+		$(if $(RELEASE_PREFLIGHT_SOURCE_COMMIT),--source-commit "$(RELEASE_PREFLIGHT_SOURCE_COMMIT)",)
 
 finalize-release-freeze:
 	$(AI_PYTHON) scripts/finalize_release_freeze.py \

@@ -42,6 +42,8 @@ SECRET_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("bearer", re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/=-]+")),
 ]
 PRIVATE_KEY_BEGIN = re.compile(r"-----BEGIN ([^-]+)-----")
+CONCRETE_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+CONTROLLED_COMMIT_REF = re.compile(r"^origin/[A-Za-z0-9._/-]+$")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -53,6 +55,24 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
+
+
+def resolve_candidate_identity(value: Any) -> Any:
+    """Resolve only controlled origin refs; leave other values fail-closed."""
+    if not isinstance(value, str) or CONCRETE_COMMIT.fullmatch(value):
+        return value
+    if not CONTROLLED_COMMIT_REF.fullmatch(value):
+        return value
+    result = subprocess.run(  # nosec B603 B607
+        ["git", "rev-parse", f"{value}^{{commit}}"],
+        cwd=ROOT,
+        env=clean_git_environment(),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    resolved = result.stdout.strip()
+    return resolved if result.returncode == 0 and CONCRETE_COMMIT.fullmatch(resolved) else value
 
 
 def clean_git_environment() -> dict[str, str]:
@@ -520,6 +540,8 @@ def compare_or_write(path: Path, data: dict[str, Any], *, write: bool) -> list[s
         expected.pop("sbomDigest", None)
     elif path == RELEASE_DIGESTS_BASELINE:
         current.pop("sourceCommit", None)
+        for field in ("tagTarget", "metadataCommit"):
+            current[field] = resolve_candidate_identity(current.get(field))
         expected.pop("sourceCommit", None)
         # The committed candidate manifest is necessarily created before its
         # immutable release commit exists.  SBOM/provenance identities (and

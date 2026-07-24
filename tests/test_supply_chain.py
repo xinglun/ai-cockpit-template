@@ -629,6 +629,32 @@ def test_release_digest_identity_fields_are_checked_against_candidate_baseline(
     ]
 
 
+def test_release_digest_comparison_resolves_controlled_origin_identity(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    cockpit = repo / ".ai" / "cockpit"
+    cockpit.mkdir(parents=True)
+    path = cockpit / "release-digests.json"
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+    monkeypatch.setattr(check_supply_chain, "RELEASE_DIGESTS_BASELINE", path)
+    monkeypatch.setattr(
+        check_supply_chain,
+        "resolve_candidate_identity",
+        lambda value: "source" if value == "origin/main" else value,
+    )
+    expected = {
+        "format": "ai-cockpit-release-digests",
+        "sourceCommit": "source",
+        "tagTarget": "source",
+        "metadataCommit": "source",
+        "artifacts": {"stable": "digest"},
+    }
+    candidate = dict(expected)
+    candidate["tagTarget"] = "origin/main"
+    candidate["metadataCommit"] = "origin/main"
+    path.write_text(json.dumps(candidate), encoding="utf-8")
+    assert check_supply_chain.compare_or_write(path, expected, write=False) == []
+
+
 def test_release_evidence_reports_drift_when_generated_sbom_changes(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     cockpit = repo / ".ai" / "cockpit"

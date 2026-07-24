@@ -1,0 +1,141 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_symbolic_supply_chain",
+  "mode": "code",
+  "title": "Resolve symbolic release identity in supply-chain evidence",
+  "baseCommit": "e31543c47492a9891357939edaf4a88ee184ba6f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_symbolic_supply_chain.contract.json",
+    ".ai/work-items/active/release_symbolic_supply_chain.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/check_supply_chain.py",
+    "tests/test_supply_chain.py",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": ["Publication/tagging v0.5.39.", "Changing release distribution semantics or allowing HEAD.", "Separate budget-only Work Item."],
+  "sources": [{"path": "scripts/check_supply_chain.py", "reason": "Current supply-chain release digest comparison."}, {"path": "scripts/check_release_preflight.py", "reason": "Controlled release identity resolver."}, {"path": "tests/test_supply_chain.py", "reason": "Regression coverage."}, {"path": "docs/reference/distribution.md", "reason": "Candidate/public evidence boundary."}],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_integrity", "source_binding"],
+    "reason": "Supply-chain evidence must compare symbolic candidate identity without weakening concrete publication evidence.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized root-cause process correction before publication."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["Release supply-chain comparison resolves controlled origin identity refs to concrete SHA before comparing computed evidence.", "HEAD and unsupported symbolic refs remain rejected; concrete identity behavior remains unchanged.", "Focused tests, full Finish/archive/PR/merge/ai-close lifecycle complete without publication."],
+  "guidelines": ["Fail closed on identity mismatch.", "Preserve candidate versus published evidence distinction.", "Do not rewrite immutable archive evidence."],
+  "intent": {
+    "problem": "PR-first release metadata uses controlled origin/main refs, but supply-chain digest comparison treats those refs as literal values and blocks the candidate before merge.",
+    "constraints": ["Resolve only controlled origin refs or concrete SHA; never accept HEAD.", "Publication remains out of scope."],
+    "rationale": "All release evidence consumers must normalize the same controlled identity model before comparison so premerge metadata can be committed safely without weakening fail-closed checks."
+  },
+  "rawUserRequest": "When a release process issue is found, stop publication and fix the root process before continuing.",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-24-root-process-correction", "capturedAt": "2026-07-24", "digest": "sha256:user-authorized-root-correction"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Normalize controlled symbolic release identity in supply-chain comparison while preserving fail-closed semantics.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [{"id": "symbolic_supply_chain", "scenario": "Controlled origin identity is normalized before supply-chain digest comparison.", "required": true, "status": "verified", "evidence": ["tests/test_supply_chain.py"]}, {"id": "head_rejection", "scenario": "HEAD remains rejected as release identity evidence.", "required": true, "status": "verified", "evidence": ["scripts/check_release_preflight.py"]}, {"id": "publication_boundary", "scenario": "Publication remains out of scope and distribution remains fail-closed.", "required": true, "status": "verified", "evidence": ["Contract outOfScope"]}],
+  "budgetImpact": {"approved": true, "expectedMetrics": {"pythonLines": 40450, "archiveGrowth": 522}, "reservedFutureMetrics": {"pythonLines": 40450, "archiveGrowth": 522}, "repaymentWorkItem": "conditional_go_plan_cleanup", "repaymentRecords": ["release_symbolic_supply_chain|pythonLines|40400|40450|user|2026-07-24|Reserve bounded validator and regression growth for this functional root-process correction; repay during final plan cleanup.", "release_symbolic_supply_chain|archiveGrowth|521|522|user|2026-07-24|Reserve this functional root-process correction archive; repay during final plan cleanup."], "reason": "Functional release process correction; no separate budget-only Work Item."},
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized root-cause process correction before continuing publication."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_symbolic_supply_chain.json",
+    "baseCommit": "e31543c47492a9891357939edaf4a88ee184ba6f",
+    "initialScopeDigest": "10cf7fa51ea639ed5356899eef5333e6bcd7f97bc062848d96dd6637ea617f1a",
+    "contractSkeletonDigest": "c6f90d5bffdbed830245e2f08bf8b30c2039cafd0d4800b4d83e9f4936f51726"
+  }
+}

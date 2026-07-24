@@ -205,21 +205,38 @@ def source_commit_sha(explicit: str | None = None) -> str:
     )
     if result.returncode != 0 and not requested:
         # Before the new release tag exists (for example in PR validation),
-        # retain the previously published evidence identity while a pending
-        # publication PR carries the new release metadata. The immutable
-        # release workflow will replace this candidate baseline with
-        # source-bound assets after the tag is created.
-        next_release = load_json(ROOT / "next-release.json")
-        baseline = load_json(PROVENANCE_BASELINE)
-        pending_publication = (
-            next_release.get("releaseState") == "candidate"
-            and next_release.get("published") is False
-            and next_release.get("releaseTag") != tag
-            and next_release.get("basedOnReleaseTag") == tag
-            and baseline.get("releaseTag") == tag
-            and isinstance(baseline.get("commitSha"), str)
+        # prefer a concrete identity already written by finalizer. This keeps
+        # all downstream evidence on the same source/tag/metadata tuple after
+        # freeze finalization, instead of silently reverting to old
+        # provenance. Historical candidate provenance remains the fallback
+        # only when no finalized identity exists.
+        finalized = load_json(RELEASE_DIGESTS_BASELINE)
+        finalized_source = finalized.get("sourceCommit")
+        finalized_identity = (
+            isinstance(finalized_source, str)
+            and bool(finalized_source)
+            and finalized.get("releaseTag") == tag
+            and finalized.get("tagTarget") == finalized_source
+            and finalized.get("metadataCommit") == finalized_source
         )
-        revision = baseline["commitSha"] if pending_publication else "HEAD"
+        if finalized_identity:
+            revision = str(finalized_source)
+        else:
+            # Retain the previously published evidence identity while a
+            # pending publication PR carries the new release metadata. The
+            # immutable release workflow will replace this candidate baseline
+            # with source-bound assets after the tag is created.
+            next_release = load_json(ROOT / "next-release.json")
+            baseline = load_json(PROVENANCE_BASELINE)
+            pending_publication = (
+                next_release.get("releaseState") == "candidate"
+                and next_release.get("published") is False
+                and next_release.get("releaseTag") != tag
+                and next_release.get("basedOnReleaseTag") == tag
+                and baseline.get("releaseTag") == tag
+                and isinstance(baseline.get("commitSha"), str)
+            )
+            revision = baseline["commitSha"] if pending_publication else "HEAD"
         result = subprocess.run(
             ["git", "rev-parse", revision],
             cwd=ROOT,

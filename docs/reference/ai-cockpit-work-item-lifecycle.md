@@ -42,10 +42,11 @@ Only after the PR is merged and the Work Item is archived may `make ai-close-wor
 After `make ai-finish TASK=<task>` archives the Work Item, commit the complete
 Work Item bundle, then run `make check-ai-pr AI_BASE_COMMIT=<latest-default-branch-sha>`.
 Do not run the aggregate PR check against an uncommitted archive or generated
-release evidence. The required local order is:
+release evidence. Independent review must finish while evidence is active;
+post-archive fixes require a fresh Work Item and replacement PR. The order is:
 
 ```text
-ai-finish/archive → commit complete bundle → check-ai-pr → push → PR
+independent review → ai-finish/archive → commit bundle → check-ai-pr → push → PR
 ```
 
 This gate first runs the project formatter and, when the governance script and policy
@@ -67,14 +68,14 @@ branch after `ai-finish` has archived the Work Item and before committing the
 release metadata. This is the only supported premerge freeze writer for a release
 preparation PR: it requires the archived Work Item evidence, a clean branch, and
 source-bound candidate metadata. Its canonical `sourceTree` and `archiveSha256`
-are calculated from the resolved controlled `SOURCE_COMMIT` identity—the same
-identity the hosted release workflow verifies after merge—not from the mutable
-Work Item branch `HEAD`. Both `.ai/work-items/active` and
+are calculated from the clean candidate branch `HEAD`. The controlled
+`SOURCE_COMMIT` reference is retained separately so the hosted release workflow
+can resolve the exact merged default-branch identity. Both `.ai/work-items/active` and
 `.ai/work-items/archive` are export-ignored, so moving evidence during Finish does
-not change the canonical source tree. Then run `make check-release-preflight`; it
-fails closed when the premerge lifecycle evidence is absent or inconsistent, the
-archive budget is exceeded, or the regenerated archive digest differs from
-`release.json`.
+not change canonical content. After merge, the hosted detached checkout must
+regenerate the same tree and archive or stop before tag mutation. Then run
+`make check-release-preflight`; it fails closed when lifecycle evidence is absent
+or inconsistent, archive policy blocks, or regenerated content differs.
 
 ```json
 {

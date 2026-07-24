@@ -1,3 +1,14 @@
+---
+author: Ray
+title: "Release Post-Merge Source Verification Implementation Plan"
+description: Implement and close the candidate-to-merge release verification gap before v0.5.39.
+keywords:
+  - release
+  - preflight
+  - source-identity
+  - work-item-lifecycle
+---
+
 # Release Post-Merge Source Verification Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
@@ -13,7 +24,7 @@
 - Do not create or move v0.5.39 until this Work Item is merged, closed, synchronized, and merged-main CI/preflight passes.
 - Do not weaken exact-SHA, controlled-origin-ref, archive, lifecycle, or ownership validation.
 - `archiveGrowth=538` and later counts remain warning-only under `enforcement.archiveGrowth: warning`.
-- Final Markdown complexity must be at most 9550; the transient design/plan commits remain in history but are removed from the final tree.
+- Final Markdown complexity must be at most 9550; retain this design/plan and repay their cost by compacting completed historical plans to archive-backed closure stubs.
 
 ---
 
@@ -229,11 +240,16 @@ Expected: both tests fail because the current finalizer passes old `origin/main`
 - Consumes: concrete `resolved_head` plus symbolic `source_identity`.
 - Produces: candidate-derived `sourceTree`/`archiveSha256` and unchanged controlled identity fields.
 
-- [ ] **Step 1: Implement the minimal correction**
+- [ ] **Step 1: Implement the fail-closed correction**
 
-Replace the premerge `resolved_source` block with:
+Keep eager validation of the controlled identity, but separate it from
+candidate content materialization:
 
 ```python
+if premerge_task is not None:
+    resolved_source = run_git(["rev-parse", source_identity])
+    if resolved_source.returncode != 0 or not resolved_source.stdout.strip():
+        return _fail(f"source identity cannot be resolved: {source_identity}")
 # The controlled source identity remains a future default-branch ref for
 # post-merge resolution. Canonical content is materialized from this clean
 # candidate HEAD; export-ignored metadata and Work Item evidence let a clean
@@ -241,11 +257,16 @@ Replace the premerge `resolved_source` block with:
 materialization_commit = resolved_head if premerge_task is not None else source_identity
 ```
 
-- [ ] **Step 2: Run GREEN**
+- [ ] **Step 2: Prove unresolved identity fails before metadata writes**
 
-Run the two-test command from Task 1. Expected: `2 passed`.
+Supply `missing/ref`, expect return code 1, observe no canonical builder calls,
+and verify `release.json` remains byte-identical.
 
-- [ ] **Step 3: Add fail-closed drift coverage**
+- [ ] **Step 3: Run GREEN**
+
+Run the focused candidate, identity, topology, and drift tests.
+
+- [ ] **Step 4: Add fail-closed drift coverage**
 
 ```python
 def test_postmerge_preflight_rejects_included_content_after_candidate_merge(tmp_path):
@@ -296,6 +317,10 @@ git commit -m "fix: verify candidate content across release merge"
 **Files:**
 - Modify: `docs/reference/distribution.md`
 - Modify: `docs/reference/ai-cockpit-work-item-lifecycle.md`
+- Modify: `docs/superpowers/plans/README.md`
+- Replace with concise closure stubs: `docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md`
+- Replace with concise closure stubs: `docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md`
+- Replace with concise closure stubs: `docs/superpowers/plans/2026-07-22-ai-cockpit-governance-hardening.md`
 - Delete: `docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md`
 
 **Interfaces:**
@@ -314,22 +339,28 @@ Document that the hosted workflow resolves the exact merged SHA, checks it out d
 
 Delete `docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md`, whose test instruction explicitly expects `old-commit`.
 
-- [ ] **Step 4: Verify docs and complexity**
+- [ ] **Step 4: Compact completed historical plans and fix retention**
+
+Preserve each historical plan path and YAML metadata, but replace its completed
+execution body with a closure stub that names the authoritative archived Work
+Item evidence and states that no new Work Item may be launched from it. Update
+the plan index so completed plans may be compacted only after reference scanning
+and only when immutable Contract/Summary/manifest evidence remains.
+
+- [ ] **Step 5: Verify docs and complexity**
 
 ```bash
-make check-docs
+make check-docs-metadata
 make check-governance-complexity
 ```
 
-Expected: documentation checks pass; archive growth is warning-only; Markdown is temporarily above 9550 only while this execution plan and design remain present.
+Expected: documentation checks pass; archive growth is warning-only; Markdown is at most 9550 while the current design and execution plan remain present.
 
 ### Task 4: Finish the governed corrective Work Item
 
 **Files:**
-- Update: `.ai/work-items/active/release_postmerge_source_verification_v1.summary.json`
+- Update: `.ai/work-items/active/release_postmerge_source_verification_v2.summary.json`
 - Generate: `.ai/cockpit/current_status.md`
-- Remove before finish: `docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md`
-- Remove before finish: `docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md`
 - Archive through `make ai-finish`: `.ai/work-items/archive/**`
 
 **Interfaces:**
@@ -338,26 +369,29 @@ Expected: documentation checks pass; archive growth is warning-only; Markdown is
 
 - [ ] **Step 1: Record Summary evidence**
 
-Populate `changedFiles`, `sourcesUsed`, scenario evidence, guideline compliance, both checkpoints, verification results, zero residual release-integrity risks, and note that transient planning artifacts were removed from the final tree but remain in commits `e258611b` and the plan commit.
+Populate `changedFiles`, `sourcesUsed`, scenario evidence, guideline compliance, both checkpoints, verification results, zero residual release-integrity risks, and the exact archived evidence that justified each historical-plan compaction.
 
-- [ ] **Step 2: Remove transient planning artifacts and verify the budget**
+- [ ] **Step 2: Verify the repaid documentation budget**
 
 ```bash
-git rm docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md
-git rm docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md
 make check-governance-complexity
 ```
 
 Expected: `markdownLines <= 9550`; `archiveGrowth` may warn but must not block.
 
-- [ ] **Step 3: Run the required finish checks**
+- [ ] **Step 3: Complete independent review while evidence is active**
+
+Review `origin/main..HEAD`; resolve every Critical/Important finding and rerun
+its focused regression before immutable archive creation.
+
+- [ ] **Step 4: Run the required finish checks**
 
 ```bash
 make ai-checkpoint \
-  CONTRACT=.ai/work-items/active/release_postmerge_source_verification_v1.contract.json \
-  SUMMARY=.ai/work-items/active/release_postmerge_source_verification_v1.summary.json \
+  CONTRACT=.ai/work-items/active/release_postmerge_source_verification_v2.contract.json \
+  SUMMARY=.ai/work-items/active/release_postmerge_source_verification_v2.summary.json \
   STAGE=before_finish
-make ai-finish TASK=release_postmerge_source_verification_v1
+make ai-finish TASK=release_postmerge_source_verification_v2
 git add -A
 git commit -m "chore: archive release source verification work item"
 make check-ai-pr AI_BASE_COMMIT=6c0b8a520c92cfd5cbc699962993d69c433acc6a
@@ -375,12 +409,12 @@ Expected: all Finish Criteria and PR ownership checks pass with exactly one arch
 
 - [ ] **Step 1: Push, open, verify, and merge the corrective PR**
 
-Push `codex/release-postmerge-source-verification`, create one PR, wait for all required checks, and merge only when smoke and compatibility are successful.
+Push `codex/release-postmerge-source-verification-v2`, create one PR, wait for all required checks, and merge only when smoke and compatibility are successful.
 
 - [ ] **Step 2: Close the corrective lifecycle**
 
 ```bash
-make ai-close-work-item TASK=release_postmerge_source_verification_v1
+make ai-close-work-item TASK=release_postmerge_source_verification_v2
 ```
 
 Expected: branch cleanup, clean worktree, and local default branch equality with the remote default branch.

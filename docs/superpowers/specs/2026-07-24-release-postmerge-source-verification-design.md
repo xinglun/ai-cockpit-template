@@ -1,3 +1,14 @@
+---
+author: Ray
+title: "Release Candidate-to-Merge Source Verification Design"
+description: Separate premerge candidate content from post-merge exact source identity.
+keywords:
+  - release
+  - preflight
+  - source-identity
+  - candidate-merge
+---
+
 # Release Candidate-to-Merge Source Verification Design
 
 ## Goal
@@ -53,8 +64,9 @@ code correction is the candidate materialization source in
 ### Premerge finalizer
 
 `scripts/finalize_release_freeze.py` keeps the controlled identity tuple for
-post-merge resolution but passes the clean candidate `HEAD` to the canonical
-archive builder in premerge mode. Other modes retain their current behavior.
+post-merge resolution and verifies that the controlled source ref resolves
+before any metadata write. It separately passes clean candidate `HEAD` to the
+canonical archive builder in premerge mode. Other modes retain current behavior.
 
 ### Post-merge preflight
 
@@ -77,13 +89,14 @@ The regression must create real Git topology rather than mock commit labels:
 1. initialize a source repository with release fixtures and a base commit;
 2. create a candidate branch with included source changes and export-ignored
    Work Item/release metadata;
-3. run premerge finalization on the candidate while `origin/main` still names
+3. prove an unresolved controlled identity stops before hashing or metadata writes;
+4. run premerge finalization on the candidate while `origin/main` still names
    the base;
-4. create a no-ff merge commit whose canonical content equals the candidate;
-5. fetch the merge commit as `origin/main` into a fresh repository;
-6. check out the merge commit detached and run explicit-source preflight;
-7. assert the exact merged SHA and successful preflight;
-8. change included canonical content and assert preflight fails.
+5. create a no-ff merge commit whose canonical content equals the candidate;
+6. fetch the merge commit as `origin/main` into a fresh repository;
+7. check out the merge commit detached and run explicit-source preflight;
+8. assert the exact merged SHA and successful preflight;
+9. change included canonical content and assert preflight fails.
 
 The focused unit assertion must also require premerge finalization to call the
 canonical builders with candidate `HEAD`, not `origin/main`.

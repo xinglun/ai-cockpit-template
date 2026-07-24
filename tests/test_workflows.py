@@ -134,6 +134,18 @@ def test_release_workflow_is_exact_sha_and_action_dependency_free():
     assert "GITHUB_RUN_ID" in workflow
 
 
+def test_release_workflow_embedded_python_precondition_has_stable_indentation():
+    workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
+    block = workflow.split("          python3 -", 1)[1].split("          PY", 1)[0]
+    python_body = block.split("<<'PY'\n", 1)[1]
+    lines = [line for line in python_body.splitlines() if line.strip()]
+    assert 'assert candidate["releaseState"] == "candidate"' in block
+    assert 'assert candidate["published"] is False' in block
+    assert 'assert candidate["basedOnReleaseTag"] == published["releaseTag"]' in block
+    assert all(line.startswith("          ") for line in lines)
+    assert not any(line.startswith("            assert candidate") for line in lines)
+
+
 def test_release_workflow_binds_one_source_identity_before_provider_checks():
     workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
     assert '--arg tagTarget "$SOURCE_COMMIT"' in workflow

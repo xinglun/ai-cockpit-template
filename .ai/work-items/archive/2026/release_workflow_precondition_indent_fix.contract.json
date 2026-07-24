@@ -1,0 +1,59 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_workflow_precondition_indent_fix",
+  "mode": "code",
+  "title": "Fix release workflow precondition heredoc indentation",
+  "rawUserRequest": "继续推进发布前障碍清理；发现流程问题先停止发布并修正根因，完成完整 Contract/Preflight/PR/合并/ai-close-work-item 流程后再发布 v0.5.39。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:2026-07-24-release-workflow-precondition-correction", "capturedAt": "2026-07-24", "digest": "release-workflow-precondition-correction"},
+  "declaredIntent": {"summary": "修复发布 workflow 的内嵌 Python 前置条件缩进错误，并在重新发布前完成完整工单闭环。", "requestedCapabilities": ["ai_governance", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "baseCommit": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+  "baselineDirtyPaths": [],
+  "intent": {
+    "problem": "The first formal v0.5.39 release attempt failed before any tag or Release mutation because the release workflow's embedded Python precondition had an unexpected indentation.",
+    "constraints": ["Keep release publication paused until this Work Item completes its full PR and closure lifecycle.", "Do not create a budget-only Work Item; reserve the single required archive record in this functional correction."],
+    "rationale": "Correct the workflow at its root and add regression coverage so the same precondition syntax failure is caught before another release attempt."
+  },
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/release_workflow_precondition_indent_fix.json",
+    ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+    ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Creating or pushing v0.5.39 tag", "Creating or publishing a GitHub Release", "Changing release metadata", "Creating a separate budget-only Work Item"],
+  "sources": [
+    {"path": ".github/workflows/release.yml", "reason": "The failed release precondition is implemented here."},
+    {"path": "tests/test_workflows.py", "reason": "Workflow regression coverage belongs here."},
+    {"path": ".ai/glossary.md", "reason": "Defines governed release and Work Item terminology."}
+  ],
+  "problemStatement": "The v0.5.39 dispatch failed with IndentationError in the release workflow's heredoc Python precondition. No publication mutation occurred, but the workflow defect must be corrected before retrying release.",
+  "scenarioCoverage": [
+    {"scenario": "Release workflow embedded precondition is syntactically valid and aligned", "required": true, "status": "verified", "evidence": ["pytest -q tests/test_workflows.py"]},
+    {"scenario": "Release publication remains out of scope until this lifecycle closes", "required": true, "status": "verified", "evidence": ["Contract outOfScope and PR lifecycle record"]}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["release_integrity", "ci"], "reason": "A workflow syntax defect can block publication; the change is narrow, explicitly scoped, and covered by focused regression tests."},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "The root cause, scope, acceptance, and verification are explicit; publication itself is intentionally deferred."},
+  "preReviewWarnings": ["Confirm the embedded Python precondition is parsed by the same shell/heredoc structure used in CI."],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Preserve scope and verification evidence through the corrective lifecycle."},
+  "acceptance": [
+    "The release workflow embedded Python precondition has valid indentation and executes as intended.",
+    "A regression test detects malformed indentation or misaligned precondition assertions before PR.",
+    "The measured archive-growth reservation is raised from 525 to 526 within this functional Work Item and recorded for later repayment.",
+    "The Work Item completes Finish, archive, PR, merge, ai-close-work-item, and default-branch synchronization before release retry."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "The user explicitly authorized root process correction before retrying publication."},
+  "budgetImpact": {"expectedMetrics": {"archiveGrowth": 526, "pythonLines": 40550}, "approved": true, "repaymentWorkItem": "release_workflow_precondition_indent_fix", "repaymentRecords": ["release_workflow_precondition_indent_fix|archiveGrowth|525|526|user|2026-07-24|Reserve the single workflow precondition correction archive required after the release workflow indentation failure; repay during final plan cleanup."], "reason": "Reserve the functional correction archive and measured governance ceiling in the same Work Item."},
+  "startReceipt": {"path": ".ai/work-items/starts/release_workflow_precondition_indent_fix.json", "baseCommit": "fe22470ea3678ccd57c1ef053f4547481edb0275", "initialScopeDigest": "97b37b9b31d734fe069a09debc636aa68829bd0e015fb1ecbd67ec56b2cfbce0", "contractSkeletonDigest": "cc45c11f3462d27447a288f3e41bc7881b2b5d16c5f952616bf655dc433bab4b"},
+  "rollbackNote": "Revert the workflow and regression changes together; do not alter immutable prior release evidence."
+}

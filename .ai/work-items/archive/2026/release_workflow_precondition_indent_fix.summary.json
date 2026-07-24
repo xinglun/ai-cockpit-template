@@ -1,0 +1,426 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_workflow_precondition_indent_fix",
+  "contractPath": ".ai/work-items/archive/2026/release_workflow_precondition_indent_fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Corrected the embedded Python precondition indentation."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Added regression coverage for stable heredoc Python indentation."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Reserved the single functional archive-growth correction from 525 to 526."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated governance status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/starts/release_workflow_precondition_indent_fix.json",
+      "reason": "Recorded the immutable start receipt."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_workflow_precondition_indent_fix.contract.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_workflow_precondition_indent_fix.summary.json",
+      "reason": "Archived Work Item audit evidence."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_workflow_precondition_indent_fix.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+    ".github/workflows/release.yml",
+    "tests/test_workflows.py",
+    ".ai/glossary.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Release workflow embedded precondition is syntactically valid and aligned",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "pytest -q tests/test_workflows.py"
+      ]
+    },
+    {
+      "scenario": "Release publication remains out of scope until this lifecycle closes",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Contract outOfScope and PR lifecycle record"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:55.612958+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "1d0da98862a71f4eb24d4585a15407bb63457d8b1eefe5cd58e454d14d87d976",
+      "commandHash": "a46045f5df24cb8d0182e39aa5d9a3e64c63b64bcfc7faf1e36b4e4e6d4c1762",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json work item contract check passed: .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:55.834634+00:00",
+      "exitCode": 0,
+      "durationMs": 123,
+      "outputDigest": "4911708cc6674553b5550746a8e9acd99c9864b6f5aaf5d35d992af815d38167",
+      "commandHash": "64e34297122fbdd68589378ed9e217c90405152512105c85ecb7b3fed665407e",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json scope guard passed: 5 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:56.146673+00:00",
+      "exitCode": 0,
+      "durationMs": 202,
+      "outputDigest": "7a82526389a4483664734523910017a2a359275b029740215c4d1176ea0e5355",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json [warning] restricted_write: .ai/guards/governance_complexity_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change only with an explicit Contract. [warning] restricted_write: .github/workflows/release.yml (.github/workflows/**) - CI workflow configuration. guard check completed: 2 warning(s) report: target/ai_guard"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:56.600702+00:00",
+      "exitCode": 0,
+      "durationMs": 361,
+      "outputDigest": "50acb6f4d60c83e0b67117433e5d9559099bcf78cb299177d3687ceecf9d6b87",
+      "commandHash": "e5c953fe3e46c12997dc20e426da8fcb4b9e1b20fe2eceed8bcb3e01c8ce276e",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_workflow_precondition_indent_fix` - Contract Hash: `31ab9c88ea7c03a1` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unkn"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:56.808069+00:00",
+      "exitCode": 0,
+      "durationMs": 128,
+      "outputDigest": "f22aef0c987793d2ab157a6c0bab91faa6dffb488868cf7eef9069df1f7c2490",
+      "commandHash": "2037255b35823085f56bacf1016aba581795ac78ac48fe435a9e689924b7ab1a",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/release_workflow_precondition_indent_fix.json [review] .ai/cockpit/current_status.md [review] .ai/guards/governance_complexity_policy.yaml [review] .github/workflows/release.yml review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:57.005483+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:57.202347+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:57.327404+00:00",
+      "exitCode": 0,
+      "durationMs": 49,
+      "outputDigest": "f21253ccbe503427ce013aefef5ec54995697aec679463c1dc54d8e2e26ae9c4",
+      "commandHash": "bc7fb46730a27095bd45e749738d47f8fc6d2e10318a4fc6b7aff24a522d0af0",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:57.453888+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "5590002d48b234171eae5618ddd0d8d020772b3265dd1badaab3f27b5be8436b",
+      "commandHash": "f7cc33ef20ca4a63fc5c8cad19d05fc415956b8d48d7f265b6421f58fce997c8",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json guidelines compliance check passed: 0 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:21:57.816696+00:00",
+      "exitCode": 0,
+      "durationMs": 284,
+      "outputDigest": "062006189a2f7d76e3e4c787ae9340b972ecdb0430b7da8f1b474b03b729cbcc",
+      "commandHash": "85d1ce227a4a8365e7d02063f5d4473cdff84d89ed7139b7506367fe122c9365",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json ## Diff Ownership Preview - active_owned: `5`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/governance_complexity_policy.yaml` — covered by Contract scope - [active_owned] `.ai/work-items/s"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:26:36.135614+00:00",
+      "exitCode": 0,
+      "durationMs": 278209,
+      "outputDigest": "eb61f93935f06f705f4c68b4156da03f057eeff7f6774207d61d647b1ff08b55",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "d58bdc208672ed35fc1de5100ecf2206c3dfc4a62f75d7766d7e944cca254573",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 23%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:26:38.471260+00:00",
+      "exitCode": 0,
+      "durationMs": 291,
+      "outputDigest": "e443a1853b813ed331eb2388d5680cd6a270567748f238237b7f43379212ffa4",
+      "commandHash": "2df53f1fc5cc49a949732c824858de426e402b92dbaa3f3a95c3f8869aa623bc",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "3617313473f161a5589e532fd472fcee6671c9fd04c044dd72d48b3aa1e9825a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:26:38.828127+00:00",
+      "exitCode": 0,
+      "durationMs": 285,
+      "outputDigest": "d2b48988ddfcf7f0ab29201d566e93dda8977f0c75d0aedd76d2a397d0fcba2b",
+      "commandHash": "324ac30296080c9b691fa4b439d2bfcf0fe4504e536159f42999999892f50dfe",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "3617313473f161a5589e532fd472fcee6671c9fd04c044dd72d48b3aa1e9825a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:26:38.948899+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "3617313473f161a5589e532fd472fcee6671c9fd04c044dd72d48b3aa1e9825a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:26:39.081231+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "2bc8401cbc46732f616fb5096adebc4933f9cc010cd847d295380fdd4823ba18",
+      "commandHash": "fe98a30cd8eec3fcf5fe97e8c4350860b15ae7edebb61f7f3f71e56cb1634740",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "3617313473f161a5589e532fd472fcee6671c9fd04c044dd72d48b3aa1e9825a",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json --summary .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_workflow_precondition_indent_fix.summary.json CONTRACT=.ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T04:26:40.211995+00:00",
+      "exitCode": 0,
+      "durationMs": 121,
+      "outputDigest": "a5a1119a07263abc0c725d5a49c9815b40f0224e27ba75708879e78963a52fe1",
+      "commandHash": "788847566e23ea8e8ad2673080d2fe1d09f7ee34d35091045b7feef8f04819cd",
+      "contractHash": "31ab9c88ea7c03a1d2becefff9ae0048597aef1d39b228f6b3abf719259a7a5b",
+      "commitSha": "fe22470ea3678ccd57c1ef053f4547481edb0275",
+      "executionContractPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_workflow_precondition_indent_fix.summary.json",
+      "worktreeDigest": "5ff22447d705360751811017809f0f9711e756d4ca09d75edcf89eed90fe5210",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json --contract .ai/work-items/active/release_workflow_precondition_indent_fix.contract.json ai summary check passed: .ai/work-items/active/release_workflow_precondition_indent_fix.summary.json"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Workflow syntax and release-gate ordering require focused review."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "The first v0.5.39 dispatch failed with IndentationError in the release workflow heredoc.",
+      "resolution": "Corrected the assertion indentation and added regression coverage."
+    }
+  ],
+  "followUps": [
+    "Retry v0.5.39 only after this Work Item is merged and closed."
+  ],
+  "unverifiedScenarios": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "release",
+      "detail": "The provider release workflow still requires a fresh external run after merge.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Embedded Python syntax, precondition ordering, and no publication mutation in this Work Item."
+    ]
+  },
+  "intentAlignment": {
+    "rationaleValidated": "The workflow root correction is limited to the observed syntax failure and its regression guard."
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "Pause publication on a process defect and correct the root workflow before retrying.",
+    "Do not create a budget-only Work Item; repair budget within the functional Work Item."
+  ],
+  "userCorrectionSolidification": [
+    "Release retry is out of scope until lifecycle closure.",
+    "Archive-growth reservation is part of this Contract."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "31ab9c88ea7c03a1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "31ab9c88ea7c03a1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Do not report publication success from this Work Item; verify the external release separately after closure.",
+  "guidelinesCompliance": [
+    {
+      "guideline": "Fail closed on release identity and preconditions",
+      "evidence": "Existing release workflow gates remain before tag/release mutations."
+    },
+    {
+      "guideline": "Separate candidate and published evidence",
+      "evidence": "No release metadata or publication mutation is in scope."
+    }
+  ],
+  "archiveSequence": 525
+}

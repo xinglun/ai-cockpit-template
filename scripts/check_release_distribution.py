@@ -552,6 +552,7 @@ def exercise_installer(script: bytes, *, tag: str, sha256_supported: bool) -> No
         installer = temp / "install.sh"
         installer.write_bytes(script)
         installer.chmod(0o755)
+        (source_dir / "install.sh").write_bytes(script)
         shutil.copy2(
             ROOT / "scripts" / "verify_quick_install_release.py",
             source_dir / "scripts" / "verify_quick_install_release.py",

@@ -307,5 +307,30 @@ jobs:
           test "$(jq -r '.evidenceBundleDigest' "$RUNNER_TEMP/release-source.json")" = "$EVIDENCE_BUNDLE_DIGEST"
           bash scripts/check_ci_release_evidence.sh "$RUNNER_TEMP/release-evidence/ci-release-evidence.json" "$SOURCE_COMMIT"
 
+      - name: Verify tagged Quick Install contract before publication
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          archive_name="$(jq -r '.releaseArchive.assetName' release.json)"
+          declared_archive_url="$(jq -r '.releaseArchive.url' release.json)"
+          expected_archive_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/${archive_name}"
+          test "$declared_archive_url" = "$expected_archive_url"
+          download_dir="$RUNNER_TEMP/tagged-install"
+          mkdir -p "$download_dir"
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$archive_name" \
+            --dir "$download_dir"
+          verified_archive="$download_dir/$archive_name"
+          test "$(sha256sum "$verified_archive" | cut -d' ' -f1)" = \
+            "$(jq -r '.releaseArchive.sha256' release.json)"
+          verified_archive_url="$(python3 -c \
+            'import pathlib,sys; print(pathlib.Path(sys.argv[1]).resolve().as_uri())' \
+            "$verified_archive")"
+          python3 scripts/verify_quick_install_release.py \
+            --root "$GITHUB_WORKSPACE" \
+            --ref "$RELEASE_TAG" \
+            --asset-url "$verified_archive_url"
+
       - name: Publish verified Draft Release
         run: gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --draft=false

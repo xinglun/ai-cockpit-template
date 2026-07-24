@@ -25,5 +25,6 @@ for archive in \
   rg -q "$archive" "$plan"
 done
 rg -q '已完成/需审计' "$index"
-rg -q '没有删除计划文件' "$index"
+rg -q '已替代/错误计划' "$index"
+rg -q '引用扫描并记录替代证据后删除' "$index"
 printf '%s\n' 'plan cleanup scan: PASS'

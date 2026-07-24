@@ -1,3 +1,14 @@
+---
+author: Ray
+title: "Release Candidate-to-Merge Source Verification Design"
+description: Separate premerge candidate content from post-merge exact source identity.
+keywords:
+  - release
+  - preflight
+  - source-identity
+  - candidate-merge
+---
+
 # Release Candidate-to-Merge Source Verification Design
 
 ## Goal

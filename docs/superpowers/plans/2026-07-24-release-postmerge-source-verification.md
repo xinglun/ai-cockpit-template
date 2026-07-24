@@ -1,3 +1,14 @@
+---
+author: Ray
+title: "Release Post-Merge Source Verification Implementation Plan"
+description: Implement and close the candidate-to-merge release verification gap before v0.5.39.
+keywords:
+  - release
+  - preflight
+  - source-identity
+  - work-item-lifecycle
+---
+
 # Release Post-Merge Source Verification Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
@@ -13,7 +24,7 @@
 - Do not create or move v0.5.39 until this Work Item is merged, closed, synchronized, and merged-main CI/preflight passes.
 - Do not weaken exact-SHA, controlled-origin-ref, archive, lifecycle, or ownership validation.
 - `archiveGrowth=538` and later counts remain warning-only under `enforcement.archiveGrowth: warning`.
-- Final Markdown complexity must be at most 9550; the transient design/plan commits remain in history but are removed from the final tree.
+- Final Markdown complexity must be at most 9550; retain this design/plan and repay their cost by compacting completed historical plans to archive-backed closure stubs.
 
 ---
 
@@ -296,6 +307,10 @@ git commit -m "fix: verify candidate content across release merge"
 **Files:**
 - Modify: `docs/reference/distribution.md`
 - Modify: `docs/reference/ai-cockpit-work-item-lifecycle.md`
+- Modify: `docs/superpowers/plans/README.md`
+- Replace with concise closure stubs: `docs/superpowers/plans/2026-07-22-project-calibration-recalibration.md`
+- Replace with concise closure stubs: `docs/superpowers/plans/2026-07-22-installed-lifecycle-review-remediation.md`
+- Replace with concise closure stubs: `docs/superpowers/plans/2026-07-22-ai-cockpit-governance-hardening.md`
 - Delete: `docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md`
 
 **Interfaces:**
@@ -314,22 +329,28 @@ Document that the hosted workflow resolves the exact merged SHA, checks it out d
 
 Delete `docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md`, whose test instruction explicitly expects `old-commit`.
 
-- [ ] **Step 4: Verify docs and complexity**
+- [ ] **Step 4: Compact completed historical plans and fix retention**
+
+Preserve each historical plan path and YAML metadata, but replace its completed
+execution body with a closure stub that names the authoritative archived Work
+Item evidence and states that no new Work Item may be launched from it. Update
+the plan index so completed plans may be compacted only after reference scanning
+and only when immutable Contract/Summary/manifest evidence remains.
+
+- [ ] **Step 5: Verify docs and complexity**
 
 ```bash
-make check-docs
+make check-docs-metadata
 make check-governance-complexity
 ```
 
-Expected: documentation checks pass; archive growth is warning-only; Markdown is temporarily above 9550 only while this execution plan and design remain present.
+Expected: documentation checks pass; archive growth is warning-only; Markdown is at most 9550 while the current design and execution plan remain present.
 
 ### Task 4: Finish the governed corrective Work Item
 
 **Files:**
 - Update: `.ai/work-items/active/release_postmerge_source_verification_v1.summary.json`
 - Generate: `.ai/cockpit/current_status.md`
-- Remove before finish: `docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md`
-- Remove before finish: `docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md`
 - Archive through `make ai-finish`: `.ai/work-items/archive/**`
 
 **Interfaces:**
@@ -338,13 +359,11 @@ Expected: documentation checks pass; archive growth is warning-only; Markdown is
 
 - [ ] **Step 1: Record Summary evidence**
 
-Populate `changedFiles`, `sourcesUsed`, scenario evidence, guideline compliance, both checkpoints, verification results, zero residual release-integrity risks, and note that transient planning artifacts were removed from the final tree but remain in commits `e258611b` and the plan commit.
+Populate `changedFiles`, `sourcesUsed`, scenario evidence, guideline compliance, both checkpoints, verification results, zero residual release-integrity risks, and the exact archived evidence that justified each historical-plan compaction.
 
-- [ ] **Step 2: Remove transient planning artifacts and verify the budget**
+- [ ] **Step 2: Verify the repaid documentation budget**
 
 ```bash
-git rm docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md
-git rm docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md
 make check-governance-complexity
 ```
 

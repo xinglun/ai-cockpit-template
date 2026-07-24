@@ -1,0 +1,282 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0539_final_after_source_verification",
+  "mode": "code",
+  "title": "Prepare v0.5.39 after post-merge source verification",
+  "rawUserRequest": "发布遇到流程或过时代码问题时先修复流程/代码，再继续 v0.5.39；用户批准方案 A，授权 agent 判断、执行并监控 GitHub Actions，直到完成发布。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-release-process-first-final-publication",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-authorized-process-first-v0539-release-and-ci-monitoring"
+  },
+  "declaredIntent": {
+    "summary": "Generate the final v0.5.39 candidate evidence from the corrected exact-main workflow, merge it through one governed PR, close its lifecycle, and leave publication to the subsequent exact-main release audit.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "test_automation"
+    ]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "c52a4636c46b90438f84db8a178cc4557828683b",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_v0539_final_after_source_verification.contract.json",
+    ".ai/work-items/active/release_v0539_final_after_source_verification.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/release-freeze.json",
+    "release-state.json",
+    "release.json"
+  ],
+  "outOfScope": [
+    "Creating or moving the v0.5.39 tag or GitHub Release inside this Work Item",
+    "Changing release workflow, finalizer, validator, governance limits, or unrelated product files",
+    "Rewriting immutable archived Work Item evidence",
+    "Bypassing PR, merge, ai-close-work-item, exact-main audit, or GitHub Actions monitoring"
+  ],
+  "sources": [
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Canonical release evidence and governance terminology."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "Correct premerge finalization, PR, merge, closure, and exact-main ordering."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Hosted release source identity and publication boundary."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Corrected candidate-content and controlled-identity metadata generator."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Fail-closed candidate and exact-main release audit."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Subsequent exact-main publication workflow."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_postmerge_source_verification_v2.archive-manifest.json",
+      "reason": "Closed process-correction evidence required before final release preparation."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/330",
+      "reason": "Provider evidence that the process correction merged as c52a4636c46b90438f84db8a178cc4557828683b."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30095218614",
+      "reason": "Successful compatibility and compatibility-gate evidence for exact merged main."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30095218692",
+      "reason": "Successful smoke evidence for exact merged main."
+    },
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30095218138",
+      "reason": "Successful CodeQL evidence for exact merged main."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity",
+      "source_binding",
+      "lifecycle_ownership"
+    ],
+    "reason": "The candidate evidence must bind deterministic content to a controlled default-branch identity and survive PR merge before publication.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The process correction, exact base SHA, scope, verification sequence, and delegated release authority are explicit."
+  },
+  "preReviewWarnings": [
+    "Confirm candidate content is derived from clean branch HEAD while sourceCommit, tagTarget, and metadataCommit remain controlled origin/main references.",
+    "Do not publish or tag in this Work Item.",
+    "Complete independent evidence review before ai-finish."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The Work Item starts from origin/main c52a4636c46b90438f84db8a178cc4557828683b after PR #330 closure and successful exact-SHA post-merge Actions.",
+    "Candidate verification passes before metadata generation, including quality, release-state consistency, SBOM, provenance, and existing supply-chain evidence; deterministic release preflight passes after ai-finish and premerge finalization.",
+    "After ai-finish archives this Work Item, finalize-release-freeze-premerge regenerates release.json, release-state.json, release-freeze.json, and release-digests.json from clean candidate HEAD content with controlled origin/main identity.",
+    "sourceCommit, metadataCommit, and tagTarget retain the controlled origin/main identity; sourceTree and archiveSha256 describe the clean candidate content that the merge commit must reproduce.",
+    "Archive growth 540 is warning-only and no governance complexity threshold is increased.",
+    "The PR contains exactly this archived Work Item and generated release evidence, passes all GitHub Actions, and merges without deleting its source branch.",
+    "ai-close-work-item deletes the owned local and remote branches and synchronizes local main exactly to origin/main.",
+    "The exact merged main SHA passes post-merge compatibility, smoke, release preflight, release-state, and supply-chain audits before any v0.5.39 publication."
+  ],
+  "guidelines": [
+    "Fail closed on release identity, lifecycle, source-tree, archive, or ownership mismatch.",
+    "Keep candidate content evidence distinct from the provider-bound merged identity.",
+    "Generate release status files through repository commands; never hand-edit them.",
+    "Preserve immutable archived evidence and one Work Item per PR.",
+    "Do not publish or tag until this Work Item is merged, closed, synchronized, and exact main is audited."
+  ],
+  "intent": {
+    "problem": "The release process defect is now corrected and verified on merged main, but v0.5.39 still carries stale pre-correction metadata. A fresh final preparation Work Item must create candidate evidence using the corrected boundary, merge that evidence, close the Contract lifecycle, and prove exact merged-main parity before publication.",
+    "constraints": [
+      "Use one branch based exactly on c52a4636c46b90438f84db8a178cc4557828683b and one PR.",
+      "Run independent review before ai-finish so evidence remains mutable if a defect is found.",
+      "Run premerge finalization only after ai-finish on a clean archived candidate branch.",
+      "Do not modify implementation code or governance limits in this release-preparation Work Item.",
+      "Do not create or move v0.5.39 until merged-main Actions and local exact-main audits pass."
+    ],
+    "rationale": "Separating candidate evidence generation from hosted publication lets the PR prove deterministic content first, while the release workflow later resolves and verifies the unique canonical merge SHA before mutating tag or Release state."
+  },
+  "scenarioCoverage": [
+    {
+      "id": "predecessor_closure",
+      "scenario": "The process-correction Work Item is archived, PR #330 is merged, its branch is deleted locally and remotely, local main equals origin/main c52a4636, and exact-main Actions passed.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/work-items/archive/2026/release_postmerge_source_verification_v2.archive-manifest.json",
+        "https://github.com/spirex-ds-dev/ai-cockpit-template/pull/330",
+        "Summary predecessorClosureEvidence"
+      ]
+    },
+    {
+      "id": "candidate_baseline",
+      "scenario": "The clean release-preparation candidate passes quality, release-state consistency, SBOM, provenance, and existing release-evidence checks before metadata regeneration.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make quality",
+        "make check-release-state-consistency",
+        "make check-release-evidence",
+        "make check-sbom",
+        "make check-provenance"
+      ]
+    },
+    {
+      "id": "publication_boundary",
+      "scenario": "No tag or GitHub Release is created during candidate preparation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Contract outOfScope",
+        "provider state checked before publication"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user approved scheme A and delegated evidence-based release preparation, PR, merge, closure, Actions monitoring, and publication decisions."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "approved": true,
+    "expectedMetrics": {
+      "archiveGrowth": 540
+    },
+    "reason": "One final functional release-preparation archive after the process correction; archive growth remains warning-only."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_v0539_final_after_source_verification.json",
+    "baseCommit": "c52a4636c46b90438f84db8a178cc4557828683b",
+    "initialScopeDigest": "2e84d0fd5d88e4e44f94c9a501d8f84d02d95eaeddc9642699611bb0f7872a90",
+    "contractSkeletonDigest": "f3477fcfd899c03891fe141b7583a71f609565b6698833c4278820cf173b4358"
+  }
+}

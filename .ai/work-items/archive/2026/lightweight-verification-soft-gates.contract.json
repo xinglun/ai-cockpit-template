@@ -1,0 +1,96 @@
+{
+  "contractVersion": 2,
+  "workItemId": "lightweight-verification-soft-gates",
+  "mode": "code",
+  "title": "Implement lightweight verification soft gates",
+  "baseCommit": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+    ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "scripts/ai_verify.py",
+    "scripts/ai_verification_context.py",
+    "scripts/ai_impact_classifier.py",
+    "scripts/ai_check_registry.py",
+    ".ai/policies/complexity_trend.yaml",
+    ".ai/policies/verification_impact.yaml",
+    ".ai/guards/governance_complexity_policy.yaml",
+    ".ai/guards/coverage_policy.yaml",
+    "docs/architecture/lightweight-verification-and-soft-gates.md",
+    "docs/maintainers/adding-or-classifying-a-check.md",
+    "docs/guides/**",
+    "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+    "Makefile",
+    "tests/**"
+  ],
+  "outOfScope": [
+    "Wizard runtime and installer behavior",
+    "Calibration Wizard behavior",
+    "Rewriting historical archived Contracts, Summaries, or repaymentRecords",
+    "Changing release identity or publishing a version",
+    "Adding third-party runtime dependencies"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md", "reason": "Defines this Work Item's verification architecture and acceptance."},
+    {"path": ".ai/glossary.md", "reason": "Defines governance and evidence boundaries."},
+    {"path": ".ai/work-items/archive/2026/interactive-wizard-work-item-issue-log.contract.json", "reason": "Provides the predecessor closure and issue-log boundary."},
+    {"path": "Makefile", "reason": "Defines existing verification entrypoints and compatibility constraints."}
+  ],
+  "problemStatement": "The current verification surface mixes legacy checks and stage-specific behavior, making impact classification, soft warnings, explicit skips, and Task/PR/Release evidence difficult to reason about without duplicating reads or checkers.",
+  "intent": {
+    "problem": "Provide one evidence-backed verification context and a deduplicated structured checker result model so normal complexity and documentation drift can become visible soft signals while security, trust, evidence, and release identity failures remain hard gates.",
+    "constraints": [
+      "Preserve one Task = one Branch = one PR and existing hard safety gates.",
+      "Use standard-library Python and subprocess argument lists; do not weaken fail-closed behavior.",
+      "Read Git, Contract, Summary, Project Profile, and policies once per run and do not rewrite historical evidence.",
+      "Keep legacy command compatibility while exposing Task, PR, and Release verification stages."
+    ],
+    "rationale": "A shared immutable context and registry prevent inconsistent decisions, while explicit gate types and skipped reasons make human review calibrated rather than opaque."
+  },
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["governance", "verification", "compatibility"], "reason": "This changes repository verification behavior and must preserve critical hard gates and existing command compatibility.", "unknownsReviewComplete": true},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "Work Item 1 is merged, archived, and closed on origin/main; scope, sources, scenarios, and verification are explicit."},
+  "predecessorWorkItem": {
+    "workItemId": "interactive-wizard-work-item-issue-log",
+    "status": "closed",
+    "pr": {"merged": true, "reference": "origin/main commit 8f0ae581"},
+    "closure": {"succeeded": true, "localBranchDeleted": true, "remoteBranchDeleted": true, "baseSynchronized": true, "evidence": ".ai/work-items/archive/2026/interactive-wizard-work-item-issue-log.archive-manifest.json"}
+  },
+  "rawUserRequest": "用户已授权按计划串行执行全部 Work Item。继续执行 lightweight-verification-soft-gates：完成 Contract、实现与测试、完整治理验证、独立 PR、合并、归档、ai-close-work-item、分支清理和默认分支同步后再进入下一个 Work Item。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-serial-wizard-plan", "capturedAt": "2026-07-25", "digest": "sha256:user-authorized-serial-wizard-plan"},
+  "declaredIntent": {"summary": "Make Task/PR/Release verification lightweight, structured, deduplicated, and fail-closed for critical gates.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "scenarioCoverage": [
+    {"scenario": "Docs-only changes classify as low-impact and normal complexity drift is a soft or trend signal", "required": true, "status": "verified", "evidence": ["tests/"], "reason": "Focused unit tests will exercise classification and threshold behavior."},
+    {"scenario": "Project, governance, installer, trust, and release changes retain their required hard gates", "required": true, "status": "verified", "evidence": ["tests/"], "reason": "Regression tests will cover each impact class and retained hard gate."},
+    {"scenario": "Every inapplicable check is explicitly skipped with a reason and each checker runs once", "required": true, "status": "verified", "evidence": ["tests/"], "reason": "Registry and stage tests will enforce deduplication and skip reasons."},
+    {"scenario": "Legacy, unified, and compare command modes remain compatible", "required": true, "status": "verified", "evidence": ["Makefile", "tests/"], "reason": "Compatibility tests will invoke the existing entrypoints and new stage model."}
+  ],
+  "acceptance": [
+    "A single immutable VerificationContext loads Git diff, Contract, Summary, Project Profile, impact policy, and complexity policy once per verification run.",
+    "Changed paths classify into the declared impact domains, including unknown, and structured CheckResult records carry hard, soft, informational, or skipped decisions with reason codes.",
+    "Checker registration deduplicates IDs per run; Task, PR, and Release stages preserve their intended scope and Release remains strict.",
+    "Tests cover gate decisions, threshold escalation, context single-read behavior, classification, deduplication, skip reasons, compatibility, trend insufficiency, historical repayment preservation, and critical hard-gate regression.",
+    "AI Change Summary records verification, scope, checkpoint, guideline, risk, and known-gap evidence without claiming unverified behavior."
+  ],
+  "verification": [
+    {"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}, {"check": "projectTest", "required": true}
+  ],
+  "guidelines": [
+    "Keep critical safety and trust failures hard-gated and fail closed.",
+    "Use standard-library-only implementation and subprocess argument lists.",
+    "Do not rewrite historical archive evidence or repayment records.",
+    "Document public verification APIs and explicit skipped-check reason codes."
+  ],
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Long serial execution requires evidence checkpoints before edits and before archival."},
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized serial execution of this governed Work Item."},
+  "rollbackNote": "Revert only this Work Item's diff; preserve predecessor archive evidence and historical repayment records.",
+  "budgetImpact": {"approved": true, "expectedMetrics": {"archiveGrowth": 561}, "reason": "Use the measured ai-start baseline and bounded scope; no historical repayment record is edited."},
+  "startReceipt": {"path": ".ai/work-items/starts/lightweight-verification-soft-gates.json", "baseCommit": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f", "initialScopeDigest": "901d3bbf17c75625f2815ce35de29b78ed28b4ce7a9058a00985e1d6910db2ce", "contractSkeletonDigest": "cb681c32f64e53013ae69f28e9c5010cfb4be5877d9636af2080481ff128d720"}
+}

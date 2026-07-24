@@ -1,0 +1,537 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "lightweight-verification-soft-gates",
+  "contractPath": ".ai/work-items/archive/2026/lightweight-verification-soft-gates.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/ai_verification_context.py",
+      "reason": "Added immutable single-read verification inputs and impact grouping."
+    },
+    {
+      "path": "scripts/ai_impact_classifier.py",
+      "reason": "Added deterministic changed-path impact classification."
+    },
+    {
+      "path": "scripts/ai_check_registry.py",
+      "reason": "Added deduplicated checker registration and structured gate results."
+    },
+    {
+      "path": "scripts/ai_verify.py",
+      "reason": "Added Task/PR/Release stage primitives, trend evaluation, and mode compatibility."
+    },
+    {
+      "path": "tests/test_lightweight_verification.py",
+      "reason": "Added focused tests for context, classification, gates, trends, skips, and modes."
+    },
+    {
+      "path": ".ai/policies/verification_impact.yaml",
+      "reason": "Declared impact domains and retained hard-gate categories."
+    },
+    {
+      "path": ".ai/policies/complexity_trend.yaml",
+      "reason": "Declared trend signals and insufficient-sample behavior."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Classified normal Python and Markdown growth as warnings rather than hard failures."
+    },
+    {
+      "path": ".ai/guards/coverage_policy.yaml",
+      "reason": "Bound the new verification modules to their focused test file for Coverage Guard ownership."
+    },
+    {
+      "path": "Makefile",
+      "reason": "Added the ai-verify structured verification entrypoint."
+    },
+    {
+      "path": "docs/architecture/lightweight-verification-and-soft-gates.md",
+      "reason": "Documented shared context and Task/PR/Release boundaries."
+    },
+    {
+      "path": "docs/maintainers/adding-or-classifying-a-check.md",
+      "reason": "Documented checker IDs, impact domains, gate types, and skip evidence."
+    },
+    {
+      "path": "docs/guides/lightweight-verification.md",
+      "reason": "Added English user guidance."
+    },
+    {
+      "path": "docs/guides/lightweight-verification.ja.md",
+      "reason": "Added Japanese user guidance."
+    },
+    {
+      "path": "docs/guides/lightweight-verification.zh-CN.md",
+      "reason": "Added Chinese user guidance."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lightweight-verification-soft-gates.contract.json",
+      "reason": "Bound scope, intent, predecessor closure, scenarios, and verification."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lightweight-verification-soft-gates.summary.json",
+      "reason": "Recorded implementation and verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated Cockpit status for the active Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/lightweight-verification-soft-gates.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+    "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+    ".ai/glossary.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Docs-only and known impact domains classify deterministically, including unknown",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_lightweight_verification.py",
+        "scripts/ai_impact_classifier.py"
+      ]
+    },
+    {
+      "scenario": "Critical identity and trust failures retain hard gate semantics",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_lightweight_verification.py",
+        "scripts/ai_check_registry.py"
+      ]
+    },
+    {
+      "scenario": "Stage-inapplicable checks are explicit skipped results with reason codes and duplicate IDs run once",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_lightweight_verification.py"
+      ]
+    },
+    {
+      "scenario": "Legacy, unified, and compare modes remain callable",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_lightweight_verification.py",
+        "scripts/ai_verify.py"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:09.431446+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "28401ee4f125778e24a27e929272be652cdbfcf35ee0e9812a3c6176b0f16fa5",
+      "commandHash": "bd0be7dd72c7a79c348fb80323582ada286fbb61bc0592612d31821246d5c273",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/lightweight-verification-soft-gates.contract.json work item contract check passed: .ai/work-items/active/lightweight-verification-soft-gates.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:09.774132+00:00",
+      "exitCode": 0,
+      "durationMs": 277,
+      "outputDigest": "a25be69c021fd774aece041cc79cba795684d120372976dee3f663e934525d69",
+      "commandHash": "842be6e842c46f7ecf7df65c5e649b9b814bf146a2f4b1641ceed049256c7d75",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/lightweight-verification-soft-gates.contract.json scope guard passed: 17 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:09.974728+00:00",
+      "exitCode": 0,
+      "durationMs": 149,
+      "outputDigest": "7b50fa7fd50d1a9626e132d75a1fdbebb82ed5b52a5db01121f8ce0d16a9b46b",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json [warning] restricted_write: .ai/policies/complexity_trend.yaml (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/policies/verification_impact.yaml (.ai/**) - AI governance configuration. [warning] restricted_write: .ai/guards/coverage_policy.yaml (.ai/guards/**) - Guard manifests define repository policy and should change o"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:10.192660+00:00",
+      "exitCode": 0,
+      "durationMs": 169,
+      "outputDigest": "484195973a8e670800a12436c1c30793f064a24e819e7d634f8f9a3fcb1f5d0f",
+      "commandHash": "d6e7bd74793d8bf8a2fbbc989e8dd749532279b2c067a48e29e7c80428a17d7c",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `lightweight-verification-soft-gates` - Contract Hash: `176d6c3b7a5edbec` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Co"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:10.356105+00:00",
+      "exitCode": 0,
+      "durationMs": 98,
+      "outputDigest": "c664233649930de5ff3a5bcddf893a88f432dec262528ad1d88e5eac080a873d",
+      "commandHash": "ddb3abd21e8a60b0e45484baa4f5d9b30112311656bf78eaa8b7ee09aadeb236",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json review policy matched 11 path(s) [review] .ai/policies/complexity_trend.yaml [review] .ai/policies/verification_impact.yaml [review] .ai/work-items/starts/lightweight-verification-soft-gates.json [review] scripts/ai_check_registry.py [review] scripts/ai_impact_classifier.py [review] scripts/ai_verification_context.py [review] scripts/ai_ver"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:10.489758+00:00",
+      "exitCode": 0,
+      "durationMs": 79,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:10.643922+00:00",
+      "exitCode": 0,
+      "durationMs": 102,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:10.748459+00:00",
+      "exitCode": 0,
+      "durationMs": 55,
+      "outputDigest": "0341a69207bca922ca933317c2d0dba46d0709ac81b37a399557fb58a98d55cb",
+      "commandHash": "31e75d8dda8b739096a6a338eee92998bfe89b299b8dcb505c5a4648e4108f13",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:11.307338+00:00",
+      "exitCode": 0,
+      "durationMs": 66,
+      "outputDigest": "09baa2418a3e303fc92c194095e2a292b2c320caadf3525c65a47ff9976aeee5",
+      "commandHash": "15e92974d17195692111793448eda344771f26692d1a72b8d775fefe8185d606",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json guidelines compliance check passed: 4 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:33:11.543842+00:00",
+      "exitCode": 0,
+      "durationMs": 186,
+      "outputDigest": "7f74916403865bebbb9735a7a688b17f49592847c8a0c60a332601b7ddb56d35",
+      "commandHash": "b11d29cc7cd491a682e98c951e32ae19ac82dfcf457b0ff75331673c0eab8220",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json ## Diff Ownership Preview - active_owned: `17`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/guards/coverage_policy.yaml` — covered by Contract scope - [active_owned] `.ai/guards/governance_co"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:37:22.537621+00:00",
+      "exitCode": 0,
+      "durationMs": 250937,
+      "outputDigest": "1a6b36cb9e14180fce30493b6e7493667ecaf975974fd3d76d82b561e762a79d",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 189 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ............................................................."
+    },
+    {
+      "check": "projectTest",
+      "command": "make ai-cockpit-project-test",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:40:51.480603+00:00",
+      "exitCode": 0,
+      "durationMs": 208885,
+      "outputDigest": "019df2b5d05dac590e6cb1624940d147a595ef64e0afb3a93a73fb717e27b3a2",
+      "commandHash": "8634277deefb65606289f1d42db04ac71d89bf8079a95116f4dbdc9e290aad92",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "509b150bd95dc04f8e623e5b34d09c728a6dd5efc7b1f6a1c38d77ca9e42fc21",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 22%] ........................................................................ [ 30%] .........................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:40:53.069250+00:00",
+      "exitCode": 0,
+      "durationMs": 181,
+      "outputDigest": "b0a077f3ce886dc17168294194688f45f10651cf1c68265d881126a6012426a4",
+      "commandHash": "b9b65b65317852d58fc1f36c783dded6bccfacc9829d3be074d6e361b40c6f36",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "22311a93ff84007acf683f5cbf775cf7415b2fe17c7a121d4dc0dfc115468734",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/lightweight-verification-soft-gates.contract.json --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:40:53.301432+00:00",
+      "exitCode": 0,
+      "durationMs": 186,
+      "outputDigest": "ba359230ac1dc679661bf0c7bd9e82eaa368014038071956ec79c15071c8de47",
+      "commandHash": "efad302e96618b2c49c596985d4586c9b3d0ff44f0262758f9fb4a0bb3fc922a",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "22311a93ff84007acf683f5cbf775cf7415b2fe17c7a121d4dc0dfc115468734",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:40:53.396023+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "22311a93ff84007acf683f5cbf775cf7415b2fe17c7a121d4dc0dfc115468734",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:40:53.702721+00:00",
+      "exitCode": 0,
+      "durationMs": 71,
+      "outputDigest": "a3ab2a253a70668effd8c1e9ca20d5168002c51ae09bf95ae30f874e999b38d0",
+      "commandHash": "067dbba066f543450319068d861031a555f3a86261816f4c02c3562f91895c74",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "22311a93ff84007acf683f5cbf775cf7415b2fe17c7a121d4dc0dfc115468734",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json --summary .ai/work-items/active/lightweight-verification-soft-gates.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/lightweight-verification-soft-gates.summary.json CONTRACT=.ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T22:40:54.417258+00:00",
+      "exitCode": 0,
+      "durationMs": 89,
+      "outputDigest": "ac71b7bfc8e6ffb243caa47c106dc693ccfd6eeacdc17651192de865d1c04005",
+      "commandHash": "e89ca76f05a0fe8b7b16713507200894fe089d61d69116d3ee58a61728ef70ac",
+      "contractHash": "176d6c3b7a5edbec868d30cd4b9d7050bd4a8b74a0f38652c54083a033ccf5e1",
+      "commitSha": "a2f817d641ae965077892f8fcd9aa2dbd1b3262f",
+      "executionContractPath": ".ai/work-items/active/lightweight-verification-soft-gates.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/lightweight-verification-soft-gates.summary.json",
+      "worktreeDigest": "9f39653947c53cc50005eacfad9704091ffd917f193c0cbe6594e4ac79bfa2ba",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/lightweight-verification-soft-gates.summary.json --contract .ai/work-items/active/lightweight-verification-soft-gates.contract.json ai summary check passed: .ai/work-items/active/lightweight-verification-soft-gates.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep critical safety and trust failures hard-gated and fail closed.",
+      "compliant": true,
+      "evidence": "CheckResult gate validation and release identity regression test."
+    },
+    {
+      "guideline": "Use standard-library-only implementation and subprocess argument lists.",
+      "compliant": true,
+      "evidence": "New modules use the standard library; subprocess uses a fixed argument list and no shell."
+    },
+    {
+      "guideline": "Do not rewrite historical archive evidence or repayment records.",
+      "compliant": true,
+      "evidence": "Diff contains no historical archive or repayment-record edits."
+    },
+    {
+      "guideline": "Document public verification APIs and explicit skipped-check reason codes.",
+      "compliant": true,
+      "evidence": "Architecture and maintainer docs plus stage_not_applicable tests."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Governance and compatibility changes are covered by focused tests and existing governance regression tests; external CI/provider checks remain outside this local run."
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/ai_guard_report.json",
+    "target/ai_coverage_guard_report.json",
+    "target/ai_backtrack_report.json",
+    "target/ai_preflight_review.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "warning",
+      "detail": "Governance complexity reports pythonLines, markdownLines, and archiveGrowth above historical limits; normal growth is now classified as warning per the Work Item plan.",
+      "resolution": "Added explicit complexity trend policy and warning enforcement; preserved hard dependency/trust/release gates."
+    },
+    {
+      "severity": "warning",
+      "detail": "Bandit reported fixed-argument subprocess low-risk findings in the new context reader.",
+      "resolution": "Recorded standard nosec annotations tied to the fixed executable and argument list; baseline check passes."
+    }
+  ],
+  "followUps": [
+    "Run required provider CI and review the generated structured evidence before merge."
+  ],
+  "unverifiedScenarios": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external-verification",
+      "detail": "Provider CI and a fresh external checkout were not executed locally.",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Hard gate preservation",
+      "warning classification policy",
+      "subprocess annotations",
+      "Task/PR/Release compatibility"
+    ]
+  },
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Shared context, impact classification, registry, soft trend signals, and stage-compatible output are implemented without changing wizard runtime behavior."
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "changed",
+    "userVisibleOutput": "changed",
+    "persistence": "not_applicable",
+    "localization": "changed",
+    "generatedArtifacts": "changed",
+    "makeEntrypoints": "changed"
+  },
+  "userCorrectionsCaptured": [
+    "Continue the full serial plan under the user's standing authorization; do not stop for routine lifecycle approval."
+  ],
+  "userCorrectionSolidification": [
+    "rawUserRequest and restrictedWriteApproval in the Contract; lifecycle closure remains required."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "176d6c3b7a5edbec",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 16
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "176d6c3b7a5edbec",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "knownGaps": [
+    "Provider CI required checks and external fresh-checkout verification are not available in the local run."
+  ],
+  "overclaimPrevention": "Local tests and governance checks are reported separately from unavailable provider checks; warnings are not represented as hard-gate success.",
+  "archiveSequence": 549
+}

@@ -234,6 +234,9 @@ ai-cockpit-project-lint: project-lint
 
 ai-cockpit-diff-check: diff-check
 
+ai-verify:
+	$(AI_PYTHON) scripts/ai_verify.py --root . --contract "$(CONTRACT)" --summary "$(SUMMARY)" --stage "$(or $(STAGE),task)" --mode "$(or $(MODE),unified)"
+
 ai-cockpit-quality: quality
 
 ai-start:

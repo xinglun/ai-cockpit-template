@@ -140,6 +140,21 @@ def test_release_preflight_rejects_metadata_commit_drift():
     assert any("metadataCommit" in issue for issue in issues)
 
 
+def test_deterministic_archive_matches_fresh_detached_checkout(tmp_path):
+    source = preflight.resolve_source_commit(Path.cwd(), "HEAD")
+    repo = tmp_path / "fresh"
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    subprocess.run(["git", "-C", str(repo), "remote", "add", "origin", str(Path.cwd())], check=True)
+    subprocess.run(["git", "-C", str(repo), "fetch", "-q", "origin", source], check=True)
+    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", source], check=True)
+    assert preflight.canonical_source_tree(repo, source) == preflight.canonical_source_tree(
+        Path.cwd(), source
+    )
+    assert preflight.canonical_archive_sha(repo, source) == preflight.canonical_archive_sha(
+        Path.cwd(), source
+    )
+
+
 def _git(repo: Path, *args: str) -> str:
     return subprocess.run(
         ["git", "-C", str(repo), *args],

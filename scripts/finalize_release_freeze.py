@@ -122,10 +122,8 @@ def main(
         resolved_source = run_git(["rev-parse", source_identity])
         if resolved_source.returncode != 0 or not resolved_source.stdout.strip():
             return _fail(f"source identity cannot be resolved: {source_identity}")
-    # The controlled source identity remains a future default-branch ref for
-    # post-merge resolution. Canonical content is materialized from this clean
-    # candidate HEAD; export-ignored metadata and Work Item evidence let a clean
-    # merge preserve those bytes while changing commit identity.
+    # Controlled identity may remain a future default-branch ref; export-ignored
+    # Work Item evidence lets a clean merge preserve candidate bytes.
     materialization_commit = resolved_head if premerge_task is not None else source_identity
     source_tree = canonical_source_tree(root, materialization_commit)
     archive_sha = canonical_archive_sha(root, materialization_commit)

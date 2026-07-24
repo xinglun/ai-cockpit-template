@@ -1,0 +1,176 @@
+{
+  "contractVersion": 2,
+  "workItemId": "interactive-wizard-plan-budget-repair",
+  "mode": "code",
+  "title": "Repair Markdown complexity budget for interactive wizard plan",
+  "baseCommit": "0ff440ab9657d5f821e175f6714ac0ec621d145f",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/interactive-wizard-plan-budget-repair.contract.json",
+    ".ai/work-items/active/interactive-wizard-plan-budget-repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Interactive Wizard runtime implementation",
+    "Starting any planned feature Work Item",
+    "Changing Python, function-complexity, schema, guard-count, archive-growth, dependency, or supply-chain budgets",
+    "Deleting or rewriting archived evidence"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current Markdown ceiling is 9550 and the plan PR measures 9732 Markdown lines."
+    },
+    {
+      "path": "tests/test_governance_complexity.py",
+      "reason": "Regression tests enforce the configured complexity ceilings."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+      "reason": "The authorized plan Work Item is the measured document that requires the bounded reservation."
+    },
+    {
+      "path": "conversation:user-authorization",
+      "reason": "User explicitly authorized the independent budget repair Work Item."
+    }
+  ],
+  "rawUserRequest": "授权修复当前计划工单触发的 Markdown complexity budget 阻塞，完成独立预算修复工单后继续 PR、合并、ai-close-work-item 和分支清理流程。",
+  "rawRequestSource": {"type": "human", "reference": "conversation:user-authorized-budget-repair", "capturedAt": "2026-07-25", "digest": "sha256:user-authorized-budget-repair"},
+  "declaredIntent": {"summary": "Reserve the measured Markdown complexity ceiling needed by the authorized plan-document PR without starting feature Work Items.", "requestedCapabilities": ["ai_governance", "documentation"]},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["budget_integrity", "scope"],
+    "reason": "Only the Markdown ceiling and one repayable policy record change; all other budgets and runtime behavior remain unchanged."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user explicitly authorized this isolated budget repair Work Item."
+  },
+  "preReviewWarnings": [
+    "Confirm the ceiling matches the measured 9732 Markdown lines, only one repayment record is added, and no future feature Work Item starts."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Set max.markdownLines to exactly 9732 and leave every other max value unchanged.",
+    "Add exactly one repayment record for interactive-wizard-plan-budget-repair|markdownLines|9550|9732|user, naming clean-interactive-wizard-execution-plan-documents as the repayment Work Item.",
+    "Run the governance complexity checks and relevant quality tests; the Markdown ceiling remains a blocking measured gate.",
+    "The diff contains no Wizard runtime implementation and no planned feature Work Item is started."
+  ],
+  "guidelines": [
+    "Keep complexity budgets explicit, measured, and repayable.",
+    "Do not use a budget adjustment to authorize unrelated implementation scope.",
+    "Preserve fail-closed enforcement for Markdown complexity."
+  ],
+  "intent": {
+    "problem": "The authorized plan document measures 9732 Markdown lines while the confirmed ceiling is 9550, causing the existing quality gate to fail.",
+    "constraints": ["Change only the Markdown ceiling and its repayment record.", "Do not start any planned feature Work Item.", "Keep the budget gate blocking and evidence-based."],
+    "rationale": "A bounded, repayable reservation is required to let the already-authorized plan document pass its existing measured quality gate; the final cleanup Work Item will repay it."
+  },
+  "scenarioCoverage": [
+    {"scenario": "The measured plan Markdown total is within the configured ceiling.", "required": true, "status": "verified", "evidence": ["make check-governance-complexity"]},
+    {"scenario": "No planned feature Work Item starts during budget repair.", "required": true, "status": "verified", "evidence": ["make check-ai-scope CONTRACT=.ai/work-items/active/interactive-wizard-plan-budget-repair.contract.json"]}
+  ],
+  "budgetImpact": {"expectedMetrics": {"markdownLines": 182}, "approved": true, "repaymentWorkItem": "clean-interactive-wizard-execution-plan-documents", "repaymentRecords": [".ai/guards/governance_complexity_policy.yaml"]},
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the independent Markdown budget repair Work Item."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/interactive-wizard-plan-budget-repair.json",
+    "baseCommit": "0ff440ab9657d5f821e175f6714ac0ec621d145f",
+    "initialScopeDigest": "c6fd9992c3fe5525a93ab7e8ac7fe85ad0401a6c2e6612b409c1a5b9d2f6f902",
+    "contractSkeletonDigest": "27db12816424f7c8002831be367005518ead5f4d0f5879fee4e80683d5dbc714"
+  }
+}

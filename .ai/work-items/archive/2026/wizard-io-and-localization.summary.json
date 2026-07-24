@@ -1,0 +1,472 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "wizard-io-and-localization",
+  "contractPath": ".ai/work-items/archive/2026/wizard-io-and-localization.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/ai_wizard_io.py",
+      "reason": "Added fail-closed TTY input controls and accessible status output."
+    },
+    {
+      "path": "scripts/ai_wizard_localization.py",
+      "reason": "Added language alias resolution and exact resource parity validation."
+    },
+    {
+      "path": "locales/wizard/en.json",
+      "reason": "Added English Wizard messages."
+    },
+    {
+      "path": "locales/wizard/ja.json",
+      "reason": "Added Japanese Wizard messages."
+    },
+    {
+      "path": "locales/wizard/zh-CN.json",
+      "reason": "Added Simplified Chinese Wizard messages."
+    },
+    {
+      "path": "tests/test_wizard_io.py",
+      "reason": "Covered safe controls, non-TTY, EOF/Ctrl+C, and status rendering."
+    },
+    {
+      "path": "tests/test_wizard_localization.py",
+      "reason": "Covered aliases, precedence, parity, and unsupported language rejection."
+    },
+    {
+      "path": "docs/architecture/wizard-io-and-localization.md",
+      "reason": "Documented the public IO and localization boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wizard-io-and-localization.contract.json",
+      "reason": "Created the Work Item Contract skeleton."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wizard-io-and-localization.summary.json",
+      "reason": "Created the AI Change Summary skeleton."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/wizard-io-and-localization.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/wizard-io-and-localization.contract.json",
+    "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+    ".ai/glossary.md",
+    "scripts/ai_onboard.py"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Language aliases and precedence resolve explicit option, environment, system locale, then ja",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_wizard_localization.py"
+      ]
+    },
+    {
+      "scenario": "TTY and non-TTY input, EOF, Ctrl+C, Back/Pause/Quit/Help, and dangerous default N are explicit",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_wizard_io.py"
+      ]
+    },
+    {
+      "scenario": "ja, en, and zh-CN resources have exact key and placeholder parity without silent fallback",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_wizard_localization.py",
+        "locales/wizard"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:13.200424+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "c32ae4381732411b18a7fc20e00f9a5c11a46c34c4db6af91991cc3d337f0e57",
+      "commandHash": "6c7bcd5bb8c0438b2b8b6d8c332ad11873d6d981d09690a2a6af824814b528d9",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_work_item.py .ai/work-items/active/wizard-io-and-localization.contract.json work item contract check passed: .ai/work-items/active/wizard-io-and-localization.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:13.346062+00:00",
+      "exitCode": 0,
+      "durationMs": 97,
+      "outputDigest": "2a2a42b6619d8df6a5cb307938a697e2507c679a8a6f022982b4f08d222ad738",
+      "commandHash": "8930ba2e2ae8fe8ff960ad5ab2a706ccacecf311d986612a3a9782b2325039e0",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scope.py .ai/work-items/active/wizard-io-and-localization.contract.json scope guard passed: 10 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:13.499536+00:00",
+      "exitCode": 0,
+      "durationMs": 106,
+      "outputDigest": "f98387f968bd5d526e889022a8a349527db78ecd3e99ca9e584d8f59ac7256ca",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guards.py --contract .ai/work-items/active/wizard-io-and-localization.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:13.715633+00:00",
+      "exitCode": 0,
+      "durationMs": 170,
+      "outputDigest": "8f7c7b7f6a7e999dabebd57216ccaf6c28dcd05f57f0cbcc67b33ca675e8b7a1",
+      "commandHash": "6c04bbae27c1ef5b783dfe67c6dbb1265bce46c23f76d9d7e00240a6416597e0",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_checkpoint.py --contract .ai/work-items/active/wizard-io-and-localization.contract.json --summary .ai/work-items/active/wizard-io-and-localization.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `wizard-io-and-localization` - Contract Hash: `a82c2c3e20654150` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `5` - Unknown Count: `0` - Required Checks:"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:13.937613+00:00",
+      "exitCode": 0,
+      "durationMs": 164,
+      "outputDigest": "9dcb3c70bd69cd56abcc9cfa0a2f0a11b8fa25d1433ec61573361fd4d9fc8186",
+      "commandHash": "c0a6b78ac639f15aad06bbd65d967a2a951192f761f9852a8cbd17784a9e7791",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_review_policy.py --summary .ai/work-items/active/wizard-io-and-localization.summary.json review policy matched 4 path(s) [review] .ai/work-items/starts/wizard-io-and-localization.json [review] scripts/ai_wizard_io.py [review] scripts/ai_wizard_localization.py [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:14.075170+00:00",
+      "exitCode": 0,
+      "durationMs": 90,
+      "outputDigest": "879173ffc9bfa9ed2266efb59783f15c34e8c14479d2cd3dafac29dc36137291",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:14.231456+00:00",
+      "exitCode": 0,
+      "durationMs": 104,
+      "outputDigest": "c794b587dd5b113b0a1a80c89e9497143d005bed7185c33c3a2d674da922459d",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:14.327750+00:00",
+      "exitCode": 0,
+      "durationMs": 44,
+      "outputDigest": "e9a081a1c5946e34690be1c3325b2d8568d1ccc7acceae4402e363fef65a6d40",
+      "commandHash": "5fb306e58a070343c745ad314d423b037ffe1d42cb43962e309f794e8de166ca",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/wizard-io-and-localization.contract.json --summary .ai/work-items/active/wizard-io-and-localization.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:14.428326+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "b861cac3b8b95c82593322dac7b11317a3f4fc28fdfc6c182d705fb1fb7ad9b4",
+      "commandHash": "428cdd13af525308e952fe178dea3c6c9086ad0d839fdca9a6fbb8ef0604b930",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_guidelines.py --contract .ai/work-items/active/wizard-io-and-localization.contract.json --summary .ai/work-items/active/wizard-io-and-localization.summary.json guidelines compliance check passed: 4 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:34:14.659786+00:00",
+      "exitCode": 0,
+      "durationMs": 183,
+      "outputDigest": "68525e0b2f8e9e40660f4d0d9047b2d440585b0f1efcd101d99eac91bc5ba518",
+      "commandHash": "9a4eda0b112f5b315a8dd8dc1544dd2e8aab3f1e20b73bf09619aba3da2c1872",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/wizard-io-and-localization.contract.json ## Diff Ownership Preview - active_owned: `10`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/wizard-io-and-localization.json` — covered by Contract scope - [active_owned] `docs/archit"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:38:15.371840+00:00",
+      "exitCode": 0,
+      "durationMs": 240663,
+      "outputDigest": "5963fadd1980723c617404c270b8ec7213cf2c60997f47d5c51eee7280ff8dad",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m ruff format --check scripts tests 195 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 14%] ............................................................."
+    },
+    {
+      "check": "projectTest",
+      "command": "make ai-cockpit-project-test",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:41:33.351485+00:00",
+      "exitCode": 0,
+      "durationMs": 197926,
+      "outputDigest": "16e9c64721d6a8dc89b1aac274e14b97c329110f45ff0a06a2115e4cec56265c",
+      "commandHash": "8634277deefb65606289f1d42db04ac71d89bf8079a95116f4dbdc9e290aad92",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "22035679064c5e804d05733f799632cb2d6ebab8bf7bb0d7b0f18f044e60f3cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 14%] ........................................................................ [ 22%] ........................................................................ [ 29%] .........................."
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:41:34.657335+00:00",
+      "exitCode": 0,
+      "durationMs": 223,
+      "outputDigest": "0601f2011e0510e21c64efb71b9656ce620a3e00488fe5bd3e6b49c3cd889440",
+      "commandHash": "cb1759838128d204b66333f64696701f7da73091e8975e8af76492f0ffc1e546",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "aaab272529768f6ca1164f97a00a6c73a93f15da06797eaeaaf649a6d7181c1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_generate_status.py .ai/work-items/active/wizard-io-and-localization.contract.json --summary .ai/work-items/active/wizard-io-and-localization.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:41:34.881640+00:00",
+      "exitCode": 0,
+      "durationMs": 179,
+      "outputDigest": "4049c925daa6843c24924beb89bbf8d2516d9f0d23a6f685de60b79f207aa878",
+      "commandHash": "64753d206e5905f9db2249fd1817550b5d99ed08161b805bd93b3bee09b85cd1",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "aaab272529768f6ca1164f97a00a6c73a93f15da06797eaeaaf649a6d7181c1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/wizard-io-and-localization.contract.json --summary .ai/work-items/active/wizard-io-and-localization.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:41:34.975501+00:00",
+      "exitCode": 0,
+      "durationMs": 42,
+      "outputDigest": "fda60fb87f2fde12251f9725cbf83adac66fa049e31a0a893b226aa95539197e",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "aaab272529768f6ca1164f97a00a6c73a93f15da06797eaeaaf649a6d7181c1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:41:35.084405+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "df957185abcb5fa582f6633cf6628649364a18427e71f655a4b82259f918130f",
+      "commandHash": "bcbf399d318fadd4787ba71f1d134235e7af3a54000b5e94f47a1fba7e01c347",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "aaab272529768f6ca1164f97a00a6c73a93f15da06797eaeaaf649a6d7181c1e",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_agent_risk.py --contract .ai/work-items/active/wizard-io-and-localization.contract.json --summary .ai/work-items/active/wizard-io-and-localization.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/wizard-io-and-localization.summary.json CONTRACT=.ai/work-items/active/wizard-io-and-localization.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T23:41:35.942832+00:00",
+      "exitCode": 0,
+      "durationMs": 88,
+      "outputDigest": "642ff9b2b56033c2c184a43b6305b25485353b1e217478bf4d637dd77aa5e068",
+      "commandHash": "85d1ca4a1f60a94d11f739906a94b9d1ebbfebd0104da2325f9f4ab2e4bcc20f",
+      "contractHash": "a82c2c3e206541505c9624235129085aebdc802db576ba42fcda5ef43e95d70b",
+      "commitSha": "40271c4df2c9d73d1bad49023e83cb9bb7b588b1",
+      "executionContractPath": ".ai/work-items/active/wizard-io-and-localization.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/wizard-io-and-localization.summary.json",
+      "worktreeDigest": "3ce76e510168f22e448c4a659ee1de9ef3f6bc9f4b90a783f78d894da29138f1",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/ai_check_summary.py .ai/work-items/active/wizard-io-and-localization.summary.json --contract .ai/work-items/active/wizard-io-and-localization.contract.json ai summary check passed: .ai/work-items/active/wizard-io-and-localization.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep dangerous actions fail-closed with explicit N defaults and no non-TTY blocking.",
+      "compliant": true,
+      "evidence": "Focused IO tests cover non-TTY, blank, EOF, Ctrl+C, and dangerous confirmation behavior."
+    },
+    {
+      "guideline": "Use standard-library-only implementation and document public IO/localization APIs.",
+      "compliant": true,
+      "evidence": "Modules use only the standard library and docs/architecture/wizard-io-and-localization.md documents the public boundary."
+    },
+    {
+      "guideline": "Require exact resource key/placeholder parity and do not silently fall back user-visible content.",
+      "compliant": true,
+      "evidence": "Resource parity and unsupported-language tests pass."
+    },
+    {
+      "guideline": "Do not alter project documentation language or predecessor archive evidence.",
+      "compliant": true,
+      "evidence": "Diff is limited to Wizard IO/locales/tests/docs and does not edit predecessor archive records."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "IO and resource parity are covered by focused tests; provider CI remains external review evidence."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "Provider CI and fresh external-checkout verification remain review-time evidence; local IO, parity, and full project checks passed.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "fail-closed input",
+      "locale precedence",
+      "resource parity"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "a82c2c3e20654150",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "a82c2c3e20654150",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "intentAlignment": {
+    "problemResolved": true,
+    "constraintsRespected": true,
+    "nonGoalsAvoided": true,
+    "rationaleValidated": "Shared fail-closed controls and parity-checked resources are implemented without wizard orchestration or project-language coupling."
+  },
+  "knownGaps": [
+    "Provider CI and fresh external-checkout verification remain review-time evidence."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 551
+}

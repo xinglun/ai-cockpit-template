@@ -1,0 +1,409 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_preflight_merged_source_parity_v1",
+  "contractPath": ".ai/work-items/archive/2026/release_preflight_merged_source_parity_v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/archive/2026/release_preflight_merged_source_parity_v1.contract.json",
+      "reason": "Defines the bounded source-parity process correction."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_preflight_merged_source_parity_v1.summary.json",
+      "reason": "Records implementation and hosted/local parity evidence for the correction."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Corrects premerge source evidence materialization to use the controlled source identity."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Adds regression coverage for the source identity passed to canonical source calculations."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "Documents the corrected premerge source-parity rule."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Documents the same identity binding for hosted release preflight."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md",
+      "reason": "Stores the implementation plan and verification sequence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_preflight_merged_source_parity_v1.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+    ".ai/glossary.md",
+    "scripts/finalize_release_freeze.py",
+    "scripts/check_release_preflight.py",
+    "tests/test_release_preflight.py",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "docs/reference/distribution.md",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30077348703"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:53.208212+00:00",
+      "exitCode": 0,
+      "durationMs": 40,
+      "outputDigest": "fab979e7d50380a4927a213c82ae468bd258dce704164d97e412350c0e3e3fe8",
+      "commandHash": "a5312ecaa786e3ade258727855ffe1f5ea30c329c240accbf58117e44f3fb2d4",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json work item contract check passed: .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:53.475244+00:00",
+      "exitCode": 0,
+      "durationMs": 190,
+      "outputDigest": "97ff6c5922ca0246ea97c5819180f3f2ccf7c2689ce58023309b0dcec710eb90",
+      "commandHash": "f1f1ceb7297eb1696ba8e7365149644684e20b7c46873d3ad5e41eeb73bf301e",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json scope guard passed: 7 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:53.675659+00:00",
+      "exitCode": 0,
+      "durationMs": 124,
+      "outputDigest": "97f398325273a07f183d282cdc5e20262921c80bb90b528b41ae0592172400fd",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:54.009334+00:00",
+      "exitCode": 0,
+      "durationMs": 265,
+      "outputDigest": "c29a0745f6b084e2af2121e4e3edf65e0ba041e8355206f804ba794fcabb872d",
+      "commandHash": "3b3393f1b67b394e02a473b369c68b683ba64d05bcf76b0c74f9aff7e67faf43",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_preflight_merged_source_parity_v1` - Contract Hash: `dab0f73d32de6b23` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - U"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:54.217101+00:00",
+      "exitCode": 0,
+      "durationMs": 131,
+      "outputDigest": "19a3c935ff0e6b25c0e4fd0ada2ce1ea40e2fe9543f05d37771668d4657f3c91",
+      "commandHash": "345ff93337b0584956aba25b1d25ed72b5ba8b8a3882517519dd11371e71e26a",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json review policy matched 2 path(s) [review] .ai/work-items/starts/release_preflight_merged_source_parity_v1.json [review] .ai/cockpit/current_status.md review focus recorded: 3 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:54.399622+00:00",
+      "exitCode": 0,
+      "durationMs": 112,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:54.590066+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:54.710783+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "f2ba40b689c487f29454ee9b51729b1dc763878d9ee7092c131cbcec48c78021",
+      "commandHash": "4ed46f998d750f58dd4dafb25b9805d8f285a3dcace5c80f940860a4811df3fc",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:54.899345+00:00",
+      "exitCode": 0,
+      "durationMs": 52,
+      "outputDigest": "60676c0e161c5da79a24030ef8357cb3ee87fb40b743ceb07da551d50f405c8a",
+      "commandHash": "168317b5f18dd6921df812a77aa34a4679d91d585015e1c6c9546363462b588e",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json guidelines compliance check passed: 3 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:15:55.261338+00:00",
+      "exitCode": 0,
+      "durationMs": 287,
+      "outputDigest": "46609a04ead49fa5372654e80bc114e4624bcb9ec81ef7e802e4e163df16f34c",
+      "commandHash": "b802311998931b15f66b0c4377aca2c634394262875e18906c9f3795bbc19f89",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json ## Diff Ownership Preview - active_owned: `7`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/release_preflight_merged_source_parity_v1.json` — covered by Contract scope - [active"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:20:31.604873+00:00",
+      "exitCode": 0,
+      "durationMs": 276262,
+      "outputDigest": "8dc711228b6d202f605230b0205fb29811cc62d37f4e02fcd4e1f149d0d6ae21",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "c88f3374a40b77ff071890ed6260d83f2e7eeb73b1ba0c91a4cb3fd352030506",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 22%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:20:33.329725+00:00",
+      "exitCode": 0,
+      "durationMs": 286,
+      "outputDigest": "3864b5fe01d8b58672572a305f60cb375379dcf16c33f7568ec7f217c61d9cb3",
+      "commandHash": "bf035503bf66cb5f4b4e7042f3d40c36bec0ab16361561e3d8c004d6d9d3237b",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "1f5ae8ab9facf2092181f8c65922311be8fe238f4d61cfa255be151f8b8323cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:20:33.670678+00:00",
+      "exitCode": 0,
+      "durationMs": 268,
+      "outputDigest": "024544cc6b707a8b748149cd1c3faefab8fee3f7ffc670114c0bd3efe8e3b9b3",
+      "commandHash": "30274424aa71253c9b882b9b457d1419036e4b9faf25d77a85463b27dfc8e4f0",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "1f5ae8ab9facf2092181f8c65922311be8fe238f4d61cfa255be151f8b8323cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:20:33.786353+00:00",
+      "exitCode": 0,
+      "durationMs": 41,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "1f5ae8ab9facf2092181f8c65922311be8fe238f4d61cfa255be151f8b8323cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:20:33.917886+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "cab5d5f6cdf76cef1c36364c8c289ce555918ac1dd28f385e0ce4b1123dcd406",
+      "commandHash": "a4803554072a03fe598c1d349a12bea9e0b11d5912566f8d30a09d117c6d5ae7",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "1f5ae8ab9facf2092181f8c65922311be8fe238f4d61cfa255be151f8b8323cd",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json --summary .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json CONTRACT=.ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T08:20:34.860854+00:00",
+      "exitCode": 0,
+      "durationMs": 118,
+      "outputDigest": "f20c70f6c5865c311aca0062a2560c928179a460991e47b958db10e13ebe230e",
+      "commandHash": "446584349cc65f759a39bfe82b8e58c951f25e292f480ef642edb97ec8efd7d5",
+      "contractHash": "dab0f73d32de6b2386e2bce218113da6d295244336709f16d377a3ba2c0147ef",
+      "commitSha": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+      "executionContractPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+      "worktreeDigest": "e59714c767263ac01fdf0d8d3893dd4e46e790e6b7081766aff01edce46569bf",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json --contract .ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json ai summary check passed: .ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "Keep source-bound release evidence tied to one explicit source identity across local premerge and hosted release checks.",
+      "compliant": true,
+      "evidence": "The finalizer and regression test use the controlled source identity for canonical source calculations."
+    },
+    {
+      "guideline": "Use regression tests and supported finalizer commands; do not hand-edit generated release evidence.",
+      "compliant": true,
+      "evidence": "The change is implemented in the finalizer with test coverage; release metadata remains unchanged."
+    },
+    {
+      "guideline": "Keep process correction separate from candidate metadata and provider publication.",
+      "compliant": true,
+      "evidence": "The Contract excludes v0.5.39 metadata, tags, Releases, and archived evidence."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "The correction changes the source of canonical release evidence but does not publish anything."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "scope",
+      "detail": "A subsequent release attempt must prove hosted preflight parity before any tag or Release mutation.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Source identity passed to canonical archive calculations",
+      "Local/hosted preflight parity",
+      "No release side effects"
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "dab0f73d32de6b23",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "dab0f73d32de6b23",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "knownGaps": [
+    "Hosted release workflow success can only be revalidated after this correction is merged and the Work Item is closed."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 532
+}

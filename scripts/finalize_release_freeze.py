@@ -117,12 +117,17 @@ def main(
     source_identity = source_commit or resolved_head
     tag_identity = tag_target or source_identity
     metadata_identity = metadata_commit or source_identity
-    # In premerge mode, `source_identity` intentionally remains a controlled
-    # origin ref so it resolves to the post-merge default branch.  The
-    # candidate's canonical tree must instead be materialized from this clean
-    # Work Item branch HEAD; a clean PR merge preserves that tree while
-    # changing the commit identity.
-    materialization_commit = resolved_head if premerge_task is not None else source_identity
+    # The controlled source identity is the future merged default-branch
+    # identity that hosted release preflight will verify.  Use it for
+    # canonical evidence even before the PR merge; export-ignored Work Item
+    # evidence and release metadata keep the canonical source tree stable.
+    if premerge_task is not None:
+        resolved_source = run_git(["rev-parse", source_identity])
+        if resolved_source.returncode != 0 or not resolved_source.stdout.strip():
+            return _fail(f"source identity cannot be resolved: {source_identity}")
+        materialization_commit = resolved_source.stdout.strip()
+    else:
+        materialization_commit = resolved_head
     source_tree = canonical_source_tree(root, materialization_commit)
     archive_sha = canonical_archive_sha(root, materialization_commit)
     freeze_path = root / ".ai" / "cockpit" / "release-freeze.json"

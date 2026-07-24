@@ -483,7 +483,7 @@ def test_finalize_release_freeze_premerge_requires_archived_work_item(monkeypatc
         )
         == 0
     )
-    assert materialized == [("tree", "commit"), ("archive", "commit")]
+    assert materialized == [("tree", "old-commit"), ("archive", "old-commit")]
     freeze = json.loads((tmp_path / ".ai" / "cockpit" / "release-freeze.json").read_text())
     assert freeze["lifecycle"]["state"] == "premerge_finalized"
     assert freeze["lifecycle"]["command"] == "make finalize-release-freeze-premerge TASK=task"

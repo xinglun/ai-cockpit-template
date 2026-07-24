@@ -1,0 +1,229 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_preflight_merged_source_parity_v1",
+  "mode": "code",
+  "title": "Align release preflight with merged source parity",
+  "rawUserRequest": "修正该流程问题。针对 v0.5.39 发布工作流中本地 preflight 通过而 GitHub 发布 preflight 失败的问题，先修正根因流程，不重复尝试发布。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "user-message:2026-07-24",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-authorized-release-process-correction"
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+    ".ai/work-items/active/release_preflight_merged_source_parity_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "docs/reference/distribution.md",
+    "docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Changing v0.5.39 release metadata or freeze evidence",
+    "Creating or modifying a tag or GitHub Release",
+    "Changing adopter installation behavior",
+    "Changing archive budget policy",
+    "Rewriting archived Work Item evidence"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/release_preflight_merged_source_parity_v1.contract.json",
+      "reason": "The Work Item records the observed release preflight parity failure and its correction boundary."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Premerge freeze currently derives canonical source evidence from the Work Item branch HEAD rather than the controlled future source identity."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Existing premerge finalizer tests need a regression assertion for source-identity materialization."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "Lifecycle documentation must state the exact source identity used by premerge freeze generation."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Distribution documentation must describe the merged-source parity guarantee."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-24-release-preflight-merged-source-parity.md",
+      "reason": "Implementation plan required by the planning workflow."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_source_binding", "workflow_parity"],
+    "reason": "The fix changes only candidate evidence calculation and regression coverage; publication and release metadata remain out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The failed release run provides concrete evidence and the correction is limited to source-bound freeze materialization, regression coverage, and documentation."
+  },
+  "preReviewWarnings": [
+    "Review that premerge sourceTree/archive evidence is computed from the controlled future default-branch identity and remains valid after PR merge."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "Premerge freeze generation computes sourceTree and archiveSha256 from the controlled source identity that the release workflow will verify after merge.",
+    "A regression test proves the premerge finalizer materializes canonical source evidence from the source identity rather than the mutable Work Item branch HEAD.",
+    "Lifecycle and distribution documentation describe the corrected source-parity rule and the no-retry-until-correction policy.",
+    "The full AI/project quality checks pass and no release tag, Release, release metadata, or archived evidence is changed."
+  ],
+  "guidelines": [
+    "Keep source-bound release evidence tied to one explicit source identity across local premerge and hosted release checks.",
+    "Use regression tests and supported finalizer commands; do not hand-edit generated release evidence.",
+    "Keep process correction separate from candidate metadata and provider publication."
+  ],
+  "intent": {
+    "problem": "Release run 30077348703 failed in hosted preflight after local preflight passed. The failure proves that premerge freeze evidence was not guaranteed to be computed against the exact merged source identity consumed by the release workflow.",
+    "constraints": [
+      "Do not retry or publish v0.5.39 during this Work Item.",
+      "Do not modify v0.5.39 release metadata or archived Work Item evidence.",
+      "The correction must preserve the existing PR-first, archive-before-freeze lifecycle and template/adopter boundary."
+    ],
+    "rationale": "The freeze writer is the common source of candidate evidence. Binding its canonical source tree and archive calculations directly to the controlled source identity removes the branch-HEAD versus merged-source ambiguity at the origin."
+  },
+  "declaredIntent": {
+    "summary": "Make premerge release evidence deterministic with the exact source identity used by hosted release preflight.",
+    "requestedCapabilities": ["ai_governance", "software_design", "test_automation", "documentation"]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Premerge finalizer uses the controlled source identity for canonical source evidence",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Regression test will assert both sourceTree and archiveSha256 receive the resolved source identity."
+    },
+    {
+      "scenario": "Hosted release preflight and local source-bound preflight use the same source identity",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Tests and documentation will bind both flows to the same explicit source reference."
+    },
+    {
+      "scenario": "No release side effect occurs while the process correction is under review",
+      "required": true,
+      "status": "verified",
+      "evidence": ["release workflow run 30077348703", "Contract outOfScope"]
+    }
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 533
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_preflight_merged_source_parity_v1.json",
+    "baseCommit": "a19c245e48ddf7bdbfcce49e6356992cd42a7951",
+    "initialScopeDigest": "74242187775b3624eca5ead5401bc1f3269a6a3dfd15627f0dffdef72f3139d6",
+    "contractSkeletonDigest": "bfe74fe9367795566eeec400f9efeabdd06b8c713e41f99004b690a7116a447f"
+  }
+}

@@ -190,9 +190,9 @@ def test_release_workflow_runs_strict_smoke_before_tag_and_release_mutations():
 def test_release_workflow_bootstraps_pinned_tool_before_lockfile_reproducibility():
     workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
     install = "python3 -m pip install --disable-pip-version-check pip-tools==7.6.0 typing-extensions==4.16.0"
-    check = "make check-lockfile-reproducibility"
-    assert "Require reproducible dependency lockfile" in workflow
-    assert workflow.index(install) < workflow.index(check)
+    check = workflow.index("make check-lockfile-reproducibility")
+    tag = workflow.index('git push origin "$SOURCE_COMMIT:refs/tags/$RELEASE_TAG"')
+    assert workflow.index(install) < check < tag
 
 
 def test_release_workflow_generates_and_verifies_correlation_record():

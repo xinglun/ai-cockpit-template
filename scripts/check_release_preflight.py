@@ -18,9 +18,7 @@ class ReleasePreflightError(ValueError):
     """Raised when a release candidate is not frozen and source-bound."""
 
 
-def validate_installer_digest(
-    release: dict[str, Any], actual_installer_sha: str
-) -> list[str]:
+def validate_installer_digest(release: dict[str, Any], actual_installer_sha: str) -> list[str]:
     """Reject a release projection that is not bound to source install.sh bytes."""
     expected = release.get("installerDigest")
     if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):

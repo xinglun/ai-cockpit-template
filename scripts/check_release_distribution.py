@@ -169,9 +169,7 @@ def supply_chain_issues(metadata: dict[str, object], *, root: Path = ROOT) -> li
     issues: list[str] = []
     installer_digest = metadata.get("installerDigest")
     installer_path = root / "install.sh"
-    if not isinstance(installer_digest, str) or not re.fullmatch(
-        r"[0-9a-f]{64}", installer_digest
-    ):
+    if not isinstance(installer_digest, str) or not re.fullmatch(r"[0-9a-f]{64}", installer_digest):
         issues.append("release.json installerDigest is missing or invalid")
     elif not installer_path.is_file():
         issues.append("release.json installerDigest source file is missing: install.sh")

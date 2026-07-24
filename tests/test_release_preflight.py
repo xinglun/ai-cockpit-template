@@ -448,9 +448,9 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
         == hashlib.sha256((tmp_path / "install.sh").read_bytes()).hexdigest()
     )
     verification = release["capabilities"]["sha256ArchiveVerification"]
-    assert (verification["supported"], verification["verified"], verification["status"]) == (
-        True, True, "verified"
-    )
+    assert verification["supported"] is True
+    assert verification["verified"] is True
+    assert verification["status"] == "verified"
     release_state = json.loads((tmp_path / "release-state.json").read_text())
     assert (
         release_state["metadataDigests"]["published"]

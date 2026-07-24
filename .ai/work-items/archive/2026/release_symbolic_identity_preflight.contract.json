@@ -1,0 +1,42 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_symbolic_identity_preflight",
+  "mode": "code",
+  "title": "Resolve symbolic release identity references safely",
+  "baseCommit": "14efd1235c1c9fcad239e604bb0a5873b9d1edaf",
+  "baselineDirtyPaths": [],
+  "scope": [".ai/work-items/active/release_symbolic_identity_preflight.contract.json", ".ai/work-items/active/release_symbolic_identity_preflight.summary.json", ".ai/cockpit/current_status.md", ".ai/work-items/starts/**", ".ai/work-items/archive/**", "scripts/check_release_preflight.py", "tests/test_release_preflight.py", ".ai/guards/governance_complexity_policy.yaml"],
+  "outOfScope": ["Publishing/tagging v0.5.39 or dispatching release workflows.", "Changing distribution semantics or allowing HEAD as evidence.", "Quick Install and unrelated Work Items.", "Separate budget-only Work Item or historical archive rewrite."],
+  "sources": [
+    {"path": ".ai/glossary.md", "reason": "Release evidence terminology."},
+    {"path": "scripts/check_release_preflight.py", "reason": "Current concrete-only identity validation."},
+    {"path": "scripts/finalize_release_freeze.py", "reason": "Symbolic reference behavior documented by finalizer."},
+    {"path": "docs/reference/distribution.md", "reason": "PR-first release identity contract."},
+    {"path": "tests/test_release_preflight.py", "reason": "Existing preflight identity regression coverage."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["release_integrity", "source_binding"], "reason": "Preflight must resolve controlled branch references after merge without accepting HEAD or hiding stale identity.", "unknownsReviewComplete": true},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "User authorized continuing toward a normal release and requires process defects to be fixed before publication."},
+  "preReviewWarnings": ["Ensure symbolic refs resolve to one concrete source commit.", "Reject HEAD and mismatched refs fail-closed.", "Preserve published/candidate distinction."],
+  "acceptance": ["Preflight resolves an allowed symbolic default-branch ref for tagTarget and metadataCommit to the concrete source commit.", "HEAD remains rejected as an identity reference.", "Tests cover symbolic success, stale/mismatched identity rejection, and existing concrete behavior.", "Formatting, budget, AI Finish, archive, PR, merge, and ai-close-work-item complete; no publication occurs in this Work Item."],
+  "guidelines": ["Fail closed on identity mismatch.", "Never treat HEAD as release evidence.", "Do not weaken public distribution or rewrite immutable evidence."],
+  "intent": {"problem": "The release workflow needs candidate metadata committed before the PR merge, but the merge SHA is unknowable in advance; preflight currently rejects the controlled symbolic refs needed to bind that metadata after merge.", "constraints": ["Only controlled non-HEAD refs may be resolved.", "Publication remains out of scope."], "rationale": "Resolve symbolic refs at preflight time against the freshly checked-out source so PR-first release metadata can bind one concrete post-merge identity without self-referential commits."},
+  "rawUserRequest": "继续，目标是正常发布新版本；发现发布流程障碍时先修复根因，再完成正常发布。",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-24-normal-release", "capturedAt": "2026-07-24", "digest": "sha256:user-authorized-normal-release"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Make PR-first release identity preflight resolve controlled default-branch references safely without accepting HEAD.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized normal release and root-cause workflow correction."},
+  "checkpointPolicy": {"requiredBeforeFinish": true, "requiredStages": ["before_edit", "before_finish"], "reason": "Medium-risk release identity change requires pre-edit and pre-finish checkpoints."},
+  "scenarioCoverage": [
+    {"id": "symbolic_resolution", "scenario": "A controlled default-branch reference resolves to the concrete source identity during preflight.", "required": true, "status": "not_applicable", "reason": "Verification pending before implementation.", "evidence": []},
+    {"id": "head_rejection", "scenario": "HEAD is rejected as release identity evidence.", "required": true, "status": "not_applicable", "reason": "Verification pending before implementation.", "evidence": []},
+    {"id": "distribution_barrier", "scenario": "Public distribution remains fail-closed until the provider release exists.", "required": true, "status": "verified", "evidence": ["scripts/check_release_distribution.py", "Contract outOfScope"]}
+  ],
+  "verification": [{"check": "aiWorkItem", "required": true}, {"check": "aiScope", "required": true}, {"check": "aiGuards", "required": true}, {"check": "aiCheckpoint", "required": true}, {"check": "aiAgentRisk", "required": true}, {"check": "aiReviewPolicy", "required": true}, {"check": "aiBacktrack", "required": true}, {"check": "aiCoverage", "required": true}, {"check": "aiScenarioCoverage", "required": true}, {"check": "aiGuidelines", "required": true}, {"check": "aiSummary", "required": true}, {"check": "aiStatus", "required": true}, {"check": "aiStatusCheck", "required": true}, {"check": "aiStatusConsistency", "required": true}, {"check": "aiDiffOwnership", "required": true}, {"check": "quality", "required": true}],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "Revert this Work Item and restore concrete-only identity validation.",
+  "budgetImpact": {"expectedMetrics": {"pythonLines": 40450, "archiveGrowth": 521}, "approved": true, "repaymentWorkItem": "conditional_go_plan_cleanup", "repaymentRecords": ["release_symbolic_identity_preflight|pythonLines|40400|40450|user|2026-07-24|Reserve bounded validator and regression growth in this functional root correction; repay during final plan cleanup.", "release_symbolic_identity_preflight|archiveGrowth|520|521|user|2026-07-24|Reserve this functional corrective archive; repay during final plan cleanup, not through a budget-only Work Item."]},
+  "startReceipt": {"path": ".ai/work-items/starts/release_symbolic_identity_preflight.json", "baseCommit": "14efd1235c1c9fcad239e604bb0a5873b9d1edaf", "initialScopeDigest": "9e2bfd8e12ad908e249534c3cb4a6e3947efcdd4671d39b4fe22ff867d39a640", "contractSkeletonDigest": "21074fce6c874bc40bff61f74d73a77da0272452c48e177d5ca71abfcc392692"}
+}

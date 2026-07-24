@@ -99,6 +99,17 @@ def resolve_source_commit(root: Path, source_ref: str) -> str:
     return resolved
 
 
+def resolve_release_identity_ref(root: Path, value: Any, label: str) -> str:
+    """Resolve a concrete SHA or controlled origin ref; never accept HEAD."""
+    if not isinstance(value, str) or not value or value == "HEAD":
+        raise ReleasePreflightError(f"{label} must be a concrete SHA or controlled origin ref")
+    concrete = re.compile(r"^[0-9a-f]{40}$")
+    controlled_ref = re.compile(r"^origin/[A-Za-z0-9._/-]+$")
+    if not concrete.fullmatch(value) and not controlled_ref.fullmatch(value):
+        raise ReleasePreflightError(f"{label} uses an unsupported identity reference")
+    return resolve_source_commit(root, value)
+
+
 def _load_object(path: Path, label: str) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -229,10 +240,20 @@ def main() -> int:
     )
     try:
         source_commit = resolve_source_commit(root, args.source_commit)
-        declared_source = release_digests.get("sourceCommit")
-        if not isinstance(declared_source, str) or not declared_source:
-            raise ReleasePreflightError("release-digests sourceCommit is missing or invalid")
-        resolved_declared_source = resolve_source_commit(root, declared_source)
+        resolved_declared_source = resolve_release_identity_ref(
+            root, release_digests.get("sourceCommit"), "release-digests sourceCommit"
+        )
+        resolved_tag_target = resolve_release_identity_ref(
+            root, release_digests.get("tagTarget"), "release-digests tagTarget"
+        )
+        resolved_metadata_commit = resolve_release_identity_ref(
+            root, release_digests.get("metadataCommit"), "release-digests metadataCommit"
+        )
+        resolved_freeze = dict(freeze)
+        for field in ("sourceCommit", "tagTarget", "metadataCommit"):
+            resolved_freeze[field] = resolve_release_identity_ref(
+                root, freeze.get(field), f"freeze {field}"
+            )
     except ReleasePreflightError as exc:
         print(f"release preflight blocked: {exc}", file=sys.stderr)
         return 1
@@ -246,6 +267,8 @@ def main() -> int:
         return 1
     comparable_digests = dict(release_digests)
     comparable_digests["sourceCommit"] = resolved_declared_source
+    comparable_digests["tagTarget"] = resolved_tag_target
+    comparable_digests["metadataCommit"] = resolved_metadata_commit
     actual = canonical_archive_sha(root, source_commit)
     source_tree = canonical_source_tree(root, source_commit)
     active = sorted(
@@ -273,7 +296,7 @@ def main() -> int:
     issues.extend(
         validate_release_identity(
             release=release,
-            freeze=freeze,
+            freeze=resolved_freeze,
             release_digests=comparable_digests,
             source_commit=source_commit,
             tag_target=comparable_digests.get("tagTarget", ""),

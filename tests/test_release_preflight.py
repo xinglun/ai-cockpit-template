@@ -10,6 +10,7 @@ from scripts.check_release_preflight import ReleasePreflightError
 from scripts.check_release_preflight import _load_object
 from scripts.check_release_preflight import canonical_archive_sha
 from scripts.check_release_preflight import resolve_source_commit
+from scripts.check_release_preflight import resolve_release_identity_ref
 from scripts.check_release_preflight import validate_release_preflight
 from scripts.check_release_preflight import validate_release_identity
 from scripts.check_release_preflight import validate_release_projection
@@ -198,6 +199,16 @@ def test_source_ref_resolves_symbolic_head_to_a_concrete_commit():
     resolved = resolve_source_commit(Path.cwd(), "HEAD")
     assert len(resolved) == 40
     assert resolved == resolve_source_commit(Path.cwd(), resolved)
+
+
+def test_release_identity_ref_resolves_controlled_origin_ref():
+    resolved = resolve_release_identity_ref(Path.cwd(), "origin/main", "tagTarget")
+    assert len(resolved) == 40
+
+
+def test_release_identity_ref_rejects_head():
+    with pytest.raises(ReleasePreflightError, match="concrete SHA or controlled origin ref"):
+        resolve_release_identity_ref(Path.cwd(), "HEAD", "metadataCommit")
 
 
 def test_load_object_rejects_invalid_json(tmp_path):

@@ -374,6 +374,12 @@ def build_release_digests(
         "format": "ai-cockpit-release-digests",
         "version": 1,
         "sourceCommit": provenance["commitSha"],
+        # The finalizer binds the tag target and metadata commit to the same
+        # concrete source commit.  Generate the complete tuple here so the
+        # candidate baseline and final release evidence share one identity
+        # model instead of disagreeing after freeze finalization.
+        "tagTarget": provenance["commitSha"],
+        "metadataCommit": provenance["commitSha"],
         "releaseTag": provenance["releaseTag"],
         "artifacts": {
             "requirements-dev.lock": sha256_text(read_text(LOCK_FILE)),

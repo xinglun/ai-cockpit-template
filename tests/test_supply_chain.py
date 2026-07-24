@@ -548,6 +548,9 @@ def test_release_digest_manifest_covers_generated_evidence(tmp_path, monkeypatch
     )
 
     assert manifest["format"] == "ai-cockpit-release-digests"
+    assert manifest["sourceCommit"] == "source"
+    assert manifest["tagTarget"] == "source"
+    assert manifest["metadataCommit"] == "source"
     assert set(manifest["artifacts"]) == {
         "requirements-dev.lock",
         ".ai/cockpit/sbom.json",
@@ -558,6 +561,37 @@ def test_release_digest_manifest_covers_generated_evidence(tmp_path, monkeypatch
     assert manifest["artifacts"]["requirements-dev.lock"] == check_supply_chain.sha256_text(
         "lock\n"
     )
+
+
+def test_release_digest_identity_fields_are_checked_against_candidate_baseline(
+    tmp_path, monkeypatch
+):
+    repo = tmp_path / "repo"
+    cockpit = repo / ".ai" / "cockpit"
+    lock = repo / "requirements-dev.lock"
+    installer = repo / "install.sh"
+    release = repo / "release.json"
+    lock.parent.mkdir()
+    lock.write_text("lock\n", encoding="utf-8")
+    installer.write_text("installer\n", encoding="utf-8")
+    release.write_text('{"releaseTag":"v1"}\n', encoding="utf-8")
+    monkeypatch.setattr(check_supply_chain, "ROOT", repo)
+    monkeypatch.setattr(check_supply_chain, "LOCK_FILE", lock)
+    monkeypatch.setattr(check_supply_chain, "INSTALLER", installer)
+    monkeypatch.setattr(check_supply_chain, "RELEASE_JSON", release)
+
+    sbom = {"bomFormat": "CycloneDX"}
+    provenance = {"commitSha": "source", "releaseTag": "v1"}
+    manifest = check_supply_chain.build_release_digests(sbom, provenance)
+    path = cockpit / "release-digests.json"
+    assert check_supply_chain.compare_or_write(path, manifest, write=True) == []
+    assert check_supply_chain.compare_or_write(path, manifest, write=False) == []
+
+    stale = dict(manifest)
+    stale["metadataCommit"] = "different-source"
+    assert check_supply_chain.compare_or_write(path, stale, write=False) == [
+        ".ai/cockpit/release-digests.json differs from the computed supply-chain evidence"
+    ]
 
 
 def test_release_evidence_reports_drift_when_generated_sbom_changes(tmp_path, monkeypatch):

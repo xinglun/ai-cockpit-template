@@ -1,0 +1,201 @@
+{
+  "contractVersion": 2,
+  "workItemId": "task-outcome-report-plan-amendment",
+  "mode": "author_todo",
+  "title": "task-outcome-report-plan-amendment",
+  "rawUserRequest": "继续把 AI Cockpit Task Outcome Report 开发指示追加到当前计划后面；按轻量文档 Gate 执行；并把最后一个任务改为发布新版本。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-plan-amendment",
+    "capturedAt": "2026-07-25",
+    "digest": "sha256:user-authorized-outcome-report-and-final-publication"
+  },
+  "declaredIntent": {
+    "summary": "Append the complete Task Outcome Report implementation program and make publish-new-version the final plan Work Item.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "document",
+    "authorityRequired": false
+  },
+  "baseCommit": "8f0ae5818b8a8f2ef9a273d221f15ab43036bb55",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/task-outcome-report-plan-amendment.contract.json",
+    ".ai/work-items/active/task-outcome-report-plan-amendment.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+    ,"docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md"
+  ],
+  "outOfScope": [
+    "Implementing Task Outcome Report runtime code, schema, generator, validator, events, or renderer",
+    "Changing existing Work Item implementation scope or historical plan/archive records",
+    "Creating, tagging, or publishing a new software version in this plan-document Work Item",
+    "Running release publication operations"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/task-outcome-report-plan-amendment.contract.json",
+      "reason": "Initial Work Item skeleton."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+      "reason": "User-provided Task Outcome Report development instruction and release-final sequencing decision."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["documentation_scope"],
+    "reason": "This Work Item appends a bounded implementation plan only; no runtime or release operation is executed."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Authorized plan-document amendment with lightweight documentation gates."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The plan contains a headed Plan Extension: AI Cockpit Task Outcome Report section after Work Item 12.",
+    "The extension defines Outcome JSON/Markdown sources, required sections, Evidence bindings, append-only events, generator, validator, ai-finish/archive/PR integration, privacy, multilingual rendering, tests, documentation, and acceptance.",
+    "The plan table contains Outcome Work Items 13–22, each depending on the prior Work Item and retaining one Work Item = one branch = one PR.",
+    "The plan table ends with Work Item 23 publish-new-version, and the detailed section states it is the only actual publication task and has no successor.",
+    "The amendment Contract states runtime implementation and publication are out of scope and the diff is limited to plan/governance evidence."
+  ],
+  "guidelines": [
+    "Keep this Work Item limited to the execution plan document and generated governance evidence.",
+    "Do not silently omit user-provided requirements; preserve evidence, privacy, anti-score, multilingual, lifecycle, and acceptance constraints.",
+    "Keep actual new-version publication as the final Work Item of the complete plan, after all preceding Work Items close.",
+    "Do not modify historical archive or issue records."
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Task Outcome Report requirements are appended after existing Work Item 12",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md"]
+    },
+    {
+      "scenario": "Actual new-version publication is the final Work Item with no successor",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Work Item Summary table and publish-new-version section in the plan"]
+    }
+  ],
+  "intent": {
+    "problem": "The current plan needs the complete Task Outcome Report development instruction appended, and the user has now required that actual new-version publication be the final task of the entire plan.",
+    "constraints": [
+      "This Work Item changes the plan document only and uses the lightest appropriate documentation gate.",
+      "Every proposed implementation Work Item retains one Work Item = one branch = one PR and closes fully before the next begins.",
+      "The final release Work Item must be last and must include strict release verification, publication, post-publication verification, PR/merge, and cleanup."
+    ],
+    "rationale": "Separating the plan amendment from runtime implementation keeps the new requirements reviewable while making the final release sequencing explicit."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": false,
+      "reason": "Plan-only amendment uses lightweight documentation gates; full runtime quality is deferred to implementation Work Items."
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": false,
+    "approvedBy": "",
+    "reason": "Set only when a human explicitly approves restricted governance paths."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 549
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/task-outcome-report-plan-amendment.json",
+    "baseCommit": "8f0ae5818b8a8f2ef9a273d221f15ab43036bb55",
+    "initialScopeDigest": "42ca4722830dfaca3564b852c03c80d13f70c3f8fd6a746deb9ad7d8728bf523",
+    "contractSkeletonDigest": "0e6670b982814c24e0fec54265c23da62c35a4c72aeae84860516aee9a60d65a"
+  }
+}

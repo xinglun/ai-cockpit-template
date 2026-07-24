@@ -242,7 +242,8 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
     subprocess.run(
         ["git", "-C", str(repo), "remote", "add", "origin", str(source_root)], check=True
     )
-    source = resolve_source_commit(source_root, "HEAD")
+    candidate = resolve_source_commit(source_root, "HEAD")
+    source = resolve_source_commit(source_root, "origin/main")
     subprocess.run(
         [
             "git",
@@ -256,7 +257,20 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
         ],
         check=True,
     )
-    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", source], check=True)
+    subprocess.run(
+        [
+            "git",
+            "-C",
+            str(repo),
+            "fetch",
+            "--no-tags",
+            "-q",
+            "origin",
+            f"{candidate}:refs/remotes/origin/candidate",
+        ],
+        check=True,
+    )
+    subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q", candidate], check=True)
     result = subprocess.run(
         [
             sys.executable,
@@ -264,15 +278,15 @@ def test_fresh_detached_repository_accepts_explicit_source_commit(tmp_path):
             "--root",
             str(repo),
             "--source-commit",
-            source,
+            "origin/main",
         ],
         check=False,
         capture_output=True,
         text=True,
     )
-    assert result.returncode == 1
-    assert f'"sourceCommit": "{source}"' in result.stderr
-    assert "release freeze sourceTree does not match candidate source tree" in result.stderr
+    assert result.returncode == 0
+    assert f"source={source}" in result.stdout
+    assert "release preflight passed" in result.stdout
 
 
 def test_release_identity_ref_resolves_controlled_origin_ref():

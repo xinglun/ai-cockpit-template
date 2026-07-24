@@ -1,0 +1,167 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0539_rebind_after_deterministic_archive_v1",
+  "mode": "code",
+  "title": "release v0539 rebind after deterministic archive v1",
+  "rawUserRequest": "先修复该流程问题，再重新进入。流程修复闭环后，重新生成 v0.5.39 候选证据并走完整 Contract/Preflight/PR/合并/ai-close-work-item 流程，不绕过门禁。",
+  "rawRequestSource": {"type":"human","reference":"user-message:2026-07-24","capturedAt":"2026-07-24","digest":"sha256:user-authorized-reenter-after-deterministic-archive-fix"},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "3bf48347daf3f1cd5d23b828c00a073353f41089",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_v0539_rebind_after_deterministic_archive_v1.contract.json",
+    ".ai/work-items/active/release_v0539_rebind_after_deterministic_archive_v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/release-freeze.json",
+    ".ai/cockpit/release-digests.json",
+    "release.json",
+    "release-state.json",
+    "tests/test_release_preflight.py",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Creating or pushing tag v0.5.39","Creating or editing a GitHub Release","Changing release workflow or archive policy","Rewriting prior archived evidence"],
+  "sources": [
+    {"path":"release.json","reason":"Candidate release identity must remain v0.5.39."},
+    {"path":"release-state.json","reason":"Canonical release projection consistency."},
+    {"path":".ai/cockpit/release-freeze.json","reason":"Generated source-bound freeze evidence."},
+    {"path":".ai/cockpit/release-digests.json","reason":"Generated candidate digest identity."},
+    {"path":"scripts/finalize_release_freeze.py","reason":"Supported finalizer for source-bound candidate evidence."},
+    {"path":"scripts/check_release_preflight.py","reason":"Final candidate preflight gate."},
+    {"path":".ai/work-items/archive/2026/release_deterministic_archive_builder_v1.contract.json","reason":"Merged predecessor process correction."}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_metadata_identity"],
+    "reason": "Only generated v0.5.39 candidate evidence is rebound after the merged deterministic archive correction; publication remains out of scope."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized re-entry after the deterministic archive process correction closed."
+  },
+  "preReviewWarnings": [
+    "Verify candidate metadata is regenerated from latest origin/main and no publication mutation occurs."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "release.json remains v0.5.39 and release-state projections remain consistent.",
+    "After archive, the supported finalizer regenerates source-bound freeze and digest evidence from latest origin/main.",
+    "Controlled-source release preflight, full AI/project quality, and PR ownership checks pass.",
+    "No tag, GitHub Release, workflow change, or archived evidence rewrite is included."
+  ],
+  "guidelines": [
+    "Generated release evidence is produced only by supported finalizer commands.",
+    "Publication remains outside this candidate-preparation Work Item.",
+    "Use latest origin/main and one dedicated branch."
+  ],
+  "intent": {
+    "problem": "The merged deterministic archive correction changes the source tree and archive identity, so the previous v0.5.39 candidate evidence no longer matches latest origin/main.",
+    "constraints": ["Archive before premerge finalization.","Use latest origin/main as controlled source identity.","Do not publish or manually edit generated evidence."],
+    "rationale": "Rebind one candidate snapshot to the merged process-corrected source so the protected release workflow validates the exact same deterministic archive before publication."
+  },
+  "declaredIntent": {"summary":"Rebuild v0.5.39 candidate evidence after merged deterministic archive correction.","requestedCapabilities":["ai_governance","software_design"]},
+  "scenarioCoverage": [{"scenario":"candidate projections remain consistent","required":false,"status":"unverified","evidence":[],"reason":"Verified after finalization."},{"scenario":"premerge freeze matches latest merged source archive","required":false,"status":"unverified","evidence":[],"reason":"Verified by controlled-source preflight."},{"scenario":"publication remains out of scope","required":true,"status":"verified","evidence":["Contract outOfScope"]}],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+      "approved": true,
+      "approvedBy": "user",
+      "reason": "User authorized re-entry after the deterministic archive process correction closed."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 538
+    }
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_v0539_rebind_after_deterministic_archive_v1.json",
+    "baseCommit": "3bf48347daf3f1cd5d23b828c00a073353f41089",
+    "initialScopeDigest": "1a9d18a7c03f1db46df5c77c51ce1680bf87b3330418b08e3fe9253dea517b07",
+    "contractSkeletonDigest": "afda45637d51967665911930379eca4257aae7ca04c897dc12ba5134e391ac87"
+  }
+}

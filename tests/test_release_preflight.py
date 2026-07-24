@@ -61,6 +61,13 @@ def test_release_preflight_blocks_archive_budget_overflow_and_unfrozen_state():
     assert any("state must be frozen" in issue for issue in issues)
 
 
+def test_release_preflight_warns_on_archive_growth_when_policy_is_warning_only():
+    assert (
+        validate_release_preflight(**_fixture(archive_count=11, archive_enforcement="warning"))
+        == []
+    )
+
+
 def test_release_preflight_blocks_source_tree_mismatch():
     issues = validate_release_preflight(**_fixture(source_tree="different-tree"))
     assert any("sourceTree" in issue for issue in issues)

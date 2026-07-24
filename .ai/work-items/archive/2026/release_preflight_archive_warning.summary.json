@@ -1,0 +1,396 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "release_preflight_archive_warning",
+  "contractPath": ".ai/work-items/archive/2026/release_preflight_archive_warning.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Honors warning-only archiveGrowth enforcement during release preflight."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Covers warning-only archive growth and existing hard blockers."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_preflight_archive_warning.contract.json",
+      "reason": "Records the release preflight correction boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_preflight_archive_warning.summary.json",
+      "reason": "Records implementation and verification evidence."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated no-active cockpit status after archival."
+    },
+    {
+      "path": ".ai/work-items/archive/index.json",
+      "reason": "Generated archive discovery index."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_preflight_archive_warning.archive-manifest.json",
+      "reason": "Immutable archive evidence root."
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+    ".ai/guards/governance_complexity_policy.yaml",
+    "scripts/check_release_preflight.py",
+    "tests/test_release_preflight.py"
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:29.910649+00:00",
+      "exitCode": 0,
+      "durationMs": 54,
+      "outputDigest": "05a13a716b1984d8280d49386a9e5e30d0c60cc5a2d4628aceb41233a3d1f35b",
+      "commandHash": "a70cfc3fb8c0fc308180c9a4830418522030f59b6efdbcca9a89db2fd08679b7",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_work_item.py .ai/work-items/active/release_preflight_archive_warning.contract.json work item contract check passed: .ai/work-items/active/release_preflight_archive_warning.contract.json"
+    },
+    {
+      "check": "aiScope",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:30.314006+00:00",
+      "exitCode": 0,
+      "durationMs": 227,
+      "outputDigest": "6179ec29ebd3709b610d6a4e7a58afb62fd0f8445451dc2a16b28201e69088b7",
+      "commandHash": "855dee3cef09c8d7ad6cf85c7a9e99e330b897d831fd75e55fa8c4d183ff18b2",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scope.py .ai/work-items/active/release_preflight_archive_warning.contract.json scope guard passed: 4 changed path(s) covered"
+    },
+    {
+      "check": "aiGuards",
+      "command": "make check-ai-guards",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:30.707611+00:00",
+      "exitCode": 0,
+      "durationMs": 249,
+      "outputDigest": "34b9ed8d716e7e579dfd01c63432d979dc8310f93a266421168c8f70b5a5bed3",
+      "commandHash": "769f935b899dad1a2abcf23ef3cd08c6904b7f7d03a988b5ce6aa573d18b1e83",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guards.py --contract .ai/work-items/active/release_preflight_archive_warning.contract.json guard check completed: 0 warning(s) report: target/ai_guard_report.json"
+    },
+    {
+      "check": "aiCheckpoint",
+      "command": "make ai-checkpoint CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json STAGE=before_finish",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:31.338811+00:00",
+      "exitCode": 0,
+      "durationMs": 461,
+      "outputDigest": "c0e4c511ae35c7e7afaa5b86e70aa960b2f6379674562ed5ff239237f3f06795",
+      "commandHash": "a5db69c853cfb1048067ad9b7c6266603069a4236e39bf746837bb2dd99482cf",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_checkpoint.py --contract .ai/work-items/active/release_preflight_archive_warning.contract.json --summary .ai/work-items/active/release_preflight_archive_warning.summary.json --stage \"before_finish\" # AI Work Item Checkpoint - Stage: `before_finish` - Work Item: `release_preflight_archive_warning` - Contract Hash: `1bc440994002dceb` - Mode: `code` - notCodable: `False` - Execution Decision: `continue` - Acceptance Count: `4` - Unknown Count: `0` - Requ"
+    },
+    {
+      "check": "aiReviewPolicy",
+      "command": "make check-ai-review-policy SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:31.688032+00:00",
+      "exitCode": 0,
+      "durationMs": 194,
+      "outputDigest": "365e406e0c38c08d97ad7851ce9f6c69f85279ad608504e42b75c0d4073c592c",
+      "commandHash": "e039f1890a574debe0fa09572bd4c1b0f1710f1270c7f290bc337f4bef7615d0",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_review_policy.py --summary .ai/work-items/active/release_preflight_archive_warning.summary.json review policy matched 2 path(s) [review] .ai/work-items/starts/release_preflight_archive_warning.json [review] .ai/cockpit/current_status.md review focus recorded: 1 item(s) report: target/ai_review_policy_report.json"
+    },
+    {
+      "check": "aiBacktrack",
+      "command": "make check-ai-backtrack",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:31.977387+00:00",
+      "exitCode": 0,
+      "durationMs": 167,
+      "outputDigest": "7129fb431d5d59c569f22fa9d6ff9b30876753d23ac690d93f14eed56841f07c",
+      "commandHash": "3ae95e96677b5ecabc3d873ff9cda8d7d3c807724cd86bda76ebb00cef4e4f88",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_backtrack.py backtrack guard: no issues report: target/ai_backtrack_report.json"
+    },
+    {
+      "check": "aiCoverage",
+      "command": "make check-ai-coverage-guard",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:32.266987+00:00",
+      "exitCode": 0,
+      "durationMs": 166,
+      "outputDigest": "a2e66935f0b5b56e7ea492a898b6ab49413746bdde21a6663eaa1d889cb54e56",
+      "commandHash": "296a9883f8b9ad27f3d57afdee3ebdea5c75869c899a00e55d80563bc889328a",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_coverage_guard.py coverage guard: no issues report: target/ai_coverage_guard_report.json"
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:32.441263+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "90f31fc78d611aa031c64d735241d164729fadd2335b84874a257880802115e7",
+      "commandHash": "13a714d4a00c8c240c777a9ac941cd44381c9cec4d17e5316224e186a332befb",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_scenario_coverage.py --contract .ai/work-items/active/release_preflight_archive_warning.contract.json --summary .ai/work-items/active/release_preflight_archive_warning.summary.json report: target/ai_scenario_coverage_report.json"
+    },
+    {
+      "check": "aiGuidelines",
+      "command": "make check-ai-guidelines CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:32.613197+00:00",
+      "exitCode": 0,
+      "durationMs": 48,
+      "outputDigest": "d32244ea607ce12cbfaf8d9862efefc10ce0f0cb981a2108cedac9910c90c340",
+      "commandHash": "dddc7f1eab1de2a9ddbdaa36574b1e50f26e55a1273f22c62693436bc89e9db3",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_guidelines.py --contract .ai/work-items/active/release_preflight_archive_warning.contract.json --summary .ai/work-items/active/release_preflight_archive_warning.summary.json guidelines compliance check passed: 2 guideline(s) verified"
+    },
+    {
+      "check": "aiDiffOwnership",
+      "command": "make check-ai-diff-ownership CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:43:33.158063+00:00",
+      "exitCode": 0,
+      "durationMs": 424,
+      "outputDigest": "83ba402ce5e7d68b3f179b42c46e4efa7805523debb714856d58747137fac2c1",
+      "commandHash": "bf8c4834d90110e7e8563fb8fd0106a61c08920b2d049c803bb3993a3d6da51a",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_diff_ownership.py --contract .ai/work-items/active/release_preflight_archive_warning.contract.json ## Diff Ownership Preview - active_owned: `4`, ambiguous: `0`, approval_required: `0`, archived_owned: `0`, out_of_scope: `0`, unowned: `0` - [active_owned] `.ai/cockpit/current_status.md` — covered by Contract scope - [active_owned] `.ai/work-items/starts/release_preflight_archive_warning.json` — covered by Contract scope - [active_owned] `scripts"
+    },
+    {
+      "check": "quality",
+      "command": "make ai-cockpit-quality",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:47:41.491288+00:00",
+      "exitCode": 0,
+      "durationMs": 248251,
+      "outputDigest": "08c44e5ddfc4e5fce54ce0e09adb9a8348ffd2ee49f13acd1099580558651704",
+      "commandHash": "4797135e5feb34072ec83da66daaf06ccf575717c08dec61b869a922d8bdad20",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "9060a5180a3827aaedb5008e51a2ad33a60f5a5dd2f0a83dd8c517e34d58ed2d",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 -m ruff format --check scripts tests 181 files already formatted git diff --check PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q --cov=scripts --cov-report=term-missing --cov-report=json:target/coverage.json --cov-fail-under=85 ........................................................................ [ 7%] ........................................................................ [ 15%] ........................................................................ [ 22%]"
+    },
+    {
+      "check": "aiStatus",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:47:43.290767+00:00",
+      "exitCode": 0,
+      "durationMs": 314,
+      "outputDigest": "54ddfbd0afc19e372bf3855b9becec63254bb5dfb0fe344d48313632e1043dfa",
+      "commandHash": "3608a873c3ae11a23ff15b5b40f715f8fff227c077188df2081853cdbf10a4fb",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "ca7187053a558ca660f4118d71738593e93ef66cb5ae8d0b7dd1ce4a278ffaf9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_generate_status.py .ai/work-items/active/release_preflight_archive_warning.contract.json --summary .ai/work-items/active/release_preflight_archive_warning.summary.json cockpit status generated: <PROJECT_ROOT>/.ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusCheck",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:47:43.650503+00:00",
+      "exitCode": 0,
+      "durationMs": 279,
+      "outputDigest": "8503f2a1bbad29b180d5ad9cd5e633840194b6df27e0ad41752dae5eebc80dbc",
+      "commandHash": "38b1fbfd405460dd419970336a31198379e83f1be73bf2313882687283fcfb4c",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "ca7187053a558ca660f4118d71738593e93ef66cb5ae8d0b7dd1ce4a278ffaf9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract .ai/work-items/active/release_preflight_archive_warning.contract.json --summary .ai/work-items/active/release_preflight_archive_warning.summary.json cockpit status check passed: .ai/cockpit/current_status.md"
+    },
+    {
+      "check": "aiStatusConsistency",
+      "command": "make check-ai-status-consistency",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:47:43.783373+00:00",
+      "exitCode": 0,
+      "durationMs": 43,
+      "outputDigest": "1156c9e1bf158b3423d353f4c44540bca1436905785abef51a57014ed23ad1e4",
+      "commandHash": "ddd5a0e5fa9b289b1ab3ba23cf37c1a7f01d48f31e2ad99e85762ba20f93c2a6",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "ca7187053a558ca660f4118d71738593e93ef66cb5ae8d0b7dd1ce4a278ffaf9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_status_consistency.py ai status consistency check passed"
+    },
+    {
+      "check": "aiAgentRisk",
+      "command": "make check-ai-agent-risk CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:47:43.920469+00:00",
+      "exitCode": 0,
+      "durationMs": 50,
+      "outputDigest": "ae0134adaa022fb6d480d29637975dce4ebdf4e9da98396dc35ad0f1f6f7f29e",
+      "commandHash": "906163b6062f52ac0a9e72c3f3131b35c289ba1cd3d7c7a080b27037062b4333",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "ca7187053a558ca660f4118d71738593e93ef66cb5ae8d0b7dd1ce4a278ffaf9",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_agent_risk.py --contract .ai/work-items/active/release_preflight_archive_warning.contract.json --summary .ai/work-items/active/release_preflight_archive_warning.summary.json agent risk check passed report: target/ai_agent_risk_report.json"
+    },
+    {
+      "check": "aiSummary",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/release_preflight_archive_warning.summary.json CONTRACT=.ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "result": "passed",
+      "runner": "ai_finish",
+      "executedAt": "2026-07-24T06:47:45.072847+00:00",
+      "exitCode": 0,
+      "durationMs": 120,
+      "outputDigest": "e799bdcbe9d91fcda43cba0de63edc886ede405291d99ea9c91a25d35d0f018c",
+      "commandHash": "dfda5597455dc79f92af746fbca626e22a7f61f04453d28410e0d8d21a644e55",
+      "contractHash": "1bc440994002dcebc1b3171912014c729059e4087b27d560889817c10764dd76",
+      "commitSha": "23a62b9c078b764bae86f7cea23239645392d52c",
+      "executionContractPath": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "executionSummaryPath": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "worktreeDigest": "b51c9741eabacc6c669971d4b3ea2eb727dd609fae05e65131f9952dcc81aa71",
+      "outputSummary": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/ai_check_summary.py .ai/work-items/active/release_preflight_archive_warning.summary.json --contract .ai/work-items/active/release_preflight_archive_warning.contract.json ai summary check passed: .ai/work-items/active/release_preflight_archive_warning.summary.json"
+    }
+  ],
+  "guidelinesCompliance": [
+    {
+      "guideline": "The existing release preflight contract remains documented by its tests and command behavior.",
+      "compliant": true,
+      "evidence": "tests/test_release_preflight.py covers warning-only and hard-block behavior."
+    },
+    {
+      "guideline": "The correction uses existing policy parsing and does not add cross-feature imports.",
+      "compliant": true,
+      "evidence": "Ruff, mypy, and focused tests pass."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Only archiveGrowth severity is relaxed; release source identity and archive integrity remain hard-fail."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "release_integrity",
+      "detail": "The current candidate remains stale until a later metadata rebind Work Item runs after this correction merges.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "All required verification passed; residual risk remains documented.",
+    "expectedReviewFocus": [
+      "Confirm archiveGrowth warning mode does not weaken source identity or archive evidence checks."
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "localization": "not_applicable",
+    "generatedArtifacts": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "Release preflight must consume the 200 warning-only archiveGrowth policy."
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "archiveGrowth over 200 warns instead of blocking release preflight.",
+      "solidifiedIn": [
+        "scripts/check_release_preflight.py",
+        "tests/test_release_preflight.py"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "1bc440994002dceb",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "1bc440994002dceb",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 3
+    }
+  ],
+  "knownGaps": [
+    "v0.5.39 metadata is still stale and must be rebound after this Work Item merges; no publication occurs here."
+  ],
+  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified.",
+  "archiveSequence": 528
+}

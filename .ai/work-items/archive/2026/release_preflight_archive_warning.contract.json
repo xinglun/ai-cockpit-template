@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_preflight_archive_warning",
+  "mode": "code",
+  "title": "Honor archive growth warning in release preflight",
+  "rawUserRequest": "再来尝试发版本；如果发现 release preflight 仍把 archiveGrowth warning 当成硬错误，先修正流程，再继续发布。",
+  "rawRequestSource": {"type":"human","reference":"conversation:2026-07-24-release-retry","capturedAt":"2026-07-24","digest":"release-retry-archive-warning"},
+  "declaredIntent": {"summary":"让发布前审计遵循已确认的 archiveGrowth=200 warning-only 策略，同时继续硬阻断 release identity 和归档证据完整性错误。","requestedCapabilities":["ai_governance","test_automation"]},
+  "requestedOperation": {"target":"repository_governance","action":"modify","environment":"repository","effect":"enforce","authorityRequired":false},
+  "baseCommit": "23a62b9c078b764bae86f7cea23239645392d52c",
+  "baselineDirtyPaths": [],
+  "scope": [
+    "scripts/check_release_preflight.py",
+    "tests/test_release_preflight.py",
+    ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+    ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": ["Changing archive integrity rules or archiveSequence allocation","Rewriting immutable archived evidence","Creating or publishing a release tag or GitHub Release","Repairing or merging PR #316","Adopter repositories"],
+  "sources": [
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Honors warning-only archiveGrowth policy during release preflight."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Regression coverage for warning-only archive growth and hard release identity failures."
+    },
+    {
+      "path": ".ai/work-items/active/release_preflight_archive_warning.contract.json",
+      "reason": "Declares the release preflight correction boundary."
+    },
+    {
+      "path": ".ai/work-items/active/release_preflight_archive_warning.summary.json",
+      "reason": "Records implementation and verification evidence."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["release_integrity"],
+    "reason": "The correction only changes archive growth severity; source identity, freeze lifecycle, and evidence integrity remain hard checks."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User authorized retrying release with process corrections first."
+  },
+  "preReviewWarnings": [
+    "Confirm only archiveGrowth is warning-only; source identity and evidence mismatches remain hard failures."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "check-release-preflight reads warning enforcement for archiveGrowth and reports overrun without blocking.",
+    "Release source identity, freeze lifecycle, and archive integrity failures remain blocking.",
+    "Regression tests cover both warning-only growth and hard release blockers.",
+    "The Work Item completes its full Finish/archive/PR/merge/close lifecycle."
+  ],
+  "guidelines": [
+    "The existing release preflight contract remains documented by its tests and command behavior.",
+    "The correction uses existing policy parsing and does not add cross-feature imports."
+  ],
+  "intent": {
+    "problem": "The release preflight command still treats archiveGrowth=528 above the configured 200 threshold as a hard error even after the governance, budget, and archive layers were changed to warning-only.",
+    "constraints": ["Only archiveGrowth severity changes to warning-only.","Release identity, freeze lifecycle, archive pair, digest, and sequence integrity remain fail-closed.","No tag or Release mutation in this Work Item."],
+    "rationale": "All release gates must consume the same policy severity, otherwise the workflow remains blocked by a stale downstream gate."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User authorized the release retry and process correction before publication."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "archiveGrowth": 529
+    },
+    "approved": true,
+    "reason": "Archive growth is warning-only under the confirmed policy; this functional correction does not create a budget-only Work Item."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_preflight_archive_warning.json",
+    "baseCommit": "23a62b9c078b764bae86f7cea23239645392d52c",
+    "initialScopeDigest": "681a064d0ab40722ad5ad26c56acd4e2eef895ca2000797be23bec37e7b0a66f",
+    "contractSkeletonDigest": "e036bb4a0d12fc37fc23d79c30f12d254829ad9b82a14136baecfbcef9382e99"
+  }
+}

@@ -175,11 +175,12 @@ def validate_release_preflight(
     active_work_items: list[str],
     archive_count: int,
     archive_max: int,
+    archive_enforcement: str = "error",
 ) -> list[str]:
     issues: list[str] = []
     if active_work_items:
         issues.append(f"active Work Items remain: {', '.join(active_work_items)}")
-    if archive_count > archive_max:
+    if archive_count > archive_max and archive_enforcement != "warning":
         issues.append(f"archiveGrowth={archive_count} exceeds configured maximum {archive_max}")
     if freeze.get("state") != "frozen":
         issues.append("release-freeze.json state must be frozen")
@@ -277,10 +278,17 @@ def main() -> int:
     )
     policy = root / ".ai" / "guards" / "governance_complexity_policy.yaml"
     archive_max = 0
+    archive_enforcement = "error"
+    enforcement_section = False
     for line in policy.read_text(encoding="utf-8").splitlines():
-        if line.strip().startswith("archiveGrowth:"):
-            archive_max = int(line.split(":", 1)[1].strip())
-            break
+        stripped = line.strip()
+        if stripped == "enforcement:":
+            enforcement_section = True
+            continue
+        if stripped.startswith("archiveGrowth:") and not enforcement_section:
+            archive_max = int(stripped.split(":", 1)[1].strip())
+        elif enforcement_section and stripped == "archiveGrowth: warning":
+            archive_enforcement = "warning"
     archive_count = len(list((root / ".ai" / "work-items" / "archive").glob("**/*.contract.json")))
     issues = validate_release_preflight(
         release=release,
@@ -292,6 +300,7 @@ def main() -> int:
         active_work_items=active,
         archive_count=archive_count,
         archive_max=archive_max,
+        archive_enforcement=archive_enforcement,
     )
     issues.extend(
         validate_release_identity(

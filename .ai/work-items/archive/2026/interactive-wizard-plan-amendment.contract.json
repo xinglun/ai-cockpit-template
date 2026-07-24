@@ -1,0 +1,224 @@
+{
+  "contractVersion": 2,
+  "workItemId": "interactive-wizard-plan-amendment",
+  "mode": "code",
+  "title": "Amend execution plan with issue log and lightweight verification",
+  "baseCommit": "ecf04c00c871fab49a070e6e5e90c0f10f70ff32",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/interactive-wizard-plan-amendment.contract.json",
+    ".ai/work-items/active/interactive-wizard-plan-amendment.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**",
+    "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+    "docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md",
+    ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": [
+    "Runtime implementation of the wizard or verification engine",
+    "Production scripts, tests, Makefile, CI, and verification policy implementation beyond the bounded Markdown budget calibration",
+    "Historical archive and historical evidence changes",
+    "Execution of the implementation Work Items listed by the plan"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/interactive-wizard-plan-amendment.contract.json",
+      "reason": "Work Item boundary and verification contract."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md",
+      "reason": "Execution plan being amended."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Repository governance terminology and lifecycle boundaries."
+    },
+    {
+      "path": ".ai/guards/governance_complexity_policy.yaml",
+      "reason": "Current Markdown complexity ceiling exceeded by the requested plan documents."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+      "riskTypes": ["governance_scope_drift"],
+    "reason": "The Work Item changes only the execution plan and issue-recording instructions; it must not implement runtime behavior."
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "User explicitly authorized serial execution of every Work Item with a full PR and closure lifecycle."
+  },
+  "preReviewWarnings": [
+    "Confirm that the issue-recording Work Item is first, lightweight verification remains before installation, and no implementation scope is introduced by this plan-only change."
+  ],
+  "rawUserRequest": "用户已授权按计划逐工单串行执行，每个工单完成 Contract、检查、PR、合并、ai-close-work-item 和分支清理后再进入下一个。请在安装改善计划前增加工单问题记录 Work Item，问题写入文档并在全计划完成后汇总问题清单供用户查看；轻量验证与软 Gate 优化也放在安装计划前。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:user-authorized-plan-amendment",
+    "capturedAt": "2026-07-25",
+    "digest": "sha256:user-authorized-issue-log-and-soft-gate-amendment"
+  },
+  "declaredIntent": {
+    "summary": "Amend the execution plan ordering and final issue-document review contract.",
+    "requestedCapabilities": ["ai_governance", "documentation"]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "document",
+    "authorityRequired": false
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Issue-recording Work Item precedes all implementation Work Items",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md"],
+      "reason": "The amended Work Item table and detailed sections establish the ordering."
+    },
+    {
+      "scenario": "Every Work Item retains one branch, one PR, merge, closure, and cleanup",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-installation-calibration-wizard.md"],
+      "reason": "The Mandatory Lifecycle section applies to every listed Work Item."
+    },
+    {
+      "scenario": "Final issue summary is a document review point and completion does not require needs_human_confirmation",
+      "required": true,
+      "status": "verified",
+      "evidence": ["docs/superpowers/plans/2026-07-25-interactive-wizard-work-item-issue-log.md"],
+      "reason": "The issue overview document is the post-plan user review artifact and explicitly removes the final-state requirement."
+    }
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": [
+    "The execution plan lists interactive-wizard-work-item-issue-log as the first pre-installation Work Item.",
+    "The lightweight verification and soft-gate optimization Work Item remains before the installation Work Items.",
+    "The issue-log document defines structured per-Work-Item records and a final problem overview for user review.",
+    "The plan requires each later Work Item to append or reference issue records and states that completion does not require needs_human_confirmation.",
+    "Only the two plan documents, the bounded Markdown budget ceiling, and generated Work Item evidence are changed; no runtime implementation is included."
+  ],
+  "guidelines": [
+    "Preserve one Work Item = one branch = one PR.",
+    "Do not rewrite historical Archive or Evidence.",
+    "Do not implement future Work Items in this plan-amendment Work Item; the only policy change is the bounded Markdown budget calibration required by the added documents."
+  ],
+  "intent": {
+    "problem": "The existing execution plan does not make issue recording the first prerequisite Work Item, and its completion wording still requires a final needs_human_confirmation state even though the user wants to review a written issue document instead.",
+    "constraints": [
+      "Keep the original installation plan scope and one-Work-Item/one-branch/one-PR lifecycle.",
+      "Place lightweight verification and soft-gate optimization before installation implementation.",
+      "Record issues in a document during execution and summarize them after all Work Items finish.",
+      "Do not modify historical evidence or implement runtime behavior in this Work Item."
+    ],
+    "rationale": "A dedicated plan amendment makes the new ordering and issue-review contract explicit before implementation begins, while preserving independent PR boundaries for every later Work Item."
+  },
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "User explicitly authorized the full serial Work Item workflow and this plan amendment writes the governed plan documents."
+  },
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "budgetImpact": {
+    "approved": true,
+    "expectedMetrics": {
+      "markdownLines": 9900,
+      "archiveGrowth": 547
+    },
+    "reason": "The issue-log document and amended execution plan measure 9826 Markdown lines; reserve a bounded 9900 ceiling without creating a new repayment record."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/interactive-wizard-plan-amendment.json",
+    "baseCommit": "ecf04c00c871fab49a070e6e5e90c0f10f70ff32",
+    "initialScopeDigest": "892407f23dc6477bbf6d6fadbc84c91e13d65cb43ec79575eddc81b338b3cb9f",
+    "contractSkeletonDigest": "63e7a4c9d92131274400b4ec884409362f6b3eae48ed5d7743e373e7e9210288"
+  }
+}

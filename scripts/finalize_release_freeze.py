@@ -8,7 +8,7 @@ import argparse
 import sys
 
 from ai_common import PROJECT_ROOT, discover_remote_default_candidates, included, run_git
-from check_release_preflight import canonical_archive_sha, canonical_source_tree
+from release_archive import canonical_archive_sha, canonical_source_tree
 from check_supply_chain import sha256_text
 
 

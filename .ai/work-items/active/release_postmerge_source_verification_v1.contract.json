@@ -1,0 +1,283 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_postmerge_source_verification_v1",
+  "mode": "code",
+  "title": "Enforce candidate materialization and post-merge source verification",
+  "rawUserRequest": "如果再遇到问题，先确认是不是处理流程有问题。如果是，先修正流程，再尝试发布。目标是完成 v0.5.39 发布；用户批准方案 A，并授权 agent 对后续流程问题自行确认、判断和执行。",
+  "rawRequestSource": {
+    "type": "human",
+    "reference": "conversation:2026-07-24-release-process-root-fix",
+    "capturedAt": "2026-07-24",
+    "digest": "sha256:user-approved-scheme-a-and-delegated-process-decisions"
+  },
+  "declaredIntent": {
+    "summary": "Restore candidate-tree materialization, make the candidate-to-merge transition executable, and keep publication blocked until the merged default-branch source passes exact-SHA preflight.",
+    "requestedCapabilities": [
+      "ai_governance",
+      "software_design",
+      "test_automation"
+    ]
+  },
+  "requestedOperation": {
+    "target": "repository_governance",
+    "action": "modify",
+    "environment": "repository",
+    "effect": "enforce",
+    "authorityRequired": false
+  },
+  "baseCommit": "6c0b8a520c92cfd5cbc699962993d69c433acc6a",
+  "baselineDirtyPaths": [],
+  "intent": {
+    "problem": "The v0.5.39 candidate PR passed before merge but the merged default branch failed release preflight because premerge finalization hashed the old origin/main commit (23cb9fc8...) rather than the candidate tree that became the merge tree (b13cc3d2...). A previous candidate-tree fix was later reverted together with its unit expectation, so PR-local verification could not detect the transition failure.",
+    "constraints": [
+      "Do not create or move the v0.5.39 tag until the corrective Work Item is merged, closed, synchronized, and the merged default branch passes release preflight and required CI.",
+      "Keep sourceCommit and tagTarget bound to the uniquely resolved merged default-branch commit through provider-generated release-source.json evidence; do not attempt to commit a SHA into its own commit.",
+      "Use the clean candidate branch HEAD only to materialize sourceTree and archiveSha256 during premerge finalization.",
+      "Preserve fail-closed behavior for identity, tree, archive, lifecycle, and ownership mismatches.",
+      "Archive count 538 and subsequent warning-only growth must remain non-blocking under the configured warning policy.",
+      "Do not bypass check-ai-pr or create a metadata-only PR without an owning Work Item."
+    ],
+    "rationale": "Candidate content and merged commit identity are different concerns. The candidate HEAD supplies the content digest before merge; the hosted release boundary resolves the exact merged default-branch SHA and publishes that immutable identity as external release evidence after merge."
+  },
+  "scope": [
+    "scripts/finalize_release_freeze.py",
+    "tests/test_release_preflight.py",
+    "docs/reference/distribution.md",
+    "docs/reference/ai-cockpit-work-item-lifecycle.md",
+    "docs/superpowers/specs/2026-07-24-release-postmerge-source-verification-design.md",
+    "docs/superpowers/plans/2026-07-24-release-postmerge-source-verification.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/release_postmerge_source_verification_v1.json",
+    ".ai/work-items/active/release_postmerge_source_verification_v1.contract.json",
+    ".ai/work-items/active/release_postmerge_source_verification_v1.summary.json",
+    ".ai/work-items/archive/**"
+  ],
+  "outOfScope": [
+    "Creating or publishing the v0.5.39 tag or GitHub Release inside this corrective Work Item",
+    "Weakening exact-SHA, controlled-origin-ref, archive, source-tree, or Work Item ownership validation",
+    "Changing release.json, release-state.json, release-freeze.json, or release-digests.json values before the corrected lifecycle reaches its release-preparation stage",
+    "Changing adopter-project release behavior",
+    "Creating a budget-only Work Item"
+  ],
+  "sources": [
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Current premerge finalizer resolves the controlled origin ref and hashes the stale default-branch commit."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Post-merge preflight resolves the exact source identity and regenerates the canonical source tree and archive."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "The existing fresh detached regression passes in PR topology but fails after merge; it is the authoritative local reproduction."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "The hosted boundary already resolves the unique default branch, checks out its exact SHA, emits release-source.json, and runs preflight before tag creation."
+    },
+    {
+      "path": "docs/reference/ai-cockpit-work-item-lifecycle.md",
+      "reason": "Current documentation incorrectly instructs premerge finalization to hash the resolved old default-branch identity instead of candidate content."
+    },
+    {
+      "path": ".gitattributes",
+      "reason": "Release metadata and Work Item evidence are export-ignored, allowing candidate and clean merge commits to share canonical archive content."
+    }
+  ],
+  "problemStatement": "Make the release process test and enforce the real candidate-commit to merge-commit state transition so PR-local success cannot conceal a merged-main archive mismatch.",
+  "scenarioCoverage": [
+    {
+      "id": "candidate_tree_materialization",
+      "scenario": "Premerge finalization hashes the clean candidate HEAD while retaining the controlled default-branch identity reference.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/finalize_release_freeze.py",
+        "tests/test_release_preflight.py"
+      ]
+    },
+    {
+      "id": "candidate_to_merge_topology",
+      "scenario": "A real base commit, candidate commit, no-ff merge commit, and detached post-merge checkout reproduce the lifecycle and accept unchanged canonical content.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py",
+        ".gitattributes"
+      ]
+    },
+    {
+      "id": "merged_source_drift",
+      "scenario": "Post-merge preflight rejects a merge/default-branch source whose included canonical content differs from the frozen candidate digest.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/check_release_preflight.py",
+        "tests/test_release_preflight.py"
+      ]
+    },
+    {
+      "id": "external_exact_sha_evidence",
+      "scenario": "The hosted release boundary records exact sourceCommit, tagTarget, and metadataCommit outside the self-referential source commit and verifies them before tag mutation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml"
+      ]
+    },
+    {
+      "id": "archive_growth_warning",
+      "scenario": "Archive growth at 538 or higher remains warning-only when enforcement.archiveGrowth is warning.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/guards/governance_complexity_policy.yaml",
+        "tests/test_release_preflight.py"
+      ]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "release_integrity",
+      "source_binding",
+      "workflow_regression",
+      "lifecycle_ownership"
+    ],
+    "reason": "The change is narrow, but an incorrect candidate/merge boundary could publish a tag whose archive evidence does not match its source.",
+    "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "The user approved scheme A and delegated subsequent evidence-based process decisions; scope, sources, scenarios, acceptance, and verification are explicit."
+  },
+  "preReviewWarnings": [
+    "Review the real Git topology regression rather than relying only on mocked commit names.",
+    "Do not allow the corrective PR itself to create or move v0.5.39.",
+    "Confirm archiveGrowth remains warning-only."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Preserve the source-binding, no-publication, and lifecycle-ownership constraints through a long release correction."
+  },
+  "acceptance": [
+    "Premerge finalization computes sourceTree and archiveSha256 from the clean candidate Work Item branch HEAD, while sourceCommit, tagTarget, and metadataCommit remain controlled identity references for post-merge resolution.",
+    "A regression test creates a real candidate commit and no-ff merge commit, checks out the merge commit detached in a fresh repository, and proves post-merge preflight accepts unchanged canonical content.",
+    "The regression fails against the current implementation for the observed stale-base archive mismatch and passes after the minimal finalizer correction.",
+    "An included-content drift case remains fail-closed before tag or release mutation.",
+    "Documentation distinguishes candidate content materialization from merged default-branch identity and preserves the external release-source.json authority.",
+    "Archive growth 538 remains warning-only and is covered by focused verification.",
+    "The corrective Work Item completes Contract, Preflight, tests, ai-finish/archive, check-ai-pr, PR, merge, ai-close-work-item, and default-branch synchronization before any v0.5.39 release attempt.",
+    "After closure, the exact merged main SHA passes smoke, compatibility, release preflight, and release evidence audit before v0.5.39 is tagged and published."
+  ],
+  "guidelines": [
+    "Fail closed on release identity, lifecycle, source-tree, archive, or ownership mismatch.",
+    "Keep candidate content evidence distinct from provider-bound published identity evidence.",
+    "Use one Work Item, one branch, and one PR for the corrective process change.",
+    "Do not rewrite immutable archived Work Item evidence.",
+    "Do not publish or tag until post-merge verification is complete."
+  ],
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "user",
+    "reason": "The user approved scheme A and delegated future evidence-based release-process decisions to the agent."
+  },
+  "rollbackNote": "Revert the finalizer, regression, and documentation changes together; do not retain a test expectation that permits hashing stale origin/main content.",
+  "budgetImpact": {
+    "expectedMetrics": {
+      "pythonLines": 40900,
+      "archiveGrowth": 539
+    },
+    "reason": "One functional corrective Work Item archive plus bounded regression coverage; archive growth remains warning-only."
+  },
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_postmerge_source_verification_v1.json",
+    "baseCommit": "6c0b8a520c92cfd5cbc699962993d69c433acc6a",
+    "initialScopeDigest": "43e50c89f5619ef1f582929866c98b2f2a5e225cb39fe3879b59b88060affc22",
+    "contractSkeletonDigest": "7787f38eb6bf8d4333410c49d53ebbcb5d1c6233d13c1c844d2b6c7a2e4c1ffc"
+  }
+}

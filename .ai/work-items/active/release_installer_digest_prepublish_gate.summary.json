@@ -5,15 +5,128 @@
   "changedFiles": [
     {
       "path": ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
-      "reason": "Created the Work Item Contract skeleton."
+      "reason": "Maintain the active process-correction boundary until ai-finish archives the Work Item."
     },
     {
       "path": ".ai/work-items/active/release_installer_digest_prepublish_gate.summary.json",
-      "reason": "Created the AI Change Summary skeleton."
+      "reason": "Maintain the active verification and review record until ai-finish archives the Work Item."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.contract.json",
+      "reason": "Declare the installer-binding process correction and corrective-release recovery boundary."
+    },
+    {
+      "path": ".ai/work-items/archive/2026/release_installer_digest_prepublish_gate.summary.json",
+      "reason": "Record public failure evidence, TDD, cleanup, verification, and release recovery."
+    },
+    {
+      "path": ".ai/work-items/starts/release_installer_digest_prepublish_gate.json",
+      "reason": "Record the exact base and dedicated Work Item branch."
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "reason": "Name the mandatory installer/source/archive pre-mutation gate explicitly."
+    },
+    {
+      "path": "scripts/finalize_release_freeze.py",
+      "reason": "Regenerate both installerDigest and the install.sh artifact digest during every release finalization."
+    },
+    {
+      "path": "scripts/check_release_preflight.py",
+      "reason": "Rehash install.sh from the selected source commit and reject stale metadata."
+    },
+    {
+      "path": "scripts/check_release_distribution.py",
+      "reason": "Reject installer drift in preparation mode before the next tag exists."
+    },
+    {
+      "path": "scripts/check_docs_metadata.py",
+      "reason": "Treat historical specs like release notes and plans instead of forcing their version examples to track the current release."
+    },
+    {
+      "path": "tests/test_release_preflight.py",
+      "reason": "Cover installer rejection, both finalizer installer bindings, and real fresh-detached archive parity while consolidating duplicated projection tests."
+    },
+    {
+      "path": "tests/test_release_distribution.py",
+      "reason": "Cover preparation-time installer digest drift."
+    },
+    {
+      "path": "tests/test_workflows.py",
+      "reason": "Enforce release preflight ordering before tag and publication."
+    },
+    {
+      "path": "tests/test_install_script.py",
+      "reason": "Derive the fixture release tag from release.json instead of an obsolete hard-coded version."
+    },
+    {
+      "path": "install.sh",
+      "reason": "Advance the fixed Quick Install default to corrective release v0.5.40."
+    },
+    {
+      "path": "release.json",
+      "reason": "Project the corrective v0.5.40 installer and archive contract."
+    },
+    {
+      "path": "next-release.json",
+      "reason": "Keep v0.5.41 as the distinct unpublished candidate."
+    },
+    {
+      "path": "release-state.json",
+      "reason": "Record canonical v0.5.40/v0.5.41 projection lineage and metadata digests."
+    },
+    {
+      "path": ".ai/cockpit/release-freeze.json",
+      "reason": "Generated candidate freeze identity and deterministic archive evidence."
+    },
+    {
+      "path": ".ai/cockpit/release-digests.json",
+      "reason": "Generated release artifact digest bindings."
+    },
+    {
+      "path": ".ai/cockpit/sbom.json",
+      "reason": "Regenerated candidate SBOM baseline for v0.5.40."
+    },
+    {
+      "path": ".ai/cockpit/provenance.json",
+      "reason": "Regenerated candidate provenance with the corrected installer digest."
+    },
+    {
+      "path": "docs/releases/v0.5.40.md",
+      "reason": "Document the corrective release and immutable-tag recovery."
+    },
+    {
+      "path": "docs/reference/distribution.md",
+      "reason": "Document installer rebinding, preflight, and corrective patch recovery."
+    },
+    {
+      "path": "docs/reference/distribution.ja.md",
+      "reason": "Document the same release recovery in Japanese."
+    },
+    {
+      "path": "docs/getting-started/installation.md",
+      "reason": "Advance the documented published installer ref to v0.5.40."
+    },
+    {
+      "path": "docs/getting-started/installation.ja.md",
+      "reason": "Advance the Japanese installer ref to v0.5.40."
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Generated lifecycle status."
     }
   ],
   "sourcesUsed": [
-    ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json"
+    ".ai/glossary.md",
+    ".ai/work-items/active/release_installer_digest_prepublish_gate.contract.json",
+    "release.json",
+    "install.sh",
+    "scripts/finalize_release_freeze.py",
+    "scripts/check_release_preflight.py",
+    "scripts/check_release_distribution.py",
+    ".github/workflows/release.yml",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30103574643",
+    "https://github.com/spirex-ds-dev/ai-cockpit-template/actions/runs/30103609591"
   ],
   "verification": [
     {
@@ -83,50 +196,90 @@
   ],
   "guidelinesCompliance": [
     {
-      "guideline": "New public APIs must be documented.",
-      "compliant": false,
-      "evidence": "Not verified."
+      "guideline": "Fix the generator and mandatory pre-mutation gates rather than hand-editing one release projection.",
+      "compliant": true,
+      "evidence": "Finalizer generation, exact-source preflight, preparation distribution, and workflow ordering were all corrected and tested."
     },
     {
-      "guideline": "Do not import internal modules from other features.",
-      "compliant": false,
-      "evidence": "Not verified."
+      "guideline": "Hash the exact installer bytes associated with the release source and fail closed on any mismatch.",
+      "compliant": true,
+      "evidence": "check_release_preflight hashes sourceCommit:install.sh; focused tests cover missing, malformed, mismatched, and matching digests."
+    },
+    {
+      "guideline": "Do not rewrite or delete the failed immutable v0.5.39 tag; supersede it with a new corrective patch release after this Work Item closes.",
+      "compliant": true,
+      "evidence": "Remote v0.5.39 remains at 841ce411; its GitHub Release is quarantined as Draft and v0.5.40 is prepared without publication."
+    },
+    {
+      "guideline": "Keep archiveGrowth warning-only and do not relax any existing release check.",
+      "compliant": true,
+      "evidence": "No threshold changed; complexity passed at Python 40900, Markdown 9549, with archiveGrowth 542 warning-only."
+    },
+    {
+      "guideline": "Use test-driven development and preserve exact-source workflow ordering.",
+      "compliant": true,
+      "evidence": "Four focused tests failed before implementation and passed after it; workflow tests keep preflight before all mutations."
     }
   ],
-  "unknownsRemaining": [
-    "Replace this before finishing the Work Item."
-  ],
+  "unknownsRemaining": [],
   "risk": {
     "level": "medium",
-    "detail": "Initial skeleton; scope and acceptance still need task-specific review."
+    "detail": "Local implementation and preparation evidence pass; hosted PR, exact-main, and final public-distribution verification remain required."
   },
-  "generatedFiles": [],
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/sbom.json",
+    ".ai/cockpit/provenance.json",
+    ".ai/cockpit/release-digests.json",
+    ".ai/cockpit/release-freeze.json",
+    "release-state.json",
+    "release.json"
+  ],
   "destructiveChanges": [],
-  "observedIssues": [],
+  "observedIssues": [
+    "Public v0.5.39 Quick Install verification failed because release.json declared installerDigest 968e4c... while immutable install.sh hashed to a9327066....",
+    "The v0.5.39 GitHub Release was moved back to Draft as reversible quarantine; its immutable tag was not changed.",
+    "The first full quality run exposed obsolete hard-coded v0.5.39 installer fixtures and historical-spec version scanning; both process paths were corrected.",
+    "New release tests initially exceeded Python/Markdown limits and later reduced coverage to 84.83%; duplicated tests and prose were consolidated without raising thresholds, and detached archive coverage was retained until full quality passed at 85.07%.",
+    "Independent premerge review found that finalization refreshed release.json but could retain a stale release-digests install.sh artifact; a red-green regression now requires both installer bindings to refresh atomically."
+  ],
   "residualRisks": [
     {
       "level": "medium",
-      "area": "scope",
-      "detail": "Initial skeleton; replace with actual residual risks before finishing.",
+      "area": "hosted_release",
+      "detail": "The corrective PR, exact merged main, v0.5.40 workflow, and independent public asset/install audit must still pass before publication is complete.",
       "reviewRecommended": true,
       "followUpCandidate": false
     }
   ],
   "reviewReadiness": {
-    "status": "not_ready",
-    "reason": "Initial skeleton; required checks have not run.",
-    "expectedReviewFocus": []
+    "status": "ready_with_risks",
+    "reason": "TDD, focused release checks, public preparation, and full quality pass; hosted lifecycle evidence remains pending.",
+    "expectedReviewFocus": [
+      "Finalizer updates installerDigest before release-state and digest projections.",
+      "Preflight hashes install.sh from the selected source commit and runs before mutations.",
+      "Preparation mode rejects local installer drift.",
+      "v0.5.39 remains immutable and quarantined while v0.5.40 is only prepared.",
+      "Test consolidation preserves detached archive and release-lineage coverage within existing complexity and coverage limits."
+    ]
   },
   "boundaryChecks": {
-    "runtimeEntrypoints": "not_applicable",
-    "userVisibleOutput": "not_applicable",
-    "persistence": "not_applicable",
-    "localization": "not_applicable",
-    "generatedArtifacts": "not_applicable",
-    "makeEntrypoints": "not_applicable"
+    "runtimeEntrypoints": "verified: install.sh defaults to v0.5.40 and release.yml invokes exact-source preflight before mutation",
+    "userVisibleOutput": "verified: preflight and distribution diagnostics name installer digest drift",
+    "persistence": "verified: finalizer writes release.json before release-state and release-digests metadata hashes",
+    "localization": "verified: English and Japanese distribution/install documentation updated together",
+    "generatedArtifacts": "verified: SBOM, provenance, release digests, freeze, state, and release projection generated through repository commands",
+    "makeEntrypoints": "verified: finalize-release-freeze-candidate and quality exercised"
   },
-  "userCorrectionsCaptured": [],
-  "userCorrectionSolidification": [],
+  "userCorrectionsCaptured": [
+    "Repair every workflow or obsolete-code blocker before attempting a release.",
+    "Do not use temporary workarounds for release-process defects.",
+    "Monitor GitHub Actions after CI starts."
+  ],
+  "userCorrectionSolidification": [
+    "Installer identity is now generated and independently validated before mutation, and immutable-tag failure recovery is documented as a corrective patch rather than tag rewriting.",
+    "Obsolete version fixtures and historical-spec scanning were corrected; complexity and coverage thresholds were preserved."
+  ],
   "checkpointEvidence": [
     {
       "stage": "before_edit",
@@ -136,10 +289,64 @@
       "unknownCount": 0,
       "requiredChecks": 16,
       "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_finish",
+      "recorded": true,
+      "contractHash": "f6c2158da2c0ef54",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
     }
   ],
   "knownGaps": [
-    "Replace this before finishing the Work Item."
+    "PR Actions, merge, ai-close-work-item, exact-main Actions, v0.5.40 publication, and public distribution verification remain pending."
   ],
-  "overclaimPrevention": "Do not report completion for checks or behavior that were not verified."
+  "overclaimPrevention": "Do not report v0.5.40 published until the immutable tag, non-Draft Release, exact-main Actions, release workflow, assets, and anonymous public distribution all verify the same source.",
+  "scenarioCoverage": [
+    {
+      "scenario": "Stale installerDigest is rejected before tag or GitHub Release mutation.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py",
+        "tests/test_release_distribution.py",
+        "tests/test_workflows.py",
+        "124 focused tests passed"
+      ]
+    },
+    {
+      "scenario": "Finalization rebinds installerDigest after the fixed installer ref changes.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make finalize-release-freeze-candidate",
+        "release.json installerDigest=21c224483937053b7ee654c5cec9e6291a5745879625b84d1e6069af85679b9f"
+      ]
+    },
+    {
+      "scenario": "The failed immutable tag remains unchanged while the corrective patch is prepared.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "v0.5.39 target=841ce411389fafe8fa841d605375969215231767",
+        "v0.5.39 GitHub Release is Draft",
+        "release.json prepares v0.5.40"
+      ]
+    },
+    {
+      "scenario": "Complexity and coverage remain within existing policy after cleanup.",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make quality passed",
+        "939 tests passed",
+        "coverage=85.07%",
+        "pythonLines=40900",
+        "markdownLines=9549",
+        "archiveGrowth=542 warning-only"
+      ]
+    }
+  ]
 }

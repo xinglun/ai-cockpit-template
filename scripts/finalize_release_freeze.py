@@ -183,9 +183,10 @@ def main(
     release.setdefault("releaseArchive", {})["sha256"] = archive_sha
     installer_path = root / "install.sh"
     try:
-        release["installerDigest"] = hashlib.sha256(installer_path.read_bytes()).hexdigest()
+        installer_sha = hashlib.sha256(installer_path.read_bytes()).hexdigest()
     except OSError as exc:
         return _fail(f"install.sh is missing or unreadable: {exc}")
+    release["installerDigest"] = installer_sha
     freeze_path.write_text(
         json.dumps(freeze, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
@@ -206,6 +207,7 @@ def main(
     release_digests.setdefault("artifacts", {})["release.json"] = sha256_text(
         release_path.read_text(encoding="utf-8")
     )
+    release_digests["artifacts"]["install.sh"] = installer_sha
     release_digests_path.write_text(
         json.dumps(release_digests, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

@@ -396,7 +396,7 @@ def _configure_finalizer(
     )
     (tmp_path / ".ai" / "cockpit" / "release-digests.json").write_text(
         '{"format":"ai-cockpit-release-digests","version":1,"sourceCommit":"old",'
-        '"releaseTag":"v0.5.39","artifacts":{"release.json":"old"}}\n',
+        '"releaseTag":"v0.5.39","artifacts":{"install.sh":"stale","release.json":"old"}}\n',
         encoding="utf-8",
     )
     (tmp_path / "release.json").write_text(
@@ -470,11 +470,10 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     assert freeze["sourceCommit"] == "a" * 40
     assert freeze["tagTarget"] == "a" * 40
     assert freeze["metadataCommit"] == "b" * 40
+    release = json.loads((tmp_path / "release.json").read_text())
+    assert release["releaseArchive"]["sha256"] == "archive"
     assert (
-        json.loads((tmp_path / "release.json").read_text())["releaseArchive"]["sha256"] == "archive"
-    )
-    assert (
-        json.loads((tmp_path / "release.json").read_text())["installerDigest"]
+        release["installerDigest"]
         == hashlib.sha256((tmp_path / "install.sh").read_bytes()).hexdigest()
     )
     release_state = json.loads((tmp_path / "release-state.json").read_text())
@@ -488,10 +487,10 @@ def test_finalize_release_freeze_writes_post_close_lifecycle_evidence(monkeypatc
     assert release_digests["sourceCommit"] == "a" * 40
     assert release_digests["tagTarget"] == "a" * 40
     assert release_digests["metadataCommit"] == "b" * 40
-    assert (
-        release_digests["artifacts"]["release.json"]
-        == hashlib.sha256((tmp_path / "release.json").read_bytes()).hexdigest()
-    )
+    assert release_digests["artifacts"] == {
+        "release.json": hashlib.sha256((tmp_path / "release.json").read_bytes()).hexdigest(),
+        "install.sh": hashlib.sha256((tmp_path / "install.sh").read_bytes()).hexdigest(),
+    }
 
 
 def test_finalize_release_freeze_fails_closed_on_malformed_release_state(monkeypatch, tmp_path):

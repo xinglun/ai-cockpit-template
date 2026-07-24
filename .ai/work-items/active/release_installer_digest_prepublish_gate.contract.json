@@ -186,17 +186,23 @@
     {
       "id": "pre_mutation_rejection",
       "scenario": "Missing, malformed, or mismatched installer binding is rejected before tag and Release mutation.",
-      "required": false,
-      "status": "unverified",
-      "evidence": []
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/test_release_preflight.py",
+        "tests/test_release_distribution.py",
+        "tests/test_workflows.py"
+      ]
     },
     {
       "id": "immutable_recovery",
-      "scenario": "The failed v0.5.39 tag remains unchanged and a later corrective patch is prepared only after the process fix is merged and closed.",
-      "required": false,
-      "status": "unverified",
+      "scenario": "The failed v0.5.39 tag remains unchanged and quarantined while v0.5.40 publication stays blocked until the corrective Work Item is merged and closed.",
+      "required": true,
+      "status": "verified",
       "evidence": [
-        "v0.5.39 GitHub Release quarantined as Draft"
+        "v0.5.39 target 841ce411389fafe8fa841d605375969215231767",
+        "v0.5.39 GitHub Release quarantined as Draft",
+        "release.json prepares v0.5.40 without a v0.5.40 tag or Release"
       ]
     }
   ],

@@ -1,0 +1,133 @@
+{
+  "contractVersion": 2,
+  "workItemId": "release_v0539_preparation_final",
+  "mode": "code",
+  "title": "Prepare final v0.5.39 release metadata",
+  "baseCommit": "6e195fda95fd4f181ffb28e6065eb16ebe8b7517",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/release_v0539_preparation_final.contract.json",
+    ".ai/work-items/active/release_v0539_preparation_final.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/archive/**", ".ai/cockpit/release-digests.json", ".ai/cockpit/release-freeze.json", "release-state.json", "release.json", ".ai/guards/governance_complexity_policy.yaml"
+  ],
+  "outOfScope": ["Publishing/tagging v0.5.39; provider workflow is after closure.", "Quick Install and unrelated Work Items.", "Post-close metadata rewrite or historical archive rewrite."],
+  "sources": [{"path": ".ai/glossary.md", "reason": "Terminology."}, {"path": "docs/reference/distribution.md", "reason": "PR-first release contract."}, {"path": "scripts/finalize_release_freeze.py", "reason": "Canonical premerge freeze generation."}, {"path": "scripts/check_release_preflight.py", "reason": "Candidate identity validation."}, {"path": ".github/workflows/release.yml", "reason": "Provider publication boundary."}],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["release_integrity", "source_binding"],
+    "reason": "Candidate metadata must bind safely after merge; publication is separate.", "unknownsReviewComplete": true
+  },
+  "agentCapability": {
+    "canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue", "reason": "User authorized normal release execution."
+  },
+  "preReviewWarnings": [
+    "Replace with task-specific review focus, or clear when no special review focus remains."
+  ],
+  "checkpointPolicy": {
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit",
+      "before_finish"
+    ],
+    "reason": "Record at least one checkpoint before finishing to reduce mid-task drift."
+  },
+  "acceptance": ["Generate v0.5.39 metadata using controlled origin/main identity refs.", "Preflight, supply-chain, release evidence, and state consistency pass without publication.", "Complete Finish/archive, PR, merge, ai-close-work-item, and default-base synchronization."],
+  "guidelines": ["Keep release evidence source-bound and fail closed.", "Do not publish inside this Work Item.", "Do not rewrite immutable evidence."],
+  "intent": {
+    "problem": "After the supply-chain identity consumer correction, v0.5.39 candidate metadata must be regenerated from the latest default branch and committed through a governed PR.",
+    "constraints": ["Publication/tagging is after this Work Item closes.", "Use controlled origin refs; never HEAD."],
+    "rationale": "Recreate release preparation from the latest default branch so all corrective process changes are included before publication."
+  },
+  "rawUserRequest": "Continue toward a normal new-version release.",
+  "rawRequestSource": {"type": "human", "reference": "user-message:2026-07-24-normal-release", "capturedAt": "2026-07-24", "digest": "sha256:user-authorized-normal-release"},
+  "requestedOperation": {"target": "repository_governance", "action": "modify", "environment": "repository", "effect": "enforce", "authorityRequired": false},
+  "declaredIntent": {"summary": "Prepare and merge final v0.5.39 candidate metadata, then close before publication.", "requestedCapabilities": ["ai_governance", "software_design", "test_automation"]},
+  "verification": [
+    {
+      "check": "aiWorkItem",
+      "required": true
+    },
+    {
+      "check": "aiScope",
+      "required": true
+    },
+    {
+      "check": "aiGuards",
+      "required": true
+    },
+    {
+      "check": "aiCheckpoint",
+      "required": true
+    },
+    {
+      "check": "aiAgentRisk",
+      "required": true
+    },
+    {
+      "check": "aiReviewPolicy",
+      "required": true
+    },
+    {
+      "check": "aiBacktrack",
+      "required": true
+    },
+    {
+      "check": "aiCoverage",
+      "required": true
+    },
+    {
+      "check": "aiScenarioCoverage",
+      "required": true
+    },
+    {
+      "check": "aiGuidelines",
+      "required": true
+    },
+    {
+      "check": "aiSummary",
+      "required": true
+    },
+    {
+      "check": "aiStatus",
+      "required": true
+    },
+    {
+      "check": "aiStatusCheck",
+      "required": true
+    },
+    {
+      "check": "aiStatusConsistency",
+      "required": true
+    },
+    {
+      "check": "aiDiffOwnership",
+      "required": true
+    },
+    {
+      "check": "quality",
+      "required": true
+    }
+  ],
+  "scenarioCoverage": [{"id": "candidate_identity", "scenario": "Candidate metadata uses controlled origin/main refs.", "required": true, "status": "verified", "evidence": ["make check-release-preflight"]}, {"id": "evidence_integrity", "scenario": "Supply-chain, release evidence, and state consistency pass before publication.", "required": true, "status": "verified", "evidence": ["make check-release-evidence", "make check-release-state-consistency"]}, {"id": "publication_boundary", "scenario": "No tag or provider release is created here.", "required": true, "status": "verified", "evidence": ["Contract outOfScope"]}],
+  "budgetImpact": {"approved": true, "expectedMetrics": {"archiveGrowth": 523}, "reservedFutureMetrics": {"archiveGrowth": 523}, "repaymentWorkItem": "conditional_go_plan_cleanup", "repaymentRecords": ["release_v0539_preparation_final|archiveGrowth|522|523|user|2026-07-24|Reserve final release preparation archive; repay during final plan cleanup."], "reason": "Final functional release preparation; no budget-only Work Item."},
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "restrictedWriteApproval": {"approved": true, "approvedBy": "user", "reason": "User explicitly authorized normal release execution."},
+  "rollbackNote": "Revert this Work Item diff and restore related tests and docs.",
+  "startReceipt": {
+    "path": ".ai/work-items/starts/release_v0539_preparation_final.json",
+    "baseCommit": "6e195fda95fd4f181ffb28e6065eb16ebe8b7517",
+    "initialScopeDigest": "9d3e018abd82eb3a2cd6d5e1a26a179789d0576ea121c9f055abe130188a6535",
+    "contractSkeletonDigest": "d896adb838de3d42bf4c3bbd993a506515b620476a6471bc7898846e6b3042ac"
+  }
+}
